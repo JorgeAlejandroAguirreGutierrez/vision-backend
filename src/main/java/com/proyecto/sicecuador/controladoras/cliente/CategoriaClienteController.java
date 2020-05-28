@@ -1,0 +1,81 @@
+package com.proyecto.sicecuador.controladoras.cliente;
+
+import com.proyecto.sicecuador.controladoras.GenericoController;
+import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.servicios.interf.cliente.ICategoriaClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+@RestController
+@RequestMapping("/api/sicecuador/categoriacliente")
+public class CategoriaClienteController implements GenericoController<CategoriaCliente> {
+    @Autowired
+    private ICategoriaClienteService servicio;
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultar() {
+        try {
+        List<CategoriaCliente> categorias_clientes=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true,"Se consulto las categorias de clientes", categorias_clientes);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("id") long id) {
+        try {
+        CategoriaCliente categoria_cliente=servicio.obtener(new CategoriaCliente(id)).get();
+        Respuesta respuesta=new Respuesta(true,"Se obtuvo la categoria del cliente", categoria_cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> crear(@RequestBody CategoriaCliente _categoria_cliente) {
+        try {
+        CategoriaCliente categoria_cliente=servicio.crear(_categoria_cliente);
+        Respuesta respuesta=new Respuesta(true,"Se creo la categoria del cliente", categoria_cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> actualizar(@RequestBody CategoriaCliente _categoria_cliente) {
+        try {
+        CategoriaCliente categoria_cliente=servicio.actualizar(_categoria_cliente);
+        Respuesta respuesta=new Respuesta(true,"Se actualizo la categoria del cliente", categoria_cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
+        try {
+        CategoriaCliente categoria_cliente=servicio.eliminar(new CategoriaCliente(id));
+        Respuesta respuesta=new Respuesta(true,"Se elimino la categoria del cliente", categoria_cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+}

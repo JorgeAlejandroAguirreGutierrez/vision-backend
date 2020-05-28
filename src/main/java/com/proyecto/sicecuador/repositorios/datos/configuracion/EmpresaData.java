@@ -1,0 +1,31 @@
+package com.proyecto.sicecuador.repositorios.datos.configuracion;
+
+import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
+import com.proyecto.sicecuador.modelos.configuracion.Empresa;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IEmpresaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Component
+@Order(15)
+public class EmpresaData implements ApplicationRunner {
+    @Autowired
+    private IEmpresaRepository rep;
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        Optional<Empresa> ant=rep.findById((long) 1);
+        if (!ant.isPresent()) {
+            List<Empresa> empresas = new ArrayList<>();
+            empresas.add(new Empresa("EMP011912001", "RioTour S.A.", "0660001840001", "empresa1.jpg"));
+            empresas.add(new Empresa("EMP022001002", "Farmacys C.A.", "0690001840001", "empresa2.jpg"));
+            rep.saveAll(empresas);
+        }
+    }
+}

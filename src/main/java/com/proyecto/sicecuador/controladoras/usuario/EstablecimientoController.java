@@ -1,0 +1,81 @@
+package com.proyecto.sicecuador.controladoras.usuario;
+
+import com.proyecto.sicecuador.controladoras.GenericoController;
+import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
+import com.proyecto.sicecuador.servicios.interf.usuario.IEstablecimientoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+@RestController
+@RequestMapping("/api/sicecuador/establecimiento")
+public class EstablecimientoController implements GenericoController<Establecimiento> {
+    
+    @Autowired
+    private IEstablecimientoService servicio;
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultar() {
+        try {
+            List<Establecimiento> establecimientos=servicio.consultar();
+            Respuesta respuesta=new Respuesta(true,"Se consulto las establecimientos", establecimientos);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("id") long id) {
+        try {
+            Establecimiento establecimiento=servicio.obtener(new Establecimiento(id)).get();
+            Respuesta respuesta=new Respuesta(true,"Se obtuvo un establecimiento", establecimiento);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> crear(@RequestBody Establecimiento _establecimiento) {
+        try {
+            Establecimiento establecimiento=servicio.crear(_establecimiento);
+            Respuesta respuesta=new Respuesta(true,"Se creo un establecimiento", establecimiento);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> actualizar(@RequestBody Establecimiento _establecimiento) {
+        try {
+            Establecimiento establecimiento=servicio.actualizar(_establecimiento);
+            Respuesta respuesta=new Respuesta(true,"Se actualizo un establecimiento", establecimiento);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
+        try {
+            Establecimiento establecimiento=servicio.eliminar(new Establecimiento(id));
+            Respuesta respuesta=new Respuesta(true,"Se elimino un establecimiento", establecimiento);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+}
