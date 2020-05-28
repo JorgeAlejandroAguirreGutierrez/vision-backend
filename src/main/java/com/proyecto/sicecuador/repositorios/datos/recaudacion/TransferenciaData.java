@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Order(46)
-public class DepositoTransferenciaData implements ApplicationRunner {
+public class TransferenciaData implements ApplicationRunner {
     @Autowired
     private ITransferenciaRepository rep;
     @Override

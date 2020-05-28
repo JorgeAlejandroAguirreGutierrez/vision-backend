@@ -31,8 +31,8 @@ public class Producto extends Entidad {
     private boolean estado;
     @Column(name = "tipo_gasto", nullable = true)
     private String tipo_gasto;
-    @Column(name = "habilita_caracteristicas", nullable = true)
-    private boolean habilita_caracteristicas;
+    @Column(name = "serie_autogenerado", nullable = true)
+    private boolean serie_autogenerado;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "tipo_producto_id", nullable = true)
     private TipoProducto tipo_producto;
@@ -61,7 +61,7 @@ public class Producto extends Entidad {
     }
 
     public Producto(String codigo, String nombre, String categoria, String linea, String sublinea, String presentacion,double costo,
-                    boolean consignacion, boolean estado, String tipo_gasto, boolean habilita_caracteristicas, TipoProducto tipo_producto, GrupoProducto grupo_producto,
+                    boolean consignacion, boolean estado, String tipo_gasto, boolean serie_autogenerado, TipoProducto tipo_producto, GrupoProducto grupo_producto,
                     Impuesto impuesto) {
         super(codigo);
         this.nombre = nombre;
@@ -73,7 +73,7 @@ public class Producto extends Entidad {
         this.consignacion = consignacion;
         this.estado = estado;
         this.tipo_gasto = tipo_gasto;
-        this.habilita_caracteristicas=habilita_caracteristicas;
+        this.serie_autogenerado=serie_autogenerado;
         this.tipo_producto=tipo_producto;
         this.grupo_producto=grupo_producto;
         this.impuesto=impuesto;
@@ -115,12 +115,12 @@ public class Producto extends Entidad {
         return tipo_gasto;
     }
 
-    public boolean isHabilita_caracteristicas() {
-        return habilita_caracteristicas;
+    public boolean isSerie_autogenerado() {
+        return serie_autogenerado;
     }
 
-    public void setHabilita_caracteristicas(boolean habilita_caracteristicas) {
-        this.habilita_caracteristicas = habilita_caracteristicas;
+    public void setSerie_autogenerado(boolean serie_autogenerado) {
+        this.serie_autogenerado = serie_autogenerado;
     }
 
     public TipoProducto getTipo_producto() {

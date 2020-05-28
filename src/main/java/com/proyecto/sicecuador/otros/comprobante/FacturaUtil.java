@@ -1,9 +1,7 @@
 package com.proyecto.sicecuador.otros.comprobante;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.CelularAuxiliar;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.comprobante.FacturaCaracteristica;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.otros.Util;
@@ -19,7 +17,6 @@ public class FacturaUtil {
     private static IParametroRepository rep;
     private final String tabla="factura";
     private final String tabla_factura_detalle="factura_detalle";
-    private final String tabla_factura_caracteristica="factura_caracteristica";
     private final String tipo="CREAR";
 
     @Autowired
@@ -40,11 +37,6 @@ public class FacturaUtil {
             parametro = rep.findByTablaAndTipo(tabla_factura_detalle, tipo);
             conteo = rep.findConteoFacturaDetalle();
             factura_detalle.setCodigo(Util.generarCodigo(parametro, conteo));
-            for (FacturaCaracteristica factura_caracteristica : factura_detalle.getFactura_caracteristicas()) {
-                parametro = rep.findByTablaAndTipo(tabla_factura_caracteristica, tipo);
-                conteo = rep.findConteoFacturaDetalle();
-                factura_caracteristica.setCodigo(Util.generarCodigo(parametro, conteo));
-            }
         }
     }
 }

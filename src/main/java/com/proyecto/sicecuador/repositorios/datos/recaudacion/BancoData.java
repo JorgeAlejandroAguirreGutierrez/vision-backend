@@ -20,7 +20,7 @@ public class BancoData implements ApplicationRunner {
     private IBancoRepository rep;
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        /*Optional<Banco> ant=rep.findById((long) 1);
+        Optional<Banco> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Banco> bancos = new ArrayList<>();
             bancos.add(new Banco("BA1", "BANCO", "BANCO PRODUBANCO", "PB"));
@@ -28,6 +28,6 @@ public class BancoData implements ApplicationRunner {
             bancos.add(new Banco("BA3", "BANCO", "BANCO PACIFICO", "BP"));
             bancos.add(new Banco("BA4", "COOPERATIVA", "COOPROGRESO", "CP"));
             rep.saveAll(bancos);
-        }*/
+        }
     }
 }

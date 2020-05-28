@@ -287,4 +287,7 @@ public class Factura extends Entidad {
     public List<FacturaDetalle> getFactura_detalles() {
         return factura_detalles;
     }
+
+    public void normalizar(){
+    }
 }

@@ -1,10 +1,10 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.comprobante.FacturaCaracteristica;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.otros.inventario.CaracteristicaUtil;
 
@@ -15,8 +15,6 @@ import java.util.List;
 @Table(name = "caracteristica")
 @EntityListeners({CaracteristicaUtil.class})
 public class Caracteristica extends Entidad {
-    @Column(name = "cantidad", nullable = true)
-    private long cantidad;
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
     @Column(name = "color", nullable = true)
@@ -30,9 +28,9 @@ public class Caracteristica extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "bodega_producto_id", nullable = true)
     private BodegaProducto bodega_producto;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "caracteristica_id")
-    private List<FacturaCaracteristica> factura_caracteristicas;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "factura_detalle_id", nullable = true)
+    private FacturaDetalle factura_detalle;
 
     public Caracteristica(){
 
@@ -42,15 +40,15 @@ public class Caracteristica extends Entidad {
         super(id);
     }
 
-    public Caracteristica(String codigo, long cantidad, String descripcion, String color, String marca, String modelo, String serie, BodegaProducto bodega_producto) {
+    public Caracteristica(String codigo, String descripcion, String color, String marca, String modelo, String serie, BodegaProducto bodega_producto, FacturaDetalle factura_detalle) {
         super(codigo);
-        this.cantidad=cantidad;
         this.descripcion = descripcion;
         this.color = color;
         this.marca = marca;
         this.modelo = modelo;
         this.serie = serie;
         this.bodega_producto=bodega_producto;
+        this.factura_detalle=null;
     }
     public String getDescripcion() {
         return descripcion;
@@ -71,24 +69,18 @@ public class Caracteristica extends Entidad {
     public String getSerie() {
         return serie;
     }
+
     @JsonBackReference
     public BodegaProducto getBodega_producto() {
         return bodega_producto;
     }
 
-    public long getCantidad() {
-        return cantidad;
+    @JsonBackReference(value="factura-detalle-caracteristica")
+    public void setFactura_detalle(FacturaDetalle factura_detalle) {
+        this.factura_detalle = factura_detalle;
     }
 
-    public void setCantidad(long cantidad) {
-        this.cantidad = cantidad;
-    }
-    /*
-    public void setFactura_caracteristicas(List<FacturaCaracteristica> factura_caracteristicas) {
-        this.factura_caracteristicas = factura_caracteristicas;
-    }*/
-    @JsonManagedReference(value="caracteristica-factura-caracteristica")
-    public List<FacturaCaracteristica> getFactura_caracteristicas() {
-        return factura_caracteristicas;
+    public FacturaDetalle getFactura_detalle() {
+        return factura_detalle;
     }
 }

@@ -30,7 +30,7 @@ public class RetencionClienteData implements ApplicationRunner {
             retenciones_clientes.add(new RetencionCliente("RCL011907000002", new TipoRetencion(3), new Cliente(1)));
             retenciones_clientes.add(new RetencionCliente("RCL011907000003", new TipoRetencion(2), new Cliente(1)));
             retenciones_clientes.add(new RetencionCliente("RCL011907000004", new TipoRetencion(4), new Cliente(1)));
-            retenciones_clientes.add(new RetencionCliente("RCL011907000005", new TipoRetencion(2), new Cliente(1)));
+            retenciones_clientes.add(new RetencionCliente("RCL011907000005", new TipoRetencion(1), new Cliente(2)));
             retenciones_clientes.add(new RetencionCliente("RCL011908000006", new TipoRetencion(3), new Cliente(2)));
             retenciones_clientes.add(new RetencionCliente("RCL011908000007", new TipoRetencion(2), new Cliente(2)));
             retenciones_clientes.add(new RetencionCliente("RCL011908000008", new TipoRetencion(4), new Cliente(2)));

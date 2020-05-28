@@ -50,7 +50,7 @@ public interface IParametroRepository extends JpaRepository<Parametro, Long>, Jp
     long findConteoTelefonoAuxiliar();
     @Query(value = "SELECT count(*) FROM celular_auxiliar", nativeQuery = true)
     long findConteoCelularAuxiliar();
-    @Query(value = "SELECT count(*) FROM corrreo_auxiliar", nativeQuery = true)
+    @Query(value = "SELECT count(*) FROM correo_auxiliar", nativeQuery = true)
     long findConteoCorreoAuxiliar();
 
     @Query(value = "SELECT count(*) FROM egreso", nativeQuery = true)
@@ -117,8 +117,10 @@ public interface IParametroRepository extends JpaRepository<Parametro, Long>, Jp
     long findConteoCreditoAmortizacion();
     @Query(value = "SELECT count(*) FROM credito", nativeQuery = true)
     long findConteoCredito();
-    @Query(value = "SELECT count(*) FROM deposito_transferencia", nativeQuery = true)
-    long findConteoDepositoTransferencia();
+    @Query(value = "SELECT count(*) FROM deposito", nativeQuery = true)
+    long findConteoDeposito();
+    @Query(value = "SELECT count(*) FROM transferencia", nativeQuery = true)
+    long findConteoTransferencia();
     @Query(value = "SELECT count(*) FROM efectivo", nativeQuery = true)
     long findConteoEfectivo();
     @Query(value = "SELECT count(*) FROM operador_tarjeta", nativeQuery = true)

@@ -49,6 +49,7 @@ public class FacturaDetalle extends Entidad {
     private double valor_iva_sin_descuento;
     @Column(name = "valor_iva_con_descuento", nullable = true)
     private double valor_iva_con_descuento;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "medida_id", nullable = true)
     private Medida medida;
@@ -58,9 +59,10 @@ public class FacturaDetalle extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+
+    @OneToMany(cascade =CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_detalle_id")
-    private List<FacturaCaracteristica> factura_caracteristicas;
+    private List<Caracteristica> caracteristicas;
 
     public FacturaDetalle(){
 
@@ -161,10 +163,9 @@ public class FacturaDetalle extends Entidad {
     public void setFactura(Factura factura) {
         this.factura = factura;
     }
-
-    @JsonManagedReference(value="factura-detalle-factura-caracteristica")
-    public List<FacturaCaracteristica> getFactura_caracteristicas() {
-        return factura_caracteristicas;
+    @JsonManagedReference(value="factura-detalle-caracteristica")
+    public List<Caracteristica> getCaracteristicas() {
+        return caracteristicas;
     }
 }
 
