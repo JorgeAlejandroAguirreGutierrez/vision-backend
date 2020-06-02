@@ -27,6 +27,9 @@ public class TarjetaCredito extends Entidad {
     @ManyToOne
     @JoinColumn(name = "operador_tarjeta_id", nullable = true)
     private OperadorTarjeta operador_tarjeta;
+    @ManyToOne
+    @JoinColumn(name = "franquicia_tarjeta_id", nullable = true)
+    private FranquiciaTarjeta franquicia_tarjeta;
 
     public TarjetaCredito(){
     }
@@ -76,5 +79,9 @@ public class TarjetaCredito extends Entidad {
 
     public OperadorTarjeta getOperador_tarjeta() {
         return operador_tarjeta;
+    }
+
+    public FranquiciaTarjeta getFranquicia_tarjeta() {
+        return franquicia_tarjeta;
     }
 }

@@ -1,15 +1,14 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.ProveedorUtil;
-import com.proyecto.sicecuador.otros.recaudacion.OperadorTarjetaUtil;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "operador_tarjeta")
-@EntityListeners({OperadorTarjetaUtil.class})
-public class OperadorTarjeta extends Entidad {
+@Table(name = "franquicia_tarjeta")
+public class FranquiciaTarjeta extends Entidad {
     @Column(name = "tipo", nullable = true)
     private String tipo;
     @Column(name = "nombre", nullable = true)
@@ -17,22 +16,19 @@ public class OperadorTarjeta extends Entidad {
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
 
-    public OperadorTarjeta(){
+    public FranquiciaTarjeta(){
+        super();
     }
 
-    public OperadorTarjeta(long id){
+    public FranquiciaTarjeta(long id){
         super(id);
     }
 
-    public OperadorTarjeta(String codigo, String tipo, String nombre, String abreviatura){
+    public FranquiciaTarjeta(String codigo, String tipo, String nombre, String abreviatura){
         super(codigo);
         this.tipo=tipo;
         this.nombre=nombre;
         this.abreviatura=abreviatura;
-    }
-    public OperadorTarjeta(String tipo){
-        super();
-        this.tipo=tipo;
     }
     public String getTipo() {
         return tipo;
