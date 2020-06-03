@@ -90,6 +90,17 @@ public class ProductoController implements GenericoController<Producto> {
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping(value = "/tipo/bien/{id}/existencias", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarBienExistencias(@PathVariable("id") long id) {
+        try {
+            Optional<Producto> producto=servicio.consultarBienExitencias(new Producto(id));
+            Respuesta respuesta=new Respuesta(true,"Se obtuvo el producto", producto);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @GetMapping(value = "/tipo/servicio", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarServicio() {
         try {
