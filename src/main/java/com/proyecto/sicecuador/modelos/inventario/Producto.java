@@ -2,8 +2,6 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.Correo;
 import com.proyecto.sicecuador.otros.inventario.ProductoUtil;
 
 import javax.persistence.*;
@@ -42,27 +40,29 @@ public class Producto extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "kardex_id", nullable = true)
+    private Kardex kardex;
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     private List<Precio> precios;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
-    private List<BodegaProducto> bodegas_productos;
-
+    private List<Caracteristica> caracteristicas;
     @Transient
     private long stock_total;
 
-    public Producto(){
+    public Producto() {
         super();
     }
 
-    public Producto(long id){
+    public Producto(long id) {
         super(id);
     }
 
-    public Producto(String codigo, String nombre, String categoria, String linea, String sublinea, String presentacion,double costo,
+    public Producto(String codigo, String nombre, String categoria, String linea, String sublinea, String presentacion, double costo,
                     boolean consignacion, boolean estado, String tipo_gasto, boolean serie_autogenerado, TipoProducto tipo_producto, GrupoProducto grupo_producto,
-                    Impuesto impuesto) {
+                    Impuesto impuesto, Kardex kardex) {
         super(codigo);
         this.nombre = nombre;
         this.categoria = categoria;
@@ -73,12 +73,14 @@ public class Producto extends Entidad {
         this.consignacion = consignacion;
         this.estado = estado;
         this.tipo_gasto = tipo_gasto;
-        this.serie_autogenerado=serie_autogenerado;
-        this.tipo_producto=tipo_producto;
-        this.grupo_producto=grupo_producto;
-        this.impuesto=impuesto;
-        this.stock_total=0;
+        this.serie_autogenerado = serie_autogenerado;
+        this.tipo_producto = tipo_producto;
+        this.grupo_producto = grupo_producto;
+        this.impuesto = impuesto;
+        this.kardex=kardex;
+        this.stock_total = 0;
     }
+
     public String getNombre() {
         return nombre;
     }
@@ -135,13 +137,18 @@ public class Producto extends Entidad {
         return impuesto;
     }
 
+    public Kardex getKardex() {
+        return kardex;
+    }
+
     @JsonManagedReference
     public List<Precio> getPrecios() {
         return precios;
     }
+
     @JsonManagedReference
-    public List<BodegaProducto> getBodegas_productos() {
-        return bodegas_productos;
+    public List<Caracteristica> getCaracteristicas() {
+        return caracteristicas;
     }
 
     public long getStock_total() {

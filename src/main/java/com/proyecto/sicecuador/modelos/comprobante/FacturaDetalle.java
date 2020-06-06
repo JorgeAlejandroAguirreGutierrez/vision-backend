@@ -59,10 +59,10 @@ public class FacturaDetalle extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
-
     @OneToMany(cascade =CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_detalle_id")
     private List<Caracteristica> caracteristicas;
+
 
     public FacturaDetalle(){
 

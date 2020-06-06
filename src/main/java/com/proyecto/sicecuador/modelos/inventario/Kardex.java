@@ -37,9 +37,6 @@ public class Kardex extends Entidad {
     @Column(name = "total", nullable = true)
     private double total;
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "producto_id", nullable = true)
-    private Producto producto;
-    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -58,7 +55,7 @@ public class Kardex extends Entidad {
     }
 
     public Kardex(String codigo, Date fecha, String documento, String numero, String operacion, double entrada, double salida,
-                  double saldo, double debe, double haber, double costo_promedio,double costo_ultimo, double total, Producto producto, Proveedor proveedor,
+                  double saldo, double debe, double haber, double costo_promedio,double costo_ultimo, double total, Proveedor proveedor,
                   Cliente cliente, GuiaRemision guia_remision){
         super(codigo);
         this.fecha=fecha;
@@ -73,7 +70,6 @@ public class Kardex extends Entidad {
         this.costo_promedio=costo_promedio;
         this.costo_ultimo=costo_ultimo;
         this.total=total;
-        this.producto=producto;
         this.proveedor=proveedor;
         this.cliente=cliente;
         this.guia_remision=guia_remision;

@@ -1,15 +1,12 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.otros.inventario.CaracteristicaUtil;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "caracteristica")
@@ -26,11 +23,14 @@ public class Caracteristica extends Entidad {
     @Column(name = "serie", nullable = true)
     private String serie;
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "bodega_producto_id", nullable = true)
-    private BodegaProducto bodega_producto;
+    @JoinColumn(name = "producto_id", nullable = true)
+    private Producto producto;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "factura_detalle_id", nullable = true)
     private FacturaDetalle factura_detalle;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "bodega_id", nullable = true)
+    private Bodega bodega;
 
     public Caracteristica(){
 
@@ -40,16 +40,18 @@ public class Caracteristica extends Entidad {
         super(id);
     }
 
-    public Caracteristica(String codigo, String descripcion, String color, String marca, String modelo, String serie, BodegaProducto bodega_producto, FacturaDetalle factura_detalle) {
+    public Caracteristica(String codigo, String descripcion, String color, String marca, String modelo, String serie, Producto producto, Bodega bodega) {
         super(codigo);
         this.descripcion = descripcion;
         this.color = color;
         this.marca = marca;
         this.modelo = modelo;
         this.serie = serie;
-        this.bodega_producto=bodega_producto;
+        this.producto=producto;
+        this.bodega=bodega;
         this.factura_detalle=null;
     }
+
     public String getDescripcion() {
         return descripcion;
     }
@@ -70,11 +72,6 @@ public class Caracteristica extends Entidad {
         return serie;
     }
 
-    @JsonBackReference
-    public BodegaProducto getBodega_producto() {
-        return bodega_producto;
-    }
-
     @JsonBackReference(value="factura-detalle-caracteristica")
     public void setFactura_detalle(FacturaDetalle factura_detalle) {
         this.factura_detalle = factura_detalle;
@@ -82,5 +79,14 @@ public class Caracteristica extends Entidad {
 
     public FacturaDetalle getFactura_detalle() {
         return factura_detalle;
+    }
+
+    @JsonBackReference
+    public Producto getProducto() {
+        return producto;
+    }
+    @JsonManagedReference
+    public Bodega getBodega() {
+        return bodega;
     }
 }
