@@ -54,6 +54,9 @@ public class FacturaDetalle extends Entidad {
     @JoinColumn(name = "medida_id", nullable = true)
     private Medida medida;
     @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "impuesto_id", nullable = true)
+    private Impuesto impuesto;
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -153,6 +156,13 @@ public class FacturaDetalle extends Entidad {
         return medida;
     }
 
+    public Impuesto getImpuesto() {
+        return impuesto;
+    }
+
+    public void setImpuesto(Impuesto impuesto) {
+        this.impuesto = impuesto;
+    }
     public Precio getPrecio() {
         return precio;
     }
