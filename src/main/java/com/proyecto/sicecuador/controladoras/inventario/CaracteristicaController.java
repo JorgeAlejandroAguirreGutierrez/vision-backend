@@ -2,7 +2,9 @@ package com.proyecto.sicecuador.controladoras.inventario;
 
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
+import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.servicios.interf.inventario.ICaracteristicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,6 +73,28 @@ public class CaracteristicaController implements GenericoController<Caracteristi
         try {
             Caracteristica caracteristica=servicio.eliminar(new Caracteristica(id));
             Respuesta respuesta=new Respuesta(true,"Se elimino una caracteristica", caracteristica);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping(value = "/tipo/bien/{producto_id}/existencias", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarBienExistencias(@PathVariable("producto_id") long producto_id) {
+        try {
+            List<Caracteristica> caracteristicas=servicio.consultarBienExistencias(new Producto(producto_id));
+            Respuesta respuesta=new Respuesta(true,"Se consulto las caracteristicas", caracteristicas);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping(value = "/tipo/bien/{producto_id}/existencias/{bodega_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarBienExistenciasBodega(@PathVariable("producto_id") long producto_id, @PathVariable("bodega_id") long bodega_id) {
+        try {
+            List<Caracteristica> caracteristicas=servicio.consultarBienExistenciasBodega(new Producto(producto_id), new Bodega(bodega_id));
+            Respuesta respuesta=new Respuesta(true,"Se consulto las caracteristicas", caracteristicas);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

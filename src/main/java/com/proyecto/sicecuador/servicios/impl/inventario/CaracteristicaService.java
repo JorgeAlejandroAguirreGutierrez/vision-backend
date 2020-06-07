@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
+import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ICaracteristicaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ICaracteristicaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +38,17 @@ public class CaracteristicaService implements ICaracteristicaService {
     @Override
     public List<Caracteristica> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public List<Caracteristica> consultarBienExistencias(Producto _producto) {
+        List <Caracteristica> caracteristicas = rep.consultarBienExistencias(_producto.getId());
+        return caracteristicas;
+    }
+
+    @Override
+    public List<Caracteristica> consultarBienExistenciasBodega(Producto _producto, Bodega _bodega) {
+        List <Caracteristica> caracteristicas = rep.consultarBienExistenciasBodega(_producto.getId(), _bodega.getId());
+        return caracteristicas;
     }
 }

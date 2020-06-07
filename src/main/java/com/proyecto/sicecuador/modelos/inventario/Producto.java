@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.ProductoUtil;
@@ -43,10 +44,10 @@ public class Producto extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "kardex_id", nullable = true)
     private Kardex kardex;
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "producto_id")
     private List<Precio> precios;
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "producto_id")
     private List<Caracteristica> caracteristicas;
     @Transient

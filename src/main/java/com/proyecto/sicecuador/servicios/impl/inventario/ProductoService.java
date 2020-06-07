@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
@@ -90,19 +91,5 @@ public class ProductoService implements IProductoService {
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
-    }
-
-    @Override
-    public Optional<Producto> consultarBienExitencias(Producto _producto) {
-        Optional<Producto> producto = rep.findOne(new Specification<Producto>() {
-            @Override
-            public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("id"), _producto.getId())));
-                predicates.add(criteriaBuilder.and(criteriaBuilder.isNull(root.join("caracteristicas").get("factura_detalle"))));
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
-        return producto;
     }
 }

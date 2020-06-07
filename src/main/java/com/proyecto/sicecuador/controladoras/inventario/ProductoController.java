@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.controladoras.inventario;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,17 +85,6 @@ public class ProductoController implements GenericoController<Producto> {
         try {
             List<Producto> productos=servicio.consultarBien();
             Respuesta respuesta=new Respuesta(true,"Se consulto los productos", productos);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @GetMapping(value = "/tipo/bien/{id}/existencias", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarBienExistencias(@PathVariable("id") long id) {
-        try {
-            Optional<Producto> producto=servicio.consultarBienExitencias(new Producto(id));
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo el producto", producto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.cliente.TipoPagoUtil;
@@ -14,9 +16,9 @@ import java.util.List;
 @EntityListeners({BodegaUtil.class})
 public class Bodega extends Entidad {
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "producto_id")
-    private List<Caracteristica> caracteristicas;
+    /*@OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "bodega_id")
+    private List<Caracteristica> caracteristicas;*/
 
 
     public Bodega(){
@@ -28,9 +30,9 @@ public class Bodega extends Entidad {
         super(codigo);
     }
 
-    @JsonBackReference
+    /*@JsonManagedReference
     public List<Caracteristica> getCaracteristicas() {
         return caracteristicas;
-    }
+    }*/
 
 }
