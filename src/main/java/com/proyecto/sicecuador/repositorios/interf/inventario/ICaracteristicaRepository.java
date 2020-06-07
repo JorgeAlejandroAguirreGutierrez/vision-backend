@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface ICaracteristicaRepository extends JpaRepository<Caracteristica, Long>, JpaSpecificationExecutor<Caracteristica> {
-    @Query(value = "SELECT * FROM caracteristica c, producto p, bodega b WHERE p.id=c.producto_id and c.bodega_id=b.id and p.id = :producto_id and c.bodega_id = :bodega_id", nativeQuery = true)
+    @Query(value = "SELECT * FROM caracteristica c, producto p, bodega b WHERE p.id=c.producto_id and c.bodega_id=b.id and p.id = :producto_id and c.bodega_id = :bodega_id and c.factura_detalle_id is null", nativeQuery = true)
     List<Caracteristica> consultarBienExistenciasBodega(@Param("producto_id") long producto_id, @Param("bodega_id") long bodega_id);
     @Query(value = "SELECT * FROM caracteristica c, producto p WHERE p.id=c.producto_id and p.id = :producto_id", nativeQuery = true)
     List<Caracteristica> consultarBienExistencias(@Param("producto_id") long producto_id);
