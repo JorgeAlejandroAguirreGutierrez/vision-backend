@@ -1,10 +1,11 @@
-package com.proyecto.sicecuador.controladoras.recaudacion;
+package com.proyecto.sicecuador.controladoras.comprobante;
 
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.inventario.Producto;
-import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
-import com.proyecto.sicecuador.servicios.interf.recaudacion.IOperadorTarjetaService;
+import com.proyecto.sicecuador.modelos.comprobante.Proforma;
+import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
+import com.proyecto.sicecuador.servicios.interf.comprobante.IProformaService;
+import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,29 +14,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/api/sicecuador/operadortarjeta")
-public class OperadorTarjetaController implements GenericoController<OperadorTarjeta> {
+@RequestMapping("/api/sicecuador/tipocomprobante")
+public class TipoComprobanteController implements GenericoController<TipoComprobante> {
 
     @Autowired
-    private IOperadorTarjetaService servicio;
+    private ITipoComprobanteService servicio;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
         try {
-            List<OperadorTarjeta> operadores_tarjetas=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las operadores de tarjetas", operadores_tarjetas);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping(value = "/tipo/{tipo}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultar(@PathVariable("tipo") String tipo) {
-        try {
-            List<OperadorTarjeta> operadores_tarjetas=servicio.consultarTipo(new OperadorTarjeta(tipo));
-            Respuesta respuesta=new Respuesta(true,"Se consulto las operadores de tarjetas", operadores_tarjetas);
+            List<TipoComprobante> tipos_comprobantes=servicio.consultar();
+            Respuesta respuesta=new Respuesta(true,"Se consulto los tipos de comprobantes", tipos_comprobantes);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,8 +35,8 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
-            OperadorTarjeta operador_tarjeta=servicio.obtener(new OperadorTarjeta(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un operador de tarjeta", operador_tarjeta);
+            TipoComprobante tipo_comprobante=servicio.obtener(new TipoComprobante(id)).get();
+            Respuesta respuesta=new Respuesta(true,"Se obtuvo el tipo de comprobante", tipo_comprobante);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -56,10 +45,10 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody OperadorTarjeta _operador_tarjeta) {
+    public ResponseEntity<?> crear(@RequestBody TipoComprobante _tipo_comprobante) {
         try {
-            OperadorTarjeta operador_tarjeta=servicio.crear(_operador_tarjeta);
-            Respuesta respuesta=new Respuesta(true,"Se creo un operador de tarjeta", operador_tarjeta);
+            TipoComprobante tipo_comprobante=servicio.crear(_tipo_comprobante);
+            Respuesta respuesta=new Respuesta(true,"Se creo el tipo de comprobante", tipo_comprobante);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -68,10 +57,10 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody OperadorTarjeta _operador_tarjeta) {
+    public ResponseEntity<?> actualizar(@RequestBody TipoComprobante _tipo_comprobante) {
         try {
-            OperadorTarjeta operador_tarjeta=servicio.actualizar(_operador_tarjeta);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un operador de tarjeta", operador_tarjeta);
+            TipoComprobante tipo_comprobante=servicio.actualizar(_tipo_comprobante);
+            Respuesta respuesta=new Respuesta(true,"Se actualizo el tipo de comprobante", tipo_comprobante);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -82,8 +71,8 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
-            OperadorTarjeta operador_tarjeta=servicio.eliminar(new OperadorTarjeta(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino una operador de tarjeta", operador_tarjeta);
+            TipoComprobante tipo_comprobante=servicio.eliminar(new TipoComprobante(id));
+            Respuesta respuesta=new Respuesta(true,"Se elimino el tipo de comprobante", tipo_comprobante);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

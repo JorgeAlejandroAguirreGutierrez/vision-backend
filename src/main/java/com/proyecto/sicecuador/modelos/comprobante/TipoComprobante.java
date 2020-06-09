@@ -11,6 +11,8 @@ import javax.persistence.*;
 public class TipoComprobante extends Entidad {
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
+    @Column(name = "nombre", nullable = true)
+    private String nombre;
     @Column(name = "nombre_tabla", nullable = true)
     private String nombre_tabla;
 
@@ -21,8 +23,9 @@ public class TipoComprobante extends Entidad {
     public TipoComprobante(long id){
         super(id);
     }
-    public TipoComprobante(String codigo, String descripcion, String nombre_tabla){
+    public TipoComprobante(String codigo, String nombre, String descripcion, String nombre_tabla){
         super(codigo);
+        this.nombre=nombre;
         this.descripcion=descripcion;
         this.nombre_tabla=nombre_tabla;
     }
@@ -32,5 +35,9 @@ public class TipoComprobante extends Entidad {
 
     public String getNombre_tabla() {
         return nombre_tabla;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }
