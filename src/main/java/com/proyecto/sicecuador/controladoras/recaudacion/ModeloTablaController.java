@@ -12,7 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RestController
+@RequestMapping("/api/sicecuador/modelotabla")
 public class ModeloTablaController implements GenericoController<ModeloTabla> {
     @Autowired
     private IModeloTablaService servicio;

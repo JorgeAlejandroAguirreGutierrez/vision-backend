@@ -91,7 +91,7 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR64", "CREAR", "", "correo_auxiliar", "COA"));
             parametros.add(new Parametro("PAR65", "CREAR", "", "bodega_producto", "BOP"));
             parametros.add(new Parametro("PAR66", "CREAR", "", "factura_detalle", "FDE"));
-            parametros.add(new Parametro("PAR67", "CREAR", "", "factura_caracteristica", "FCA"));
+            parametros.add(new Parametro("PAR67", "CREAR", "", "recaudacion", "REC"));
             parametros.add(new Parametro("PAR68", "LOGO", "siice.png", "", "LOG"));
             rep.saveAll(parametros);
         }

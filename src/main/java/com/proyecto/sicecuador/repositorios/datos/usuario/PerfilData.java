@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.repositorios.datos.usuario;
 
-import com.proyecto.sicecuador.modelos.recaudacion.Efectivo;
 import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IPerfilRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,11 +1,7 @@
 package com.proyecto.sicecuador.repositorios.datos.usuario;
 
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.recaudacion.Efectivo;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IEstablecimientoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

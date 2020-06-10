@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.recaudacion.DepositoUtil;
 import com.proyecto.sicecuador.otros.recaudacion.TransferenciaUtil;
@@ -19,12 +20,12 @@ public class Transferencia extends Entidad {
     private Date fecha_transaccion;
     @Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne
-    @JoinColumn(name = "recaudacion_id", nullable = true)
-    private Recaudacion recaudacion;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "recaudacion_id", nullable = true)
+    private Recaudacion recaudacion;
 
     public Transferencia(){
     }
@@ -58,11 +59,11 @@ public class Transferencia extends Entidad {
         return valor;
     }
 
-    public Recaudacion getRecaudacion() {
-        return recaudacion;
-    }
-
     public Banco getBanco() {
         return banco;
+    }
+    @JsonBackReference
+    public Recaudacion getRecaudacion() {
+        return recaudacion;
     }
 }

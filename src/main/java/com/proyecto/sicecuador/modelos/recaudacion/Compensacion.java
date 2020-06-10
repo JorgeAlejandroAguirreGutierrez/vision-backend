@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
@@ -32,15 +33,15 @@ public class Compensacion extends Entidad {
     private double saldo;
     @Column(name = "compensado", nullable = true)
     private double compensado;
-    @ManyToOne
-    @JoinColumn(name = "recaudacion_id", nullable = true)
-    private Recaudacion recaudacion;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipo_comprobante;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "recaudacion_id", nullable = true)
+    private Recaudacion recaudacion;
 
     public Compensacion(){
         super();
@@ -49,4 +50,9 @@ public class Compensacion extends Entidad {
     public Compensacion(long id){
         super(id);
     }
+    @JsonBackReference
+    public Recaudacion getRecaudacion() {
+        return recaudacion;
+    }
+
 }

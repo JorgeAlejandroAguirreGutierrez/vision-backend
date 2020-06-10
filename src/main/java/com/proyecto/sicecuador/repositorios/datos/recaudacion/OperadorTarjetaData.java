@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.repositorios.datos.recaudacion;
 
-import com.proyecto.sicecuador.modelos.recaudacion.Efectivo;
 import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IOperadorTarjetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.otros.recaudacion.ChequeUtil;
@@ -21,12 +22,12 @@ public class Cheque extends Entidad {
     private Date fecha_efectivizacion;
     @Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne
-    @JoinColumn(name = "recaudacion_id", nullable = true)
-    private Recaudacion recaudacion;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "recaudacion_id", nullable = true)
+    private Recaudacion recaudacion;
 
     public Cheque(){
 
@@ -66,12 +67,14 @@ public class Cheque extends Entidad {
     public double getValor() {
         return valor;
     }
+    public Banco getBanco() {
+        return banco;
+    }
 
+    @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;
     }
 
-    public Banco getBanco() {
-        return banco;
-    }
+
 }

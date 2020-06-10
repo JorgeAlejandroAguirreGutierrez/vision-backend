@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.recaudacion.TarjetaCreditoUtil;
 
@@ -21,15 +23,15 @@ public class TarjetaCredito extends Entidad {
     private String lote;
     @Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne
-    @JoinColumn(name = "tarjeta_id", nullable = true)
-    private Tarjeta tarjeta;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "operador_tarjeta_id", nullable = true)
     private OperadorTarjeta operador_tarjeta;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "franquicia_tarjeta_id", nullable = true)
     private FranquiciaTarjeta franquicia_tarjeta;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "recaudacion_id", nullable = true)
+    private Recaudacion recaudacion;
 
     public TarjetaCredito(){
     }
@@ -38,7 +40,7 @@ public class TarjetaCredito extends Entidad {
         super(id);
     }
 
-    public TarjetaCredito(String codigo, boolean diferido, boolean titular, String identificacion, String nombre_titular, String lote, double valor, Tarjeta tarjeta, OperadorTarjeta operador_tarjeta){
+    public TarjetaCredito(String codigo, boolean diferido, boolean titular, String identificacion, String nombre_titular, String lote, double valor, OperadorTarjeta operador_tarjeta, Recaudacion recaudacion){
         super(codigo);
         this.diferido=diferido;
         this.titular=titular;
@@ -46,8 +48,8 @@ public class TarjetaCredito extends Entidad {
         this.nombre_titular=nombre_titular;
         this.lote=lote;
         this.valor=valor;
-        this.tarjeta=tarjeta;
         this.operador_tarjeta=operador_tarjeta;
+        this.recaudacion=recaudacion;
     }
     public boolean isDiferido() {
         return diferido;
@@ -73,15 +75,15 @@ public class TarjetaCredito extends Entidad {
         return valor;
     }
 
-    public Tarjeta getTarjeta() {
-        return tarjeta;
-    }
-
     public OperadorTarjeta getOperador_tarjeta() {
         return operador_tarjeta;
     }
 
     public FranquiciaTarjeta getFranquicia_tarjeta() {
         return franquicia_tarjeta;
+    }
+    @JsonBackReference
+    public Recaudacion getRecaudacion() {
+        return recaudacion;
     }
 }

@@ -1,19 +1,11 @@
 package com.proyecto.sicecuador.repositorios.datos.recaudacion;
 
-import com.proyecto.sicecuador.modelos.recaudacion.Efectivo;
-import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
-import com.proyecto.sicecuador.modelos.recaudacion.Tarjeta;
-import com.proyecto.sicecuador.modelos.recaudacion.TarjetaDebito;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.ITarjetaDebitoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Component
 @Order(31)

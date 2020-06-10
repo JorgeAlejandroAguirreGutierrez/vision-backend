@@ -7,10 +7,11 @@ import com.proyecto.sicecuador.repositorios.interf.recaudacion.IBancoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IAmortizacionService;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IBancoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class AmortizacionService implements IAmortizacionService {
     @Autowired
     private IAmortizacionRepository rep;
