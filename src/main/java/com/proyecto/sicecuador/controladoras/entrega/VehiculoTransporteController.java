@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.entrega;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class VehiculoTransporteController implements GenericoController<Vehiculo
     public ResponseEntity<?> consultar() {
         try {
             List<VehiculoTransporte> transportistas=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los transportistas", transportistas);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, transportistas);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class VehiculoTransporteController implements GenericoController<Vehiculo
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             VehiculoTransporte transportista=servicio.obtener(new VehiculoTransporte(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un transportista", transportista);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, transportista);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class VehiculoTransporteController implements GenericoController<Vehiculo
     public ResponseEntity<?> crear(@RequestBody VehiculoTransporte _transportista) {
         try {
             VehiculoTransporte transportista=servicio.crear(_transportista);
-            Respuesta respuesta=new Respuesta(true,"Se creo un transportista", transportista);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, transportista);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class VehiculoTransporteController implements GenericoController<Vehiculo
     public ResponseEntity<?> actualizar(@RequestBody VehiculoTransporte _transportista) {
         try {
             VehiculoTransporte transportista=servicio.actualizar(_transportista);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un transportista", transportista);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, transportista);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class VehiculoTransporteController implements GenericoController<Vehiculo
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             VehiculoTransporte transportista=servicio.eliminar(new VehiculoTransporte(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un transportista", transportista);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, transportista);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

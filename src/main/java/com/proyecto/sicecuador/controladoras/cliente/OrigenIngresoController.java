@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -23,7 +24,7 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
     public ResponseEntity<?> consultar() {
         try {
             List<OrigenIngreso> origenes_ingresos = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, "Se consulto los grupos clientes", origenes_ingresos);
+            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, origenes_ingresos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -35,7 +36,7 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             OrigenIngreso origen_ingreso=servicio.obtener(new OrigenIngreso(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un origen de ingreso", origen_ingreso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, origen_ingreso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -47,7 +48,7 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
     public ResponseEntity<?> crear(@RequestBody OrigenIngreso _OrigenIngreso) {
         try {
             OrigenIngreso origen_ingreso=servicio.crear(_OrigenIngreso);
-            Respuesta respuesta=new Respuesta(true,"Se creo un origen de ingreso", origen_ingreso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, origen_ingreso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -59,7 +60,7 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
     public ResponseEntity<?> actualizar(@RequestBody OrigenIngreso _OrigenIngreso) {
         try {
             OrigenIngreso origen_ingreso=servicio.actualizar(_OrigenIngreso);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un origen de ingreso", origen_ingreso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, origen_ingreso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -71,7 +72,7 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             OrigenIngreso origen_ingreso=servicio.eliminar(new OrigenIngreso(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un origen de ingreso", origen_ingreso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, origen_ingreso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

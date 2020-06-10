@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
@@ -23,7 +24,7 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     public ResponseEntity<?> consultar() {
         try {
             List<OperadorTarjeta> operadores_tarjetas=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las operadores de tarjetas", operadores_tarjetas);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, operadores_tarjetas);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -35,7 +36,7 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     public ResponseEntity<?> consultar(@PathVariable("tipo") String tipo) {
         try {
             List<OperadorTarjeta> operadores_tarjetas=servicio.consultarTipo(new OperadorTarjeta(tipo));
-            Respuesta respuesta=new Respuesta(true,"Se consulto las operadores de tarjetas", operadores_tarjetas);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, operadores_tarjetas);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -47,7 +48,7 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             OperadorTarjeta operador_tarjeta=servicio.obtener(new OperadorTarjeta(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un operador de tarjeta", operador_tarjeta);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, operador_tarjeta);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -59,7 +60,7 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     public ResponseEntity<?> crear(@RequestBody OperadorTarjeta _operador_tarjeta) {
         try {
             OperadorTarjeta operador_tarjeta=servicio.crear(_operador_tarjeta);
-            Respuesta respuesta=new Respuesta(true,"Se creo un operador de tarjeta", operador_tarjeta);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, operador_tarjeta);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -71,7 +72,7 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     public ResponseEntity<?> actualizar(@RequestBody OperadorTarjeta _operador_tarjeta) {
         try {
             OperadorTarjeta operador_tarjeta=servicio.actualizar(_operador_tarjeta);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un operador de tarjeta", operador_tarjeta);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, operador_tarjeta);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -83,7 +84,7 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             OperadorTarjeta operador_tarjeta=servicio.eliminar(new OperadorTarjeta(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino una operador de tarjeta", operador_tarjeta);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, operador_tarjeta);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

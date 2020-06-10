@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class CorreoController implements GenericoController<Correo> {
     public ResponseEntity<?> consultar() {
         try {
             List<Correo> Correos=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los correos", Correos);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, Correos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class CorreoController implements GenericoController<Correo> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Correo correo = servicio.obtener(new Correo(id)).get();
-            Respuesta respuesta = new Respuesta(true, "Se obtuvo un correo", correo);
+            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_obtener_exitoso, correo);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class CorreoController implements GenericoController<Correo> {
     public ResponseEntity<?> crear(@RequestBody Correo _Correo) {
         try {
         Correo correo=servicio.crear(_Correo);
-        Respuesta respuesta=new Respuesta(true,"Se creo un correo", correo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, correo);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class CorreoController implements GenericoController<Correo> {
     public ResponseEntity<?> actualizar(@RequestBody Correo _Correo) {
         try {
         Correo correo=servicio.actualizar(_Correo);
-        Respuesta respuesta=new Respuesta(true,"Se actualizo un correo", correo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, correo);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class CorreoController implements GenericoController<Correo> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
         Correo correo=servicio.eliminar(new Correo(id));
-        Respuesta respuesta=new Respuesta(true,"Se elimino un correo", correo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, correo);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.inventario.Impuesto;
@@ -23,7 +24,7 @@ public class ImpuestoController implements GenericoController<Impuesto> {
     public ResponseEntity<?> consultar() {
         try {
             List<Impuesto> impuestos=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las impuestos", impuestos);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, impuestos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -35,7 +36,7 @@ public class ImpuestoController implements GenericoController<Impuesto> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Impuesto impuesto=servicio.obtener(new Impuesto(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un impuesto", impuesto);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, impuesto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -47,7 +48,7 @@ public class ImpuestoController implements GenericoController<Impuesto> {
     public ResponseEntity<?> crear(@RequestBody Impuesto _impuesto) {
         try {
             Impuesto impuesto=servicio.crear(_impuesto);
-            Respuesta respuesta=new Respuesta(true,"Se creo un impuesto", impuesto);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, impuesto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -59,7 +60,7 @@ public class ImpuestoController implements GenericoController<Impuesto> {
     public ResponseEntity<?> actualizar(@RequestBody Impuesto _impuesto) {
         try {
             Impuesto impuesto=servicio.actualizar(_impuesto);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un impuesto", impuesto);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, impuesto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -71,7 +72,7 @@ public class ImpuestoController implements GenericoController<Impuesto> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Impuesto impuesto=servicio.eliminar(new Impuesto(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un impuesto", impuesto);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, impuesto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -82,7 +83,7 @@ public class ImpuestoController implements GenericoController<Impuesto> {
     public ResponseEntity<?> obtenerPorcentaje(@PathVariable("porcentaje") double porcentaje) {
         try {
             Optional<Impuesto> impuesto=servicio.obtenerImpuestoPorcentaje(new Impuesto(porcentaje));
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un impuesto", impuesto);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, impuesto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

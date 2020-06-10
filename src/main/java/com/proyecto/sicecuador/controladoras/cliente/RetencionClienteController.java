@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class RetencionClienteController implements GenericoController<RetencionC
     public ResponseEntity<?> consultar() {
         try {
             List<RetencionCliente> retenciones_clientes = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, "Se consulto las retenciones de clientes", retenciones_clientes);
+            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, retenciones_clientes);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class RetencionClienteController implements GenericoController<RetencionC
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             RetencionCliente retencion_cliente=servicio.obtener(new RetencionCliente(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo una retencion cliente", retencion_cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, retencion_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class RetencionClienteController implements GenericoController<RetencionC
     public ResponseEntity<?> crear(@RequestBody RetencionCliente _RetencionCliente) {
         try {
             RetencionCliente retencion_cliente=servicio.crear(_RetencionCliente);
-            Respuesta respuesta=new Respuesta(true,"Se creo una retencion cliente", retencion_cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, retencion_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class RetencionClienteController implements GenericoController<RetencionC
     public ResponseEntity<?> actualizar(@RequestBody RetencionCliente _RetencionCliente) {
         try {
             RetencionCliente retencion_cliente=servicio.actualizar(_RetencionCliente);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo una retencion cliente", retencion_cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, retencion_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class RetencionClienteController implements GenericoController<RetencionC
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             RetencionCliente retencion_cliente=servicio.eliminar(new RetencionCliente(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino una retencion cliente", retencion_cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, retencion_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

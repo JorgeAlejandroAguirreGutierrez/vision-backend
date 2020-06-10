@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.usuario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
@@ -21,7 +22,7 @@ public class UsuarioController implements GenericoController<Usuario> {
     public ResponseEntity<?> consultar() {
         try {
             List<Usuario> usuarios=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las usuarioes", usuarios);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, usuarios);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -33,7 +34,7 @@ public class UsuarioController implements GenericoController<Usuario> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Usuario usuario=servicio.obtener(new Usuario(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un usuario", usuario);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, usuario);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -45,7 +46,7 @@ public class UsuarioController implements GenericoController<Usuario> {
     public ResponseEntity<?> crear(@RequestBody Usuario _usuario) {
         try {
             Usuario usuario=servicio.crear(_usuario);
-            Respuesta respuesta=new Respuesta(true,"Se creo un usuario", usuario);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, usuario);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -57,7 +58,7 @@ public class UsuarioController implements GenericoController<Usuario> {
     public ResponseEntity<?> actualizar(@RequestBody Usuario _usuario) {
         try {
             Usuario usuario=servicio.actualizar(_usuario);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un usuario", usuario);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, usuario);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -69,7 +70,7 @@ public class UsuarioController implements GenericoController<Usuario> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Usuario usuario=servicio.eliminar(new Usuario(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un usuario", usuario);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, usuario);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -23,7 +24,7 @@ public class GeneroController implements GenericoController<Genero> {
     public ResponseEntity<?> consultar() {
         try {
             List<Genero> generos = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, "Se consulto los generos", generos);
+            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, generos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -35,7 +36,7 @@ public class GeneroController implements GenericoController<Genero> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Genero genero=servicio.obtener(new Genero(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un genero", genero);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, genero);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -47,7 +48,7 @@ public class GeneroController implements GenericoController<Genero> {
     public ResponseEntity<?> crear(@RequestBody Genero _Genero) {
         try {
             Genero genero=servicio.crear(_Genero);
-            Respuesta respuesta=new Respuesta(true,"Se creo un genero", genero);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, genero);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -59,7 +60,7 @@ public class GeneroController implements GenericoController<Genero> {
     public ResponseEntity<?> actualizar(@RequestBody Genero _Genero) {
         try {
             Genero genero=servicio.actualizar(_Genero);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un genero", genero);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, genero);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -71,7 +72,7 @@ public class GeneroController implements GenericoController<Genero> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Genero genero=servicio.eliminar(new Genero(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un genero", genero);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, genero);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

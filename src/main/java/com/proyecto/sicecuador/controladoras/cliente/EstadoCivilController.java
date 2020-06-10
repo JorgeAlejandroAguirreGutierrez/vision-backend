@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
     public ResponseEntity<?> consultar() {
         try {
             List<EstadoCivil> estados_civiles=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los estados civiles", estados_civiles);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estados_civiles);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             EstadoCivil estado_civil=servicio.obtener(new EstadoCivil(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un estado civil", estado_civil);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, estado_civil);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
     public ResponseEntity<?> crear(@RequestBody EstadoCivil _EstadoCivil) {
         try {
             EstadoCivil estado_civil=servicio.crear(_EstadoCivil);
-            Respuesta respuesta=new Respuesta(true,"Se creo un estado civil", estado_civil);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, estado_civil);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
     public ResponseEntity<?> actualizar(@RequestBody EstadoCivil _EstadoCivil) {
         try {
             EstadoCivil estado_civil=servicio.actualizar(_EstadoCivil);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un estado civil", estado_civil);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, estado_civil);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             EstadoCivil estado_civil=servicio.eliminar(new EstadoCivil(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un estado civil", estado_civil);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, estado_civil);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

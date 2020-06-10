@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.configuracion;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -24,7 +25,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
     public ResponseEntity<?> consultar() {
         try {
             List<Ubicacion> ubicaciones=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las ubicaciones", ubicaciones);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, ubicaciones);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -36,7 +37,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Ubicacion ubicacion=servicio.obtener(new Ubicacion(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo una ubicacion", ubicacion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, ubicacion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -48,7 +49,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
     public ResponseEntity<?> crear(@RequestBody Ubicacion _ubicacion) {
         try {
             Ubicacion ubicacion=servicio.crear(_ubicacion);
-            Respuesta respuesta=new Respuesta(true,"Se creo una ubicacion", ubicacion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, ubicacion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -60,7 +61,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
     public ResponseEntity<?> actualizar(@RequestBody Ubicacion _ubicacion) {
         try {
             Ubicacion ubicacion=servicio.actualizar(_ubicacion);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo una ubicacion", ubicacion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, ubicacion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -72,7 +73,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Ubicacion ubicacion=servicio.eliminar(new Ubicacion(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino una ubicacion", ubicacion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, ubicacion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -83,7 +84,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
     public ResponseEntity<?> consultarProvincias() {
         try {
             List<Ubicacion> ubicaciones=servicio.consultarProvincias();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las ubicaciones", ubicaciones);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -96,7 +97,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
             Ubicacion ubicacion=new Ubicacion();
             ubicacion.setProvincia(provincia);
             List<Ubicacion> ubicaciones=servicio.consultarCantones(ubicacion);
-            Respuesta respuesta=new Respuesta(true,"Se consulto las ubicaciones", ubicaciones);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -109,7 +110,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
             Ubicacion ubicacion=new Ubicacion();
             ubicacion.setCanton(canton);
             List<Ubicacion> ubicaciones=servicio.consultarParroquias(ubicacion);
-            Respuesta respuesta=new Respuesta(true,"Se consulto las ubicaciones", ubicaciones);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -123,7 +124,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
         try {
             Ubicacion ubicacion=new Ubicacion(provincia, canton, parroquia);
             Optional<Ubicacion> _ubicacion=servicio.obtenerUbicacionID(ubicacion);
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo la ubicacion", _ubicacion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, _ubicacion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

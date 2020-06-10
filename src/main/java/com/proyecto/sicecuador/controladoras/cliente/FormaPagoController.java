@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class FormaPagoController implements GenericoController<FormaPago> {
     public ResponseEntity<?> consultar() {
         try {
             List<FormaPago> formas_pagos = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, "Se consulto las formas pagos", formas_pagos);
+            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, formas_pagos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class FormaPagoController implements GenericoController<FormaPago> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             FormaPago forma_pago=servicio.obtener(new FormaPago(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo una forma de pago", forma_pago);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, forma_pago);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class FormaPagoController implements GenericoController<FormaPago> {
     public ResponseEntity<?> crear(@RequestBody FormaPago _FormaPago) {
         try {
             FormaPago forma_pago=servicio.crear(_FormaPago);
-            Respuesta respuesta=new Respuesta(true,"Se creo una forma de pago", forma_pago);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, forma_pago);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class FormaPagoController implements GenericoController<FormaPago> {
     public ResponseEntity<?> actualizar(@RequestBody FormaPago _FormaPago) {
         try {
             FormaPago forma_pago=servicio.actualizar(_FormaPago);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo una forma de pago", forma_pago);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, forma_pago);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class FormaPagoController implements GenericoController<FormaPago> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             FormaPago forma_pago=servicio.eliminar(new FormaPago(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino una forma de pago", forma_pago);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, forma_pago);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

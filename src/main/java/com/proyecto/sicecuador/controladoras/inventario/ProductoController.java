@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -25,7 +26,7 @@ public class ProductoController implements GenericoController<Producto> {
     public ResponseEntity<?> consultar() {
         try {
             List<Producto> productos=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las productos", productos);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -37,7 +38,7 @@ public class ProductoController implements GenericoController<Producto> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Optional<Producto> producto=servicio.obtener(new Producto(id));
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un producto", producto);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, producto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -49,7 +50,7 @@ public class ProductoController implements GenericoController<Producto> {
     public ResponseEntity<?> crear(@RequestBody Producto _producto) {
         try {
             Producto producto=servicio.crear(_producto);
-            Respuesta respuesta=new Respuesta(true,"Se creo un producto", producto);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, producto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -61,7 +62,7 @@ public class ProductoController implements GenericoController<Producto> {
     public ResponseEntity<?> actualizar(@RequestBody Producto _producto) {
         try {
             Producto producto=servicio.actualizar(_producto);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un producto", producto);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, producto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -73,7 +74,7 @@ public class ProductoController implements GenericoController<Producto> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Producto producto=servicio.eliminar(new Producto(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un producto", producto);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, producto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -84,7 +85,7 @@ public class ProductoController implements GenericoController<Producto> {
     public ResponseEntity<?> consultarBien() {
         try {
             List<Producto> productos=servicio.consultarBien();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los productos", productos);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -95,7 +96,7 @@ public class ProductoController implements GenericoController<Producto> {
     public ResponseEntity<?> consultarServicio() {
         try {
             List<Producto> productos=servicio.consultarServicio();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los productos", productos);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -106,7 +107,7 @@ public class ProductoController implements GenericoController<Producto> {
     public ResponseEntity<?> consultarActivoFijo() {
         try {
             List<Producto> productos=servicio.consultarActivoFijo();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los productos", productos);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -117,7 +118,7 @@ public class ProductoController implements GenericoController<Producto> {
     public ResponseEntity<?> consultarBodega() {
         try {
             List<Producto> productos=servicio.consultarBodega();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los productos", productos);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

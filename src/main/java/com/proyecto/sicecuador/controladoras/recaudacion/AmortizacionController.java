@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.controladoras.usuario;
+package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.usuario.Sesion;
-import com.proyecto.sicecuador.servicios.interf.usuario.ISesionService;
+import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
+import com.proyecto.sicecuador.servicios.interf.recaudacion.IAmortizacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/api/sicecuador/sesion")
-public class SesionController implements GenericoController<Sesion> {
+@RequestMapping("/api/sicecuador/amortizacion")
+public class AmortizacionController implements GenericoController<Amortizacion> {
     @Autowired
-    private ISesionService servicio;
+    private IAmortizacionService servicio;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
         try {
-            List<Sesion> sesiones=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, sesiones);
+            List<Amortizacion> amortizaciones=servicio.consultar();
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, amortizaciones);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -33,8 +33,8 @@ public class SesionController implements GenericoController<Sesion> {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
-            Sesion sesion=servicio.obtener(new Sesion(id)).get();
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, sesion);
+            Amortizacion amortizacion=servicio.obtener(new Amortizacion(id)).get();
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, amortizacion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -43,10 +43,10 @@ public class SesionController implements GenericoController<Sesion> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Sesion _sesion) {
+    public ResponseEntity<?> crear(@RequestBody Amortizacion _amortizacion) {
         try {
-            Sesion sesion=servicio.crear(_sesion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, sesion);
+            Amortizacion amortizacion=servicio.crear(_amortizacion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, amortizacion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -55,10 +55,10 @@ public class SesionController implements GenericoController<Sesion> {
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody Sesion _sesion) {
+    public ResponseEntity<?> actualizar(@RequestBody Amortizacion _amortizacion) {
         try {
-            Sesion sesion=servicio.actualizar(_sesion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, sesion);
+            Amortizacion amortizacion=servicio.actualizar(_amortizacion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, amortizacion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -69,8 +69,8 @@ public class SesionController implements GenericoController<Sesion> {
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
-            Sesion sesion=servicio.eliminar(new Sesion(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, sesion);
+            Amortizacion amortizacion=servicio.eliminar(new Amortizacion(id));
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, amortizacion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

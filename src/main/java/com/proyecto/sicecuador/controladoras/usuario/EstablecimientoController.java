@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.usuario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -23,7 +24,7 @@ public class EstablecimientoController implements GenericoController<Establecimi
     public ResponseEntity<?> consultar() {
         try {
             List<Establecimiento> establecimientos=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las establecimientos", establecimientos);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -35,7 +36,7 @@ public class EstablecimientoController implements GenericoController<Establecimi
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Establecimiento establecimiento=servicio.obtener(new Establecimiento(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un establecimiento", establecimiento);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, establecimiento);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -47,7 +48,7 @@ public class EstablecimientoController implements GenericoController<Establecimi
     public ResponseEntity<?> crear(@RequestBody Establecimiento _establecimiento) {
         try {
             Establecimiento establecimiento=servicio.crear(_establecimiento);
-            Respuesta respuesta=new Respuesta(true,"Se creo un establecimiento", establecimiento);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, establecimiento);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -59,7 +60,7 @@ public class EstablecimientoController implements GenericoController<Establecimi
     public ResponseEntity<?> actualizar(@RequestBody Establecimiento _establecimiento) {
         try {
             Establecimiento establecimiento=servicio.actualizar(_establecimiento);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un establecimiento", establecimiento);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, establecimiento);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -71,7 +72,7 @@ public class EstablecimientoController implements GenericoController<Establecimi
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Establecimiento establecimiento=servicio.eliminar(new Establecimiento(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un establecimiento", establecimiento);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, establecimiento);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

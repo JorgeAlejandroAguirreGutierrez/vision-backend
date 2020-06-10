@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
@@ -24,7 +25,7 @@ public class CaracteristicaController implements GenericoController<Caracteristi
     public ResponseEntity<?> consultar() {
         try {
             List<Caracteristica> caracteristicas=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las caracteristicas", caracteristicas);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, caracteristicas);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -36,7 +37,7 @@ public class CaracteristicaController implements GenericoController<Caracteristi
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Optional<Caracteristica> caracteristica=servicio.obtener(new Caracteristica(id));
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un caracteristica", caracteristica);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, caracteristica);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -48,7 +49,7 @@ public class CaracteristicaController implements GenericoController<Caracteristi
     public ResponseEntity<?> crear(@RequestBody Caracteristica _caracteristica) {
         try {
             Caracteristica caracteristica=servicio.crear(_caracteristica);
-            Respuesta respuesta=new Respuesta(true,"Se creo un caracteristica", caracteristica);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, caracteristica);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -60,7 +61,7 @@ public class CaracteristicaController implements GenericoController<Caracteristi
     public ResponseEntity<?> actualizar(@RequestBody Caracteristica _caracteristica) {
         try {
             Caracteristica caracteristica=servicio.actualizar(_caracteristica);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un caracteristica", caracteristica);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, caracteristica);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -72,7 +73,7 @@ public class CaracteristicaController implements GenericoController<Caracteristi
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Caracteristica caracteristica=servicio.eliminar(new Caracteristica(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino una caracteristica", caracteristica);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, caracteristica);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -83,7 +84,7 @@ public class CaracteristicaController implements GenericoController<Caracteristi
     public ResponseEntity<?> consultarBienExistencias(@PathVariable("producto_id") long producto_id) {
         try {
             List<Caracteristica> caracteristicas=servicio.consultarBienExistencias(new Producto(producto_id));
-            Respuesta respuesta=new Respuesta(true,"Se consulto las caracteristicas", caracteristicas);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, caracteristicas);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -94,7 +95,7 @@ public class CaracteristicaController implements GenericoController<Caracteristi
     public ResponseEntity<?> consultarBienExistenciasBodega(@PathVariable("producto_id") long producto_id, @PathVariable("bodega_id") long bodega_id) {
         try {
             List<Caracteristica> caracteristicas=servicio.consultarBienExistenciasBodega(new Producto(producto_id), new Bodega(bodega_id));
-            Respuesta respuesta=new Respuesta(true,"Se consulto las caracteristicas", caracteristicas);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, caracteristicas);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

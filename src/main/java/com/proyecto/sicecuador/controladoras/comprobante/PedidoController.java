@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class PedidoController implements GenericoController<Pedido> {
     public ResponseEntity<?> consultar() {
         try {
             List<Pedido> pedidos=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los pedidos", pedidos);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, pedidos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class PedidoController implements GenericoController<Pedido> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Pedido pedido=servicio.obtener(new Pedido(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo el pedido", pedido);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, pedido);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class PedidoController implements GenericoController<Pedido> {
     public ResponseEntity<?> crear(@RequestBody Pedido _pedido) {
         try {
             Pedido pedido=servicio.crear(_pedido);
-            Respuesta respuesta=new Respuesta(true,"Se creo el pedido", pedido);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, pedido);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class PedidoController implements GenericoController<Pedido> {
     public ResponseEntity<?> actualizar(@RequestBody Pedido _pedido) {
         try {
             Pedido pedido=servicio.actualizar(_pedido);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo el pedido", pedido);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, pedido);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class PedidoController implements GenericoController<Pedido> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Pedido pedido=servicio.eliminar(new Pedido(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino el pedido", pedido);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, pedido);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

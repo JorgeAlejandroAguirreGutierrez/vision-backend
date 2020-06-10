@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.usuario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class PerfilController implements GenericoController<Perfil> {
     public ResponseEntity<?> consultar() {
         try {
             List<Perfil> perfiles=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las perfiles", perfiles);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, perfiles);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class PerfilController implements GenericoController<Perfil> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Perfil perfil=servicio.obtener(new Perfil(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un perfil", perfil);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, perfil);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class PerfilController implements GenericoController<Perfil> {
     public ResponseEntity<?> crear(@RequestBody Perfil _perfil) {
         try {
             Perfil perfil=servicio.crear(_perfil);
-            Respuesta respuesta=new Respuesta(true,"Se creo un perfil", perfil);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, perfil);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class PerfilController implements GenericoController<Perfil> {
     public ResponseEntity<?> actualizar(@RequestBody Perfil _perfil) {
         try {
             Perfil perfil=servicio.actualizar(_perfil);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un perfil", perfil);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, perfil);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class PerfilController implements GenericoController<Perfil> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Perfil perfil=servicio.eliminar(new Perfil(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un perfil", perfil);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, perfil);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -24,7 +25,7 @@ public class ClienteController implements GenericoController<Cliente> {
     public ResponseEntity<?> consultar() {
         try {
             List<Cliente> clientes=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los clientes", clientes);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -36,7 +37,7 @@ public class ClienteController implements GenericoController<Cliente> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Optional<Cliente> cliente=servicio.obtener(new Cliente(id));
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo el cliente", cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -49,7 +50,7 @@ public class ClienteController implements GenericoController<Cliente> {
         try {
             _cliente.normalizar();
             Cliente cliente=servicio.crear(_cliente);
-            Respuesta respuesta=new Respuesta(true,"Se creo el cliente", cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -62,7 +63,7 @@ public class ClienteController implements GenericoController<Cliente> {
         try {
             _cliente.normalizar();
             Cliente cliente=servicio.actualizar(_cliente);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo el cliente", cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -74,7 +75,7 @@ public class ClienteController implements GenericoController<Cliente> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Cliente cliente=servicio.eliminar(new Cliente(id));
-            Respuesta respuesta=new Respuesta(true,"Se Elimino el cliente", cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -87,7 +88,7 @@ public class ClienteController implements GenericoController<Cliente> {
             Cliente cliente=new Cliente();
             cliente.setIdentificacion(identificacion);
             Optional<Cliente> _cliente=servicio.obtenerIdentificacion(cliente);
-            Respuesta respuesta= new Respuesta(true,"Se obtuvo el cliente", _cliente);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -100,7 +101,7 @@ public class ClienteController implements GenericoController<Cliente> {
             Cliente cliente=new Cliente();
             cliente.setRazon_social(razon_social);
             Optional<Cliente> _cliente=servicio.obtenerRazonSocial(cliente);
-            Respuesta respuesta= new Respuesta(true,"Se obtuvo el cliente", _cliente);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -113,7 +114,7 @@ public class ClienteController implements GenericoController<Cliente> {
             Cliente cliente=new Cliente();
             cliente.setRazon_social(razon_social);
             List<Cliente> _cliente=servicio.consultarRazonSocial(cliente);
-            Respuesta respuesta= new Respuesta(true,"Se consulto los clientes", _cliente);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -126,7 +127,7 @@ public class ClienteController implements GenericoController<Cliente> {
             Cliente cliente=new Cliente();
             cliente.setIdentificacion(identificacion);
             List<Cliente> _cliente=servicio.consultarIdentificacion(cliente);
-            Respuesta respuesta= new Respuesta(true,"Se consulto los clientes", _cliente);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -139,7 +140,7 @@ public class ClienteController implements GenericoController<Cliente> {
             Cliente cliente=new Cliente();
             cliente.setIdentificacion(identificacion);
             Optional<Cliente> _cliente=servicio.validarIdentificacion(cliente);
-            Respuesta respuesta= new Respuesta(true,"Se valido la identificacion", _cliente);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

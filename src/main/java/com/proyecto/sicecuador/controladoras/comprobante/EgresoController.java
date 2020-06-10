@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class EgresoController implements GenericoController<Egreso> {
     public ResponseEntity<?> consultar() {
         try {
             List<Egreso> egresos=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los egresos", egresos);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, egresos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class EgresoController implements GenericoController<Egreso> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Egreso egreso=servicio.obtener(new Egreso(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo el egreso", egreso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, egreso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class EgresoController implements GenericoController<Egreso> {
     public ResponseEntity<?> crear(@RequestBody Egreso _egreso) {
         try {
             Egreso egreso=servicio.crear(_egreso);
-            Respuesta respuesta=new Respuesta(true,"Se creo el egreso", egreso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, egreso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class EgresoController implements GenericoController<Egreso> {
     public ResponseEntity<?> actualizar(@RequestBody Egreso _egreso) {
         try {
             Egreso egreso=servicio.actualizar(_egreso);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo el egreso", egreso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, egreso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class EgresoController implements GenericoController<Egreso> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Egreso egreso=servicio.eliminar(new Egreso(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino el egreso", egreso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, egreso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

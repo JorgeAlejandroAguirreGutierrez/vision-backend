@@ -121,4 +121,13 @@ public class Recaudacion extends Entidad {
     public Sesion getSesion() {
         return sesion;
     }
+
+    public void normalizar(){
+        if (this.credito.getPlazo_credito().getId()!=0 || this.credito.getAmortizacion().getId()!=0 || this.credito.getModelo_tabla().getId()!=0
+        || this.credito.getInteres_periodo()!= 0 || this.credito.getInteres_anual()!=0 || this.credito.getValor_seguro()!= 0 || this.credito.getRecargos() != 0
+        || this.credito.getSaldo()!= 0){
+            this.credito=null;
+        }
+    }
+
 }

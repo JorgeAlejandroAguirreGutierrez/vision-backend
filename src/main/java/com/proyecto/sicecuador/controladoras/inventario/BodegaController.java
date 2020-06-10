@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class BodegaController implements GenericoController<Bodega> {
     public ResponseEntity<?> consultar() {
         try {
             List<Bodega> bodegas=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las bodegas", bodegas);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bodegas);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class BodegaController implements GenericoController<Bodega> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Bodega bodega=servicio.obtener(new Bodega(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un bodega", bodega);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, bodega);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class BodegaController implements GenericoController<Bodega> {
     public ResponseEntity<?> crear(@RequestBody Bodega _bodega) {
         try {
             Bodega bodega=servicio.crear(_bodega);
-            Respuesta respuesta=new Respuesta(true,"Se creo un bodega", bodega);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bodega);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class BodegaController implements GenericoController<Bodega> {
     public ResponseEntity<?> actualizar(@RequestBody Bodega _bodega) {
         try {
             Bodega bodega=servicio.actualizar(_bodega);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un bodega", bodega);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, bodega);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class BodegaController implements GenericoController<Bodega> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Bodega bodega=servicio.eliminar(new Bodega(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un bodega", bodega);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, bodega);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

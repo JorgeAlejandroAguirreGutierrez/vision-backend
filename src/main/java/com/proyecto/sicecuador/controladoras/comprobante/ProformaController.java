@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -23,7 +24,7 @@ public class ProformaController implements GenericoController<Proforma> {
     public ResponseEntity<?> consultar() {
         try {
             List<Proforma> proformas=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los proformas", proformas);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, proformas);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -35,7 +36,7 @@ public class ProformaController implements GenericoController<Proforma> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Proforma proforma=servicio.obtener(new Proforma(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo el proforma", proforma);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, proforma);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -47,7 +48,7 @@ public class ProformaController implements GenericoController<Proforma> {
     public ResponseEntity<?> crear(@RequestBody Proforma _proforma) {
         try {
             Proforma proforma=servicio.crear(_proforma);
-            Respuesta respuesta=new Respuesta(true,"Se creo el proforma", proforma);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, proforma);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -59,7 +60,7 @@ public class ProformaController implements GenericoController<Proforma> {
     public ResponseEntity<?> actualizar(@RequestBody Proforma _proforma) {
         try {
             Proforma proforma=servicio.actualizar(_proforma);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo el proforma", proforma);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, proforma);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -71,7 +72,7 @@ public class ProformaController implements GenericoController<Proforma> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Proforma proforma=servicio.eliminar(new Proforma(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino el proforma", proforma);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, proforma);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.usuario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.usuario.Permiso;
@@ -22,7 +23,7 @@ public class PuntoVentaController implements GenericoController<PuntoVenta> {
     public ResponseEntity<?> consultar() {
         try {
             List<PuntoVenta> punto_ventaes=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las punto_ventaes", punto_ventaes);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, punto_ventaes);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class PuntoVentaController implements GenericoController<PuntoVenta> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             PuntoVenta punto_venta=servicio.obtener(new PuntoVenta(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un punto_venta", punto_venta);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, punto_venta);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class PuntoVentaController implements GenericoController<PuntoVenta> {
     public ResponseEntity<?> crear(@RequestBody PuntoVenta _punto_venta) {
         try {
             PuntoVenta punto_venta=servicio.crear(_punto_venta);
-            Respuesta respuesta=new Respuesta(true,"Se creo un punto_venta", punto_venta);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, punto_venta);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class PuntoVentaController implements GenericoController<PuntoVenta> {
     public ResponseEntity<?> actualizar(@RequestBody PuntoVenta _punto_venta) {
         try {
             PuntoVenta punto_venta=servicio.actualizar(_punto_venta);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un punto_venta", punto_venta);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, punto_venta);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class PuntoVentaController implements GenericoController<PuntoVenta> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             PuntoVenta punto_venta=servicio.eliminar(new PuntoVenta(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un punto_venta", punto_venta);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, punto_venta);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

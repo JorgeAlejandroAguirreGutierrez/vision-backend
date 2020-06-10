@@ -1,7 +1,10 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.recaudacion.Banco;
+import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IBancoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/sicecuador/banco")
-public class BancoController {
+public class BancoController implements GenericoController<Banco> {
     @Autowired
     private IBancoService servicio;
 
@@ -21,7 +24,7 @@ public class BancoController {
     public ResponseEntity<?> consultar() {
         try {
             List<Banco> bancos=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los bancos", bancos);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bancos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -33,7 +36,7 @@ public class BancoController {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Banco banco=servicio.obtener(new Banco(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un bodega", banco);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, banco);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -45,7 +48,7 @@ public class BancoController {
     public ResponseEntity<?> crear(@RequestBody Banco _banco) {
         try {
             Banco banco=servicio.crear(_banco);
-            Respuesta respuesta=new Respuesta(true,"Se creo un banco", banco);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, banco);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -57,7 +60,7 @@ public class BancoController {
     public ResponseEntity<?> actualizar(@RequestBody Banco _banco) {
         try {
             Banco banco=servicio.actualizar(_banco);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un bodega", banco);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, banco);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -69,7 +72,7 @@ public class BancoController {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Banco banco=servicio.eliminar(new Banco(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un banco", banco);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, banco);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

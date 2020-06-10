@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class TelefonoController implements GenericoController<Telefono> {
     public ResponseEntity<?> consultar() {
         try {
             List<Telefono> telefonos = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, "Se consulto los telefonos", telefonos);
+            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, telefonos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class TelefonoController implements GenericoController<Telefono> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Telefono telefono=servicio.obtener(new Telefono(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un telefono", telefono);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, telefono);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class TelefonoController implements GenericoController<Telefono> {
     public ResponseEntity<?> crear(@RequestBody Telefono _Telefono) {
         try {
             Telefono telefono=servicio.crear(_Telefono);
-            Respuesta respuesta=new Respuesta(true,"Se creo un telefono", telefono);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, telefono);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class TelefonoController implements GenericoController<Telefono> {
     public ResponseEntity<?> actualizar(@RequestBody Telefono _Telefono) {
         try {
             Telefono telefono=servicio.actualizar(_Telefono);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un telefono", telefono);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, telefono);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class TelefonoController implements GenericoController<Telefono> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Telefono telefono=servicio.eliminar(new Telefono(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un telefono", telefono);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, telefono);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

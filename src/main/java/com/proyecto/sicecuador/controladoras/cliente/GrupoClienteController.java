@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -24,7 +25,7 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
     public ResponseEntity<?> consultar() {
         try {
             List<GrupoCliente> grupos_clientes = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, "Se consulto los grupos clientes", grupos_clientes);
+            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, grupos_clientes);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -36,7 +37,7 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             GrupoCliente grupo_cliente=servicio.obtener(new GrupoCliente(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un grupo cliente", grupo_cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, grupo_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -48,7 +49,7 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
     public ResponseEntity<?> crear(@RequestBody GrupoCliente _GrupoCliente) {
         try {
             GrupoCliente grupo_cliente=servicio.crear(_GrupoCliente);
-            Respuesta respuesta=new Respuesta(true,"Se creo un grupo cliente", grupo_cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, grupo_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -60,7 +61,7 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
     public ResponseEntity<?> actualizar(@RequestBody GrupoCliente _GrupoCliente) {
         try {
             GrupoCliente grupo_cliente=servicio.actualizar(_GrupoCliente);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un grupo cliente", grupo_cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, grupo_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -72,7 +73,7 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             GrupoCliente grupo_cliente=servicio.eliminar(new GrupoCliente(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un grupo cliente", grupo_cliente);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, grupo_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

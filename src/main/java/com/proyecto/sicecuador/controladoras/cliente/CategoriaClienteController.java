@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -23,7 +24,7 @@ public class CategoriaClienteController implements GenericoController<CategoriaC
     public ResponseEntity<?> consultar() {
         try {
         List<CategoriaCliente> categorias_clientes=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true,"Se consulto las categorias de clientes", categorias_clientes);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, categorias_clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -35,7 +36,7 @@ public class CategoriaClienteController implements GenericoController<CategoriaC
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
         CategoriaCliente categoria_cliente=servicio.obtener(new CategoriaCliente(id)).get();
-        Respuesta respuesta=new Respuesta(true,"Se obtuvo la categoria del cliente", categoria_cliente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, categoria_cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -47,7 +48,7 @@ public class CategoriaClienteController implements GenericoController<CategoriaC
     public ResponseEntity<?> crear(@RequestBody CategoriaCliente _categoria_cliente) {
         try {
         CategoriaCliente categoria_cliente=servicio.crear(_categoria_cliente);
-        Respuesta respuesta=new Respuesta(true,"Se creo la categoria del cliente", categoria_cliente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, categoria_cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -59,7 +60,7 @@ public class CategoriaClienteController implements GenericoController<CategoriaC
     public ResponseEntity<?> actualizar(@RequestBody CategoriaCliente _categoria_cliente) {
         try {
         CategoriaCliente categoria_cliente=servicio.actualizar(_categoria_cliente);
-        Respuesta respuesta=new Respuesta(true,"Se actualizo la categoria del cliente", categoria_cliente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, categoria_cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -71,7 +72,7 @@ public class CategoriaClienteController implements GenericoController<CategoriaC
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
         CategoriaCliente categoria_cliente=servicio.eliminar(new CategoriaCliente(id));
-        Respuesta respuesta=new Respuesta(true,"Se elimino la categoria del cliente", categoria_cliente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, categoria_cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

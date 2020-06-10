@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.usuario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.usuario.Permiso;
@@ -21,7 +22,7 @@ public class PermisoController implements GenericoController<Permiso> {
     public ResponseEntity<?> consultar() {
         try {
             List<Permiso> permisoes=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las permisoes", permisoes);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, permisoes);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -33,7 +34,7 @@ public class PermisoController implements GenericoController<Permiso> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Permiso permiso=servicio.obtener(new Permiso(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un permiso", permiso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, permiso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -45,7 +46,7 @@ public class PermisoController implements GenericoController<Permiso> {
     public ResponseEntity<?> crear(@RequestBody Permiso _permiso) {
         try {
             Permiso permiso=servicio.crear(_permiso);
-            Respuesta respuesta=new Respuesta(true,"Se creo un permiso", permiso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, permiso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -57,7 +58,7 @@ public class PermisoController implements GenericoController<Permiso> {
     public ResponseEntity<?> actualizar(@RequestBody Permiso _permiso) {
         try {
             Permiso permiso=servicio.actualizar(_permiso);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un permiso", permiso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, permiso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -69,7 +70,7 @@ public class PermisoController implements GenericoController<Permiso> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Permiso permiso=servicio.eliminar(new Permiso(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un permiso", permiso);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, permiso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

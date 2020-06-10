@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.configuracion;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class ParametroController implements GenericoController<Parametro> {
     public ResponseEntity<?> consultar() {
         try {
             List<Parametro> parametros=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los parametros", parametros);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, parametros);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class ParametroController implements GenericoController<Parametro> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Parametro parametro=servicio.obtener(new Parametro(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un parametro", parametro);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class ParametroController implements GenericoController<Parametro> {
     public ResponseEntity<?> crear(@RequestBody Parametro _parametro) {
         try {
             Parametro parametro=servicio.crear(_parametro);
-            Respuesta respuesta=new Respuesta(true,"Se creo un parametro", parametro);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, parametro);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class ParametroController implements GenericoController<Parametro> {
     public ResponseEntity<?> actualizar(@RequestBody Parametro _parametro) {
         try {
             Parametro parametro=servicio.actualizar(_parametro);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un parametro", parametro);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, parametro);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class ParametroController implements GenericoController<Parametro> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Parametro parametro=servicio.eliminar(new Parametro(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un parametro", parametro);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, parametro);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -81,7 +82,7 @@ public class ParametroController implements GenericoController<Parametro> {
     public ResponseEntity<?> obtenerTipo(@PathVariable("tipo") String tipo) {
         try {
             Parametro parametro=servicio.obtenerTipo(new Parametro(tipo)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un parametro", parametro);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

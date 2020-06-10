@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -23,7 +24,7 @@ public class FinanciamientoController implements GenericoController<Financiamien
     public ResponseEntity<?> consultar() {
         try {
             List<Financiamiento> financiamientos = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, "Se consulto los financiamientos", financiamientos);
+            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, financiamientos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -35,7 +36,7 @@ public class FinanciamientoController implements GenericoController<Financiamien
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Financiamiento financiamiento=servicio.obtener(new Financiamiento(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un financiamiento", financiamiento);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, financiamiento);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -47,7 +48,7 @@ public class FinanciamientoController implements GenericoController<Financiamien
     public ResponseEntity<?> crear(@RequestBody Financiamiento _financiamiento) {
         try {
             Financiamiento financiamiento=servicio.crear(_financiamiento);
-            Respuesta respuesta=new Respuesta(true,"Se creo un financiamiento", financiamiento);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, financiamiento);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -59,7 +60,7 @@ public class FinanciamientoController implements GenericoController<Financiamien
     public ResponseEntity<?> actualizar(@RequestBody Financiamiento _financiamiento) {
         try {
             Financiamiento financiamiento=servicio.actualizar(_financiamiento);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un financiamiento", financiamiento);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, financiamiento);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -71,7 +72,7 @@ public class FinanciamientoController implements GenericoController<Financiamien
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Financiamiento financiamiento=servicio.eliminar(new Financiamiento(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un financiamiento", financiamiento);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, financiamiento);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

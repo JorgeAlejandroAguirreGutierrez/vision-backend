@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class DireccionController implements GenericoController<Direccion> {
     public ResponseEntity<?> consultar() {
         try {
             List<Direccion> direcciones=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los direcciones", direcciones);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, direcciones);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class DireccionController implements GenericoController<Direccion> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Direccion direccion=servicio.obtener(new Direccion(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un direccion", direccion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, direccion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class DireccionController implements GenericoController<Direccion> {
     public ResponseEntity<?> crear(@RequestBody Direccion _Direccion) {
         try {
             Direccion direccion=servicio.crear(_Direccion);
-            Respuesta respuesta=new Respuesta(true,"Se creo un direccion", direccion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, direccion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class DireccionController implements GenericoController<Direccion> {
     public ResponseEntity<?> actualizar(@RequestBody Direccion _Direccion) {
         try {
             Direccion direccion=servicio.actualizar(_Direccion);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un direccion", direccion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, direccion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class DireccionController implements GenericoController<Direccion> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Direccion direccion=servicio.eliminar(new Direccion(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un direccion", direccion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, direccion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

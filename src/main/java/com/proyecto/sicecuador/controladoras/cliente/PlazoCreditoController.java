@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -23,7 +24,7 @@ public class PlazoCreditoController implements GenericoController<PlazoCredito> 
     public ResponseEntity<?> consultar() {
         try {
             List<PlazoCredito> plazos_creditos = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, "Se consulto los plazos creditos", plazos_creditos);
+            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, plazos_creditos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -35,7 +36,7 @@ public class PlazoCreditoController implements GenericoController<PlazoCredito> 
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             PlazoCredito plazo_credito=servicio.obtener(new PlazoCredito(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un plazo de credito", plazo_credito);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, plazo_credito);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -47,7 +48,7 @@ public class PlazoCreditoController implements GenericoController<PlazoCredito> 
     public ResponseEntity<?> crear(@RequestBody PlazoCredito _PlazoCredito) {
         try {
             PlazoCredito plazo_credito=servicio.crear(_PlazoCredito);
-            Respuesta respuesta=new Respuesta(true,"Se creo un plazo de credito", plazo_credito);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, plazo_credito);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -59,7 +60,7 @@ public class PlazoCreditoController implements GenericoController<PlazoCredito> 
     public ResponseEntity<?> actualizar(@RequestBody PlazoCredito _PlazoCredito) {
         try {
             PlazoCredito plazo_credito=servicio.actualizar(_PlazoCredito);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un plazo de credito", plazo_credito);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, plazo_credito);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -71,7 +72,7 @@ public class PlazoCreditoController implements GenericoController<PlazoCredito> 
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             PlazoCredito plazo_credito=servicio.eliminar(new PlazoCredito(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un plazo de credito", plazo_credito);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, plazo_credito);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

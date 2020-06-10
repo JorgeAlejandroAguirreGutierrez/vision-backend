@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.configuracion;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
     public ResponseEntity<?> consultar() {
         try {
             List<TipoRetencion> tipo_retencions=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los tipos de retenciones", tipo_retencions);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipo_retencions);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             TipoRetencion tipo_retencion=servicio.obtener(new TipoRetencion(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un tipo de retencion", tipo_retencion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_retencion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
     public ResponseEntity<?> crear(@RequestBody TipoRetencion _tipo_retencion) {
         try {
             TipoRetencion tipo_retencion=servicio.crear(_tipo_retencion);
-            Respuesta respuesta=new Respuesta(true,"Se creo un tipo de retencion", tipo_retencion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_retencion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
     public ResponseEntity<?> actualizar(@RequestBody TipoRetencion _tipo_retencion) {
         try {
             TipoRetencion tipo_retencion=servicio.actualizar(_tipo_retencion);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un tipo de retencion", tipo_retencion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_retencion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             TipoRetencion tipo_retencion=servicio.eliminar(new TipoRetencion(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un tipo de retencion", tipo_retencion);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_retencion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -81,7 +82,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
     public ResponseEntity<?> consultarIvaBien() {
         try {
             List<TipoRetencion> tipos_retenciones=servicio.consultarIvaBien();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los tipos de retenciones", tipos_retenciones);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_retenciones);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -92,7 +93,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
     public ResponseEntity<?> consultarIvaServicio() {
         try {
             List<TipoRetencion> tipos_retenciones=servicio.consultarIvaServicio();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los tipos de retenciones", tipos_retenciones);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_retenciones);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -103,7 +104,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
     public ResponseEntity<?> consultarRentaBien() {
         try {
             List<TipoRetencion> tipos_retenciones=servicio.consultarRentaBien();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los tipos de retenciones", tipos_retenciones);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_retenciones);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -114,7 +115,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
     public ResponseEntity<?> consultarRentaServicio() {
         try {
             List<TipoRetencion> tipos_retenciones=servicio.consultarRentaServicio();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los tipos de retenciones", tipos_retenciones);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_retenciones);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
@@ -21,7 +22,7 @@ public class MedidaController implements GenericoController<Medida> {
     public ResponseEntity<?> consultar() {
         try {
             List<Medida> medidas=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las medidas", medidas);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, medidas);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -33,7 +34,7 @@ public class MedidaController implements GenericoController<Medida> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Medida medida=servicio.obtener(new Medida(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un medida", medida);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, medida);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -45,7 +46,7 @@ public class MedidaController implements GenericoController<Medida> {
     public ResponseEntity<?> crear(@RequestBody Medida _medida) {
         try {
             Medida medida=servicio.crear(_medida);
-            Respuesta respuesta=new Respuesta(true,"Se creo un medida", medida);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, medida);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -57,7 +58,7 @@ public class MedidaController implements GenericoController<Medida> {
     public ResponseEntity<?> actualizar(@RequestBody Medida _medida) {
         try {
             Medida medida=servicio.actualizar(_medida);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un medida", medida);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, medida);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -69,7 +70,7 @@ public class MedidaController implements GenericoController<Medida> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             Medida medida=servicio.eliminar(new Medida(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un medida", medida);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, medida);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

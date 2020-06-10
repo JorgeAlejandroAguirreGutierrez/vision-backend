@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.comprobante.Proforma;
@@ -24,7 +25,7 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
     public ResponseEntity<?> consultar() {
         try {
             List<TipoComprobante> tipos_comprobantes=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto los tipos de comprobantes", tipos_comprobantes);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_comprobantes);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -36,7 +37,7 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             TipoComprobante tipo_comprobante=servicio.obtener(new TipoComprobante(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo el tipo de comprobante", tipo_comprobante);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_comprobante);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -48,7 +49,7 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
     public ResponseEntity<?> crear(@RequestBody TipoComprobante _tipo_comprobante) {
         try {
             TipoComprobante tipo_comprobante=servicio.crear(_tipo_comprobante);
-            Respuesta respuesta=new Respuesta(true,"Se creo el tipo de comprobante", tipo_comprobante);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_comprobante);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -60,7 +61,7 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
     public ResponseEntity<?> actualizar(@RequestBody TipoComprobante _tipo_comprobante) {
         try {
             TipoComprobante tipo_comprobante=servicio.actualizar(_tipo_comprobante);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo el tipo de comprobante", tipo_comprobante);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_comprobante);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -72,7 +73,7 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             TipoComprobante tipo_comprobante=servicio.eliminar(new TipoComprobante(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino el tipo de comprobante", tipo_comprobante);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_comprobante);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

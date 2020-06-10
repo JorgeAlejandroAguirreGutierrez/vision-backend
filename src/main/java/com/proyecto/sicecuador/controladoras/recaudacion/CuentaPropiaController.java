@@ -1,7 +1,10 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
+import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 @RestController
 @RequestMapping("/api/sicecuador/cuentapropia")
-public class CuentaPropiaController {
+public class CuentaPropiaController implements GenericoController<CuentaPropia> {
     @Autowired
     private ICuentaPropiaService servicio;
 
@@ -21,7 +24,7 @@ public class CuentaPropiaController {
     public ResponseEntity<?> consultar() {
         try {
             List<CuentaPropia> cuentas_propias=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true,"Se consulto las cuentas propias", cuentas_propias);
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentas_propias);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -33,7 +36,7 @@ public class CuentaPropiaController {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             Optional<CuentaPropia> cuenta_propia=servicio.obtener(new CuentaPropia(id));
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo la cuenta propia", cuenta_propia);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuenta_propia);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -45,7 +48,7 @@ public class CuentaPropiaController {
     public ResponseEntity<?> crear(@RequestBody CuentaPropia _cuenta_propia) {
         try {
             CuentaPropia cuenta_propia=servicio.crear(_cuenta_propia);
-            Respuesta respuesta=new Respuesta(true,"Se creo la cuenta propia", cuenta_propia);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cuenta_propia);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -57,7 +60,7 @@ public class CuentaPropiaController {
     public ResponseEntity<?> actualizar(@RequestBody CuentaPropia _cuenta_propia) {
         try {
             CuentaPropia cuenta_propia=servicio.actualizar(_cuenta_propia);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo el cliente", cuenta_propia);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cuenta_propia);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -69,7 +72,7 @@ public class CuentaPropiaController {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             CuentaPropia cuenta_propia=servicio.eliminar(new CuentaPropia(id));
-            Respuesta respuesta=new Respuesta(true,"Se Elimino la cuenta propia", cuenta_propia);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, cuenta_propia);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

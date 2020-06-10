@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
@@ -22,7 +23,7 @@ public class TipoPagoController implements GenericoController<TipoPago> {
     public ResponseEntity<?> consultar() {
         try {
             List<TipoPago> tipos_pagos = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, "Se consulto los tipos contribuyentes", tipos_pagos);
+            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_pagos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -34,7 +35,7 @@ public class TipoPagoController implements GenericoController<TipoPago> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
             TipoPago tipo_pago=servicio.obtener(new TipoPago(id)).get();
-            Respuesta respuesta=new Respuesta(true,"Se obtuvo un tipo de contribuyente", tipo_pago);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_pago);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -46,7 +47,7 @@ public class TipoPagoController implements GenericoController<TipoPago> {
     public ResponseEntity<?> crear(@RequestBody TipoPago _TipoPago) {
         try {
             TipoPago tipo_pago=servicio.crear(_TipoPago);
-            Respuesta respuesta=new Respuesta(true,"Se creo un tipo de contribuyente", tipo_pago);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_pago);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -58,7 +59,7 @@ public class TipoPagoController implements GenericoController<TipoPago> {
     public ResponseEntity<?> actualizar(@RequestBody TipoPago _TipoPago) {
         try {
             TipoPago tipo_pago=servicio.actualizar(_TipoPago);
-            Respuesta respuesta=new Respuesta(true,"Se actualizo un tipo de contribuyente", tipo_pago);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_pago);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -70,7 +71,7 @@ public class TipoPagoController implements GenericoController<TipoPago> {
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
             TipoPago tipo_pago=servicio.eliminar(new TipoPago(id));
-            Respuesta respuesta=new Respuesta(true,"Se elimino un tipo de contribuyente", tipo_pago);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_pago);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
