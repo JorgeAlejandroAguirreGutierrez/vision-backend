@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.compra.RetencionCompra;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
@@ -35,8 +36,8 @@ public class Recaudacion extends Entidad {
     private double total_tarjetas_creditos;
     @Column(name = "total_compensaciones", nullable = true)
     private double total_compensaciones;
-    @Column(name = "total_retenciones_compras", nullable = true)
-    private double total_retenciones_compras;
+    @Column(name = "total_retenciones_ventas", nullable = true)
+    private double total_retenciones_ventas;
     @Column(name = "total_credito", nullable = true)
     private double total_credito;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -58,8 +59,8 @@ public class Recaudacion extends Entidad {
     @JoinColumn(name = "compensacion_id")
     private List<Compensacion> compensaciones;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "retencion_compra_id")
-    private List<Compensacion> retenciones_compras;
+    @JoinColumn(name = "retencion_venta_id")
+    private List<RetencionVenta> retenciones_ventas;
     @ManyToOne
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
@@ -83,8 +84,8 @@ public class Recaudacion extends Entidad {
     public Recaudacion(String codigo, Date fecha, double total, String comentario, double efectivo,
                        double total_cheques, double total_depositos, double total_transferencias,
                        double total_tarjetas_debitos, double total_tarjetas_creditos, double total_credito,
-                       double total_compensaciones, double total_retenciones_compras, List<Cheque> cheques,
-                       List<Deposito>depositos, List<Transferencia> transferencias,
+                       double total_compensaciones, double total_retenciones_ventas, List<Cheque> cheques,
+                       List<Deposito>depositos, List<Transferencia> transferencias, List<Compensacion> compensaciones, List<RetencionVenta> retenciones_ventas,
                        List<TarjetaCredito> tarjetas_creditos, List<TarjetaDebito> tarjetas_debitos, Credito credito,
                        TipoComprobante tipo_comprobante, Factura comprobante, Sesion sesion){
         super(codigo);
@@ -98,7 +99,7 @@ public class Recaudacion extends Entidad {
         this.total_tarjetas_debitos=total_tarjetas_debitos;
         this.total_tarjetas_creditos=total_tarjetas_creditos;
         this.total_compensaciones=total_compensaciones;
-        this.total_retenciones_compras=total_retenciones_compras;
+        this.total_retenciones_ventas=total_retenciones_ventas;
         this.total_credito=total_credito;
 
         this.cheques=cheques;
@@ -106,6 +107,8 @@ public class Recaudacion extends Entidad {
         this.transferencias=transferencias;
         this.tarjetas_creditos=tarjetas_creditos;
         this.tarjetas_debitos=tarjetas_debitos;
+        this.compensaciones=compensaciones;
+        this.retenciones_ventas=retenciones_ventas;
         this.credito=credito;
         this.tipo_comprobante=tipo_comprobante;
         this.comprobante=comprobante;
@@ -155,10 +158,6 @@ public class Recaudacion extends Entidad {
         return total_credito;
     }
 
-    public double getTotal_retenciones_compras() {
-        return total_retenciones_compras;
-    }
-
     @JsonManagedReference
     public List<Cheque> getCheques() {
         return cheques;
@@ -184,8 +183,8 @@ public class Recaudacion extends Entidad {
         return compensaciones;
     }
     @JsonManagedReference
-    public List<Compensacion> getRetenciones_compras() {
-        return retenciones_compras;
+    public List<RetencionVenta> getRetenciones_ventas() {
+        return retenciones_ventas;
     }
 
     public Credito getCredito() {

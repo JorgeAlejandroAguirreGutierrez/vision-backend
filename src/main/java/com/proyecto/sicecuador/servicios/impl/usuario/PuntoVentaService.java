@@ -1,12 +1,20 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IPuntoVentaRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPuntoVentaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -37,5 +45,19 @@ public class PuntoVentaService implements IPuntoVentaService {
     @Override
     public List<PuntoVenta> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public List<PuntoVenta> consultarEstablecimiento(Establecimiento establecimiento) {
+        return  rep.findAll(new Specification<PuntoVenta>() {
+            @Override
+            public Predicate toPredicate(Root<PuntoVenta> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (establecimiento.getId()!=0) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("establecimiento").get("id"), establecimiento.getId())));
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
     }
 }

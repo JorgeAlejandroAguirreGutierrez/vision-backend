@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.otros.recaudacion.RetencionVentaUtil;
@@ -83,7 +84,7 @@ public class RetencionVenta extends Entidad {
     public TipoRetencion getTipo_retencion() {
         return tipo_retencion;
     }
-
+    @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;
     }

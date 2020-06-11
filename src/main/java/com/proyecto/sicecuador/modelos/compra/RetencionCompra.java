@@ -1,9 +1,7 @@
 package com.proyecto.sicecuador.modelos.compra;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.recaudacion.Banco;
-import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,9 +23,6 @@ public class RetencionCompra extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "recaudacion_id", nullable = true)
-    private Recaudacion recaudacion;
 
     public RetencionCompra(){
 
@@ -37,18 +32,29 @@ public class RetencionCompra extends Entidad {
         super(id);
     }
 
-    public RetencionCompra(String codigo, String numero, String tipo, Date fecha, Date fecha_efectivizacion, double valor, Recaudacion recaudacion, Banco banco){
+    public RetencionCompra(String codigo, String numero, String tipo, Date fecha, Date fecha_efectivizacion, double valor, Banco banco){
         super(codigo);
         this.numero=numero;
         this.tipo=tipo;
         this.fecha=fecha;
         this.fecha_efectivizacion=fecha_efectivizacion;
         this.valor=valor;
-        this.recaudacion=recaudacion;
         this.banco=banco;
     }
-    @JsonBackReference
-    public Recaudacion getRecaudacion() {
-        return recaudacion;
+
+    public double getValor() {
+        return valor;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public Date getFecha() {
+        return fecha;
     }
 }

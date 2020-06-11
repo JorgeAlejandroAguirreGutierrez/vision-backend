@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.controladoras.usuario;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.Permiso;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPuntoVentaService;
@@ -72,6 +73,18 @@ public class PuntoVentaController implements GenericoController<PuntoVenta> {
         try {
             PuntoVenta punto_venta=servicio.eliminar(new PuntoVenta(id));
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, punto_venta);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/establecimiento/{establecimiento_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarEstablecimiento(@PathVariable("establecimiento_id") long establecimiento_id) {
+        try {
+            List<PuntoVenta> punto_venta=servicio.consultarEstablecimiento(new Establecimiento(establecimiento_id));
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, punto_venta);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

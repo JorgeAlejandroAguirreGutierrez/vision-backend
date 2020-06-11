@@ -37,4 +37,8 @@ public class PuntoVenta extends Entidad {
     public Establecimiento getEstablecimiento() {
         return establecimiento;
     }
+
+    public void setEstablecimiento(Establecimiento establecimiento) {
+        this.establecimiento = establecimiento;
+    }
 }
