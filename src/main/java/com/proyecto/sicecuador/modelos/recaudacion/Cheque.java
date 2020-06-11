@@ -10,13 +10,13 @@ import java.util.Date;
 
 @Entity
 @Table(name = "cheque")
-@EntityListeners({ChequeUtil.class})
+//@EntityListeners({ChequeUtil.class})
 public class Cheque extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;
     @Column(name = "tipo", nullable = true)
     private String tipo;
-    @Column(name = "fecha_cheque", nullable = true)
+    @Column(name = "fecha", nullable = true)
     private Date fecha;
     @Column(name = "fecha_efectivizacion", nullable = true)
     private Date fecha_efectivizacion;

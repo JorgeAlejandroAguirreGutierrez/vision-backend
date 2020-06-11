@@ -40,6 +40,15 @@ public class Recaudacion extends Entidad {
     private double total_retenciones_ventas;
     @Column(name = "total_credito", nullable = true)
     private double total_credito;
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
+    @JoinColumn(name = "credito_id", nullable = true)
+    private Credito credito;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "factura_id", nullable = true)
+    private Factura factura;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "sesion_id", nullable = true)
+    private Sesion sesion;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "cheque_id")
     private List<Cheque> cheques;
@@ -61,18 +70,6 @@ public class Recaudacion extends Entidad {
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "retencion_venta_id")
     private List<RetencionVenta> retenciones_ventas;
-    @ManyToOne
-    @JoinColumn(name = "credito_id", nullable = true)
-    private Credito credito;
-    @ManyToOne
-    @JoinColumn(name = "tipo_comprobante_id", nullable = true)
-    private TipoComprobante tipo_comprobante;
-    @ManyToOne
-    @JoinColumn(name = "comprobante_id", nullable = true)
-    private Factura comprobante;
-    @ManyToOne
-    @JoinColumn(name = "sesion_id", nullable = true)
-    private Sesion sesion;
 
     public Recaudacion(){
     }
@@ -87,7 +84,7 @@ public class Recaudacion extends Entidad {
                        double total_compensaciones, double total_retenciones_ventas, List<Cheque> cheques,
                        List<Deposito>depositos, List<Transferencia> transferencias, List<Compensacion> compensaciones, List<RetencionVenta> retenciones_ventas,
                        List<TarjetaCredito> tarjetas_creditos, List<TarjetaDebito> tarjetas_debitos, Credito credito,
-                       TipoComprobante tipo_comprobante, Factura comprobante, Sesion sesion){
+                       Factura factura, Sesion sesion){
         super(codigo);
         this.fecha=fecha;
         this.total=total;
@@ -110,8 +107,7 @@ public class Recaudacion extends Entidad {
         this.compensaciones=compensaciones;
         this.retenciones_ventas=retenciones_ventas;
         this.credito=credito;
-        this.tipo_comprobante=tipo_comprobante;
-        this.comprobante=comprobante;
+        this.factura=factura;
         this.sesion=sesion;
     }
     public Date getFecha() {
@@ -154,6 +150,10 @@ public class Recaudacion extends Entidad {
         return total_compensaciones;
     }
 
+    public double getTotal_retenciones_ventas() {
+        return total_retenciones_ventas;
+    }
+
     public double getTotal_credito() {
         return total_credito;
     }
@@ -191,12 +191,8 @@ public class Recaudacion extends Entidad {
         return credito;
     }
 
-    public TipoComprobante getTipo_comprobante() {
-        return tipo_comprobante;
-    }
-
-    public Factura getComprobante() {
-        return comprobante;
+    public Factura getFactura() {
+        return factura;
     }
 
     public Sesion getSesion() {

@@ -9,19 +9,20 @@ import java.util.Date;
 
 @Entity
 @Table(name = "deposito")
-@EntityListeners({DepositoUtil.class})
+//@EntityListeners({DepositoUtil.class})
 public class Deposito extends Entidad {
-    @Column(name = "tipo_transaccion", nullable = true)
-    private String tipo_transaccion;
-    @Column(name = "numero_transaccion", nullable = true)
-    private String numero_transaccion;
-    @Column(name = "fecha_transaccion", nullable = true)
-    private Date fecha_transaccion;
+    @Column(name = "fecha", nullable = true)
+    private Date fecha;
+    @Column(name = "comprobante", nullable = true)
+    private String comprobante;
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "cuenta_propia_id", nullable = true)
+    private CuentaPropia cuenta_propia;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
@@ -34,25 +35,22 @@ public class Deposito extends Entidad {
         super(id);
     }
 
-    public Deposito(String codigo, String tipo_transaccion, String numero_transaccion, Date fecha_transaccion, double valor, Recaudacion recaudacion, Banco banco){
+    public Deposito(String codigo, Date fecha, String comprobante, double valor, Banco banco, CuentaPropia cuenta_propia, Recaudacion recaudacion){
         super(codigo);
-        this.tipo_transaccion=tipo_transaccion;
-        this.numero_transaccion=numero_transaccion;
-        this.fecha_transaccion=fecha_transaccion;
+        this.fecha=fecha;
+        this.comprobante=comprobante;
         this.valor=valor;
-        this.recaudacion=recaudacion;
         this.banco=banco;
-    }
-    public String getTipo_transaccion() {
-        return tipo_transaccion;
-    }
-
-    public String getNumero_transaccion() {
-        return numero_transaccion;
+        this.cuenta_propia=cuenta_propia;
+        this.recaudacion=recaudacion;
     }
 
-    public Date getFecha_transaccion() {
-        return fecha_transaccion;
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public String getComprobante() {
+        return comprobante;
     }
 
     public double getValor() {
@@ -61,6 +59,10 @@ public class Deposito extends Entidad {
 
     public Banco getBanco() {
         return banco;
+    }
+
+    public CuentaPropia getCuenta_propia() {
+        return cuenta_propia;
     }
 
     @JsonBackReference
