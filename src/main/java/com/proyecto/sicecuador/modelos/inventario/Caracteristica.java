@@ -87,6 +87,11 @@ public class Caracteristica extends Entidad {
         return producto;
     }
 
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
     //@JsonBackReference
     public Bodega getBodega() {
         return bodega;

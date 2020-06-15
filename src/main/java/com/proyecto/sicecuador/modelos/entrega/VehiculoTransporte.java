@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.otros.entrega.VehiculoTransporteUtil;
 
 import javax.persistence.*;
@@ -29,6 +31,10 @@ public class VehiculoTransporte extends Entidad {
     private String fabricacion;
     @Column(name = "activo", nullable = true)
     private boolean activo;
+    @Column(name = "propio", nullable = true)
+    private boolean propio;
+    @OneToOne
+    private Transportista transportista;
 
     public VehiculoTransporte(){
 
@@ -39,18 +45,20 @@ public class VehiculoTransporte extends Entidad {
     }
 
     public VehiculoTransporte(String codigo, String placa, String numero, String marca, String modelo,
-                              String anio, String cilidraje, String clase, String color, String fabricacion, boolean activo){
+                              String anio, String cilindraje, String clase, String color, String fabricacion,
+                              boolean activo, boolean propio){
         super(codigo);
         this.placa=placa;
         this.numero=numero;
         this.marca=marca;
         this.modelo=modelo;
         this.anio=anio;
-        this.cilindraje=cilidraje;
+        this.cilindraje=cilindraje;
         this.clase=clase;
         this.color=color;
         this.fabricacion=fabricacion;
         this.activo=activo;
+        this.propio=propio;
     }
     public String getPlaca() {
         return placa;
@@ -90,5 +98,13 @@ public class VehiculoTransporte extends Entidad {
 
     public boolean isActivo() {
         return activo;
+    }
+
+    public boolean isPropio() {
+        return propio;
+    }
+
+    public Transportista getTransportista() {
+        return transportista;
     }
 }

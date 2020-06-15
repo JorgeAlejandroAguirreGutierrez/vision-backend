@@ -54,6 +54,9 @@ public class FacturaDetalle extends Entidad {
     @JoinColumn(name = "medida_id", nullable = true)
     private Medida medida;
     @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "producto_id", nullable = true)
+    private Producto producto;
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -79,7 +82,7 @@ public class FacturaDetalle extends Entidad {
                           double subsidio, double valor_subsidiado, double valor_descuento_individual, double porcentaje_descuento_individual,
                           double valor_porcentaje_descuento_individual, double valor_descuento_total, double porcentaje_descuento_total,
                           double valor_porcentaje_descuento_total, double total_descuento, double subtotal, double porcentaje_iva, double valor_iva,
-                          Precio precio, Factura factura){
+                          Producto producto, Precio precio, Factura factura){
         super(codigo);
 
     }
@@ -163,6 +166,14 @@ public class FacturaDetalle extends Entidad {
     public void setImpuesto(Impuesto impuesto) {
         this.impuesto = impuesto;
     }
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
     public Precio getPrecio() {
         return precio;
     }
@@ -177,5 +188,7 @@ public class FacturaDetalle extends Entidad {
     public List<Caracteristica> getCaracteristicas() {
         return caracteristicas;
     }
+
+
 }
 
