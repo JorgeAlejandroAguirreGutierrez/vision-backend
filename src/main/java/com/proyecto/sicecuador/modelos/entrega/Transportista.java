@@ -18,6 +18,8 @@ public class Transportista extends Entidad {
     private String nombre;
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
+    @Column(name = "propio", nullable = true)
+    private boolean vehiculo_propio;
     @OneToOne
     @JoinColumn(name = "vehiculo_transporte_id")
     private VehiculoTransporte vehiculo_transporte;
@@ -30,10 +32,11 @@ public class Transportista extends Entidad {
         super(id);
     }
 
-    public Transportista(String codigo, String nombre, String identificacion, VehiculoTransporte vehiculo_transporte){
+    public Transportista(String codigo, String nombre, String identificacion, boolean vehiculo_propio, VehiculoTransporte vehiculo_transporte){
         super(codigo);
         this.nombre=nombre;
         this.identificacion=identificacion;
+        this.vehiculo_propio=vehiculo_propio;
         this.vehiculo_transporte=vehiculo_transporte;
     }
     public String getNombre() {
@@ -42,6 +45,10 @@ public class Transportista extends Entidad {
 
     public String getIdentificacion() {
         return identificacion;
+    }
+
+    public boolean isVehiculo_propio() {
+        return vehiculo_propio;
     }
 
     public VehiculoTransporte getVehiculo_transporte() {

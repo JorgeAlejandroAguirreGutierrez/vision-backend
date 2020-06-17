@@ -31,8 +31,6 @@ public class VehiculoTransporte extends Entidad {
     private String fabricacion;
     @Column(name = "activo", nullable = true)
     private boolean activo;
-    @Column(name = "propio", nullable = true)
-    private boolean propio;
     @OneToOne
     private Transportista transportista;
 
@@ -46,7 +44,7 @@ public class VehiculoTransporte extends Entidad {
 
     public VehiculoTransporte(String codigo, String placa, String numero, String marca, String modelo,
                               String anio, String cilindraje, String clase, String color, String fabricacion,
-                              boolean activo, boolean propio){
+                              boolean activo){
         super(codigo);
         this.placa=placa;
         this.numero=numero;
@@ -58,7 +56,6 @@ public class VehiculoTransporte extends Entidad {
         this.color=color;
         this.fabricacion=fabricacion;
         this.activo=activo;
-        this.propio=propio;
     }
     public String getPlaca() {
         return placa;
@@ -98,10 +95,6 @@ public class VehiculoTransporte extends Entidad {
 
     public boolean isActivo() {
         return activo;
-    }
-
-    public boolean isPropio() {
-        return propio;
     }
 
     public Transportista getTransportista() {
