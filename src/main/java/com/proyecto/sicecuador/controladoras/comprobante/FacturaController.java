@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/factura")
@@ -45,8 +47,12 @@ public class FacturaController implements GenericoController<Factura> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Factura _factura) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Factura _factura, BindingResult bindig_result) {
         try {
+            if(bindig_result.hasErrors()){
+                Respuesta respuesta = new Respuesta(false, bindig_result.getAllErrors(), null);
+                return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+            }
             _factura.normalizar();
             Factura factura=servicio.crear(_factura);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, factura);

@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +48,12 @@ public class ClienteController implements GenericoController<Cliente> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Cliente _cliente) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Cliente _cliente, BindingResult bindig_result) {
         try {
+            if(bindig_result.hasErrors()){
+                Respuesta respuesta = new Respuesta(false, bindig_result.getAllErrors(), null);
+                return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+            }
             _cliente.normalizar();
             Cliente cliente=servicio.crear(_cliente);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cliente);

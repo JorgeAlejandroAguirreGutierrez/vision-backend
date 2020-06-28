@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/estadocivil")
@@ -44,7 +46,7 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody EstadoCivil _EstadoCivil) {
+    public ResponseEntity<?> crear(@RequestBody @Valid EstadoCivil _EstadoCivil, BindingResult bindig_result) {
         try {
             EstadoCivil estado_civil=servicio.crear(_EstadoCivil);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, estado_civil);

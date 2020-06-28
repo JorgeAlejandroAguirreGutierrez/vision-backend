@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 @RestController
@@ -45,7 +47,7 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody CuentaPropia _cuenta_propia) {
+    public ResponseEntity<?> crear(@RequestBody @Valid CuentaPropia _cuenta_propia, BindingResult bindig_result) {
         try {
             CuentaPropia cuenta_propia=servicio.crear(_cuenta_propia);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cuenta_propia);

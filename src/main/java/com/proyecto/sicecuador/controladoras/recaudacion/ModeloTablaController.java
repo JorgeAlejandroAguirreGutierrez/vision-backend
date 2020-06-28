@@ -45,7 +45,7 @@ public class ModeloTablaController implements GenericoController<ModeloTabla> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody ModeloTabla _modelo_tabla) {
+    public ResponseEntity<?> crear(@RequestBody @Valid ModeloTabla _modelo_tabla, BindingResult bindig_result) {
         try {
             ModeloTabla modelo_tabla=servicio.crear(_modelo_tabla);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, modelo_tabla);

@@ -59,7 +59,7 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody OperadorTarjeta _operador_tarjeta) {
+    public ResponseEntity<?> crear(@RequestBody @Valid OperadorTarjeta _operador_tarjeta, BindingResult bindig_result) {
         try {
             OperadorTarjeta operador_tarjeta=servicio.crear(_operador_tarjeta);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, operador_tarjeta);

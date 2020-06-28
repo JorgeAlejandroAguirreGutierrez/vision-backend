@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/tipocomprobante")
@@ -46,7 +48,7 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody TipoComprobante _tipo_comprobante) {
+    public ResponseEntity<?> crear(@RequestBody @Valid TipoComprobante _tipo_comprobante, BindingResult bindig_result) {
         try {
             TipoComprobante tipo_comprobante=servicio.crear(_tipo_comprobante);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_comprobante);

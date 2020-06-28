@@ -1,26 +1,34 @@
 package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.cliente.AuxiliarUtil;
 import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "auxiliar")
 //@EntityListeners({AuxiliarUtil.class})
 public class Auxiliar extends Entidad {
+    @NotNull(message = "Razon Social"+ Constantes.mensaje_validacion_not_null)
+    @NotBlank(message = "Razon Social"+Constantes.mensaje_validacion_not_blank)
     @Column(name = "razon_social", nullable = true)
     private String razon_social;
-    @Column(name = "estado", nullable = true)
+    @NotNull(message = "Estado"+ Constantes.mensaje_validacion_not_null)
+    @Column(name = "estado")
     private boolean estado;
-    @Column(name = "eliminado", nullable = true)
+    @NotNull(message = "Eliminado"+ Constantes.mensaje_validacion_not_null)
+    @Column(name = "eliminado")
     private boolean eliminado;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
+    @NotNull(message = "Cliente"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;

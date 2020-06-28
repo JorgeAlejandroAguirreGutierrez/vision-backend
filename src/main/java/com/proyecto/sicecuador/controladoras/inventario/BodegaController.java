@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/bodega")
@@ -44,7 +46,7 @@ public class BodegaController implements GenericoController<Bodega> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Bodega _bodega) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Bodega _bodega, BindingResult bindig_result) {
         try {
             Bodega bodega=servicio.crear(_bodega);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bodega);

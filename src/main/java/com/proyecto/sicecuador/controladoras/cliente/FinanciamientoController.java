@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/financiamiento")
@@ -45,7 +47,7 @@ public class FinanciamientoController implements GenericoController<Financiamien
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Financiamiento _financiamiento) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Financiamiento _financiamiento, BindingResult bindig_result) {
         try {
             Financiamiento financiamiento=servicio.crear(_financiamiento);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, financiamiento);

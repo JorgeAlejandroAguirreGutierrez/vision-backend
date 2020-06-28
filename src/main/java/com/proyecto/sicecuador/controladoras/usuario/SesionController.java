@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/sesion")
@@ -43,7 +45,7 @@ public class SesionController implements GenericoController<Sesion> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Sesion _sesion) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Sesion _sesion, BindingResult bindig_result) {
         try {
             Sesion sesion=servicio.crear(_sesion);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, sesion);

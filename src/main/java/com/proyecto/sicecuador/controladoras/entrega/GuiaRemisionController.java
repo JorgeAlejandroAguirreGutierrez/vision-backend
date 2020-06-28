@@ -5,19 +5,24 @@ import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
+import com.proyecto.sicecuador.servicios.interf.configuracion.IUbicacionService;
 import com.proyecto.sicecuador.servicios.interf.entrega.IGuiaRemisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/guiaremision")
 public class GuiaRemisionController implements GenericoController<GuiaRemision> {
     @Autowired
     private IGuiaRemisionService servicio;
+    @Autowired
+    private IUbicacionService servicio_ubicacion;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
@@ -44,7 +49,7 @@ public class GuiaRemisionController implements GenericoController<GuiaRemision> 
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody GuiaRemision _guia_remision) {
+    public ResponseEntity<?> crear(@RequestBody @Valid GuiaRemision _guia_remision, BindingResult bindig_result) {
         try {
             GuiaRemision guia_remision=servicio.crear(_guia_remision);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, guia_remision);

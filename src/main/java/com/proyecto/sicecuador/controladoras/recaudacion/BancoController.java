@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -45,7 +47,7 @@ public class BancoController implements GenericoController<Banco> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Banco _banco) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Banco _banco, BindingResult bindig_result) {
         try {
             Banco banco=servicio.crear(_banco);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, banco);

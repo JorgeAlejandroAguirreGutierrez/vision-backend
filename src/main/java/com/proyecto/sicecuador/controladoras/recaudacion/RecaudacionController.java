@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/recaudacion")
@@ -43,8 +45,12 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Recaudacion _recaudacion) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Recaudacion _recaudacion, BindingResult bindig_result) {
         try {
+            if(bindig_result.hasErrors()){
+                Respuesta respuesta = new Respuesta(false, bindig_result.getAllErrors(), null);
+                return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+            }
             _recaudacion.normalizar();
             Recaudacion recaudacion=servicio.crear(_recaudacion);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, recaudacion);

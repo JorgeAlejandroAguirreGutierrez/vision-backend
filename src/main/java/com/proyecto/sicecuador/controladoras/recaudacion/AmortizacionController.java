@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/amortizacion")
@@ -43,7 +45,7 @@ public class AmortizacionController implements GenericoController<Amortizacion> 
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Amortizacion _amortizacion) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Amortizacion _amortizacion, BindingResult bindig_result) {
         try {
             Amortizacion amortizacion=servicio.crear(_amortizacion);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, amortizacion);

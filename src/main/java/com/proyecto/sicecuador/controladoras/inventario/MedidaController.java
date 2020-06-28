@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/medida")
@@ -43,7 +45,7 @@ public class MedidaController implements GenericoController<Medida> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Medida _medida) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Medida _medida, BindingResult bindig_result) {
         try {
             Medida medida=servicio.crear(_medida);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, medida);

@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/puntoventa")
@@ -45,7 +47,7 @@ public class PuntoVentaController implements GenericoController<PuntoVenta> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody PuntoVenta _punto_venta) {
+    public ResponseEntity<?> crear(@RequestBody @Valid PuntoVenta _punto_venta, BindingResult bindig_result) {
         try {
             PuntoVenta punto_venta=servicio.crear(_punto_venta);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, punto_venta);

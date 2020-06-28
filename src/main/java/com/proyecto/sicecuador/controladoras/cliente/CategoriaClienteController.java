@@ -3,16 +3,16 @@ package com.proyecto.sicecuador.controladoras.cliente;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICategoriaClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/categoriacliente")
@@ -45,7 +45,7 @@ public class CategoriaClienteController implements GenericoController<CategoriaC
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody CategoriaCliente _categoria_cliente) {
+    public ResponseEntity<?> crear(@RequestBody @Valid CategoriaCliente _categoria_cliente, BindingResult bindig_result) {
         try {
         CategoriaCliente categoria_cliente=servicio.crear(_categoria_cliente);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, categoria_cliente);

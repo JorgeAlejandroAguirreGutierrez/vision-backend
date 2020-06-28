@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +47,7 @@ public class ImpuestoController implements GenericoController<Impuesto> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Impuesto _impuesto) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Impuesto _impuesto, BindingResult bindig_result) {
         try {
             Impuesto impuesto=servicio.crear(_impuesto);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, impuesto);

@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 @RestController
@@ -46,7 +48,7 @@ public class CaracteristicaController implements GenericoController<Caracteristi
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Caracteristica _caracteristica) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Caracteristica _caracteristica, BindingResult bindig_result) {
         try {
             Caracteristica caracteristica=servicio.crear(_caracteristica);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, caracteristica);

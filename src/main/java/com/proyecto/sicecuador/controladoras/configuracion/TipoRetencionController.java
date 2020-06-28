@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/tiporetencion")
@@ -44,7 +46,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody TipoRetencion _tipo_retencion) {
+    public ResponseEntity<?> crear(@RequestBody @Valid TipoRetencion _tipo_retencion, BindingResult bindig_result) {
         try {
             TipoRetencion tipo_retencion=servicio.crear(_tipo_retencion);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_retencion);

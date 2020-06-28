@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/proforma")
@@ -45,7 +47,7 @@ public class ProformaController implements GenericoController<Proforma> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Proforma _proforma) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Proforma _proforma, BindingResult bindig_result) {
         try {
             Proforma proforma=servicio.crear(_proforma);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, proforma);

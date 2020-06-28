@@ -1,36 +1,49 @@
 package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "cliente")
 @EntityListeners({ClienteUtil.class})
 public class Cliente extends Entidad {
-    @Column(name = "tipo_identificacion", nullable = false)
+    @NotNull(message = "Tipo de Identificacion Cliente"+ Constantes.mensaje_validacion_not_null)
+    @NotEmpty(message = "Tipo de Identificacion Cliente"+Constantes.mensaje_validacion_not_blank)
+    @Column(name = "tipo_identificacion")
     private String tipo_identificacion;
-    @Column(name = "identificacion", nullable = false)
+    @NotNull(message = "Numero de Identificacion Cliente"+ Constantes.mensaje_validacion_not_null)
+    @NotEmpty(message = "Numero de Identificacion Cliente"+Constantes.mensaje_validacion_not_blank)
+    @Column(name = "identificacion")
     private String identificacion;
-    @Column(name = "razon_social", nullable = false)
+    @NotNull(message = "Razon Social Cliente"+ Constantes.mensaje_validacion_not_null)
+    @NotEmpty(message = "Razon Social Cliente"+Constantes.mensaje_validacion_not_blank)
+    @Column(name = "razon_social")
     private String razon_social;
-    @Column(name = "especial", nullable = false)
+    @Column(name = "especial")
     private boolean especial;
-    @Column(name = "estado", nullable = false)
+    @Column(name = "estado")
     private boolean estado;
-    @Column(name = "eliminado", nullable = false)
+    @Column(name = "eliminado")
     private boolean eliminado;
+    @NotNull(message = "Tipo de Contribuyente Cliente"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "tipo_contribuyente_id", nullable = false)
     private TipoContribuyente tipo_contribuyente;
+    @NotNull(message = "Punto de Venta Cliente"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "punto_venta_id", nullable = false)
+    @JoinColumn(name = "punto_venta_id")
     private PuntoVenta punto_venta;
+    @NotNull(message = "Grupo de Cliente"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "grupo_cliente_id", nullable = false)
+    @JoinColumn(name = "grupo_cliente_id")
     private GrupoCliente grupo_cliente;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "direccion_id", nullable = true)

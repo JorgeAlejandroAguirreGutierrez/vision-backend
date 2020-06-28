@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/parametro")
@@ -44,7 +46,7 @@ public class ParametroController implements GenericoController<Parametro> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Parametro _parametro) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Parametro _parametro, BindingResult bindig_result) {
         try {
             Parametro parametro=servicio.crear(_parametro);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, parametro);

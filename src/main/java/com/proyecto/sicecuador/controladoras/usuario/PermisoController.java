@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/permiso")
@@ -43,7 +45,7 @@ public class PermisoController implements GenericoController<Permiso> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Permiso _permiso) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Permiso _permiso, BindingResult bindig_result) {
         try {
             Permiso permiso=servicio.crear(_permiso);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, permiso);

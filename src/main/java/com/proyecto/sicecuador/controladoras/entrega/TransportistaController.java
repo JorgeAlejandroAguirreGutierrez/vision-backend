@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/transportista")
@@ -44,7 +46,7 @@ public class TransportistaController implements GenericoController<Transportista
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Transportista _transportista) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Transportista _transportista, BindingResult bindig_result) {
         try {
             Transportista transportista=servicio.crear(_transportista);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, transportista);

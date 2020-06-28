@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/franquiciatarjeta")
@@ -44,7 +46,7 @@ public class FranquiciaTarjetaController implements GenericoController<Franquici
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody FranquiciaTarjeta _franquicia_tarjeta) {
+    public ResponseEntity<?> crear(@RequestBody @Valid FranquiciaTarjeta _franquicia_tarjeta, BindingResult bindig_result) {
         try {
             FranquiciaTarjeta franquicia_tarjeta=servicio.crear(_franquicia_tarjeta);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, franquicia_tarjeta);

@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping("/api/sicecuador/usuario")
@@ -43,7 +45,7 @@ public class UsuarioController implements GenericoController<Usuario> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody Usuario _usuario) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Usuario _usuario, BindingResult bindig_result) {
         try {
             Usuario usuario=servicio.crear(_usuario);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, usuario);

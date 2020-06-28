@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.compra.RetencionCompra;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
@@ -9,6 +11,7 @@ import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.otros.recaudacion.RecaudacionUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +19,11 @@ import java.util.List;
 @Table(name = "recaudacion")
 @EntityListeners({RecaudacionUtil.class})
 public class Recaudacion extends Entidad {
+    @Past
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+    @DecimalMin(value = "0.01", message = "El Total tiene que ser mayor a 0")
     @Column(name = "total", nullable = true)
     private double total;
     @Column(name = "comentario", nullable = true)
@@ -43,9 +49,11 @@ public class Recaudacion extends Entidad {
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
+    @NotNull(message = "Factura"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
+    @NotNull(message = "Sesion"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "sesion_id", nullable = true)
     private Sesion sesion;

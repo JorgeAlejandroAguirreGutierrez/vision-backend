@@ -1,12 +1,15 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Direccion;
+import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.otros.entrega.GuiaRemisionUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -25,18 +28,17 @@ public class GuiaRemision extends Entidad {
     private String latitudgeo;
     @Column(name = "estado", nullable = true)
     private boolean estado;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "direccion_id", nullable = true)
+    @NotNull(message = "Direccion"+ Constantes.mensaje_validacion_not_null)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinColumn(name = "direccion_id")
     private Direccion direccion;
+    @NotNull(message = "Factura"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "cliente_id", nullable = true)
-    private Cliente cliente;
+    @JoinColumn(name = "factura_id", nullable = true)
+    private Factura factura;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "transportista_id", nullable = true)
     private Transportista transportista;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "vehiculo_transporte_id", nullable = true)
-    private VehiculoTransporte vehiculo_transporte;
 
     public GuiaRemision(){
 
@@ -70,16 +72,12 @@ public class GuiaRemision extends Entidad {
         return estado;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Factura getFactura() {
+        return factura;
     }
 
     public Transportista getTransportista() {
         return transportista;
-    }
-
-    public VehiculoTransporte getVehiculo_transporte() {
-        return vehiculo_transporte;
     }
 
     public Direccion getDireccion() {
