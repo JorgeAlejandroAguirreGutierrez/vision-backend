@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "transferencia")
-@EntityListeners({TransferenciaUtil.class})
+//@EntityListeners({TransferenciaUtil.class})
 public class Transferencia extends Entidad {
     @Column(name = "tipo_transaccion", nullable = true)
     private String tipo_transaccion;

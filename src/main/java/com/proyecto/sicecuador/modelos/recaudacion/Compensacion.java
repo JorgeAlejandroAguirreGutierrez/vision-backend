@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "compensacion")
-@EntityListeners({CompensacionUtil.class})
+//@EntityListeners({CompensacionUtil.class})
 public class Compensacion extends Entidad {
     @Column(name = "comprobante", nullable = true)
     private String comprobante;

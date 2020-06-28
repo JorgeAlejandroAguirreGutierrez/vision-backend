@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tarjeta_debito")
-@EntityListeners({TarjetaDebitoUtil.class})
+//@EntityListeners({TarjetaDebitoUtil.class})
 public class TarjetaDebito extends Entidad {
     @Column(name = "identificacion", nullable = true)
     private String identificacion;

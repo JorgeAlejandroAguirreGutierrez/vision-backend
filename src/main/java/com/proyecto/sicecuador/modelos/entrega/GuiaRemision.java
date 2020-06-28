@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.entrega;
 
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.otros.entrega.GuiaRemisionUtil;
 
@@ -16,14 +17,6 @@ public class GuiaRemision extends Entidad {
     private String numero;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
-    @Column(name = "direccion_cliente", nullable = true)
-    private Date direccion_cliente;
-    @Column(name = "direccion", nullable = true)
-    private String direccion;
-    @Column(name = "telefono", nullable = true)
-    private String celular;
-    @Column(name = "correo", nullable = true)
-    private String correo;
     @Column(name = "referencia", nullable = true)
     private String referencia;
     @Column(name = "longitudgeo", nullable = true)
@@ -33,8 +26,8 @@ public class GuiaRemision extends Entidad {
     @Column(name = "estado", nullable = true)
     private boolean estado;
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "ubicacion_id", nullable = true)
-    private Ubicacion ubicacion;
+    @JoinColumn(name = "direccion_id", nullable = true)
+    private Direccion direccion;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
@@ -51,5 +44,45 @@ public class GuiaRemision extends Entidad {
 
     public GuiaRemision(long id){
         super(id);
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public String getLongitudgeo() {
+        return longitudgeo;
+    }
+
+    public String getLatitudgeo() {
+        return latitudgeo;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public Transportista getTransportista() {
+        return transportista;
+    }
+
+    public VehiculoTransporte getVehiculo_transporte() {
+        return vehiculo_transporte;
+    }
+
+    public Direccion getDireccion() {
+        return direccion;
     }
 }

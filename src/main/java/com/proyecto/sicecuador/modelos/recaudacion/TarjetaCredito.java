@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tarjeta_credito")
-@EntityListeners({TarjetaCreditoUtil.class})
+//@EntityListeners({TarjetaCreditoUtil.class})
 public class TarjetaCredito extends Entidad {
     @Column(name = "diferido", nullable = true)
     private boolean diferido;
@@ -40,7 +40,7 @@ public class TarjetaCredito extends Entidad {
         super(id);
     }
 
-    public TarjetaCredito(String codigo, boolean diferido, boolean titular, String identificacion, String nombre_titular, String lote, double valor, OperadorTarjeta operador_tarjeta, Recaudacion recaudacion){
+    public TarjetaCredito(String codigo, boolean diferido, boolean titular, String identificacion, String nombre_titular, String lote, double valor, OperadorTarjeta operador_tarjeta, FranquiciaTarjeta franquicia_tarjeta, Recaudacion recaudacion){
         super(codigo);
         this.diferido=diferido;
         this.titular=titular;
@@ -49,6 +49,7 @@ public class TarjetaCredito extends Entidad {
         this.lote=lote;
         this.valor=valor;
         this.operador_tarjeta=operador_tarjeta;
+        this.franquicia_tarjeta=franquicia_tarjeta;
         this.recaudacion=recaudacion;
     }
     public boolean isDiferido() {

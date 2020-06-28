@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.controladoras;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 
 import java.util.Optional;
 
