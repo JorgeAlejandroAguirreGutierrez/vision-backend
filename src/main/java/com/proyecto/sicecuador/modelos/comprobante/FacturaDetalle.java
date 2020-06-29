@@ -32,14 +32,24 @@ public class FacturaDetalle extends Entidad {
     private double porcentaje_descuento_individual;
     @Column(name = "valor_porcentaje_descuento_individual", nullable = true)
     private double valor_porcentaje_descuento_individual;
+    @Column(name = "total_descuento_individual", nullable = true)
+    private double total_descuento_individual;
     //FIN INDIVIDUALES
     //TOTALES
+    @Column(name = "valor_descuento_individual_totales", nullable = true)
+    private double valor_descuento_individual_totales;
+    @Column(name = "porcentaje_descuento_individual_totales", nullable = true)
+    private double porcentaje_descuento_individual_totales;
+    @Column(name = "valor_porcentaje_descuento_individual_totales", nullable = true)
+    private double valor_porcentaje_descuento_individual_totales;
+
     @Column(name = "valor_descuento_totales", nullable = true)
     private double valor_descuento_totales;
     @Column(name = "porcentaje_descuento_totales", nullable = true)
     private double porcentaje_descuento_totales;
     @Column(name = "valor_porcentaje_descuento_totales", nullable = true)
     private double valor_porcentaje_descuento_totales;
+    
     //FIN TOTALES
     @Column(name = "subtotal_sin_descuento", nullable = true)
     private double subtotal_sin_descuento;
