@@ -28,9 +28,8 @@ public class GuiaRemision extends Entidad {
     private String latitudgeo;
     @Column(name = "estado", nullable = true)
     private boolean estado;
-    @NotNull(message = "Direccion"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "direccion_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
+    @JoinColumn(name = "direccion_id", nullable= true)
     private Direccion direccion;
     @NotNull(message = "Factura"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)

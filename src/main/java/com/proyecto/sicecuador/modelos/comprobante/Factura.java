@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.comprobante;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
@@ -9,6 +10,7 @@ import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.otros.comprobante.FacturaUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -59,18 +61,21 @@ public class Factura extends Entidad {
 
     @Column(name = "comentario", nullable = true)
     private String comentario;
+    @NotNull(message = "El cliente"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "cliente_id", nullable = true)
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
     @JoinColumn(name = "cliente_factura_id", nullable = true)
     private Cliente cliente_factura;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
     @JoinColumn(name = "auxiliar_id", nullable = true)
     private Auxiliar auxiliar;
+    @NotNull(message = "El vendedor"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "vendedor_id", nullable = true)
+    @JoinColumn(name = "vendedor_id")
     private Usuario vendedor;
+    @NotNull(message = "La sesion"+ Constantes.mensaje_validacion_not_null)
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "sesion_id", nullable = true)
     private Sesion sesion;

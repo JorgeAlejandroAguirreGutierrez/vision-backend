@@ -16,8 +16,8 @@ public class Constantes {
     public static final String mensaje_actualizar_fallido="Error al actualizar un objeto";
     public static final String mensaje_eliminar_fallido="Exito al eliminar un objeto";
 
-    public static final String mensaje_validacion_not_blank=" No debe estar en blanco";
-    public static final String mensaje_validacion_not_null=" Debe exitir";
+    public static final String mensaje_validacion_not_blank=" no debe estar en blanco";
+    public static final String mensaje_validacion_not_null=" se debe registrar";
 
     public Map<String, String> modelos=new HashMap<String, String>() {{
         //CLIENTE
