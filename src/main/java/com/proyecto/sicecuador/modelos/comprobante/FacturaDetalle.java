@@ -165,6 +165,18 @@ public class FacturaDetalle extends Entidad {
         return valor_iva_sin_descuento;
     }
 
+    public double getValor_descuento_individual_totales() {
+        return valor_descuento_individual_totales;
+    }
+
+    public double getPorcentaje_descuento_individual_totales() {
+        return porcentaje_descuento_individual_totales;
+    }
+
+    public double getValor_porcentaje_descuento_individual_totales() {
+        return valor_porcentaje_descuento_individual_totales;
+    }
+
     public Medida getMedida() {
         return medida;
     }
