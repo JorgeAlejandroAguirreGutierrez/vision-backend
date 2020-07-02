@@ -32,4 +32,8 @@ public class Util {
         String rellenoConteo = String.format("%06d" , conteo);
         return establecimiento+"-"+punto_venta+"-" + rellenoConteo;
     }
+    public static String generarCodigoGuiaRemision(String establecimiento, String punto_venta, long conteo){
+        String rellenoConteo = String.format("%06d" , conteo);
+        return establecimiento+"-"+punto_venta+"-" + rellenoConteo;
+    }
 }

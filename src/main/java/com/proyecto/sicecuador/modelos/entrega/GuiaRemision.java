@@ -51,6 +51,10 @@ public class GuiaRemision extends Entidad {
         return numero;
     }
 
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
     public Date getFecha() {
         return fecha;
     }
