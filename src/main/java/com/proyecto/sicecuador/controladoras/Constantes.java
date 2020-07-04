@@ -11,7 +11,7 @@ public class Constantes {
     public static final String mensaje_eliminar_exitoso="Exito al eliminar";
 
     public static final String mensaje_consulta_fallido="Error en la consulta los objetos";
-    public static final String mensaje_obtener_faliido="Error al obtener un objeto";
+    public static final String mensaje_obtener_fallido="Error al obtener un objeto";
     public static final String mensaje_crear_fallido="Error al crear un objeto";
     public static final String mensaje_actualizar_fallido="Error al actualizar un objeto";
     public static final String mensaje_eliminar_fallido="Exito al eliminar un objeto";

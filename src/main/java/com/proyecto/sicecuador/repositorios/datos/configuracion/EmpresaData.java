@@ -23,8 +23,8 @@ public class EmpresaData implements ApplicationRunner {
         Optional<Empresa> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Empresa> empresas = new ArrayList<>();
-            empresas.add(new Empresa("EMP011912001", "RioTour S.A.", "0660001840001", "empresa1.jpg"));
-            empresas.add(new Empresa("EMP022001002", "Farmacys C.A.", "0690001840001", "empresa2.jpg"));
+            empresas.add(new Empresa("EMP011912001", "0660001840001", "RioTour S.A.", "empresa1.jpg"));
+            empresas.add(new Empresa("EMP022001002", "0690001840001", "Farmacys C.A.", "empresa2.jpg"));
             rep.saveAll(empresas);
         }
     }

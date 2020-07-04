@@ -120,11 +120,15 @@ public class FacturaController implements GenericoController<Factura> {
     public ResponseEntity<?> generarPDF(@PathVariable("factura_id") long factura_id) {
         try {
             Optional<Factura> factura=servicio.obtener(new Factura(factura_id));
-            ByteArrayInputStream pdf = servicio.generarPDF(new Factura());
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Disposition", "inline; filename=factura.pdf");
-            return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
-                    .body(new InputStreamResource(pdf));
+            if (factura.isPresent()){
+                ByteArrayInputStream pdf = servicio.generarPDF(factura.get());
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Disposition", "inline; filename=factura.pdf");
+                return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+                        .body(new InputStreamResource(pdf));
+            }
+            Respuesta respuesta = new Respuesta(false, Constantes.mensaje_obtener_fallido, null);
+            return new ResponseEntity<>(respuesta, HttpStatus.NOT_FOUND);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);

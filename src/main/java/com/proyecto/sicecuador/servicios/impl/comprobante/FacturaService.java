@@ -1,8 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
@@ -82,19 +81,64 @@ public class FacturaService implements IFacturaService {
     @Override
     public ByteArrayInputStream generarPDF(Factura factura) {
         try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Document document = new Document(PageSize.A4, 50, 50, 50, 50);
-            PdfWriter.getInstance(document, out);
+            ByteArrayOutputStream salida = new ByteArrayOutputStream();
+            Document documento = new Document(PageSize.A4, 50, 50, 50, 50);
+            PdfWriter.getInstance(documento, salida);
             // 2. Create PdfWriter
-            PdfWriter.getInstance(document, new FileOutputStream("result.pdf"));
+            PdfWriter.getInstance(documento, new FileOutputStream("result.pdf"));
             // 3. Open document
-            document.open();
+            documento.open();
             // 4. Add content
-            document.add(new Paragraph("Create Pdf Document with iText in Java"));
+            documento.add(new Paragraph("LOGO", FontFactory.getFont("arial",30, Font.ITALIC)));
+            PdfPTable tabla_empresa = new PdfPTable(1);
+            tabla_empresa.addCell(factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getRazon_social()+"\n"+
+                    "Direccion: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getDireccion());
+            documento.add(tabla_empresa);
+            PdfPTable tabla_factura = new PdfPTable(1);
+            tabla_factura.addCell("RUC: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+                    "FACTURA"+"\n"+
+                    "No."+factura.getNumero()+"\n"+
+                    "Fecha: "+factura.getFecha().toString());
+            documento.add(tabla_factura);
+            PdfPTable tabla_cliente = new PdfPTable(1);
+            tabla_cliente.addCell("Razon Social: "+factura.getCliente().getRazon_social()+"\n"+
+                    "Identificacion: "+factura.getCliente().getIdentificacion()+"\n"+
+                    "Fecha: "+factura.getFecha().toString()+"\n"+
+                    "Direccion: "+factura.getCliente().getDireccion().getDireccion());
+            documento.add(tabla_cliente);
+            PdfPTable tabla_factura_detalle = new PdfPTable(9);
+            tabla_factura_detalle.addCell("Codigo");
+            tabla_factura_detalle.addCell("Cantidad");
+            tabla_factura_detalle.addCell("Descripcion");
+            tabla_factura_detalle.addCell("Series");
+            tabla_factura_detalle.addCell("Precio U");
+            tabla_factura_detalle.addCell("Subsidio");
+            tabla_factura_detalle.addCell("Sin subsidio");
+            tabla_factura_detalle.addCell("Descuento");
+            tabla_factura_detalle.addCell("Total");
+            for (int i = 0; i <factura.getFactura_detalles().size(); i++)
+            {
+                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getProducto().getCodigo());
+                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getCantidad()+"");
+                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getProducto().getNombre());
+                String series="";
+                if (!factura.getFactura_detalles().get(i).getProducto().isSerie_autogenerado()){
+                    for (int j = 0; j <factura.getFactura_detalles().get(i).getCaracteristicas().size(); i++){
+                        series=series+" "+factura.getFactura_detalles().get(i).getCaracteristicas().get(j).getSerie();
+                    }
+                }
+                tabla_factura_detalle.addCell(series);
+                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getPrecio().getValor()+"");
+                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSubsidio()+"");
+                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSin_subsidio()+"");
+                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getValor_descuento_individual_totales()+"");
+                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSubtotal_con_descuento()+"");
+            }
+            documento.add(tabla_factura_detalle);
             // 5. Close document
-            document.close();
+            documento.close();
 
-            return new ByteArrayInputStream(out.toByteArray());
+            return new ByteArrayInputStream(salida.toByteArray());
         } catch(Exception e){
             return null;
         }
