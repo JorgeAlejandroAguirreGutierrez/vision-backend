@@ -1,5 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaRepository;
@@ -12,6 +16,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -72,4 +79,25 @@ public class FacturaService implements IFacturaService {
             }
         });
     }
+    @Override
+    public ByteArrayInputStream generarPDF(Factura factura) {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+            PdfWriter.getInstance(document, out);
+            // 2. Create PdfWriter
+            PdfWriter.getInstance(document, new FileOutputStream("result.pdf"));
+            // 3. Open document
+            document.open();
+            // 4. Add content
+            document.add(new Paragraph("Create Pdf Document with iText in Java"));
+            // 5. Close document
+            document.close();
+
+            return new ByteArrayInputStream(out.toByteArray());
+        } catch(Exception e){
+            return null;
+        }
+    }
+
 }
