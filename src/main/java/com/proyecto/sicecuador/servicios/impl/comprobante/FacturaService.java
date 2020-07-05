@@ -1,9 +1,17 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.borders.SolidBorder;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
@@ -15,9 +23,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -82,31 +90,32 @@ public class FacturaService implements IFacturaService {
     public ByteArrayInputStream generarPDF(Factura factura) {
         try {
             ByteArrayOutputStream salida = new ByteArrayOutputStream();
-            Document documento = new Document(PageSize.A4, 50, 50, 50, 50);
-            PdfWriter.getInstance(documento, salida);
-            // 2. Create PdfWriter
-            PdfWriter.getInstance(documento, new FileOutputStream("result.pdf"));
-            // 3. Open document
-            documento.open();
+            PdfWriter writer = new PdfWriter(salida);
+            PdfDocument pdf = new PdfDocument(writer);
+            // Initialize document
+            Document documento = new Document(pdf, PageSize.A4);
+            documento.setMargins(20, 20, 20, 20);
             // 4. Add content
-            documento.add(new Paragraph("LOGO", FontFactory.getFont("arial",30, Font.ITALIC)));
-            PdfPTable tabla_empresa = new PdfPTable(1);
-            tabla_empresa.addCell(factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getRazon_social()+"\n"+
-                    "Direccion: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getDireccion());
-            documento.add(tabla_empresa);
-            PdfPTable tabla_factura = new PdfPTable(1);
-            tabla_factura.addCell("RUC: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+            PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
+            documento.add(new Paragraph("LOGO").setFont(font).setFontSize(30));
+            documento.add(new Paragraph(factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getRazon_social()+"\n"+
+                    "Direccion: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getDireccion()).setBorder(new SolidBorder(1)));
+            documento.add( new Paragraph("\n"));
+            documento.add(new Paragraph(factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getRazon_social()+"\n"+
+                    "Direccion: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getDireccion()).setBorder(new SolidBorder(1)));
+            documento.add( new Paragraph("\n"));
+            documento.add(new Paragraph("RUC: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
                     "FACTURA"+"\n"+
                     "No."+factura.getNumero()+"\n"+
-                    "Fecha: "+factura.getFecha().toString());
-            documento.add(tabla_factura);
-            PdfPTable tabla_cliente = new PdfPTable(1);
-            tabla_cliente.addCell("Razon Social: "+factura.getCliente().getRazon_social()+"\n"+
+                    "Fecha: "+factura.getFecha().toString()).setBorder(new SolidBorder(1)));
+            documento.add( new Paragraph("\n"));
+            documento.add( new Paragraph("Razon Social: "+factura.getCliente().getRazon_social()+"\n"+
                     "Identificacion: "+factura.getCliente().getIdentificacion()+"\n"+
                     "Fecha: "+factura.getFecha().toString()+"\n"+
-                    "Direccion: "+factura.getCliente().getDireccion().getDireccion());
-            documento.add(tabla_cliente);
-            PdfPTable tabla_factura_detalle = new PdfPTable(9);
+                    "Direccion: "+factura.getCliente().getDireccion().getDireccion()).setBorder(new SolidBorder(1)));
+            documento.add( new Paragraph("\n"));
+            float [] columnas_tabla_factura_detalle = {100F, 100F, 100F,100F, 100F, 100F, 100F, 100F, 100F};
+            Table tabla_factura_detalle = new Table(columnas_tabla_factura_detalle);
             tabla_factura_detalle.addCell("Codigo");
             tabla_factura_detalle.addCell("Cantidad");
             tabla_factura_detalle.addCell("Descripcion");
@@ -123,7 +132,7 @@ public class FacturaService implements IFacturaService {
                 tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getProducto().getNombre());
                 String series="";
                 if (!factura.getFactura_detalles().get(i).getProducto().isSerie_autogenerado()){
-                    for (int j = 0; j <factura.getFactura_detalles().get(i).getCaracteristicas().size(); i++){
+                    for (int j = 0; j <factura.getFactura_detalles().get(i).getCaracteristicas().size(); j++){
                         series=series+" "+factura.getFactura_detalles().get(i).getCaracteristicas().get(j).getSerie();
                     }
                 }
@@ -135,9 +144,24 @@ public class FacturaService implements IFacturaService {
                 tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSubtotal_con_descuento()+"");
             }
             documento.add(tabla_factura_detalle);
+            float [] columnas_tabla_factura = {130F, 100F};
+            Table tabla_factura = new Table(columnas_tabla_factura);
+            tabla_factura.addCell("Subtotal SD 12%");
+            tabla_factura.addCell(factura.getSubtotal_base12_sin_descuento()+"");
+            tabla_factura.addCell("Subtotal CD 12%");
+            tabla_factura.addCell(factura.getSubtotal_base12_con_descuento()+"");
+            tabla_factura.addCell("Subtotal SD 0%");
+            tabla_factura.addCell(factura.getSubtotal_base0_sin_descuento()+"");
+            tabla_factura.addCell("Subtotal CD 0%");
+            tabla_factura.addCell(factura.getSubtotal_base0_con_descuento()+"");
+            tabla_factura.addCell("Total SD");
+            tabla_factura.addCell(factura.getTotal_sin_descuento()+"");
+            tabla_factura.addCell("Total CD");
+            tabla_factura.addCell(factura.getTotal_con_descuento()+"");
+            tabla_factura.setHorizontalAlignment(HorizontalAlignment.RIGHT);
+            documento.add(tabla_factura);
             // 5. Close document
             documento.close();
-
             return new ByteArrayInputStream(salida.toByteArray());
         } catch(Exception e){
             return null;
