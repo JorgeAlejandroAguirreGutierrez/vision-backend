@@ -28,6 +28,8 @@ public class GuiaRemision extends Entidad {
     private String latitudgeo;
     @Column(name = "estado", nullable = true)
     private boolean estado;
+    @Column(name = "inhabilitar", nullable = true)
+    private boolean inhabilitar;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
     @JoinColumn(name = "direccion_id", nullable= true)
     private Direccion direccion;
@@ -38,6 +40,7 @@ public class GuiaRemision extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "transportista_id", nullable = true)
     private Transportista transportista;
+
 
     public GuiaRemision(){
 
@@ -85,5 +88,9 @@ public class GuiaRemision extends Entidad {
 
     public Direccion getDireccion() {
         return direccion;
+    }
+
+    public boolean isInhabilitar() {
+        return inhabilitar;
     }
 }

@@ -12,6 +12,7 @@ import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
@@ -101,9 +102,6 @@ public class FacturaService implements IFacturaService {
             documento.add(new Paragraph(factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getRazon_social()+"\n"+
                     "Direccion: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getDireccion()).setBorder(new SolidBorder(1)));
             documento.add( new Paragraph("\n"));
-            documento.add(new Paragraph(factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getRazon_social()+"\n"+
-                    "Direccion: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getDireccion()).setBorder(new SolidBorder(1)));
-            documento.add( new Paragraph("\n"));
             documento.add(new Paragraph("RUC: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
                     "FACTURA"+"\n"+
                     "No."+factura.getNumero()+"\n"+
@@ -160,6 +158,28 @@ public class FacturaService implements IFacturaService {
             tabla_factura.addCell(factura.getTotal_con_descuento()+"");
             tabla_factura.setHorizontalAlignment(HorizontalAlignment.RIGHT);
             documento.add(tabla_factura);
+            String telefono_cliente="";
+            String correo_cliente="";
+            if (!factura.getCliente().getTelefonos().isEmpty()){
+                telefono_cliente=factura.getCliente().getTelefonos().get(0).getNumero();
+            }
+            if (!factura.getCliente().getCorreos().isEmpty()){
+                correo_cliente=factura.getCliente().getCorreos().get(0).getEmail();
+            }
+            documento.add(new Paragraph("INFORMACION ADICIONAL:"+"\n" +
+                    "Direccion del Cliente: "+factura.getCliente().getDireccion().getDireccion()+"\n"+
+                    "Telefono del Cliente: "+telefono_cliente+"\n"+
+                    "Correo del Cliente: "+correo_cliente+"\n"+
+                    "Punto de Partida: "+"\n"+
+                    "Vendedor: "+ factura.getVendedor().getNombre()+"\n"+
+                    "Entrada: "+"\n"+
+                    "Valor a Financiar: "+factura.getTotal_con_descuento()+"\n"+
+                    "Financiamiento: "+"\n"+
+                    "1 Letra: "+"\n"+
+                    "2 letra: "+"\n"+
+                    "Todo incluido financiamiento: "+factura.getTotal_con_descuento()).setBorder(new SolidBorder(1)).setWidth(300).setVerticalAlignment(VerticalAlignment.TOP).setHorizontalAlignment(HorizontalAlignment.LEFT));
+            documento.add( new Paragraph("\n"));
+
             // 5. Close document
             documento.close();
             return new ByteArrayInputStream(salida.toByteArray());

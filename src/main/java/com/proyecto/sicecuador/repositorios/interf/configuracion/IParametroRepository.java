@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 @Repository
 public interface IParametroRepository extends JpaRepository<Parametro, Long>, JpaSpecificationExecutor<Parametro> {
@@ -157,4 +158,6 @@ public interface IParametroRepository extends JpaRepository<Parametro, Long>, Jp
     Optional<Parametro> findByTablaAndTipo(
             @Param("tabla") String tabla,
             @Param("tipo") String tipo);
+    @Query(value = "SELECT * FROM parametro u WHERE u.tipo = :tipo", nativeQuery = true)
+    List<Parametro> AllByTipo(@Param("tipo") String tipo);
 }

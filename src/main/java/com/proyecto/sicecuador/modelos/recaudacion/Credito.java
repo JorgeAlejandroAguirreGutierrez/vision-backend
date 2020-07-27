@@ -1,10 +1,12 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.otros.recaudacion.CreditoUtil;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "credito")
@@ -12,35 +14,29 @@ import java.util.Date;
 public class Credito extends Entidad {
     @Column(name = "saldo", nullable = true)
     private double saldo;
-    @Column(name = "valor_seguro", nullable = true)
-    private double valor_seguro;
-    @Column(name = "interes_periodo", nullable = true)
-    private double interes_periodo;
-    @Column(name = "interes_anual", nullable = true)
-    private double interes_anual;
-    @Column(name = "primera_cuota", nullable = true)
-    private Date primera_cuota;
-    @Column(name = "vencimiento", nullable = true)
-    private Date vencimiento;
-    @Column(name = "cuota", nullable = true)
-    private double cuota;
-    @Column(name = "intereses", nullable = true)
-    private double intereses;
-    @Column(name = "recargos", nullable = true)
-    private double recargos;
-    @Column(name = "total", nullable = true)
-    private double total;
-    @Column(name = "estado", nullable = true)
-    private String estado;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "plazo_credito_id", nullable = true)
-    private PlazoCredito plazo_credito;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @Column(name = "tasa_interes_anual", nullable = true)
+    private double tasa_interes_anual;
+    @Column(name = "periodicidad", nullable = true)
+    private String periodicidad;
+    @Column(name = "periodicidad_numero", nullable = true)
+    private int periodicidad_numero;
+    @Column(name = "periodicidad_total", nullable = true)
+    private int periodicidad_total;
+    @Column(name = "tasa_periodo", nullable = true)
+    private double tasa_periodo;
+    @Column(name = "cuotas", nullable = true)
+    private long cuotas;
+    @Column(name = "fecha_primera_cuota", nullable = true)
+    private Date fecha_primera_cuota;
+    @Column(name = "fecha_consecion", nullable = true)
+    private Date fecha_consecion;
+    @Column(name = "dividendo", nullable = true)
+    private double dividendo;
+    @Column(name = "tipo", nullable = true)
+    private String tipo;
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "amortizacion_id", nullable = true)
-    private Amortizacion amortizacion;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "modelo_tabla_id", nullable = true)
-    private ModeloTabla modelo_tabla;
+    private List<Amortizacion> amortizaciones;
 
     public Credito(){
     }
@@ -49,78 +45,89 @@ public class Credito extends Entidad {
         super(id);
     }
 
-    public Credito(String codigo, double saldo, double valor_seguro, double interes_periodo, double recargos,
-                   double interes_anual, Date primera_cuota, Date vencimiento,double cuota, double intereses,
-                   double total, String estado,PlazoCredito plazo_credito, Amortizacion amortizacion, ModeloTabla modelo_tabla){
+    public Credito(String codigo, double saldo, double tasa_interes_anual, int periodicidad_numero, String periodicidad,
+                   int periodicidad_total, double tasa_periodo, long cuotas,Date fecha_primera_cuota, Date fecha_consecion,
+                   double dividendo, String tipo, List<Amortizacion> amortizaciones){
         super(codigo);
         this.saldo=saldo;
-        this.valor_seguro=valor_seguro;
-        this.recargos=recargos;
-        this.interes_periodo=interes_periodo;
-        this.interes_anual=interes_anual;
-        this.primera_cuota=primera_cuota;
-        this.vencimiento=vencimiento;
-        this.cuota=cuota;
-        this.intereses=intereses;
-        this.total=total;
-        this.estado=estado;
-        this.plazo_credito=plazo_credito;
-        this.modelo_tabla=modelo_tabla;
-        this.amortizacion=amortizacion;
+        this.tasa_interes_anual=tasa_interes_anual;
+        this.periodicidad=periodicidad;
+        this.periodicidad_numero=periodicidad_numero;
+        this.periodicidad_total=periodicidad_total;
+        this.tasa_periodo=tasa_periodo;
+        this.cuotas=cuotas;
+        this.fecha_primera_cuota=fecha_primera_cuota;
+        this.fecha_consecion=fecha_consecion;
+        this.dividendo=dividendo;
+        this.tipo=tipo;
+        this.amortizaciones=amortizaciones;
     }
     public double getSaldo() {
         return saldo;
     }
 
-    public PlazoCredito getPlazo_credito() {
-        return plazo_credito;
+    public double getTasa_interes_anual() {
+        return tasa_interes_anual;
     }
 
-    public double getValor_seguro() {
-        return valor_seguro;
+    /**
+     * Es el texto del tipo de peridicidad por ejemplo: mensual, trimestral
+     * @return
+     */
+    public String getPeriodicidad() {
+        return periodicidad;
     }
 
-    public double getRecargos() {
-        return recargos;
+    /**
+     * Es el numero de dias para el periodo por ejemplo: mensual=30, trimestral=90
+     * @return
+     */
+    public int getPeriodicidad_numero() {
+        return periodicidad_numero;
     }
 
-    public ModeloTabla getModelo_tabla() {
-        return modelo_tabla;
+    public int getPeriodicidad_total() {
+        return periodicidad_total;
     }
 
-    public double getInteres_periodo() {
-        return interes_periodo;
+    public double getTasa_periodo() {
+        return tasa_periodo;
     }
 
-    public double getInteres_anual() {
-        return interes_anual;
+    public void setTasa_periodo(double tasa_periodo) {
+        this.tasa_periodo = tasa_periodo;
     }
 
-    public Date getPrimera_cuota() {
-        return primera_cuota;
+    public long getCuotas() {
+        return cuotas;
     }
 
-    public Date getVencimiento() {
-        return vencimiento;
+    public Date getFecha_primera_cuota() {
+        return fecha_primera_cuota;
     }
 
-    public double getCuota() {
-        return cuota;
+    public Date getFecha_consecion() {
+        return fecha_consecion;
     }
 
-    public double getIntereses() {
-        return intereses;
+    public double getDividendo() {
+        return dividendo;
     }
 
-    public double getTotal() {
-        return total;
+    public String getTipo() {
+        return tipo;
     }
 
-    public String getEstado() {
-        return estado;
+    @JsonManagedReference
+    public List<Amortizacion> getAmortizaciones() {
+        return amortizaciones;
     }
 
-    public Amortizacion getAmortizacion() {
-        return amortizacion;
+    public void setAmortizaciones(List<Amortizacion> amortizaciones) {
+        this.amortizaciones = amortizaciones;
+    }
+
+    public void setFecha_consecion(Date fecha_consecion) {
+        this.fecha_consecion = fecha_consecion;
     }
 }

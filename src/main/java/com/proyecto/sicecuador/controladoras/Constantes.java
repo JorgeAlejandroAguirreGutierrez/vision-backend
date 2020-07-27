@@ -19,6 +19,11 @@ public class Constantes {
     public static final String mensaje_validacion_not_blank=" no debe estar en blanco";
     public static final String mensaje_validacion_not_null=" se debe registrar";
 
+    public static final String tabla_amortizacion_alemana="ALEMANA";
+    public static final String tabla_amortizacion_francesa="FRANCESA";
+    public static final String periodo_mensual="MENSUAL";
+    public static final String periodo_trimestral="TRIMESTRAL";
+
     public Map<String, String> modelos=new HashMap<String, String>() {{
         //CLIENTE
         modelos.put("AUXILIAR", "Auxiliar");

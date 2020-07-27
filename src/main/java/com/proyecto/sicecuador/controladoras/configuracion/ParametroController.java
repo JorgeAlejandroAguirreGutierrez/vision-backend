@@ -91,4 +91,15 @@ public class ParametroController implements GenericoController<Parametro> {
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping(value = "/consultartipo/{tipo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarTipo(@PathVariable("tipo") String tipo) {
+        try {
+            List<Parametro> parametro=servicio.consultarTipo(new Parametro(tipo));
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

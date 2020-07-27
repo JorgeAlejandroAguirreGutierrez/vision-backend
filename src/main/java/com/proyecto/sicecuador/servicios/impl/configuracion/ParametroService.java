@@ -55,4 +55,8 @@ public class ParametroService implements IParametroService {
     public Optional<Parametro> obtenerTipoTabla(Parametro parametro) {
         return rep.findByTablaAndTipo(parametro.getTabla(), parametro.getTipo());
     }
+    @Override
+    public List<Parametro> consultarTipo(Parametro parametro) {
+        return rep.AllByTipo(parametro.getTipo());
+    }
 }
