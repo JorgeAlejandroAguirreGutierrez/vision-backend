@@ -44,45 +44,48 @@ public class CreditoService implements ICreditoService {
     }
     @Override
     public Optional<Credito> construir(Credito credito) {
-        List<Amortizacion> amortizaciones=new ArrayList<>();
-        if (credito.getTipo().equals(Constantes.tabla_amortizacion_francesa)){
-            double tasa_periodo=credito.getTasa_interes_anual()/credito.getPeriodicidad_total();
-            credito.setTasa_periodo(tasa_periodo);
-            //Primera Cuota
-            int cuota=1;
-            Date fecha_pago=credito.getFecha_primera_cuota();
-            int numero_dias=credito.getPeriodicidad_numero();
-            double dividendo=Math.round((credito.getSaldo()*((credito.getTasa_periodo()/100)/(1-Math.pow((1+(credito.getTasa_periodo()/100)), - credito.getCuotas()))))*100d)/100d;
-            double capital_inicio_periodo=credito.getSaldo();
-            double valor_cuota=dividendo;
-            double intereses_periodo= Math.round((capital_inicio_periodo*((credito.getTasa_periodo()/100)))*100d)/100d;
-            double capital=Math.round((valor_cuota-intereses_periodo)*100d)/100d;
-            double saldo_capital=Math.round((capital_inicio_periodo-capital)*100d)/100d;
-            Amortizacion amortizacion=new Amortizacion(null, cuota, fecha_pago, numero_dias, capital_inicio_periodo,
-            capital, intereses_periodo, valor_cuota, saldo_capital, credito);
-            amortizaciones.add(amortizacion);
-            //Fin Primera Cuota
-            for (int i=1; i<credito.getCuotas(); i++){
-                cuota=i+1;
-                if (credito.getPeriodicidad().equals(Constantes.periodo_mensual)){
-                    valor_cuota=dividendo;
-                    Calendar calendar = Calendar.getInstance();
-                    credito.setFecha_consecion(new Date());
-                    calendar.setTime(credito.getFecha_consecion());
-                    calendar.add(Calendar.DAY_OF_YEAR, credito.getPeriodicidad_numero());
-                    fecha_pago=calendar.getTime();
-                    numero_dias=credito.getPeriodicidad_numero();
-                    capital_inicio_periodo=Math.round((amortizaciones.get(i-1).getCapital_inicio_periodo()-amortizaciones.get(i-1).getCapital())*100d)/100d;
-                    intereses_periodo=Math.round((capital_inicio_periodo*credito.getTasa_periodo()/100)*100d)/100d;
-                    capital=Math.round((valor_cuota-intereses_periodo)*100d)/100d;
-                    saldo_capital=Math.round((capital_inicio_periodo-capital)*100d)/100d;
-                }
-                amortizacion=new Amortizacion(null, cuota, fecha_pago, numero_dias, capital_inicio_periodo,
+        if(credito.getSaldo()>0){
+            List<Amortizacion> amortizaciones=new ArrayList<>();
+            if (credito.getTipo().equals(Constantes.tabla_amortizacion_francesa)){
+                double tasa_periodo=credito.getTasa_interes_anual()/credito.getPeriodicidad_total();
+                credito.setTasa_periodo(tasa_periodo);
+                //Primera Cuota
+                int cuota=1;
+                Date fecha_pago=credito.getFecha_primera_cuota();
+                int numero_dias=credito.getPeriodicidad_numero();
+                double dividendo=Math.rint((credito.getSaldo()*((credito.getTasa_periodo()/100)/(1-Math.pow((1+(credito.getTasa_periodo()/100)), - credito.getCuotas()))))*100d)/100d;
+                double capital_inicio_periodo=credito.getSaldo();
+                double valor_cuota=dividendo;
+                double intereses_periodo= Math.rint((capital_inicio_periodo*((credito.getTasa_periodo()/100)))*100d)/100d;
+                double capital=Math.rint((valor_cuota-intereses_periodo)*100d)/100d;
+                double saldo_capital=Math.rint((capital_inicio_periodo-capital)*100d)/100d;
+                Amortizacion amortizacion=new Amortizacion(null, cuota, fecha_pago, numero_dias, capital_inicio_periodo,
                         capital, intereses_periodo, valor_cuota, saldo_capital, credito);
                 amortizaciones.add(amortizacion);
+                //Fin Primera Cuota
+                for (int i=1; i<credito.getCuotas(); i++){
+                    cuota=i+1;
+                    if (credito.getPeriodicidad().equals(Constantes.periodo_mensual)){
+                        valor_cuota=dividendo;
+                        Calendar calendar = Calendar.getInstance();
+                        credito.setFecha_consecion(new Date());
+                        calendar.setTime(credito.getFecha_consecion());
+                        calendar.add(Calendar.DAY_OF_YEAR, credito.getPeriodicidad_numero());
+                        fecha_pago=calendar.getTime();
+                        numero_dias=credito.getPeriodicidad_numero();
+                        capital_inicio_periodo=Math.rint((amortizaciones.get(i-1).getCapital_inicio_periodo()-amortizaciones.get(i-1).getCapital())*100d)/100d;
+                        intereses_periodo=Math.rint((capital_inicio_periodo*credito.getTasa_periodo()/100)*100d)/100d;
+                        capital=Math.rint((valor_cuota-intereses_periodo)*100d)/100d;
+                        saldo_capital=Math.rint((capital_inicio_periodo-capital)*100d)/100d;
+                    }
+                    amortizacion=new Amortizacion(null, cuota, fecha_pago, numero_dias, capital_inicio_periodo,
+                            capital, intereses_periodo, valor_cuota, saldo_capital, credito);
+                    amortizaciones.add(amortizacion);
+                }
             }
+            credito.setAmortizaciones(amortizaciones);
+            return Optional.of(credito);
         }
-        credito.setAmortizaciones(amortizaciones);
-        return Optional.of(credito);
+        return null;
     }
 }

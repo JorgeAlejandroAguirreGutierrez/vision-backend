@@ -213,4 +213,7 @@ public class Recaudacion extends Entidad {
         }
     }
 
+    public void setCredito(Credito credito) {
+        this.credito = credito;
+    }
 }

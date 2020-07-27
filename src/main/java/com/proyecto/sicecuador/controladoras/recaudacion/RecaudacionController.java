@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
+import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRecaudacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ import java.util.List;
 public class RecaudacionController implements GenericoController<Recaudacion> {
     @Autowired
     private IRecaudacionService servicio;
+    @Autowired
+    private ICreditoService servicio_credito;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
@@ -52,6 +55,7 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
                 return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
             }
             _recaudacion.normalizar();
+            _recaudacion.setCredito(servicio_credito.construir(_recaudacion.getCredito()).get());
             Recaudacion recaudacion=servicio.crear(_recaudacion);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, recaudacion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
