@@ -16,6 +16,12 @@ import com.itextpdf.layout.property.VerticalAlignment;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
+import fr.opensagres.xdocreport.converter.ConverterTypeTo;
+import fr.opensagres.xdocreport.converter.Options;
+import fr.opensagres.xdocreport.document.IXDocReport;
+import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
+import fr.opensagres.xdocreport.template.IContext;
+import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -25,8 +31,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.awt.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -139,7 +144,7 @@ public class FacturaService implements IFacturaService {
                 tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSubsidio()+"");
                 tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSin_subsidio()+"");
                 tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getValor_descuento_individual_totales()+"");
-                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSubtotal_con_descuento()+"");
+                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getTotal_con_descuento()+"");
             }
             documento.add(tabla_factura_detalle);
             float [] columnas_tabla_factura = {130F, 100F};
@@ -188,4 +193,23 @@ public class FacturaService implements IFacturaService {
         }
     }
 
+    /*@Override
+    public ByteArrayInputStream generarPDF(Factura factura) {
+        try {
+            // 1) Load ODT file and set Velocity template engine and cache it to the registry
+            InputStream in= new FileInputStream(new File("Prueba.docx"));
+            IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in,TemplateEngineKind.Velocity);
+            // 2) Create Java model context
+            IContext context = report.createContext();
+            context.put("name", "world");
+            // 3) Set PDF as format converter
+            Options options = Options.getTo(ConverterTypeTo.PDF);
+            // 3) Generate report by merging Java model with the ODT and convert it to PDF
+            OutputStream out = new FileOutputStream(new File("Prueba.docx"));
+            report.convert(context, options, out);
+            return out.
+        } catch(Exception e){
+            return null;
+        }
+    }*/
 }

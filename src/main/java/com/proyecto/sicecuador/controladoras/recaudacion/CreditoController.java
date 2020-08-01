@@ -4,7 +4,9 @@ import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
+import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
+import com.proyecto.sicecuador.servicios.interf.recaudacion.IRangoCrediticioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +25,8 @@ import java.util.Optional;
 public class CreditoController {
     @Autowired
     private ICreditoService servicio;
+    @Autowired
+    private IRangoCrediticioService servicio_rango_crediticio;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
@@ -85,13 +89,13 @@ public class CreditoController {
     }
 
     @GetMapping(value = "/construir", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> construir(@RequestParam double saldo,@RequestParam double tasa_interes_anual,
-                                       @RequestParam String periodicidad, @RequestParam int periodicidad_numero,
-                                       @RequestParam int periodicidad_total,@RequestParam long cuotas,
-                                       @RequestParam Date fecha_primera_cuota, @RequestParam String tipo ) {
+    public ResponseEntity<?> construir(@RequestParam double saldo, @RequestParam String periodicidad,
+                                       @RequestParam int periodicidad_numero, @RequestParam int periodicidad_total,
+                                       @RequestParam long cuotas, @RequestParam Date fecha_primera_cuota, @RequestParam String tipo, @RequestParam boolean sin_intereses ) {
         try {
-            Optional<Credito> credito=servicio.construir(new Credito(null, saldo, tasa_interes_anual, periodicidad_numero, periodicidad,
-            periodicidad_total, 0, cuotas,fecha_primera_cuota, null,0, tipo, null));
+            RangoCrediticio rango_crediticio=servicio_rango_crediticio.obtenerSaldo(saldo).get();
+            Optional<Credito> credito=servicio.construir(new Credito(null, saldo, rango_crediticio.getTasa_interes_anual(), periodicidad_numero, periodicidad,
+            periodicidad_total, rango_crediticio.getTasa_periodo(), cuotas,fecha_primera_cuota, null,0, tipo, sin_intereses, null));
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, credito);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

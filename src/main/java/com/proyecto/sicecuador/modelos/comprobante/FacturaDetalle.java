@@ -51,10 +51,10 @@ public class FacturaDetalle extends Entidad {
     private double valor_porcentaje_descuento_totales;
     
     //FIN TOTALES
-    @Column(name = "subtotal_sin_descuento", nullable = true)
-    private double subtotal_sin_descuento;
-    @Column(name = "subtotal_con_descuento", nullable = true)
-    private double subtotal_con_descuento;
+    @Column(name = "total_sin_descuento", nullable = true)
+    private double total_sin_descuento;
+    @Column(name = "total_con_descuento", nullable = true)
+    private double total_con_descuento;
     @Column(name = "valor_iva_sin_descuento", nullable = true)
     private double valor_iva_sin_descuento;
     @Column(name = "valor_iva_con_descuento", nullable = true)
@@ -149,12 +149,12 @@ public class FacturaDetalle extends Entidad {
         return valor_porcentaje_descuento_totales;
     }
 
-    public double getSubtotal_con_descuento() {
-        return subtotal_con_descuento;
+    public double getTotal_con_descuento() {
+        return total_con_descuento;
     }
 
-    public double getSubtotal_sin_descuento() {
-        return subtotal_sin_descuento;
+    public double getTotal_sin_descuento() {
+        return total_sin_descuento;
     }
 
     public double getValor_iva_con_descuento() {

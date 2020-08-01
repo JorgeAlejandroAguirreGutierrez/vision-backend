@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "credito")
-@EntityListeners({CreditoUtil.class})
 public class Credito extends Entidad {
     @Column(name = "saldo", nullable = true)
     private double saldo;
@@ -34,6 +33,8 @@ public class Credito extends Entidad {
     private double dividendo;
     @Column(name = "tipo", nullable = true)
     private String tipo;
+    @Column(name = "sin_intereses", nullable = true)
+    private boolean sin_intereses;
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "amortizacion_id", nullable = true)
     private List<Amortizacion> amortizaciones;
@@ -47,7 +48,7 @@ public class Credito extends Entidad {
 
     public Credito(String codigo, double saldo, double tasa_interes_anual, int periodicidad_numero, String periodicidad,
                    int periodicidad_total, double tasa_periodo, long cuotas,Date fecha_primera_cuota, Date fecha_consecion,
-                   double dividendo, String tipo, List<Amortizacion> amortizaciones){
+                   double dividendo, String tipo, boolean sin_intereses, List<Amortizacion> amortizaciones){
         super(codigo);
         this.saldo=saldo;
         this.tasa_interes_anual=tasa_interes_anual;
@@ -60,6 +61,7 @@ public class Credito extends Entidad {
         this.fecha_consecion=fecha_consecion;
         this.dividendo=dividendo;
         this.tipo=tipo;
+        this.sin_intereses=sin_intereses;
         this.amortizaciones=amortizaciones;
     }
     public double getSaldo() {
@@ -118,6 +120,10 @@ public class Credito extends Entidad {
         return tipo;
     }
 
+    public boolean isSin_intereses() {
+        return sin_intereses;
+    }
+
     @JsonManagedReference
     public List<Amortizacion> getAmortizaciones() {
         return amortizaciones;
@@ -129,5 +135,17 @@ public class Credito extends Entidad {
 
     public void setFecha_consecion(Date fecha_consecion) {
         this.fecha_consecion = fecha_consecion;
+    }
+
+    public void setTasa_interes_anual(double tasa_interes_anual) {
+        this.tasa_interes_anual = tasa_interes_anual;
+    }
+
+    public void setPeriodicidad_numero(int periodicidad_numero) {
+        this.periodicidad_numero = periodicidad_numero;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
     }
 }

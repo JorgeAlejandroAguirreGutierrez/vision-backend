@@ -26,7 +26,7 @@ public class Amortizacion extends Entidad {
     private double valor_cuota;
     @Column(name = "saldo_capital", nullable = true)
     private double saldo_capital;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
 
@@ -41,7 +41,7 @@ public class Amortizacion extends Entidad {
                         double capital, double intereses_periodo, double valor_cuota, double saldo_capital, Credito credito){
         super(codigo);
         this.numero_cuota=numero_cuota;
-        this.fecha_pago=new Date();
+        this.fecha_pago=fecha_pago;
         this.numero_dias=numero_dias;
         this.capital_inicio_periodo=capital_inicio_periodo;
         this.capital=capital;
@@ -83,7 +83,7 @@ public class Amortizacion extends Entidad {
         return saldo_capital;
     }
     @JsonBackReference
-    public void setCredito(Credito credito) {
-        this.credito = credito;
+    public Credito getCredito() {
+        return credito;
     }
 }

@@ -23,7 +23,6 @@ public class Recaudacion extends Entidad {
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "fecha", nullable = true)
     private Date fecha;
-    @DecimalMin(value = "0.01", message = "El Total tiene que ser mayor a 0")
     @Column(name = "total", nullable = true)
     private double total;
     @Column(name = "comentario", nullable = true)
@@ -46,7 +45,7 @@ public class Recaudacion extends Entidad {
     private double total_retenciones_ventas;
     @Column(name = "total_credito", nullable = true)
     private double total_credito;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
     @NotNull(message = "Factura"+ Constantes.mensaje_validacion_not_null)
@@ -215,5 +214,9 @@ public class Recaudacion extends Entidad {
 
     public void setCredito(Credito credito) {
         this.credito = credito;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 }

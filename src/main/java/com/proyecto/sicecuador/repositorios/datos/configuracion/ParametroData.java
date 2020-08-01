@@ -61,6 +61,7 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR34", "CREAR", "", "retencion_venta", "RVE"));
             parametros.add(new Parametro("PAR35", "CREAR", "", "tarjeta_credito", "TCR"));
             parametros.add(new Parametro("PAR36", "CREAR", "", "tarjeta_debito", "TDE"));
+            parametros.add(new Parametro("PAR37", "CREAR", "", "tarjeta_debito", "TDE"));
             parametros.add(new Parametro("PAR37", "CREAR", "", "usuario", "USR"));
             parametros.add(new Parametro("PAR38", "CREAR", "", "parametro", "PAR"));
             parametros.add(new Parametro("PAR39", "TIPOS USUARIOS", "VENDEDOR", "", "V"));
@@ -100,7 +101,8 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR73", "QUINCENAL", "15", "", "QUI"));
             parametros.add(new Parametro("PAR74", "TRIMESTRAL", "90", "", "TRI"));
             parametros.add(new Parametro("PAR75", "ANUAL", "365", "", "ANU"));
-            parametros.add(new Parametro("PAR76", "LOGO", "siice.png", "", "LOG"));
+            parametros.add(new Parametro("PAR76", "CREAR", "", "amortizacion", "AMO"));
+            parametros.add(new Parametro("PAR77", "LOGO", "siice.png", "", "LOG"));
             rep.saveAll(parametros);
         }
     }

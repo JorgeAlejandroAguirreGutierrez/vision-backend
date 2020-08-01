@@ -138,6 +138,8 @@ public interface IParametroRepository extends JpaRepository<Parametro, Long>, Jp
     long findConteoTarjetaDebito();
     @Query(value = "SELECT count(*) FROM tarjeta", nativeQuery = true)
     long findConteoTarjeta();
+    @Query(value = "SELECT count(*) FROM amortizacion", nativeQuery = true)
+    long findConteoAmortizacion();
 
     @Query(value = "SELECT count(*) FROM establecimiento", nativeQuery = true)
     long findConteoEstablecimiento();

@@ -25,6 +25,8 @@ public class RecaudacionUtil {
     private final String tabla_tarjeta_debito="tarjeta_debito";
     private final String tabla_compensacion="compensacion";
     private final String tabla_retencion_venta="retencion_venta";
+    private final String tabla_credito="credito";
+    private final String tabla_amortizacion="amortizacion";
 
 
     @Autowired
@@ -40,38 +42,47 @@ public class RecaudacionUtil {
         Recaudacion recaudacion=(Recaudacion)entidad;
         for (Cheque cheque: recaudacion.getCheques()) {
             parametro = rep.findByTablaAndTipo(tabla_cheque,tipo);
-            conteo=rep.findConteoTelefono();
+            conteo=rep.findConteoCheque();
             cheque.setCodigo(Util.generarCodigo(parametro, conteo));
         }
         for (Deposito deposito: recaudacion.getDepositos()) {
             parametro = rep.findByTablaAndTipo(tabla_deposito,tipo);
-            conteo=rep.findConteoTelefono();
+            conteo=rep.findConteoDeposito();
             deposito.setCodigo(Util.generarCodigo(parametro, conteo));
         }
         for (Transferencia transferencia: recaudacion.getTransferencias()) {
             parametro = rep.findByTablaAndTipo(tabla_transferencia,tipo);
-            conteo=rep.findConteoTelefono();
+            conteo=rep.findConteoTransferencia();
             transferencia.setCodigo(Util.generarCodigo(parametro, conteo));
         }
         for (TarjetaCredito tarjeta_credito: recaudacion.getTarjetas_creditos()) {
             parametro = rep.findByTablaAndTipo(tabla_tarjeta_credito,tipo);
-            conteo=rep.findConteoTelefono();
+            conteo=rep.findConteoTarjetaCredito();
             tarjeta_credito.setCodigo(Util.generarCodigo(parametro, conteo));
         }
         for (TarjetaDebito tarjeta_debito: recaudacion.getTarjetas_debitos()) {
             parametro = rep.findByTablaAndTipo(tabla_tarjeta_debito,tipo);
-            conteo=rep.findConteoTelefono();
+            conteo=rep.findConteoTarjetaDebito();
             tarjeta_debito.setCodigo(Util.generarCodigo(parametro, conteo));
         }
         for (Compensacion compensacion: recaudacion.getCompensaciones()) {
             parametro = rep.findByTablaAndTipo(tabla_compensacion,tipo);
-            conteo=rep.findConteoTelefono();
+            conteo=rep.findConteoCompensacion();
             compensacion.setCodigo(Util.generarCodigo(parametro, conteo));
         }
         for (RetencionVenta retencion_venta: recaudacion.getRetenciones_ventas()) {
             parametro = rep.findByTablaAndTipo(tabla_retencion_venta,tipo);
-            conteo=rep.findConteoTelefono();
+            conteo=rep.findConteoRetencionVenta();
             retencion_venta.setCodigo(Util.generarCodigo(parametro, conteo));
         }
+        parametro = rep.findByTablaAndTipo(tabla_credito,tipo);
+        conteo=rep.findConteoCredito();
+        recaudacion.getCredito().setCodigo(Util.generarCodigo(parametro, conteo));
+        for (Amortizacion amortizacion: recaudacion.getCredito().getAmortizaciones()) {
+            parametro = rep.findByTablaAndTipo(tabla_amortizacion,tipo);
+            conteo=rep.findConteoAmortizacion();
+            amortizacion.setCodigo(Util.generarCodigo(parametro, conteo));
+        }
+
     }
 }

@@ -16,7 +16,6 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     private IPlazoCreditoRepository rep;
     @Override
     public PlazoCredito crear(PlazoCredito plazo_credito) {
-        //plazo_credito.setCodigo(Util.generarCodigo("auxiliar","CREAR",rep.count()));
         return rep.save(plazo_credito);
     }
 
