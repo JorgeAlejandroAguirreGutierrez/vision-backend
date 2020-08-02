@@ -75,7 +75,8 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR47", "TARJETA", "DEBITO", "", "TDB"));
             parametros.add(new Parametro("PAR48", "PERIODICIDAD", "MENSUAL", "", "M"));
             parametros.add(new Parametro("PAR49", "PERIODICIDAD", "QUINCENAL", "", "Q"));
-            parametros.add(new Parametro("PAR50", "PERIODICIDAD", "DIARIO", "", "D"));
+            parametros.add(new Parametro("PAR50", "PERIODICIDAD", "TRIMESTRAL", "", "T"));
+            parametros.add(new Parametro("PAR50", "PERIODICIDAD", "ANUAL", "", "A"));
             parametros.add(new Parametro("PAR51", "MODELO_AMORTIZACION", "ALEMANA", "", "AL"));
             parametros.add(new Parametro("PAR52", "MODELO_AMORTIZACION", "FRANCESA", "", "FR"));
             parametros.add(new Parametro("PAR53", "FORMA COBRO", "CONTADO", "", "C"));
