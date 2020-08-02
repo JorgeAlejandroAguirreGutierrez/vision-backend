@@ -94,8 +94,10 @@ public class CreditoController {
                                        @RequestParam long cuotas, @RequestParam Date fecha_primera_cuota, @RequestParam String tipo, @RequestParam boolean sin_intereses ) {
         try {
             RangoCrediticio rango_crediticio=servicio_rango_crediticio.obtenerSaldo(saldo).get();
-            Optional<Credito> credito=servicio.construir(new Credito(null, saldo, rango_crediticio.getTasa_interes_anual(), periodicidad_numero, periodicidad,
-            periodicidad_total, rango_crediticio.getTasa_periodo(), cuotas,fecha_primera_cuota, null,0, tipo, sin_intereses, null));
+            double tasa_interes_anual=rango_crediticio.getTasa_interes_anual();
+            double tasa_periodo=Math.rint((rango_crediticio.getTasa_interes_anual()/periodicidad_total)*100d)/100d;
+            Optional<Credito> credito=servicio.construir(new Credito(null, saldo, tasa_interes_anual, periodicidad_numero, periodicidad,
+            periodicidad_total, tasa_periodo, cuotas,fecha_primera_cuota, null,0, tipo, sin_intereses, null));
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, credito);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
