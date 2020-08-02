@@ -68,7 +68,7 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
             }
             RangoCrediticio rango_crediticio=servicio_rango_crediticio.obtenerSaldo(_recaudacion.getCredito().getSaldo()).get();
             _recaudacion.getCredito().setTasa_interes_anual(rango_crediticio.getTasa_interes_anual());
-            double tasa_periodo=Math.rint((rango_crediticio.getTasa_interes_anual()/_recaudacion.getCredito().getPeriodicidad_numero())*100d)/100d;
+            double tasa_periodo=Math.rint((rango_crediticio.getTasa_interes_anual()/_recaudacion.getCredito().getPeriodicidad_total())*100d)/100d;
             _recaudacion.getCredito().setTasa_periodo(tasa_periodo);
             _recaudacion.setCredito(servicio_credito.construir(_recaudacion.getCredito()).get());
             Recaudacion recaudacion=servicio.crear(_recaudacion);
