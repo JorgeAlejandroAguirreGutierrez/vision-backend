@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "permiso")
-@EntityListeners({PermisoUtil.class})
 public class Permiso extends Entidad {
     @Column(name = "modulo", nullable = true)
     private String modulo;
@@ -40,5 +39,13 @@ public class Permiso extends Entidad {
 
     public String getOperacion() {
         return operacion;
+    }
+
+    public boolean isHabilitado() {
+        return habilitado;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
     }
 }

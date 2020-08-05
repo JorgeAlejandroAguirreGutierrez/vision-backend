@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -103,4 +104,17 @@ public class AuxiliarController implements GenericoController<Auxiliar> {
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping(value = "/importar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> importar(@RequestParam("file") MultipartFile file) {
+        try {
+            boolean bandera=servicio.importar(file);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, bandera);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

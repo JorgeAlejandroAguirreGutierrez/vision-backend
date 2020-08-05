@@ -9,7 +9,8 @@ import javax.persistence.*;
 @Table(name = "proveedor")
 @EntityListeners({ProveedorUtil.class})
 public class Proveedor extends Entidad {
-
+    @Column(name = "nombre", nullable = true)
+    private String nombre;
     public Proveedor(long id){
         super(id);
     }
@@ -18,5 +19,14 @@ public class Proveedor extends Entidad {
     }
     public Proveedor(){
         super();
+    }
+
+    public Proveedor(String codigo, String nombre){
+        super(codigo);
+        this.nombre=nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }

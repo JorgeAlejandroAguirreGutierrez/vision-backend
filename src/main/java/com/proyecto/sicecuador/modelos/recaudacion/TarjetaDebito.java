@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tarjeta_debito")
-//@EntityListeners({TarjetaDebitoUtil.class})
 public class TarjetaDebito extends Entidad {
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
@@ -38,12 +37,13 @@ public class TarjetaDebito extends Entidad {
         super(id);
     }
 
-    public TarjetaDebito(String codigo, String identificacion, String nombre_titular, String lote, double valor, OperadorTarjeta operador_tarjeta, FranquiciaTarjeta franquicia_tarjeta, Recaudacion recaudacion){
+    public TarjetaDebito(String codigo, String identificacion, String nombre_titular, String lote, double valor, Banco banco, OperadorTarjeta operador_tarjeta, FranquiciaTarjeta franquicia_tarjeta, Recaudacion recaudacion){
         super(codigo);
         this.identificacion=identificacion;
         this.nombre_titular=nombre_titular;
         this.lote=lote;
         this.valor=valor;
+        this.banco=banco;
         this.operador_tarjeta=operador_tarjeta;
         this.franquicia_tarjeta=franquicia_tarjeta;
         this.recaudacion= recaudacion;
@@ -70,5 +70,13 @@ public class TarjetaDebito extends Entidad {
     @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;
+    }
+
+    public FranquiciaTarjeta getFranquicia_tarjeta() {
+        return franquicia_tarjeta;
+    }
+
+    public Banco getBanco() {
+        return banco;
     }
 }

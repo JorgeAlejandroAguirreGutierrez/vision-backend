@@ -13,7 +13,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "auxiliar")
-//@EntityListeners({AuxiliarUtil.class})
 public class Auxiliar extends Entidad {
     @NotNull(message = "Razon Social"+ Constantes.mensaje_validacion_not_null)
     @NotBlank(message = "Razon Social"+Constantes.mensaje_validacion_not_blank)

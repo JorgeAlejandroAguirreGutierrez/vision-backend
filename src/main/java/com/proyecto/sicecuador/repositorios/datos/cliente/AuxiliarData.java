@@ -41,8 +41,5 @@ public class AuxiliarData implements ApplicationRunner {
             auxiliares.add(new Auxiliar("AUX011908000006", "AUXILIAR 2 DE CLIENTE B", true, false, new Cliente(2), direccion));
             rep.saveAll(auxiliares);
         }
-
-
-
     }
 }

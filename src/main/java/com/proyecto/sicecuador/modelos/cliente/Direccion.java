@@ -6,7 +6,6 @@ import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import javax.persistence.*;
 @Entity
 @Table(name = "direccion")
-//@EntityListeners({DireccionUtil.class})
 public class Direccion extends Entidad {
     @Column(name = "direccion", nullable = true)
     private String direccion;

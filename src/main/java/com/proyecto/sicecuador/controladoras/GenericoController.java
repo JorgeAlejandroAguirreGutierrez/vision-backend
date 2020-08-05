@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.controladoras;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -11,4 +12,5 @@ public interface GenericoController<T> {
     ResponseEntity<?> crear(T t, BindingResult binding_result);
     ResponseEntity<?> actualizar(T t);
     ResponseEntity<?> eliminar(long id);
+    ResponseEntity<?> importar(MultipartFile file);
 }

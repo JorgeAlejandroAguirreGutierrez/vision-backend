@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "punto_venta")
-//@EntityListeners({PuntoVentaUtil.class})
 public class PuntoVenta extends Entidad {
     @Column(name = "descripcion", nullable = true)
     private String descripcion;

@@ -9,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "perfil")
-@EntityListeners({PerfilUtil.class})
 public class Perfil extends Entidad {
     @Column(name = "descripcion", nullable = true)
     private String descripcion;

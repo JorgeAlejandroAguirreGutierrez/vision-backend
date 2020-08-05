@@ -9,7 +9,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "deposito")
-//@EntityListeners({DepositoUtil.class})
 public class Deposito extends Entidad {
     @Column(name = "fecha", nullable = true)
     private Date fecha;

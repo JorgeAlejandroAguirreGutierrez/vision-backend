@@ -10,7 +10,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "retencion_venta")
-//@EntityListeners({RetencionVentaUtil.class})
 public class RetencionVenta extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;

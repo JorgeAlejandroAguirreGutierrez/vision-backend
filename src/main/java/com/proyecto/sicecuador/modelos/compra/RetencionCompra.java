@@ -57,4 +57,12 @@ public class RetencionCompra extends Entidad {
     public Date getFecha() {
         return fecha;
     }
+
+    public Date getFecha_efectivizacion() {
+        return fecha_efectivizacion;
+    }
+
+    public Banco getBanco() {
+        return banco;
+    }
 }

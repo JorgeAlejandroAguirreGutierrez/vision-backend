@@ -1,8 +1,5 @@
 package com.proyecto.sicecuador.repositorios.datos.recaudacion;
 
-import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
-import com.proyecto.sicecuador.modelos.recaudacion.ModeloTabla;
-import com.proyecto.sicecuador.repositorios.interf.recaudacion.IFranquiciaTarjetaRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IModeloTablaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

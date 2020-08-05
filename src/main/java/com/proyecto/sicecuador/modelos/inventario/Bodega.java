@@ -15,12 +15,8 @@ import java.util.List;
 @Table(name = "bodega")
 @EntityListeners({BodegaUtil.class})
 public class Bodega extends Entidad {
-
-    /*@OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "bodega_id")
-    private List<Caracteristica> caracteristicas;*/
-
-
+    @Column(name = "codigo_interno", nullable = true)
+    private String codigo_interno;
     public Bodega(){
     }
     public Bodega(long id){
@@ -29,10 +25,12 @@ public class Bodega extends Entidad {
     public Bodega(String codigo){
         super(codigo);
     }
+    public Bodega(String codigo, String codigo_interno){
+        super(codigo);
+        this.codigo_interno=codigo_interno;
+    }
 
-    /*@JsonManagedReference
-    public List<Caracteristica> getCaracteristicas() {
-        return caracteristicas;
-    }*/
-
+    public String getCodigo_interno() {
+        return codigo_interno;
+    }
 }

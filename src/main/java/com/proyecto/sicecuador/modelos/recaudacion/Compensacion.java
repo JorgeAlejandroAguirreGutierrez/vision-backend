@@ -55,4 +55,51 @@ public class Compensacion extends Entidad {
         return recaudacion;
     }
 
+    public String getComprobante() {
+        return comprobante;
+    }
+
+    public Date getFecha_comprobante() {
+        return fecha_comprobante;
+    }
+
+    public String getOrigen() {
+        return origen;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public Date getFecha_vencimiento() {
+        return fecha_vencimiento;
+    }
+
+    public double getValor_origen() {
+        return valor_origen;
+    }
+
+    public double getSaldo_anterior() {
+        return saldo_anterior;
+    }
+
+    public double getValor_compensado() {
+        return valor_compensado;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public double getCompensado() {
+        return compensado;
+    }
+
+    public TipoComprobante getTipo_comprobante() {
+        return tipo_comprobante;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
 }

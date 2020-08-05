@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "genero")
-//@EntityListeners({GeneroUtil.class})
 public class Genero extends Entidad {
     @Column(name = "descripcion", nullable = true)
     private String descripcion;

@@ -122,4 +122,16 @@ public class Kardex extends Entidad {
     public double getTotal() {
         return total;
     }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public GuiaRemision getGuia_remision() {
+        return guia_remision;
+    }
 }

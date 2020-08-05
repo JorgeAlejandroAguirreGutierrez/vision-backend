@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tarjeta_credito")
-//@EntityListeners({TarjetaCreditoUtil.class})
 public class TarjetaCredito extends Entidad {
     @Column(name = "diferido", nullable = true)
     private boolean diferido;
