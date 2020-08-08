@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.repositorios.interf.entrega.ITransportistaReposit
 import com.proyecto.sicecuador.servicios.interf.entrega.ITransportistaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,5 +38,10 @@ public class TransportistaService implements ITransportistaService {
     @Override
     public List<Transportista> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 }

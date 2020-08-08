@@ -1,7 +1,9 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRangoCrediticioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,7 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/sicecuador/rangocrediticio")
-public class RangoCrediticioController {
+public class RangoCrediticioController implements GenericoController<RangoCrediticio> {
     @Autowired
     private IRangoCrediticioService servicio;
 
@@ -79,6 +82,11 @@ public class RangoCrediticioController {
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public ResponseEntity<?> importar(MultipartFile file) {
+        return null;
     }
 
     @GetMapping(value = "/saldo/{saldo}", produces = MediaType.APPLICATION_JSON_VALUE)

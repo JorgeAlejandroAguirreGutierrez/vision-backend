@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.repositorios.interf.recaudacion.IRecaudacionRepos
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRecaudacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,5 +37,10 @@ public class RecaudacionService implements IRecaudacionService {
     @Override
     public List<Recaudacion> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 }

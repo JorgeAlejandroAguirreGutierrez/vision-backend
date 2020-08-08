@@ -344,26 +344,8 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public List<Cliente> importar(MultipartFile reapExcelDataFile) {
-        XSSFWorkbook workbook = null;
-        try {
-            workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
-            XSSFSheet worksheet = workbook.getSheetAt(0);
-            for(int i=1;i<worksheet.getPhysicalNumberOfRows() ;i++) {
-                Cliente cliente = new Cliente();
-                XSSFRow row = worksheet.getRow(i);
-                cliente.setRazon_social(row.getCell(0).getStringCellValue());
-                cliente.setTipo_identificacion(row.getCell(1).getStringCellValue());
-                cliente.setIdentificacion(row.getCell(1).getStringCellValue());
-                cliente.setEspecial(row.getCell(1).getBooleanCellValue());
-
-                cliente.getGenero().setAbreviatura(row.getCell(1).getStringCellValue());
-            }
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public boolean importar(MultipartFile reapExcelDataFile) {
+        return false;
     }
 
     @Override

@@ -105,10 +105,10 @@ public class AuxiliarController implements GenericoController<Auxiliar> {
         }
     }
 
-    @PostMapping(value = "/importar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> importar(@RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
         try {
-            boolean bandera=servicio.importar(file);
+            boolean bandera=servicio.importar(archivo);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, bandera);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

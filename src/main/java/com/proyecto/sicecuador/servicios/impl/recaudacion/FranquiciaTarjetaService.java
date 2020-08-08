@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.repositorios.interf.recaudacion.IFranquiciaTarjet
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IFranquiciaTarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,11 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     @Override
     public List<FranquiciaTarjeta> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 
 }

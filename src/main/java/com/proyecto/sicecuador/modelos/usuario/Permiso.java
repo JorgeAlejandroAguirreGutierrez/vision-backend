@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.cliente.TipoContribuyenteUtil;
 import com.proyecto.sicecuador.otros.usuario.PermisoUtil;
@@ -44,7 +46,7 @@ public class Permiso extends Entidad {
     public boolean isHabilitado() {
         return habilitado;
     }
-
+    @JsonBackReference
     public Perfil getPerfil() {
         return perfil;
     }

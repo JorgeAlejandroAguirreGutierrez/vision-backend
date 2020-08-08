@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
+@RestController
+@RequestMapping("/api/sicecuador/modelo")
 public class ModeloController {
     @Autowired
     private IModeloService servicio;

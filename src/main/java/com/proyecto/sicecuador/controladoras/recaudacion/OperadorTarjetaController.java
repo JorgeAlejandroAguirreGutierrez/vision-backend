@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -92,5 +93,10 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public ResponseEntity<?> importar(MultipartFile file) {
+        return null;
     }
 }

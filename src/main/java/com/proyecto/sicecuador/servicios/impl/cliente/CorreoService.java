@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.ICorreoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICorreoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,5 +39,10 @@ public class CorreoService implements ICorreoService {
     @Override
     public List<Correo> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 }

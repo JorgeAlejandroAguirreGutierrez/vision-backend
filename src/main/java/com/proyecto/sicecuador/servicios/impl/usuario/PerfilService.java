@@ -7,6 +7,7 @@ import com.proyecto.sicecuador.servicios.interf.usuario.IPerfilService;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPuntoVentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,5 +39,10 @@ public class PerfilService implements IPerfilService {
     @Override
     public List<Perfil> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 }

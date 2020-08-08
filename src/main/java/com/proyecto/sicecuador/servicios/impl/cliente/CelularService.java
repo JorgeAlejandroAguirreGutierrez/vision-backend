@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.ICelularRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICelularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,6 @@ public class CelularService implements ICelularService {
     private ICelularRepository rep;
     @Override
     public Celular crear(Celular celular) {
-        //celular.setCodigo(Util.generarCodigo("celular","CREAR",rep.count()));
         return rep.save(celular);
     }
 
@@ -38,5 +38,10 @@ public class CelularService implements ICelularService {
     @Override
     public List<Celular> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 }

@@ -25,6 +25,7 @@ import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -63,6 +64,11 @@ public class FacturaService implements IFacturaService {
     @Override
     public List<Factura> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 
     @Override

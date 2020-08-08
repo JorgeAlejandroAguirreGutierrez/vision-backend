@@ -7,6 +7,7 @@ import com.proyecto.sicecuador.repositorios.interf.recaudacion.ICreditoRepositor
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -39,6 +40,12 @@ public class CreditoService implements ICreditoService {
     public List<Credito> consultar() {
         return rep.findAll();
     }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
+    }
+
     @Override
     public Optional<Credito> construir(Credito credito) {
         if(credito.getSaldo()>0){

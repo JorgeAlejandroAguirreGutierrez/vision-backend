@@ -7,6 +7,7 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.IGrupoClienteReposito
 import com.proyecto.sicecuador.servicios.interf.cliente.IGrupoClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,6 @@ public class GrupoClienteService implements IGrupoClienteService {
     private IGrupoClienteRepository rep;
     @Override
     public GrupoCliente crear(GrupoCliente grupo_cliente) {
-        //grupo_cliente.setCodigo(Util.generarCodigo("grupo_cliente","CREAR",rep.count()));
         return rep.save(grupo_cliente);
     }
 
@@ -39,5 +39,10 @@ public class GrupoClienteService implements IGrupoClienteService {
     @Override
     public List<GrupoCliente> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 }

@@ -7,6 +7,7 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.IDireccionRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IDireccionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,5 +40,10 @@ public class DireccionService implements IDireccionService {
     @Override
     public List<Direccion> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 }

@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
+import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
@@ -13,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
@@ -22,7 +25,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/sicecuador/credito")
-public class CreditoController {
+public class CreditoController implements GenericoController<Credito> {
     @Autowired
     private ICreditoService servicio;
     @Autowired
@@ -86,6 +89,11 @@ public class CreditoController {
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public ResponseEntity<?> importar(MultipartFile file) {
+        return null;
     }
 
     @GetMapping(value = "/construir", produces = MediaType.APPLICATION_JSON_VALUE)

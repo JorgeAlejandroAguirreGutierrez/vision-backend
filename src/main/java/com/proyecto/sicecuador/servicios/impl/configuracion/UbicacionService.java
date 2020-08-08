@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.repositorios.interf.configuracion.IUbicacionRepos
 import com.proyecto.sicecuador.servicios.interf.configuracion.IUbicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,11 @@ public class UbicacionService implements IUbicacionService {
     @Override
     public List<Ubicacion> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 
     @Override

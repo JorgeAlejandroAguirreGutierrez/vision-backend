@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.ICategoriaClienteRepo
 import com.proyecto.sicecuador.servicios.interf.cliente.ICategoriaClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,6 @@ public class CategoriaClienteService implements ICategoriaClienteService {
     private ICategoriaClienteRepository rep;
     @Override
     public CategoriaCliente crear(CategoriaCliente categoria_cliente) {
-        //categoria_cliente.setCodigo(Util.generarCodigo("categoria_cliente","CREAR",rep.count()));
         return rep.save(categoria_cliente);
     }
 
@@ -38,5 +38,10 @@ public class CategoriaClienteService implements ICategoriaClienteService {
     @Override
     public List<CategoriaCliente> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 }

@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.IOrigenIngresoReposit
 import com.proyecto.sicecuador.servicios.interf.cliente.IOrigenIngresoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,6 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     private IOrigenIngresoRepository rep;
     @Override
     public OrigenIngreso crear(OrigenIngreso origen_ingreso) {
-        //origen_ingreso.setCodigo(Util.generarCodigo("origen_ingreso","CREAR",rep.count()));
         return rep.save(origen_ingreso);
     }
 
@@ -38,5 +38,10 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     @Override
     public List<OrigenIngreso> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 }

@@ -61,7 +61,6 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR34", "CREAR", "", "retencion_venta", "RVE"));
             parametros.add(new Parametro("PAR35", "CREAR", "", "tarjeta_credito", "TCR"));
             parametros.add(new Parametro("PAR36", "CREAR", "", "tarjeta_debito", "TDE"));
-            parametros.add(new Parametro("PAR37", "CREAR", "", "tarjeta_debito", "TDE"));
             parametros.add(new Parametro("PAR37", "CREAR", "", "usuario", "USR"));
             parametros.add(new Parametro("PAR38", "CREAR", "", "parametro", "PAR"));
             parametros.add(new Parametro("PAR39", "TIPOS USUARIOS", "VENDEDOR", "", "V"));

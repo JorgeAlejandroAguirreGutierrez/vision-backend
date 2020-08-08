@@ -4,9 +4,12 @@ import com.proyecto.sicecuador.modelos.administracion.Modelo;
 import com.proyecto.sicecuador.repositorios.interf.administracion.IModeloRepository;
 import com.proyecto.sicecuador.servicios.interf.administracion.IModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class ModeloService implements IModeloService {
     @Autowired
     private IModeloRepository rep;
@@ -34,6 +37,11 @@ public class ModeloService implements IModeloService {
     @Override
     public List<Modelo> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 
 }

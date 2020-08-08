@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.ITelefonoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITelefonoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,5 +38,10 @@ public class TelefonoService implements ITelefonoService {
     @Override
     public List<Telefono> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -81,6 +82,12 @@ public class ImpuestoController implements GenericoController<Impuesto> {
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public ResponseEntity<?> importar(MultipartFile file) {
+        return null;
+    }
+
     @GetMapping(value = "/porcentaje/{porcentaje}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerPorcentaje(@PathVariable("porcentaje") double porcentaje) {
         try {

@@ -24,7 +24,5 @@ public interface IClienteService extends IGenericoService<Cliente> {
     boolean verificarPlaca(String identificacion);
     boolean verificarPlacaMoto(String identificacion);
     boolean verificarPasaporte(String identificacion);
-
-    List<Cliente>importar(MultipartFile reapExcelDataFile);
     List<Cliente>exportar();
 }

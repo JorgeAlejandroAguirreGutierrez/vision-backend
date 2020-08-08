@@ -7,6 +7,8 @@ import com.proyecto.sicecuador.repositorios.interf.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.ISesionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +46,11 @@ public class SesionService implements ISesionService {
     @Override
     public List<Sesion> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public boolean importar(MultipartFile file) {
+        return false;
     }
 
     @Override

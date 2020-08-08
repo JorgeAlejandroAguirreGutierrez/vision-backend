@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.cliente.TipoContribuyenteUtil;
 import com.proyecto.sicecuador.otros.usuario.PerfilUtil;
@@ -14,7 +15,8 @@ public class Perfil extends Entidad {
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
-    @OneToMany(mappedBy = "perfil")
+    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "perfil_id")
     private List<Permiso> permisos;
 
     public Perfil(){
@@ -38,11 +40,8 @@ public class Perfil extends Entidad {
         return abreviatura;
     }
 
+    @JsonManagedReference
     public List<Permiso> getPermisos() {
         return permisos;
-    }
-
-    public void setPermisos(List<Permiso> permisos) {
-        this.permisos = permisos;
     }
 }
