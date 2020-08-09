@@ -3,10 +3,12 @@ package com.proyecto.sicecuador.modelos.usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.otros.cliente.TipoContribuyenteUtil;
 import com.proyecto.sicecuador.otros.usuario.PermisoUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "permiso")
@@ -33,6 +35,13 @@ public class Permiso extends Entidad {
         this.operacion = operacion;
         this.habilitado = habilitado;
         this.perfil = perfil;
+    }
+
+    public Permiso(List<String> datos){
+        modulo=datos.get(0)== null ? null: datos.get(0);
+        operacion=datos.get(1)== null ? null: datos.get(1);
+        habilitado=datos.get(2)== null ? null: datos.get(2).equals("S") ? true : false;
+        perfil=datos.get(3)== null ? null:new Perfil((long) Double.parseDouble(datos.get(3)));
     }
 
     public String getModulo() {

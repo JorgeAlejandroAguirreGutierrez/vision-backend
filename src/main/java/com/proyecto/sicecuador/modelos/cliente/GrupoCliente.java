@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.otros.cliente.GeneroUtil;
 import com.proyecto.sicecuador.otros.cliente.GrupoClienteUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "grupo_cliente")
@@ -27,6 +28,11 @@ public class GrupoCliente extends Entidad {
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
+    }
+
+    public GrupoCliente(List<String> datos){
+        descripcion=datos.get(0)== null? null : datos.get(0);
+        abreviatura=datos.get(1)== null? null : datos.get(1);
     }
 
     public String getDescripcion() {

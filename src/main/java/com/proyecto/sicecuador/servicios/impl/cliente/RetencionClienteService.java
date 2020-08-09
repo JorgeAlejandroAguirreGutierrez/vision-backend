@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IOrigenIngresoRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IRetencionClienteRepository;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -41,7 +44,18 @@ public class RetencionClienteService implements IRetencionClienteService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<RetencionCliente> retenciones_clientes=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                RetencionCliente retencion_cliente = new RetencionCliente(datos);
+                retenciones_clientes.add(retencion_cliente);
+            }
+            rep.saveAll(retenciones_clientes);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

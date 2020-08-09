@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.otros.cliente.AuxiliarUtil;
 import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "auxiliar")
+@EntityListeners({AuxiliarUtil.class})
 public class Auxiliar extends Entidad {
     @NotNull(message = "Razon Social"+ Constantes.mensaje_validacion_not_null)
     @NotBlank(message = "Razon Social"+Constantes.mensaje_validacion_not_blank)
@@ -24,7 +26,7 @@ public class Auxiliar extends Entidad {
     @NotNull(message = "Eliminado"+ Constantes.mensaje_validacion_not_null)
     @Column(name = "eliminado")
     private boolean eliminado;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE},fetch= FetchType.LAZY)
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
     @NotNull(message = "Cliente"+ Constantes.mensaje_validacion_not_null)
@@ -54,8 +56,9 @@ public class Auxiliar extends Entidad {
         this.razon_social=razon_social;
         this.estado=estado;
         this.eliminado=eliminado;
-        this.cliente=cliente;
         this.direccion=direccion;
+        this.cliente=cliente;
+
     }
 
     public Auxiliar(String razon_social, Cliente cliente){
@@ -67,6 +70,14 @@ public class Auxiliar extends Entidad {
     public Auxiliar(Cliente cliente){
         super("");
         this.cliente=cliente;
+    }
+
+    public Auxiliar(List<String>datos){
+        this.razon_social=datos.get(0)== null? null : datos.get(0);
+        this.estado=datos.get(1)== null ? null: datos.get(1).equals("S") ? true : false;
+        this.eliminado=datos.get(2)== null ? null: datos.get(2).equals("S") ? true : false;
+        this.direccion=datos.get(3)==null? null: new Direccion((long) Double.parseDouble(datos.get(3)));
+        this.cliente=datos.get(4)== null ? null: new Cliente((long) Double.parseDouble(datos.get(4)));
     }
 
     public String getRazon_social() {

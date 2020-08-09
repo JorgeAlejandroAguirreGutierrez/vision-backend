@@ -1,7 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.*;
+import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IClienteService;
@@ -344,13 +345,18 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public boolean importar(MultipartFile reapExcelDataFile) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Cliente> clientes=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info){
+                Cliente cliente=new Cliente(datos);
+                clientes.add(cliente);
+            }
+            rep.saveAll(clientes);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
-
-    @Override
-    public List<Cliente> exportar() {
-        return null;
-    }
-
 }

@@ -8,6 +8,7 @@ import com.proyecto.sicecuador.otros.cliente.GeneroUtil;
 import com.proyecto.sicecuador.otros.cliente.RetencionClienteUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "retencion_cliente")
@@ -32,6 +33,11 @@ public class RetencionCliente extends Entidad {
         super(codigo);
         this.tipo_retencion=tipo_retencion;
         this.cliente=cliente;
+    }
+
+    public RetencionCliente(List<String> datos){
+        tipo_retencion=datos.get(0)== null ? null:new TipoRetencion((long) Double.parseDouble(datos.get(0)));
+        cliente=datos.get(1)== null ? null:new Cliente((long) Double.parseDouble(datos.get(1)));
     }
 
     public TipoRetencion getTipo_retencion() {

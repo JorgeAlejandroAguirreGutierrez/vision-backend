@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.interf.usuario.ISesionRepository;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -49,8 +52,19 @@ public class SesionService implements ISesionService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Sesion> sesiones=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                Sesion sesion = new Sesion(datos);
+                sesiones.add(sesion);
+            }
+            rep.saveAll(sesiones);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

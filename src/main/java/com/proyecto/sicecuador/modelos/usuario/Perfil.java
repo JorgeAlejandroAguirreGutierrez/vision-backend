@@ -32,6 +32,11 @@ public class Perfil extends Entidad {
         this.abreviatura=abreviatura;
     }
 
+    public Perfil(List<String>datos){
+        descripcion=datos.get(0)== null ? null: datos.get(0);
+        abreviatura=datos.get(1)== null ? null: datos.get(1);
+    }
+
     public String getDescripcion() {
         return descripcion;
     }

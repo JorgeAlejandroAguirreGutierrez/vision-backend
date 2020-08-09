@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
 import com.proyecto.sicecuador.modelos.cliente.Telefono;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IOrigenIngresoRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITelefonoRepository;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -41,7 +44,18 @@ public class TelefonoService implements ITelefonoService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Telefono> telefonos=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                Telefono telefono = new Telefono(datos);
+                telefonos.add(telefono);
+            }
+            rep.saveAll(telefonos);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

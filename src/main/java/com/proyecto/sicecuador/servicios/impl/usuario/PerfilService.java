@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IPerfilRepository;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -42,7 +45,18 @@ public class PerfilService implements IPerfilService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Perfil> perfiles=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                Perfil perfil = new Perfil(datos);
+                perfiles.add(perfil);
+            }
+            rep.saveAll(perfiles);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

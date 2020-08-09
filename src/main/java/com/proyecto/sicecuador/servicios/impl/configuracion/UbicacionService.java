@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.configuracion;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IUbicacionService;
@@ -41,8 +43,19 @@ public class UbicacionService implements IUbicacionService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Ubicacion> ubicaciones=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                Ubicacion ubicacion = new Ubicacion(datos);
+                ubicaciones.add(ubicacion);
+            }
+            rep.saveAll(ubicaciones);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

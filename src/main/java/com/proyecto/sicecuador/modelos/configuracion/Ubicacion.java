@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.configuracion.UbicacionUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "ubicacion")
@@ -38,6 +39,13 @@ public class Ubicacion extends Entidad {
         this.provincia=provincia;
         this.canton=canton;
         this.parroquia=parroquia;
+    }
+
+    public Ubicacion(List<String> datos){
+        codigo_norma=datos.get(0)== null ? null: datos.get(0);
+        provincia=datos.get(1)== null ? null: datos.get(1);
+        canton=datos.get(2)== null ? null: datos.get(2);
+        parroquia=datos.get(3)== null ? null: datos.get(3);
     }
     public String getCodigo_norma() {
         return codigo_norma;

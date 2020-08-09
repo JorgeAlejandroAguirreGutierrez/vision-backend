@@ -1,7 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.configuracion;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IParametroService;
@@ -48,8 +50,19 @@ public class ParametroService implements IParametroService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Parametro> parametros=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                Parametro parametro = new Parametro(datos);
+                parametros.add(parametro);
+            }
+            rep.saveAll(parametros);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

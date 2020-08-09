@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 import com.proyecto.sicecuador.otros.cliente.CorreoUtil;
 
 import javax.persistence.*;
+import java.util.List;
+
 @Entity
 @Table(name = "correo")
 //@EntityListeners({CorreoUtil.class})
@@ -28,6 +30,11 @@ public class Correo extends Entidad {
         super(codigo);
         this.email=email;
         this.cliente=cliente;
+    }
+
+    public Correo(List<String> datos){
+        this.email=datos.get(0)== null? null : datos.get(0);
+        this.cliente=datos.get(1)== null ? null: new Cliente((long) Double.parseDouble(datos.get(1)));
     }
     public String getEmail() {
         return email;

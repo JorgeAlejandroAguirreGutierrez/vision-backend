@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.otros.cliente.TipoContribuyenteUtil;
 import com.proyecto.sicecuador.otros.usuario.PuntoVentaUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "punto_venta")
@@ -23,11 +24,14 @@ public class PuntoVenta extends Entidad {
     public PuntoVenta(long id) {
         super(id);
     }
-
     public PuntoVenta(String codigo, String descripcion, Establecimiento establecimiento){
         super(codigo);
         this.descripcion=descripcion;
         this.establecimiento=establecimiento;
+    }
+    public PuntoVenta(List<String> datos){
+        descripcion=datos.get(0)== null ? null: datos.get(0);
+        establecimiento=datos.get(1)== null ? null:new Establecimiento((long) Double.parseDouble(datos.get(1)));
     }
     public String getDescripcion() {
         return descripcion;

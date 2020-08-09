@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.configuracion.EmpresaUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "empresa")
@@ -29,6 +30,12 @@ public class Empresa extends Entidad {
         this.identificacion=identificacion;
         this.razon_social=razon_social;
         this.logo=logo;
+    }
+    public Empresa(List<String> datos){
+        identificacion=datos.get(0)== null ? null: datos.get(0);
+        razon_social=datos.get(1)== null ? null: datos.get(1);
+        logo=datos.get(2)== null ? null: datos.get(2);
+
     }
     public String getIdentificacion() {
         return identificacion;

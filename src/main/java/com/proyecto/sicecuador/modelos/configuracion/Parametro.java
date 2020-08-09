@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.configuracion.ParametroUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "parametro")
@@ -40,6 +41,12 @@ public class Parametro extends Entidad {
     public Parametro(String tabla,String tipo){
         this.tipo=tipo;
         this.tabla=tabla;
+    }
+    public Parametro(List<String> datos){
+        tipo=datos.get(0)== null ? null: datos.get(0);
+        nombre=datos.get(1)== null ? null: datos.get(1);
+        tabla=datos.get(2)== null ? null: datos.get(2);
+        abreviatura=datos.get(3)== null ? null: datos.get(3);
     }
     public String getTipo() {
         return tipo;

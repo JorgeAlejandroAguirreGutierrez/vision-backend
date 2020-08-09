@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.Correo;
 import com.proyecto.sicecuador.otros.Util;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ICorreoRepository;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -16,7 +19,6 @@ public class CorreoService implements ICorreoService {
     private ICorreoRepository rep;
     @Override
     public Correo crear(Correo correo) {
-        //correo.setCodigo(Util.generarCodigo("correo","CREAR",rep.count()));
         return rep.save(correo);
     }
 
@@ -42,7 +44,18 @@ public class CorreoService implements ICorreoService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Correo> correos=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                Correo correo = new Correo(datos);
+                correos.add(correo);
+            }
+            rep.saveAll(correos);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

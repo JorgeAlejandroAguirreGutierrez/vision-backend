@@ -1,6 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.cliente.Celular;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.otros.Util;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ICelularRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICelularService;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -41,7 +45,19 @@ public class CelularService implements ICelularService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Celular> celulares=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info)
+                if (datos.get(0) != null) {
+                    Celular celular = new Celular(null, datos.get(0),new Cliente(datos.get(1)));
+                    celulares.add(celular);
+                }
+            rep.saveAll(celulares);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

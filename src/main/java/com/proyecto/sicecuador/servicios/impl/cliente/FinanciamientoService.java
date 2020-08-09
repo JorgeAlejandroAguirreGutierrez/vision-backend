@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
 import com.proyecto.sicecuador.otros.Util;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IFinanciamientoRepository;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -16,7 +19,6 @@ public class FinanciamientoService implements IFinanciamientoService {
     private IFinanciamientoRepository rep;
     @Override
     public Financiamiento crear(Financiamiento financiamiento) {
-        //financiamiento.setCodigo(Util.generarCodigo("financiamiento","CREAR",rep.count()));
         return rep.save(financiamiento);
     }
 
@@ -42,7 +44,18 @@ public class FinanciamientoService implements IFinanciamientoService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Financiamiento> financiamientos=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                Financiamiento financiamiento = new Financiamiento(datos);
+                financiamientos.add(financiamiento);
+            }
+            rep.saveAll(financiamientos);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

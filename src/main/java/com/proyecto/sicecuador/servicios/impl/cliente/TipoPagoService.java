@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
 import com.proyecto.sicecuador.modelos.cliente.TipoPago;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoPagoRepository;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -40,7 +43,18 @@ public class TipoPagoService implements ITipoPagoService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<TipoPago> tipos_pagos=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                TipoPago tipo_pago = new TipoPago(datos);
+                tipos_pagos.add(tipo_pago);
+            }
+            rep.saveAll(tipos_pagos);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

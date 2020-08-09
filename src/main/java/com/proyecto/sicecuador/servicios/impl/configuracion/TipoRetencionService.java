@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.configuracion;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.ITipoRetencionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoRetencionService;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -40,8 +43,19 @@ public class TipoRetencionService implements ITipoRetencionService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<TipoRetencion> tipos_retenciones=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                TipoRetencion tipo_retencion = new TipoRetencion(datos);
+                tipos_retenciones.add(tipo_retencion);
+            }
+            rep.saveAll(tipos_retenciones);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

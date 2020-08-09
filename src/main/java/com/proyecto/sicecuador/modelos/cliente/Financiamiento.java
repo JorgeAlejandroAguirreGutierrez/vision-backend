@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 import com.proyecto.sicecuador.otros.cliente.FinanciamientoUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "financiamiento")
@@ -36,6 +37,13 @@ public class Financiamiento extends Entidad {
         this.tipo_pago=tipo_pago;
         this.forma_pago=forma_pago;
         this.plazo_credito=plazo_credito;
+    }
+
+    public Financiamiento(List<String> datos) {
+        monto=datos.get(0)== null? null : Double.parseDouble(datos.get(0));
+        tipo_pago=datos.get(1)==null? null: new TipoPago((long) Double.parseDouble(datos.get(1)));
+        forma_pago=datos.get(2)==null? null: new FormaPago((long) Double.parseDouble(datos.get(2)));
+        plazo_credito=datos.get(3)==null? null: new PlazoCredito((long) Double.parseDouble(datos.get(3)));
     }
 
     public double getMonto() {

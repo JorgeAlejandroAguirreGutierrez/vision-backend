@@ -4,6 +4,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.usuario.UsuarioUtil;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
@@ -46,6 +48,17 @@ public class Usuario extends Entidad {
         this.activo=activo;
         this.punto_venta=punto_venta;
         this.perfil=perfil;
+    }
+
+    public Usuario(List<String> datos){
+        nombre=datos.get(0)== null ? null: datos.get(0);
+        correo=datos.get(1)== null ? null: datos.get(1);
+        contrasena=datos.get(2)== null ? null: datos.get(2);
+        identificacion=datos.get(3)== null ? null: datos.get(3);
+        avatar=datos.get(4)== null ? null: datos.get(4);
+        activo=datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
+        punto_venta=datos.get(6)== null ? null:new PuntoVenta((long) Double.parseDouble(datos.get(6)));
+        perfil=datos.get(7)== null ? null:new Perfil((long) Double.parseDouble(datos.get(7)));
     }
 
     public String getNombre() {

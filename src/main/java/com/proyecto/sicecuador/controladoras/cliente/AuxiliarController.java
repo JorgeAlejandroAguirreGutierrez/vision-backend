@@ -109,7 +109,7 @@ public class AuxiliarController implements GenericoController<Auxiliar> {
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
         try {
             boolean bandera=servicio.importar(archivo);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, bandera);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

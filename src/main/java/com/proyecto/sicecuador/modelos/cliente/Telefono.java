@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.otros.cliente.GeneroUtil;
 import com.proyecto.sicecuador.otros.cliente.TelefonoUtil;
 
 import javax.persistence.*;
+import java.util.List;
+
 @Entity
 @Table(name = "telefono")
 //@EntityListeners({TelefonoUtil.class})
@@ -28,6 +30,11 @@ public class Telefono extends Entidad {
         super(codigo);
         this.numero=numero;
         this.cliente=cliente;
+    }
+
+    public Telefono(List<String>datos) {
+        numero=datos.get(0)== null ? null: datos.get(0);
+        cliente=datos.get(1)== null ? null:new Cliente((long) Double.parseDouble(datos.get(1)));
     }
     public String getNumero() {
         return numero;

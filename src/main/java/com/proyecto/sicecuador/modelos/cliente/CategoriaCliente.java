@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "categoria_cliente")
-//@EntityListeners({CategoriaClienteUtil.class})
+@EntityListeners({CategoriaClienteUtil.class})
 public class CategoriaCliente extends Entidad {
     @Column(name = "descripcion", nullable = true)
     private String descripcion;

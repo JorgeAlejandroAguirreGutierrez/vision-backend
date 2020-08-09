@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.otros.usuario.SesionUtil;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "sesion")
@@ -41,7 +42,14 @@ public class Sesion extends Entidad {
         this.sesion_ip=sesion_ip;
         this.activa=activa;
         this.usuario=usuario;
-
+    }
+    public Sesion(List<String> datos){
+        fecha_apertura=datos.get(0)== null ? null: new Date(datos.get(0));
+        fecha_cierre=datos.get(1)== null ? null: new Date(datos.get(1));
+        nombre_pc=datos.get(2)== null ? null: datos.get(2);
+        sesion_ip=datos.get(3)== null ? null: datos.get(3);
+        activa=datos.get(4)== null ? null: datos.get(4).equals("S") ? true : false;
+        usuario=datos.get(5)== null ? null:new Usuario((long) Double.parseDouble(datos.get(5)));
     }
     public Date getFecha_apertura() {
         return fecha_apertura;

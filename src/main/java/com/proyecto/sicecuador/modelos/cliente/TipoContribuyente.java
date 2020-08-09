@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.otros.cliente.GeneroUtil;
 import com.proyecto.sicecuador.otros.cliente.TipoContribuyenteUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "tipo_contribuyente")
@@ -30,6 +31,12 @@ public class TipoContribuyente extends Entidad {
         this.tipo=tipo;
         this.subtipo=subtipo;
         this.obligado_contabilidad=obligado_contabilidad;
+    }
+
+    public TipoContribuyente(List<String> datos){
+        tipo=datos.get(0)== null ? null: datos.get(0);
+        subtipo=datos.get(1)== null ? null: datos.get(1);
+        obligado_contabilidad=datos.get(2)== null ? null: datos.get(2).equals("S") ? true : false;
     }
 
     public String getTipo() {

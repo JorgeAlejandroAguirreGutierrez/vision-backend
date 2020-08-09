@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.configuracion.TipoRetencionUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "tipo_retencion")
@@ -38,6 +39,14 @@ public class TipoRetencion extends Entidad {
         this.homologacion_f_e=homologacion_f_e;
         this.descripcion=descripcion;
         this.porcentaje=porcentaje;
+    }
+    public TipoRetencion(List<String> datos){
+        impuesto_retencion=datos.get(0)== null ? null: datos.get(0);
+        tipo_retencion=datos.get(1)== null ? null: datos.get(1);
+        codigo_norma=datos.get(2)== null ? null: datos.get(2);
+        homologacion_f_e=datos.get(3)== null ? null: datos.get(3);
+        descripcion=datos.get(4)== null ? null: datos.get(4);
+        porcentaje=datos.get(5)== null ? null: Double.parseDouble(datos.get(5));
     }
     public String getImpuesto_retencion() {
         return impuesto_retencion;

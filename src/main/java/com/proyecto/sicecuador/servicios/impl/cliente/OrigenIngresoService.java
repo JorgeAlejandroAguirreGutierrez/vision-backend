@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.Genero;
 import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.otros.Util;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IOrigenIngresoRepository;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -41,7 +44,18 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<OrigenIngreso> origenes_ingresos=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                OrigenIngreso origen_ingreso = new OrigenIngreso(datos);
+                origenes_ingresos.add(origen_ingreso);
+            }
+            rep.saveAll(origenes_ingresos);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

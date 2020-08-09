@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.otros.cliente.GeneroUtil;
 import com.proyecto.sicecuador.otros.cliente.PlazoCreditoUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "plazo_credito")
@@ -27,6 +28,11 @@ public class PlazoCredito extends Entidad {
         super(codigo);
         this.descripcion=descripcion;
         this.plazo=plazo;
+    }
+
+    public PlazoCredito(List<String> datos) {
+        descripcion=datos.get(0)== null? null : datos.get(0);;
+        plazo=datos.get(1)== null? null : Double.parseDouble(datos.get(1));
     }
 
     public String getDescripcion() {

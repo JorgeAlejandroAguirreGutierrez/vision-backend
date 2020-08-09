@@ -118,6 +118,25 @@ public class Cliente extends Entidad {
         this.categoria_cliente=categoria_cliente;
         this.origen_ingreso=origen_ingreso;
     }
+
+    public Cliente(List<String> datos){
+        super(null);
+        tipo_identificacion=datos.get(0)== null ? null: datos.get(0);
+        identificacion=datos.get(1)== null ? null: datos.get(1);
+        razon_social=datos.get(2)== null ? null: datos.get(2);
+        especial=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
+        estado= datos.get(4)== null ? null: datos.get(4).equals("S") ? true : false;
+        eliminado=datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
+        punto_venta= datos.get(6)== null ? null: new PuntoVenta((long) Double.parseDouble(datos.get(6)));
+        grupo_cliente= datos.get(7)== null ? null: new GrupoCliente((long) Double.parseDouble(datos.get(7)));
+        tipo_contribuyente= datos.get(8)== null ? null: new TipoContribuyente((long) Double.parseDouble(datos.get(8)));
+        direccion= datos.get(9)== null ? null: new Direccion((long) Double.parseDouble(datos.get(9)));
+        financiamiento=datos.get(10)== null ? null:new Financiamiento((long) Double.parseDouble(datos.get(10)));
+        genero=datos.get(11)== null ? null:new Genero((long) Double.parseDouble(datos.get(11)));
+        estado_civil=datos.get(12)== null ? null:new EstadoCivil((long) Double.parseDouble(datos.get(12)));
+        categoria_cliente=datos.get(13)== null ? null:new CategoriaCliente((long) Double.parseDouble(datos.get(13)));
+        origen_ingreso=datos.get(14)== null ? null:new OrigenIngreso((long) Double.parseDouble(datos.get(14)));
+    }
     public String getTipo_identificacion() {
         return tipo_identificacion;
     }

@@ -1,7 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
+import com.proyecto.sicecuador.modelos.usuario.Permiso;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IPuntoVentaRepository;
@@ -49,8 +51,19 @@ public class PuntoVentaService implements IPuntoVentaService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<PuntoVenta> puntos_ventas=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                PuntoVenta punto_venta = new PuntoVenta(datos);
+                puntos_ventas.add(punto_venta);
+            }
+            rep.saveAll(puntos_ventas);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

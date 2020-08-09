@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 import com.proyecto.sicecuador.otros.cliente.EstadoCivilUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "estado_civil")
@@ -26,6 +27,11 @@ public class EstadoCivil extends Entidad {
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
+    }
+
+    public EstadoCivil(List<String> datos){
+        descripcion=datos.get(0)== null? null : datos.get(0);
+        abreviatura=datos.get(1)== null? null : datos.get(1);
     }
 
     public String getDescripcion() {
