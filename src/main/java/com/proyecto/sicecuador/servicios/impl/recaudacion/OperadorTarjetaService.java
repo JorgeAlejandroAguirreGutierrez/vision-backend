@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
 import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IOperadorTarjetaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IOperadorTarjetaService;
@@ -47,11 +49,6 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
-    }
-
-    @Override
     public List<OperadorTarjeta> consultarTipo(OperadorTarjeta operador_tarjeta) {
         return  rep.findAll(new Specification<OperadorTarjeta>() {
             @Override
@@ -63,5 +60,20 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
+    }
+    @Override
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<OperadorTarjeta> operadores_tarjetas=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                OperadorTarjeta operador_tarjeta = new OperadorTarjeta(datos);
+                operadores_tarjetas.add(operador_tarjeta);
+            }
+            rep.saveAll(operadores_tarjetas);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

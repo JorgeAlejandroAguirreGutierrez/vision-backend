@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.otros.entrega.VehiculoTransporteUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "vehiculo_transporte")
@@ -57,6 +58,20 @@ public class VehiculoTransporte extends Entidad {
         this.fabricacion=fabricacion;
         this.activo=activo;
     }
+    public VehiculoTransporte(List<String> datos) {
+        placa=datos.get(0)== null ? null: datos.get(0);
+        numero=datos.get(1)== null ? null: datos.get(1);
+        marca=datos.get(2)== null ? null: datos.get(2);
+        modelo=datos.get(3)== null ? null: datos.get(3);
+        anio=datos.get(4)== null ? null: datos.get(4);
+        cilindraje=datos.get(5)== null ? null: datos.get(5);
+        clase=datos.get(6)== null ? null: datos.get(6);
+        color=datos.get(7)== null ? null: datos.get(7);
+        fabricacion=datos.get(8)== null ? null: datos.get(8);
+        activo=datos.get(9)== null ? null: datos.get(9).equals("S") ? true : false;
+        transportista=datos.get(10)== null ? null: new Transportista((long) Double.parseDouble(datos.get(10)));
+    }
+
     public String getPlaca() {
         return placa;
     }

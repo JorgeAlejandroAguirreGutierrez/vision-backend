@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
+import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.ICreditoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
@@ -39,11 +40,6 @@ public class CreditoService implements ICreditoService {
     @Override
     public List<Credito> consultar() {
         return rep.findAll();
-    }
-
-    @Override
-    public boolean importar(MultipartFile file) {
-        return false;
     }
 
     @Override
@@ -173,5 +169,21 @@ public class CreditoService implements ICreditoService {
             return Optional.of(credito);
         }
         return null;
+    }
+
+    @Override
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Credito> creditos=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                Credito credito = new Credito(datos);
+                creditos.add(credito);
+            }
+            rep.saveAll(creditos);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

@@ -30,6 +30,10 @@ public class Bodega extends Entidad {
         this.codigo_interno=codigo_interno;
     }
 
+    public Bodega(List<String>datos){
+        codigo_interno=datos.get(0)== null ? null: datos.get(0);
+    }
+
     public String getCodigo_interno() {
         return codigo_interno;
     }

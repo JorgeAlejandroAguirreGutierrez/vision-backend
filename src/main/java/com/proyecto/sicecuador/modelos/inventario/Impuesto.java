@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.ImpuestoUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "impuesto")
@@ -30,6 +31,11 @@ public class Impuesto extends Entidad {
         super(codigo);
         this.codigo_norma=codigo_norma;
         this.porcentaje=porcentaje;
+    }
+
+    public Impuesto(List<String> datos){
+        codigo_norma=datos.get(0)== null ? null: datos.get(0);
+        porcentaje=datos.get(1)== null ? null: Double.parseDouble(datos.get(1));
     }
     public String getCodigo_norma() {
         return codigo_norma;

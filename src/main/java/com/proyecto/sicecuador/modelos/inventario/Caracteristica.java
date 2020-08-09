@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
+import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.otros.inventario.CaracteristicaUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "caracteristica")
@@ -51,6 +53,16 @@ public class Caracteristica extends Entidad {
         this.producto=producto;
         this.bodega=bodega;
         this.factura_detalle=null;
+    }
+    public Caracteristica(List<String> datos){
+        descripcion=datos.get(0)== null ? null: datos.get(0);
+        color=datos.get(1)== null ? null: datos.get(1);
+        marca=datos.get(2)== null ? null: datos.get(2);
+        modelo=datos.get(3)== null ? null: datos.get(3);
+        serie=datos.get(4)== null ? null: datos.get(4);
+        producto=datos.get(5)== null ? null: new Producto((long) Double.parseDouble(datos.get(5)));
+        factura_detalle=datos.get(6)== null ? null: new FacturaDetalle((long) Double.parseDouble(datos.get(6)));
+        bodega=datos.get(7)== null ? null: new Bodega((long) Double.parseDouble(datos.get(7)));
     }
 
     public String getDescripcion() {

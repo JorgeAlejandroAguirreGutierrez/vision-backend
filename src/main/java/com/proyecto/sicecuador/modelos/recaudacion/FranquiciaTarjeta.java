@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "franquicia_tarjeta")
@@ -29,6 +30,11 @@ public class FranquiciaTarjeta extends Entidad {
         this.tipo=tipo;
         this.nombre=nombre;
         this.abreviatura=abreviatura;
+    }
+    public FranquiciaTarjeta(List<String> datos){
+        tipo=datos.get(0)== null ? null: datos.get(0);
+        nombre=datos.get(1)== null ? null: datos.get(1);
+        abreviatura=datos.get(2)== null ? null: datos.get(2);
     }
     public String getTipo() {
         return tipo;

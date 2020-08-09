@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.recaudacion.BancoUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "banco")
@@ -29,6 +30,11 @@ public class Banco extends Entidad {
         this.tipo=tipo;
         this.nombre=nombre;
         this.abreviatura=abreviatura;
+    }
+    public Banco(List<String> datos){
+        tipo=datos.get(0)== null ? null: datos.get(0);
+        nombre=datos.get(1)== null ? null: datos.get(1);
+        abreviatura=datos.get(2)== null ? null: datos.get(2);
     }
     public String getTipo() {
         return tipo;

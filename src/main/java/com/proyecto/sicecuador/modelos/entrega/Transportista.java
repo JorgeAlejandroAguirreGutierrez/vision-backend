@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Telefono;
+import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.otros.entrega.TransportistaUtil;
 
 import javax.persistence.*;
@@ -38,6 +39,13 @@ public class Transportista extends Entidad {
         this.identificacion=identificacion;
         this.vehiculo_propio=vehiculo_propio;
         this.vehiculo_transporte=vehiculo_transporte;
+    }
+
+    public Transportista(List<String>datos){
+        nombre=datos.get(0)== null ? null: datos.get(0);
+        identificacion=datos.get(1)== null ? null: datos.get(1);
+        vehiculo_propio=datos.get(2)== null ? null: datos.get(2).equals("S") ? true : false;
+        vehiculo_transporte=datos.get(3)== null ? null: new VehiculoTransporte((long) Double.parseDouble(datos.get(3)));
     }
     public String getNombre() {
         return nombre;

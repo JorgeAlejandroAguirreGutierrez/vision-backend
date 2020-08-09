@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.entrega;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
 import com.proyecto.sicecuador.repositorios.interf.entrega.IGuiaRemisionRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.IGuiaRemisionService;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -40,7 +43,18 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<GuiaRemision> guias_remisiones=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                GuiaRemision guia_remision = new GuiaRemision(datos);
+                guias_remisiones.add(guia_remision);
+            }
+            rep.saveAll(guias_remisiones);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

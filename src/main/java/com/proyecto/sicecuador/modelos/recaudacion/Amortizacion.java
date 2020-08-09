@@ -3,9 +3,11 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.modelos.inventario.Kardex;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "amortizacion")
@@ -49,6 +51,18 @@ public class Amortizacion extends Entidad {
         this.valor_cuota=valor_cuota;
         this.saldo_capital=saldo_capital;
         this.credito=credito;
+    }
+
+    public Amortizacion(List<String> datos) {
+        numero_cuota=datos.get(0)== null ? null: (int)Double.parseDouble(datos.get(0));
+        fecha_pago=datos.get(1)== null ? null: new Date(datos.get(1));
+        numero_dias=datos.get(2)== null ? null: (long)Double.parseDouble(datos.get(2));
+        capital_inicio_periodo=datos.get(3)== null ? null: Double.parseDouble(datos.get(3));
+        capital=datos.get(4)== null ? null: Double.parseDouble(datos.get(4));
+        intereses_periodo=datos.get(5)== null ? null: Double.parseDouble(datos.get(5));
+        valor_cuota=datos.get(6)== null ? null: Double.parseDouble(datos.get(6));
+        saldo_capital=datos.get(7)== null ? null: Double.parseDouble(datos.get(7));
+        credito=datos.get(8)== null ? null: new Credito((long) Double.parseDouble(datos.get(8)));
     }
 
     public int getNumero_cuota() {

@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "rango_crediticio")
@@ -31,6 +32,12 @@ public class RangoCrediticio extends Entidad {
         this.rango_final=rango_final;
         this.tasa_interes_anual=tasa_interes_anual;
         this.tasa_periodo=tasa_periodo;
+    }
+    public RangoCrediticio(List<String> datos){
+        rango_inicial=datos.get(0)== null ? null: Double.parseDouble(datos.get(0));
+        rango_final=datos.get(1)== null ? null: Double.parseDouble(datos.get(1));
+        tasa_interes_anual=datos.get(2)== null ? null: Double.parseDouble(datos.get(2));
+        tasa_periodo=datos.get(3)== null ? null: Double.parseDouble(datos.get(3));
     }
 
     public double getRango_inicial() {

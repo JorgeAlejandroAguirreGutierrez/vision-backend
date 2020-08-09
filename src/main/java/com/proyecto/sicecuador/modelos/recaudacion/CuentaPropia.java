@@ -1,13 +1,14 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.inventario.Kardex;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "cuenta_propia")
 public class CuentaPropia extends Entidad {
-
     @Column(name = "numero", nullable = true)
     private String numero;
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -24,6 +25,10 @@ public class CuentaPropia extends Entidad {
 
     public CuentaPropia(long id){
         super(id);
+    }
+    public CuentaPropia(List<String> datos){
+        numero=datos.get(0)== null ? null: datos.get(0);
+        banco=datos.get(1)== null ? null: new Banco((long) Double.parseDouble(datos.get(1)));
     }
 
     public String getNumero() {

@@ -64,6 +64,20 @@ public class Credito extends Entidad {
         this.sin_intereses=sin_intereses;
         this.amortizaciones=amortizaciones;
     }
+    public Credito(List<String>datos){
+        saldo=datos.get(0)== null ? null: Double.parseDouble(datos.get(0));
+        tasa_interes_anual=datos.get(1)== null ? null: Double.parseDouble(datos.get(1));
+        periodicidad=datos.get(2)== null ? null: datos.get(2);
+        periodicidad_numero=datos.get(3)== null ? null: (int)Double.parseDouble(datos.get(3));
+        periodicidad_total=datos.get(4)== null ? null: (int)Double.parseDouble(datos.get(4));
+        tasa_periodo=datos.get(5)== null ? null: Double.parseDouble(datos.get(5));
+        cuotas=datos.get(6)== null ? null: (long)Double.parseDouble(datos.get(6));
+        fecha_primera_cuota=datos.get(7)== null ? null: new Date(datos.get(7));
+        fecha_consecion=datos.get(8)== null ? null: new Date(datos.get(8));
+        dividendo=datos.get(9)== null ? null: (long)Double.parseDouble(datos.get(9));
+        tipo=datos.get(10)== null ? null: datos.get(10);
+        sin_intereses=datos.get(11)== null ? null: datos.get(11).equals("S") ? true : false;
+    }
     public double getSaldo() {
         return saldo;
     }

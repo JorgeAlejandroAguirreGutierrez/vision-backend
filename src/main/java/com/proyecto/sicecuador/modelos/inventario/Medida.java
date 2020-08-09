@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.MedidaUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "medida")
@@ -26,6 +27,10 @@ public class Medida extends Entidad {
         super(codigo);
         this.codigo_norma=codigo_norma;
         this.descripcion=descripcion;
+    }
+    public Medida(List<String> datos){
+        codigo_norma=datos.get(0)== null ? null: datos.get(0);
+        descripcion=datos.get(1)== null ? null: datos.get(1);
     }
     public String getCodigo_norma() {
         return codigo_norma;

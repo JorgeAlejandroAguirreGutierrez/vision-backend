@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.otros.inventario.ProveedorUtil;
 import com.proyecto.sicecuador.otros.recaudacion.OperadorTarjetaUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "operador_tarjeta")
@@ -33,6 +34,11 @@ public class OperadorTarjeta extends Entidad {
     public OperadorTarjeta(String tipo){
         super();
         this.tipo=tipo;
+    }
+    public OperadorTarjeta(List<String> datos){
+        tipo=datos.get(0)== null ? null: datos.get(0);
+        nombre=datos.get(1)== null ? null: datos.get(1);
+        abreviatura=datos.get(2)== null ? null: datos.get(2);
     }
     public String getTipo() {
         return tipo;

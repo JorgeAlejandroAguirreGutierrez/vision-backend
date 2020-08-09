@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
+import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
@@ -44,11 +46,6 @@ public class ProductoService implements IProductoService {
     @Override
     public List<Producto> consultar() {
         return rep.findAll();
-    }
-
-    @Override
-    public boolean importar(MultipartFile file) {
-        return false;
     }
 
     @Override
@@ -98,4 +95,20 @@ public class ProductoService implements IProductoService {
             }
         });
     }
+    @Override
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Producto> productos=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            for (List<String> datos: info) {
+                Producto producto = new Producto(datos);
+                productos.add(producto);
+            }
+            rep.saveAll(productos);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.modelos.inventario;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.otros.inventario.ProductoUtil;
 
 import javax.persistence.*;
@@ -80,6 +81,22 @@ public class Producto extends Entidad {
         this.impuesto = impuesto;
         this.kardex=kardex;
         this.stock_total = 0;
+    }
+    public Producto(List<String>datos){
+        nombre=datos.get(0)== null ? null: datos.get(0);
+        categoria=datos.get(1)== null ? null: datos.get(1);
+        linea=datos.get(2)== null ? null: datos.get(2);
+        sublinea=datos.get(3)== null ? null: datos.get(3);
+        presentacion=datos.get(4)== null ? null: datos.get(4);
+        costo=datos.get(5)== null ? null: Double.parseDouble(datos.get(5));
+        consignacion=datos.get(6)== null ? null: datos.get(6).equals("S") ? true : false;
+        estado=datos.get(7)== null ? null: datos.get(7).equals("S") ? true : false;
+        tipo_gasto=datos.get(8)== null ? null: datos.get(8);
+        serie_autogenerado=datos.get(9)== null ? null: datos.get(9).equals("S") ? true : false;
+        tipo_producto=datos.get(10)== null ? null: new TipoProducto((long) Double.parseDouble(datos.get(10)));
+        grupo_producto=datos.get(11)== null ? null: new GrupoProducto((long) Double.parseDouble(datos.get(11)));
+        impuesto=datos.get(12)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(12)));
+        kardex=datos.get(13)== null ? null: new Kardex((long) Double.parseDouble(datos.get(13)));
     }
 
     public String getNombre() {
