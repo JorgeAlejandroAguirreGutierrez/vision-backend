@@ -26,7 +26,7 @@ public class Auxiliar extends Entidad {
     @NotNull(message = "Eliminado"+ Constantes.mensaje_validacion_not_null)
     @Column(name = "eliminado")
     private boolean eliminado;
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE},fetch= FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.LAZY)
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
     @NotNull(message = "Cliente"+ Constantes.mensaje_validacion_not_null)

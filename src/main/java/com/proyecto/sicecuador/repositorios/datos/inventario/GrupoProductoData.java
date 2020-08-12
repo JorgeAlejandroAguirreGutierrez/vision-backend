@@ -23,9 +23,9 @@ public class GrupoProductoData implements ApplicationRunner {
         Optional<GrupoProducto> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<GrupoProducto> grupos_productos = new ArrayList<>();
-            grupos_productos.add(new GrupoProducto("GPR011907000001", "", ""));
-            grupos_productos.add(new GrupoProducto("GPR011907000002", "", ""));
-            grupos_productos.add(new GrupoProducto("GPR011907000003", "", ""));
+            grupos_productos.add(new GrupoProducto("GPR011907000001", "HOGAR", "LINEA BLANCA", "TELEVISORES"));
+            grupos_productos.add(new GrupoProducto("GPR011907000002", "HOGAR", "LINEA NEGRA", "NEVERAS"));
+            grupos_productos.add(new GrupoProducto("GPR011907000003", "HOGAR", "LINEA ROJA", "CELULARES"));
             rep.saveAll(grupos_productos);
         }
     }
