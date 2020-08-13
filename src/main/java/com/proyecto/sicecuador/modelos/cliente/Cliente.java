@@ -45,7 +45,7 @@ public class Cliente extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "grupo_cliente_id")
     private GrupoCliente grupo_cliente;
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch= FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch= FetchType.EAGER)
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
