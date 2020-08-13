@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.LineaProductoUtil;
 
@@ -11,15 +12,14 @@ import java.util.List;
 @Table(name = "linea_producto")
 @EntityListeners({LineaProductoUtil.class})
 public class LineaProducto extends Entidad {
-    @Column(name = "linea", nullable = true)
-    private String linea;
-    @Column(name = "sublinea", nullable = true)
-    private String sublinea;
-    @Column(name = "presentacion", nullable = true)
-    private String presentacion;
+    @Column(name = "nombre", nullable = true)
+    private String nombre;
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "grupo_producto_id", nullable = true)
-    private GrupoProducto grupo_producto;
+    @JoinColumn(name = "categoria_producto_id", nullable = true)
+    private CategoriaProducto categoria_producto;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "linea_producto_id")
+    private List<SubLineaProducto> sub_lineas_productos;
 
     public LineaProducto(){
 
@@ -29,31 +29,25 @@ public class LineaProducto extends Entidad {
         super(id);
     }
 
-    public LineaProducto(String codigo, String linea, String sublinea, String presentacion, GrupoProducto grupo_producto){
+    public LineaProducto(String codigo, String nombre, CategoriaProducto categoria_producto){
         super(codigo);
-        this.linea=linea;
-        this.sublinea=sublinea;
-        this.presentacion=presentacion;
-        this.grupo_producto=grupo_producto;
+        this.nombre=nombre;
+        this.categoria_producto=categoria_producto;
     }
 
     public LineaProducto(List<String> datos){
 
     }
 
-    public String getLinea() {
-        return linea;
+    public String getNombre() {
+        return nombre;
     }
-
-    public String getSublinea() {
-        return sublinea;
-    }
-
-    public String getPresentacion() {
-        return presentacion;
+    @JsonManagedReference
+    public List<SubLineaProducto> getSub_lineas_productos() {
+        return sub_lineas_productos;
     }
     @JsonBackReference
-    public GrupoProducto getGrupo_producto() {
-        return grupo_producto;
+    public CategoriaProducto getCategoria_producto() {
+        return categoria_producto;
     }
 }

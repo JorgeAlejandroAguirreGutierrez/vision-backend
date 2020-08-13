@@ -11,15 +11,11 @@ import java.util.List;
 @Table(name = "grupo_producto")
 @EntityListeners({GrupoProductoUtil.class})
 public class GrupoProducto extends Entidad {
-    @Column(name = "grupo", nullable = true)
-    private String grupo;
-    @Column(name = "subgrupo", nullable = true)
-    private String subgrupo;
-    @Column(name = "categoria", nullable = true)
-    private String categoria;
+    @Column(name = "nombre", nullable = true)
+    private String nombre;
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "grupo_producto_id")
-    private List<LineaProducto> lineas_productos;
+    private List<SubGrupoProducto> sub_grupos_productos;
 
     public GrupoProducto(){
 
@@ -29,34 +25,20 @@ public class GrupoProducto extends Entidad {
         super(id);
     }
 
-    public GrupoProducto(String codigo, String grupo, String subgrupo, String categoria){
+    public GrupoProducto(String codigo, String nombre){
         super(codigo);
-        this.grupo=grupo;
-        this.subgrupo=subgrupo;
-        this.categoria=categoria;
+        this.nombre=nombre;
     }
 
     public GrupoProducto(List<String>datos){
 
     }
-    public String getGrupo() {
-        return grupo;
-    }
 
-    public String getSubgrupo() {
-        return subgrupo;
+    public String getNombre() {
+        return nombre;
     }
-
-    public void setGrupo(String grupo) {
-        this.grupo = grupo;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
     @JsonManagedReference
-    public List<LineaProducto> getLineas_productos() {
-        return lineas_productos;
+    public List<SubGrupoProducto> getSub_grupos_productos() {
+        return sub_grupos_productos;
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(37)
+@Order(30)
 public class GrupoProductoData implements ApplicationRunner {
     @Autowired
     private IGrupoProductoRepository rep;
@@ -23,9 +23,8 @@ public class GrupoProductoData implements ApplicationRunner {
         Optional<GrupoProducto> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<GrupoProducto> grupos_productos = new ArrayList<>();
-            grupos_productos.add(new GrupoProducto("GPR011907000001", "HOGAR", "LINEA BLANCA", "TELEVISORES"));
-            grupos_productos.add(new GrupoProducto("GPR011907000002", "HOGAR", "LINEA NEGRA", "NEVERAS"));
-            grupos_productos.add(new GrupoProducto("GPR011907000003", "HOGAR", "LINEA ROJA", "CELULARES"));
+            grupos_productos.add(new GrupoProducto("GPR011907000001", "HOGAR"));
+            grupos_productos.add(new GrupoProducto("GPR011907000002", "FAMILIA"));
             rep.saveAll(grupos_productos);
         }
     }

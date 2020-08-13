@@ -93,6 +93,16 @@ public interface IParametroRepository extends JpaRepository<Parametro, Long>, Jp
     long findConteoCaracteristica();
     @Query(value = "SELECT count(*) FROM grupo_producto", nativeQuery = true)
     long findConteoGrupoProducto();
+    @Query(value = "SELECT count(*) FROM sub_grupo_producto", nativeQuery = true)
+    long findConteoSubGrupoProducto();
+    @Query(value = "SELECT count(*) FROM categoria_producto", nativeQuery = true)
+    long findConteoCategoriaProducto();
+    @Query(value = "SELECT count(*) FROM linea_producto", nativeQuery = true)
+    long findConteoLineaProducto();
+    @Query(value = "SELECT count(*) FROM sub_linea_producto", nativeQuery = true)
+    long findConteoSubLineaProducto();
+    @Query(value = "SELECT count(*) FROM presentacion_producto", nativeQuery = true)
+    long findConteoPresentacionProducto();
     @Query(value = "SELECT count(*) FROM impuesto", nativeQuery = true)
     long findConteoImpuesto();
     @Query(value = "SELECT count(*) FROM kardex", nativeQuery = true)
