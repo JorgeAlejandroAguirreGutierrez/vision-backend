@@ -23,9 +23,9 @@ public class LineaProductoData implements ApplicationRunner {
         if (!ant.isPresent()) {
             List<LineaProducto> lineas_productos = new ArrayList<>();
             lineas_productos.add(new LineaProducto("LPR011907000001", "PRISMA", new CategoriaProducto(1)));
-            lineas_productos.add(new LineaProducto("LPR011907000002", "PLATA", new CategoriaProducto(2)));
-            lineas_productos.add(new LineaProducto("LPR011907000003", "PRISMA", new CategoriaProducto(1)));
-            lineas_productos.add(new LineaProducto("LPR011907000004", "PLATA", new CategoriaProducto(2)));
+            lineas_productos.add(new LineaProducto("LPR011907000002", "BICICLETA", new CategoriaProducto(2)));
+            lineas_productos.add(new LineaProducto("LPR011907000003", "REFRIGERADORA", new CategoriaProducto(1)));
+            lineas_productos.add(new LineaProducto("LPR011907000004", "SECADORA", new CategoriaProducto(2)));
             rep.saveAll(lineas_productos);
         }
     }

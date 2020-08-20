@@ -146,7 +146,7 @@ public class FacturaService implements IFacturaService {
                     }
                 }
                 tabla_factura_detalle.addCell(series);
-                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getPrecio().getValor()+"");
+                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getPrecio().getPrecio_venta_publico_iva()+"");
                 tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSubsidio()+"");
                 tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSin_subsidio()+"");
                 tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getValor_descuento_individual_totales()+"");

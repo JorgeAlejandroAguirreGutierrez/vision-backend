@@ -1,25 +1,34 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.otros.inventario.PrecioUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "precio")
 @EntityListeners({PrecioUtil.class})
 public class Precio extends Entidad {
-    @Column(name = "nombre", nullable = true)
-    private String nombre;
-    @Column(name = "descuento", nullable = true)
-    private double descuento;
-    @Column(name = "valor", nullable = true)
-    private double valor;
+    @Column(name = "costo", nullable = true)
+    private double costo;
+    @Column(name = "margen_contribucion", nullable = true)
+    private double margen_contribucion;
+    @Column(name = "precio_venta_publico", nullable = true)
+    private double precio_venta_publico;
+    @Column(name = "precio_venta_publico_iva", nullable = true)
+    private double precio_venta_publico_iva;
+    @Column(name = "utilidad", nullable = true)
+    private double utilidad;
+    @Column(name = "utilidad_porcentaje", nullable = true)
+    private double utilidad_porcentaje;
+
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "producto_id", nullable = true)
-    private Producto producto;
+    @JoinColumn(name = "medida_id", nullable = true)
+    private Medida medida;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "segmento_id", nullable = true)
+    private Segmento segmento;
 
     public Precio(){
         super();
@@ -28,26 +37,45 @@ public class Precio extends Entidad {
     public Precio(long id){
         super(id);
     }
-    public Precio(String codigo, String nombre, double descuento, double valor, Producto producto){
+
+    public Precio(List<String> datos){
+
+    }
+    public Precio(String codigo, double costo, double margen_contribucion,
+                  double precio_venta_publico, double precio_venta_publico_iva,
+                  double utilidad, double utilidad_pocentaje, Medida medida, Segmento segmento){
         super(codigo);
-        this.nombre=nombre;
-        this.descuento=descuento;
-        this.valor=valor;
-        this.producto=producto;
-    }
-    public String getNombre() {
-        return nombre;
-    }
-
-    public double getDescuento() {
-        return descuento;
+        this.costo=costo;
+        this.margen_contribucion=margen_contribucion;
+        this.precio_venta_publico=precio_venta_publico;
+        this.precio_venta_publico_iva=precio_venta_publico_iva;
+        this.utilidad=utilidad;
+        this.utilidad_porcentaje=utilidad_pocentaje;
+        this.medida=medida;
+        this.segmento=segmento;
     }
 
-    public double getValor() {
-        return valor;
+    public double getCosto() {
+        return costo;
     }
-    @JsonBackReference
-    public Producto getProducto() {
-        return producto;
+
+    public double getMargen_contribucion() {
+        return margen_contribucion;
+    }
+
+    public double getPrecio_venta_publico() {
+        return precio_venta_publico;
+    }
+
+    public double getPrecio_venta_publico_iva() {
+        return precio_venta_publico_iva;
+    }
+
+    public double getUtilidad() {
+        return utilidad;
+    }
+
+    public double getUtilidad_porcentaje() {
+        return utilidad_porcentaje;
     }
 }

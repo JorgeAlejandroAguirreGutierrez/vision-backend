@@ -25,7 +25,7 @@ public class PrecioData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<Precio> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<Precio> precios = new ArrayList<>();
+            /*List<Precio> precios = new ArrayList<>();
             precios.add(new Precio("PRE011907000001", "", 0, 5.62, new Producto(1)));
             precios.add(new Precio("PRE011907000002", "", 0, 10.23, new Producto(2)));
             precios.add(new Precio("PRE011907000003", "", 0, 15.45, new Producto(3)));
@@ -52,7 +52,7 @@ public class PrecioData implements ApplicationRunner {
             precios.add(new Precio("PRE011907000023", "", 0, 85, new Producto(23)));
             precios.add(new Precio("PRE011907000024", "", 0, 90, new Producto(24)));
             precios.add(new Precio("PRE011907000025", "", 0, 95.15, new Producto(25)));
-            rep.saveAll(precios);
+            rep.saveAll(precios);*/
         }
     }
 }

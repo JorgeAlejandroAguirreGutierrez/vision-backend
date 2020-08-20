@@ -24,6 +24,9 @@ public class MedidaData implements ApplicationRunner {
         if (!ant.isPresent()) {
             List<Medida> medidas = new ArrayList<>();
             medidas.add(new Medida("MED011907000001", "UNIDAD", "UNIDAD"));
+            medidas.add(new Medida("MED011907000002", "QUINTAL", "QUINTAL"));
+            medidas.add(new Medida("MED011907000003", "LIBRA", "LIBRA"));
+            medidas.add(new Medida("MED011907000004", "ARROBA", "ARROBA"));
             rep.saveAll(medidas);
         }
     }
