@@ -15,22 +15,10 @@ import java.util.List;
 public class Producto extends Entidad {
     @Column(name = "nombre", nullable = true)
     private String nombre;
-    @Column(name = "categoria", nullable = true)
-    private String categoria;
-    @Column(name = "linea", nullable = true)
-    private String linea;
-    @Column(name = "sublinea", nullable = true)
-    private String sublinea;
-    @Column(name = "presentacion", nullable = true)
-    private String presentacion;
-    @Column(name = "costo", nullable = true)
-    private double costo;
     @Column(name = "consignacion", nullable = true)
     private boolean consignacion;
     @Column(name = "estado", nullable = true)
     private boolean estado;
-    @Column(name = "tipo_gasto", nullable = true)
-    private String tipo_gasto;
     @Column(name = "serie_autogenerado", nullable = true)
     private boolean serie_autogenerado;
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -39,6 +27,9 @@ public class Producto extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "presentacion_producto_id", nullable = true)
     private PresentacionProducto presentacion_producto;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "tipo_gasto_id", nullable = true)
+    private TipoGasto tipo_gasto;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
@@ -62,20 +53,15 @@ public class Producto extends Entidad {
         super(id);
     }
 
-    public Producto(String codigo, String nombre, String categoria, String linea, String sublinea, String presentacion, double costo,
-                    boolean consignacion, boolean estado, String tipo_gasto, boolean serie_autogenerado, TipoProducto tipo_producto, PresentacionProducto presentacion_producto,
+    public Producto(String codigo, String nombre, boolean consignacion, boolean estado, boolean serie_autogenerado, TipoGasto tipo_gasto, TipoProducto tipo_producto, PresentacionProducto presentacion_producto,
                     Impuesto impuesto, Kardex kardex) {
         super(codigo);
         this.nombre = nombre;
-        this.categoria = categoria;
-        this.linea = linea;
-        this.sublinea = sublinea;
-        this.presentacion = presentacion;
-        this.costo = costo;
+        this.presentacion_producto = presentacion_producto;
         this.consignacion = consignacion;
         this.estado = estado;
-        this.tipo_gasto = tipo_gasto;
         this.serie_autogenerado = serie_autogenerado;
+        this.tipo_gasto = tipo_gasto;
         this.tipo_producto = tipo_producto;
         this.presentacion_producto = presentacion_producto;
         this.impuesto = impuesto;
@@ -84,43 +70,17 @@ public class Producto extends Entidad {
     }
     public Producto(List<String>datos){
         nombre=datos.get(0)== null ? null: datos.get(0);
-        categoria=datos.get(1)== null ? null: datos.get(1);
-        linea=datos.get(2)== null ? null: datos.get(2);
-        sublinea=datos.get(3)== null ? null: datos.get(3);
-        presentacion=datos.get(4)== null ? null: datos.get(4);
-        costo=datos.get(5)== null ? null: Double.parseDouble(datos.get(5));
-        consignacion=datos.get(6)== null ? null: datos.get(6).equals("S") ? true : false;
-        estado=datos.get(7)== null ? null: datos.get(7).equals("S") ? true : false;
-        tipo_gasto=datos.get(8)== null ? null: datos.get(8);
-        serie_autogenerado=datos.get(9)== null ? null: datos.get(9).equals("S") ? true : false;
-        tipo_producto=datos.get(10)== null ? null: new TipoProducto((long) Double.parseDouble(datos.get(10)));
-        presentacion_producto=datos.get(11)== null ? null: new PresentacionProducto((long) Double.parseDouble(datos.get(11)));
-        impuesto=datos.get(12)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(12)));
-        kardex=datos.get(13)== null ? null: new Kardex((long) Double.parseDouble(datos.get(13)));
+        consignacion=datos.get(1)== null ? null: datos.get(1).equals("S") ? true : false;
+        estado=datos.get(2)== null ? null: datos.get(2).equals("S") ? true : false;
+        serie_autogenerado=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
+        tipo_producto=datos.get(4)== null ? null: new TipoProducto((long) Double.parseDouble(datos.get(4)));
+        presentacion_producto=datos.get(5)== null ? null: new PresentacionProducto((long) Double.parseDouble(datos.get(5)));
+        impuesto=datos.get(6)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(6)));
+        kardex=datos.get(7)== null ? null: new Kardex((long) Double.parseDouble(datos.get(7)));
     }
 
     public String getNombre() {
         return nombre;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public String getLinea() {
-        return linea;
-    }
-
-    public String getSublinea() {
-        return sublinea;
-    }
-
-    public String getPresentacion() {
-        return presentacion;
-    }
-
-    public double getCosto() {
-        return costo;
     }
 
     public boolean isConsignacion() {
@@ -131,7 +91,7 @@ public class Producto extends Entidad {
         return estado;
     }
 
-    public String getTipo_gasto() {
+    public TipoGasto getTipo_gasto() {
         return tipo_gasto;
     }
 

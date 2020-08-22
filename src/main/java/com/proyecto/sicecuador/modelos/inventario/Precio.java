@@ -78,4 +78,12 @@ public class Precio extends Entidad {
     public double getUtilidad_porcentaje() {
         return utilidad_porcentaje;
     }
+
+    public Medida getMedida() {
+        return medida;
+    }
+
+    public Segmento getSegmento() {
+        return segmento;
+    }
 }

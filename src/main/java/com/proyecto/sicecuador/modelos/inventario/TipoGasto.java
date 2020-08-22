@@ -1,9 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.LineaProductoUtil;
 import com.proyecto.sicecuador.otros.inventario.TipoGastoUtil;
 
 import javax.persistence.*;
