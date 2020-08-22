@@ -33,14 +33,14 @@ public class Producto extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
     @JoinColumn(name = "kardex_id", nullable = true)
     private Kardex kardex;
     @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "producto_id")
+    @JoinColumn(name = "producto_id", nullable = true)
     private List<Precio> precios;
     @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "producto_id")
+    @JoinColumn(name = "producto_id", nullable = true)
     private List<Caracteristica> caracteristicas;
     @Transient
     private long stock_total;
@@ -77,6 +77,12 @@ public class Producto extends Entidad {
         presentacion_producto=datos.get(5)== null ? null: new PresentacionProducto((long) Double.parseDouble(datos.get(5)));
         impuesto=datos.get(6)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(6)));
         kardex=datos.get(7)== null ? null: new Kardex((long) Double.parseDouble(datos.get(7)));
+    }
+
+    public void normalizar(){
+        if(kardex.getId()==0){
+            kardex=null;
+        }
     }
 
     public String getNombre() {

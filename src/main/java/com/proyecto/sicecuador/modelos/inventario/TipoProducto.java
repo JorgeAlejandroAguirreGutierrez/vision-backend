@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.TipoProductoUtil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "tipo_producto")
@@ -22,6 +23,10 @@ public class TipoProducto extends Entidad {
 
     public TipoProducto(long id){
         super(id);
+    }
+
+    public TipoProducto(List<String> datos){
+
     }
     public TipoProducto(String codigo, String descripcion, String tipo, String abreviatura){
         super(codigo);

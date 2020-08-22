@@ -52,6 +52,7 @@ public class ProductoController implements GenericoController<Producto> {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Producto _producto, BindingResult bindig_result) {
         try {
+            _producto.normalizar();
             Producto producto=servicio.crear(_producto);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, producto);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);

@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "celular")
-//@EntityListeners({CelularUtil.class})
 public class Celular extends Entidad {
     @NotNull(message = "Celular - Numero"+ Constantes.mensaje_validacion_not_null)
     @NotEmpty(message = "Celular - Numero"+Constantes.mensaje_validacion_not_blank)
