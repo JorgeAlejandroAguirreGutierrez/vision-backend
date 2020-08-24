@@ -47,7 +47,7 @@ public class FormaPagoService implements IFormaPagoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<FormaPago> formas_pagos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 10);
             for (List<String> datos: info) {
                 FormaPago forma_pago = new FormaPago(datos);
                 formas_pagos.add(forma_pago);

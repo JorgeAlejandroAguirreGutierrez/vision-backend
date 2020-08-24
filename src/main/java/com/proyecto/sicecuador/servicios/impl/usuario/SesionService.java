@@ -55,7 +55,7 @@ public class SesionService implements ISesionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Sesion> sesiones=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,4);
             for (List<String> datos: info) {
                 Sesion sesion = new Sesion(datos);
                 sesiones.add(sesion);

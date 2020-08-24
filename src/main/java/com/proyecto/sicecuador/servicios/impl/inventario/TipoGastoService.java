@@ -49,7 +49,7 @@ public class TipoGastoService implements ITipoGastoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoGasto> tipos_gastos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,9);
             for (List<String> datos: info) {
                 TipoGasto tipo_gasto = new TipoGasto(datos);
                 tipos_gastos.add(tipo_gasto);

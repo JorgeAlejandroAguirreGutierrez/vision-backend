@@ -48,7 +48,7 @@ public class EmpresaService implements IEmpresaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Empresa> empresas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,0);
             for (List<String> datos: info) {
                 Empresa empresa = new Empresa(datos);
                 empresas.add(empresa);

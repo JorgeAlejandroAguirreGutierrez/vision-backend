@@ -96,7 +96,7 @@ public class AuxiliarService implements IAuxiliarService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Auxiliar> auxiliares=new ArrayList<>();
-            List<List<String>>info=Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info=Constantes.leer_importar(archivo_temporal,0);
             for (List<String> datos: info){
                 Auxiliar auxiliar = new Auxiliar(datos);
                 auxiliares.add(auxiliar);

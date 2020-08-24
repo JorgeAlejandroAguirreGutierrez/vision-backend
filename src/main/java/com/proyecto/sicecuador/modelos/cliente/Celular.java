@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "celular")
@@ -36,6 +37,10 @@ public class Celular extends Entidad {
         super(codigo);
         this.numero=numero;
         this.cliente=cliente;
+    }
+    public Celular(List<String> datos){
+        this.numero=datos.get(0)== null? null : datos.get(0);
+        this.cliente=datos.get(1)== null ? null: new Cliente((long) Double.parseDouble(datos.get(1)));
     }
 
     public String getNumero() {

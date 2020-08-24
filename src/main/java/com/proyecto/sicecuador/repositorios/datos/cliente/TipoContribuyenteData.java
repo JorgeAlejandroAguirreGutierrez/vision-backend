@@ -8,6 +8,7 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @Component
 @Order(12)
+@Profile({"dev","prod"})
 public class TipoContribuyenteData implements ApplicationRunner {
     @Autowired
     private ITipoContribuyenteRepository rep;

@@ -47,7 +47,7 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<OrigenIngreso> origenes_ingresos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 13);
             for (List<String> datos: info) {
                 OrigenIngreso origen_ingreso = new OrigenIngreso(datos);
                 origenes_ingresos.add(origen_ingreso);

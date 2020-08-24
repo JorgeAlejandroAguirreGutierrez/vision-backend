@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.repositorios.interf.usuario.ISesionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Component
 @Order(25)
+@Profile({"dev","prod"})
 public class SesionData implements ApplicationRunner {
     @Autowired
     private ISesionRepository rep;

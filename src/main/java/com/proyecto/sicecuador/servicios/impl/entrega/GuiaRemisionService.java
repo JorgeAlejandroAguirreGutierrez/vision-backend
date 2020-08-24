@@ -46,7 +46,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<GuiaRemision> guias_remisiones=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,0);
             for (List<String> datos: info) {
                 GuiaRemision guia_remision = new GuiaRemision(datos);
                 guias_remisiones.add(guia_remision);

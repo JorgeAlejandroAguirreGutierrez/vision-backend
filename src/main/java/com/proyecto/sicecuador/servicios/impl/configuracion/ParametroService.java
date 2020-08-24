@@ -53,7 +53,7 @@ public class ParametroService implements IParametroService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Parametro> parametros=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,1);
             for (List<String> datos: info) {
                 Parametro parametro = new Parametro(datos);
                 parametros.add(parametro);

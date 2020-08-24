@@ -175,7 +175,7 @@ public class CreditoService implements ICreditoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Credito> creditos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,2);
             for (List<String> datos: info) {
                 Credito credito = new Credito(datos);
                 creditos.add(credito);

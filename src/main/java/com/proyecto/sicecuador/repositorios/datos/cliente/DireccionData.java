@@ -10,6 +10,7 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.IDireccionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Component
 @Order(19)
+@Profile({"dev","prod"})
 public class DireccionData implements ApplicationRunner {
     @Autowired
     private IDireccionRepository rep;

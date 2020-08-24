@@ -48,12 +48,11 @@ public class CelularService implements ICelularService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Celular> celulares=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
-            for (List<String> datos: info)
-                if (datos.get(0) != null) {
-                    Celular celular = new Celular(null, datos.get(0),new Cliente(datos.get(1)));
-                    celulares.add(celular);
-                }
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,2);
+            for (List<String> datos: info) {
+                Celular celular = new Celular(datos);
+                celulares.add(celular);
+            }
             rep.saveAll(celulares);
             return true;
         }catch (Exception e){

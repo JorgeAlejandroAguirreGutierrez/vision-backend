@@ -46,7 +46,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<CuentaPropia> cuentas_propias=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,3);
             for (List<String> datos: info) {
                 CuentaPropia cuenta_propia = new CuentaPropia(datos);
                 cuentas_propias.add(cuenta_propia);

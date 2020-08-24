@@ -47,7 +47,7 @@ public class FinanciamientoService implements IFinanciamientoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Financiamiento> financiamientos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,9);
             for (List<String> datos: info) {
                 Financiamiento financiamiento = new Financiamiento(datos);
                 financiamientos.add(financiamiento);
