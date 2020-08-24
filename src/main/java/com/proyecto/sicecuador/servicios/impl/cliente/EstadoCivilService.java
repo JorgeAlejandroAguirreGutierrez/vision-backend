@@ -46,7 +46,7 @@ public class EstadoCivilService implements IEstadoCivilService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<EstadoCivil> estados_civiles=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,8);
             for (List<String> datos: info) {
                 EstadoCivil estado_civil = new EstadoCivil(datos);
                 estados_civiles.add(estado_civil);

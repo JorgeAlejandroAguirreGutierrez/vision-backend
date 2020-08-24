@@ -90,11 +90,6 @@ public class ClienteController implements GenericoController<Cliente> {
         }
     }
 
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
-
     @GetMapping(value = "/identificacion/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerIdentificacion(@PathVariable("identificacion") String identificacion) {
         try {
@@ -154,6 +149,17 @@ public class ClienteController implements GenericoController<Cliente> {
             cliente.setIdentificacion(identificacion);
             Optional<Cliente> _cliente=servicio.validarIdentificacion(cliente);
             Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
+        try {
+            boolean bandera=servicio.importar(archivo);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

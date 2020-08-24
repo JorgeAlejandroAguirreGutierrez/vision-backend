@@ -46,7 +46,7 @@ public class BancoService implements IBancoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Banco> bancos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,1);
             for (List<String> datos: info) {
                 Banco banco = new Banco(datos);
                 bancos.add(banco);

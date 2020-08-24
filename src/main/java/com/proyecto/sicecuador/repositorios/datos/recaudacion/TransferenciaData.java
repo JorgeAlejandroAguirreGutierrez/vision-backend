@@ -4,11 +4,13 @@ import com.proyecto.sicecuador.repositorios.interf.recaudacion.ITransferenciaRep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @Order(46)
+@Profile({"dev","prod"})
 public class TransferenciaData implements ApplicationRunner {
     @Autowired
     private ITransferenciaRepository rep;

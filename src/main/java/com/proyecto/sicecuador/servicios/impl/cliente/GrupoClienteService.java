@@ -48,7 +48,7 @@ public class GrupoClienteService implements IGrupoClienteService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<GrupoCliente> grupos_clientes=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 12);
             for (List<String> datos: info) {
                 GrupoCliente grupo_cliente = new GrupoCliente(datos);
                 grupos_clientes.add(grupo_cliente);

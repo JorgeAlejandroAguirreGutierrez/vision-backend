@@ -81,8 +81,15 @@ public class UsuarioController implements GenericoController<Usuario> {
         }
     }
 
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
+    @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> importar(MultipartFile archivo) {
+        try {
+            boolean bandera=servicio.importar(archivo);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

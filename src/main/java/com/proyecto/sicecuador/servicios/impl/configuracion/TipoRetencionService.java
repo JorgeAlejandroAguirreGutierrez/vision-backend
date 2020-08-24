@@ -46,7 +46,7 @@ public class TipoRetencionService implements ITipoRetencionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoRetencion> tipos_retenciones=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 2);
             for (List<String> datos: info) {
                 TipoRetencion tipo_retencion = new TipoRetencion(datos);
                 tipos_retenciones.add(tipo_retencion);

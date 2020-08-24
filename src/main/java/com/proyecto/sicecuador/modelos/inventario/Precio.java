@@ -46,13 +46,14 @@ public class Precio extends Entidad {
 
     }
     public Precio(String codigo, double costo, double margen_ganancia,
-                  double precio_venta_publico, double precio_venta_publico_iva,
+                  double precio_venta_publico, double precio_venta_publico_iva, double precio_venta_publico_manual,
                   double utilidad, double utilidad_pocentaje, Medida medida, Segmento segmento, Producto producto){
         super(codigo);
         this.costo=costo;
         this.margen_ganancia=margen_ganancia;
         this.precio_venta_publico=precio_venta_publico;
         this.precio_venta_publico_iva=precio_venta_publico_iva;
+        this.precio_venta_publico_manual=precio_venta_publico_manual;
         this.utilidad=utilidad;
         this.utilidad_porcentaje=utilidad_pocentaje;
         this.medida=medida;

@@ -65,7 +65,7 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<OperadorTarjeta> operadores_tarjetas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
             for (List<String> datos: info) {
                 OperadorTarjeta operador_tarjeta = new OperadorTarjeta(datos);
                 operadores_tarjetas.add(operador_tarjeta);

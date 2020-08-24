@@ -59,7 +59,7 @@ public class CaracteristicaService implements ICaracteristicaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Caracteristica> caracteristicas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,1);
             for (List<String> datos: info) {
                 Caracteristica caracteristica = new Caracteristica(datos);
                 caracteristicas.add(caracteristica);

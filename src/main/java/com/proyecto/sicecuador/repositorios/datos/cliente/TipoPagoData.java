@@ -7,6 +7,7 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoPagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @Component
 @Order(13)
+@Profile({"dev","prod"})
 public class TipoPagoData implements ApplicationRunner {
     @Autowired
     private ITipoPagoRepository rep;
@@ -24,8 +26,8 @@ public class TipoPagoData implements ApplicationRunner {
         Optional<TipoPago> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<TipoPago> tipos_pagos = new ArrayList<>();
-            tipos_pagos.add(new TipoPago("TPA011907000001", "PREPAGO", "PRE"));
-            tipos_pagos.add(new TipoPago("TPA011908000002", "POSTPAGO", "POST"));
+            tipos_pagos.add(new TipoPago("TPA011907000001", "EFECTIVO", "EF"));
+            tipos_pagos.add(new TipoPago("TPA011908000002", "CREDITO", "CR"));
             rep.saveAll(tipos_pagos);
         }
     }

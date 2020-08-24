@@ -47,7 +47,7 @@ public class TipoContribuyenteService implements ITipoContribuyenteService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoContribuyente> tipos_contribuyentes=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 18);
             for (List<String> datos: info) {
                 TipoContribuyente tipo_contribuyente = new TipoContribuyente(datos);
                 tipos_contribuyentes.add(tipo_contribuyente);

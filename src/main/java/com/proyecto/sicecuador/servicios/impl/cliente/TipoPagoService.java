@@ -46,7 +46,7 @@ public class TipoPagoService implements ITipoPagoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoPago> tipos_pagos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,19);
             for (List<String> datos: info) {
                 TipoPago tipo_pago = new TipoPago(datos);
                 tipos_pagos.add(tipo_pago);

@@ -46,7 +46,7 @@ public class PermisoService implements IPermisoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Permiso> permisos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,2);
             for (List<String> datos: info) {
                 Permiso permiso = new Permiso(datos);
                 permisos.add(permiso);

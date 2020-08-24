@@ -12,5 +12,5 @@ public interface GenericoController<T> {
     ResponseEntity<?> crear(T t, BindingResult binding_result);
     ResponseEntity<?> actualizar(T t);
     ResponseEntity<?> eliminar(long id);
-    ResponseEntity<?> importar(MultipartFile file);
+    ResponseEntity<?> importar(MultipartFile archivo);
 }

@@ -50,7 +50,7 @@ public class ImpuestoService implements IImpuestoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Impuesto> impuestos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,3);
             for (List<String> datos: info) {
                 Impuesto impuesto = new Impuesto(datos);
                 impuestos.add(impuesto);

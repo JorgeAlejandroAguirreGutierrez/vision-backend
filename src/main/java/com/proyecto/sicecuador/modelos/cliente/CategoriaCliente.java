@@ -8,6 +8,7 @@ import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "categoria_cliente")
@@ -32,6 +33,11 @@ public class CategoriaCliente extends Entidad {
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
+    }
+
+    public CategoriaCliente(List<String> datos){
+        this.descripcion=datos.get(0)== null? null : datos.get(0);
+        this.abreviatura=datos.get(1)== null? null : datos.get(1);
     }
     public String getDescripcion() {
         return descripcion;

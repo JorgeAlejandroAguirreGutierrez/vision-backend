@@ -13,6 +13,7 @@ import com.proyecto.sicecuador.repositorios.interf.configuracion.IEmpresaReposit
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 @Component
 @Order(44)
+@Profile({"dev","prod"})
 public class EgresoData implements ApplicationRunner {
     @Autowired
     private IEgresoRepository rep;

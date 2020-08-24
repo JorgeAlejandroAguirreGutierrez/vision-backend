@@ -49,7 +49,7 @@ public class LineaProductoService implements ILineaProductoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<LineaProducto> lineas_productos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,4);
             for (List<String> datos: info) {
                 LineaProducto linea_producto = new LineaProducto(datos);
                 lineas_productos.add(linea_producto);

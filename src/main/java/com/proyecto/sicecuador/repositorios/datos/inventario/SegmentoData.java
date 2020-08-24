@@ -7,6 +7,7 @@ import com.proyecto.sicecuador.repositorios.interf.inventario.ITipoGastoReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @Component
 @Order(33)
+@Profile({"dev","prod"})
 public class SegmentoData implements ApplicationRunner {
     @Autowired
     private ISegmentoRepository rep;

@@ -48,7 +48,7 @@ public class GeneroService implements IGeneroService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Genero> generos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 11);
             for (List<String> datos: info) {
                 Genero genero = new Genero(datos);
                 generos.add(genero);

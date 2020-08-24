@@ -49,7 +49,7 @@ public class PrecioService implements IPrecioService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Precio> precios=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,6);
             for (List<String> datos: info) {
                 Precio precio = new Precio(datos);
                 precios.add(precio);

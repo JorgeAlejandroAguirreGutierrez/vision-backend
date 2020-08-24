@@ -124,7 +124,7 @@ public class Constantes {
         return archivo_convertir;
     }
 
-    public static List<List<String>> leer_importar(MultipartFile archivo_temporal){
+    public static List<List<String>> leer_importar(MultipartFile archivo_temporal, int pagina){
         List<List<String>> info=new ArrayList<>();
         InputStream archivo_excel=null;
         try {
@@ -133,7 +133,7 @@ public class Constantes {
             // Representación del más alto nivel de la hoja excel.
             XSSFWorkbook libro = new XSSFWorkbook(archivo_excel);
             // Elegimos la hoja que se pasa por parámetro.
-            XSSFSheet hoja = libro.getSheetAt(0);
+            XSSFSheet hoja = libro.getSheetAt(pagina);
             // Objeto que nos permite leer un fila de la hoja excel, y de aquí extraer el contenido de las celdas.
             XSSFRow fila;
             // Inicializo el objeto que leerá el valor de la celda
@@ -166,8 +166,11 @@ public class Constantes {
                                                                         (fila.getCell(columna).getCellType() == CellType.ERROR) ? "ERROR" : "";
                         System.out.print("[Column " + columna + ": " + valor_celda + "] ");
                         datos.add(valor_celda);
+                    }
+                    if(validar_datos_importacion(datos)){
                         info.add(datos);
                     }
+
                 }
             }
             return info;
@@ -182,5 +185,14 @@ public class Constantes {
                 return null;
             }
         }
+    }
+
+    private static boolean validar_datos_importacion(List<String>datos){
+        for (int i=0; i<datos.size(); i++){
+            if (datos.get(i)!= null){
+                return true;
+            }
+        }
+        return false;
     }
 }

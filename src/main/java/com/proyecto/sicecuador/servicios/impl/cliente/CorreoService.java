@@ -47,7 +47,7 @@ public class CorreoService implements ICorreoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Correo> correos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal);
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
             for (List<String> datos: info) {
                 Correo correo = new Correo(datos);
                 correos.add(correo);
