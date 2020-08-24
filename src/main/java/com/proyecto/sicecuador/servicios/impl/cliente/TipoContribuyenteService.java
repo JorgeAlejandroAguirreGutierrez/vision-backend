@@ -52,6 +52,9 @@ public class TipoContribuyenteService implements ITipoContribuyenteService {
                 TipoContribuyente tipo_contribuyente = new TipoContribuyente(datos);
                 tipos_contribuyentes.add(tipo_contribuyente);
             }
+            if(tipos_contribuyentes.isEmpty()){
+                return false;
+            }
             rep.saveAll(tipos_contribuyentes);
             return true;
         }catch (Exception e){

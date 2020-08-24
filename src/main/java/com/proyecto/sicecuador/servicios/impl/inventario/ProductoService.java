@@ -104,6 +104,9 @@ public class ProductoService implements IProductoService {
                 Producto producto = new Producto(datos);
                 productos.add(producto);
             }
+            if(productos.isEmpty()){
+                return false;
+            }
             rep.saveAll(productos);
             return true;
         }catch (Exception e){

@@ -52,6 +52,9 @@ public class CorreoService implements ICorreoService {
                 Correo correo = new Correo(datos);
                 correos.add(correo);
             }
+            if(correos.isEmpty()){
+                return false;
+            }
             rep.saveAll(correos);
             return true;
         }catch (Exception e){

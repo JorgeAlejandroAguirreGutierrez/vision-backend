@@ -52,6 +52,9 @@ public class TelefonoService implements ITelefonoService {
                 Telefono telefono = new Telefono(datos);
                 telefonos.add(telefono);
             }
+            if(telefonos.isEmpty()){
+                return false;
+            }
             rep.saveAll(telefonos);
             return true;
         }catch (Exception e){

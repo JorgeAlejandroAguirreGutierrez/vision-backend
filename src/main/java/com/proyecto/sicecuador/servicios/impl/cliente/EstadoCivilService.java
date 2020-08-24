@@ -51,6 +51,9 @@ public class EstadoCivilService implements IEstadoCivilService {
                 EstadoCivil estado_civil = new EstadoCivil(datos);
                 estados_civiles.add(estado_civil);
             }
+            if(estados_civiles.isEmpty()){
+                return false;
+            }
             rep.saveAll(estados_civiles);
             return true;
         }catch (Exception e){

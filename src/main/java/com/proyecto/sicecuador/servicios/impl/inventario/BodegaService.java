@@ -51,6 +51,9 @@ public class BodegaService implements IBodegaService {
                 Bodega bodega = new Bodega(datos);
                 bodegas.add(bodega);
             }
+            if(bodegas.isEmpty()){
+                return false;
+            }
             rep.saveAll(bodegas);
             return true;
         }catch (Exception e){

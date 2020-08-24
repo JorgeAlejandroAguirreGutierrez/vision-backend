@@ -51,6 +51,9 @@ public class SegmentoService implements ISegmentoService {
                 Segmento segmento = new Segmento(datos);
                 segmentos.add(segmento);
             }
+            if(segmentos.isEmpty()){
+                return false;
+            }
             rep.saveAll(segmentos);
             return true;
         }catch (Exception e){

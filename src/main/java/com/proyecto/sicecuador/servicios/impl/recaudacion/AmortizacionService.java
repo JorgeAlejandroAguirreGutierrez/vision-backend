@@ -54,6 +54,9 @@ public class AmortizacionService implements IAmortizacionService {
                 Amortizacion amortizacion = new Amortizacion(datos);
                 amortizaciones.add(amortizacion);
             }
+            if(amortizaciones.isEmpty()){
+                return false;
+            }
             rep.saveAll(amortizaciones);
             return true;
         }catch (Exception e){

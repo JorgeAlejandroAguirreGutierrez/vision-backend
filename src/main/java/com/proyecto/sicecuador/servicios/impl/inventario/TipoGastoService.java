@@ -54,6 +54,9 @@ public class TipoGastoService implements ITipoGastoService {
                 TipoGasto tipo_gasto = new TipoGasto(datos);
                 tipos_gastos.add(tipo_gasto);
             }
+            if(tipos_gastos.isEmpty()){
+                return false;
+            }
             rep.saveAll(tipos_gastos);
             return true;
         }catch (Exception e){

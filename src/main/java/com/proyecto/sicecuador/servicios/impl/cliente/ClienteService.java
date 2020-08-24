@@ -346,12 +346,15 @@ public class ClienteService implements IClienteService {
 
     @Override
     public boolean importar(MultipartFile archivo_temporal) {
+        List<Cliente> clientes=new ArrayList<>();
         try {
-            List<Cliente> clientes=new ArrayList<>();
             List<List<String>>info= Constantes.leer_importar(archivo_temporal,4);
             for (List<String> datos: info){
                 Cliente cliente=new Cliente(datos);
                 clientes.add(cliente);
+            }
+            if(clientes.isEmpty()){
+                return false;
             }
             rep.saveAll(clientes);
             return true;

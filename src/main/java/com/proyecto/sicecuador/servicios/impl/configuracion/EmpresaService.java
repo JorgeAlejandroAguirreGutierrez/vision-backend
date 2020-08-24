@@ -53,6 +53,9 @@ public class EmpresaService implements IEmpresaService {
                 Empresa empresa = new Empresa(datos);
                 empresas.add(empresa);
             }
+            if(empresas.isEmpty()){
+                return false;
+            }
             rep.saveAll(empresas);
             return true;
         }catch (Exception e){

@@ -53,6 +53,9 @@ public class GeneroService implements IGeneroService {
                 Genero genero = new Genero(datos);
                 generos.add(genero);
             }
+            if(generos.isEmpty()){
+                return false;
+            }
             rep.saveAll(generos);
             return true;
         }catch (Exception e){

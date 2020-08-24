@@ -53,6 +53,9 @@ public class GrupoClienteService implements IGrupoClienteService {
                 GrupoCliente grupo_cliente = new GrupoCliente(datos);
                 grupos_clientes.add(grupo_cliente);
             }
+            if(grupos_clientes.isEmpty()){
+                return false;
+            }
             rep.saveAll(grupos_clientes);
             return true;
         }catch (Exception e){

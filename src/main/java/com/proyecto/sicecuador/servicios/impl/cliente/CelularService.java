@@ -53,6 +53,9 @@ public class CelularService implements ICelularService {
                 Celular celular = new Celular(datos);
                 celulares.add(celular);
             }
+            if(celulares.isEmpty()){
+                return false;
+            }
             rep.saveAll(celulares);
             return true;
         }catch (Exception e){

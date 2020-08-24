@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "cliente")
-@EntityListeners({ClienteUtil.class})
+//@EntityListeners({ClienteUtil.class})
 public class Cliente extends Entidad {
     @NotNull(message = "Tipo de Identificacion Cliente"+ Constantes.mensaje_validacion_not_null)
     @NotEmpty(message = "Tipo de Identificacion Cliente"+Constantes.mensaje_validacion_not_blank)
@@ -45,10 +45,10 @@ public class Cliente extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "grupo_cliente_id")
     private GrupoCliente grupo_cliente;
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch= FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
     @JoinColumn(name = "financiamiento_id", nullable = true)
     private Financiamiento financiamiento;
     @ManyToOne(cascade = CascadeType.MERGE, optional = true)
@@ -127,9 +127,9 @@ public class Cliente extends Entidad {
         especial=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
         estado= datos.get(4)== null ? null: datos.get(4).equals("S") ? true : false;
         eliminado=datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
-        punto_venta= datos.get(6)== null ? null: new PuntoVenta((long) Double.parseDouble(datos.get(6)));
-        grupo_cliente= datos.get(7)== null ? null: new GrupoCliente((long) Double.parseDouble(datos.get(7)));
-        tipo_contribuyente= datos.get(8)== null ? null: new TipoContribuyente((long) Double.parseDouble(datos.get(8)));
+        tipo_contribuyente= datos.get(6)== null ? null: new TipoContribuyente((long) Double.parseDouble(datos.get(6)));
+        punto_venta= datos.get(7)== null ? null: new PuntoVenta((long) Double.parseDouble(datos.get(7)));
+        grupo_cliente= datos.get(8)== null ? null: new GrupoCliente((long) Double.parseDouble(datos.get(8)));
         direccion= datos.get(9)== null ? null: new Direccion((long) Double.parseDouble(datos.get(9)));
         financiamiento=datos.get(10)== null ? null:new Financiamiento((long) Double.parseDouble(datos.get(10)));
         genero=datos.get(11)== null ? null:new Genero((long) Double.parseDouble(datos.get(11)));

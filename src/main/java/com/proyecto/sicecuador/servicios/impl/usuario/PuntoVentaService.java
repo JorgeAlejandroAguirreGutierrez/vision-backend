@@ -51,22 +51,6 @@ public class PuntoVentaService implements IPuntoVentaService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
-        try {
-            List<PuntoVenta> puntos_ventas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,3);
-            for (List<String> datos: info) {
-                PuntoVenta punto_venta = new PuntoVenta(datos);
-                puntos_ventas.add(punto_venta);
-            }
-            rep.saveAll(puntos_ventas);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
-
-    @Override
     public List<PuntoVenta> consultarEstablecimiento(Establecimiento establecimiento) {
         return  rep.findAll(new Specification<PuntoVenta>() {
             @Override
@@ -78,5 +62,24 @@ public class PuntoVentaService implements IPuntoVentaService {
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
+    }
+
+    @Override
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<PuntoVenta> puntos_ventas=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,3);
+            for (List<String> datos: info) {
+                PuntoVenta punto_venta = new PuntoVenta(datos);
+                puntos_ventas.add(punto_venta);
+            }
+            if(puntos_ventas.isEmpty()){
+                return false;
+            }
+            rep.saveAll(puntos_ventas);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

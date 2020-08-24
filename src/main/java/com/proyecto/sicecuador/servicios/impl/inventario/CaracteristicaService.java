@@ -64,6 +64,9 @@ public class CaracteristicaService implements ICaracteristicaService {
                 Caracteristica caracteristica = new Caracteristica(datos);
                 caracteristicas.add(caracteristica);
             }
+            if(caracteristicas.isEmpty()){
+                return false;
+            }
             rep.saveAll(caracteristicas);
             return true;
         }catch (Exception e){

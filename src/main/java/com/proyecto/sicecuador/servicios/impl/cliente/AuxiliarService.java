@@ -101,6 +101,9 @@ public class AuxiliarService implements IAuxiliarService {
                 Auxiliar auxiliar = new Auxiliar(datos);
                 auxiliares.add(auxiliar);
             }
+            if(auxiliares.isEmpty()){
+                return false;
+            }
             rep.saveAll(auxiliares);
             return true;
         }catch (Exception e){

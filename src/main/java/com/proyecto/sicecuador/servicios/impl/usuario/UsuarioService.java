@@ -41,22 +41,6 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
-        try {
-            List<Usuario> usuarios=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
-            for (List<String> datos: info) {
-                Usuario usuario = new Usuario(datos);
-                usuarios.add(usuario);
-            }
-            rep.saveAll(usuarios);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
-
-    @Override
     public List<Usuario> consultarVendedores() {
         return null;
     }
@@ -72,5 +56,24 @@ public class UsuarioService implements IUsuarioService {
         usuario.setActivo(false);
         _usuario=rep.save(_usuario);
         return Optional.of(usuario);
+    }
+
+    @Override
+    public boolean importar(MultipartFile archivo_temporal) {
+        try {
+            List<Usuario> usuarios=new ArrayList<>();
+            List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
+            for (List<String> datos: info) {
+                Usuario usuario = new Usuario(datos);
+                usuarios.add(usuario);
+            }
+            if(usuarios.isEmpty()){
+                return false;
+            }
+            rep.saveAll(usuarios);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

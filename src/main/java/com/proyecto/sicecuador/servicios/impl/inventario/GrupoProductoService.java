@@ -51,6 +51,9 @@ public class GrupoProductoService implements IGrupoProductoService {
                 GrupoProducto caracteristica = new GrupoProducto(datos);
                 grupos_productos.add(caracteristica);
             }
+            if(grupos_productos.isEmpty()){
+                return false;
+            }
             rep.saveAll(grupos_productos);
             return true;
         }catch (Exception e){

@@ -52,6 +52,9 @@ public class FinanciamientoService implements IFinanciamientoService {
                 Financiamiento financiamiento = new Financiamiento(datos);
                 financiamientos.add(financiamiento);
             }
+            if(financiamientos.isEmpty()){
+                return false;
+            }
             rep.saveAll(financiamientos);
             return true;
         }catch (Exception e){

@@ -52,6 +52,9 @@ public class FormaPagoService implements IFormaPagoService {
                 FormaPago forma_pago = new FormaPago(datos);
                 formas_pagos.add(forma_pago);
             }
+            if(formas_pagos.isEmpty()){
+                return false;
+            }
             rep.saveAll(formas_pagos);
             return true;
         }catch (Exception e){

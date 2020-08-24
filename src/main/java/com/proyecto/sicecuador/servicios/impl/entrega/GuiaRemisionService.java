@@ -51,6 +51,9 @@ public class GuiaRemisionService implements IGuiaRemisionService {
                 GuiaRemision guia_remision = new GuiaRemision(datos);
                 guias_remisiones.add(guia_remision);
             }
+            if (guias_remisiones.isEmpty()){
+                return false;
+            }
             rep.saveAll(guias_remisiones);
             return true;
         }catch (Exception e){

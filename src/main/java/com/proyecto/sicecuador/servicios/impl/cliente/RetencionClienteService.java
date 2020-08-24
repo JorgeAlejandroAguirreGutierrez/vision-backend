@@ -52,6 +52,9 @@ public class RetencionClienteService implements IRetencionClienteService {
                 RetencionCliente retencion_cliente = new RetencionCliente(datos);
                 retenciones_clientes.add(retencion_cliente);
             }
+            if(retenciones_clientes.isEmpty()){
+                return false;
+            }
             rep.saveAll(retenciones_clientes);
             return true;
         }catch (Exception e){

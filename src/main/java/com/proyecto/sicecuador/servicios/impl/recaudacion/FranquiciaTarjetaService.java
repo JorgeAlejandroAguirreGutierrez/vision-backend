@@ -51,6 +51,9 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
                 FranquiciaTarjeta franquicia_tarjeta = new FranquiciaTarjeta(datos);
                 franquicias_tarjetas.add(franquicia_tarjeta);
             }
+            if(franquicias_tarjetas.isEmpty()){
+                return false;
+            }
             rep.saveAll(franquicias_tarjetas);
             return true;
         }catch (Exception e){

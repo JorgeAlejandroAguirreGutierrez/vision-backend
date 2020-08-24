@@ -55,6 +55,9 @@ public class TipoProductoService implements ITipoProductoService {
                 tipos_productos.add(tipo_producto);
 
             }
+            if(tipos_productos.isEmpty()){
+                return false;
+            }
             rep.saveAll(tipos_productos);
             return true;
         }catch (Exception e){

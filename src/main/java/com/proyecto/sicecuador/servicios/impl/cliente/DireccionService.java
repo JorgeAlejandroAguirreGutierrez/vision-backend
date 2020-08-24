@@ -53,6 +53,9 @@ public class DireccionService implements IDireccionService {
                 Direccion direccion = new Direccion(datos);
                 direcciones.add(direccion);
             }
+            if(direcciones.isEmpty()){
+                return false;
+            }
             rep.saveAll(direcciones);
             return true;
         }catch (Exception e){

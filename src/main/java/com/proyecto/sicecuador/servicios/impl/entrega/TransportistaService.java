@@ -52,6 +52,9 @@ public class TransportistaService implements ITransportistaService {
                 Transportista transportista = new Transportista(datos);
                 transportistas.add(transportista);
             }
+            if (transportistas.isEmpty()){
+                return false;
+            }
             rep.saveAll(transportistas);
             return true;
         }catch (Exception e){

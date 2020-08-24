@@ -51,6 +51,9 @@ public class TipoRetencionService implements ITipoRetencionService {
                 TipoRetencion tipo_retencion = new TipoRetencion(datos);
                 tipos_retenciones.add(tipo_retencion);
             }
+            if(tipos_retenciones.isEmpty()){
+                return false;
+            }
             rep.saveAll(tipos_retenciones);
             return true;
         }catch (Exception e){
