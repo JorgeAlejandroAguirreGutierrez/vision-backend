@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
+import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IOrigenIngresoRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IRetencionClienteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IRetencionClienteService;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class RetencionClienteService implements IRetencionClienteService {
     @Autowired
     private IRetencionClienteRepository rep;
+    @Autowired
+    private IClienteRepository rep_cliente;
     @Override
     public RetencionCliente crear(RetencionCliente retencion_cliente) {
         return rep.save(retencion_cliente);
@@ -50,7 +54,10 @@ public class RetencionClienteService implements IRetencionClienteService {
             List<List<String>>info= Constantes.leer_importar(archivo_temporal, 15);
             for (List<String> datos: info) {
                 RetencionCliente retencion_cliente = new RetencionCliente(datos);
-                retenciones_clientes.add(retencion_cliente);
+                Optional<Cliente> cliente=rep_cliente.findById(retencion_cliente.getCliente().getId());
+                if(cliente.isPresent()){
+                    retenciones_clientes.add(retencion_cliente);
+                }
             }
             if(retenciones_clientes.isEmpty()){
                 return false;

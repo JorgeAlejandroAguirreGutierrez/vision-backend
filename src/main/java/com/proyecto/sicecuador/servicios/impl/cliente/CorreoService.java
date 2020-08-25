@@ -2,8 +2,10 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Correo;
 import com.proyecto.sicecuador.otros.Util;
+import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ICorreoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICorreoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class CorreoService implements ICorreoService {
     @Autowired
     private ICorreoRepository rep;
+    @Autowired
+    private IClienteRepository rep_cliente;
     @Override
     public Correo crear(Correo correo) {
         return rep.save(correo);
@@ -50,7 +54,10 @@ public class CorreoService implements ICorreoService {
             List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
             for (List<String> datos: info) {
                 Correo correo = new Correo(datos);
-                correos.add(correo);
+                Optional<Cliente> cliente=rep_cliente.findById(correo.getCliente().getId());
+                if(cliente.isPresent()){
+                    correos.add(correo);
+                }
             }
             if(correos.isEmpty()){
                 return false;

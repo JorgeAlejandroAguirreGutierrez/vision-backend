@@ -359,9 +359,10 @@ public class ClienteService implements IClienteService {
                 Financiamiento financiamiento=cliente.getFinanciamiento()!=null?adm.merge(cliente.getFinanciamiento()): null;
                 cliente.setFinanciamiento(financiamiento);
                 Optional<Cliente> cliente_verificado=validarIdentificacion(cliente);
-                if(cliente_verificado.isPresent())
-                {
+                if(cliente_verificado.isPresent()){
                     clientes.add(cliente);
+                } else{
+                    System.out.println(cliente.getIdentificacion());
                 }
             }
             if(clientes.isEmpty()){
