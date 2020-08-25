@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -159,8 +160,13 @@ public class ClienteController implements GenericoController<Cliente> {
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
         try {
             boolean bandera=servicio.importar(archivo);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+            if(bandera){
+                Respuesta respuesta=new Respuesta(true,Constantes.mensaje_importacion_exitoso, bandera);
+                return new ResponseEntity<>(respuesta, HttpStatus.OK);
+            }
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_importacion_fallido, bandera);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
+
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
