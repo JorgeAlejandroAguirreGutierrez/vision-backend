@@ -10,8 +10,8 @@ import java.util.List;
 @Table(name = "impuesto")
 @EntityListeners({ImpuestoUtil.class})
 public class Impuesto extends Entidad {
-    @Column(name = "codigo_norma", nullable = true)
-    private String codigo_norma;
+    @Column(name = "descripcion", nullable = true)
+    private String descripcion;
     @Column(name = "porcentaje", nullable = true)
     private double porcentaje;
 
@@ -27,18 +27,19 @@ public class Impuesto extends Entidad {
         this.porcentaje=porcentaje;
     }
 
-    public Impuesto(String codigo, String codigo_norma,double porcentaje){
+    public Impuesto(String codigo, String descripcion,double porcentaje){
         super(codigo);
-        this.codigo_norma=codigo_norma;
+        this.descripcion=descripcion;
         this.porcentaje=porcentaje;
     }
 
     public Impuesto(List<String> datos){
-        codigo_norma=datos.get(0)== null ? null: datos.get(0);
+        descripcion=datos.get(0)== null ? null: datos.get(0);
         porcentaje=datos.get(1)== null ? null: Double.parseDouble(datos.get(1));
     }
-    public String getCodigo_norma() {
-        return codigo_norma;
+
+    public String getDescripcion() {
+        return descripcion;
     }
 
     public double getPorcentaje() {
