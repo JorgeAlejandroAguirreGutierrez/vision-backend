@@ -354,19 +354,12 @@ public class ClienteService implements IClienteService {
             List<List<String>>info= Constantes.leer_importar(archivo_temporal,4);
             for (List<String> datos: info){
                 Cliente cliente=new Cliente(datos);
-                //Direccion direccion=cliente.getDireccion()!= null? adm.merge(cliente.getDireccion()): null;
-                //cliente.setDireccion(direccion);
-                //Financiamiento financiamiento=cliente.getFinanciamiento()!=null?adm.merge(cliente.getFinanciamiento()): null;
-                //cliente.setFinanciamiento(financiamiento);
-                boolean bandera=true;
-                for(int i=0; i<clientes.size(); i++){
-                    if(clientes.get(i).getIdentificacion().equals(cliente.getIdentificacion())){
-                        bandera=false;
-                    }
-                }
+                Direccion direccion=cliente.getDireccion()!= null? adm.merge(cliente.getDireccion()): null;
+                cliente.setDireccion(direccion);
+                Financiamiento financiamiento=cliente.getFinanciamiento()!=null?adm.merge(cliente.getFinanciamiento()): null;
+                cliente.setFinanciamiento(financiamiento);
                 Optional<Cliente> cliente_verificado=validarIdentificacion(cliente);
-
-                if(cliente_verificado.isPresent() && bandera){
+                if(cliente_verificado.isPresent()){
                     clientes.add(cliente);
                 } else{
                     System.out.println(cliente.getIdentificacion());
