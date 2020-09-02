@@ -31,8 +31,10 @@ public class SubLineaProductoData implements ApplicationRunner {
             sub_lineas_productos.add(new SubLineaProducto("LPR011907000002", "BROTHER", new LineaProducto(2)));
             sub_lineas_productos.add(new SubLineaProducto("LPR011907000003", "LG", new LineaProducto(3)));
             sub_lineas_productos.add(new SubLineaProducto("LPR011907000004", "SONY", new LineaProducto(4)));
-            sub_lineas_productos.add(new SubLineaProducto("LPR011907000004", "BRAHMA", new LineaProducto(1)));
-            sub_lineas_productos.add(new SubLineaProducto("LPR011907000004", "PIAF", new LineaProducto(2)));
+            sub_lineas_productos.add(new SubLineaProducto("LPR011907000005", "BRAHMA", new LineaProducto(5)));
+            sub_lineas_productos.add(new SubLineaProducto("LPR011907000006", "ARMANI", new LineaProducto(6)));
+            sub_lineas_productos.add(new SubLineaProducto("LPR011907000007", "GRAM HELL", new LineaProducto(7)));
+            sub_lineas_productos.add(new SubLineaProducto("LPR011907000008", "ICOM", new LineaProducto(8)));
             rep.saveAll(sub_lineas_productos);
         }
     }

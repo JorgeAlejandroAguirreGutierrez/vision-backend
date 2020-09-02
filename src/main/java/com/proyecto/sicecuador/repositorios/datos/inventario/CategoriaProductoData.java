@@ -29,10 +29,10 @@ public class CategoriaProductoData implements ApplicationRunner {
             List<CategoriaProducto> categorias_productos = new ArrayList<>();
             categorias_productos.add(new CategoriaProducto("GPR011907000001", "TELEVISOR", new SubGrupoProducto(1)));
             categorias_productos.add(new CategoriaProducto("GPR011907000002", "NEVERA", new SubGrupoProducto(2)));
-            categorias_productos.add(new CategoriaProducto("GPR011907000002", "CELULAR", new SubGrupoProducto(3)));
-            categorias_productos.add(new CategoriaProducto("GPR011907000002", "SILLA", new SubGrupoProducto(4)));
-            categorias_productos.add(new CategoriaProducto("GPR011907000002", "COMPUTADOR", new SubGrupoProducto(1)));
-            categorias_productos.add(new CategoriaProducto("GPR011907000002", "MESA", new SubGrupoProducto(2)));
+            categorias_productos.add(new CategoriaProducto("GPR011907000003", "CELULAR", new SubGrupoProducto(3)));
+            categorias_productos.add(new CategoriaProducto("GPR011907000004", "SILLA", new SubGrupoProducto(4)));
+            categorias_productos.add(new CategoriaProducto("GPR011907000005", "COMPUTADOR", new SubGrupoProducto(1)));
+            categorias_productos.add(new CategoriaProducto("GPR011907000006", "MESA", new SubGrupoProducto(2)));
             rep.saveAll(categorias_productos);
         }
     }

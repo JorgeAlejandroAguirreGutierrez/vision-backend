@@ -28,6 +28,10 @@ public class LineaProductoData implements ApplicationRunner {
             lineas_productos.add(new LineaProducto("LPR011907000002", "BICICLETA", new CategoriaProducto(2)));
             lineas_productos.add(new LineaProducto("LPR011907000003", "REFRIGERADORA", new CategoriaProducto(1)));
             lineas_productos.add(new LineaProducto("LPR011907000004", "SECADORA", new CategoriaProducto(2)));
+            lineas_productos.add(new LineaProducto("LPR011907000005", "COMPUTADOR", new CategoriaProducto(3)));
+            lineas_productos.add(new LineaProducto("LPR011907000006", "GAFAS", new CategoriaProducto(4)));
+            lineas_productos.add(new LineaProducto("LPR011907000007", "BILLETERA", new CategoriaProducto(5)));
+            lineas_productos.add(new LineaProducto("LPR011907000008", "MUEBLE", new CategoriaProducto(6)));
             rep.saveAll(lineas_productos);
         }
     }

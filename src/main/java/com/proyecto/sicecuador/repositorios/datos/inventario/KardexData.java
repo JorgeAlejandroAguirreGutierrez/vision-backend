@@ -26,7 +26,7 @@ public class KardexData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<Kardex> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<Kardex> kardexs = new ArrayList<>();
+            /*List<Kardex> kardexs = new ArrayList<>();
             kardexs.add(new Kardex("KAR012001000001", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000001", "COMPRA", 2, 0, 90, 80, 0, 100.00, 50.0, 90000, null, null, null));
             kardexs.add(new Kardex("KAR012001000002", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000002", "COMPRA", 1, 0, 130, 120, 0, 106.1538, 60.0, 13800, null, null, null));
             kardexs.add(new Kardex("KAR012001000003", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000003", "COMPRA", 1, 0, 95, 0, 106.1538, 106.1538, 70.0,  10084.62, null, null, null));
@@ -52,7 +52,7 @@ public class KardexData implements ApplicationRunner {
             kardexs.add(new Kardex("KAR012001000023", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
             kardexs.add(new Kardex("KAR012001000024", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
             kardexs.add(new Kardex("KAR012001000025", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            rep.saveAll(kardexs);
+            rep.saveAll(kardexs);*/
         }
     }
 }

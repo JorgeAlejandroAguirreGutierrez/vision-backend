@@ -96,15 +96,16 @@
 			<properties>
 				<activatedProperties>prod</activatedProperties>
 			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 		<profile>
 			<id>cliente-betty-toledo</id>
 			<properties>
 				<activatedProperties>cliente-betty-toledo</activatedProperties>
 			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
+
 		</profile>
 	</profiles>
 
