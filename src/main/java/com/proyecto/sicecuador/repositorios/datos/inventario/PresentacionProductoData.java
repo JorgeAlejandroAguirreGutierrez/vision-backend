@@ -32,6 +32,8 @@ public class PresentacionProductoData implements ApplicationRunner {
             presentaciones_productos.add(new PresentacionProducto("LPR011907000004", "ECO DELUXE", new SubLineaProducto(4)));
             presentaciones_productos.add(new PresentacionProducto("LPR011907000005", "GEFORCE", new SubLineaProducto(5)));
             presentaciones_productos.add(new PresentacionProducto("LPR011907000006", "DE SERIE", new SubLineaProducto(6)));
+            presentaciones_productos.add(new PresentacionProducto("LPR011907000006", "RIZEN", new SubLineaProducto(7)));
+            presentaciones_productos.add(new PresentacionProducto("LPR011907000006", "INTEL", new SubLineaProducto(8)));
             rep.saveAll(presentaciones_productos);
         }
     }

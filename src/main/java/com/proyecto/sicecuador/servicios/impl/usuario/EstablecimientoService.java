@@ -51,6 +51,9 @@ public class EstablecimientoService implements IEstablecimientoService {
                 Establecimiento establecimiento = new Establecimiento(datos);
                 establecimientos.add(establecimiento);
             }
+            if(establecimientos.isEmpty()){
+                return false;
+            }
             rep.saveAll(establecimientos);
             return true;
         }catch (Exception e){

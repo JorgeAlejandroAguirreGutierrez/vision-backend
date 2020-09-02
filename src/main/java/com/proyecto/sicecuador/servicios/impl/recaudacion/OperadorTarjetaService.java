@@ -70,6 +70,9 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
                 OperadorTarjeta operador_tarjeta = new OperadorTarjeta(datos);
                 operadores_tarjetas.add(operador_tarjeta);
             }
+            if(operadores_tarjetas.isEmpty()){
+                return false;
+            }
             rep.saveAll(operadores_tarjetas);
             return true;
         }catch (Exception e){

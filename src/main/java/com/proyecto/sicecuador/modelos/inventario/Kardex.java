@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
@@ -10,7 +11,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "kardex")
-@EntityListeners({KardexUtil.class})
 public class Kardex extends Entidad {
     @Column(name = "fecha", nullable = true)
     private Date fecha;
@@ -24,27 +24,24 @@ public class Kardex extends Entidad {
     private double entrada;
     @Column(name = "salida", nullable = true)
     private double salida;
-    @Column(name = "saldo", nullable = true)
-    private double saldo;
     @Column(name = "debe", nullable = true)
     private double debe;
     @Column(name = "haber", nullable = true)
     private double haber;
+    @Column(name = "long", nullable = true)
+    private long cantidad;
+    @Column(name = "costo_unitario", nullable = true)
+    private double costo_unitario;
     @Column(name = "costo_promedio", nullable = true)
     private double costo_promedio;
-    @Column(name = "costo_ultimo", nullable = true)
-    private double costo_ultimo;
-    @Column(name = "total", nullable = true)
-    private double total;
+    @Column(name = "costo_total", nullable = true)
+    private double costo_total;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "cliente_id", nullable = true)
-    private Cliente cliente;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "guia_remision_id", nullable = true)
-    private GuiaRemision guia_remision;
+    @JoinColumn(name = "producto_id", nullable = true)
+    private Producto producto;
 
     public Kardex(){
         super();
@@ -55,8 +52,8 @@ public class Kardex extends Entidad {
     }
 
     public Kardex(String codigo, Date fecha, String documento, String numero, String operacion, double entrada, double salida,
-                  double saldo, double debe, double haber, double costo_promedio,double costo_ultimo, double total, Proveedor proveedor,
-                  Cliente cliente, GuiaRemision guia_remision){
+                  double debe, double haber, long cantidad, double costo_unitario, double costo_promedio,double costo_total,
+                  Proveedor proveedor,Producto producto){
         super(codigo);
         this.fecha=fecha;
         this.documento=documento;
@@ -64,15 +61,14 @@ public class Kardex extends Entidad {
         this.operacion=operacion;
         this.entrada=entrada;
         this.salida=salida;
-        this.saldo=saldo;
         this.debe=debe;
         this.haber=haber;
+        this.cantidad=cantidad;
+        this.costo_unitario=costo_unitario;
         this.costo_promedio=costo_promedio;
-        this.costo_ultimo=costo_ultimo;
-        this.total=total;
+        this.costo_total=costo_total;
         this.proveedor=proveedor;
-        this.cliente=cliente;
-        this.guia_remision=guia_remision;
+        this.producto=producto;
     }
 
     public Date getFecha() {
@@ -99,10 +95,6 @@ public class Kardex extends Entidad {
         return salida;
     }
 
-    public double getSaldo() {
-        return saldo;
-    }
-
     public double getDebe() {
         return debe;
     }
@@ -115,23 +107,27 @@ public class Kardex extends Entidad {
         return costo_promedio;
     }
 
-    public double getCosto_ultimo() {
-        return costo_ultimo;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
     public Proveedor getProveedor() {
         return proveedor;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
     }
 
-    public GuiaRemision getGuia_remision() {
-        return guia_remision;
+    public double getCosto_unitario() {
+        return costo_unitario;
+    }
+
+    public long getCantidad() {
+        return cantidad;
+    }
+
+    public double getCosto_total() {
+        return costo_total;
+    }
+    @JsonBackReference
+    public Producto getProducto() {
+        return producto;
     }
 }

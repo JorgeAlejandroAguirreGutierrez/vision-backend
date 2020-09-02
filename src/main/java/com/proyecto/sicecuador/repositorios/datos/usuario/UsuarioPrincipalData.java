@@ -24,7 +24,7 @@ public class UsuarioPrincipalData implements ApplicationRunner {
         Optional<Usuario> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Usuario> usuarios = new ArrayList<>();
-            usuarios.add(new Usuario("U1", "ADMIN", "ADMIN@gmail.com", "12345", "0000000000", "/storage/img/imagen1", true, new PuntoVenta(1), new Perfil(1)));
+            usuarios.add(new Usuario("U1", "ADMIN", "ADMIN@gmail.com", "12345", "0000000000", "/storage/img/imagen1", true, null, new Perfil(1)));
             rep.saveAll(usuarios);
         }
     }

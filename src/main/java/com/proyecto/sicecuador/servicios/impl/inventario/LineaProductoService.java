@@ -54,6 +54,9 @@ public class LineaProductoService implements ILineaProductoService {
                 LineaProducto linea_producto = new LineaProducto(datos);
                 lineas_productos.add(linea_producto);
             }
+            if(lineas_productos.isEmpty()){
+                return false;
+            }
             rep.saveAll(lineas_productos);
             return true;
         }catch (Exception e){

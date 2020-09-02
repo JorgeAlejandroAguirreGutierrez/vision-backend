@@ -51,6 +51,9 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
                 VehiculoTransporte vehculo_transporte = new VehiculoTransporte(datos);
                 vehiculos_transportes.add(vehculo_transporte);
             }
+            if (vehiculos_transportes.isEmpty()){
+                return false;
+            }
             rep.saveAll(vehiculos_transportes);
             return true;
         }catch (Exception e){

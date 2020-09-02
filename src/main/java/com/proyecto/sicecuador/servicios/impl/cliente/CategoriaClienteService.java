@@ -54,6 +54,9 @@ public class CategoriaClienteService implements ICategoriaClienteService {
                 CategoriaCliente categoria_cliente = new CategoriaCliente(datos);
                 categorias_clientes.add(categoria_cliente);
             }
+            if(categorias_clientes.isEmpty()){
+                return false;
+            }
             rep.saveAll(categorias_clientes);
             return true;
         }catch (Exception e){

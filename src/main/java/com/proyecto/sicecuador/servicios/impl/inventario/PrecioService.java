@@ -54,6 +54,9 @@ public class PrecioService implements IPrecioService {
                 Precio precio = new Precio(datos);
                 precios.add(precio);
             }
+            if(precios.isEmpty()){
+                return false;
+            }
             rep.saveAll(precios);
             return true;
         }catch (Exception e){

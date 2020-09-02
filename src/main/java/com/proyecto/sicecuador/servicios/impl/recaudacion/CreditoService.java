@@ -180,6 +180,9 @@ public class CreditoService implements ICreditoService {
                 Credito credito = new Credito(datos);
                 creditos.add(credito);
             }
+            if(creditos.isEmpty()){
+                return false;
+            }
             rep.saveAll(creditos);
             return true;
         }catch (Exception e){

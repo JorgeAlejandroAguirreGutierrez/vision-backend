@@ -60,6 +60,9 @@ public class SesionService implements ISesionService {
                 Sesion sesion = new Sesion(datos);
                 sesiones.add(sesion);
             }
+            if(sesiones.isEmpty()){
+                return false;
+            }
             rep.saveAll(sesiones);
             return true;
         }catch (Exception e){

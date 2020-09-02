@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
 import com.proyecto.sicecuador.modelos.cliente.Telefono;
+import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IOrigenIngresoRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITelefonoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITelefonoService;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class TelefonoService implements ITelefonoService {
     @Autowired
     private ITelefonoRepository rep;
+    @Autowired
+    private IClienteRepository rep_cliente;
     @Override
     public Telefono crear(Telefono telefono) {
         return rep.save(telefono);
@@ -50,7 +54,13 @@ public class TelefonoService implements ITelefonoService {
             List<List<String>>info= Constantes.leer_importar(archivo_temporal, 16);
             for (List<String> datos: info) {
                 Telefono telefono = new Telefono(datos);
-                telefonos.add(telefono);
+                Optional<Cliente> cliente=rep_cliente.findById(telefono.getCliente().getId());
+                if(cliente.isPresent()){
+                    telefonos.add(telefono);
+                }
+            }
+            if(telefonos.isEmpty()){
+                return false;
             }
             rep.saveAll(telefonos);
             return true;

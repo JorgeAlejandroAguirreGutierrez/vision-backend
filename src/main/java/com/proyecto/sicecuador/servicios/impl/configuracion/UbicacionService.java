@@ -51,6 +51,9 @@ public class UbicacionService implements IUbicacionService {
                 Ubicacion ubicacion = new Ubicacion(datos);
                 ubicaciones.add(ubicacion);
             }
+            if(ubicaciones.isEmpty()){
+                return false;
+            }
             rep.saveAll(ubicaciones);
             return true;
         }catch (Exception e){

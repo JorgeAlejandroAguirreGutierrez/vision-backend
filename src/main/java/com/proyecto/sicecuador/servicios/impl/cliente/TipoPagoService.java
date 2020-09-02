@@ -51,6 +51,9 @@ public class TipoPagoService implements ITipoPagoService {
                 TipoPago tipo_pago = new TipoPago(datos);
                 tipos_pagos.add(tipo_pago);
             }
+            if(tipos_pagos.isEmpty()){
+                return false;
+            }
             rep.saveAll(tipos_pagos);
             return true;
         }catch (Exception e){

@@ -51,6 +51,9 @@ public class CuentaPropiaService implements ICuentaPropiaService {
                 CuentaPropia cuenta_propia = new CuentaPropia(datos);
                 cuentas_propias.add(cuenta_propia);
             }
+            if(cuentas_propias.isEmpty()){
+                return false;
+            }
             rep.saveAll(cuentas_propias);
             return true;
         }catch (Exception e){

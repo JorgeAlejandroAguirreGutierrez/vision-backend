@@ -51,6 +51,9 @@ public class PermisoService implements IPermisoService {
                 Permiso permiso = new Permiso(datos);
                 permisos.add(permiso);
             }
+            if(permisos.isEmpty()){
+                return false;
+            }
             rep.saveAll(permisos);
             return true;
         }catch (Exception e){

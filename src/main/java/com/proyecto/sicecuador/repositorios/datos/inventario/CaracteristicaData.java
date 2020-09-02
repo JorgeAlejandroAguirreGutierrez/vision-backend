@@ -25,7 +25,7 @@ public class CaracteristicaData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<Caracteristica> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<Caracteristica> caracteristicas = new ArrayList<>();
+            /*List<Caracteristica> caracteristicas = new ArrayList<>();
             caracteristicas.add(new Caracteristica("CAR011909000001", "ARROZ ROA", "BLANCO", "ROA", "2019", "000000001", new Producto(1), new Bodega(1)));
             caracteristicas.add(new Caracteristica("CAR011909000001-1", "ARROZ ROA-1", "BLANCO", "ROA", "2019", "000000001-1", new Producto(1), new Bodega(1)));
             caracteristicas.add(new Caracteristica("CAR011909000001-2", "ARROZ ROA-2", "BLANCO", "ROA", "2019", "000000001-2", new Producto(1), new Bodega(1)));
@@ -1365,7 +1365,7 @@ public class CaracteristicaData implements ApplicationRunner {
             caracteristicas.add(new Caracteristica("CAR011909000013-1",  "CELULAR SONY-1", "", "SONY", "2019", "000000013B-1", new Producto(13), new Bodega(3)));
             caracteristicas.add(new Caracteristica("CAR011909000013-1",  "CELULAR SONY-1", "", "SONY", "2019", "000000013B-1", new Producto(13), new Bodega(3)));
             caracteristicas.add(new Caracteristica("CAR011909000013-1",  "CELULAR SONY-1", "", "SONY", "2019", "000000013B-1", new Producto(13), new Bodega(3)));
-            rep.saveAll(caracteristicas);
+            rep.saveAll(caracteristicas);*/
         }
     }
 }

@@ -2,34 +2,36 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.*;
-import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IClienteService;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 @Service
+
 public class ClienteService implements IClienteService {
 
     @Autowired
     private IClienteRepository rep;
     @Autowired
     private ITipoContribuyenteRepository rep_tipo_contribuyente;
+
+    @PersistenceContext
+    private EntityManager adm;
 
     /**
      *
@@ -345,15 +347,31 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
+    @Transactional
     public boolean importar(MultipartFile archivo_temporal) {
+        List<Cliente> clientes=new ArrayList<>();
         try {
-            List<Cliente> clientes=new ArrayList<>();
             List<List<String>>info= Constantes.leer_importar(archivo_temporal,4);
             for (List<String> datos: info){
                 Cliente cliente=new Cliente(datos);
-                clientes.add(cliente);
+                Direccion direccion=cliente.getDireccion()!= null? adm.merge(cliente.getDireccion()): null;
+                cliente.setDireccion(direccion);
+                Financiamiento financiamiento=cliente.getFinanciamiento()!=null?adm.merge(cliente.getFinanciamiento()): null;
+                cliente.setFinanciamiento(financiamiento);
+                Optional<Cliente> cliente_verificado=validarIdentificacion(cliente);
+                if(cliente_verificado.isPresent()){
+                    clientes.add(cliente);
+                } else{
+                    System.out.println(cliente.getIdentificacion());
+                }
             }
-            rep.saveAll(clientes);
+            if(clientes.isEmpty()){
+                return false;
+            }
+            for(int i=0; i<clientes.size(); i++){
+                adm.persist(clientes.get(i));
+            }
+
             return true;
         }catch (Exception e){
             return false;

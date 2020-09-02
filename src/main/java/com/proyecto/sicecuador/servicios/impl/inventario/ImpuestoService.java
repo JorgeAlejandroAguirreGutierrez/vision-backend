@@ -55,6 +55,9 @@ public class ImpuestoService implements IImpuestoService {
                 Impuesto impuesto = new Impuesto(datos);
                 impuestos.add(impuesto);
             }
+            if(impuestos.isEmpty()){
+                return false;
+            }
             rep.saveAll(impuestos);
             return true;
         }catch (Exception e){

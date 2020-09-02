@@ -51,6 +51,9 @@ public class MedidaService implements IMedidaService {
                 Medida medida = new Medida(datos);
                 medidas.add(medida);
             }
+            if(medidas.isEmpty()){
+                return false;
+            }
             rep.saveAll(medidas);
             return true;
         }catch (Exception e){

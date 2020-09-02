@@ -1,9 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.otros.inventario.ProductoUtil;
 
 import javax.persistence.*;
@@ -33,9 +31,9 @@ public class Producto extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
-    @JoinColumn(name = "kardex_id", nullable = true)
-    private Kardex kardex;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "producto_id", nullable = true)
+    private List<Kardex> kardexs;
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Precio> precios;
@@ -54,7 +52,7 @@ public class Producto extends Entidad {
     }
 
     public Producto(String codigo, String nombre, boolean consignacion, boolean estado, boolean serie_autogenerado, TipoGasto tipo_gasto, TipoProducto tipo_producto, PresentacionProducto presentacion_producto,
-                    Impuesto impuesto, Kardex kardex) {
+                    Impuesto impuesto) {
         super(codigo);
         this.nombre = nombre;
         this.presentacion_producto = presentacion_producto;
@@ -65,7 +63,6 @@ public class Producto extends Entidad {
         this.tipo_producto = tipo_producto;
         this.presentacion_producto = presentacion_producto;
         this.impuesto = impuesto;
-        this.kardex=kardex;
         this.stock_total = 0;
     }
     public Producto(List<String>datos){
@@ -76,13 +73,6 @@ public class Producto extends Entidad {
         tipo_producto=datos.get(4)== null ? null: new TipoProducto((long) Double.parseDouble(datos.get(4)));
         presentacion_producto=datos.get(5)== null ? null: new PresentacionProducto((long) Double.parseDouble(datos.get(5)));
         impuesto=datos.get(6)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(6)));
-        kardex=datos.get(7)== null ? null: new Kardex((long) Double.parseDouble(datos.get(7)));
-    }
-
-    public void normalizar(){
-        if(kardex.getId()==0){
-            kardex=null;
-        }
     }
 
     public String getNombre() {
@@ -121,8 +111,9 @@ public class Producto extends Entidad {
         return impuesto;
     }
 
-    public Kardex getKardex() {
-        return kardex;
+    @JsonManagedReference
+    public List<Kardex> getKardexs() {
+        return kardexs;
     }
 
     @JsonManagedReference
@@ -141,5 +132,13 @@ public class Producto extends Entidad {
 
     public void setStock_total(long stock_total) {
         this.stock_total = stock_total;
+    }
+
+    public void normalizar(){
+        for(int i=0; i<kardexs.size(); i++){
+            if (kardexs.get(i).getProveedor().getId()==0){
+                kardexs.get(i).setProveedor(null);
+            }
+        }
     }
 }

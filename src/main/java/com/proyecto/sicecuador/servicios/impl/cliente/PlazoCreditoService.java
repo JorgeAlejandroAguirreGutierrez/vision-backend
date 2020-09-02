@@ -53,6 +53,9 @@ public class PlazoCreditoService implements IPlazoCreditoService {
                 PlazoCredito plazo_credito = new PlazoCredito(datos);
                 plazos_creditos.add(plazo_credito);
             }
+            if(plazos_creditos.isEmpty()){
+                return false;
+            }
             rep.saveAll(plazos_creditos);
             return true;
         }catch (Exception e){

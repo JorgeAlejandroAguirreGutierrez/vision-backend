@@ -23,7 +23,7 @@ public class Usuario extends Entidad {
     private String avatar;
     @Column(name = "activo", nullable = true)
     private boolean activo;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
     @JoinColumn(name = "punto_venta_id", nullable = true)
     private PuntoVenta punto_venta;
     @ManyToOne(cascade = CascadeType.MERGE)

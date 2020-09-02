@@ -53,6 +53,9 @@ public class PerfilService implements IPerfilService {
                 Perfil perfil = new Perfil(datos);
                 perfiles.add(perfil);
             }
+            if(perfiles.isEmpty()){
+                return false;
+            }
             rep.saveAll(perfiles);
             return true;
         }catch (Exception e){

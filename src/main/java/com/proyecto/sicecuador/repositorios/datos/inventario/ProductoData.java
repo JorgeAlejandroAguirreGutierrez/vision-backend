@@ -24,7 +24,7 @@ public class ProductoData implements ApplicationRunner {
         public void run(ApplicationArguments args) throws Exception {
             Optional<Producto> ant=rep.findById((long) 1);
             if (!ant.isPresent()) {
-                List<Producto> productos = new ArrayList<>();
+                /*List<Producto> productos = new ArrayList<>();
                 productos.add(new Producto("PRO011907000001", "ARROZ", false, true, true, new TipoGasto(1), new TipoProducto(1), new PresentacionProducto(1), new Impuesto(1), new Kardex(1) ));
                 productos.add(new Producto("PRO011907000002", "HUEVOS", true, true, true, new TipoGasto(2), new TipoProducto(1), new PresentacionProducto(1), new Impuesto(1), new Kardex(2)));
                 productos.add(new Producto("PRO011907000003", "GALLETAS", true, true, true, new TipoGasto(3), new TipoProducto(1), new PresentacionProducto(1), new Impuesto(1), new Kardex(3)));
@@ -51,7 +51,7 @@ public class ProductoData implements ApplicationRunner {
                 productos.add(new Producto("PRO011907000023", "CARGA LENTEJA AF", true, true, true, new TipoGasto(3), new TipoProducto(3), new PresentacionProducto(3), new Impuesto(1), new Kardex(23)));
                 productos.add(new Producto("PRO011907000024", "CARGA ARROZ AF", true, true, true, new TipoGasto(4), new TipoProducto(3), new PresentacionProducto(3), new Impuesto(1),new Kardex(24)));
                 productos.add(new Producto("PRO011907000025", "CARGA FRIJOLES AF", true, true, true, new TipoGasto(1), new TipoProducto(3), new PresentacionProducto(3), new Impuesto(1), new Kardex(25)));
-                rep.saveAll(productos);
+                rep.saveAll(productos);*/
             }
     }
 }

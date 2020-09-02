@@ -51,6 +51,9 @@ public class RangoCrediticioService implements IRangoCrediticioService {
                 RangoCrediticio rango_crediticio = new RangoCrediticio(datos);
                 rangos_crediticios.add(rango_crediticio);
             }
+            if(rangos_crediticios.isEmpty()){
+                return false;
+            }
             rep.saveAll(rangos_crediticios);
             return true;
         }catch (Exception e){

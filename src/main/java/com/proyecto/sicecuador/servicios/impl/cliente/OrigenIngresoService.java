@@ -52,6 +52,9 @@ public class OrigenIngresoService implements IOrigenIngresoService {
                 OrigenIngreso origen_ingreso = new OrigenIngreso(datos);
                 origenes_ingresos.add(origen_ingreso);
             }
+            if(origenes_ingresos.isEmpty()){
+                return false;
+            }
             rep.saveAll(origenes_ingresos);
             return true;
         }catch (Exception e){
