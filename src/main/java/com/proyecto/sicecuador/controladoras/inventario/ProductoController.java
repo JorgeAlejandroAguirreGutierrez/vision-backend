@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
@@ -86,11 +87,6 @@ public class ProductoController implements GenericoController<Producto> {
         }
     }
 
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
-
     @GetMapping(value = "/tipo/bien", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarBien() {
         try {
@@ -134,5 +130,22 @@ public class ProductoController implements GenericoController<Producto> {
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping(value = "/buscar/nombre/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscarNombre(@PathVariable("nombre") String nombre) {
+        try {
+            List<Producto> productos=servicio.consultarNombre(new Producto(nombre));
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> importar(MultipartFile file) {
+        return null;
     }
 }
