@@ -35,6 +35,13 @@ public class Ubicacion extends Entidad {
         this.parroquia=parroquia;
     }
 
+    public Ubicacion(String codigo_norma, String provincia, String canton, String parroquia){
+        this.codigo_norma=codigo_norma;
+        this.provincia=provincia;
+        this.canton=canton;
+        this.parroquia=parroquia;
+    }
+
     public Ubicacion(String provincia, String canton, String parroquia){
         this.provincia=provincia;
         this.canton=canton;

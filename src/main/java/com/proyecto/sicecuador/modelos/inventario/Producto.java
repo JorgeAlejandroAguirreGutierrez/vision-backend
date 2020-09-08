@@ -23,6 +23,21 @@ public class Producto extends Entidad {
     @JoinColumn(name = "tipo_producto_id", nullable = true)
     private TipoProducto tipo_producto;
     @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "grupo_producto_id", nullable = true)
+    private GrupoProducto grupo_producto;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "sub_grupo_producto_id", nullable = true)
+    private SubGrupoProducto sub_grupo_producto;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "categoria_producto_id", nullable = true)
+    private CategoriaProducto categoria_producto;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "linea_producto_id", nullable = true)
+    private LineaProducto linea_producto;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "sub_linea_producto_id", nullable = true)
+    private SubLineaProducto sub_linea_producto;
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "presentacion_producto_id", nullable = true)
     private PresentacionProducto presentacion_producto;
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -31,13 +46,13 @@ public class Producto extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Kardex> kardexs;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Precio> precios;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Caracteristica> caracteristicas;
     @Transient
@@ -51,7 +66,16 @@ public class Producto extends Entidad {
         super(id);
     }
 
-    public Producto(String codigo, String nombre, boolean consignacion, boolean estado, boolean serie_autogenerado, TipoGasto tipo_gasto, TipoProducto tipo_producto, PresentacionProducto presentacion_producto,
+    public Producto(String nombre) {
+        super(null);
+        this.nombre=nombre;
+    }
+
+    public Producto(String codigo, String nombre, boolean consignacion, boolean estado,
+                    boolean serie_autogenerado, TipoGasto tipo_gasto,
+                    TipoProducto tipo_producto, GrupoProducto grupo_producto, SubGrupoProducto sub_grupo_producto,
+                    LineaProducto linea_producto, SubLineaProducto sub_linea_producto,
+                    CategoriaProducto categoria_producto, PresentacionProducto presentacion_producto,
                     Impuesto impuesto) {
         super(codigo);
         this.nombre = nombre;
@@ -61,6 +85,11 @@ public class Producto extends Entidad {
         this.serie_autogenerado = serie_autogenerado;
         this.tipo_gasto = tipo_gasto;
         this.tipo_producto = tipo_producto;
+        this.grupo_producto= grupo_producto;
+        this.sub_grupo_producto = sub_grupo_producto;
+        this.categoria_producto = categoria_producto;
+        this.linea_producto = linea_producto;
+        this.sub_linea_producto = sub_linea_producto;
         this.presentacion_producto = presentacion_producto;
         this.impuesto = impuesto;
         this.stock_total = 0;
@@ -101,6 +130,26 @@ public class Producto extends Entidad {
 
     public TipoProducto getTipo_producto() {
         return tipo_producto;
+    }
+
+    public GrupoProducto getGrupo_producto() {
+        return grupo_producto;
+    }
+
+    public SubGrupoProducto getSub_grupo_producto() {
+        return sub_grupo_producto;
+    }
+
+    public CategoriaProducto getCategoria_producto() {
+        return categoria_producto;
+    }
+
+    public LineaProducto getLinea_producto() {
+        return linea_producto;
+    }
+
+    public SubLineaProducto getSub_linea_producto() {
+        return sub_linea_producto;
     }
 
     public PresentacionProducto getPresentacion_producto() {

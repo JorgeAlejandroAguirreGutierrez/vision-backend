@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.servicios.interf.inventario;
 
+import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
@@ -15,4 +16,5 @@ public interface IProductoService extends IGenericoService<Producto> {
     List<Producto> consultarServicio();
     List<Producto> consultarActivoFijo();
     List<Producto> consultarBodega();
+    List<Producto> consultarNombre(Producto producto);
 }
