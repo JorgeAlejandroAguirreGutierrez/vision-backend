@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(11)
+@Order(17)
 @Profile({"dev","prod"})
 public class PlazoCreditoData implements ApplicationRunner {
     @Autowired

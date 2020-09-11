@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.servicios.interf.cliente.IGrupoClienteService;
 import com.proyecto.sicecuador.servicios.interf.cliente.IGrupoClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,19 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, grupo_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/buscar/{codigo}/{descripcion}/{abreviatura}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@PathVariable("codigo") String codigo, @PathVariable("descripcion") String descripcion,
+                                    @PathVariable("abreviatura") String abreviatura) {
+        try {
+            List<GrupoCliente> grupos_clientes=servicio.buscar(new GrupoCliente(codigo, descripcion, abreviatura));
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, grupos_clientes);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
