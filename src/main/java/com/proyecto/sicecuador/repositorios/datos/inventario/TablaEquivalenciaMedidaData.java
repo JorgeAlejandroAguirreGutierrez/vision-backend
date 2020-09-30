@@ -1,9 +1,7 @@
 package com.proyecto.sicecuador.repositorios.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.TablaEquivalenciaMedida;
-import com.proyecto.sicecuador.repositorios.interf.inventario.IBodegaRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITablaEquivalenciaMedidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
