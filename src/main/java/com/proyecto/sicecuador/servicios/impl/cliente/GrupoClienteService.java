@@ -3,14 +3,20 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.Genero;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.otros.Util;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IGrupoClienteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IGrupoClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +48,26 @@ public class GrupoClienteService implements IGrupoClienteService {
     @Override
     public List<GrupoCliente> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public List<GrupoCliente> buscar(GrupoCliente grupo_cliente) {
+        return  rep.findAll(new Specification<GrupoCliente>() {
+            @Override
+            public Predicate toPredicate(Root<GrupoCliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (grupo_cliente.getCodigo()!=null) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+grupo_cliente.getCodigo()+"%")));
+                }
+                if (grupo_cliente.getDescripcion()!=null) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("descripcion"), "%"+grupo_cliente.getDescripcion()+"%")));
+                }
+                if (grupo_cliente.getAbreviatura()!=null) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("abreviatura"), "%"+grupo_cliente.getAbreviatura()+"%")));
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
     }
 
     @Override

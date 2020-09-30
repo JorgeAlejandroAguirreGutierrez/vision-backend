@@ -12,8 +12,12 @@ import java.util.List;
 public class Medida extends Entidad {
     @Column(name = "codigo_norma", nullable = true)
     private String codigo_norma;
+    @Column(name = "tipo", nullable = true)
+    private String tipo;
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
+    @Column(name = "abreviatura", nullable = true)
+    private String abreviatura;
 
     public Medida(){
         super();
@@ -23,10 +27,12 @@ public class Medida extends Entidad {
         super(id);
     }
 
-    public Medida(String codigo, String codigo_norma, String descripcion){
+    public Medida(String codigo, String codigo_norma, String tipo, String descripcion, String abreviatura){
         super(codigo);
         this.codigo_norma=codigo_norma;
+        this.tipo=tipo;
         this.descripcion=descripcion;
+        this.abreviatura=abreviatura;
     }
     public Medida(List<String> datos){
         codigo_norma=datos.get(0)== null ? null: datos.get(0);
@@ -36,7 +42,14 @@ public class Medida extends Entidad {
         return codigo_norma;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
     public String getDescripcion() {
         return descripcion;
+    }
+
+    public String getAbreviatura() {
+        return abreviatura;
     }
 }

@@ -1,7 +1,5 @@
 package com.proyecto.sicecuador.repositorios.datos.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
-import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IPlazoCreditoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(11)
+@Order(17)
 @Profile({"dev","prod"})
 public class PlazoCreditoData implements ApplicationRunner {
     @Autowired

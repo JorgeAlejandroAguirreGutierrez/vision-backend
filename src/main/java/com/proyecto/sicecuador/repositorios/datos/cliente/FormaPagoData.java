@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.repositorios.datos.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.cliente.FormaPago;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IFormaPagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(7)
+@Order(17)
 @Profile({"dev","prod"})
 public class FormaPagoData implements ApplicationRunner {
     @Autowired

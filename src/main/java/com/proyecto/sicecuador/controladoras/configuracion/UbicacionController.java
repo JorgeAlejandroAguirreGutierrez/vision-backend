@@ -137,7 +137,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
         }
     }
     @GetMapping(value = "/buscar/{codigo_norma}/{provincia}/{canton}/{parroquia}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscarNombre(@PathVariable("codigo_norma") String codigo_norma, @PathVariable("provincia") String provincia,
+    public ResponseEntity<?> buscar(@PathVariable("codigo_norma") String codigo_norma, @PathVariable("provincia") String provincia,
                                           @PathVariable("canton") String canton, @PathVariable("parroquia") String parroquia) {
         try {
             List<Ubicacion> ubicaciones=servicio.buscar(new Ubicacion(codigo_norma, provincia, canton, parroquia));
