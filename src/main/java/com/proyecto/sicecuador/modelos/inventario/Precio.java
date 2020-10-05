@@ -25,11 +25,8 @@ public class Precio extends Entidad {
     private double utilidad_porcentaje;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "producto_id", nullable = true)
-    private Producto producto;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "medida_id", nullable = true)
-    private Medida medida;
+    @JoinColumn(name = "medida_precio_id", nullable = true)
+    private MedidaPrecio medida_precio;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
@@ -45,9 +42,10 @@ public class Precio extends Entidad {
     public Precio(List<String> datos){
 
     }
+
     public Precio(String codigo, double costo, double margen_ganancia,
                   double precio_venta_publico, double precio_venta_publico_iva, double precio_venta_publico_manual,
-                  double utilidad, double utilidad_pocentaje, Medida medida, Segmento segmento, Producto producto){
+                  double utilidad, double utilidad_pocentaje, MedidaPrecio medida_precio, Segmento segmento){
         super(codigo);
         this.costo=costo;
         this.margen_ganancia=margen_ganancia;
@@ -56,9 +54,8 @@ public class Precio extends Entidad {
         this.precio_venta_publico_manual=precio_venta_publico_manual;
         this.utilidad=utilidad;
         this.utilidad_porcentaje=utilidad_pocentaje;
-        this.medida=medida;
+        this.medida_precio=medida_precio;
         this.segmento=segmento;
-        this.producto=producto;
     }
 
     public double getCosto() {
@@ -89,15 +86,12 @@ public class Precio extends Entidad {
         return utilidad_porcentaje;
     }
 
-    public Medida getMedida() {
-        return medida;
-    }
-
     public Segmento getSegmento() {
         return segmento;
     }
+
     @JsonBackReference
-    public Producto getProducto() {
-        return producto;
+    public MedidaPrecio getMedida_precio() {
+        return medida_precio;
     }
 }

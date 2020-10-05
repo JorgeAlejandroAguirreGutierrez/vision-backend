@@ -51,7 +51,7 @@ public class Producto extends Entidad {
     private List<Kardex> kardexs;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "producto_id", nullable = true)
-    private List<Precio> precios;
+    private List<MedidaPrecio> medidas_precios;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Caracteristica> caracteristicas;
@@ -166,8 +166,8 @@ public class Producto extends Entidad {
     }
 
     @JsonManagedReference
-    public List<Precio> getPrecios() {
-        return precios;
+    public List<MedidaPrecio> getMedidas_precios() {
+        return medidas_precios;
     }
 
     @JsonManagedReference
