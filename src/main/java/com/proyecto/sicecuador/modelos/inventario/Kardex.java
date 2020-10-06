@@ -8,6 +8,7 @@ import com.proyecto.sicecuador.otros.inventario.KardexUtil;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "kardex")
@@ -36,7 +37,7 @@ public class Kardex extends Entidad {
     private double costo_promedio;
     @Column(name = "costo_total", nullable = true)
     private double costo_total;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -69,6 +70,10 @@ public class Kardex extends Entidad {
         this.costo_total=costo_total;
         this.proveedor=proveedor;
         this.producto=producto;
+    }
+
+    public Kardex(List<String> datos){
+
     }
 
     public Date getFecha() {
@@ -129,5 +134,11 @@ public class Kardex extends Entidad {
     @JsonBackReference
     public Producto getProducto() {
         return producto;
+    }
+
+    public void normalizar(){
+        if (proveedor.getId()==0){
+            proveedor=null;
+        }
     }
 }

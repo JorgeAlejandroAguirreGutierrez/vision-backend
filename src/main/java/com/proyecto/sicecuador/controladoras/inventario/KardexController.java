@@ -3,10 +3,8 @@ package com.proyecto.sicecuador.controladoras.inventario;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.inventario.SaldoInicialInventario;
-import com.proyecto.sicecuador.modelos.inventario.Segmento;
-import com.proyecto.sicecuador.servicios.interf.inventario.ISaldoInicialInventarioService;
-import com.proyecto.sicecuador.servicios.interf.inventario.ISegmentoService;
+import com.proyecto.sicecuador.modelos.inventario.Kardex;
+import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,17 +18,17 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/sicecuador/saldoinicialinventario")
-public class SaldoInicialInventarioController implements GenericoController<SaldoInicialInventario> {
+@RequestMapping("/api/sicecuador/kardex")
+public class KardexController implements GenericoController<Kardex> {
 
     @Autowired
-    private ISaldoInicialInventarioService servicio;
+    private IKardexService servicio;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
         try {
-            List<SaldoInicialInventario> saldos_iniciales_inventarios=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, saldos_iniciales_inventarios);
+            List<Kardex> kardexs=servicio.consultar();
+            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, kardexs);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -41,8 +39,8 @@ public class SaldoInicialInventarioController implements GenericoController<Sald
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         try {
-            Optional<SaldoInicialInventario> saldo_inicial_inventario=servicio.obtener(new SaldoInicialInventario(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, saldo_inicial_inventario);
+            Optional<Kardex> kardex=servicio.obtener(new Kardex(id));
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -51,10 +49,10 @@ public class SaldoInicialInventarioController implements GenericoController<Sald
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody SaldoInicialInventario _saldo_inicial_inventario) {
+    public ResponseEntity<?> actualizar(@RequestBody Kardex _kardex) {
         try {
-            SaldoInicialInventario saldo_inicial_inventario=servicio.actualizar(_saldo_inicial_inventario);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, saldo_inicial_inventario);
+            Kardex kardex=servicio.actualizar(_kardex);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, kardex);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -63,10 +61,11 @@ public class SaldoInicialInventarioController implements GenericoController<Sald
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid SaldoInicialInventario _saldo_inicial_inventario, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Kardex _kardex, BindingResult bindig_result) {
         try {
-            SaldoInicialInventario saldo_inicial_inventario=servicio.crear(_saldo_inicial_inventario);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, saldo_inicial_inventario);
+            _kardex.normalizar();
+            Kardex kardex=servicio.crear(_kardex);
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, kardex);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
@@ -77,8 +76,8 @@ public class SaldoInicialInventarioController implements GenericoController<Sald
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         try {
-            SaldoInicialInventario saldo_inicial_inventario=servicio.eliminar(new SaldoInicialInventario(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, saldo_inicial_inventario);
+            Kardex kardex=servicio.eliminar(new Kardex(id));
+            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, kardex);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
