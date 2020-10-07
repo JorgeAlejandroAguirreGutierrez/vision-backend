@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.MedidaPrecioUtil;
 
@@ -9,13 +10,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "medida_precio")
-@EntityListeners({MedidaPrecioUtil.class})
+//@EntityListeners({MedidaPrecioUtil.class})
 public class MedidaPrecio extends Entidad {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "medida_id", nullable = true)
     private Medida medida;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "medidad_precio_id", nullable = true)
+    @JoinColumn(name = "medida_precio_id", nullable = true)
     private List<Precio> precios;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "producto_id", nullable = true)
@@ -41,6 +42,7 @@ public class MedidaPrecio extends Entidad {
         return medida;
     }
 
+    @JsonManagedReference
     public List<Precio> getPrecios() {
         return precios;
     }

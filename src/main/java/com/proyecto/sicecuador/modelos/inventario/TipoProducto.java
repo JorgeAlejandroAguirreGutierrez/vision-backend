@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tipo_producto")
-@EntityListeners({TipoProductoUtil.class})
+//@EntityListeners({TipoProductoUtil.class})
 public class TipoProducto extends Entidad {
     @Column(name = "descripcion", nullable = true)
     private String descripcion;

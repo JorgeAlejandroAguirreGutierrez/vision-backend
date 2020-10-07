@@ -19,31 +19,31 @@ public class Producto extends Entidad {
     private boolean estado;
     @Column(name = "serie_autogenerado", nullable = true)
     private boolean serie_autogenerado;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "tipo_producto_id", nullable = true)
     private TipoProducto tipo_producto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "grupo_producto_id", nullable = true)
     private GrupoProducto grupo_producto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "sub_grupo_producto_id", nullable = true)
     private SubGrupoProducto sub_grupo_producto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "categoria_producto_id", nullable = true)
     private CategoriaProducto categoria_producto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "linea_producto_id", nullable = true)
     private LineaProducto linea_producto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "sub_linea_producto_id", nullable = true)
     private SubLineaProducto sub_linea_producto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "presentacion_producto_id", nullable = true)
     private PresentacionProducto presentacion_producto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "tipo_gasto_id", nullable = true)
     private TipoGasto tipo_gasto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
@@ -55,8 +55,6 @@ public class Producto extends Entidad {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Caracteristica> caracteristicas;
-    @Transient
-    private long stock_total;
 
     public Producto() {
         super();
@@ -92,7 +90,6 @@ public class Producto extends Entidad {
         this.sub_linea_producto = sub_linea_producto;
         this.presentacion_producto = presentacion_producto;
         this.impuesto = impuesto;
-        this.stock_total = 0;
     }
     public Producto(List<String>datos){
         nombre=datos.get(0)== null ? null: datos.get(0);
@@ -173,14 +170,6 @@ public class Producto extends Entidad {
     @JsonManagedReference
     public List<Caracteristica> getCaracteristicas() {
         return caracteristicas;
-    }
-
-    public long getStock_total() {
-        return stock_total;
-    }
-
-    public void setStock_total(long stock_total) {
-        this.stock_total = stock_total;
     }
 
     public void normalizar(){
