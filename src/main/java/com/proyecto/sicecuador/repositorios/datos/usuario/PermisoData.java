@@ -95,6 +95,10 @@ public class PermisoData implements ApplicationRunner {
             permisos.add(new Permiso("PER70", "FACTURACION", "OBTENER", true, new Perfil(2)));
             permisos.add(new Permiso("PER71", "FACTURACION", "ACTUALIZAR", true, new Perfil(2)));
             permisos.add(new Permiso("PER72", "FACTURACION", "ELIMINAR", true, new Perfil(2)));
+	    permisos.add(new Permiso("PER73", "USUARIOS", "CREAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER74", "USUARIOS", "OBTENER", true, new Perfil(1)));
+            permisos.add(new Permiso("PER75", "USUARIOS", "ACTUALIZAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER76", "USUARIOS", "ELIMINAR", true, new Perfil(1)));
 
             rep.saveAll(permisos);
         }
