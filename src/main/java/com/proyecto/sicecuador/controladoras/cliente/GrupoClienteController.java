@@ -63,9 +63,9 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid GrupoCliente _GrupoCliente, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid GrupoCliente _grupoCliente) {
         try {
-            GrupoCliente grupo_cliente=servicio.crear(_GrupoCliente);
+            GrupoCliente grupo_cliente=servicio.crear(_grupoCliente);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, grupo_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
@@ -75,9 +75,9 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody GrupoCliente _GrupoCliente) {
+    public ResponseEntity<?> actualizar(@RequestBody GrupoCliente _grupoCliente) {
         try {
-            GrupoCliente grupo_cliente=servicio.actualizar(_GrupoCliente);
+            GrupoCliente grupo_cliente=servicio.actualizar(_grupoCliente);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, grupo_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

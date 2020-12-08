@@ -48,7 +48,7 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid CuentaPropia _cuenta_propia, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid CuentaPropia _cuenta_propia) {
         try {
             CuentaPropia cuenta_propia=servicio.crear(_cuenta_propia);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cuenta_propia);

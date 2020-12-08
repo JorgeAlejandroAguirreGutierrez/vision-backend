@@ -56,7 +56,7 @@ public class CreditoController implements GenericoController<Credito> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Credito _credito, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Credito _credito) {
         try {
             Credito credito=servicio.crear(_credito);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, credito);

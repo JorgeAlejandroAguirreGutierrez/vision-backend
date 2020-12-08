@@ -48,7 +48,7 @@ public class FinanciamientoController implements GenericoController<Financiamien
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Financiamiento _financiamiento, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Financiamiento _financiamiento) {
         try {
             Financiamiento financiamiento=servicio.crear(_financiamiento);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, financiamiento);

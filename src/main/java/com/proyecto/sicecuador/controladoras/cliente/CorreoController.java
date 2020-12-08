@@ -47,9 +47,9 @@ public class CorreoController implements GenericoController<Correo> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Correo _Correo, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Correo _correo) {
         try {
-        Correo correo=servicio.crear(_Correo);
+        Correo correo=servicio.crear(_correo);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, correo);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

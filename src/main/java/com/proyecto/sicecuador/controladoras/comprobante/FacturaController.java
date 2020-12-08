@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.controladoras.comprobante;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
@@ -13,7 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,12 +52,8 @@ public class FacturaController implements GenericoController<Factura> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Factura _factura, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Factura _factura) {
         try {
-            if(bindig_result.hasErrors()){
-                Respuesta respuesta = new Respuesta(false, bindig_result.getAllErrors(), null);
-                return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
-            }
             _factura.normalizar();
             Factura factura=servicio.crear(_factura);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, factura);
@@ -72,6 +67,7 @@ public class FacturaController implements GenericoController<Factura> {
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Factura _factura) {
         try {
+            _factura.normalizar();
             Factura factura=servicio.actualizar(_factura);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, factura);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);

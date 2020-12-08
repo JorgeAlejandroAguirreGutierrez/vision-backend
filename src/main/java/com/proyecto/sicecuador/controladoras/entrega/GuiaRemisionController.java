@@ -50,7 +50,7 @@ public class GuiaRemisionController implements GenericoController<GuiaRemision> 
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid GuiaRemision _guia_remision, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid GuiaRemision _guia_remision) {
         try {
             GuiaRemision guia_remision=servicio.crear(_guia_remision);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, guia_remision);

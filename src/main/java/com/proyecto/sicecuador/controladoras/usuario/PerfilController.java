@@ -47,7 +47,7 @@ public class PerfilController implements GenericoController<Perfil> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Perfil _perfil, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Perfil _perfil) {
         try {
             Perfil perfil=servicio.crear(_perfil);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, perfil);

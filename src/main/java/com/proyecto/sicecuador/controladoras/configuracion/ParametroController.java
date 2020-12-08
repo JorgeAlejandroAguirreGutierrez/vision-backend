@@ -47,7 +47,7 @@ public class ParametroController implements GenericoController<Parametro> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Parametro _parametro, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Parametro _parametro) {
         try {
             Parametro parametro=servicio.crear(_parametro);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, parametro);

@@ -47,7 +47,7 @@ public class AuxiliarController implements GenericoController<Auxiliar> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Auxiliar _auxiliar, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Auxiliar _auxiliar) {
         try {
             Auxiliar auxiliar=servicio.crear(_auxiliar);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, auxiliar);

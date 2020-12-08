@@ -47,7 +47,7 @@ public class CelularController implements GenericoController<Celular> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Celular _celular, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Celular _celular) {
         try {
             Celular celular=servicio.crear(_celular);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, celular);

@@ -48,7 +48,7 @@ public class PuntoVentaController implements GenericoController<PuntoVenta> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid PuntoVenta _punto_venta, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid PuntoVenta _punto_venta) {
         try {
             PuntoVenta punto_venta=servicio.crear(_punto_venta);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, punto_venta);

@@ -46,7 +46,7 @@ public class CategoriaClienteController implements GenericoController<CategoriaC
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid CategoriaCliente _categoria_cliente, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid CategoriaCliente _categoria_cliente) {
         try {
         CategoriaCliente categoria_cliente=servicio.crear(_categoria_cliente);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, categoria_cliente);

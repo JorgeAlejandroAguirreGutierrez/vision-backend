@@ -47,7 +47,7 @@ public class EmpresaController implements GenericoController<Empresa> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Empresa _empresa, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Empresa _empresa) {
         try {
             Empresa empresa=servicio.crear(_empresa);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, empresa);

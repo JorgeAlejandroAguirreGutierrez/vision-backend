@@ -46,7 +46,7 @@ public class PermisoController implements GenericoController<Permiso> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Permiso _permiso, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Permiso _permiso) {
         try {
             Permiso permiso=servicio.crear(_permiso);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, permiso);

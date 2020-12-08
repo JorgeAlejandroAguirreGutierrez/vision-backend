@@ -50,12 +50,8 @@ public class ClienteController implements GenericoController<Cliente> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Cliente _cliente, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Cliente _cliente) {
         try {
-            if(bindig_result.hasErrors()){
-                Respuesta respuesta = new Respuesta(false, bindig_result.getAllErrors(), null);
-                return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
-            }
             _cliente.normalizar();
             Cliente cliente=servicio.crear(_cliente);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cliente);

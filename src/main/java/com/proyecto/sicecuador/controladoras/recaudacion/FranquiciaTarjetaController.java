@@ -47,7 +47,7 @@ public class FranquiciaTarjetaController implements GenericoController<Franquici
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid FranquiciaTarjeta _franquicia_tarjeta, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid FranquiciaTarjeta _franquicia_tarjeta) {
         try {
             FranquiciaTarjeta franquicia_tarjeta=servicio.crear(_franquicia_tarjeta);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, franquicia_tarjeta);

@@ -48,9 +48,9 @@ public class PlazoCreditoController implements GenericoController<PlazoCredito> 
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid PlazoCredito _PlazoCredito, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid PlazoCredito _plazoCredito) {
         try {
-            PlazoCredito plazo_credito=servicio.crear(_PlazoCredito);
+            PlazoCredito plazo_credito=servicio.crear(_plazoCredito);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, plazo_credito);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
@@ -60,9 +60,9 @@ public class PlazoCreditoController implements GenericoController<PlazoCredito> 
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody PlazoCredito _PlazoCredito) {
+    public ResponseEntity<?> actualizar(@RequestBody PlazoCredito _plazoCredito) {
         try {
-            PlazoCredito plazo_credito=servicio.actualizar(_PlazoCredito);
+            PlazoCredito plazo_credito=servicio.actualizar(_plazoCredito);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, plazo_credito);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

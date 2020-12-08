@@ -48,9 +48,9 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid OrigenIngreso _OrigenIngreso, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid OrigenIngreso _origenIngreso) {
         try {
-            OrigenIngreso origen_ingreso=servicio.crear(_OrigenIngreso);
+            OrigenIngreso origen_ingreso=servicio.crear(_origenIngreso);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, origen_ingreso);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

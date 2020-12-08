@@ -62,25 +62,25 @@ public class Factura extends Entidad {
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @NotNull(message = "El cliente"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "cliente_factura_id", nullable = true)
     private Cliente cliente_factura;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "auxiliar_id", nullable = true)
     private Auxiliar auxiliar;
     @NotNull(message = "El vendedor"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "vendedor_id")
     private Usuario vendedor;
     @NotNull(message = "La sesion"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "sesion_id", nullable = true)
     private Sesion sesion;
 
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade ={CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE })
     @JoinColumn(name = "factura_id")
     private List<FacturaDetalle> factura_detalles;
 
@@ -293,6 +293,11 @@ public class Factura extends Entidad {
         return factura_detalles;
     }
 
+
+
     public void normalizar(){
+        if(this.cliente_factura.getId()==0){
+            this.cliente_factura=null;
+        }
     }
 }

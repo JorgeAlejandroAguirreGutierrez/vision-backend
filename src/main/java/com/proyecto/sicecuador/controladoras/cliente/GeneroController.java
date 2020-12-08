@@ -48,9 +48,9 @@ public class GeneroController implements GenericoController<Genero> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Genero _Genero, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Genero _genero) {
         try {
-            Genero genero=servicio.crear(_Genero);
+            Genero genero=servicio.crear(_genero);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, genero);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
@@ -60,9 +60,9 @@ public class GeneroController implements GenericoController<Genero> {
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody Genero _Genero) {
+    public ResponseEntity<?> actualizar(@RequestBody Genero _genero) {
         try {
-            Genero genero=servicio.actualizar(_Genero);
+            Genero genero=servicio.actualizar(_genero);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, genero);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

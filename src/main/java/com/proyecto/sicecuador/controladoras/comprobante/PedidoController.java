@@ -47,7 +47,7 @@ public class PedidoController implements GenericoController<Pedido> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Pedido _pedido, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Pedido _pedido) {
         try {
             Pedido pedido=servicio.crear(_pedido);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, pedido);

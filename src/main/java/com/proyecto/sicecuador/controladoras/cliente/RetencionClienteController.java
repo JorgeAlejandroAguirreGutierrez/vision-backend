@@ -47,9 +47,9 @@ public class RetencionClienteController implements GenericoController<RetencionC
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid RetencionCliente _RetencionCliente, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid RetencionCliente _retencionCliente) {
         try {
-            RetencionCliente retencion_cliente=servicio.crear(_RetencionCliente);
+            RetencionCliente retencion_cliente=servicio.crear(_retencionCliente);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, retencion_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
@@ -59,9 +59,9 @@ public class RetencionClienteController implements GenericoController<RetencionC
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody RetencionCliente _RetencionCliente) {
+    public ResponseEntity<?> actualizar(@RequestBody RetencionCliente _retencionCliente) {
         try {
-            RetencionCliente retencion_cliente=servicio.actualizar(_RetencionCliente);
+            RetencionCliente retencion_cliente=servicio.actualizar(_retencionCliente);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, retencion_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

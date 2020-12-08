@@ -47,7 +47,7 @@ public class BodegaController implements GenericoController<Bodega> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Bodega _bodega, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Bodega _bodega) {
         try {
             Bodega bodega=servicio.crear(_bodega);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bodega);

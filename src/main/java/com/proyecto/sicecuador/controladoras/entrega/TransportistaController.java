@@ -47,7 +47,7 @@ public class TransportistaController implements GenericoController<Transportista
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Transportista _transportista, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Transportista _transportista) {
         try {
             Transportista transportista=servicio.crear(_transportista);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, transportista);

@@ -46,7 +46,7 @@ public class SesionController implements GenericoController<Sesion> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Sesion _sesion, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Sesion _sesion) {
         try {
             Sesion sesion=servicio.crear(_sesion);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, sesion);

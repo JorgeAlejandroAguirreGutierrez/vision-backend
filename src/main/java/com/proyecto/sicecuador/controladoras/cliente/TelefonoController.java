@@ -47,9 +47,9 @@ public class TelefonoController implements GenericoController<Telefono> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Telefono _Telefono, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Telefono _telefono) {
         try {
-            Telefono telefono=servicio.crear(_Telefono);
+            Telefono telefono=servicio.crear(_telefono);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, telefono);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

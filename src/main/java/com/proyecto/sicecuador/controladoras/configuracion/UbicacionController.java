@@ -50,7 +50,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Ubicacion _ubicacion, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Ubicacion _ubicacion) {
         try {
             Ubicacion ubicacion=servicio.crear(_ubicacion);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, ubicacion);

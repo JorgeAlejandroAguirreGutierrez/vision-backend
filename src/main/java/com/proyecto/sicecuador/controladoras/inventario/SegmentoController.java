@@ -49,7 +49,7 @@ public class SegmentoController implements GenericoController<Segmento> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Segmento _segmento, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Segmento _segmento) {
         try {
             Segmento segmento=servicio.crear(_segmento);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, segmento);

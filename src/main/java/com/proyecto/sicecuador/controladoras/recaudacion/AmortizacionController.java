@@ -46,7 +46,7 @@ public class AmortizacionController implements GenericoController<Amortizacion> 
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Amortizacion _amortizacion, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Amortizacion _amortizacion) {
         try {
             Amortizacion amortizacion=servicio.crear(_amortizacion);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, amortizacion);

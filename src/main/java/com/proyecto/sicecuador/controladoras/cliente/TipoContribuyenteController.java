@@ -47,9 +47,9 @@ public class TipoContribuyenteController implements GenericoController<TipoContr
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid TipoContribuyente _TipoContribuyente, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid TipoContribuyente _tipoContribuyente) {
         try {
-            TipoContribuyente tipo_contribuyente=servicio.crear(_TipoContribuyente);
+            TipoContribuyente tipo_contribuyente=servicio.crear(_tipoContribuyente);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_contribuyente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

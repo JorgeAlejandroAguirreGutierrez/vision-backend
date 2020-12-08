@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface GenericoController<T> {
     ResponseEntity<?> consultar();
     ResponseEntity<?> obtener(long id);
-    ResponseEntity<?> crear(T t, BindingResult binding_result);
+    ResponseEntity<?> crear(T t);
     ResponseEntity<?> actualizar(T t);
     ResponseEntity<?> eliminar(long id);
     ResponseEntity<?> importar(MultipartFile archivo);

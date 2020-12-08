@@ -55,12 +55,8 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Recaudacion _recaudacion, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Recaudacion _recaudacion) {
         try {
-            if(bindig_result.hasErrors()){
-                Respuesta respuesta = new Respuesta(false, bindig_result.getAllErrors(), null);
-                return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
-            }
             _recaudacion.normalizar();
             double diferencia= _recaudacion.getFactura().getTotal_con_descuento()-_recaudacion.getTotal();
             if (diferencia>0){

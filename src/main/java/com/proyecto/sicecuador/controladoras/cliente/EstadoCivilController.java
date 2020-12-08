@@ -47,7 +47,7 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid EstadoCivil _EstadoCivil, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid EstadoCivil _EstadoCivil) {
         try {
             EstadoCivil estado_civil=servicio.crear(_EstadoCivil);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, estado_civil);

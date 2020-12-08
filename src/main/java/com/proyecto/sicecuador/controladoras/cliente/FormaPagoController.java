@@ -47,9 +47,9 @@ public class FormaPagoController implements GenericoController<FormaPago> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid FormaPago _FormaPago, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid FormaPago _formaPago) {
         try {
-            FormaPago forma_pago=servicio.crear(_FormaPago);
+            FormaPago forma_pago=servicio.crear(_formaPago);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, forma_pago);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
@@ -59,9 +59,9 @@ public class FormaPagoController implements GenericoController<FormaPago> {
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody FormaPago _FormaPago) {
+    public ResponseEntity<?> actualizar(@RequestBody FormaPago _formaPago) {
         try {
-            FormaPago forma_pago=servicio.actualizar(_FormaPago);
+            FormaPago forma_pago=servicio.actualizar(_formaPago);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, forma_pago);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

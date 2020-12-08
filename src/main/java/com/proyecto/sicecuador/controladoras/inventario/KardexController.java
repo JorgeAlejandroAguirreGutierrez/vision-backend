@@ -61,7 +61,7 @@ public class KardexController implements GenericoController<Kardex> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Kardex _kardex, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Kardex _kardex) {
         try {
             _kardex.normalizar();
             Kardex kardex=servicio.crear(_kardex);

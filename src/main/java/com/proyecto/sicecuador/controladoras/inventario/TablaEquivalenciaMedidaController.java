@@ -48,7 +48,7 @@ public class TablaEquivalenciaMedidaController implements GenericoController<Tab
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid TablaEquivalenciaMedida _tabla, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid TablaEquivalenciaMedida _tabla) {
         TablaEquivalenciaMedida tabla=servicio.crear(_tabla);
         try {
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tabla);

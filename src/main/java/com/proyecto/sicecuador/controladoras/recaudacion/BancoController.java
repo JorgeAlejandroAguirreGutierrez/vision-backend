@@ -48,7 +48,7 @@ public class BancoController implements GenericoController<Banco> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Banco _banco, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Banco _banco) {
         try {
             Banco banco=servicio.crear(_banco);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, banco);

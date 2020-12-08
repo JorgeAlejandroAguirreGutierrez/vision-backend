@@ -46,7 +46,7 @@ public class UsuarioController implements GenericoController<Usuario> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Usuario _usuario, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Usuario _usuario) {
         try {
             Usuario usuario=servicio.crear(_usuario);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, usuario);

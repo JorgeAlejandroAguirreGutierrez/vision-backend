@@ -47,7 +47,7 @@ public class EgresoController implements GenericoController<Egreso> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Egreso _egreso, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Egreso _egreso) {
         try {
             Egreso egreso=servicio.crear(_egreso);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, egreso);

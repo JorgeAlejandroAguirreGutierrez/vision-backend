@@ -49,7 +49,7 @@ public class CaracteristicaController implements GenericoController<Caracteristi
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Caracteristica _caracteristica, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Caracteristica _caracteristica) {
         try {
             Caracteristica caracteristica=servicio.crear(_caracteristica);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, caracteristica);

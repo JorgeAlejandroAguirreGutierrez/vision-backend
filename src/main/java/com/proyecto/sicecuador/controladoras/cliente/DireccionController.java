@@ -47,9 +47,9 @@ public class DireccionController implements GenericoController<Direccion> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Direccion _Direccion, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Direccion _direccion) {
         try {
-            Direccion direccion=servicio.crear(_Direccion);
+            Direccion direccion=servicio.crear(_direccion);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, direccion);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){

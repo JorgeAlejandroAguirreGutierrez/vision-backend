@@ -24,7 +24,7 @@ public class Kardex extends Entidad {
     @Column(name = "entrada", nullable = true)
     private double entrada;
     @Column(name = "salida", nullable = true)
-    private double salida;
+    private long salida;
     @Column(name = "debe", nullable = true)
     private double debe;
     @Column(name = "haber", nullable = true)
@@ -52,7 +52,7 @@ public class Kardex extends Entidad {
         super(id);
     }
 
-    public Kardex(String codigo, Date fecha, String documento, String numero, String operacion, double entrada, double salida,
+    public Kardex(String codigo, Date fecha, String documento, String numero, String operacion, double entrada, long salida,
                   double debe, double haber, long cantidad, double costo_unitario, double costo_promedio,double costo_total,
                   Proveedor proveedor,Producto producto){
         super(codigo);
@@ -96,7 +96,7 @@ public class Kardex extends Entidad {
         return entrada;
     }
 
-    public double getSalida() {
+    public long getSalida() {
         return salida;
     }
 
@@ -131,9 +131,14 @@ public class Kardex extends Entidad {
     public double getCosto_total() {
         return costo_total;
     }
+
     @JsonBackReference
     public Producto getProducto() {
         return producto;
+    }
+
+    public void setSalida(long salida) {
+        this.salida = salida;
     }
 
     public void normalizar(){

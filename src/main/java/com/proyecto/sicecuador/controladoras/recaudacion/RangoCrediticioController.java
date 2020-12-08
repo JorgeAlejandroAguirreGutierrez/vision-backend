@@ -49,7 +49,7 @@ public class RangoCrediticioController implements GenericoController<RangoCredit
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid RangoCrediticio _rango_crediticio, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid RangoCrediticio _rango_crediticio) {
         try {
             RangoCrediticio rango_crediticio=servicio.crear(_rango_crediticio);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, rango_crediticio);

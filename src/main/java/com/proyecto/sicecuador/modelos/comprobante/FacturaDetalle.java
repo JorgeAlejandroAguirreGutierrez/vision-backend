@@ -35,6 +35,15 @@ public class FacturaDetalle extends Entidad {
     @Column(name = "total_descuento_individual", nullable = true)
     private double total_descuento_individual;
     //FIN INDIVIDUALES
+
+    //SUBTOTALES
+    @Column(name = "valor_descuento_individual_subtotales", nullable = true)
+    private double valor_descuento_individual_subtotales;
+    @Column(name = "porcentaje_descuento_individual_subtotales", nullable = true)
+    private double porcentaje_descuento_individual_subtotales;
+    @Column(name = "valor_porcentaje_descuento_individual_subtotales", nullable = true)
+    private double valor_porcentaje_descuento_individual_subtotales;
+
     //TOTALES
     @Column(name = "valor_descuento_individual_totales", nullable = true)
     private double valor_descuento_individual_totales;
@@ -60,19 +69,19 @@ public class FacturaDetalle extends Entidad {
     @Column(name = "valor_iva_con_descuento", nullable = true)
     private double valor_iva_con_descuento;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "medida_id", nullable = true)
     private Medida medida;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
     @OneToMany(cascade =CascadeType.REFRESH, fetch = FetchType.LAZY)
@@ -177,6 +186,21 @@ public class FacturaDetalle extends Entidad {
         return valor_porcentaje_descuento_individual_totales;
     }
 
+    public double getValor_descuento_individual_subtotales() {
+        return valor_descuento_individual_subtotales;
+    }
+
+    public double getPorcentaje_descuento_individual_subtotales() {
+        return porcentaje_descuento_individual_subtotales;
+    }
+
+    public double getValor_porcentaje_descuento_individual_subtotales() {
+        return valor_porcentaje_descuento_individual_subtotales;
+    }
+
+    public double getTotal_descuento_individual() {
+        return total_descuento_individual;
+    }
     public Medida getMedida() {
         return medida;
     }

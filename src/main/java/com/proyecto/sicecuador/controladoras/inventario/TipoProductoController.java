@@ -50,7 +50,7 @@ public class TipoProductoController implements GenericoController<TipoProducto> 
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid TipoProducto _tipo_producto, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid TipoProducto _tipo_producto) {
         try {
             TipoProducto tipo_producto=servicio.crear(_tipo_producto);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_producto);

@@ -48,7 +48,7 @@ public class EstablecimientoController implements GenericoController<Establecimi
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Establecimiento _establecimiento, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Establecimiento _establecimiento) {
         try {
             Establecimiento establecimiento=servicio.crear(_establecimiento);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, establecimiento);

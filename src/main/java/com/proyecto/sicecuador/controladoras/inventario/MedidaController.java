@@ -46,7 +46,7 @@ public class MedidaController implements GenericoController<Medida> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Medida _medida, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Medida _medida) {
         try {
             Medida medida=servicio.crear(_medida);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, medida);

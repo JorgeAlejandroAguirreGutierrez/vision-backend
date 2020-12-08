@@ -48,7 +48,7 @@ public class ProformaController implements GenericoController<Proforma> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Proforma _proforma, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Proforma _proforma) {
         try {
             Proforma proforma=servicio.crear(_proforma);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, proforma);

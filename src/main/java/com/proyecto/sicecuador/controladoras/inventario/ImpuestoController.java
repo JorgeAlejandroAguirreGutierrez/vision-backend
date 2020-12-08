@@ -48,7 +48,7 @@ public class ImpuestoController implements GenericoController<Impuesto> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Impuesto _impuesto, BindingResult bindig_result) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Impuesto _impuesto) {
         try {
             Impuesto impuesto=servicio.crear(_impuesto);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, impuesto);

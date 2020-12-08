@@ -14,8 +14,10 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
+import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import fr.opensagres.xdocreport.converter.ConverterTypeTo;
 import fr.opensagres.xdocreport.converter.Options;
 import fr.opensagres.xdocreport.document.IXDocReport;
@@ -31,6 +33,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -40,8 +43,20 @@ import java.util.Optional;
 public class FacturaService implements IFacturaService {
     @Autowired
     private IFacturaRepository rep;
+    @Autowired
+    private IKardexService kardexService;
+
+    @Transactional
     @Override
     public Factura crear(Factura factura) {
+        //ACTUALIZACION DE KARDEX
+        for(int i=0; i<factura.getFactura_detalles().size(); i++){
+            int cantidad=factura.getFactura_detalles().get(i).getProducto().getKardexs().size();
+            Kardex kardex_actualizar=factura.getFactura_detalles().get(i).getProducto().getKardexs().get(cantidad-1);
+            long salida_actual=kardex_actualizar.getSalida();
+            kardex_actualizar.setSalida(salida_actual+factura.getFactura_detalles().get(i).getCantidad());
+            kardexService.actualizar(kardex_actualizar);
+        }
         return rep.save(factura);
     }
 
