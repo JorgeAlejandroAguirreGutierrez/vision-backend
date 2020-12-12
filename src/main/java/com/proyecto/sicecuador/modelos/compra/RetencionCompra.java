@@ -20,7 +20,7 @@ public class RetencionCompra extends Entidad {
     private Date fecha_efectivizacion;
     @Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
 

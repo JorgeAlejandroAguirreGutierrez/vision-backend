@@ -22,7 +22,7 @@ public class Sesion extends Entidad {
     private String sesion_ip;
     @Column(name = "activa", nullable = true)
     private boolean activa;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = true)
     private Usuario usuario;
 

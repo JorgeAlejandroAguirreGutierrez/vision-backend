@@ -64,15 +64,10 @@ public class ClienteController implements GenericoController<Cliente> {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Cliente _cliente) {
-        try {
-            _cliente.normalizar();
-            Cliente cliente=servicio.actualizar(_cliente);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cliente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        _cliente.normalizar();
+        Cliente cliente=servicio.actualizar(_cliente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

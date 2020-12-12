@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
@@ -132,11 +133,11 @@ public class ProductoController implements GenericoController<Producto> {
         }
     }
 
-    @GetMapping(value = "/buscar/nombre/{nombre}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscarNombre(@PathVariable("nombre") String nombre) {
+    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestBody Producto producto) {
         try {
-            List<Producto> productos=servicio.consultarNombre(new Producto(nombre));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
+        	List<Producto> productos=servicio.buscar(producto);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

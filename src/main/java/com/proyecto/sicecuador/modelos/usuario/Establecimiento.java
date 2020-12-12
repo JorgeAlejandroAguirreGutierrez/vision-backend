@@ -16,10 +16,10 @@ import java.util.List;
 public class Establecimiento extends Entidad {
     @Column(name = "direccion", nullable = true)
     private String direccion;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "empresa_id", nullable = true)
     private Empresa empresa;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
 

@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class CorreoAuxiliar extends Entidad {
     @Column(name = "email", nullable = true)
     private String email;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "auxiliar_id", nullable = true)
     private Auxiliar auxiliar;
 

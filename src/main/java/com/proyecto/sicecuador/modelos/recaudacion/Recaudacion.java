@@ -45,15 +45,15 @@ public class Recaudacion extends Entidad {
     private double total_retenciones_ventas;
     @Column(name = "total_credito", nullable = true)
     private double total_credito;
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY, optional = true)
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
     @NotNull(message = "Factura"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
     @NotNull(message = "Sesion"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "sesion_id", nullable = true)
     private Sesion sesion;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)

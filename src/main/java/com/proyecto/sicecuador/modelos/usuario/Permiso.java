@@ -19,7 +19,7 @@ public class Permiso extends Entidad {
     private String operacion;
     @Column(name = "habilitado", nullable = true)
     private boolean habilitado;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
 

@@ -14,7 +14,7 @@ import java.util.List;
 public class Correo extends Entidad {
     @Column(name = "email", nullable = true)
     private String email;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 

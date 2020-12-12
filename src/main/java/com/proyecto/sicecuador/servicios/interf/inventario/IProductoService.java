@@ -16,5 +16,5 @@ public interface IProductoService extends IGenericoService<Producto> {
     List<Producto> consultarServicio();
     List<Producto> consultarActivoFijo();
     List<Producto> consultarBodega();
-    List<Producto> consultarNombre(Producto producto);
+    List<Producto> buscar(Producto producto);
 }

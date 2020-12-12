@@ -12,15 +12,15 @@ import java.util.List;
 @Table(name = "medida_precio")
 //@EntityListeners({MedidaPrecioUtil.class})
 public class MedidaPrecio extends Entidad {
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "medida_id", nullable = true)
     private Medida medida;
+    @ManyToOne
+    @JoinColumn(name = "producto_id", nullable = true)
+    private Producto producto;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "medida_precio_id", nullable = true)
     private List<Precio> precios;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "producto_id", nullable = true)
-    private Producto producto;
 
     public MedidaPrecio(){
         super();

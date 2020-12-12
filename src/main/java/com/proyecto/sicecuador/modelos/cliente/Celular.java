@@ -20,7 +20,7 @@ public class Celular extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;
     @NotNull(message = "Celular - Cliente"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 

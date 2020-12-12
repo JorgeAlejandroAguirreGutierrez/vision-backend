@@ -25,13 +25,13 @@ public class Caracteristica extends Entidad {
     private String modelo;
     @Column(name = "serie", nullable = true)
     private String serie;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "factura_detalle_id", nullable = true)
     private FacturaDetalle factura_detalle;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
 

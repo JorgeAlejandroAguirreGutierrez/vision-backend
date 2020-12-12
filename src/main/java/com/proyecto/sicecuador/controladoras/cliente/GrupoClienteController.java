@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
@@ -44,19 +45,6 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, grupo_cliente);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         } catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping(value = "/buscar/{codigo}/{descripcion}/{abreviatura}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@PathVariable("codigo") String codigo, @PathVariable("descripcion") String descripcion,
-                                    @PathVariable("abreviatura") String abreviatura) {
-        try {
-            List<GrupoCliente> grupos_clientes=servicio.buscar(new GrupoCliente(codigo, descripcion, abreviatura));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, grupos_clientes);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -103,6 +91,18 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
         try {
             boolean bandera=servicio.importar(archivo);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestBody GrupoCliente _grupo_cliente) {
+        try {
+        	List<GrupoCliente> grupos_clientes=servicio.buscar(_grupo_cliente);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, grupos_clientes);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

@@ -24,10 +24,10 @@ public class Precio extends Entidad {
     @Column(name = "utilidad_porcentaje", nullable = true)
     private double utilidad_porcentaje;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "medida_precio_id", nullable = true)
     private MedidaPrecio medida_precio;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
 

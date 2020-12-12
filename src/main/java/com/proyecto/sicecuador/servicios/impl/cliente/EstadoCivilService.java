@@ -1,19 +1,28 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
 import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
+import com.proyecto.sicecuador.otros.Util;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IEstadoCivilRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IEstadoCivilService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 @Service
 public class EstadoCivilService implements IEstadoCivilService {
+	
     @Autowired
     private IEstadoCivilRepository rep;
     @Override
@@ -40,6 +49,26 @@ public class EstadoCivilService implements IEstadoCivilService {
     @Override
     public List<EstadoCivil> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<EstadoCivil> buscar(EstadoCivil estado_civil) {
+        return  rep.findAll(new Specification<EstadoCivil>() {
+            @Override
+            public Predicate toPredicate(Root<EstadoCivil> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (!estado_civil.getCodigo().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+estado_civil.getCodigo()+"%")));
+                }
+                if (!estado_civil.getDescripcion().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("descripcion"), "%"+estado_civil.getDescripcion()+"%")));
+                }
+                if (!estado_civil.getAbreviatura().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("abreviatura"), "%"+estado_civil.getAbreviatura()+"%")));
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
     }
 
     @Override

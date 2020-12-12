@@ -16,7 +16,7 @@ public class CelularAuxiliar extends Entidad {
     @Column(name = "numero")
     private String numero;
     @NotNull(message = "Celular Auxiliar - Auxiliar"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "auxiliar_id")
     private Auxiliar auxiliar;
 

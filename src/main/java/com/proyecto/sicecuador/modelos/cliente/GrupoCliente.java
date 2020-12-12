@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "grupo_cliente")
-//@EntityListeners({GrupoClienteUtil.class})
+@EntityListeners({GrupoClienteUtil.class})
 public class GrupoCliente extends Entidad {
     @Column(name = "descripcion", nullable = true)
     private String descripcion;

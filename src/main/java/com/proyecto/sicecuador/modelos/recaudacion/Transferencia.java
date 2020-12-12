@@ -19,10 +19,10 @@ public class Transferencia extends Entidad {
     private Date fecha_transaccion;
     @Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 

@@ -13,7 +13,7 @@ import java.util.List;
 public class PuntoVenta extends Entidad {
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private Establecimiento establecimiento;
 

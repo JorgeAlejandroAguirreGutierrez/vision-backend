@@ -14,7 +14,7 @@ import java.util.List;
 public class SubLineaProducto extends Entidad {
     @Column(name = "nombre", nullable = true)
     private String nombre;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "linea_producto_id", nullable = true)
     private LineaProducto linea_producto;
     @OneToMany(cascade = CascadeType.PERSIST)

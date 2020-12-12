@@ -35,48 +35,48 @@ public class Cliente extends Entidad {
     @Column(name = "eliminado")
     private boolean eliminado;
     @NotNull(message = "Tipo de Contribuyente Cliente"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "tipo_contribuyente_id", nullable = false)
     private TipoContribuyente tipo_contribuyente;
     @NotNull(message = "Punto de Venta Cliente"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "punto_venta_id")
     private PuntoVenta punto_venta;
     @NotNull(message = "Grupo de Cliente"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "grupo_cliente_id")
     private GrupoCliente grupo_cliente;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "financiamiento_id", nullable = true)
     private Financiamiento financiamiento;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "genero_id", nullable = true)
     private Genero genero;
-    @ManyToOne(cascade = CascadeType.MERGE,optional = true)
+    @ManyToOne
     @JoinColumn(name = "estado_civil_id", nullable = true)
     private EstadoCivil estado_civil;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "categoria_cliente_id", nullable = true)
     private CategoriaCliente categoria_cliente;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "origen_ingreso_id", nullable = true)
     private OrigenIngreso origen_ingreso;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Auxiliar> auxiliares;
-    @OneToMany(cascade ={CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Telefono> telefonos;
-    @OneToMany(cascade ={CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Celular> celulares;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Correo> correos;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<RetencionCliente> retenciones_cliente;
 

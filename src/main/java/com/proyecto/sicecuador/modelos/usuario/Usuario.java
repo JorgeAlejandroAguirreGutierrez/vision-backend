@@ -23,10 +23,10 @@ public class Usuario extends Entidad {
     private String avatar;
     @Column(name = "activo", nullable = true)
     private boolean activo;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "punto_venta_id", nullable = true)
     private PuntoVenta punto_venta;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
 

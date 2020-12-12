@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class TelefonoAuxiliar extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "auxiliar_id", nullable = true)
     private Auxiliar auxiliar;
 

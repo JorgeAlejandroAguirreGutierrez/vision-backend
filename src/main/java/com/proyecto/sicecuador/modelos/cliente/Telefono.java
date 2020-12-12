@@ -14,7 +14,7 @@ import java.util.List;
 public class Telefono extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 

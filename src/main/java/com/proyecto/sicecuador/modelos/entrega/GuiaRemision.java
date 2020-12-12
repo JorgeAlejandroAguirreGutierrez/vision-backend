@@ -36,10 +36,10 @@ public class GuiaRemision extends Entidad {
     @JoinColumn(name = "direccion_id", nullable= true)
     private Direccion direccion;
     @NotNull(message = "Factura"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "transportista_id", nullable = true)
     private Transportista transportista;
 

@@ -56,13 +56,13 @@ public class GrupoClienteService implements IGrupoClienteService {
             @Override
             public Predicate toPredicate(Root<GrupoCliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (grupo_cliente.getCodigo()!=null) {
+                if (!grupo_cliente.getCodigo().equals(Util.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+grupo_cliente.getCodigo()+"%")));
                 }
-                if (grupo_cliente.getDescripcion()!=null) {
+                if (!grupo_cliente.getDescripcion().equals(Util.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("descripcion"), "%"+grupo_cliente.getDescripcion()+"%")));
                 }
-                if (grupo_cliente.getAbreviatura()!=null) {
+                if (!grupo_cliente.getAbreviatura().equals(Util.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("abreviatura"), "%"+grupo_cliente.getAbreviatura()+"%")));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));

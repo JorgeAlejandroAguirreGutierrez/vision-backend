@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
 import com.proyecto.sicecuador.servicios.interf.cliente.IEstadoCivilService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,18 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
         try {
             EstadoCivil estado_civil=servicio.eliminar(new EstadoCivil(id));
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, estado_civil);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestBody EstadoCivil estado_civil) {
+        try {
+        	List<EstadoCivil> estados_civiles=servicio.buscar(estado_civil);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, estados_civiles);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

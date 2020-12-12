@@ -14,10 +14,10 @@ import java.util.List;
 @Table(name = "retencion_cliente")
 //@EntityListeners({RetencionClienteUtil.class})
 public class RetencionCliente extends Entidad {
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "tipo_retencion_id", nullable = true)
     private TipoRetencion tipo_retencion;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 

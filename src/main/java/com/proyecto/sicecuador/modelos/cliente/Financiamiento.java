@@ -13,13 +13,13 @@ import java.util.List;
 public class Financiamiento extends Entidad {
     @Column(name = "monto", nullable = true)
     private double monto;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "tipo_pago_id", nullable = true)
     private TipoPago tipo_pago;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "forma_pago_id", nullable = true)
     private FormaPago forma_pago;
-    @ManyToOne(cascade = CascadeType.MERGE, optional = true)
+    @ManyToOne
     @JoinColumn(name = "plazo_credito_id", nullable = true)
     private PlazoCredito plazo_credito;
 

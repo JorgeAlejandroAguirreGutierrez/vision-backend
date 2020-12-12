@@ -22,13 +22,13 @@ public class TarjetaCredito extends Entidad {
     private String lote;
     @Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "operador_tarjeta_id", nullable = true)
     private OperadorTarjeta operador_tarjeta;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "franquicia_tarjeta_id", nullable = true)
     private FranquiciaTarjeta franquicia_tarjeta;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 

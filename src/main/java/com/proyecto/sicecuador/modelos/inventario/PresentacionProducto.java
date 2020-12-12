@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class PresentacionProducto extends Entidad {
     @Column(name = "nombre", nullable = true)
     private String nombre;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "sub_linea_producto_id", nullable = true)
     private SubLineaProducto sub_linea_producto;
 

@@ -11,10 +11,10 @@ import java.util.List;
 @Table(name = "tabla_equivalencia_medida")
 @EntityListeners({TablaEquivalenciaMedidaUtil.class})
 public class TablaEquivalenciaMedida extends Entidad {
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "medida1_id", nullable = true)
     private Medida medida1;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "medida2_id", nullable = true)
     private Medida medida2;
     @Column(name = "equivalencia", nullable = true)

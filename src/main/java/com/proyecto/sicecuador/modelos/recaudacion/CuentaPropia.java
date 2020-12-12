@@ -11,7 +11,7 @@ import java.util.List;
 public class CuentaPropia extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
 

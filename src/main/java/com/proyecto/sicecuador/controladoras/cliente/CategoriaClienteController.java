@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
+import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICategoriaClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,6 +81,18 @@ public class CategoriaClienteController implements GenericoController<CategoriaC
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestBody CategoriaCliente categoria_cliente) {
+        try {
+        	List<CategoriaCliente> categorias_clientes=servicio.buscar(categoria_cliente);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, categorias_clientes);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
@@ -92,4 +105,6 @@ public class CategoriaClienteController implements GenericoController<CategoriaC
             return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    
 }

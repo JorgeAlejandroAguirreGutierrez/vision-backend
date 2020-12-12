@@ -17,7 +17,7 @@ public class Direccion extends Entidad {
     private String latitudgeo;
     @Column(name = "longitudgeo", nullable = true)
     private String longitudgeo;
-    @ManyToOne(optional = true)
+    @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
 

@@ -13,7 +13,7 @@ import java.util.List;
 public class SubGrupoProducto extends Entidad {
     @Column(name = "nombre", nullable = true)
     private String nombre;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "grupo_producto_id", nullable = true)
     private GrupoProducto grupo_producto;
     @OneToMany(cascade = CascadeType.PERSIST)

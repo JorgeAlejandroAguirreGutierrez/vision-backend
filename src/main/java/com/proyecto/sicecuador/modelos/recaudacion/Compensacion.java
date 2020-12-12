@@ -33,13 +33,13 @@ public class Compensacion extends Entidad {
     private double saldo;
     @Column(name = "compensado", nullable = true)
     private double compensado;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipo_comprobante;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 

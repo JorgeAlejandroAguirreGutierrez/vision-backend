@@ -59,7 +59,7 @@ public class ClienteUtil {
                 conteo=rep.findConteoCorreo();
                 correo.setCodigo(Util.generarCodigo(parametro, conteo));
             }
-            for (Auxiliar auxiliar: cliente.getAuxiliares()) {
+            /*for (Auxiliar auxiliar: cliente.getAuxiliares()) {
                 for (TelefonoAuxiliar telefono : auxiliar.getTelefonos()) {
                     parametro = rep.findByTablaAndTipo(tabla_telefono_auxiliar, tipo);
                     conteo = rep.findConteoTelefonoAuxiliar();
@@ -75,7 +75,7 @@ public class ClienteUtil {
                     conteo = rep.findConteoCorreoAuxiliar();
                     correo.setCodigo(Util.generarCodigo(parametro, conteo));
                 }
-            }
+            }*/
         }
     }
 }

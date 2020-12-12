@@ -26,11 +26,11 @@ public class Auxiliar extends Entidad {
     @NotNull(message = "Eliminado"+ Constantes.mensaje_validacion_not_null)
     @Column(name = "eliminado")
     private boolean eliminado;
-    @ManyToOne(cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
     @NotNull(message = "Cliente"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
