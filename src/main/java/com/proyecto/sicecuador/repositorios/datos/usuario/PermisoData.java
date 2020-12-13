@@ -95,10 +95,26 @@ public class PermisoData implements ApplicationRunner {
             permisos.add(new Permiso("PER70", "FACTURACION", "OBTENER", true, new Perfil(2)));
             permisos.add(new Permiso("PER71", "FACTURACION", "ACTUALIZAR", true, new Perfil(2)));
             permisos.add(new Permiso("PER72", "FACTURACION", "ELIMINAR", true, new Perfil(2)));
-	    permisos.add(new Permiso("PER73", "USUARIOS", "CREAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER73", "USUARIOS", "CREAR", true, new Perfil(1)));
             permisos.add(new Permiso("PER74", "USUARIOS", "OBTENER", true, new Perfil(1)));
             permisos.add(new Permiso("PER75", "USUARIOS", "ACTUALIZAR", true, new Perfil(1)));
             permisos.add(new Permiso("PER76", "USUARIOS", "ELIMINAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER77", "CAJA_BANCOS", "CREAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER78", "CAJA_BANCOS", "OBTENER", true, new Perfil(1)));
+            permisos.add(new Permiso("PER79", "CAJA_BANCOS", "ACTUALIZAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER80", "CAJA_BANCOS", "ELIMINAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER81", "CUENTAS_COBRAR", "CREAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER82", "CUENTAS_COBRAR", "OBTENER", true, new Perfil(1)));
+            permisos.add(new Permiso("PER83", "CUENTAS_COBRAR", "ACTUALIZAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER84", "CUENTAS_COBRAR", "ELIMINAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER85", "CUENTAS_PAGAR", "CREAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER86", "CUENTAS_PAGAR", "OBTENER", true, new Perfil(1)));
+            permisos.add(new Permiso("PER87", "CUENTAS_PAGAR", "ACTUALIZAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER88", "CUENTAS_PAGAR", "ELIMINAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER89", "REPORTES", "CREAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER90", "REPORTES", "OBTENER", true, new Perfil(1)));
+            permisos.add(new Permiso("PER91", "REPORTES", "ACTUALIZAR", true, new Perfil(1)));
+            permisos.add(new Permiso("PER92", "REPORTES", "ELIMINAR", true, new Perfil(1)));
 
             rep.saveAll(permisos);
         }
