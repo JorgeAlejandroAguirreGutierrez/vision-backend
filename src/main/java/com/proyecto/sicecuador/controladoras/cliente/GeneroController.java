@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.FormaPago;
 import com.proyecto.sicecuador.modelos.cliente.Genero;
 import com.proyecto.sicecuador.servicios.interf.cliente.IGeneroService;
 import com.proyecto.sicecuador.servicios.interf.cliente.IGeneroService;
@@ -76,6 +77,18 @@ public class GeneroController implements GenericoController<Genero> {
         try {
             Genero genero=servicio.eliminar(new Genero(id));
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, genero);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestBody Genero genero) {
+        try {
+        	List<Genero> generos=servicio.buscar(genero);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, generos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

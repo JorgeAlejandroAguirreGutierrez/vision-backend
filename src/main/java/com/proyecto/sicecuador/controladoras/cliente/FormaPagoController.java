@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.cliente.FormaPago;
 import com.proyecto.sicecuador.servicios.interf.cliente.IFormaPagoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,18 @@ public class FormaPagoController implements GenericoController<FormaPago> {
         try {
             FormaPago forma_pago=servicio.eliminar(new FormaPago(id));
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, forma_pago);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestBody FormaPago forma_pago) {
+        try {
+        	List<FormaPago> formas_pagos=servicio.buscar(forma_pago);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, formas_pagos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

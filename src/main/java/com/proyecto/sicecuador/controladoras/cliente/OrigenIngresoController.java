@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.Genero;
 import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.servicios.interf.cliente.IOrigenIngresoService;
 import com.proyecto.sicecuador.servicios.interf.cliente.IOrigenIngresoService;
@@ -76,6 +77,18 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
         try {
             OrigenIngreso origen_ingreso=servicio.eliminar(new OrigenIngreso(id));
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, origen_ingreso);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestBody OrigenIngreso origen_ingreso) {
+        try {
+        	List<OrigenIngreso> origenes_ingresos=servicio.buscar(origen_ingreso);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, origenes_ingresos);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
