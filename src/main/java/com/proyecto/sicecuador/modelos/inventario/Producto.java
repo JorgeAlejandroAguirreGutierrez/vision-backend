@@ -46,13 +46,13 @@ public class Producto extends Entidad {
     @ManyToOne
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Kardex> kardexs;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<MedidaPrecio> medidas_precios;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Caracteristica> caracteristicas;
 

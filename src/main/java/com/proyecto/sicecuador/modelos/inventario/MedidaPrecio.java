@@ -18,7 +18,7 @@ public class MedidaPrecio extends Entidad {
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "medida_precio_id", nullable = true)
     private List<Precio> precios;
 
