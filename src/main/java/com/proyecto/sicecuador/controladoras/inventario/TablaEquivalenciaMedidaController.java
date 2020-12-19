@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.controladoras.inventario;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.TablaEquivalenciaMedida;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITablaEquivalenciaMedidaService;
@@ -50,13 +51,8 @@ public class TablaEquivalenciaMedidaController implements GenericoController<Tab
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid TablaEquivalenciaMedida _tabla) {
         TablaEquivalenciaMedida tabla=servicio.crear(_tabla);
-        try {
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tabla);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tabla);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -76,6 +72,18 @@ public class TablaEquivalenciaMedidaController implements GenericoController<Tab
         try {
             TablaEquivalenciaMedida tabla=servicio.eliminar(new TablaEquivalenciaMedida(id));
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tabla);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        }catch(Exception e){
+            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
+            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestBody TablaEquivalenciaMedida tem) {
+        try {
+        	List<TablaEquivalenciaMedida> tems=servicio.buscar(tem);
+            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, tems);
             return new ResponseEntity<>(respuesta, HttpStatus.OK);
         }catch(Exception e){
             Respuesta respuesta = new Respuesta(false, e.getMessage(), null);

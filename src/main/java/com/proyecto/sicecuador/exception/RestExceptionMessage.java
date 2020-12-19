@@ -7,28 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 public class RestExceptionMessage {
-    private HttpStatus status;
     private String message;
     private List<String> errors;
     private Date timestamp;
 
-    public RestExceptionMessage(HttpStatus status, String message, List<String> errors) {
-        this.status = status;
+    public RestExceptionMessage(String message, List<String> errors) {
         this.message = message;
         this.errors = errors;
         this.timestamp = new Date();
-    }
-
-    public RestExceptionMessage(HttpStatus status, String message) {
-        this(status, message, new ArrayList<String>());
-    }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(HttpStatus status) {
-        this.status = status;
     }
 
     public String getMessage() {

@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.repositorios.interf.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Telefono;
 import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

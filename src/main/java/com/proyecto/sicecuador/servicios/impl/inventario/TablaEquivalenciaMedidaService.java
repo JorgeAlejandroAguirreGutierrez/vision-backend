@@ -1,13 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
-import com.proyecto.sicecuador.modelos.inventario.Medida;
-import com.proyecto.sicecuador.modelos.inventario.Producto;
+import com.proyecto.sicecuador.exception.ModeloExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.TablaEquivalenciaMedida;
-import com.proyecto.sicecuador.repositorios.interf.inventario.IBodegaRepository;
+import com.proyecto.sicecuador.otros.Util;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITablaEquivalenciaMedidaRepository;
-import com.proyecto.sicecuador.servicios.interf.inventario.IBodegaService;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITablaEquivalenciaMedidaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,6 +25,10 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     private ITablaEquivalenciaMedidaRepository rep;
     @Override
     public TablaEquivalenciaMedida crear(TablaEquivalenciaMedida tabla) {
+    	Optional<TablaEquivalenciaMedida> tem= this.obtenerMedida1Medida2(tabla);
+    	if(tem.isPresent()) {
+    		throw new ModeloExistenteException();
+    	}
         return rep.save(tabla);
     }
 
@@ -69,6 +70,29 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
             }
         });
         return tabla;
+    }
+    
+    @Override
+    public List<TablaEquivalenciaMedida> buscar(TablaEquivalenciaMedida tem) {
+        return  rep.findAll(new Specification<TablaEquivalenciaMedida>() {
+            @Override
+            public Predicate toPredicate(Root<TablaEquivalenciaMedida> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (!tem.getCodigo().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo").get("codigo"), "%"+tem.getCodigo()+"%")));
+                }
+                if (!tem.getMedida1().getDescripcion().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("medida1").get("descripcion"), "%"+tem.getMedida1().getDescripcion()+"%")));
+                }
+                if (!tem.getMedida2().getDescripcion().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("medida2").get("descripcion"), "%"+tem.getMedida2().getDescripcion()+"%")));
+                }
+                if (tem.getEquivalencia()!=0) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("equivalencia"), "%"+tem.getEquivalencia()+"%")));
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
     }
 
     @Override

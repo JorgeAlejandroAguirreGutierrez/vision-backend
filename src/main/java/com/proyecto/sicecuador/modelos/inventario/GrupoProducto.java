@@ -13,7 +13,7 @@ import java.util.List;
 public class GrupoProducto extends Entidad {
     @Column(name = "nombre", nullable = true)
     private String nombre;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "grupo_producto_id")
     private List<SubGrupoProducto> sub_grupos_productos;
 
@@ -37,8 +37,8 @@ public class GrupoProducto extends Entidad {
     public String getNombre() {
         return nombre;
     }
-    @JsonManagedReference
-    public List<SubGrupoProducto> getSub_grupos_productos() {
-        return sub_grupos_productos;
-    }
+    
+    public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 }

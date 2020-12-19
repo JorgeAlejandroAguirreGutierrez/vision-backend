@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.PresentacionProductoUtil;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -29,12 +31,23 @@ public class PresentacionProducto extends Entidad {
         this.nombre=nombre;
         this.sub_linea_producto=sub_linea_producto;
     }
+    
+    public PresentacionProducto(List<String>datos) {
+    	
+    }
 
     public String getNombre() {
         return nombre;
     }
-    @JsonBackReference
+    
+    public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+    
     public SubLineaProducto getSub_linea_producto() {
         return sub_linea_producto;
     }
+    public void setSub_linea_producto(SubLineaProducto sub_linea_producto) {
+		this.sub_linea_producto = sub_linea_producto;
+	}
 }

@@ -17,8 +17,8 @@ public class CategoriaProducto extends Entidad {
     @ManyToOne
     @JoinColumn(name = "sub_grupo_producto_id", nullable = true)
     private SubGrupoProducto sub_grupo_producto;
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "categoria_producto_id")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinColumn(name = "categoria_producto_id", nullable = true)
     private List<LineaProducto> lineas_productos;
 
     public CategoriaProducto(){
@@ -42,12 +42,16 @@ public class CategoriaProducto extends Entidad {
     public String getNombre() {
         return nombre;
     }
-    @JsonManagedReference
-    public List<LineaProducto> getLineas_productos() {
-        return lineas_productos;
-    }
-    @JsonBackReference
+    
+    public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
     public SubGrupoProducto getSub_grupo_producto() {
         return sub_grupo_producto;
     }
+    
+    public void setSub_grupo_producto(SubGrupoProducto sub_grupo_producto) {
+		this.sub_grupo_producto = sub_grupo_producto;
+	}
 }
