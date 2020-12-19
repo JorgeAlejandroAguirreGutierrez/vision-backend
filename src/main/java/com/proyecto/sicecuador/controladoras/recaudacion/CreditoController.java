@@ -1,10 +1,10 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.credito;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
-import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
@@ -13,18 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/sicecuador/credito")
+@RequestMapping(contexto+credito)
 public class CreditoController implements GenericoController<Credito> {
     @Autowired
     private ICreditoService servicio;

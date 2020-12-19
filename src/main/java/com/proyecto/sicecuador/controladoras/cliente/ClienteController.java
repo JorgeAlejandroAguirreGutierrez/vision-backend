@@ -1,26 +1,25 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.cliente;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/sicecuador/cliente")
+@RequestMapping(contexto+cliente)
 public class ClienteController implements GenericoController<Cliente> {
     @Autowired
     private IClienteService servicio;

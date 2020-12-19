@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.medida_precio;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -15,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping("/api/sicecuador/medidaprecio")
+@RequestMapping(contexto+medida_precio)
 public class MedidaPrecioController implements GenericoController<MedidaPrecio> {
     @Autowired
     private IMedidaPrecioService servicio;

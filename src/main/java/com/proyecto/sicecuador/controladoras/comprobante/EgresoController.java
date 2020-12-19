@@ -1,23 +1,23 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.egreso;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.comprobante.Egreso;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IEgresoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping("/api/sicecuador/egreso")
+@RequestMapping(contexto+egreso)
 public class EgresoController implements GenericoController<Egreso> {
     @Autowired
     private IEgresoService servicio;

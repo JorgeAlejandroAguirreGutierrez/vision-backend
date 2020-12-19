@@ -1,9 +1,10 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.tabla_equivalencia_medida;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.TablaEquivalenciaMedida;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITablaEquivalenciaMedidaService;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sicecuador/tablaequivalenciamedida")
+@RequestMapping(contexto+tabla_equivalencia_medida)
 public class TablaEquivalenciaMedidaController implements GenericoController<TablaEquivalenciaMedida> {
     @Autowired
     private ITablaEquivalenciaMedidaService servicio;

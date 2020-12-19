@@ -1,16 +1,16 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.segmento;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
-import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
 import com.proyecto.sicecuador.servicios.interf.inventario.ISegmentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/sicecuador/segmento")
+@RequestMapping(contexto+segmento)
 public class SegmentoController implements GenericoController<Segmento> {
     @Autowired
     private ISegmentoService servicio;

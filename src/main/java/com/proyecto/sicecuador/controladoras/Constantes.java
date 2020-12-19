@@ -1,8 +1,5 @@
 package com.proyecto.sicecuador.controladoras;
 
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -41,7 +38,7 @@ public class Constantes {
     public static final String periodo_mensual="MENSUAL";
     public static final String periodo_trimestral="TRIMESTRAL";
 
-    public Map<String, String> modelos=new HashMap<String, String>() {{
+    public static Map<String, String> modelos=new HashMap<String, String>() {{
         //CLIENTE
         modelos.put("AUXILIAR", "Auxiliar");
         modelos.put("CATEGORIA_CLIENTE", "Categoria Cliente");
@@ -198,5 +195,6 @@ public class Constantes {
             }
         }
         return false;
-    }
+    } 
+    
 }

@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.direccion;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping("/api/sicecuador/direccion")
+@RequestMapping(contexto+direccion)
 public class DireccionController implements GenericoController<Direccion> {
     @Autowired
     private IDireccionService servicio;

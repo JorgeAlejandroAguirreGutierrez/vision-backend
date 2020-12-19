@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.auxiliar;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -14,10 +16,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping("/api/sicecuador/auxiliar")
+@RequestMapping(contexto+auxiliar)
 public class AuxiliarController implements GenericoController<Auxiliar> {
     @Autowired
     private IAuxiliarService servicio;

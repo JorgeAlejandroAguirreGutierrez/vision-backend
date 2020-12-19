@@ -1,16 +1,16 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.cuenta_propia;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
-import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 @RestController
-@RequestMapping("/api/sicecuador/cuentapropia")
+@RequestMapping(contexto+cuenta_propia)
 public class CuentaPropiaController implements GenericoController<CuentaPropia> {
     @Autowired
     private ICuentaPropiaService servicio;

@@ -1,23 +1,23 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.retencion_cliente;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.IRetencionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping("/api/sicecuador/retencioncliente")
+@RequestMapping(contexto+retencion_cliente)
 public class RetencionClienteController implements GenericoController<RetencionCliente> {
     @Autowired
     private IRetencionClienteService servicio;

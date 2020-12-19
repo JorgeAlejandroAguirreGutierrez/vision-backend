@@ -1,17 +1,16 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.linea_producto;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.inventario.Impuesto;
 import com.proyecto.sicecuador.modelos.inventario.LineaProducto;
-import com.proyecto.sicecuador.servicios.interf.inventario.IImpuestoService;
 import com.proyecto.sicecuador.servicios.interf.inventario.ILineaProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/sicecuador/lineaproducto")
+@RequestMapping(contexto+linea_producto)
 public class LineaProductoController implements GenericoController<LineaProducto> {
     @Autowired
     private ILineaProductoService servicio;

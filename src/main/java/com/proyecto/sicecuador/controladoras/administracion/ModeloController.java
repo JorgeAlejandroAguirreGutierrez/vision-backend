@@ -1,5 +1,8 @@
 package com.proyecto.sicecuador.controladoras.administracion;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.modelo;
+
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.administracion.Modelo;
@@ -14,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping("/api/sicecuador/modelo")
+@RequestMapping(contexto+modelo)
 public class ModeloController {
     @Autowired
     private IModeloService servicio;

@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.presentacion_producto;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -16,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sicecuador/presentacionproducto")
+@RequestMapping(contexto+presentacion_producto)
 public class PresentacionProductoController implements GenericoController<PresentacionProducto> {
     @Autowired
     private IPresentacionProductoService servicio;

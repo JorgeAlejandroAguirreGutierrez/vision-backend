@@ -35,13 +35,13 @@ public class Auxiliar extends Entidad {
     private Cliente cliente;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
-    private List<TelefonoAuxiliar> telefonos;
+    private List<TelefonoAuxiliar> telefonos_auxiliar;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
-    private List<CelularAuxiliar> celulares;
+    private List<CelularAuxiliar> celulares_auxiliar;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
-    private List<CorreoAuxiliar> correos;
+    private List<CorreoAuxiliar> correos_auxiliar;
 
     public Auxiliar(){
 
@@ -101,15 +101,15 @@ public class Auxiliar extends Entidad {
     }
 
     @JsonManagedReference
-    public List<TelefonoAuxiliar> getTelefonos() {
-        return telefonos;
-    }
+    public List<TelefonoAuxiliar> getTelefonos_auxiliar() {
+		return telefonos_auxiliar;
+	}
     @JsonManagedReference
-    public List<CelularAuxiliar> getCelulares() {
-        return celulares;
-    }
+    public List<CelularAuxiliar> getCelulares_auxiliar() {
+		return celulares_auxiliar;
+	}
     @JsonManagedReference
-    public List<CorreoAuxiliar> getCorreos() {
-        return correos;
-    }
+    public List<CorreoAuxiliar> getCorreos_auxiliar() {
+		return correos_auxiliar;
+	}
 }
