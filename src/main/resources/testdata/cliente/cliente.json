@@ -1,7 +1,7 @@
 {
         "tipo_identificacion": "C",
-        "identificacion": "1768038860001",
-        "razon_social": "CLIENTE A",
+        "identificacion": "1713580221",
+        "razon_social": "CLIENTE PRUEBA AUT",
         "especial": true,
         "estado": true,
         "eliminado": false,
@@ -49,7 +49,7 @@
         },
         "auxiliares": [
             {
-                "razon_social": "AUXILIAR 1 DE CLIENTE A",
+                "razon_social": "AUXILIAR 1 DE CLIENTE PRUEBA AUT",
                 "estado": true,
                 "eliminado": false,
                 "direccion": {
@@ -80,15 +80,15 @@
                 ],
                 "correos_auxiliar": [
                     {
-                        "email": "AUXILIAR1@GMAIL.COM"
+                        "email": "AUXILIARPRUEBA1@GMAIL.COM"
                     },
                     {
-                        "email": "AUXILIAR11@GMAIL.COM"
+                        "email": "AUXILIAR1PRUEBA2@GMAIL.COM"
                     }
                 ]
             },
             {
-                "razon_social": "AUXILIAR 2 DE CLIENTE A",
+                "razon_social": "AUXILIAR 2 DE CLIENTE PRUEBA AUT",
                 "estado": true,
                 "eliminado": false,
                 "direccion": {
@@ -116,7 +116,7 @@
                 ],
                 "correos_auxiliar": [
                     {
-                        "email": "AUXILIAR2@GMAIL.COM"
+                        "email": "AUXILIAR2PRUEBA@GMAIL.COM"
                     }
                 ]
             }
@@ -136,7 +136,7 @@
         ],
         "correos": [
             {
-                "email": "je.hidalgob@hotmail.com"
+                "email": "CLIENTEPRUEBAAUT@GMAIL.COM"
             }
         ],
         "retenciones_cliente": [

@@ -24,73 +24,43 @@ public class TipoPagoController implements GenericoController<TipoPago> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<TipoPago> tipos_pagos = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_pagos);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<TipoPago> tipos_pagos = servicio.consultar();
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_pagos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            TipoPago tipo_pago=servicio.obtener(new TipoPago(id)).get();
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_pago);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        } catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        TipoPago tipo_pago=servicio.obtener(new TipoPago(id)).get();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_pago);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid TipoPago _tipoPago) {
-        try {
-            TipoPago tipo_pago=servicio.crear(_tipoPago);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_pago);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        TipoPago tipo_pago=servicio.crear(_tipoPago);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_pago);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody TipoPago _TipoPago) {
-        try {
-            TipoPago tipo_pago=servicio.actualizar(_TipoPago);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_pago);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        TipoPago tipo_pago=servicio.actualizar(_TipoPago);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_pago);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            TipoPago tipo_pago=servicio.eliminar(new TipoPago(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_pago);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        TipoPago tipo_pago=servicio.eliminar(new TipoPago(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_pago);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        try {
-            boolean bandera=servicio.importar(archivo);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        boolean bandera=servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

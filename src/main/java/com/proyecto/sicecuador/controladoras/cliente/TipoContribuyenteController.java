@@ -24,73 +24,43 @@ public class TipoContribuyenteController implements GenericoController<TipoContr
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<TipoContribuyente> tipos_contribuyentes = servicio.consultar();
-            Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_contribuyentes);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<TipoContribuyente> tipos_contribuyentes = servicio.consultar();
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_contribuyentes);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            TipoContribuyente tipo_contribuyente=servicio.obtener(new TipoContribuyente(id)).get();
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_contribuyente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        } catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        TipoContribuyente tipo_contribuyente=servicio.obtener(new TipoContribuyente(id)).get();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_contribuyente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid TipoContribuyente _tipoContribuyente) {
-        try {
-            TipoContribuyente tipo_contribuyente=servicio.crear(_tipoContribuyente);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_contribuyente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        TipoContribuyente tipo_contribuyente=servicio.crear(_tipoContribuyente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_contribuyente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody TipoContribuyente _TipoContribuyente) {
-        try {
-            TipoContribuyente tipo_contribuyente=servicio.actualizar(_TipoContribuyente);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_contribuyente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        TipoContribuyente tipo_contribuyente=servicio.actualizar(_TipoContribuyente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_contribuyente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            TipoContribuyente tipo_contribuyente=servicio.eliminar(new TipoContribuyente(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_contribuyente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        TipoContribuyente tipo_contribuyente=servicio.eliminar(new TipoContribuyente(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_contribuyente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        try {
-            boolean bandera=servicio.importar(archivo);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        boolean bandera=servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

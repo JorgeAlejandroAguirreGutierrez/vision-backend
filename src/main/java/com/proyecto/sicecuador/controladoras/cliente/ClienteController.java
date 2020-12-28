@@ -26,39 +26,24 @@ public class ClienteController implements GenericoController<Cliente> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<Cliente> clientes=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Cliente> clientes=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            Optional<Cliente> cliente=servicio.obtener(new Cliente(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cliente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Optional<Cliente> cliente=servicio.obtener(new Cliente(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Cliente _cliente) {
-        try {
-            _cliente.normalizar();
-            Cliente cliente=servicio.crear(_cliente);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cliente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        _cliente.normalizar();
+        Cliente cliente=servicio.crear(_cliente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,95 +56,59 @@ public class ClienteController implements GenericoController<Cliente> {
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            Cliente cliente=servicio.eliminar(new Cliente(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, cliente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Cliente cliente=servicio.eliminar(new Cliente(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/identificacion/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerIdentificacion(@PathVariable("identificacion") String identificacion) {
-        try {
-            Cliente cliente=new Cliente();
-            cliente.setIdentificacion(identificacion);
-            Optional<Cliente> _cliente=servicio.obtenerIdentificacion(cliente);
-            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Cliente cliente=new Cliente();
+        cliente.setIdentificacion(identificacion);
+        Optional<Cliente> _cliente=servicio.obtenerIdentificacion(cliente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/razonsocial/{razonsocial}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerRazonSocial(@PathVariable("razonsocial") String razon_social) {
-        try {
-            Cliente cliente=new Cliente();
-            cliente.setRazon_social(razon_social);
-            Optional<Cliente> _cliente=servicio.obtenerRazonSocial(cliente);
-            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Cliente cliente=new Cliente();
+        cliente.setRazon_social(razon_social);
+        Optional<Cliente> _cliente=servicio.obtenerRazonSocial(cliente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/buscar/razonsocial/{razonsocial}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarRazonSocial(@PathVariable("razonsocial") String razon_social) {
-        try {
-            Cliente cliente=new Cliente();
-            cliente.setRazon_social(razon_social);
-            List<Cliente> _cliente=servicio.consultarRazonSocial(cliente);
-            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Cliente cliente=new Cliente();
+        cliente.setRazon_social(razon_social);
+        List<Cliente> _cliente=servicio.consultarRazonSocial(cliente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/buscar/identificacion/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarIdentificacion(@PathVariable("identificacion") String identificacion) {
-        try {
-            Cliente cliente=new Cliente();
-            cliente.setIdentificacion(identificacion);
-            List<Cliente> _cliente=servicio.consultarIdentificacion(cliente);
-            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Cliente cliente=new Cliente();
+        cliente.setIdentificacion(identificacion);
+        List<Cliente> _cliente=servicio.consultarIdentificacion(cliente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/identificacion/validar/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> validarIdentificacion(@PathVariable("identificacion") String identificacion) {
-        try {
-            Cliente cliente=new Cliente();
-            cliente.setIdentificacion(identificacion);
-            Optional<Cliente> _cliente=servicio.validarIdentificacion(cliente);
-            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Cliente cliente=new Cliente();
+        cliente.setIdentificacion(identificacion);
+        Optional<Cliente> _cliente=servicio.validarIdentificacion(cliente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        try {
-            boolean bandera=servicio.importar(archivo);
-            if(bandera){
-                Respuesta respuesta=new Respuesta(true,Constantes.mensaje_importacion_exitoso, bandera);
-                return new ResponseEntity<>(respuesta, HttpStatus.OK);
-            }
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_importacion_fallido, bandera);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+	    boolean bandera=servicio.importar(archivo);
+	    if(bandera){
+	        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_importacion_exitoso, bandera);
+	        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+	    }
+	    Respuesta respuesta=new Respuesta(true,Constantes.mensaje_importacion_fallido, bandera);
+	    return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

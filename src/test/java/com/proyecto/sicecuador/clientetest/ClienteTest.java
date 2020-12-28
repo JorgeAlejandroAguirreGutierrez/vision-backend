@@ -12,6 +12,9 @@ import com.google.gson.stream.JsonReader;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_cliente;
+
 import static org.hamcrest.Matchers.*;
 
 import org.junit.AfterClass;
@@ -19,12 +22,12 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -65,7 +68,7 @@ public class ClienteTest {
     	Gson gson = new Gson();
     	JsonReader reader = new JsonReader(new FileReader(filename));
     	Cliente cliente= gson.fromJson(reader, Cliente.class);
-    	MvcResult result=this.mockMvc.perform(post("/api/sicecuador/cliente").contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+    	MvcResult result=this.mockMvc.perform(post(contexto+path_cliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
                 .content(asJsonString(cliente)))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -74,7 +77,7 @@ public class ClienteTest {
     }
     @Test
     public void testA2WhenFindAllClienteSuccess() throws Exception {
-        this.mockMvc.perform(get("/api/sicecuador/cliente").header("Authorization", "Bearer " + token)
+        this.mockMvc.perform(get(contexto+path_cliente).header("Authorization", "Bearer " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
@@ -82,7 +85,7 @@ public class ClienteTest {
     
     @Test
     public void testA3WhenFindByIdClienteSuccess() throws Exception {
-    	this.mockMvc.perform(get("/api/sicecuador/cliente/"+createCliente.getId()).header("Authorization", "Bearer " + token)
+    	this.mockMvc.perform(get(contexto+path_cliente+"/"+createCliente.getId()).header("Authorization", "Bearer " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
@@ -91,7 +94,7 @@ public class ClienteTest {
     @Test
     public void testA4WhenUpdateClienteSuccess() throws Exception {
     	createCliente.setCodigo("CL_U01");
-    	MvcResult result=this.mockMvc.perform(put("/api/sicecuador/cliente").contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+    	MvcResult result=this.mockMvc.perform(put(contexto+path_cliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
                 .content(asJsonString(createCliente)))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -101,6 +104,7 @@ public class ClienteTest {
     
     @AfterClass
     public static void after() throws Exception {
+    	clienteRepository.deleteById(createCliente.getId());
     }
     
     public static String asJsonString(final Object obj) {

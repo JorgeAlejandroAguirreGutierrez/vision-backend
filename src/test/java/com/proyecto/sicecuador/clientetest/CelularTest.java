@@ -101,6 +101,7 @@ public class CelularTest {
     
     @AfterClass
     public static void after() throws Exception {
+    	celularRepository.deleteById(createCelular.getId());
     }
     
     public static String asJsonString(final Object obj) {

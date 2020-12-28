@@ -2,8 +2,6 @@ package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
-import com.proyecto.sicecuador.otros.cliente.CorreoUtil;
 
 import javax.persistence.*;
 import java.util.List;
