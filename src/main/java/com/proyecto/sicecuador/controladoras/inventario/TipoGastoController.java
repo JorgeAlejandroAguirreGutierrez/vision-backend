@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.tipo_gasto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_tipo_gasto;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+tipo_gasto)
+@RequestMapping(contexto+path_tipo_gasto)
 public class TipoGastoController implements GenericoController<TipoGasto> {
     @Autowired
     private ITipoGastoService servicio;

@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.plazo_credito;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_plazo_credito;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+plazo_credito)
+@RequestMapping(contexto+path_plazo_credito)
 public class PlazoCreditoController implements GenericoController<PlazoCredito> {
     @Autowired
     private IPlazoCreditoService servicio;

@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.genero;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_genero;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+genero)
+@RequestMapping(contexto+path_genero)
 public class GeneroController implements GenericoController<Genero> {
     @Autowired
     private IGeneroService servicio;

@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.bodega;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_bodega;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+bodega)
+@RequestMapping(contexto+path_bodega)
 public class BodegaController implements GenericoController<Bodega> {
     @Autowired
     private IBodegaService servicio;

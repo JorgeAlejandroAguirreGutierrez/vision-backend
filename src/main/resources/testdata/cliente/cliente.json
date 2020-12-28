@@ -1,0 +1,164 @@
+{
+        "tipo_identificacion": "C",
+        "identificacion": "1768038860001",
+        "razon_social": "CLIENTE A",
+        "especial": true,
+        "estado": true,
+        "eliminado": false,
+        "tipo_contribuyente": {
+            "id": 1
+        },
+        "punto_venta": {
+            "id": 1
+        },
+        "grupo_cliente": {
+            "id": 1
+        },
+        "direccion": {
+            "direccion": "CALLE 1 Y CALLE 2",
+            "referencia": "FRENTE AL PARQUE CENTRAL",
+            "latitudgeo": "0",
+            "longitudgeo": "0",
+            "ubicacion": {
+                "id": 1
+            }
+        },
+        "financiamiento": {
+            "monto": 100.2,
+            "tipo_pago": {
+                "id": 1
+            },
+            "forma_pago": {
+                "id": 1
+            },
+            "plazo_credito": {
+                "id": 1
+            }
+        },
+        "genero": {
+            "id": 2
+        },
+        "estado_civil": {
+            "id": 2
+        },
+        "categoria_cliente": {
+            "id": 1
+        },
+        "origen_ingreso": {
+            "id": 1
+        },
+        "auxiliares": [
+            {
+                "razon_social": "AUXILIAR 1 DE CLIENTE A",
+                "estado": true,
+                "eliminado": false,
+                "direccion": {
+                    "id": 4,
+                    "direccion": "CALLE 7 Y CALLE 8",
+                    "referencia": "JUNTO AL TERMINAL",
+                    "latitudgeo": "0",
+                    "longitudgeo": "0",
+                    "ubicacion": {
+                        "id": 1
+                    }
+                },
+                "telefonos_auxiliar": [
+                    {
+                        "numero": "032964121"
+                    },
+                    {
+                        "numero": "032964122"
+                    }
+                ],
+                "celulares_auxiliar": [
+                    {
+                        "numero": "0987654322"
+                    },
+                    {
+                        "numero": "0981234563"
+                    }
+                ],
+                "correos_auxiliar": [
+                    {
+                        "email": "AUXILIAR1@GMAIL.COM"
+                    },
+                    {
+                        "email": "AUXILIAR11@GMAIL.COM"
+                    }
+                ]
+            },
+            {
+                "razon_social": "AUXILIAR 2 DE CLIENTE A",
+                "estado": true,
+                "eliminado": false,
+                "direccion": {
+                    "id": 5,
+                    "direccion": "CALLE 7 Y CALLE 8",
+                    "referencia": "JUNTO AL COLISEO",
+                    "latitudgeo": "0",
+                    "longitudgeo": "0",
+                    "ubicacion": {
+                        "id": 2
+                    }
+                },
+                "telefonos_auxiliar": [
+                    {
+                        "numero": "032964123"
+                    }
+                ],
+                "celulares_auxiliar": [
+                    {
+                        "numero": "0965431235"
+                    },
+                    {
+                        "numero": "0965431236"
+                    }
+                ],
+                "correos_auxiliar": [
+                    {
+                        "email": "AUXILIAR2@GMAIL.COM"
+                    }
+                ]
+            }
+        ],
+        "telefonos": [
+            {
+                "numero": "032964123"
+            }
+        ],
+        "celulares": [
+            {
+                "numero": "0987654321"
+            },
+            {
+                "numero": "0981234567"
+            }
+        ],
+        "correos": [
+            {
+                "email": "je.hidalgob@hotmail.com"
+            }
+        ],
+        "retenciones_cliente": [
+            {
+                "tipo_retencion": {
+                    "id": 1
+                }
+            },
+            {
+                "tipo_retencion": {
+                    "id": 3
+                }
+            },
+            {
+                "tipo_retencion": {
+                    "id": 2
+                }
+            },
+            {
+                "tipo_retencion": {
+                    "id": 4
+                }
+            }
+        ]
+    }

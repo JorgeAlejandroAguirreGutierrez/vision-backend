@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.forma_pago;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_forma_pago;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+forma_pago)
+@RequestMapping(contexto+path_forma_pago)
 public class FormaPagoController implements GenericoController<FormaPago> {
     @Autowired
     private IFormaPagoService servicio;

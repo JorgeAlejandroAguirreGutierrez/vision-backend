@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.amortizacion;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_amortizacion;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+amortizacion)
+@RequestMapping(contexto+path_amortizacion)
 public class AmortizacionController implements GenericoController<Amortizacion> {
     @Autowired
     private IAmortizacionService servicio;

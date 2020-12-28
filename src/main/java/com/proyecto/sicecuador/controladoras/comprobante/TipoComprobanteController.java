@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.tipo_comprobante;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_tipo_comprobante;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+tipo_comprobante)
+@RequestMapping(contexto+path_tipo_comprobante)
 public class TipoComprobanteController implements GenericoController<TipoComprobante> {
 
     @Autowired

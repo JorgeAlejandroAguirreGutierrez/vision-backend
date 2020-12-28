@@ -1,7 +1,5 @@
 package com.proyecto.sicecuador.clientetest;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_categoria_cliente;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -10,11 +8,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
-import com.proyecto.sicecuador.repositorios.interf.cliente.ICategoriaClienteRepository;
+import com.proyecto.sicecuador.modelos.cliente.Celular;
+import com.proyecto.sicecuador.repositorios.interf.cliente.ICelularRepository;
 
 import static org.hamcrest.Matchers.*;
 
@@ -23,12 +19,12 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -39,20 +35,20 @@ import java.util.Base64;
 @SpringBootTest
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CategoriaClienteTest {
+public class CelularTest {
 	
 	@Autowired
     private MockMvc mockMvc;
 	
 	private static String token;
     
-    private static CategoriaCliente createCategoriaCliente;
+    private static Celular createCelular;
     
-    private static ICategoriaClienteRepository categoriaClienteRepository;
+    private static ICelularRepository celularRepository;
     
     @Autowired
-    public void setCategoriaClienteRepository (ICategoriaClienteRepository a) {
-    	categoriaClienteRepository= a;
+    public void setAuxiliarRepository (ICelularRepository c) {
+    	celularRepository= c;
     }
     
     @BeforeClass
@@ -64,53 +60,47 @@ public class CategoriaClienteTest {
     }
 
     @Test
-    public void testA1WhenCreateCategoriaClienteSuccess() throws Exception {
-    	String filename = CategoriaClienteTest.class.getResource("/testdata/cliente/categoria_cliente.json").getPath();
-    	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
+    public void testA1WhenCreateCelularSuccess() throws Exception {
+    	String filename = CelularTest.class.getResource("/testdata/cliente/celular.json").getPath();
+    	Gson gson = new Gson();
     	JsonReader reader = new JsonReader(new FileReader(filename));
-    	CategoriaCliente categoria_cliente= gson.fromJson(reader, CategoriaCliente.class);
-    	MvcResult result=this.mockMvc.perform(post(contexto+path_categoria_cliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
-                .content(asJsonString(categoria_cliente)))
+    	Celular celular= gson.fromJson(reader, Celular.class);
+    	MvcResult result=this.mockMvc.perform(post("/api/sicecuador/celular").contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+                .content(asJsonString(celular)))
                 .andExpect(status().isOk())
                 .andReturn();
         String json = result.getResponse().getContentAsString();
-        Respuesta respuesta= gson.fromJson(json, Respuesta.class);
-    	String objeto= gson.toJson(respuesta.getResultado());
-    	createCategoriaCliente=gson.fromJson(objeto, CategoriaCliente.class);
+    	createCelular= new ObjectMapper().readValue(json, Celular.class);
     }
     @Test
-    public void testA2WhenFindAllCategoriaClienteSuccess() throws Exception {
-        this.mockMvc.perform(get(contexto+path_categoria_cliente).header("Authorization", "Basic " + token)
+    public void testA2WhenFindAllCelularSuccess() throws Exception {
+        this.mockMvc.perform(get("/api/sicecuador/celular").header("Authorization", "Bearer " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
     }
     
     @Test
-    public void testA3WhenFindByIdCategoriaClienteSuccess() throws Exception {
-    	this.mockMvc.perform(get(contexto+path_categoria_cliente+"/"+createCategoriaCliente.getId()).header("Authorization", "Basic " + token)
+    public void testA3WhenFindByIdCelularSuccess() throws Exception {
+    	this.mockMvc.perform(get("/api/sicecuador/celular/"+createCelular.getId()).header("Authorization", "Bearer " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
     }
     
     @Test
-    public void testA4WhenUpdateCategoriaClienteSuccess() throws Exception {
-    	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
-    	createCategoriaCliente.setCodigo("CAT_U01");
-    	MvcResult result=this.mockMvc.perform(put(contexto+path_categoria_cliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
-                .content(asJsonString(createCategoriaCliente)))
+    public void testA4WhenUpdateCelularSuccess() throws Exception {
+    	createCelular.setCodigo("CEL_U01");
+    	MvcResult result=this.mockMvc.perform(put("/api/sicecuador/celular").contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+                .content(asJsonString(createCelular)))
                 .andExpect(status().isOk())
                 .andReturn();
-    	String json = result.getResponse().getContentAsString();
-        Respuesta respuesta= gson.fromJson(json, Respuesta.class);
-    	String objeto= gson.toJson(respuesta.getResultado());
-    	createCategoriaCliente=gson.fromJson(objeto, CategoriaCliente.class);
+        String json = result.getResponse().getContentAsString();
+    	createCelular= new ObjectMapper().readValue(json, Celular.class);
     }
     
     @AfterClass
     public static void after() throws Exception {
-    	categoriaClienteRepository.deleteById(createCategoriaCliente.getId());
     }
     
     public static String asJsonString(final Object obj) {

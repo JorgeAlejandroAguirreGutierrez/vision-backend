@@ -8,6 +8,10 @@ public class Respuesta {
     private boolean exito;
     private String mensaje;
     private Object resultado;
+    
+    public Respuesta() {
+    	
+    }
 
     public Respuesta(boolean exito, String mensaje,  Object resultado) {
         this.exito=exito;

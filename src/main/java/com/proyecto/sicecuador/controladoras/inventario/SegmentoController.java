@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.segmento;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_segmento;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+segmento)
+@RequestMapping(contexto+path_segmento)
 public class SegmentoController implements GenericoController<Segmento> {
     @Autowired
     private ISegmentoService servicio;

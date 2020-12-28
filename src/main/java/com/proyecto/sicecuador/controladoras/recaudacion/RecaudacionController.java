@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.recaudacion;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_recaudacion;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(contexto+recaudacion)
+@RequestMapping(contexto+path_recaudacion)
 public class RecaudacionController implements GenericoController<Recaudacion> {
     @Autowired
     private IRecaudacionService servicio;

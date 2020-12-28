@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.linea_producto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_linea_producto;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+linea_producto)
+@RequestMapping(contexto+path_linea_producto)
 public class LineaProductoController implements GenericoController<LineaProducto> {
     @Autowired
     private ILineaProductoService servicio;

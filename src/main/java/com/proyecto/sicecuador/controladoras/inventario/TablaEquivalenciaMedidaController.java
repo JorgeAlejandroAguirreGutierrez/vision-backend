@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.tabla_equivalencia_medida;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_tabla_equivalencia_medida;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(contexto+tabla_equivalencia_medida)
+@RequestMapping(contexto+path_tabla_equivalencia_medida)
 public class TablaEquivalenciaMedidaController implements GenericoController<TablaEquivalenciaMedida> {
     @Autowired
     private ITablaEquivalenciaMedidaService servicio;

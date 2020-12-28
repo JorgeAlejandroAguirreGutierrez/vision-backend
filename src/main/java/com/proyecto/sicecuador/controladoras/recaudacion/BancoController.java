@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.banco;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_banco;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(contexto+banco)
+@RequestMapping(contexto+path_banco)
 public class BancoController implements GenericoController<Banco> {
     @Autowired
     private IBancoService servicio;

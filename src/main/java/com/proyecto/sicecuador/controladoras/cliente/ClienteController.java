@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.cliente;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_cliente;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+cliente)
+@RequestMapping(contexto+path_cliente)
 public class ClienteController implements GenericoController<Cliente> {
     @Autowired
     private IClienteService servicio;

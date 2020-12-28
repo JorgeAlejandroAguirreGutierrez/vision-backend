@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.factura;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_factura;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+factura)
+@RequestMapping(contexto+path_factura)
 public class FacturaController implements GenericoController<Factura> {
     @Autowired
     private IFacturaService servicio;

@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.usuario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.permiso;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_permiso;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+permiso)
+@RequestMapping(contexto+path_permiso)
 public class PermisoController implements GenericoController<Permiso> {
     @Autowired
     private IPermisoService servicio;

@@ -2,7 +2,7 @@ package com.proyecto.sicecuador.modelos;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -15,13 +15,13 @@ public class Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "fecha_creacion", nullable = true)
-    private Date fecha_creacion;
+    private Timestamp fecha_creacion;
     @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "fecha_actualizacion", nullable = true)
-    private Date fecha_actualizacion;
+    private Timestamp fecha_actualizacion;
 
     public Entidad(){
 

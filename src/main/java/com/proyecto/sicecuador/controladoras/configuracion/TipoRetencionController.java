@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.configuracion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.tipo_retencion;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_tipo_retencion;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+tipo_retencion)
+@RequestMapping(contexto+path_tipo_retencion)
 public class TipoRetencionController implements GenericoController<TipoRetencion> {
     @Autowired
     private ITipoRetencionService servicio;

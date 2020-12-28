@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.caracteristica;
+import static com.proyecto.sicecuador.controladoras.Endpoints.path_caracteristica;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 @RestController
-@RequestMapping(contexto+caracteristica)
+@RequestMapping(contexto+path_caracteristica)
 public class CaracteristicaController implements GenericoController<Caracteristica> {
     @Autowired
     private ICaracteristicaService servicio;
