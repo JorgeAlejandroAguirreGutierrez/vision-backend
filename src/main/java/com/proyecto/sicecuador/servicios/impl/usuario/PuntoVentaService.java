@@ -1,11 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
-import com.proyecto.sicecuador.modelos.usuario.Permiso;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
-import com.proyecto.sicecuador.repositorios.interf.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IPuntoVentaRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPuntoVentaService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.TipoProductoUtil;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,10 +10,13 @@ import java.util.List;
 @Table(name = "tipo_producto")
 //@EntityListeners({TipoProductoUtil.class})
 public class TipoProducto extends Entidad {
+	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
+	@JsonProperty("tipo")
     @Column(name = "tipo", nullable = true)
     private String tipo;
+	@JsonProperty("abreviatura")
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
 

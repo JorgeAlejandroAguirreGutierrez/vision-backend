@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_operador_tarjeta;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathOperadorTarjeta;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+path_operador_tarjeta)
+@RequestMapping(contexto+pathOperadorTarjeta)
 public class OperadorTarjetaController implements GenericoController<OperadorTarjeta> {
 
     @Autowired

@@ -107,8 +107,8 @@ public class UbicacionService implements IUbicacionService {
             @Override
             public Predicate toPredicate(Root<Ubicacion> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (ubicacion.getCodigo_norma()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo_norma"), "%"+ubicacion.getCodigo_norma()+"%")));
+                if (ubicacion.getCodigoNorma()!=null) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigoNorma"), "%"+ubicacion.getCodigoNorma()+"%")));
                 }
                 if (ubicacion.getProvincia()!=null) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("provincia"), "%"+ubicacion.getProvincia()+"%")));

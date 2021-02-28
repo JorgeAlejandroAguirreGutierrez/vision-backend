@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.servicios.interf;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

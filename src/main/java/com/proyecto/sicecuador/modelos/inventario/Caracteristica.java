@@ -1,11 +1,9 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
-import com.proyecto.sicecuador.modelos.entrega.Transportista;
+import com.proyecto.sicecuador.modelos.comprobante.DetalleFactura;
 import com.proyecto.sicecuador.otros.inventario.CaracteristicaUtil;
 
 import javax.persistence.*;
@@ -15,23 +13,31 @@ import java.util.List;
 @Table(name = "caracteristica")
 @EntityListeners({CaracteristicaUtil.class})
 public class Caracteristica extends Entidad {
+	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
+	@JsonProperty("color")
     @Column(name = "color", nullable = true)
     private String color;
+	@JsonProperty("marca")
     @Column(name = "marca", nullable = true)
     private String marca;
+	@JsonProperty("modelo")
     @Column(name = "modelo", nullable = true)
     private String modelo;
+	@JsonProperty("serie")
     @Column(name = "serie", nullable = true)
     private String serie;
     @ManyToOne
+    @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
-    @JoinColumn(name = "factura_detalle_id", nullable = true)
-    private FacturaDetalle factura_detalle;
+    @JsonProperty("detalle_factura")
+    @JoinColumn(name = "detalle_factura_id", nullable = true)
+    private DetalleFactura detalleFactura;
     @ManyToOne
+    @JsonProperty("bodega")
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
 
@@ -52,7 +58,7 @@ public class Caracteristica extends Entidad {
         this.serie = serie;
         this.producto=producto;
         this.bodega=bodega;
-        this.factura_detalle=null;
+        this.detalleFactura=null;
     }
     public Caracteristica(List<String> datos){
         descripcion=datos.get(0)== null ? null: datos.get(0);
@@ -61,7 +67,7 @@ public class Caracteristica extends Entidad {
         modelo=datos.get(3)== null ? null: datos.get(3);
         serie=datos.get(4)== null ? null: datos.get(4);
         producto=datos.get(5)== null ? null: new Producto((long) Double.parseDouble(datos.get(5)));
-        factura_detalle=datos.get(6)== null ? null: new FacturaDetalle((long) Double.parseDouble(datos.get(6)));
+        detalleFactura=datos.get(6)== null ? null: new DetalleFactura((long) Double.parseDouble(datos.get(6)));
         bodega=datos.get(7)== null ? null: new Bodega((long) Double.parseDouble(datos.get(7)));
     }
 
@@ -85,14 +91,14 @@ public class Caracteristica extends Entidad {
         return serie;
     }
 
-    @JsonBackReference(value="factura-detalle-caracteristica")
-    public void setFactura_detalle(FacturaDetalle factura_detalle) {
-        this.factura_detalle = factura_detalle;
-    }
+    @JsonBackReference(value="detalle-factura-caracteristica")
+    public void setDetalleFactura(DetalleFactura detalleFactura) {
+		this.detalleFactura = detalleFactura;
+	}
 
-    public FacturaDetalle getFactura_detalle() {
-        return factura_detalle;
-    }
+    public DetalleFactura getDetalleFactura() {
+		return detalleFactura;
+	}
 
     @JsonBackReference
     public Producto getProducto() {

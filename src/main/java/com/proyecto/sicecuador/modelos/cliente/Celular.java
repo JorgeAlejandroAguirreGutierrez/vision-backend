@@ -1,13 +1,10 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.cliente.CelularUtil;
-import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -15,11 +12,12 @@ import java.util.List;
 @Entity
 @Table(name = "celular")
 public class Celular extends Entidad {
-    @NotNull(message = "Celular - Numero"+ Constantes.mensaje_validacion_not_null)
-    @NotEmpty(message = "Celular - Numero"+Constantes.mensaje_validacion_not_blank)
-    @Column(name = "numero", nullable = true)
+    @NotNull
+    @NotEmpty
+    @JsonProperty("numero")
+    @Column(name = "numero")
     private String numero;
-    @NotNull(message = "Celular - Cliente"+ Constantes.mensaje_validacion_not_null)
+    @JsonProperty("cliente")
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
@@ -50,4 +48,8 @@ public class Celular extends Entidad {
     public Cliente getCliente() {
         return cliente;
     }
+    
+    public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 }

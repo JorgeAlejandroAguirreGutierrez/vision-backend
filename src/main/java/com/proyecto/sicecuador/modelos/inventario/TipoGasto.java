@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.TipoGastoUtil;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Table(name = "tipo_gasto")
 @EntityListeners({TipoGastoUtil.class})
 public class TipoGasto extends Entidad {
+	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)
     private String nombre;
 

@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.otros.entrega;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
 import com.proyecto.sicecuador.otros.Util;
@@ -29,8 +28,8 @@ public class GuiaRemisionUtil {
         long conteo=rep.findConteoGuiaRemision();
         entidad.setCodigo(Util.generarCodigo(parametro, conteo));
         GuiaRemision guia_remision=(GuiaRemision)entidad;
-        String punto_venta=guia_remision.getFactura().getVendedor().getPunto_venta().getCodigo();
-        String establecimiento=guia_remision.getFactura().getVendedor().getPunto_venta().getEstablecimiento().getCodigo();
+        String punto_venta=guia_remision.getFactura().getVendedor().getPuntoVenta().getCodigo();
+        String establecimiento=guia_remision.getFactura().getVendedor().getPuntoVenta().getEstablecimiento().getCodigo();
         guia_remision.setNumero(Util.generarCodigoGuiaRemision(establecimiento, punto_venta, conteo));
     }
 }

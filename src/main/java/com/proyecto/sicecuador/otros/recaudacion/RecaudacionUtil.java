@@ -1,8 +1,6 @@
 package com.proyecto.sicecuador.otros.recaudacion;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.Telefono;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.otros.Util;
@@ -55,12 +53,12 @@ public class RecaudacionUtil {
             conteo=rep.findConteoTransferencia();
             transferencia.setCodigo(Util.generarCodigo(parametro, conteo));
         }
-        for (TarjetaCredito tarjeta_credito: recaudacion.getTarjetas_creditos()) {
+        for (TarjetaCredito tarjeta_credito: recaudacion.getTarjetasCreditos()) {
             parametro = rep.findByTablaAndTipo(tabla_tarjeta_credito,tipo);
             conteo=rep.findConteoTarjetaCredito();
             tarjeta_credito.setCodigo(Util.generarCodigo(parametro, conteo));
         }
-        for (TarjetaDebito tarjeta_debito: recaudacion.getTarjetas_debitos()) {
+        for (TarjetaDebito tarjeta_debito: recaudacion.getTarjetasDebitos()) {
             parametro = rep.findByTablaAndTipo(tabla_tarjeta_debito,tipo);
             conteo=rep.findConteoTarjetaDebito();
             tarjeta_debito.setCodigo(Util.generarCodigo(parametro, conteo));
@@ -70,7 +68,7 @@ public class RecaudacionUtil {
             conteo=rep.findConteoCompensacion();
             compensacion.setCodigo(Util.generarCodigo(parametro, conteo));
         }
-        for (RetencionVenta retencion_venta: recaudacion.getRetenciones_ventas()) {
+        for (RetencionVenta retencion_venta: recaudacion.getRetencionesVentas()) {
             parametro = rep.findByTablaAndTipo(tabla_retencion_venta,tipo);
             conteo=rep.findConteoRetencionVenta();
             retencion_venta.setCodigo(Util.generarCodigo(parametro, conteo));

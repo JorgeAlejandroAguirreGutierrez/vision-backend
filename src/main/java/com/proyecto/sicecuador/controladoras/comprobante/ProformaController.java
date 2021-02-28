@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_proforma;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathProforma;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+path_proforma)
+@RequestMapping(contexto+pathProforma)
 public class ProformaController implements GenericoController<Proforma> {
     @Autowired
     private IProformaService servicio;

@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_credito;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathCredito;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+path_credito)
+@RequestMapping(contexto+pathCredito)
 public class CreditoController implements GenericoController<Credito> {
     @Autowired
     private ICreditoService servicio;
@@ -100,8 +100,8 @@ public class CreditoController implements GenericoController<Credito> {
                                        @RequestParam long cuotas, @RequestParam Date fecha_primera_cuota, @RequestParam String tipo, @RequestParam boolean sin_intereses ) {
         try {
             RangoCrediticio rango_crediticio=servicio_rango_crediticio.obtenerSaldo(saldo).get();
-            double tasa_interes_anual=rango_crediticio.getTasa_interes_anual();
-            double tasa_periodo=Math.rint((rango_crediticio.getTasa_interes_anual()/periodicidad_total)*100d)/100d;
+            double tasa_interes_anual=rango_crediticio.getTasaInteresAnual();
+            double tasa_periodo=Math.rint((rango_crediticio.getTasaInteresAnual()/periodicidad_total)*100d)/100d;
             Optional<Credito> credito=servicio.construir(new Credito(null, saldo, tasa_interes_anual, periodicidad_numero, periodicidad,
             periodicidad_total, tasa_periodo, cuotas,fecha_primera_cuota, null,0, tipo, sin_intereses, null));
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, credito);

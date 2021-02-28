@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.configuracion;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.configuracion.EmpresaUtil;
 
@@ -10,10 +11,13 @@ import java.util.List;
 @Table(name = "empresa")
 @EntityListeners({EmpresaUtil.class})
 public class Empresa extends Entidad {
+	@JsonProperty("identificacion")
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
+	@JsonProperty("razon_social")
     @Column(name = "razon_social", nullable = true)
-    private String razon_social;
+    private String razonSocial;
+	@JsonProperty("logo")
     @Column(name = "logo", nullable = true)
     private String logo;
 
@@ -25,15 +29,15 @@ public class Empresa extends Entidad {
         super(id);
     }
 
-    public Empresa(String codigo, String identificacion, String razon_social, String logo) {
+    public Empresa(String codigo, String identificacion, String razonSocial, String logo) {
         super(codigo);
         this.identificacion=identificacion;
-        this.razon_social=razon_social;
+        this.razonSocial=razonSocial;
         this.logo=logo;
     }
     public Empresa(List<String> datos){
         identificacion=datos.get(0)== null ? null: datos.get(0);
-        razon_social=datos.get(1)== null ? null: datos.get(1);
+        razonSocial=datos.get(1)== null ? null: datos.get(1);
         logo=datos.get(2)== null ? null: datos.get(2);
 
     }
@@ -41,9 +45,9 @@ public class Empresa extends Entidad {
         return identificacion;
     }
 
-    public String getRazon_social() {
-        return razon_social;
-    }
+    public String getRazonSocial() {
+	   return razonSocial;
+   }
 
     public String getLogo() {
         return logo;

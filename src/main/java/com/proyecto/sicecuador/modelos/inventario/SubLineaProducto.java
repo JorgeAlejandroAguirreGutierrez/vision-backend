@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.SubLineaProductoUtil;
 
@@ -12,14 +11,17 @@ import java.util.List;
 @Table(name = "sub_linea_producto")
 @EntityListeners({SubLineaProductoUtil.class})
 public class SubLineaProducto extends Entidad {
+	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)
     private String nombre;
     @ManyToOne
+    @JsonProperty("linea_producto")
     @JoinColumn(name = "linea_producto_id", nullable = true)
-    private LineaProducto linea_producto;
+    private LineaProducto lineaProducto;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JsonProperty("presentaciones_producto")
     @JoinColumn(name = "sub_linea_producto_id")
-    private List<PresentacionProducto> presentaciones_productos;
+    private List<PresentacionProducto> presentacionesProducto;
 
     public SubLineaProducto(){
 
@@ -29,10 +31,10 @@ public class SubLineaProducto extends Entidad {
         super(id);
     }
 
-    public SubLineaProducto(String codigo, String nombre, LineaProducto linea_producto){
+    public SubLineaProducto(String codigo, String nombre, LineaProducto lineaProducto){
         super(codigo);
         this.nombre=nombre;
-        this.linea_producto=linea_producto;
+        this.lineaProducto=lineaProducto;
     }
 
     public SubLineaProducto(List<String> datos){
@@ -46,10 +48,10 @@ public class SubLineaProducto extends Entidad {
 		this.nombre = nombre;
 	}
     
-    public LineaProducto getLinea_producto() {
-        return linea_producto;
-    }
-    public void setLinea_producto(LineaProducto linea_producto) {
-		this.linea_producto = linea_producto;
+    public LineaProducto getLineaProducto() {
+		return lineaProducto;
+	}
+    public void setLineaProducto(LineaProducto lineaProducto) {
+		this.lineaProducto = lineaProducto;
 	}
 }

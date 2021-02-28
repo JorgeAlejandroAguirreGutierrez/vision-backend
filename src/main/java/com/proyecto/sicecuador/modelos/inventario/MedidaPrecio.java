@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.MedidaPrecioUtil;
 
@@ -13,12 +14,15 @@ import java.util.List;
 //@EntityListeners({MedidaPrecioUtil.class})
 public class MedidaPrecio extends Entidad {
     @ManyToOne
+    @JsonProperty("medida")
     @JoinColumn(name = "medida_id", nullable = true)
     private Medida medida;
     @ManyToOne
+    @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JsonProperty("precios")
     @JoinColumn(name = "medida_precio_id", nullable = true)
     private List<Precio> precios;
 

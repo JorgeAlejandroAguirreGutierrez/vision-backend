@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.otros.cliente.TipoContribuyenteUtil;
@@ -13,13 +14,17 @@ import java.util.List;
 @Entity
 @Table(name = "permiso")
 public class Permiso extends Entidad {
+	@JsonProperty("modulo")
     @Column(name = "modulo", nullable = true)
     private String modulo;
+	@JsonProperty("operacion")
     @Column(name = "operacion", nullable = true)
     private String operacion;
+	@JsonProperty("habilitado")
     @Column(name = "habilitado", nullable = true)
     private boolean habilitado;
     @ManyToOne
+    @JsonProperty("perfil")
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
 

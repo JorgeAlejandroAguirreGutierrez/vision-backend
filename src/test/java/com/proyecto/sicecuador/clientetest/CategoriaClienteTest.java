@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.clientetest;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_categoria_cliente;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathCategoriaCliente;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -9,12 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
-import com.proyecto.sicecuador.repositorios.interf.cliente.ICategoriaClienteRepository;
+import com.proyecto.sicecuador.servicios.interf.cliente.ICategoriaClienteService;
 
 import static org.hamcrest.Matchers.*;
 
@@ -30,9 +25,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-
-import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
 
 @RunWith(SpringRunner.class)
@@ -46,13 +40,11 @@ public class CategoriaClienteTest {
 	
 	private static String token;
     
-    private static CategoriaCliente createCategoriaCliente;
-    
-    private static ICategoriaClienteRepository categoriaClienteRepository;
+    private static ICategoriaClienteService categoriaClienteService;
     
     @Autowired
-    public void setCategoriaClienteRepository (ICategoriaClienteRepository a) {
-    	categoriaClienteRepository= a;
+    public void setCategoriaClienteService (ICategoriaClienteService cc) {
+    	categoriaClienteService= cc;
     }
     
     @BeforeClass
@@ -65,22 +57,15 @@ public class CategoriaClienteTest {
 
     @Test
     public void testA1WhenCreateCategoriaClienteSuccess() throws Exception {
-    	String filename = CategoriaClienteTest.class.getResource("/testdata/cliente/categoria_cliente.json").getPath();
-    	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
-    	JsonReader reader = new JsonReader(new FileReader(filename));
-    	CategoriaCliente categoria_cliente= gson.fromJson(reader, CategoriaCliente.class);
-    	MvcResult result=this.mockMvc.perform(post(contexto+path_categoria_cliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
-                .content(asJsonString(categoria_cliente)))
-                .andExpect(status().isOk())
-                .andReturn();
-        String json = result.getResponse().getContentAsString();
-        Respuesta respuesta= gson.fromJson(json, Respuesta.class);
-    	String objeto= gson.toJson(respuesta.getResultado());
-    	createCategoriaCliente=gson.fromJson(objeto, CategoriaCliente.class);
+    	String filename = ClienteTest.class.getResource("/testdata/cliente/categoriaCliente.json").getPath();
+    	String categoriaCliente=readFileAsString(filename);
+    	this.mockMvc.perform(post(contexto+pathCategoriaCliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+                .content(categoriaCliente))
+                .andExpect(status().isOk());
     }
     @Test
     public void testA2WhenFindAllCategoriaClienteSuccess() throws Exception {
-        this.mockMvc.perform(get(contexto+path_categoria_cliente).header("Authorization", "Basic " + token)
+        this.mockMvc.perform(get(contexto+pathCategoriaCliente).header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
@@ -88,7 +73,7 @@ public class CategoriaClienteTest {
     
     @Test
     public void testA3WhenFindByIdCategoriaClienteSuccess() throws Exception {
-    	this.mockMvc.perform(get(contexto+path_categoria_cliente+"/"+createCategoriaCliente.getId()).header("Authorization", "Basic " + token)
+    	this.mockMvc.perform(get(contexto+pathCategoriaCliente+"/"+"1").header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
@@ -96,21 +81,16 @@ public class CategoriaClienteTest {
     
     @Test
     public void testA4WhenUpdateCategoriaClienteSuccess() throws Exception {
-    	Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
-    	createCategoriaCliente.setCodigo("CAT_U01");
-    	MvcResult result=this.mockMvc.perform(put(contexto+path_categoria_cliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
-                .content(asJsonString(createCategoriaCliente)))
-                .andExpect(status().isOk())
-                .andReturn();
-    	String json = result.getResponse().getContentAsString();
-        Respuesta respuesta= gson.fromJson(json, Respuesta.class);
-    	String objeto= gson.toJson(respuesta.getResultado());
-    	createCategoriaCliente=gson.fromJson(objeto, CategoriaCliente.class);
+    	String filename = ClienteTest.class.getResource("/testdata/cliente/categoriaClienteUpdate.json").getPath();
+    	String categoriaCliente=readFileAsString(filename);
+    	this.mockMvc.perform(put(contexto+pathCategoriaCliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+                .content(categoriaCliente))
+                .andExpect(status().isOk());
     }
     
     @AfterClass
     public static void after() throws Exception {
-    	categoriaClienteRepository.deleteById(createCategoriaCliente.getId());
+    	
     }
     
     public static String asJsonString(final Object obj) {
@@ -119,6 +99,11 @@ public class CategoriaClienteTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static String readFileAsString(String file)throws Exception
+    {
+        return new String(Files.readAllBytes(Paths.get(file)));
     }
 
 }

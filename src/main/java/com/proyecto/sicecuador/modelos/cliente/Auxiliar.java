@@ -1,11 +1,8 @@
 package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
-import com.proyecto.sicecuador.otros.cliente.AuxiliarUtil;
-import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,34 +11,41 @@ import java.util.List;
 
 @Entity
 @Table(name = "auxiliar")
-@EntityListeners({AuxiliarUtil.class})
+//@EntityListeners({AuxiliarUtil.class})
 public class Auxiliar extends Entidad {
-    @NotNull(message = "Razon Social"+ Constantes.mensaje_validacion_not_null)
-    @NotBlank(message = "Razon Social"+Constantes.mensaje_validacion_not_blank)
+    @NotNull
+    @NotBlank
+    @JsonProperty("razon_social")
     @Column(name = "razon_social", nullable = true)
-    private String razon_social;
-    @NotNull(message = "Estado"+ Constantes.mensaje_validacion_not_null)
+    private String razonSocial;
+    @NotNull
+    @JsonProperty("estado")
     @Column(name = "estado")
     private boolean estado;
-    @NotNull(message = "Eliminado"+ Constantes.mensaje_validacion_not_null)
+    @NotNull
+    @JsonProperty("eliminado")
     @Column(name = "eliminado")
     private boolean eliminado;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonProperty("direccion")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
-    @NotNull(message = "Cliente"+ Constantes.mensaje_validacion_not_null)
+    @JsonProperty("cliente")
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonProperty("telefonos_auxiliar")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
-    private List<TelefonoAuxiliar> telefonos_auxiliar;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<TelefonoAuxiliar> telefonosAuxiliar;
+    @JsonProperty("celulares_auxiliar")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
-    private List<CelularAuxiliar> celulares_auxiliar;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<CelularAuxiliar> celularesAuxiliar;
+    @JsonProperty("correos_auxiliar")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
-    private List<CorreoAuxiliar> correos_auxiliar;
+    private List<CorreoAuxiliar> correosAuxiliar;
 
     public Auxiliar(){
 
@@ -51,9 +55,9 @@ public class Auxiliar extends Entidad {
         super(id);
     }
 
-    public Auxiliar(String codigo, String razon_social, boolean estado, boolean eliminado, Cliente cliente, Direccion direccion){
+    public Auxiliar(String codigo, String razonSocial, boolean estado, boolean eliminado, Cliente cliente, Direccion direccion){
         super(codigo);
-        this.razon_social=razon_social;
+        this.razonSocial=razonSocial;
         this.estado=estado;
         this.eliminado=eliminado;
         this.direccion=direccion;
@@ -61,9 +65,9 @@ public class Auxiliar extends Entidad {
 
     }
 
-    public Auxiliar(String razon_social, Cliente cliente){
+    public Auxiliar(String razonSocial, Cliente cliente){
         super("");
-        this.razon_social=razon_social;
+        this.razonSocial=razonSocial;
         this.cliente=cliente;
     }
 
@@ -73,16 +77,16 @@ public class Auxiliar extends Entidad {
     }
 
     public Auxiliar(List<String>datos){
-        this.razon_social=datos.get(0)== null? null : datos.get(0);
+        this.razonSocial=datos.get(0)== null? null : datos.get(0);
         this.estado=datos.get(1)== null ? null: datos.get(1).equals("S") ? true : false;
         this.eliminado=datos.get(2)== null ? null: datos.get(2).equals("S") ? true : false;
         this.direccion=datos.get(3)==null? null: new Direccion((long) Double.parseDouble(datos.get(3)));
         this.cliente=datos.get(4)== null ? null: new Cliente((long) Double.parseDouble(datos.get(4)));
     }
 
-    public String getRazon_social() {
-        return razon_social;
-    }
+    public String getRazonSocial() {
+		return razonSocial;
+	}
 
     public boolean isEliminado() {
         return eliminado;
@@ -99,17 +103,16 @@ public class Auxiliar extends Entidad {
     public Direccion getDireccion() {
         return direccion;
     }
-
     @JsonManagedReference
-    public List<TelefonoAuxiliar> getTelefonos_auxiliar() {
-		return telefonos_auxiliar;
+    public List<TelefonoAuxiliar> getTelefonosAuxiliar() {
+		return telefonosAuxiliar;
 	}
     @JsonManagedReference
-    public List<CelularAuxiliar> getCelulares_auxiliar() {
-		return celulares_auxiliar;
+    public List<CelularAuxiliar> getCelularesAuxiliar() {
+		return celularesAuxiliar;
 	}
     @JsonManagedReference
-    public List<CorreoAuxiliar> getCorreos_auxiliar() {
-		return correos_auxiliar;
+    public List<CorreoAuxiliar> getCorreosAuxiliar() {
+		return correosAuxiliar;
 	}
 }

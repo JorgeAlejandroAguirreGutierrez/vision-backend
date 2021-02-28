@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.cliente.CategoriaClienteUtil;
@@ -14,10 +15,12 @@ import java.util.List;
 @Table(name = "categoria_cliente")
 @EntityListeners({CategoriaClienteUtil.class})
 public class CategoriaCliente extends Entidad {
+	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
-    @NotNull(message = "Categoria Cliente Abreviatura"+ Constantes.mensaje_validacion_not_null)
-    @NotBlank(message = "Categoria Cliente Abreviatura"+Constantes.mensaje_validacion_not_blank)
+    @NotNull
+    @NotBlank
+    @JsonProperty("abreviatura")
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
 

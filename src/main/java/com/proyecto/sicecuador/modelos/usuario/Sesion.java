@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.cliente.TipoContribuyenteUtil;
 import com.proyecto.sicecuador.otros.usuario.SesionUtil;
 
 import javax.persistence.*;
@@ -12,17 +12,23 @@ import java.util.List;
 @Table(name = "sesion")
 @EntityListeners({SesionUtil.class})
 public class Sesion extends Entidad {
+	@JsonProperty("fecha_apertura")
     @Column(name = "fecha_apertura", nullable = true)
-    private Date fecha_apertura;
+    private Date fechaApertura;
+	@JsonProperty("fecha_cierre")
     @Column(name = "fecha_cierre", nullable = true)
-    private Date fecha_cierre;
+    private Date fechaCierre;
+	@JsonProperty("nombre_pc")
     @Column(name = "nombre_pc", nullable = true)
-    private String nombre_pc;
+    private String nombrePC;
+	@JsonProperty("sesion_ip")
     @Column(name = "sesion_ip", nullable = true)
-    private String sesion_ip;
+    private String sesionIP;
+	@JsonProperty("activa")
     @Column(name = "activa", nullable = true)
     private boolean activa;
     @ManyToOne
+    @JsonProperty("usuario")
     @JoinColumn(name = "usuario_id", nullable = true)
     private Usuario usuario;
 
@@ -34,38 +40,39 @@ public class Sesion extends Entidad {
         super(id);
     }
 
-    public Sesion(String codigo, Date fecha_apertura, Date fecha_cierre, String nombre_pc, String sesion_ip, boolean activa, Usuario usuario){
+    public Sesion(String codigo, Date fechaApertura, Date fechaCierre, String nombrePC, String sesionIP, boolean activa, Usuario usuario){
         super(codigo);
-        this.fecha_apertura=fecha_apertura;
-        this.fecha_cierre=fecha_cierre;
-        this.nombre_pc=nombre_pc;
-        this.sesion_ip=sesion_ip;
+        this.fechaApertura=fechaApertura;
+        this.fechaCierre=fechaCierre;
+        this.nombrePC=nombrePC;
+        this.sesionIP=sesionIP;
         this.activa=activa;
         this.usuario=usuario;
     }
     public Sesion(List<String> datos){
-        fecha_apertura=datos.get(0)== null ? null: new Date(datos.get(0));
-        fecha_cierre=datos.get(1)== null ? null: new Date(datos.get(1));
-        nombre_pc=datos.get(2)== null ? null: datos.get(2);
-        sesion_ip=datos.get(3)== null ? null: datos.get(3);
+        fechaApertura=datos.get(0)== null ? null: new Date(datos.get(0));
+        fechaCierre=datos.get(1)== null ? null: new Date(datos.get(1));
+        nombrePC=datos.get(2)== null ? null: datos.get(2);
+        sesionIP=datos.get(3)== null ? null: datos.get(3);
         activa=datos.get(4)== null ? null: datos.get(4).equals("S") ? true : false;
         usuario=datos.get(5)== null ? null:new Usuario((long) Double.parseDouble(datos.get(5)));
     }
-    public Date getFecha_apertura() {
-        return fecha_apertura;
-    }
+    
+    public Date getFechaApertura() {
+		return fechaApertura;
+	}
 
-    public Date getFecha_cierre() {
-        return fecha_cierre;
-    }
+    public Date getFechaCierre() {
+		return fechaCierre;
+	}
 
-    public String getNombre_pc() {
-        return nombre_pc;
-    }
+    public String getNombrePC() {
+		return nombrePC;
+	}
 
-    public String getSesion_ip() {
-        return sesion_ip;
-    }
+    public String getSesionIP() {
+		return sesionIP;
+	}
 
     public Usuario getUsuario() {
         return usuario;
@@ -75,13 +82,13 @@ public class Sesion extends Entidad {
         return activa;
     }
 
-    public void setFecha_cierre(Date fecha_cierre) {
-        this.fecha_cierre = fecha_cierre;
-    }
-
-    public void setFecha_apertura(Date fecha_apertura) {
-        this.fecha_apertura = fecha_apertura;
-    }
+    public void setFechaApertura(Date fechaApertura) {
+		this.fechaApertura = fechaApertura;
+	}
+    
+    public void setFechaCierre(Date fechaCierre) {
+		this.fechaCierre = fechaCierre;
+	}
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;

@@ -2,11 +2,10 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.compra.RetencionCompra;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.otros.recaudacion.RecaudacionUtil;
 
@@ -19,64 +18,85 @@ import java.util.List;
 @Table(name = "recaudacion")
 @EntityListeners({RecaudacionUtil.class})
 public class Recaudacion extends Entidad {
-    @Past
+	@JsonProperty("fecha")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+	@JsonProperty("total")
     @Column(name = "total", nullable = true)
     private double total;
+	@JsonProperty("comentario")
     @Column(name = "comentario", nullable = true)
     private String comentario;
+	@JsonProperty("efectivo")
     @Column(name = "efectivo", nullable = true)
     private double efectivo;
+	@JsonProperty("total_cheques")
     @Column(name = "total_cheques", nullable = true)
-    private double total_cheques;
+    private double totalCheques;
+	@JsonProperty("total_depositos")
     @Column(name = "total_depositos", nullable = true)
-    private double total_depositos;
+    private double totalDepositos;
+	@JsonProperty("total_transferencias")
     @Column(name = "total_transferencias", nullable = true)
-    private double total_transferencias;
+    private double totalTransferencias;
+	@JsonProperty("total_tarjetas_debitos")
     @Column(name = "total_tarjetas_debitos", nullable = true)
-    private double total_tarjetas_debitos;
+    private double totalTarjetasDebitos;
+	@JsonProperty("total_tarjetas_creditos")
     @Column(name = "total_tarjetas_creditos", nullable = true)
-    private double total_tarjetas_creditos;
+    private double totalTarjetasCreditos;
+	@JsonProperty("total_compensaciones")
     @Column(name = "total_compensaciones", nullable = true)
-    private double total_compensaciones;
+    private double totalCompensaciones;
+	@JsonProperty("total_retenciones_ventas")
     @Column(name = "total_retenciones_ventas", nullable = true)
-    private double total_retenciones_ventas;
+    private double totalRetencionesVentas;
+	@JsonProperty("total_credito")
     @Column(name = "total_credito", nullable = true)
-    private double total_credito;
+    private double totalCredito;
     @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JsonProperty("credito")
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
-    @NotNull(message = "Factura"+ Constantes.mensaje_validacion_not_null)
+    @NotNull
     @ManyToOne
+    @JsonProperty("factura")
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
-    @NotNull(message = "Sesion"+ Constantes.mensaje_validacion_not_null)
+    @NotNull
     @ManyToOne
+    @JsonProperty("sesion")
     @JoinColumn(name = "sesion_id", nullable = true)
     private Sesion sesion;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonProperty("cheques")
     @JoinColumn(name = "cheque_id")
     private List<Cheque> cheques;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonProperty("depositos")
     @JoinColumn(name = "deposito_id")
     private List<Deposito> depositos;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonProperty("transferencias")
     @JoinColumn(name = "transferencia_id")
     private List<Transferencia> transferencias;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonProperty("tarjetas_creditos")
     @JoinColumn(name = "tarjeta_credito_id")
-    private List<TarjetaCredito> tarjetas_creditos;
+    private List<TarjetaCredito> tarjetasCreditos;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonProperty("tarjetas_debitos")
     @JoinColumn(name = "tarjeta_debito_id")
-    private List<TarjetaDebito> tarjetas_debitos;
+    private List<TarjetaDebito> tarjetasDebitos;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonProperty("compensaciones")
     @JoinColumn(name = "compensacion_id")
     private List<Compensacion> compensaciones;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonProperty("retenciones_ventas")
     @JoinColumn(name = "retencion_venta_id")
-    private List<RetencionVenta> retenciones_ventas;
+    private List<RetencionVenta> retencionesVentas;
 
     public Recaudacion(){
     }
@@ -86,33 +106,33 @@ public class Recaudacion extends Entidad {
     }
 
     public Recaudacion(String codigo, Date fecha, double total, String comentario, double efectivo,
-                       double total_cheques, double total_depositos, double total_transferencias,
-                       double total_tarjetas_debitos, double total_tarjetas_creditos, double total_credito,
-                       double total_compensaciones, double total_retenciones_ventas, List<Cheque> cheques,
-                       List<Deposito>depositos, List<Transferencia> transferencias, List<Compensacion> compensaciones, List<RetencionVenta> retenciones_ventas,
-                       List<TarjetaCredito> tarjetas_creditos, List<TarjetaDebito> tarjetas_debitos, Credito credito,
+                       double totalCheques, double totalDepositos, double totalTransferencias,
+                       double totalTarjetasDebitos, double totalTarjetasCreditos, double totalCredito,
+                       double totalCompensaciones, double totalRetencionesVentas, List<Cheque> cheques,
+                       List<Deposito>depositos, List<Transferencia> transferencias, List<Compensacion> compensaciones, List<RetencionVenta> retencionesVentas,
+                       List<TarjetaCredito> tarjetasCreditos, List<TarjetaDebito> tarjetasDebitos, Credito credito,
                        Factura factura, Sesion sesion){
         super(codigo);
         this.fecha=fecha;
         this.total=total;
         this.comentario=comentario;
         this.efectivo=efectivo;
-        this.total_cheques=total_cheques;
-        this.total_depositos=total_depositos;
-        this.total_transferencias=total_transferencias;
-        this.total_tarjetas_debitos=total_tarjetas_debitos;
-        this.total_tarjetas_creditos=total_tarjetas_creditos;
-        this.total_compensaciones=total_compensaciones;
-        this.total_retenciones_ventas=total_retenciones_ventas;
-        this.total_credito=total_credito;
+        this.totalCheques=totalCheques;
+        this.totalDepositos=totalDepositos;
+        this.totalTransferencias=totalTransferencias;
+        this.totalTarjetasDebitos=totalTarjetasDebitos;
+        this.totalTarjetasCreditos=totalTarjetasCreditos;
+        this.totalCompensaciones=totalCompensaciones;
+        this.totalRetencionesVentas=totalRetencionesVentas;
+        this.totalCredito=totalCredito;
 
         this.cheques=cheques;
         this.depositos=depositos;
         this.transferencias=transferencias;
-        this.tarjetas_creditos=tarjetas_creditos;
-        this.tarjetas_debitos=tarjetas_debitos;
+        this.tarjetasCreditos=tarjetasCreditos;
+        this.tarjetasDebitos=tarjetasDebitos;
         this.compensaciones=compensaciones;
-        this.retenciones_ventas=retenciones_ventas;
+        this.retencionesVentas=retencionesVentas;
         this.credito=credito;
         this.factura=factura;
         this.sesion=sesion;
@@ -133,37 +153,37 @@ public class Recaudacion extends Entidad {
         return efectivo;
     }
 
-    public double getTotal_cheques() {
-        return total_cheques;
+    public double getTotalCheques() {
+		return totalCheques;
+	}
+
+    public double getTotalDepositos() {
+		return totalDepositos;
+	}
+
+    public double getTotalTransferencias() {
+		return totalTransferencias;
+	}
+
+    public double getTotalTarjetasCreditos() {
+    	return totalTarjetasCreditos;
     }
 
-    public double getTotal_depositos() {
-        return total_depositos;
-    }
+    public double getTotalTarjetasDebitos() {
+		return totalTarjetasDebitos;
+	}
 
-    public double getTotal_transferencias() {
-        return total_transferencias;
-    }
+    public double getTotalCompensaciones() {
+		return totalCompensaciones;
+	}
 
-    public double getTotal_tarjetas_creditos() {
-        return total_tarjetas_creditos;
-    }
+    public double getTotalRetencionesVentas() {
+		return totalRetencionesVentas;
+	}
 
-    public double getTotal_tarjetas_debitos() {
-        return total_tarjetas_debitos;
-    }
-
-    public double getTotal_compensaciones() {
-        return total_compensaciones;
-    }
-
-    public double getTotal_retenciones_ventas() {
-        return total_retenciones_ventas;
-    }
-
-    public double getTotal_credito() {
-        return total_credito;
-    }
+    public double getTotalCredito() {
+		return totalCredito;
+	}
 
     @JsonManagedReference
     public List<Cheque> getCheques() {
@@ -178,21 +198,21 @@ public class Recaudacion extends Entidad {
         return transferencias;
     }
     @JsonManagedReference
-    public List<TarjetaDebito> getTarjetas_debitos() {
-        return tarjetas_debitos;
-    }
+    public List<TarjetaDebito> getTarjetasDebitos() {
+		return tarjetasDebitos;
+	}
     @JsonManagedReference
-    public List<TarjetaCredito> getTarjetas_creditos() {
-        return tarjetas_creditos;
-    }
+    public List<TarjetaCredito> getTarjetasCreditos() {
+		return tarjetasCreditos;
+	}
     @JsonManagedReference
     public List<Compensacion> getCompensaciones() {
         return compensaciones;
     }
     @JsonManagedReference
-    public List<RetencionVenta> getRetenciones_ventas() {
-        return retenciones_ventas;
-    }
+    public List<RetencionVenta> getRetencionesVentas() {
+		return retencionesVentas;
+	}
 
     public Credito getCredito() {
         return credito;

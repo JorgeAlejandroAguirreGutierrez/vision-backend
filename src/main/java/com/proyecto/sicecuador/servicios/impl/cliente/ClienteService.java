@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-@Service
 
+@Service
 public class ClienteService implements IClienteService {
 
     @Autowired
@@ -58,8 +58,8 @@ public class ClienteService implements IClienteService {
             @Override
             public Predicate toPredicate(Root<Cliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (cliente.getRazon_social()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("razon_social"), "%"+cliente.getRazon_social()+"%")));
+                if (cliente.getRazonSocial()!=null) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("razonSocial"), "%"+cliente.getRazonSocial()+"%")));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -86,8 +86,8 @@ public class ClienteService implements IClienteService {
             @Override
             public Predicate toPredicate(Root<Cliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (cliente.getRazon_social()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("razon_social"), cliente.getRazon_social())));
+                if (cliente.getRazonSocial()!=null) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("razonSocial"), cliente.getRazonSocial())));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -322,6 +322,7 @@ public class ClienteService implements IClienteService {
 
     @Override
     public Cliente crear(Cliente cliente) {
+    	cliente.normalizar();
         return rep.save(cliente);
     }
 

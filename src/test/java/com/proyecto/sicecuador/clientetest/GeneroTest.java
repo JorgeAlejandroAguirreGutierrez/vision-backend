@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.clientetest;
 
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathGenero;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -7,11 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.Correo;
-import com.proyecto.sicecuador.repositorios.interf.cliente.ICorreoRepository;
+import com.proyecto.sicecuador.modelos.cliente.Genero;
+import com.proyecto.sicecuador.servicios.interf.cliente.IGeneroService;
 
 import static org.hamcrest.Matchers.*;
 
@@ -20,36 +19,33 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-
-import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CorreoTest {
+public class GeneroTest {
 	
 	@Autowired
     private MockMvc mockMvc;
 	
 	private static String token;
     
-    private static Correo createCorreo;
-    
-    private static ICorreoRepository correoRepository;
+    private static IGeneroService generoService;
     
     @Autowired
-    public void setCorreoRepository (ICorreoRepository c) {
-    	correoRepository= c;
+    public void setFormaPagoService (IGeneroService s) {
+    	generoService= s;
     }
     
     @BeforeClass
@@ -61,47 +57,41 @@ public class CorreoTest {
     }
 
     @Test
-    public void testA1WhenCreateCorreoSuccess() throws Exception {
-    	String filename = CorreoTest.class.getResource("/testdata/cliente/correo.json").getPath();
-    	Gson gson = new Gson();
-    	JsonReader reader = new JsonReader(new FileReader(filename));
-    	Cliente cliente= gson.fromJson(reader, Cliente.class);
-    	MvcResult result=this.mockMvc.perform(post("/api/sicecuador/correo").contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
-                .content(asJsonString(cliente)))
-                .andExpect(status().isOk())
-                .andReturn();
-        String json = result.getResponse().getContentAsString();
-    	createCorreo= new ObjectMapper().readValue(json, Correo.class);
+    public void testA1WhenCreateGeneroSuccess() throws Exception {
+    	String filename = ClienteTest.class.getResource("/testdata/cliente/genero.json").getPath();
+    	String genero=readFileAsString(filename);
+    	this.mockMvc.perform(post(contexto+pathGenero).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+                .content(genero))
+                .andExpect(status().isOk());
     }
     @Test
-    public void testA2WhenFindAllCorreoSuccess() throws Exception {
-        this.mockMvc.perform(get("/api/sicecuador/correo").header("Authorization", "Bearer " + token)
+    public void testA2WhenFindAllGeneroSuccess() throws Exception {
+        this.mockMvc.perform(get(contexto+pathGenero).header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
     }
     
     @Test
-    public void testA3WhenFindByIdCorreoSuccess() throws Exception {
-    	this.mockMvc.perform(get("/api/sicecuador/correo/"+createCorreo.getId()).header("Authorization", "Bearer " + token)
+    public void testA3WhenFindByIdGeneroSuccess() throws Exception {
+    	this.mockMvc.perform(get(contexto+pathGenero+"/"+"1").header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
     }
     
     @Test
-    public void testA4WhenUpdateClienteSuccess() throws Exception {
-    	createCorreo.setCodigo("COR_U01");
-    	MvcResult result=this.mockMvc.perform(put("/api/sicecuador/correo").contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
-                .content(asJsonString(createCorreo)))
-                .andExpect(status().isOk())
-                .andReturn();
-        String json = result.getResponse().getContentAsString();
-    	createCorreo= new ObjectMapper().readValue(json, Correo.class);
+    public void testA4WhenUpdateGeneroSuccess() throws Exception {
+    	String filename = ClienteTest.class.getResource("/testdata/cliente/generoUpdate.json").getPath();
+    	String genero=readFileAsString(filename);
+    	this.mockMvc.perform(put(contexto+pathGenero).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+                .content(genero))
+                .andExpect(status().isOk());
     }
     
     @AfterClass
     public static void after() throws Exception {
+    	
     }
     
     public static String asJsonString(final Object obj) {
@@ -110,6 +100,10 @@ public class CorreoTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    public static String readFileAsString(String file)throws Exception
+    {
+        return new String(Files.readAllBytes(Paths.get(file)));
     }
 
 }

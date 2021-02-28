@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_pedido;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathPedido;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+path_pedido)
+@RequestMapping(contexto+pathPedido)
 public class PedidoController implements GenericoController<Pedido> {
     @Autowired
     private IPedidoService servicio;

@@ -1,0 +1,15 @@
+{
+	"id": 1,
+    "nombre": "PRUEBA",
+    "correo": "PRUEBA@GMAIL.COM",
+    "contrasena": "12345",
+    "identificacion": "1102739594",
+    "avatar": "/storage/img/imagen1",
+    "activo": false,
+    "puntoVenta": {
+        "id": 1
+    },
+    "perfil": {
+        "id": 1
+    }
+}

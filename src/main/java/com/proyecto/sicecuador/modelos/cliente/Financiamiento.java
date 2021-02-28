@@ -1,9 +1,7 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
-import com.proyecto.sicecuador.otros.cliente.FinanciamientoUtil;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,17 +9,21 @@ import java.util.List;
 @Entity
 @Table(name = "financiamiento")
 public class Financiamiento extends Entidad {
+	@JsonProperty("monto")
     @Column(name = "monto", nullable = true)
     private double monto;
     @ManyToOne
+    @JsonProperty("tipo_pago")
     @JoinColumn(name = "tipo_pago_id", nullable = true)
-    private TipoPago tipo_pago;
+    private TipoPago tipoPago;
     @ManyToOne
+    @JsonProperty("forma_pago")
     @JoinColumn(name = "forma_pago_id", nullable = true)
-    private FormaPago forma_pago;
+    private FormaPago formaPago;
     @ManyToOne
+    @JsonProperty("plazo_credito")
     @JoinColumn(name = "plazo_credito_id", nullable = true)
-    private PlazoCredito plazo_credito;
+    private PlazoCredito plazoCredito;
 
     public Financiamiento(){
 
@@ -31,46 +33,46 @@ public class Financiamiento extends Entidad {
         super(id);
     }
 
-    public Financiamiento(String codigo, double monto, TipoPago tipo_pago, FormaPago forma_pago, PlazoCredito plazo_credito ){
+    public Financiamiento(String codigo, double monto, TipoPago tipoPago, FormaPago formaPago, PlazoCredito plazoCredito ){
         super(codigo);
         this.monto=monto;
-        this.tipo_pago=tipo_pago;
-        this.forma_pago=forma_pago;
-        this.plazo_credito=plazo_credito;
+        this.tipoPago=tipoPago;
+        this.formaPago=formaPago;
+        this.plazoCredito=plazoCredito;
     }
 
     public Financiamiento(List<String> datos) {
         monto=datos.get(0)== null? null : Double.parseDouble(datos.get(0));
-        tipo_pago=datos.get(1)==null? null: new TipoPago((long) Double.parseDouble(datos.get(1)));
-        forma_pago=datos.get(2)==null? null: new FormaPago((long) Double.parseDouble(datos.get(2)));
-        plazo_credito=datos.get(3)==null? null: new PlazoCredito((long) Double.parseDouble(datos.get(3)));
+        tipoPago=datos.get(1)==null? null: new TipoPago((long) Double.parseDouble(datos.get(1)));
+        formaPago=datos.get(2)==null? null: new FormaPago((long) Double.parseDouble(datos.get(2)));
+        plazoCredito=datos.get(3)==null? null: new PlazoCredito((long) Double.parseDouble(datos.get(3)));
     }
 
     public double getMonto() {
         return monto;
     }
 
-    public TipoPago getTipo_pago() {
-        return tipo_pago;
-    }
+    public TipoPago getTipoPago() {
+		return tipoPago;
+	}
 
-    public FormaPago getForma_pago() {
-        return forma_pago;
-    }
+    public FormaPago getFormaPago() {
+		return formaPago;
+	}
 
-    public PlazoCredito getPlazo_credito() {
-        return plazo_credito;
-    }
+    public PlazoCredito getPlazoCredito() {
+		return plazoCredito;
+	}
 
-    public void setForma_pago(FormaPago forma_pago) {
-        this.forma_pago = forma_pago;
-    }
+    public void setFormaPago(FormaPago formaPago) {
+		this.formaPago = formaPago;
+	}
 
-    public void setTipo_pago(TipoPago tipo_pago) {
-        this.tipo_pago = tipo_pago;
-    }
+    public void setTipoPago(TipoPago tipoPago) {
+		this.tipoPago = tipoPago;
+	}
 
-    public void setPlazo_credito(PlazoCredito plazo_credito) {
-        this.plazo_credito = plazo_credito;
-    }
+    public void setPlazoCredito(PlazoCredito plazoCredito) {
+		this.plazoCredito = plazoCredito;
+	}
 }

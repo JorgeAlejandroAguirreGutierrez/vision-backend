@@ -1,6 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.GrupoProductoUtil;
 
@@ -11,11 +11,13 @@ import java.util.List;
 @Table(name = "grupo_producto")
 @EntityListeners({GrupoProductoUtil.class})
 public class GrupoProducto extends Entidad {
+	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)
     private String nombre;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JsonProperty("sub_grupos_productos")
     @JoinColumn(name = "grupo_producto_id")
-    private List<SubGrupoProducto> sub_grupos_productos;
+    private List<SubGrupoProducto> subGruposProductos;
 
     public GrupoProducto(){
 

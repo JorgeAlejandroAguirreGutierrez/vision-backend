@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 import com.proyecto.sicecuador.otros.cliente.FormaPagoUtil;
@@ -11,8 +12,10 @@ import java.util.List;
 @Table(name = "forma_pago")
 @EntityListeners({FormaPagoUtil.class})
 public class FormaPago extends Entidad {
+	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
+	@JsonProperty("abreviatura")
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
 

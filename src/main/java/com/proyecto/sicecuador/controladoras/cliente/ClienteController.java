@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_cliente;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathCliente;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+path_cliente)
+@RequestMapping(contexto+pathCliente)
 public class ClienteController implements GenericoController<Cliente> {
     @Autowired
     private IClienteService servicio;
@@ -40,7 +40,6 @@ public class ClienteController implements GenericoController<Cliente> {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Cliente _cliente) {
-        _cliente.normalizar();
         Cliente cliente=servicio.crear(_cliente);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
@@ -70,17 +69,17 @@ public class ClienteController implements GenericoController<Cliente> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/razonsocial/{razonsocial}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerRazonSocial(@PathVariable("razonsocial") String razon_social) {
+    public ResponseEntity<?> obtenerRazonSocial(@PathVariable("razonsocial") String razonSocial) {
         Cliente cliente=new Cliente();
-        cliente.setRazon_social(razon_social);
+        cliente.setRazonSocial(razonSocial);
         Optional<Cliente> _cliente=servicio.obtenerRazonSocial(cliente);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/buscar/razonsocial/{razonsocial}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarRazonSocial(@PathVariable("razonsocial") String razon_social) {
+    public ResponseEntity<?> consultarRazonSocial(@PathVariable("razonsocial") String razonSocial) {
         Cliente cliente=new Cliente();
-        cliente.setRazon_social(razon_social);
+        cliente.setRazonSocial(razonSocial);
         List<Cliente> _cliente=servicio.consultarRazonSocial(cliente);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);

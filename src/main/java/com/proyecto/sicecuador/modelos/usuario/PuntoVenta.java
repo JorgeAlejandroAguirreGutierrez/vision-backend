@@ -1,8 +1,7 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Direccion;
-import com.proyecto.sicecuador.otros.cliente.TipoContribuyenteUtil;
 import com.proyecto.sicecuador.otros.usuario.PuntoVentaUtil;
 
 import javax.persistence.*;
@@ -11,9 +10,11 @@ import java.util.List;
 @Entity
 @Table(name = "punto_venta")
 public class PuntoVenta extends Entidad {
+	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
     @ManyToOne
+    @JsonProperty("establecimiento")
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private Establecimiento establecimiento;
 

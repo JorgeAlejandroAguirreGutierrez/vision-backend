@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_recaudacion;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathRecaudacion;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(contexto+path_recaudacion)
+@RequestMapping(contexto+pathRecaudacion)
 public class RecaudacionController implements GenericoController<Recaudacion> {
     @Autowired
     private IRecaudacionService servicio;
@@ -58,15 +58,15 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
     public ResponseEntity<?> crear(@RequestBody @Valid Recaudacion _recaudacion) {
         try {
             _recaudacion.normalizar();
-            double diferencia= _recaudacion.getFactura().getTotal_con_descuento()-_recaudacion.getTotal();
+            double diferencia= _recaudacion.getFactura().getTotalConDescuento()-_recaudacion.getTotal();
             if (diferencia>0){
                 _recaudacion.getCredito().setSaldo(diferencia);
                 _recaudacion.setTotal(_recaudacion.getTotal()+diferencia);
             }
             RangoCrediticio rango_crediticio=servicio_rango_crediticio.obtenerSaldo(_recaudacion.getCredito().getSaldo()).get();
-            _recaudacion.getCredito().setTasa_interes_anual(rango_crediticio.getTasa_interes_anual());
-            double tasa_periodo=Math.rint((rango_crediticio.getTasa_interes_anual()/_recaudacion.getCredito().getPeriodicidad_total())*100d)/100d;
-            _recaudacion.getCredito().setTasa_periodo(tasa_periodo);
+            _recaudacion.getCredito().setTasaInteresAnual(rango_crediticio.getTasaInteresAnual());
+            double tasa_periodo=Math.rint((rango_crediticio.getTasaInteresAnual()/_recaudacion.getCredito().getPeriodicidadTotal())*100d)/100d;
+            _recaudacion.getCredito().setTasaPeriodo(tasa_periodo);
             _recaudacion.setCredito(servicio_credito.construir(_recaudacion.getCredito()).get());
             Recaudacion recaudacion=servicio.crear(_recaudacion);
             Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, recaudacion);

@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEstablecimientoService;

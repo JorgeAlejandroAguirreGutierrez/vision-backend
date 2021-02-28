@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.otros.recaudacion.RetencionVentaUtil;
@@ -11,24 +12,33 @@ import java.util.Date;
 @Entity
 @Table(name = "retencion_venta")
 public class RetencionVenta extends Entidad {
+	@JsonProperty("numero")
     @Column(name = "numero", nullable = true)
     private String numero;
+	@JsonProperty("fecha")
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+	@JsonProperty("agente")
     @Column(name = "agente", nullable = true)
     private String agente;
+	@JsonProperty("autorizacion")
     @Column(name = "autorizacion", nullable = true)
     private String autorizacion;
+	@JsonProperty("compensado")
     @Column(name = "compensado", nullable = true)
     private boolean compensado;
+	@JsonProperty("base_imponible")
     @Column(name = "base_imponible", nullable = true)
-    private double base_imponible;
+    private double baseImponible;
+	@JsonProperty("valor")
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
+    @JsonProperty("tipo_retencion")
     @JoinColumn(name = "tipo_retencion_id", nullable = true)
-    private TipoRetencion tipo_retencion;
+    private TipoRetencion tipoRetencion;
     @ManyToOne
+    @JsonProperty("recaudacion")
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 
@@ -39,16 +49,16 @@ public class RetencionVenta extends Entidad {
         super(id);
     }
 
-    public RetencionVenta(String codigo,String numero, Date fecha, String agente, String autorizacion, boolean compensado, double base_imponible, double valor, TipoRetencion tipo_retencion, Recaudacion recaudacion ){
+    public RetencionVenta(String codigo,String numero, Date fecha, String agente, String autorizacion, boolean compensado, double baseImponible, double valor, TipoRetencion tipoRetencion, Recaudacion recaudacion ){
         super(codigo);
         this.numero=numero;
         this.fecha=fecha;
         this.agente=agente;
         this.autorizacion=autorizacion;
         this.compensado=compensado;
-        this.base_imponible=base_imponible;
+        this.baseImponible=baseImponible;
         this.valor=valor;
-        this.tipo_retencion=tipo_retencion;
+        this.tipoRetencion=tipoRetencion;
         this.recaudacion=recaudacion;
     }
 
@@ -72,17 +82,17 @@ public class RetencionVenta extends Entidad {
         return compensado;
     }
 
-    public double getBase_imponible() {
-        return base_imponible;
-    }
+    public double getBaseImponible() {
+		return baseImponible;
+	}
 
     public double getValor() {
         return valor;
     }
 
-    public TipoRetencion getTipo_retencion() {
-        return tipo_retencion;
-    }
+    public TipoRetencion getTipoRetencion() {
+		return tipoRetencion;
+	}
     @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;

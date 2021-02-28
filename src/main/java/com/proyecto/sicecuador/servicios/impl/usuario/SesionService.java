@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.interf.usuario.ISesionRepository;
@@ -73,7 +72,7 @@ public class SesionService implements ISesionService {
     @Override
     public Optional<Sesion> verificar(Sesion sesion) {
         Sesion _sesion= rep.findById(sesion.getId()).get();
-        if (_sesion.getFecha_cierre()==null){
+        if (_sesion.getFechaCierre()==null){
             return Optional.of(_sesion);
         }
         return Optional.empty();
@@ -82,7 +81,7 @@ public class SesionService implements ISesionService {
     @Override
     public Optional<Sesion> cerrar(Sesion sesion) {
         Sesion _sesion=rep.findById(sesion.getId()).get();
-        sesion.setFecha_cierre(new Date());
+        sesion.setFechaCierre(new Date());
         sesion.setActiva(false);
         _sesion=rep.save(_sesion);
         return Optional.of(_sesion);

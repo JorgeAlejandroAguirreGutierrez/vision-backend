@@ -46,11 +46,11 @@ public class PresentacionProductoService implements IPresentacionProductoService
     
     @Override
     public PresentacionProducto crear(PresentacionProducto presentacion_producto) {
-    	String nombre_grupo=presentacion_producto.getSub_linea_producto().getLinea_producto().getCategoria_producto().getSub_grupo_producto().getGrupo_producto().getNombre();
-    	String nombre_sub_grupo=presentacion_producto.getSub_linea_producto().getLinea_producto().getCategoria_producto().getSub_grupo_producto().getNombre();
-    	String nombre_categoria=presentacion_producto.getSub_linea_producto().getLinea_producto().getCategoria_producto().getNombre();
-    	String nombre_linea=presentacion_producto.getSub_linea_producto().getLinea_producto().getNombre();
-    	String nombre_sub_linea=presentacion_producto.getSub_linea_producto().getNombre();
+    	String nombre_grupo=presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getGrupoProducto().getNombre();
+    	String nombre_sub_grupo=presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getNombre();
+    	String nombre_categoria=presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getNombre();
+    	String nombre_linea=presentacion_producto.getSubLineaProducto().getLineaProducto().getNombre();
+    	String nombre_sub_linea=presentacion_producto.getSubLineaProducto().getNombre();
     	String nombre_presentacion=presentacion_producto.getNombre();
     	Optional<GrupoProducto> grupo_producto=grupoProductoRepository.findByNombre(nombre_grupo);
     	GrupoProducto grupo_producto_persistir=null;
@@ -66,7 +66,7 @@ public class PresentacionProductoService implements IPresentacionProductoService
     	if(!sub_grupo_producto.isPresent()) {
     		sub_grupo_producto_persistir=new SubGrupoProducto();
         	sub_grupo_producto_persistir.setNombre(nombre_grupo);
-        	sub_grupo_producto_persistir.setGrupo_producto(grupo_producto_persistir);
+        	sub_grupo_producto_persistir.setGrupoProducto(grupo_producto_persistir);
         	sub_grupo_producto_persistir=subGrupoProductoRepository.save(sub_grupo_producto_persistir);
         } else {
         	sub_grupo_producto_persistir=sub_grupo_producto.get();
@@ -76,7 +76,7 @@ public class PresentacionProductoService implements IPresentacionProductoService
     	if(!categoria_producto.isPresent()) {
     		categoria_producto_persistir=new CategoriaProducto();
         	categoria_producto_persistir.setNombre(nombre_categoria);
-        	categoria_producto_persistir.setSub_grupo_producto(sub_grupo_producto_persistir);
+        	categoria_producto_persistir.setSubGrupoProducto(sub_grupo_producto_persistir);
         	categoria_producto_persistir=categoriaProductoRepository.save(categoria_producto_persistir);
     	} else {
     		categoria_producto_persistir=categoria_producto.get();
@@ -96,7 +96,7 @@ public class PresentacionProductoService implements IPresentacionProductoService
     	if(!sub_linea_producto.isPresent()) {
     		sub_linea_producto_persistir=new SubLineaProducto();
     		sub_linea_producto_persistir.setNombre(nombre_sub_linea);
-    		sub_linea_producto_persistir.setLinea_producto(linea_producto_persistir);
+    		sub_linea_producto_persistir.setLineaProducto(linea_producto_persistir);
     		sub_linea_producto_persistir=subLineaProductoRepository.save(sub_linea_producto_persistir);
     	} else {
     		sub_linea_producto_persistir=sub_linea_producto.get();
@@ -106,7 +106,7 @@ public class PresentacionProductoService implements IPresentacionProductoService
     	if(!presentacion_producto_p.isPresent()) {
     		presentacion_producto_persistir=new PresentacionProducto();
     		presentacion_producto_persistir.setNombre(nombre_sub_linea);
-    		presentacion_producto_persistir.setSub_linea_producto(sub_linea_producto_persistir);
+    		presentacion_producto_persistir.setSubLineaProducto(sub_linea_producto_persistir);
     		presentacion_producto_persistir=rep.save(presentacion_producto_persistir);
     	} else {
     		presentacion_producto_persistir=presentacion_producto_p.get();
@@ -147,20 +147,20 @@ public class PresentacionProductoService implements IPresentacionProductoService
                 if (!presentacion_producto.getNombre().equals(Util.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("nombre"), "%"+presentacion_producto.getNombre()+"%")));
                 }
-                if (!presentacion_producto.getSub_linea_producto().getNombre().equals(Util.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("sub_linea_producto").get("nombre"), "%"+presentacion_producto.getSub_linea_producto().getNombre()+"%")));
+                if (!presentacion_producto.getSubLineaProducto().getNombre().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subLineaProducto").get("nombre"), "%"+presentacion_producto.getSubLineaProducto().getNombre()+"%")));
                 }
-                if (!presentacion_producto.getSub_linea_producto().getLinea_producto().getNombre().equals(Util.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("sub_linea_producto").get("linea_producto").get("nombre"), "%"+presentacion_producto.getSub_linea_producto().getLinea_producto().getNombre()+"%")));
+                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getNombre().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subLineaProducto").get("lineaProducto").get("nombre"), "%"+presentacion_producto.getSubLineaProducto().getLineaProducto().getNombre()+"%")));
                 }
-                if (!presentacion_producto.getSub_linea_producto().getLinea_producto().getCategoria_producto().getNombre().equals(Util.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("sub_linea_producto").get("linea_producto").get("categoria_producto").get("nombre"), "%"+presentacion_producto.getSub_linea_producto().getLinea_producto().getCategoria_producto().getNombre()+"%")));
+                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getNombre().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subLineaProducto").get("lineaProducto").get("categoriaProducto").get("nombre"), "%"+presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getNombre()+"%")));
                 }
-                if (!presentacion_producto.getSub_linea_producto().getLinea_producto().getCategoria_producto().getSub_grupo_producto().getNombre().equals(Util.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("sub_linea_producto").get("linea_producto").get("categoria_producto").get("sub_grupo_producto").get("nombre"), "%"+presentacion_producto.getSub_linea_producto().getLinea_producto().getCategoria_producto().getSub_grupo_producto().getNombre()+"%")));
+                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getNombre().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subLineaProducto").get("lineaProducto").get("categoriaProducto").get("subGrupoProducto").get("nombre"), "%"+presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getNombre()+"%")));
                 }
-                if (!presentacion_producto.getSub_linea_producto().getLinea_producto().getCategoria_producto().getSub_grupo_producto().getGrupo_producto().getNombre().equals(Util.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("sub_linea_producto").get("linea_producto").get("categoria_producto").get("sub_grupo_producto").get("grupo_producto").get("nombre"), "%"+presentacion_producto.getSub_linea_producto().getLinea_producto().getCategoria_producto().getSub_grupo_producto().getGrupo_producto().getNombre()+"%")));
+                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getGrupoProducto().getNombre().equals(Util.vacio)) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subLineaProducto").get("lineaProducto").get("categoriaProducto").get("subGrupoProducto").get("grupoProducto").get("nombre"), "%"+presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getGrupoProducto().getNombre()+"%")));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }

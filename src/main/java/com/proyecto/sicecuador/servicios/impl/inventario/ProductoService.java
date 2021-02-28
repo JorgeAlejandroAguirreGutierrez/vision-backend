@@ -70,7 +70,7 @@ public class ProductoService implements IProductoService {
             @Override
             public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipo_producto").get("tipo"), "SERVICIO")));
+                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "SERVICIO")));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
@@ -82,7 +82,7 @@ public class ProductoService implements IProductoService {
             @Override
             public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipo_producto").get("tipo"), "ACTIVOFIJO")));
+                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "ACTIVOFIJO")));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
@@ -93,7 +93,7 @@ public class ProductoService implements IProductoService {
             @Override
             public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipo_producto").get("tipo"), "ACTIVOFIJO")));
+                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "ACTIVOFIJO")));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });

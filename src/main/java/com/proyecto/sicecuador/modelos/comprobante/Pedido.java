@@ -1,8 +1,8 @@
 package com.proyecto.sicecuador.modelos.comprobante;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.inventario.Precio;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.otros.comprobante.PedidoUtil;
 
@@ -13,36 +13,51 @@ import java.util.Date;
 @Table(name = "pedido")
 @EntityListeners({PedidoUtil.class})
 public class Pedido extends Entidad {
+	@JsonProperty("numero_interno")
     @Column(name = "numero_interno", nullable = true)
-    private String numero_interno;
+    private String numeroInterno;
+	@JsonProperty("fecha")
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+	@JsonProperty("fecha_entrega")
     @Column(name = "fecha_entrega", nullable = true)
-    private Date fecha_entrega;
+    private Date fechaEntrega;
+	@JsonProperty("estado")
     @Column(name = "estado", nullable = true)
     private String estado;
+	@JsonProperty("subtotal")
     @Column(name = "subtotal", nullable = true)
     private double subtotal;
+	@JsonProperty("subdescuento")
     @Column(name = "subdescuento", nullable = true)
     private double subdescuento;
+	@JsonProperty("base_iva")
     @Column(name = "base_iva", nullable = true)
-    private double base_iva;
+    private double baseIva;
+	@JsonProperty("base_0")
     @Column(name = "base_0", nullable = true)
-    private double base_0;
+    private double base0;
+	@JsonProperty("importe_iva")
     @Column(name = "importe_iva", nullable = true)
-    private double importe_iva;
+    private double importeIva;
+	@JsonProperty("total")
     @Column(name = "total", nullable = true)
     private double total;
+	@JsonProperty("descuento_porcentaje")
     @Column(name = "descuento_porcentaje", nullable = true)
-    private double descuento_porcentaje;
+    private double descuentoPorcentaje;
+	@JsonProperty("descuento")
     @Column(name = "descuento", nullable = true)
     private double descuento;
+	@JsonProperty("comentario")
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @ManyToOne
+    @JsonProperty("cliente")
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
     @ManyToOne
+    @JsonProperty("vendedor")
     @JoinColumn(name = "vendedor_id", nullable = true)
     private Usuario vendedor;
 
@@ -54,37 +69,39 @@ public class Pedido extends Entidad {
         super(id);
     }
 
-    public Pedido(String codigo, String numero_interno, Date fecha,Date fecha_entrega, String estado, double subtotal, double subdescuento,
-                  double base_iva, double base_0, double importe_iva, double total, double descuento_porcentaje,
+    public Pedido(String codigo, String numeroInterno, Date fecha,Date fechaEntrega, String estado, double subtotal, double subdescuento,
+                  double baseIva, double base0, double importeIva, double total, double descuentoPorcentaje,
                   double descuento, String comentario, Cliente cliente, Usuario vendedor){
         super(codigo);
-        this.numero_interno=numero_interno;
+        this.numeroInterno=numeroInterno;
         this.fecha=fecha;
-        this.fecha_entrega=fecha_entrega;
+        this.fechaEntrega=fechaEntrega;
         this.estado=estado;
         this.subtotal=subtotal;
         this.subdescuento=subdescuento;
-        this.base_iva=base_iva;
-        this.base_0=base_0;
-        this.importe_iva=importe_iva;
+        this.baseIva=baseIva;
+        this.base0=base0;
+        this.importeIva=importeIva;
         this.total=total;
-        this.descuento_porcentaje=descuento_porcentaje;
+        this.descuentoPorcentaje=descuentoPorcentaje;
         this.descuento=descuento;
         this.comentario=comentario;
         this.cliente=cliente;
         this.vendedor=vendedor;
     }
-    public String getNumero_interno() {
-        return numero_interno;
-    }
+    
+    
+    public String getNumeroInterno() {
+		return numeroInterno;
+	}
 
     public Date getFecha() {
         return fecha;
     }
 
-    public Date getFecha_entrega() {
-        return fecha_entrega;
-    }
+    public Date getFechaEntrega() {
+		return fechaEntrega;
+	}
 
     public String getEstado() {
         return estado;
@@ -98,25 +115,25 @@ public class Pedido extends Entidad {
         return subdescuento;
     }
 
-    public double getBase_iva() {
-        return base_iva;
-    }
+    public double getBaseIva() {
+		return baseIva;
+	}
 
-    public double getBase_0() {
-        return base_0;
-    }
+    public double getBase0() {
+		return base0;
+	}
 
-    public double getImporte_iva() {
-        return importe_iva;
-    }
+    public double getImporteIva() {
+		return importeIva;
+	}
 
     public double getTotal() {
         return total;
     }
 
-    public double getDescuento_porcentaje() {
-        return descuento_porcentaje;
-    }
+    public double getDescuentoPorcentaje() {
+		return descuentoPorcentaje;
+	}
 
     public double getDescuento() {
         return descuento;

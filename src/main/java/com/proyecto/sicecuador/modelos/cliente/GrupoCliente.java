@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.cliente.GeneroUtil;
 import com.proyecto.sicecuador.otros.cliente.GrupoClienteUtil;
 
 import javax.persistence.*;
@@ -9,10 +9,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "grupo_cliente")
-@EntityListeners({GrupoClienteUtil.class})
+//@EntityListeners({GrupoClienteUtil.class})
 public class GrupoCliente extends Entidad {
+	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
+	@JsonProperty("abreviatura")
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
 

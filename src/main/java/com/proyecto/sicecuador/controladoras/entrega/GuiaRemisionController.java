@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.entrega;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_guia_remision;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathGuiaRemision;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+path_guia_remision)
+@RequestMapping(contexto+pathGuiaRemision)
 public class GuiaRemisionController implements GenericoController<GuiaRemision> {
     @Autowired
     private IGuiaRemisionService servicio;

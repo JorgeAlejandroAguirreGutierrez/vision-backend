@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
+import com.proyecto.sicecuador.modelos.comprobante.DetalleFactura;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaDetalleRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IProductoRepository;
@@ -21,28 +21,28 @@ public class FacturaDetalleService implements IFacturaDetalleService {
     private IFacturaDetalleRepository rep;
 
     @Override
-    public FacturaDetalle crear(FacturaDetalle factura_detalle) {
+    public DetalleFactura crear(DetalleFactura factura_detalle) {
         return rep.save(factura_detalle);
     }
 
     @Override
-    public FacturaDetalle actualizar(FacturaDetalle factura_detalle) {
+    public DetalleFactura actualizar(DetalleFactura factura_detalle) {
         return rep.save(factura_detalle);
     }
 
     @Override
-    public FacturaDetalle eliminar(FacturaDetalle factura_detalle) {
+    public DetalleFactura eliminar(DetalleFactura factura_detalle) {
         rep.deleteById(factura_detalle.getId());
         return factura_detalle;
     }
 
     @Override
-    public Optional<FacturaDetalle> obtener(FacturaDetalle factura_detalle) {
+    public Optional<DetalleFactura> obtener(DetalleFactura factura_detalle) {
         return rep.findById(factura_detalle.getId());
     }
 
     @Override
-    public List<FacturaDetalle> consultar() {
+    public List<DetalleFactura> consultar() {
         return rep.findAll();
     }
 

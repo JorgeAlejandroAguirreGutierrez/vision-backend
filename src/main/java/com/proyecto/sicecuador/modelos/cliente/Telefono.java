@@ -1,20 +1,27 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.cliente.GeneroUtil;
 import com.proyecto.sicecuador.otros.cliente.TelefonoUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import java.util.List;
 
 @Entity
 @Table(name = "telefono")
 //@EntityListeners({TelefonoUtil.class})
 public class Telefono extends Entidad {
+	@NotNull
+    @NotEmpty
+    @JsonProperty("numero")
     @Column(name = "numero", nullable = true)
     private String numero;
     @ManyToOne
+    @JsonProperty("cliente")
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 
@@ -39,7 +46,7 @@ public class Telefono extends Entidad {
     public String getNumero() {
         return numero;
     }
-
+    @JsonBackReference
     public Cliente getCliente() {
         return cliente;
     }
@@ -47,7 +54,7 @@ public class Telefono extends Entidad {
     public void setNumero(String numero) {
         this.numero = numero;
     }
-    @JsonBackReference
+    
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }

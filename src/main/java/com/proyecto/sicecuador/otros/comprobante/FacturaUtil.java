@@ -2,7 +2,7 @@ package com.proyecto.sicecuador.otros.comprobante;
 
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
+import com.proyecto.sicecuador.modelos.comprobante.DetalleFactura;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.otros.Util;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
@@ -30,10 +30,10 @@ public class FacturaUtil {
         long conteo=rep.findConteoFactura();
         entidad.setCodigo(Util.generarCodigo(parametro, conteo));
         Factura factura=(Factura)entidad;
-        String punto_venta=factura.getVendedor().getPunto_venta().getCodigo();
-        String establecimiento=factura.getVendedor().getPunto_venta().getEstablecimiento().getCodigo();
+        String punto_venta=factura.getVendedor().getPuntoVenta().getCodigo();
+        String establecimiento=factura.getVendedor().getPuntoVenta().getEstablecimiento().getCodigo();
         factura.setNumero(Util.generarCodigoFactura(establecimiento, punto_venta, conteo));
-        for (FacturaDetalle factura_detalle : factura.getFactura_detalles()) {
+        for (DetalleFactura factura_detalle : factura.getDetallesFactura()) {
             parametro = rep.findByTablaAndTipo(tabla_factura_detalle, tipo);
             conteo = rep.findConteoFacturaDetalle();
             factura_detalle.setCodigo(Util.generarCodigo(parametro, conteo));

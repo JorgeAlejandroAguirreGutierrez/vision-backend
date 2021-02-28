@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.configuracion;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.configuracion.ParametroUtil;
 
@@ -10,12 +11,16 @@ import java.util.List;
 @Table(name = "parametro")
 @EntityListeners({ParametroUtil.class})
 public class Parametro extends Entidad {
+	@JsonProperty("tipo")
     @Column(name = "tipo", nullable = true)
     private String tipo;
+	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)
     private String nombre;
+	@JsonProperty("tabla")
     @Column(name = "tabla", nullable = true)
     private String tabla;
+	@JsonProperty("abreviatura")
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
 

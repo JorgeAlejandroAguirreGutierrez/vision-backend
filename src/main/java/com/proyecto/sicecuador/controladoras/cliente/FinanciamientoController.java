@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_financiamiento;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathFinanciamiento;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+path_financiamiento)
+@RequestMapping(contexto+pathFinanciamiento)
 public class FinanciamientoController implements GenericoController<Financiamiento> {
     @Autowired
     private IFinanciamientoService servicio;

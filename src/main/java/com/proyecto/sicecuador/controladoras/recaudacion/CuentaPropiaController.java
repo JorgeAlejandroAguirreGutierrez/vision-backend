@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_cuenta_propia;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathCuentaPropia;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 @RestController
-@RequestMapping(contexto+path_cuenta_propia)
+@RequestMapping(contexto+pathCuentaPropia)
 public class CuentaPropiaController implements GenericoController<CuentaPropia> {
     @Autowired
     private ICuentaPropiaService servicio;

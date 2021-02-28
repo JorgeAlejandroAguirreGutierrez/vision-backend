@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
@@ -13,33 +14,46 @@ import java.util.Date;
 @Table(name = "compensacion")
 //@EntityListeners({CompensacionUtil.class})
 public class Compensacion extends Entidad {
+	@JsonProperty("comprobante")
     @Column(name = "comprobante", nullable = true)
     private String comprobante;
+	@JsonProperty("fecha_comprobante")
     @Column(name = "fecha_comprobante", nullable = true)
-    private Date fecha_comprobante;
+    private Date fechaComprobante;
+	@JsonProperty("origen")
     @Column(name = "origen", nullable = true)
     private String origen;
+	@JsonProperty("motivo")
     @Column(name = "motivo", nullable = true)
     private String motivo;
+	@JsonProperty("fecha_vencimiento")
     @Column(name = "fecha_vencimiento", nullable = true)
-    private Date fecha_vencimiento;
+    private Date fechaVencimiento;
+	@JsonProperty("valor_origen")
     @Column(name = "valor_origen", nullable = true)
-    private double valor_origen;
+    private double valorOrigen;
+	@JsonProperty("saldo_anterior")
     @Column(name = "saldo_anterior", nullable = true)
-    private double saldo_anterior;
+    private double saldoAnterior;
+	@JsonProperty("valor_compensado")
     @Column(name = "valor_compensado", nullable = true)
-    private double valor_compensado;
+    private double valorCompensado;
+	@JsonProperty("saldo")
     @Column(name = "saldo", nullable = true)
     private double saldo;
+	@JsonProperty("compensado")
     @Column(name = "compensado", nullable = true)
     private double compensado;
     @ManyToOne
+    @JsonProperty("tipo_comprobante")
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
-    private TipoComprobante tipo_comprobante;
+    private TipoComprobante tipoComprobante;
     @ManyToOne
+    @JsonProperty("cliente")
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
     @ManyToOne
+    @JsonProperty("recaudacion")
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 
@@ -59,9 +73,9 @@ public class Compensacion extends Entidad {
         return comprobante;
     }
 
-    public Date getFecha_comprobante() {
-        return fecha_comprobante;
-    }
+    public Date getFechaComprobante() {
+		return fechaComprobante;
+	}
 
     public String getOrigen() {
         return origen;
@@ -71,21 +85,21 @@ public class Compensacion extends Entidad {
         return motivo;
     }
 
-    public Date getFecha_vencimiento() {
-        return fecha_vencimiento;
-    }
+    public Date getFechaVencimiento() {
+		return fechaVencimiento;
+	}
 
-    public double getValor_origen() {
-        return valor_origen;
-    }
+    public double getValorOrigen() {
+		return valorOrigen;
+	}
 
-    public double getSaldo_anterior() {
-        return saldo_anterior;
-    }
+    public double getSaldoAnterior() {
+		return saldoAnterior;
+	}
 
-    public double getValor_compensado() {
-        return valor_compensado;
-    }
+    public double getValorCompensado() {
+		return valorCompensado;
+	}
 
     public double getSaldo() {
         return saldo;
@@ -95,9 +109,9 @@ public class Compensacion extends Entidad {
         return compensado;
     }
 
-    public TipoComprobante getTipo_comprobante() {
-        return tipo_comprobante;
-    }
+    public TipoComprobante getTipoComprobante() {
+		return tipoComprobante;
+	}
 
     public Cliente getCliente() {
         return cliente;

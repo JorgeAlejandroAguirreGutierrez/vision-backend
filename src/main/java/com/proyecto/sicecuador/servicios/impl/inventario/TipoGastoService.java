@@ -1,11 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
-import com.proyecto.sicecuador.repositorios.interf.inventario.IBodegaRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITipoGastoRepository;
-import com.proyecto.sicecuador.servicios.interf.inventario.IBodegaService;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITipoGastoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

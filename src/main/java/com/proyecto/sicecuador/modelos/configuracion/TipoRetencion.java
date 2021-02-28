@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.configuracion;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.configuracion.TipoRetencionUtil;
 
@@ -10,16 +11,22 @@ import java.util.List;
 @Table(name = "tipo_retencion")
 @EntityListeners({TipoRetencionUtil.class})
 public class TipoRetencion extends Entidad {
+	@JsonProperty("impuesto_retencion")
     @Column(name = "impuesto_retencion", nullable = true)
-    private String impuesto_retencion;
+    private String impuestoRetencion;
+	@JsonProperty("tipo_retencion")
     @Column(name = "tipo_retencion", nullable = true)
-    private String tipo_retencion;
+    private String tipoRetencion;
+	@JsonProperty("codigo_norma")
     @Column(name = "codigo_norma", nullable = true)
-    private String codigo_norma;
+    private String codigoNorma;
+	@JsonProperty("homologacion_f_e")
     @Column(name = "homologacion_f_e", nullable = true)
-    private String homologacion_f_e;
+    private String homologacionFE;
+	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
+	@JsonProperty("porcentaje")
     @Column(name = "porcentaje", nullable = true)
     private double porcentaje;
 
@@ -31,38 +38,39 @@ public class TipoRetencion extends Entidad {
         super(id);
     }
 
-    public TipoRetencion(String codigo, String impuesto_retencion, String tipo_retencion, String codigo_norma, String homologacion_f_e, String descripcion,double porcentaje){
+    public TipoRetencion(String codigo, String impuestoRetencion, String tipoRetencion, String codigoNorma, String homologacionFE, String descripcion,double porcentaje){
         super(codigo);
-        this.impuesto_retencion=impuesto_retencion;
-        this.tipo_retencion=tipo_retencion;
-        this.codigo_norma=codigo_norma;
-        this.homologacion_f_e=homologacion_f_e;
+        this.impuestoRetencion=impuestoRetencion;
+        this.tipoRetencion=tipoRetencion;
+        this.codigoNorma=codigoNorma;
+        this.homologacionFE=homologacionFE;
         this.descripcion=descripcion;
         this.porcentaje=porcentaje;
     }
     public TipoRetencion(List<String> datos){
-        impuesto_retencion=datos.get(0)== null ? null: datos.get(0);
-        tipo_retencion=datos.get(1)== null ? null: datos.get(1);
-        codigo_norma=datos.get(2)== null ? null: datos.get(2).substring(0,datos.get(2).length()-1);
-        homologacion_f_e=datos.get(3)== null ? null: datos.get(3);
+        impuestoRetencion=datos.get(0)== null ? null: datos.get(0);
+        tipoRetencion=datos.get(1)== null ? null: datos.get(1);
+        codigoNorma=datos.get(2)== null ? null: datos.get(2).substring(0,datos.get(2).length()-1);
+        homologacionFE=datos.get(3)== null ? null: datos.get(3);
         descripcion=datos.get(4)== null ? null: datos.get(4);
         porcentaje=datos.get(5)== null ? null: Double.parseDouble(datos.get(5));
     }
-    public String getImpuesto_retencion() {
-        return impuesto_retencion;
-    }
+    
+    public String getImpuestoRetencion() {
+		return impuestoRetencion;
+	}
 
-    public String getTipo_retencion() {
-        return tipo_retencion;
-    }
+    public String getTipoRetencion() {
+		return tipoRetencion;
+	}
 
-    public String getCodigo_norma() {
-        return codigo_norma;
-    }
+    public String getCodigoNorma() {
+		return codigoNorma;
+	}
 
-    public String getHomologacion_f_e() {
-        return homologacion_f_e;
-    }
+    public String getHomologacionFE() {
+    	return homologacionFE;
+   }
 
     public String getDescripcion() {
         return descripcion;

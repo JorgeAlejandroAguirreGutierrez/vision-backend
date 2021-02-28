@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.exception.ModeloExistenteException;
+import com.proyecto.sicecuador.exception.ModeloNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.TablaEquivalenciaMedida;
 import com.proyecto.sicecuador.otros.Util;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITablaEquivalenciaMedidaRepository;
@@ -34,7 +35,13 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
 
     @Override
     public TablaEquivalenciaMedida actualizar(TablaEquivalenciaMedida tabla) {
-        return rep.save(tabla);
+    	Optional<TablaEquivalenciaMedida> optionalTem= this.obtenerMedida1Medida2(tabla);
+    	if(optionalTem.isPresent()) {
+    		TablaEquivalenciaMedida tem=optionalTem.get();
+    		tem.setEquivalencia(tabla.getEquivalencia());
+    		return rep.save(tem);
+    	}
+    	throw new ModeloNoExistenteException();
     }
 
     @Override

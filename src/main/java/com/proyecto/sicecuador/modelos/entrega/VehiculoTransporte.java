@@ -1,8 +1,7 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.otros.entrega.VehiculoTransporteUtil;
 
 import javax.persistence.*;
@@ -12,27 +11,37 @@ import java.util.List;
 @Table(name = "vehiculo_transporte")
 @EntityListeners({VehiculoTransporteUtil.class})
 public class VehiculoTransporte extends Entidad {
+	@JsonProperty("placa")
     @Column(name = "placa", nullable = true)
     private String placa;
+	@JsonProperty("numero")
     @Column(name = "numero", nullable = true)
     private String numero;
+	@JsonProperty("marca")
     @Column(name = "marca", nullable = true)
     private String marca;
+	@JsonProperty("modelo")
     @Column(name = "modelo", nullable = true)
     private String modelo;
+	@JsonProperty("anio")
     @Column(name = "anio", nullable = true)
     private String anio;
+	@JsonProperty("cilindraje")
     @Column(name = "cilindraje", nullable = true)
     private String cilindraje;
+	@JsonProperty("clase")
     @Column(name = "clase", nullable = true)
     private String clase;
+	@JsonProperty("color")
     @Column(name = "color", nullable = true)
     private String color;
+	@JsonProperty("fabricacion")
     @Column(name = "fabricacion", nullable = true)
     private String fabricacion;
+	@JsonProperty("activo")
     @Column(name = "activo", nullable = true)
     private boolean activo;
-    @OneToOne
+	@OneToOne
     private Transportista transportista;
 
     public VehiculoTransporte(){
@@ -69,7 +78,6 @@ public class VehiculoTransporte extends Entidad {
         color=datos.get(7)== null ? null: datos.get(7);
         fabricacion=datos.get(8)== null ? null: datos.get(8);
         activo=datos.get(9)== null ? null: datos.get(9).equals("S") ? true : false;
-        transportista=datos.get(10)== null ? null: new Transportista((long) Double.parseDouble(datos.get(10)));
     }
 
     public String getPlaca() {
@@ -110,9 +118,5 @@ public class VehiculoTransporte extends Entidad {
 
     public boolean isActivo() {
         return activo;
-    }
-
-    public Transportista getTransportista() {
-        return transportista;
     }
 }

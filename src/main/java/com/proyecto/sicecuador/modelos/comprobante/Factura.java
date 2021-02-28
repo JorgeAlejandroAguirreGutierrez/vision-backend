@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.modelos.comprobante;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
@@ -16,288 +16,310 @@ import java.util.List;
 
 @Entity
 @Table(name = "factura")
-@EntityListeners({FacturaUtil.class})
+@EntityListeners({ FacturaUtil.class })
 public class Factura extends Entidad {
-    @Column(name = "numero", nullable = true)
-    private String numero;
-    @Column(name = "fecha", nullable = true)
-    private Date fecha;
-    @Column(name = "estado", nullable = true)
-    private boolean estado;
-    @Column(name = "subtotal_sin_descuento", nullable = true)
-    private double subtotal_sin_descuento;
-    @Column(name = "subtotal_con_descuento", nullable = true)
-    private double subtotal_con_descuento;
-    @Column(name = "descuento_total", nullable = true)
-    private double descuento_total;
-    @Column(name = "subtotal_base12_sin_descuento", nullable = true)
-    private double subtotal_base12_sin_descuento;
-    @Column(name = "subtotal_base0_sin_descuento", nullable = true)
-    private double subtotal_base0_sin_descuento;
-    @Column(name = "subtotal_base12_con_descuento", nullable = true)
-    private double subtotal_base12_con_descuento;
-    @Column(name = "subtotal_base0_con_descuento", nullable = true)
-    private double subtotal_base0_con_descuento;
-    @Column(name = "importe_iva_sin_descuento", nullable = true)
-    private double importe_iva_sin_descuento;
-    @Column(name = "importe_iva_con_descuento", nullable = true)
-    private double importe_iva_con_descuento;
-    @Column(name = "total_sin_descuento", nullable = true)
-    private double total_sin_descuento;
-    @Column(name = "total_con_descuento", nullable = true)
-    private double total_con_descuento;
+	@JsonProperty("numero")
+	@Column(name = "numero", nullable = true)
+	private String numero;
+	@JsonProperty("fecha")
+	@Column(name = "fecha", nullable = true)
+	private Date fecha;
+	@JsonProperty("estado")
+	@Column(name = "estado", nullable = true)
+	private boolean estado;
+	@JsonProperty("subtotal_sin_descuento")
+	@Column(name = "subtotal_sin_descuento", nullable = true)
+	private double subtotalSinDescuento;
+	@JsonProperty("subtotal_con_descuento")
+	@Column(name = "subtotal_con_descuento", nullable = true)
+	private double subtotalConDescuento;
+	@JsonProperty("descuento_total")
+	@Column(name = "descuento_total", nullable = true)
+	private double descuentoTotal;
+	@JsonProperty("subtotal_base12_sin_descuento")
+	@Column(name = "subtotal_base12_sin_descuento", nullable = true)
+	private double subtotalBase12SinDescuento;
+	@JsonProperty("subtotal_base0_sin_descuento")
+	@Column(name = "subtotal_base0_sin_descuento", nullable = true)
+	private double subtotalBase0SinDescuento;
+	@JsonProperty("subtotal_base12_con_descuento")
+	@Column(name = "subtotal_base12_con_descuento", nullable = true)
+	private double subtotalBase12ConDescuento;
+	@JsonProperty("subtotal_base0_con_descuento")
+	@Column(name = "subtotal_base0_con_descuento", nullable = true)
+	private double subtotalBase0ConDescuento;
+	@JsonProperty("importe_iva_sin_descuento")
+	@Column(name = "importe_iva_sin_descuento", nullable = true)
+	private double importeIvaSinDescuento;
+	@JsonProperty("importe_iva_con_descuento")
+	@Column(name = "importe_iva_con_descuento", nullable = true)
+	private double importeIvaConDescuento;
+	@JsonProperty("total_sin_descuento")
+	@Column(name = "total_sin_descuento", nullable = true)
+	private double totalSinDescuento;
+	@JsonProperty("total_con_descuento")
+	@Column(name = "total_con_descuento", nullable = true)
+	private double totalConDescuento;
 
-    //GENERAL
-    @Column(name = "valor_descuento_subtotal", nullable = true)
-    private double valor_descuento_subtotal;
-    @Column(name = "porcentaje_descuento_subtotal", nullable = true)
-    private double porcentaje_descuento_subtotal;
-    @Column(name = "valor_descuento_total", nullable = true)
-    private double valor_descuento_total;
-    @Column(name = "porcentaje_descuento_total", nullable = true)
-    private double porcentaje_descuento_total;
-    @Column(name = "valor_porcentaje_descuento_total", nullable = true)
-    private double valor_porcentaje_descuento_total;
+	// GENERAL
+	@JsonProperty("valor_descuento_subtotal")
+	@Column(name = "valor_descuento_subtotal", nullable = true)
+	private double valorDescuentoSubtotal;
+	@JsonProperty("porcentaje_descuento_subtotal")
+	@Column(name = "porcentaje_descuento_subtotal", nullable = true)
+	private double porcentajeDescuentoSubtotal;
+	@JsonProperty("valor_descuento_total")
+	@Column(name = "valor_descuento_total", nullable = true)
+	private double valorDescuentoTotal;
+	@JsonProperty("porcentaje_descuento_total")
+	@Column(name = "porcentaje_descuento_total", nullable = true)
+	private double porcentajeDescuentoTotal;
+	@JsonProperty("valor_porcentaje_descuento_total")
+	@Column(name = "valor_porcentaje_descuento_total", nullable = true)
+	private double valorPorcentajeDescuentoTotal;
 
-    @Column(name = "comentario", nullable = true)
-    private String comentario;
-    @NotNull(message = "El cliente"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
-    @ManyToOne
-    @JoinColumn(name = "cliente_factura_id", nullable = true)
-    private Cliente cliente_factura;
-    @ManyToOne
-    @JoinColumn(name = "auxiliar_id", nullable = true)
-    private Auxiliar auxiliar;
-    @NotNull(message = "El vendedor"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne
-    @JoinColumn(name = "vendedor_id")
-    private Usuario vendedor;
-    @NotNull(message = "La sesion"+ Constantes.mensaje_validacion_not_null)
-    @ManyToOne
-    @JoinColumn(name = "sesion_id", nullable = true)
-    private Sesion sesion;
+	@JsonProperty("comentario")
+	@Column(name = "comentario", nullable = true)
+	private String comentario;
+	@NotNull
+	@ManyToOne
+	@JsonProperty("cliente")
+	@JoinColumn(name = "cliente_id")
+	private Cliente cliente;
+	@ManyToOne
+	@JsonProperty("cliente_factura")
+	@JoinColumn(name = "cliente_factura_id", nullable = true)
+	private Cliente clienteFactura;
+	@ManyToOne
+	@JsonProperty("auxiliar")
+	@JoinColumn(name = "auxiliar_id", nullable = true)
+	private Auxiliar auxiliar;
+	@NotNull
+	@ManyToOne
+	@JsonProperty("vendedor")
+	@JoinColumn(name = "vendedor_id")
+	private Usuario vendedor;
+	@NotNull
+	@ManyToOne
+	@JsonProperty("sesion")
+	@JoinColumn(name = "sesion_id", nullable = true)
+	private Sesion sesion;
 
-    @OneToMany(cascade ={CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE })
-    @JoinColumn(name = "factura_id")
-    private List<FacturaDetalle> factura_detalles;
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
+	@JsonProperty("detalles_factura")
+	@JoinColumn(name = "factura_id")
+	private List<DetalleFactura> detallesFactura;
 
-    public Factura(){
+	public Factura() {
 
-    }
+	}
 
-    public Factura(long id){
-        super(id);
-    }
-    public Factura(String numero){
-        super(0);
-        this.numero=numero;
-    }
+	public Factura(long id) {
+		super(id);
+	}
 
-    public Factura(String codigo, String numero, Date fecha, boolean estado, double subtotal,
-                   double valor_descuento_subtotal, double porcentaje_descuento_subtotal, double valor_porcentaje_descuento_subtotal,
-                   double valor_descuento_total, double porcentaje_descuento_total, double valor_porcentaje_descuento_total,
-                   double descuento, double base_12, double base_0, double importe_iva, double total, String comentario,
-                   Cliente cliente, Cliente cliente_factura, Auxiliar auxiliar, Usuario vendedor, Sesion sesion) {
-        super(codigo);
-        this.numero=numero;
-        this.fecha=fecha;
-        this.estado=estado;
-        this.comentario=comentario;
-        this.cliente=cliente;
-        this.cliente_factura=cliente_factura;
-        this.auxiliar=auxiliar;
-        this.vendedor=vendedor;
-        this.sesion=sesion;
-    }
+	public Factura(String numero) {
+		super(0);
+		this.numero = numero;
+	}
 
-    public String getNumero() {
-        return numero;
-    }
+	public Factura(String codigo, String numero, Date fecha, boolean estado, double subtotal,
+			double valorDescuentoSubtotal, double porcentajeDescuentoSubtotal, double valorPorcentajeDescuentoSubtotal,
+			double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal,
+			double descuento, double base12, double base0, double importeIva, double total, String comentario,
+			Cliente cliente, Cliente clienteFactura, Auxiliar auxiliar, Usuario vendedor, Sesion sesion) {
+		super(codigo);
+		this.numero = numero;
+		this.fecha = fecha;
+		this.estado = estado;
+		this.comentario = comentario;
+		this.cliente = cliente;
+		this.clienteFactura = clienteFactura;
+		this.auxiliar = auxiliar;
+		this.vendedor = vendedor;
+		this.sesion = sesion;
+	}
 
-    public Date getFecha() {
-        return fecha;
-    }
+	public String getNumero() {
+		return numero;
+	}
 
-    public boolean isEstado() {
-        return estado;
-    }
+	public Date getFecha() {
+		return fecha;
+	}
 
-    public double getSubtotal_sin_descuento() {
-        return subtotal_sin_descuento;
-    }
+	public boolean isEstado() {
+		return estado;
+	}
 
-    public double getSubtotal_con_descuento() {
-        return subtotal_con_descuento;
-    }
+	public double getSubtotalSinDescuento() {
+		return subtotalSinDescuento;
+	}
 
-    public double getDescuento_total() {
-        return descuento_total;
-    }
+	public double getSubtotalConDescuento() {
+		return subtotalConDescuento;
+	}
 
-    public double getSubtotal_base12_sin_descuento() {
-        return subtotal_base12_sin_descuento;
-    }
+	public double getDescuentoTotal() {
+		return descuentoTotal;
+	}
 
-    public double getSubtotal_base0_sin_descuento() {
-        return subtotal_base0_sin_descuento;
-    }
+	public double getSubtotalBase12ConDescuento() {
+		return subtotalBase12ConDescuento;
+	}
 
-    public double getSubtotal_base12_con_descuento() {
-        return subtotal_base12_con_descuento;
-    }
+	public double getSubtotalBase0ConDescuento() {
+		return subtotalBase0ConDescuento;
+	}
 
-    public double getSubtotal_base0_con_descuento() {
-        return subtotal_base0_con_descuento;
-    }
+	public double getSubtotalBase12SinDescuento() {
+		return subtotalBase12SinDescuento;
+	}
 
-    public double getImporte_iva_sin_descuento() {
-        return importe_iva_sin_descuento;
-    }
+	public double getSubtotalBase0SinDescuento() {
+		return subtotalBase0SinDescuento;
+	}
 
-    public double getImporte_iva_con_descuento() {
-        return importe_iva_con_descuento;
-    }
+	public double getImporteIvaConDescuento() {
+		return importeIvaConDescuento;
+	}
 
-    public double getTotal_sin_descuento() {
-        return total_sin_descuento;
-    }
+	public double getImporteIvaSinDescuento() {
+		return importeIvaSinDescuento;
+	}
 
-    public double getTotal_con_descuento() {
-        return total_con_descuento;
-    }
+	public double getTotalSinDescuento() {
+		return totalSinDescuento;
+	}
 
-    public double getValor_descuento_subtotal() {
-        return valor_descuento_subtotal;
-    }
+	public double getTotalConDescuento() {
+		return totalConDescuento;
+	}
 
-    public double getPorcentaje_descuento_subtotal() {
-        return porcentaje_descuento_subtotal;
-    }
+	public double getValorDescuentoSubtotal() {
+		return valorDescuentoSubtotal;
+	}
 
-    public double getValor_descuento_total() {
-        return valor_descuento_total;
-    }
+	public double getPorcentajeDescuentoSubtotal() {
+		return porcentajeDescuentoSubtotal;
+	}
 
-    public double getPorcentaje_descuento_total() {
-        return porcentaje_descuento_total;
-    }
+	public double getValorDescuentoTotal() {
+		return valorDescuentoTotal;
+	}
 
-    public double getValor_porcentaje_descuento_total() {
-        return valor_porcentaje_descuento_total;
-    }
+	public double getPorcentajeDescuentoTotal() {
+		return porcentajeDescuentoTotal;
+	}
 
-    public void setSubtotal_sin_descuento(double subtotal_sin_descuento) {
-        this.subtotal_sin_descuento = subtotal_sin_descuento;
-    }
+	public double getValorPorcentajeDescuentoTotal() {
+		return valorPorcentajeDescuentoTotal;
+	}
 
-    public void setSubtotal_con_descuento(double subtotal_con_descuento) {
-        this.subtotal_con_descuento = subtotal_con_descuento;
-    }
+	public void setSubtotalSinDescuento(double subtotalSinDescuento) {
+		this.subtotalSinDescuento = subtotalSinDescuento;
+	}
 
-    public void setDescuento_total(double descuento_total) {
-        this.descuento_total = descuento_total;
-    }
+	public void setSubtotalConDescuento(double subtotalConDescuento) {
+		this.subtotalConDescuento = subtotalConDescuento;
+	}
 
-    public void setSubtotal_base12_sin_descuento(double subtotal_base12_sin_descuento) {
-        this.subtotal_base12_sin_descuento = subtotal_base12_sin_descuento;
-    }
+	public void setDescuentoTotal(double descuentoTotal) {
+		this.descuentoTotal = descuentoTotal;
+	}
 
-    public void setSubtotal_base0_sin_descuento(double subtotal_base0_sin_descuento) {
-        this.subtotal_base0_sin_descuento = subtotal_base0_sin_descuento;
-    }
+	public void setSubtotalBase12ConDescuento(double subtotalBase12ConDescuento) {
+		this.subtotalBase12ConDescuento = subtotalBase12ConDescuento;
+	}
 
-    public void setSubtotal_base12_con_descuento(double subtotal_base12_con_descuento) {
-        this.subtotal_base12_con_descuento = subtotal_base12_con_descuento;
-    }
+	public void setSubtotalBase0ConDescuento(double subtotalBase0ConDescuento) {
+		this.subtotalBase0ConDescuento = subtotalBase0ConDescuento;
+	}
 
-    public void setSubtotal_base0_con_descuento(double subtotal_base0_con_descuento) {
-        this.subtotal_base0_con_descuento = subtotal_base0_con_descuento;
-    }
+	public void setSubtotalBase0SinDescuento(double subtotalBase0SinDescuento) {
+		this.subtotalBase0SinDescuento = subtotalBase0SinDescuento;
+	}
 
-    public void setImporte_iva_sin_descuento(double importe_iva_sin_descuento) {
-        this.importe_iva_sin_descuento = importe_iva_sin_descuento;
-    }
+	public void setSubtotalBase12SinDescuento(double subtotalBase12SinDescuento) {
+		this.subtotalBase12SinDescuento = subtotalBase12SinDescuento;
+	}
 
-    public void setImporte_iva_con_descuento(double importe_iva_con_descuento) {
-        this.importe_iva_con_descuento = importe_iva_con_descuento;
-    }
+	public void setImporteIvaSinDescuento(double importeIvaSinDescuento) {
+		this.importeIvaSinDescuento = importeIvaSinDescuento;
+	}
 
-    public void setTotal_sin_descuento(double total_sin_descuento) {
-        this.total_sin_descuento = total_sin_descuento;
-    }
+	public void setImporteIvaConDescuento(double importeIvaConDescuento) {
+		this.importeIvaConDescuento = importeIvaConDescuento;
+	}
 
-    public void setTotal_con_descuento(double total_con_descuento) {
-        this.total_con_descuento = total_con_descuento;
-    }
+	public void setTotalConDescuento(double totalConDescuento) {
+		this.totalConDescuento = totalConDescuento;
+	}
 
-    public void setValor_descuento_subtotal(double valor_descuento_subtotal) {
-        this.valor_descuento_subtotal = valor_descuento_subtotal;
-    }
+	public void setValorDescuentoSubtotal(double valorDescuentoSubtotal) {
+		this.valorDescuentoSubtotal = valorDescuentoSubtotal;
+	}
 
-    public void setPorcentaje_descuento_subtotal(double porcentaje_descuento_subtotal) {
-        this.porcentaje_descuento_subtotal = porcentaje_descuento_subtotal;
-    }
+	public void setPorcentajeDescuentoSubtotal(double porcentajeDescuentoSubtotal) {
+		this.porcentajeDescuentoSubtotal = porcentajeDescuentoSubtotal;
+	}
 
-    public void setValor_descuento_total(double valor_descuento_total) {
-        this.valor_descuento_total = valor_descuento_total;
-    }
+	public void setValorDescuentoTotal(double valorDescuentoTotal) {
+		this.valorDescuentoTotal = valorDescuentoTotal;
+	}
 
-    public void setPorcentaje_descuento_total(double porcentaje_descuento_total) {
-        this.porcentaje_descuento_total = porcentaje_descuento_total;
-    }
+	public void setPorcentajeDescuentoTotal(double porcentajeDescuentoTotal) {
+		this.porcentajeDescuentoTotal = porcentajeDescuentoTotal;
+	}
 
-    public void setValor_porcentaje_descuento_total(double valor_porcentaje_descuento_total) {
-        this.valor_porcentaje_descuento_total = valor_porcentaje_descuento_total;
-    }
+	public void setValorPorcentajeDescuentoTotal(double valorPorcentajeDescuentoTotal) {
+		this.valorPorcentajeDescuentoTotal = valorPorcentajeDescuentoTotal;
+	}
 
-    public String getComentario() {
-        return comentario;
-    }
+	public String getComentario() {
+		return comentario;
+	}
 
-    public Cliente getCliente() {
-        return cliente;
-    }
+	public Cliente getCliente() {
+		return cliente;
+	}
 
-    public Cliente getCliente_factura() {
-        return cliente_factura;
-    }
+	public Cliente getClienteFactura() {
+		return clienteFactura;
+	}
 
-    public Auxiliar getAuxiliar() {
-        return auxiliar;
-    }
+	public Auxiliar getAuxiliar() {
+		return auxiliar;
+	}
 
-    public Sesion getSesion() {
-        return sesion;
-    }
+	public Sesion getSesion() {
+		return sesion;
+	}
 
-    public Usuario getVendedor() {
-        return vendedor;
-    }
+	public Usuario getVendedor() {
+		return vendedor;
+	}
 
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
 
-    public void setSesion(Sesion sesion) {
-        this.sesion = sesion;
-    }
+	public void setSesion(Sesion sesion) {
+		this.sesion = sesion;
+	}
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-    @JsonManagedReference(value="factura-factura-detalle")
-    public List<FacturaDetalle> getFactura_detalles() {
-        return factura_detalles;
-    }
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 
+	@JsonManagedReference(value = "factura-detalle-factura")
+	public List<DetalleFactura> getDetallesFactura() {
+		return detallesFactura;
+	}
 
-
-    public void normalizar(){
-        if(this.cliente_factura.getId()==0){
-            this.cliente_factura=null;
-        }
-    }
+	public void normalizar() {
+		if (this.clienteFactura.getId() == 0) {
+			this.clienteFactura = null;
+		}
+	}
 }

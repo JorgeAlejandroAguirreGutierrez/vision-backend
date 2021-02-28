@@ -1,12 +1,9 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Direccion;
-import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.otros.entrega.GuiaRemisionUtil;
 
 import javax.persistence.*;
@@ -18,28 +15,38 @@ import java.util.List;
 @Table(name = "guia_remision")
 @EntityListeners({GuiaRemisionUtil.class})
 public class GuiaRemision extends Entidad {
+	@JsonProperty("numero")
     @Column(name = "numero", nullable = true)
     private String numero;
+	@JsonProperty("fecha")
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+	@JsonProperty("referencia")
     @Column(name = "referencia", nullable = true)
     private String referencia;
+	@JsonProperty("longitudgeo")
     @Column(name = "longitudgeo", nullable = true)
     private String longitudgeo;
+	@JsonProperty("latitudgeo")
     @Column(name = "latitudgeo", nullable = true)
     private String latitudgeo;
+	@JsonProperty("estado")
     @Column(name = "estado", nullable = true)
     private boolean estado;
+	@JsonProperty("inhabilitar")
     @Column(name = "inhabilitar", nullable = true)
     private boolean inhabilitar;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
+    @JsonProperty("direccion")
     @JoinColumn(name = "direccion_id", nullable= true)
     private Direccion direccion;
-    @NotNull(message = "Factura"+ Constantes.mensaje_validacion_not_null)
+    @NotNull
     @ManyToOne
+    @JsonProperty("factura")
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
     @ManyToOne
+    @JsonProperty("transportista")
     @JoinColumn(name = "transportista_id", nullable = true)
     private Transportista transportista;
 

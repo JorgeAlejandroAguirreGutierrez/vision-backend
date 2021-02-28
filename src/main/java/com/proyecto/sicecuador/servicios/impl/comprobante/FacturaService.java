@@ -50,11 +50,11 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura crear(Factura factura) {
         //ACTUALIZACION DE KARDEX
-        for(int i=0; i<factura.getFactura_detalles().size(); i++){
-            int cantidad=factura.getFactura_detalles().get(i).getProducto().getKardexs().size();
-            Kardex kardex_actualizar=factura.getFactura_detalles().get(i).getProducto().getKardexs().get(cantidad-1);
+        for(int i=0; i<factura.getDetallesFactura().size(); i++){
+            int cantidad=factura.getDetallesFactura().get(i).getProducto().getKardexs().size();
+            Kardex kardex_actualizar=factura.getDetallesFactura().get(i).getProducto().getKardexs().get(cantidad-1);
             long salida_actual=kardex_actualizar.getSalida();
-            kardex_actualizar.setSalida(salida_actual+factura.getFactura_detalles().get(i).getCantidad());
+            kardex_actualizar.setSalida(salida_actual+factura.getDetallesFactura().get(i).getCantidad());
             kardexService.actualizar(kardex_actualizar);
         }
         return rep.save(factura);
@@ -92,8 +92,8 @@ public class FacturaService implements IFacturaService {
             @Override
             public Predicate toPredicate(Root<Factura> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (factura.getCliente().getRazon_social()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("cliente").get("razon_social"), "%"+factura.getCliente().getRazon_social()+"%")));
+                if (factura.getCliente().getRazonSocial()!=null) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("cliente").get("razon_social"), "%"+factura.getCliente().getRazonSocial()+"%")));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -125,15 +125,15 @@ public class FacturaService implements IFacturaService {
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
             documento.add(new Paragraph("LOGO").setFont(font).setFontSize(30));
-            documento.add(new Paragraph(factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getRazon_social()+"\n"+
-                    "Direccion: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getDireccion()).setBorder(new SolidBorder(1)));
+            documento.add(new Paragraph(factura.getVendedor().getPuntoVenta().getEstablecimiento().getEmpresa().getRazonSocial()+"\n"+
+                    "Direccion: "+factura.getVendedor().getPuntoVenta().getEstablecimiento().getDireccion()).setBorder(new SolidBorder(1)));
             documento.add( new Paragraph("\n"));
-            documento.add(new Paragraph("RUC: "+factura.getVendedor().getPunto_venta().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+            documento.add(new Paragraph("RUC: "+factura.getVendedor().getPuntoVenta().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
                     "FACTURA"+"\n"+
                     "No."+factura.getNumero()+"\n"+
                     "Fecha: "+factura.getFecha().toString()).setBorder(new SolidBorder(1)));
             documento.add( new Paragraph("\n"));
-            documento.add( new Paragraph("Razon Social: "+factura.getCliente().getRazon_social()+"\n"+
+            documento.add( new Paragraph("Razon Social: "+factura.getCliente().getRazonSocial()+"\n"+
                     "Identificacion: "+factura.getCliente().getIdentificacion()+"\n"+
                     "Fecha: "+factura.getFecha().toString()+"\n"+
                     "Direccion: "+factura.getCliente().getDireccion().getDireccion()).setBorder(new SolidBorder(1)));
@@ -149,39 +149,39 @@ public class FacturaService implements IFacturaService {
             tabla_factura_detalle.addCell("Sin subsidio");
             tabla_factura_detalle.addCell("Descuento");
             tabla_factura_detalle.addCell("Total");
-            for (int i = 0; i <factura.getFactura_detalles().size(); i++)
+            for (int i = 0; i <factura.getDetallesFactura().size(); i++)
             {
-                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getProducto().getCodigo());
-                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getCantidad()+"");
-                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getProducto().getNombre());
+                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getProducto().getCodigo());
+                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getCantidad()+"");
+                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getProducto().getNombre());
                 String series="";
-                if (!factura.getFactura_detalles().get(i).getProducto().isSerie_autogenerado()){
-                    for (int j = 0; j <factura.getFactura_detalles().get(i).getCaracteristicas().size(); j++){
-                        series=series+" "+factura.getFactura_detalles().get(i).getCaracteristicas().get(j).getSerie();
+                if (!factura.getDetallesFactura().get(i).getProducto().isSerieAutogenerado()){
+                    for (int j = 0; j <factura.getDetallesFactura().get(i).getCaracteristicas().size(); j++){
+                        series=series+" "+factura.getDetallesFactura().get(i).getCaracteristicas().get(j).getSerie();
                     }
                 }
                 tabla_factura_detalle.addCell(series);
-                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getPrecio().getPrecio_venta_publico_iva()+"");
-                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSubsidio()+"");
-                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getSin_subsidio()+"");
-                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getValor_descuento_individual_totales()+"");
-                tabla_factura_detalle.addCell(factura.getFactura_detalles().get(i).getTotal_con_descuento()+"");
+                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getPrecio().getPrecioVentaPublicoIva()+"");
+                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getSubsidio()+"");
+                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getSinSubsidio()+"");
+                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getValorDescuentoIndividualTotales()+"");
+                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getTotalConDescuento()+"");
             }
             documento.add(tabla_factura_detalle);
             float [] columnas_tabla_factura = {130F, 100F};
             Table tabla_factura = new Table(columnas_tabla_factura);
             tabla_factura.addCell("Subtotal SD 12%");
-            tabla_factura.addCell(factura.getSubtotal_base12_sin_descuento()+"");
+            tabla_factura.addCell(factura.getSubtotalBase12SinDescuento()+"");
             tabla_factura.addCell("Subtotal CD 12%");
-            tabla_factura.addCell(factura.getSubtotal_base12_con_descuento()+"");
+            tabla_factura.addCell(factura.getSubtotalBase12ConDescuento()+"");
             tabla_factura.addCell("Subtotal SD 0%");
-            tabla_factura.addCell(factura.getSubtotal_base0_sin_descuento()+"");
+            tabla_factura.addCell(factura.getSubtotalBase0SinDescuento()+"");
             tabla_factura.addCell("Subtotal CD 0%");
-            tabla_factura.addCell(factura.getSubtotal_base0_con_descuento()+"");
+            tabla_factura.addCell(factura.getSubtotalBase0ConDescuento()+"");
             tabla_factura.addCell("Total SD");
-            tabla_factura.addCell(factura.getTotal_sin_descuento()+"");
+            tabla_factura.addCell(factura.getTotalSinDescuento()+"");
             tabla_factura.addCell("Total CD");
-            tabla_factura.addCell(factura.getTotal_con_descuento()+"");
+            tabla_factura.addCell(factura.getTotalConDescuento()+"");
             tabla_factura.setHorizontalAlignment(HorizontalAlignment.RIGHT);
             documento.add(tabla_factura);
             String telefono_cliente="";
@@ -199,11 +199,11 @@ public class FacturaService implements IFacturaService {
                     "Punto de Partida: "+"\n"+
                     "Vendedor: "+ factura.getVendedor().getNombre()+"\n"+
                     "Entrada: "+"\n"+
-                    "Valor a Financiar: "+factura.getTotal_con_descuento()+"\n"+
+                    "Valor a Financiar: "+factura.getTotalConDescuento()+"\n"+
                     "Financiamiento: "+"\n"+
                     "1 Letra: "+"\n"+
                     "2 letra: "+"\n"+
-                    "Todo incluido financiamiento: "+factura.getTotal_con_descuento()).setBorder(new SolidBorder(1)).setWidth(300).setVerticalAlignment(VerticalAlignment.TOP).setHorizontalAlignment(HorizontalAlignment.LEFT));
+                    "Todo incluido financiamiento: "+factura.getTotalConDescuento()).setBorder(new SolidBorder(1)).setWidth(300).setVerticalAlignment(VerticalAlignment.TOP).setHorizontalAlignment(HorizontalAlignment.LEFT));
             documento.add( new Paragraph("\n"));
 
             // 5. Close document

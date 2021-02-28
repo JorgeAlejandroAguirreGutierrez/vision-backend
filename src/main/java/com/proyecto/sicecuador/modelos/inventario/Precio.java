@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -9,24 +10,31 @@ import java.util.List;
 @Entity
 @Table(name = "precio")
 public class Precio extends Entidad {
+	@JsonProperty("costo")
     @Column(name = "costo", nullable = true)
     private double costo;
+	@JsonProperty("margen_ganancia")
     @Column(name = "margen_ganancia", nullable = true)
-    private double margen_ganancia;
+    private double margenGanancia;
+	@JsonProperty("precio_venta_publico")
     @Column(name = "precio_venta_publico", nullable = true)
-    private double precio_venta_publico;
+    private double precioVentaPublico;
+	@JsonProperty("precio_venta_publico_iva")
     @Column(name = "precio_venta_publico_iva", nullable = true)
-    private double precio_venta_publico_iva;
+    private double precioVentaPublicoIva;
+	@JsonProperty("precio_venta_publico_manual")
     @Column(name = "precio_venta_publico_manual", nullable = true)
-    private double precio_venta_publico_manual;
+    private double precioVentaPublicoManual;
+	@JsonProperty("utilidad")
     @Column(name = "utilidad", nullable = true)
     private double utilidad;
+	@JsonProperty("utilidad_porcentaje")
     @Column(name = "utilidad_porcentaje", nullable = true)
-    private double utilidad_porcentaje;
+    private double utilidadPorcentaje;
 
     @ManyToOne
     @JoinColumn(name = "medida_precio_id", nullable = true)
-    private MedidaPrecio medida_precio;
+    private MedidaPrecio medidaPrecio;
     @ManyToOne
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
@@ -44,17 +52,17 @@ public class Precio extends Entidad {
     }
 
     public Precio(String codigo, double costo, double margen_ganancia,
-                  double precio_venta_publico, double precio_venta_publico_iva, double precio_venta_publico_manual,
-                  double utilidad, double utilidad_pocentaje, MedidaPrecio medida_precio, Segmento segmento){
+                  double precioVentaPublico, double precioVentaPublicoIva, double precioVentaPublicoManual,
+                  double utilidad, double utilidadPocentaje, MedidaPrecio medidaPrecio, Segmento segmento){
         super(codigo);
         this.costo=costo;
-        this.margen_ganancia=margen_ganancia;
-        this.precio_venta_publico=precio_venta_publico;
-        this.precio_venta_publico_iva=precio_venta_publico_iva;
-        this.precio_venta_publico_manual=precio_venta_publico_manual;
+        this.margenGanancia=margen_ganancia;
+        this.precioVentaPublico=precioVentaPublico;
+        this.precioVentaPublicoIva=precioVentaPublicoIva;
+        this.precioVentaPublicoManual=precioVentaPublicoManual;
         this.utilidad=utilidad;
-        this.utilidad_porcentaje=utilidad_pocentaje;
-        this.medida_precio=medida_precio;
+        this.utilidadPorcentaje=utilidadPocentaje;
+        this.medidaPrecio=medidaPrecio;
         this.segmento=segmento;
     }
 
@@ -62,36 +70,36 @@ public class Precio extends Entidad {
         return costo;
     }
 
-    public double getMargen_ganancia() {
-        return margen_ganancia;
-    }
+    public double getMargenGanancia() {
+		return margenGanancia;
+	}
 
-    public double getPrecio_venta_publico() {
-        return precio_venta_publico;
-    }
+    public double getPrecioVentaPublico() {
+		return precioVentaPublico;
+	}
 
-    public double getPrecio_venta_publico_iva() {
-        return precio_venta_publico_iva;
-    }
+    public double getPrecioVentaPublicoIva() {
+		return precioVentaPublicoIva;
+	}
 
-    public double getPrecio_venta_publico_manual() {
-        return precio_venta_publico_manual;
-    }
+    public double getPrecioVentaPublicoManual() {
+		return precioVentaPublicoManual;
+	}
 
     public double getUtilidad() {
         return utilidad;
     }
 
-    public double getUtilidad_porcentaje() {
-        return utilidad_porcentaje;
-    }
+    public double getUtilidadPorcentaje() {
+		return utilidadPorcentaje;
+	}
 
     public Segmento getSegmento() {
         return segmento;
     }
 
     @JsonBackReference
-    public MedidaPrecio getMedida_precio() {
-        return medida_precio;
-    }
+    public MedidaPrecio getMedidaPrecio() {
+		return medidaPrecio;
+	}
 }

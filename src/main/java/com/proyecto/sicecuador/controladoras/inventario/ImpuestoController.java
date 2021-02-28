@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_impuesto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathImpuesto;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+path_impuesto)
+@RequestMapping(contexto+pathImpuesto)
 public class ImpuestoController implements GenericoController<Impuesto> {
     @Autowired
     private IImpuestoService servicio;

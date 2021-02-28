@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_rango_crediticio;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathRangoCrediticio;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+path_rango_crediticio)
+@RequestMapping(contexto+pathRangoCrediticio)
 public class RangoCrediticioController implements GenericoController<RangoCrediticio> {
     @Autowired
     private IRangoCrediticioService servicio;

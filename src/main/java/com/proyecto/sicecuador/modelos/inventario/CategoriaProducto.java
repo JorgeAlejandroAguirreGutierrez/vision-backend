@@ -1,25 +1,26 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.CaracteristicaUtil;
 import com.proyecto.sicecuador.otros.inventario.CategoriaProductoUtil;
-
 import javax.persistence.*;
 import java.util.List;
+
 @Entity
 @Table(name = "categoria_producto")
 @EntityListeners({CategoriaProductoUtil.class})
 public class CategoriaProducto extends Entidad {
+	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)
     private String nombre;
     @ManyToOne
+    @JsonProperty("sub_grupo_producto")
     @JoinColumn(name = "sub_grupo_producto_id", nullable = true)
-    private SubGrupoProducto sub_grupo_producto;
+    private SubGrupoProducto subGrupoProducto;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JsonProperty("lineas_producto")
     @JoinColumn(name = "categoria_producto_id", nullable = true)
-    private List<LineaProducto> lineas_productos;
+    private List<LineaProducto> lineasProducto;
 
     public CategoriaProducto(){
 
@@ -29,10 +30,10 @@ public class CategoriaProducto extends Entidad {
         super(id);
     }
 
-    public CategoriaProducto(String codigo, String nombre, SubGrupoProducto sub_grupo_producto){
+    public CategoriaProducto(String codigo, String nombre, SubGrupoProducto subGrupoProducto){
         super(codigo);
         this.nombre=nombre;
-        this.sub_grupo_producto=sub_grupo_producto;
+        this.subGrupoProducto=subGrupoProducto;
     }
 
     public CategoriaProducto(List<String> datos){
@@ -47,11 +48,11 @@ public class CategoriaProducto extends Entidad {
 		this.nombre = nombre;
 	}
 
-    public SubGrupoProducto getSub_grupo_producto() {
-        return sub_grupo_producto;
-    }
+   public SubGrupoProducto getSubGrupoProducto() {
+	   return subGrupoProducto;
+   }
     
-    public void setSub_grupo_producto(SubGrupoProducto sub_grupo_producto) {
-		this.sub_grupo_producto = sub_grupo_producto;
+    public void setSubGrupoProducto(SubGrupoProducto subGrupoProducto) {
+		this.subGrupoProducto = subGrupoProducto;
 	}
 }

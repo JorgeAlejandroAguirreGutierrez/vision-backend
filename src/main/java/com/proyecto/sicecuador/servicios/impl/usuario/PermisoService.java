@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.modelos.usuario.Permiso;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IPermisoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPermisoService;

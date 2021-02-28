@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.modelos.compra;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,10 +13,10 @@ public class RetencionCompra extends Entidad {
     private String numero;
     @Column(name = "tipo", nullable = true)
     private String tipo;
-    @Column(name = "fecha_cheque", nullable = true)
+    @Column(name = "fecha", nullable = true)
     private Date fecha;
     @Column(name = "fecha_efectivizacion", nullable = true)
-    private Date fecha_efectivizacion;
+    private Date fechaEfectivizacion;
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
@@ -32,12 +31,12 @@ public class RetencionCompra extends Entidad {
         super(id);
     }
 
-    public RetencionCompra(String codigo, String numero, String tipo, Date fecha, Date fecha_efectivizacion, double valor, Banco banco){
+    public RetencionCompra(String codigo, String numero, String tipo, Date fecha, Date fechaEfectivizacion, double valor, Banco banco){
         super(codigo);
         this.numero=numero;
         this.tipo=tipo;
         this.fecha=fecha;
-        this.fecha_efectivizacion=fecha_efectivizacion;
+        this.fechaEfectivizacion=fechaEfectivizacion;
         this.valor=valor;
         this.banco=banco;
     }
@@ -58,9 +57,9 @@ public class RetencionCompra extends Entidad {
         return fecha;
     }
 
-    public Date getFecha_efectivizacion() {
-        return fecha_efectivizacion;
-    }
+    public Date getFechaEfectivizacion() {
+		return fechaEfectivizacion;
+	}
 
     public Banco getBanco() {
         return banco;

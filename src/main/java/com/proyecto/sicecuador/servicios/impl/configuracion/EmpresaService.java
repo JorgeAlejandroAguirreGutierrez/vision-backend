@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
-import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IEmpresaRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IEmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;

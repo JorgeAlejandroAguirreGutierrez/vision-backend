@@ -1,6 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.PresentacionProductoUtil;
 
@@ -12,11 +12,13 @@ import javax.persistence.*;
 @Table(name = "presentacion_producto")
 @EntityListeners({PresentacionProductoUtil.class})
 public class PresentacionProducto extends Entidad {
+	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)
     private String nombre;
     @ManyToOne
+    @JsonProperty("sub_linea_producto")
     @JoinColumn(name = "sub_linea_producto_id", nullable = true)
-    private SubLineaProducto sub_linea_producto;
+    private SubLineaProducto subLineaProducto;
 
     public PresentacionProducto(){
 
@@ -26,10 +28,10 @@ public class PresentacionProducto extends Entidad {
         super(id);
     }
 
-    public PresentacionProducto(String codigo, String nombre, SubLineaProducto sub_linea_producto){
+    public PresentacionProducto(String codigo, String nombre, SubLineaProducto subLineaProducto){
         super(codigo);
         this.nombre=nombre;
-        this.sub_linea_producto=sub_linea_producto;
+        this.subLineaProducto=subLineaProducto;
     }
     
     public PresentacionProducto(List<String>datos) {
@@ -44,10 +46,11 @@ public class PresentacionProducto extends Entidad {
 		this.nombre = nombre;
 	}
     
-    public SubLineaProducto getSub_linea_producto() {
-        return sub_linea_producto;
-    }
-    public void setSub_linea_producto(SubLineaProducto sub_linea_producto) {
-		this.sub_linea_producto = sub_linea_producto;
+    public SubLineaProducto getSubLineaProducto() {
+		return subLineaProducto;
 	}
+    
+    public void setSubLineaProducto(SubLineaProducto subLineaProducto) {
+    	this.subLineaProducto = subLineaProducto;
+    }
 }

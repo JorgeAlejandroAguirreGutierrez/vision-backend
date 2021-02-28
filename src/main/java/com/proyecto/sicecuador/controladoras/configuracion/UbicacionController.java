@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.configuracion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.path_ubicacion;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathUbicacion;
 import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+path_ubicacion)
+@RequestMapping(contexto+pathUbicacion)
 public class UbicacionController implements GenericoController<Ubicacion> {
     @Autowired
     private IUbicacionService servicio;

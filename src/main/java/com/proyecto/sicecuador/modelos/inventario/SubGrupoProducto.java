@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.SubGrupoProductoUtil;
 
@@ -11,14 +10,17 @@ import java.util.List;
 @Table(name = "sub_grupo_producto")
 @EntityListeners({SubGrupoProductoUtil.class})
 public class SubGrupoProducto extends Entidad {
+	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)
     private String nombre;
     @ManyToOne
+    @JsonProperty("grupo_producto")
     @JoinColumn(name = "grupo_producto_id", nullable = true)
-    private GrupoProducto grupo_producto;
+    private GrupoProducto grupoProducto;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JsonProperty("sub_grupo_producto")
     @JoinColumn(name = "sub_grupo_producto_id")
-    private List<CategoriaProducto> categorias_productos;
+    private List<CategoriaProducto> categoriasProducto;
 
     public SubGrupoProducto(){
 
@@ -28,10 +30,10 @@ public class SubGrupoProducto extends Entidad {
         super(id);
     }
 
-    public SubGrupoProducto(String codigo, String nombre, GrupoProducto grupo_producto){
+    public SubGrupoProducto(String codigo, String nombre, GrupoProducto grupoProducto){
         super(codigo);
         this.nombre=nombre;
-        this.grupo_producto=grupo_producto;
+        this.grupoProducto=grupoProducto;
     }
 
     public String getNombre() {
@@ -42,11 +44,11 @@ public class SubGrupoProducto extends Entidad {
 		this.nombre = nombre;
 	}
     
-    public GrupoProducto getGrupo_producto() {
-        return grupo_producto;
-    }
+    public GrupoProducto getGrupoProducto() {
+		return grupoProducto;
+	}
     
-    public void setGrupo_producto(GrupoProducto grupo_producto) {
-		this.grupo_producto = grupo_producto;
+    public void setGrupoProducto(GrupoProducto grupoProducto) {
+		this.grupoProducto = grupoProducto;
 	}
 }

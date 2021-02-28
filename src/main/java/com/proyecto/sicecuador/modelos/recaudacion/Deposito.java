@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.recaudacion.DepositoUtil;
 
@@ -10,19 +11,25 @@ import java.util.Date;
 @Entity
 @Table(name = "deposito")
 public class Deposito extends Entidad {
+	@JsonProperty("fecha")
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+	@JsonProperty("comprobante")
     @Column(name = "comprobante", nullable = true)
     private String comprobante;
+	@JsonProperty("valor")
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
+    @JsonProperty("banco")
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
     @ManyToOne
+    @JsonProperty("cuenta_propia")
     @JoinColumn(name = "cuenta_propia_id", nullable = true)
-    private CuentaPropia cuenta_propia;
+    private CuentaPropia cuentaPropia;
     @ManyToOne
+    @JsonProperty("recaudacion")
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 
@@ -34,13 +41,13 @@ public class Deposito extends Entidad {
         super(id);
     }
 
-    public Deposito(String codigo, Date fecha, String comprobante, double valor, Banco banco, CuentaPropia cuenta_propia, Recaudacion recaudacion){
+    public Deposito(String codigo, Date fecha, String comprobante, double valor, Banco banco, CuentaPropia cuentaPropia, Recaudacion recaudacion){
         super(codigo);
         this.fecha=fecha;
         this.comprobante=comprobante;
         this.valor=valor;
         this.banco=banco;
-        this.cuenta_propia=cuenta_propia;
+        this.cuentaPropia=cuentaPropia;
         this.recaudacion=recaudacion;
     }
 
@@ -60,9 +67,9 @@ public class Deposito extends Entidad {
         return banco;
     }
 
-    public CuentaPropia getCuenta_propia() {
-        return cuenta_propia;
-    }
+    public CuentaPropia getCuentaPropia() {
+		return cuentaPropia;
+	}
 
     @JsonBackReference
     public Recaudacion getRecaudacion() {

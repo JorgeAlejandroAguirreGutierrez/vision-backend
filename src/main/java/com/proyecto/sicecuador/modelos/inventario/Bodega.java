@@ -1,11 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.cliente.TipoPagoUtil;
 import com.proyecto.sicecuador.otros.inventario.BodegaUtil;
 
 import javax.persistence.*;
@@ -15,8 +11,9 @@ import java.util.List;
 @Table(name = "bodega")
 @EntityListeners({BodegaUtil.class})
 public class Bodega extends Entidad {
+	@JsonProperty("codigo_interno")
     @Column(name = "codigo_interno", nullable = true)
-    private String codigo_interno;
+    private String codigoInterno;
     public Bodega(){
     }
     public Bodega(long id){
@@ -25,16 +22,16 @@ public class Bodega extends Entidad {
     public Bodega(String codigo){
         super(codigo);
     }
-    public Bodega(String codigo, String codigo_interno){
+    public Bodega(String codigo, String codigoInterno){
         super(codigo);
-        this.codigo_interno=codigo_interno;
+        this.codigoInterno=codigoInterno;
     }
 
     public Bodega(List<String>datos){
-        codigo_interno=datos.get(0)== null ? null: datos.get(0);
+        codigoInterno=datos.get(0)== null ? null: datos.get(0);
     }
 
-    public String getCodigo_interno() {
-        return codigo_interno;
-    }
+    public String getCodigoInterno() {
+		return codigoInterno;
+	}
 }

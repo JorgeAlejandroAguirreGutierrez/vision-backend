@@ -1,8 +1,7 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
-import com.proyecto.sicecuador.otros.cliente.GeneroUtil;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,8 +9,10 @@ import java.util.List;
 @Entity
 @Table(name = "genero")
 public class Genero extends Entidad {
+	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
+	@JsonProperty("abreviatura")
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
 

@@ -4,7 +4,6 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.usuario.UsuarioUtil;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,7 +24,7 @@ public class Usuario extends Entidad {
     private boolean activo;
     @ManyToOne
     @JoinColumn(name = "punto_venta_id", nullable = true)
-    private PuntoVenta punto_venta;
+    private PuntoVenta puntoVenta;
     @ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
@@ -38,7 +37,7 @@ public class Usuario extends Entidad {
         super(id);
     }
 
-    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, boolean activo, PuntoVenta punto_venta, Perfil perfil){
+    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, boolean activo, PuntoVenta puntoVenta, Perfil perfil){
         super(codigo);
         this.nombre=nombre;
         this.correo=correo;
@@ -46,7 +45,7 @@ public class Usuario extends Entidad {
         this.contrasena=contrasena;
         this.avatar=avatar;
         this.activo=activo;
-        this.punto_venta=punto_venta;
+        this.puntoVenta=puntoVenta;
         this.perfil=perfil;
     }
 
@@ -57,7 +56,7 @@ public class Usuario extends Entidad {
         identificacion=datos.get(3)== null ? null: datos.get(3);
         avatar=datos.get(4)== null ? null: datos.get(4);
         activo=datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
-        punto_venta=datos.get(6)== null ? null:new PuntoVenta((long) Double.parseDouble(datos.get(6)));
+        puntoVenta=datos.get(6)== null ? null:new PuntoVenta((long) Double.parseDouble(datos.get(6)));
         perfil=datos.get(7)== null ? null:new Perfil((long) Double.parseDouble(datos.get(7)));
     }
 
@@ -85,9 +84,9 @@ public class Usuario extends Entidad {
         return activo;
     }
 
-    public PuntoVenta getPunto_venta() {
-        return punto_venta;
-    }
+    public PuntoVenta getPuntoVenta() {
+		return puntoVenta;
+	}
 
     public Perfil getPerfil() {
         return perfil;

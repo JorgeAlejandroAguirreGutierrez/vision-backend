@@ -1,10 +1,8 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
-import com.proyecto.sicecuador.otros.inventario.KardexUtil;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,37 +11,52 @@ import java.util.List;
 @Entity
 @Table(name = "kardex")
 public class Kardex extends Entidad {
+	@JsonProperty("fecha")
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+	@JsonProperty("documento")
     @Column(name = "documento", nullable = true)
     private String documento;
+	@JsonProperty("numero")
     @Column(name = "numero", nullable = true)
     private String numero;
+	@JsonProperty("operacion")
     @Column(name = "operacion", nullable = true)
     private String operacion;
+	@JsonProperty("entrada")
     @Column(name = "entrada", nullable = true)
     private double entrada;
+	@JsonProperty("salida")
     @Column(name = "salida", nullable = true)
     private long salida;
+	@JsonProperty("debe")
     @Column(name = "debe", nullable = true)
     private double debe;
+	@JsonProperty("haber")
     @Column(name = "haber", nullable = true)
     private double haber;
-    @Column(name = "long", nullable = true)
+	@JsonProperty("cantidad")
+    @Column(name = "cantidad", nullable = true)
     private long cantidad;
+	@JsonProperty("costo_unitario")
     @Column(name = "costo_unitario", nullable = true)
-    private double costo_unitario;
+    private double costoUnitario;
+	@JsonProperty("costo_promedio")
     @Column(name = "costo_promedio", nullable = true)
-    private double costo_promedio;
+    private double costoPromedio;
+	@JsonProperty("costo_total")
     @Column(name = "costo_total", nullable = true)
-    private double costo_total;
+    private double costoTotal;
     @ManyToOne
+    @JsonProperty("medida")
     @JoinColumn(name = "medida_id", nullable = true)
     private Medida medida;
     @ManyToOne
+    @JsonProperty("proveedor")
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
     @ManyToOne
+    @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
 
@@ -56,7 +69,7 @@ public class Kardex extends Entidad {
     }
 
     public Kardex(String codigo, Date fecha, String documento, String numero, String operacion, double entrada, long salida,
-                  double debe, double haber, long cantidad, double costo_unitario, double costo_promedio,double costo_total,
+                  double debe, double haber, long cantidad, double costoUnitario, double costoPromedio,double costoTotal,
                   Medida medida, Proveedor proveedor,Producto producto){
         super(codigo);
         this.fecha=fecha;
@@ -68,9 +81,9 @@ public class Kardex extends Entidad {
         this.debe=debe;
         this.haber=haber;
         this.cantidad=cantidad;
-        this.costo_unitario=costo_unitario;
-        this.costo_promedio=costo_promedio;
-        this.costo_total=costo_total;
+        this.costoUnitario=costoUnitario;
+        this.costoPromedio=costoPromedio;
+        this.costoTotal=costoTotal;
         this.medida=medida;
         this.proveedor=proveedor;
         this.producto=producto;
@@ -112,9 +125,9 @@ public class Kardex extends Entidad {
         return haber;
     }
 
-    public double getCosto_promedio() {
-        return costo_promedio;
-    }
+    public double getCostoPromedio() {
+		return costoPromedio;
+	}
     
     public Medida getMedida() {
 		return medida;
@@ -128,17 +141,17 @@ public class Kardex extends Entidad {
         this.proveedor = proveedor;
     }
 
-    public double getCosto_unitario() {
-        return costo_unitario;
-    }
+    public double getCostoUnitario() {
+		return costoUnitario;
+	}
 
     public long getCantidad() {
         return cantidad;
     }
 
-    public double getCosto_total() {
-        return costo_total;
-    }
+    public double getCostoTotal() {
+		return costoTotal;
+	}
 
     @JsonBackReference
     public Producto getProducto() {

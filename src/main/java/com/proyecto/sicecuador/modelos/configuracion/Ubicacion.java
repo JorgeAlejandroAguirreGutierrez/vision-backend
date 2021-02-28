@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.configuracion;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.configuracion.UbicacionUtil;
 
@@ -10,12 +11,16 @@ import java.util.List;
 @Table(name = "ubicacion")
 @EntityListeners({UbicacionUtil.class})
 public class Ubicacion extends Entidad {
+	@JsonProperty("codigo_norma")
     @Column(name = "codigo_norma", nullable = true)
-    private String codigo_norma;
+    private String codigoNorma;
+	@JsonProperty("provincia")
     @Column(name = "provincia", nullable = true)
     private String provincia;
+	@JsonProperty("canton")
     @Column(name = "canton", nullable = true)
     private String canton;
+	@JsonProperty("parroquia")
     @Column(name = "parroquia", nullable = true)
     private String parroquia;
 
@@ -27,16 +32,16 @@ public class Ubicacion extends Entidad {
         super(id);
     }
 
-    public Ubicacion(String codigo, String codigo_norma, String provincia, String canton, String parroquia){
+    public Ubicacion(String codigo, String codigoNorma, String provincia, String canton, String parroquia){
         super(codigo);
-        this.codigo_norma=codigo_norma;
+        this.codigoNorma=codigoNorma;
         this.provincia=provincia;
         this.canton=canton;
         this.parroquia=parroquia;
     }
 
-    public Ubicacion(String codigo_norma, String provincia, String canton, String parroquia){
-        this.codigo_norma=codigo_norma;
+    public Ubicacion(String codigoNorma, String provincia, String canton, String parroquia){
+        this.codigoNorma=codigoNorma;
         this.provincia=provincia;
         this.canton=canton;
         this.parroquia=parroquia;
@@ -49,14 +54,15 @@ public class Ubicacion extends Entidad {
     }
 
     public Ubicacion(List<String> datos){
-        codigo_norma=datos.get(0)== null ? null: datos.get(0);
+        codigoNorma=datos.get(0)== null ? null: datos.get(0);
         provincia=datos.get(1)== null ? null: datos.get(1);
         canton=datos.get(2)== null ? null: datos.get(2);
         parroquia=datos.get(3)== null ? null: datos.get(3);
     }
-    public String getCodigo_norma() {
-        return codigo_norma;
-    }
+    
+    public String getCodigoNorma() {
+		return codigoNorma;
+	}
 
     public String getProvincia() {
         return provincia;

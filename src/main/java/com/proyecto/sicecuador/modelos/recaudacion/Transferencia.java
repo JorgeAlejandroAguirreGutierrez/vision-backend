@@ -1,9 +1,8 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.recaudacion.DepositoUtil;
-import com.proyecto.sicecuador.otros.recaudacion.TransferenciaUtil;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,18 +10,24 @@ import java.util.Date;
 @Entity
 @Table(name = "transferencia")
 public class Transferencia extends Entidad {
+	@JsonProperty("tipo_transaccion")
     @Column(name = "tipo_transaccion", nullable = true)
-    private String tipo_transaccion;
+    private String tipoTransaccion;
+	@JsonProperty("numero_transaccion")
     @Column(name = "numero_transaccion", nullable = true)
-    private String numero_transaccion;
+    private String numeroTransaccion;
+	@JsonProperty("fecha_transaccion")
     @Column(name = "fecha_transaccion", nullable = true)
-    private Date fecha_transaccion;
+    private Date fechaTransaccion;
+	@JsonProperty("valor")
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
+    @JsonProperty("banco")
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
     @ManyToOne
+    @JsonProperty("recaudacion")
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 
@@ -33,26 +38,27 @@ public class Transferencia extends Entidad {
         super(id);
     }
 
-    public Transferencia(String codigo, String tipo_transaccion, String numero_transaccion, Date fecha_transaccion, double valor, Recaudacion recaudacion, Banco banco){
+    public Transferencia(String codigo, String tipoTransaccion, String numeroTransaccion, Date fechaTransaccion, double valor, Recaudacion recaudacion, Banco banco){
         super(codigo);
-        this.tipo_transaccion=tipo_transaccion;
-        this.numero_transaccion=numero_transaccion;
-        this.fecha_transaccion=fecha_transaccion;
+        this.tipoTransaccion=tipoTransaccion;
+        this.numeroTransaccion=numeroTransaccion;
+        this.fechaTransaccion=fechaTransaccion;
         this.valor=valor;
         this.recaudacion=recaudacion;
         this.banco=banco;
     }
-    public String getTipo_transaccion() {
-        return tipo_transaccion;
-    }
+    
+    public String getTipoTransaccion() {
+		return tipoTransaccion;
+	}
 
-    public String getNumero_transaccion() {
-        return numero_transaccion;
-    }
+    public String getNumeroTransaccion() {
+		return numeroTransaccion;
+	}
 
-    public Date getFecha_transaccion() {
-        return fecha_transaccion;
-    }
+    public Date getFechaTransaccion() {
+		return fechaTransaccion;
+	}
 
     public double getValor() {
         return valor;

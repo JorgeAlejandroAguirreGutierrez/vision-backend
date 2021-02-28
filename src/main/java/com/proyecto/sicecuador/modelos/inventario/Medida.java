@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.otros.inventario.MedidaUtil;
 
@@ -10,12 +11,16 @@ import java.util.List;
 @Table(name = "medida")
 @EntityListeners({MedidaUtil.class})
 public class Medida extends Entidad {
+	@JsonProperty("codigo_norma")
     @Column(name = "codigo_norma", nullable = true)
-    private String codigo_norma;
+    private String codigoNorma;
+	@JsonProperty("tipo")
     @Column(name = "tipo", nullable = true)
     private String tipo;
+	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
+	@JsonProperty("abreviatura")
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
 
@@ -27,20 +32,21 @@ public class Medida extends Entidad {
         super(id);
     }
 
-    public Medida(String codigo, String codigo_norma, String tipo, String descripcion, String abreviatura){
+    public Medida(String codigo, String codigoNorma, String tipo, String descripcion, String abreviatura){
         super(codigo);
-        this.codigo_norma=codigo_norma;
+        this.codigoNorma=codigoNorma;
         this.tipo=tipo;
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
     }
     public Medida(List<String> datos){
-        codigo_norma=datos.get(0)== null ? null: datos.get(0);
+        codigoNorma=datos.get(0)== null ? null: datos.get(0);
         descripcion=datos.get(1)== null ? null: datos.get(1);
     }
-    public String getCodigo_norma() {
-        return codigo_norma;
-    }
+    
+    public String getCodigoNorma() {
+		return codigoNorma;
+	}
 
     public String getTipo() {
         return tipo;
