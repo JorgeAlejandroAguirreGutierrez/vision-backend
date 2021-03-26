@@ -8,6 +8,7 @@ import com.proyecto.sicecuador.modelos.inventario.PresentacionProducto;
 import com.proyecto.sicecuador.modelos.inventario.SubGrupoProducto;
 import com.proyecto.sicecuador.modelos.inventario.SubLineaProducto;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ICategoriaProductoRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IGrupoProductoRepository;
@@ -49,6 +50,11 @@ public class PresentacionProductoService implements IPresentacionProductoService
     
     @Override
     public PresentacionProducto crear(PresentacionProducto presentacion_producto) {
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_presentacion_producto);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	presentacion_producto.setCodigo(codigo.get());
     	String nombre_grupo=presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getGrupoProducto().getNombre();
     	String nombre_sub_grupo=presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getNombre();
     	String nombre_categoria=presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getNombre();

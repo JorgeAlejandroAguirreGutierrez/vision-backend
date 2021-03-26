@@ -1,12 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Precio;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
-import com.proyecto.sicecuador.repositorios.interf.inventario.IBodegaRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IPrecioRepository;
-import com.proyecto.sicecuador.servicios.interf.inventario.IBodegaService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IPrecioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +18,15 @@ import java.util.Optional;
 public class PrecioService implements IPrecioService {
     @Autowired
     private IPrecioRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Precio crear(Precio precio) {
-        return rep.save(precio);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_precio);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	precio.setCodigo(codigo.get());
+    	return rep.save(precio);
     }
 
     @Override

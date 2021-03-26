@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.configuracion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
@@ -23,12 +25,15 @@ import java.util.Optional;
 public class ParametroService implements IParametroService {
     @Autowired
     private IParametroRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Parametro crear(Parametro parametro) {
-        return rep.save(parametro);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_parametro);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	parametro.setCodigo(codigo.get());
+    	return rep.save(parametro);
     }
 
     @Override

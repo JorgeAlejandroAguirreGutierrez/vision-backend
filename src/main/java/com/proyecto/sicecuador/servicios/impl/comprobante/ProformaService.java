@@ -1,5 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Proforma;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IProformaRepository;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
@@ -14,12 +17,15 @@ import java.util.Optional;
 public class ProformaService implements IProformaService {
     @Autowired
     private IProformaRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Proforma crear(Proforma proforma) {
-        return rep.save(proforma);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_proforma);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	proforma.setCodigo(codigo.get());
+    	return rep.save(proforma);
     }
 
     @Override

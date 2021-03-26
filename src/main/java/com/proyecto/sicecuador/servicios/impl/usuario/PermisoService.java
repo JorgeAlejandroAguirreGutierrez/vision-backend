@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Permiso;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IPermisoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPermisoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,15 @@ import java.util.Optional;
 public class PermisoService implements IPermisoService {
     @Autowired
     private IPermisoRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Permiso crear(Permiso permiso) {
-        return rep.save(permiso);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_permiso);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	permiso.setCodigo(codigo.get());
+    	return rep.save(permiso);
     }
 
     @Override

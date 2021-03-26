@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
 import com.proyecto.sicecuador.modelos.inventario.LineaProducto;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
@@ -20,12 +22,15 @@ import java.util.Optional;
 public class LineaProductoService implements ILineaProductoService {
     @Autowired
     private ILineaProductoRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public LineaProducto crear(LineaProducto linea_producto) {
-        return rep.save(linea_producto);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_linea_producto);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	linea_producto.setCodigo(codigo.get());
+    	return rep.save(linea_producto);
     }
 
     @Override

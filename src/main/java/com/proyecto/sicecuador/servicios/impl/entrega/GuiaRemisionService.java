@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.entrega;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.entrega.IGuiaRemisionRepository;
@@ -16,12 +18,15 @@ import java.util.Optional;
 public class GuiaRemisionService implements IGuiaRemisionService {
     @Autowired
     private IGuiaRemisionRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public GuiaRemision crear(GuiaRemision guia_remision) {
-        return rep.save(guia_remision);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_guia_remision);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	guia_remision.setCodigo(codigo.get());
+    	return rep.save(guia_remision);
     }
 
     @Override

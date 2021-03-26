@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.configuracion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.ITipoRetencionRepository;
@@ -16,12 +18,15 @@ import java.util.Optional;
 public class TipoRetencionService implements ITipoRetencionService {
     @Autowired
     private ITipoRetencionRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public TipoRetencion crear(TipoRetencion tipo_retencion) {
-        return rep.save(tipo_retencion);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_retencion);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tipo_retencion.setCodigo(codigo.get());
+    	return rep.save(tipo_retencion);
     }
 
     @Override

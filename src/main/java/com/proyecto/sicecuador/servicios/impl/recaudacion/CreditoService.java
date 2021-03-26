@@ -2,10 +2,9 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
-import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.ICreditoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,15 @@ import java.util.*;
 public class CreditoService implements ICreditoService {
     @Autowired
     private ICreditoRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Credito crear(Credito credito) {
-        return rep.save(credito);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_credito);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	credito.setCodigo(codigo.get());
+    	return rep.save(credito);
     }
 
     @Override

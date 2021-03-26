@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
@@ -23,7 +25,12 @@ public class CaracteristicaService implements ICaracteristicaService {
     
     @Override
     public Caracteristica crear(Caracteristica caracteristica) {
-        return rep.save(caracteristica);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_caracteristica);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	caracteristica.setCodigo(codigo.get());
+    	return rep.save(caracteristica);
     }
 
     @Override

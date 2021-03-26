@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITipoGastoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITipoGastoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +18,26 @@ import java.util.Optional;
 public class TipoGastoService implements ITipoGastoService {
     @Autowired
     private ITipoGastoRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
-    public TipoGasto crear(TipoGasto bodega) {
-        return rep.save(bodega);
+    public TipoGasto crear(TipoGasto tipo_gasto) {
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_gasto);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tipo_gasto.setCodigo(codigo.get());
+    	return rep.save(tipo_gasto);
     }
 
     @Override
-    public TipoGasto actualizar(TipoGasto bodega) {
-        return rep.save(bodega);
+    public TipoGasto actualizar(TipoGasto tipo_gasto) {
+        return rep.save(tipo_gasto);
     }
 
     @Override
-    public TipoGasto eliminar(TipoGasto bodega) {
-        rep.deleteById(bodega.getId());
-        return bodega;
+    public TipoGasto eliminar(TipoGasto tipo_gasto) {
+        rep.deleteById(tipo_gasto.getId());
+        return tipo_gasto;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IKardexRepository;
@@ -17,12 +19,15 @@ import java.util.Optional;
 public class KardexService implements IKardexService {
     @Autowired
     private IKardexRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Kardex crear(Kardex kardex) {
-        return rep.save(kardex);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_kardex);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	kardex.setCodigo(codigo.get());
+    	return rep.save(kardex);
     }
 
     @Override

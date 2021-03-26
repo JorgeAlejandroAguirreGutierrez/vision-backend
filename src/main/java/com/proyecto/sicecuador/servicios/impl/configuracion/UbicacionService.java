@@ -1,10 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.configuracion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.inventario.Producto;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IUbicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +22,15 @@ import java.util.Optional;
 public class UbicacionService implements IUbicacionService {
     @Autowired
     private IUbicacionRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Ubicacion crear(Ubicacion ubicacion) {
-        return rep.save(ubicacion);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_ubicacion);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	ubicacion.setCodigo(codigo.get());
+    	return rep.save(ubicacion);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.modelos.inventario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.comprobante.DetalleFactura;
+import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,7 +33,7 @@ public class Caracteristica extends Entidad {
     @ManyToOne
     @JsonProperty("detalle_factura")
     @JoinColumn(name = "detalle_factura_id", nullable = true)
-    private DetalleFactura detalleFactura;
+    private FacturaDetalle detalleFactura;
     @ManyToOne
     @JsonProperty("bodega")
     @JoinColumn(name = "bodega_id", nullable = true)
@@ -65,7 +65,7 @@ public class Caracteristica extends Entidad {
         modelo=datos.get(3)== null ? null: datos.get(3);
         serie=datos.get(4)== null ? null: datos.get(4);
         producto=datos.get(5)== null ? null: new Producto((long) Double.parseDouble(datos.get(5)));
-        detalleFactura=datos.get(6)== null ? null: new DetalleFactura((long) Double.parseDouble(datos.get(6)));
+        detalleFactura=datos.get(6)== null ? null: new FacturaDetalle((long) Double.parseDouble(datos.get(6)));
         bodega=datos.get(7)== null ? null: new Bodega((long) Double.parseDouble(datos.get(7)));
     }
 
@@ -90,11 +90,11 @@ public class Caracteristica extends Entidad {
     }
 
     @JsonBackReference(value="detalle-factura-caracteristica")
-    public void setDetalleFactura(DetalleFactura detalleFactura) {
+    public void setDetalleFactura(FacturaDetalle detalleFactura) {
 		this.detalleFactura = detalleFactura;
 	}
 
-    public DetalleFactura getDetalleFactura() {
+    public FacturaDetalle getDetalleFactura() {
 		return detalleFactura;
 	}
 

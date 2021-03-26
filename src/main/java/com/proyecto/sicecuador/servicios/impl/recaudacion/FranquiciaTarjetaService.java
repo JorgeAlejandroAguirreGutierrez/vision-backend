@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IFranquiciaTarjetaRepository;
@@ -16,12 +18,15 @@ import java.util.Optional;
 public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     @Autowired
     private IFranquiciaTarjetaRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public FranquiciaTarjeta crear(FranquiciaTarjeta franquicia_tarjeta) {
-        return rep.save(franquicia_tarjeta);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_franquicia_tarjeta);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	franquicia_tarjeta.setCodigo(codigo.get());
+    	return rep.save(franquicia_tarjeta);
     }
 
     @Override

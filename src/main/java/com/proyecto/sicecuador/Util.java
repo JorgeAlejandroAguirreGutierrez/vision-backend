@@ -11,25 +11,41 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
-
+@Component
 public class Util {
 	
-	@Autowired
 	private static IParametroRepository parametroRep;
 	
 	@Autowired
-	private static UtilQuery utilQuery;
+	private IParametroRepository autowiredParametroRep;
+	
+	private static EntityManager em;
+	
+	@Autowired
+	private EntityManager autowiredEm;
+	
+	@PostConstruct
+	private void init() {
+		parametroRep = this.autowiredParametroRep;
+		em=this.autowiredEm;
+	}
+	
+	
 	
 	public static File archivo_convertir(MultipartFile archivo ) throws IOException
     {
@@ -111,21 +127,28 @@ public class Util {
         }
         return false;
     }
+
+    public static Optional<String> conteo(String tabla) {
+        String sql = String.format("SELECT count(*) FROM %s;", tabla);
+        Query query= em.createNativeQuery(sql);
+        Object conteo=query.getSingleResult();
+        return Optional.of(String.valueOf(conteo));
+    }
     
     public static Optional<String> generarCodigo(String tabla){
     	try {
     		Optional<Parametro> parametro = parametroRep.findByTablaAndTipo(tabla, Constantes.tipo);
-        	Optional<String> conteo=utilQuery.conteo(tabla);
+        	Optional<String> conteo= conteo(tabla);
         	if (parametro.isPresent() && conteo.isPresent()) {
-            	String rellenoConteo = String.format("%06d" , conteo);
+            	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get()));
                 Date fecha = new Date();
                 String año = String.valueOf(fecha.getYear());
                 String mes = String.valueOf(fecha.getMonth());
                 return Optional.of(parametro.get().getAbreviatura() + año + mes + rellenoConteo);
             }
-        	return null;
+        	return Optional.ofNullable(null);
     	}catch(Exception e) {
-    		return null;
+    		return Optional.ofNullable(null);
     	}
     }
 }

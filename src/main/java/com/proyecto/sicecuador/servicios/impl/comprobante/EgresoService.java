@@ -1,5 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Egreso;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IEgresoRepository;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
@@ -19,7 +22,12 @@ public class EgresoService implements IEgresoService {
     
     @Override
     public Egreso crear(Egreso egreso) {
-        return rep.save(egreso);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_egreso);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	egreso.setCodigo(codigo.get());
+    	return rep.save(egreso);
     }
 
     @Override

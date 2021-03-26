@@ -1,7 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,15 @@ import java.util.Optional;
 public class UsuarioService implements IUsuarioService {
     @Autowired
     private IUsuarioRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Usuario crear(Usuario usuario) {
-        return rep.save(usuario);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_usuario);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	usuario.setCodigo(codigo.get());
+    	return rep.save(usuario);
     }
 
     @Override

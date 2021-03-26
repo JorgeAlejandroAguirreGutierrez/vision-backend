@@ -106,7 +106,7 @@ public class Factura extends Entidad {
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
 	@JsonProperty("detalles_factura")
 	@JoinColumn(name = "factura_id")
-	private List<DetalleFactura> detallesFactura;
+	private List<FacturaDetalle> detallesFactura;
 
 	public Factura() {
 
@@ -311,7 +311,7 @@ public class Factura extends Entidad {
 	}
 
 	@JsonManagedReference(value = "factura-detalle-factura")
-	public List<DetalleFactura> getDetallesFactura() {
+	public List<FacturaDetalle> getDetallesFactura() {
 		return detallesFactura;
 	}
 

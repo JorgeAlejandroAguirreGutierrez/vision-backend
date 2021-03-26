@@ -3,12 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.ModeloExistenteException;
-import com.proyecto.sicecuador.exception.ModeloNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.*;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRepository;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -333,6 +330,8 @@ public class ClienteService implements IClienteService {
     		throw new CodigoNoExistenteException();
     	}
     	cliente.setCodigo(codigo.get());
+    	cliente.setEstado(true);
+    	cliente.setEliminado(false);
         return rep.save(cliente);
     }
 

@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
 import com.proyecto.sicecuador.modelos.inventario.Impuesto;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
@@ -17,12 +19,15 @@ import java.util.Optional;
 public class ImpuestoService implements IImpuestoService {
     @Autowired
     private IImpuestoRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Impuesto crear(Impuesto impuesto) {
-        return rep.save(impuesto);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_impuesto);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	impuesto.setCodigo(codigo.get());
+    	return rep.save(impuesto);
     }
 
     @Override

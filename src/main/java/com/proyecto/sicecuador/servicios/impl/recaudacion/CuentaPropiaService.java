@@ -1,9 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.modelos.recaudacion.Credito;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.ICuentaPropiaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,15 @@ import java.util.Optional;
 public class CuentaPropiaService implements ICuentaPropiaService {
     @Autowired
     private ICuentaPropiaRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public CuentaPropia crear(CuentaPropia cuenta_propia) {
-        return rep.save(cuenta_propia);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cuenta_propia);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	cuenta_propia.setCodigo(codigo.get());
+    	return rep.save(cuenta_propia);
     }
 
     @Override

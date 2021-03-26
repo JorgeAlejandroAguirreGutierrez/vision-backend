@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "cliente")
-//@EntityListeners({ClienteUtil.class})
 public class Cliente extends Entidad {
     @NotNull
     @NotEmpty
@@ -284,6 +283,10 @@ public class Cliente extends Entidad {
 
     public void setOrigenIngreso(OrigenIngreso origenIngreso) {
 		this.origenIngreso = origenIngreso;
+	}
+    
+    public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
     
     

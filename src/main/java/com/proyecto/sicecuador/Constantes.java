@@ -32,9 +32,16 @@ public class Constantes {
     public static String error_codigo_generico="4000";
     public static String error_codigo_modelo_existente="4001";
     public static String error_codigo_modelo_no_existente="4002";
-    public static String error_codigo_no_existente="4003";
+    public static String error_codigo_codigo_interno_no_existente="4003";
     public static String error_codigo_sesion_invalida="4004";
     public static String error_codigo_datos_invalidos="4005";
+    
+    public static String error_generico="ERROR INTERNO DE SERVIDOR";
+    public static String error_modelo_existente="ERROR ENTIDAD YA EXISTE";
+    public static String error_modelo_no_existente="ERROR ENTIDAD NO EXISTENTE";
+    public static String error_codigo_interno_no_existente="ERROR CODIGO INTERNO NO EXISTENTE";
+    public static String error_sesion_invalida="ERROR SESION INVALIDA";
+    public static String error_datos_invalidos="ERROR DATOS INVALIDOS";
     
     //CODIGO PARA CREAR
     public static final String tipo="CREAR";
@@ -69,7 +76,7 @@ public class Constantes {
     public static final String tabla_retencion_compra="retencion_compra";
     
     //COMPROBANTE
-    public static final String tabla_detalle_factura="detalle_factura";
+    public static final String tabla_factura_detalle="detalle_factura";
     public static final String tabla_egreso="egreso";
     public static final String tabla_factura="factura";
     public static final String tabla_pedido="pedido";
@@ -119,7 +126,7 @@ public class Constantes {
     public static final String tabla_franquicia_tarjeta="franquicia_tarjeta";
     public static final String tabla_operador_tarjeta="operador_tarjeta";
     public static final String tabla_rango_crediticio="rango_crediticio";
-    public static final String recaudacion="recaudacion";
+    public static final String tabla_recaudacion="recaudacion";
     public static final String tabla_retencion_venta="retencion_venta";
     public static final String tabla_retencion_venta_detalle="retencion_Venta_detalle";
     public static final String tabla_tarjeta_credito="tarjeta_credito";

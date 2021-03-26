@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.entrega;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.modelos.entrega.VehiculoTransporte;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
@@ -17,12 +19,15 @@ import java.util.Optional;
 public class VehiculoTransporteService implements IVehiculoTransporteService {
     @Autowired
     private IVehiculoTransporteRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public VehiculoTransporte crear(VehiculoTransporte vehiculo_transporte) {
-        return rep.save(vehiculo_transporte);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_vehiculo_transporte);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	vehiculo_transporte.setCodigo(codigo.get());
+    	return rep.save(vehiculo_transporte);
     }
 
     @Override

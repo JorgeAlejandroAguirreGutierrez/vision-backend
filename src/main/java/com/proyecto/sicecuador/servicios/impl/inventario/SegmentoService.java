@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ISegmentoRepository;
@@ -17,12 +19,15 @@ import java.util.Optional;
 public class SegmentoService implements ISegmentoService {
     @Autowired
     private ISegmentoRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Segmento crear(Segmento segmento) {
-        return rep.save(segmento);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_segmento);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	segmento.setCodigo(codigo.get());
+    	return rep.save(segmento);
     }
 
     @Override

@@ -1,9 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.ISesionRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.ISesionService;
@@ -19,17 +20,20 @@ import java.util.Optional;
 public class SesionService implements ISesionService {
     @Autowired
     private ISesionRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Autowired
     private IUsuarioRepository rep_usuario;
     @Override
     public Sesion crear(Sesion sesion) {
-        Usuario usuario=rep_usuario.findByIdentificacionContrasena(sesion.getUsuario().getIdentificacion(),sesion.getUsuario().getContrasena());
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_sesion);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	sesion.setCodigo(codigo.get());
+    	Usuario usuario=rep_usuario.findByIdentificacionContrasena(sesion.getUsuario().getIdentificacion(),sesion.getUsuario().getContrasena());
         sesion.setUsuario(usuario);
-        //sesion.setFecha_apertura(new Date());
-        //sesion.setActiva(true);
+        sesion.setFechaApertura(new Date());
+        sesion.setActiva(true);
         return rep.save(sesion);
     }
 

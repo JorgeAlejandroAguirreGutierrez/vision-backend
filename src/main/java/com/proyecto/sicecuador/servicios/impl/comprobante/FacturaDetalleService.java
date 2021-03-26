@@ -1,6 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
-import com.proyecto.sicecuador.modelos.comprobante.DetalleFactura;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaDetalleRepository;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaDetalleService;
@@ -20,28 +23,33 @@ public class FacturaDetalleService implements IFacturaDetalleService {
     private static IParametroRepository parametroRep;
 
     @Override
-    public DetalleFactura crear(DetalleFactura factura_detalle) {
+    public FacturaDetalle crear(FacturaDetalle factura_detalle) {
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_factura_detalle);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	factura_detalle.setCodigo(codigo.get());
+    	return rep.save(factura_detalle);
+    }
+
+    @Override
+    public FacturaDetalle actualizar(FacturaDetalle factura_detalle) {
         return rep.save(factura_detalle);
     }
 
     @Override
-    public DetalleFactura actualizar(DetalleFactura factura_detalle) {
-        return rep.save(factura_detalle);
-    }
-
-    @Override
-    public DetalleFactura eliminar(DetalleFactura factura_detalle) {
+    public FacturaDetalle eliminar(FacturaDetalle factura_detalle) {
         rep.deleteById(factura_detalle.getId());
         return factura_detalle;
     }
 
     @Override
-    public Optional<DetalleFactura> obtener(DetalleFactura factura_detalle) {
+    public Optional<FacturaDetalle> obtener(FacturaDetalle factura_detalle) {
         return rep.findById(factura_detalle.getId());
     }
 
     @Override
-    public List<DetalleFactura> consultar() {
+    public List<FacturaDetalle> consultar() {
         return rep.findAll();
     }
 

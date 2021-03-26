@@ -1,5 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.ITipoComprobanteRepository;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
@@ -15,12 +18,15 @@ import java.util.Optional;
 public class TipoComprobanteService implements ITipoComprobanteService {
     @Autowired
     private ITipoComprobanteRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public TipoComprobante crear(TipoComprobante tipo_comprobante) {
-        return rep.save(tipo_comprobante);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_comprobante);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tipo_comprobante.setCodigo(codigo.get());
+    	return rep.save(tipo_comprobante);
     }
 
     @Override

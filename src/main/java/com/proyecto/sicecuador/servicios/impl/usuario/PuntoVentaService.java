@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
@@ -22,12 +24,15 @@ import java.util.Optional;
 public class PuntoVentaService implements IPuntoVentaService {
     @Autowired
     private IPuntoVentaRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public PuntoVenta crear(PuntoVenta punto_venta) {
-        return rep.save(punto_venta);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_punto_venta);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	punto_venta.setCodigo(codigo.get());
+    	return rep.save(punto_venta);
     }
 
     @Override

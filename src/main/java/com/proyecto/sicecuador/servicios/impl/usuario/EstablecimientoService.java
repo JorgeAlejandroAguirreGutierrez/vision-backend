@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEstablecimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,15 @@ import java.util.Optional;
 public class EstablecimientoService implements IEstablecimientoService {
     @Autowired
     private IEstablecimientoRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Establecimiento crear(Establecimiento establecimiento) {
-        return rep.save(establecimiento);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_establecimiento);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	establecimiento.setCodigo(codigo.get());
+    	return rep.save(establecimiento);
     }
 
     @Override

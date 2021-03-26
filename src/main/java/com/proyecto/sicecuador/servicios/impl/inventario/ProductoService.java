@@ -1,13 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
-import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
-import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +22,15 @@ import java.util.Optional;
 public class ProductoService implements IProductoService {
     @Autowired
     private IProductoRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Producto crear(Producto producto) {
-        return rep.save(producto);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_producto);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	producto.setCodigo(codigo.get());
+    	return rep.save(producto);
     }
 
     @Override

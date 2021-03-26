@@ -12,6 +12,9 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaRepository;
@@ -52,6 +55,11 @@ public class FacturaService implements IFacturaService {
             kardex_actualizar.setSalida(salida_actual+factura.getDetallesFactura().get(i).getCantidad());
             kardexService.actualizar(kardex_actualizar);
         }
+        Optional<String>codigo=Util.generarCodigo(Constantes.tabla_factura);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	factura.setCodigo(codigo.get());
         return rep.save(factura);
     }
 

@@ -10,8 +10,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "detalle_factura")
-public class DetalleFactura extends Entidad {
+@Table(name = "factura_detalle")
+public class FacturaDetalle extends Entidad {
 	@JsonProperty("posicion")
     @Column(name = "posicion", nullable = true)
     private long posicion;
@@ -120,15 +120,15 @@ public class DetalleFactura extends Entidad {
     private List<Caracteristica> caracteristicas;
 
 
-    public DetalleFactura(){
+    public FacturaDetalle(){
 
     }
 
-    public DetalleFactura(long id){
+    public FacturaDetalle(long id){
         super(id);
     }
 
-    public DetalleFactura(String codigo, long posicion, boolean entregado, boolean consignacion, String medida, long cantidad,
+    public FacturaDetalle(String codigo, long posicion, boolean entregado, boolean consignacion, String medida, long cantidad,
                           double subsidio, double valorSubsidiado, double valorDescuentoIndividual, double porcentajeDescuentoIndividual,
                           double valorPorcentajeDescuentoIndividual, double valorDescuentoTotal, double porcentajeDescuentoTotal,
                           double valorPorcentajeDescuentoTotal, double totalDescuento, double subtotal, double porcentajeIva, double valorIva,

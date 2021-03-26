@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.configuracion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IEmpresaRepository;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
@@ -17,12 +19,15 @@ import java.util.Optional;
 public class EmpresaService implements IEmpresaService {
     @Autowired
     private IEmpresaRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
 
     @Override
     public Empresa crear(Empresa empresa) {
-        return rep.save(empresa);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_empresa);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	empresa.setCodigo(codigo.get());
+    	return rep.save(empresa);
     }
 
     @Override

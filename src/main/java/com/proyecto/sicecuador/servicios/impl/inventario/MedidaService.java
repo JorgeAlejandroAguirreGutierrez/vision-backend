@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IMedidaRepository;
@@ -16,12 +18,15 @@ import java.util.Optional;
 public class MedidaService implements IMedidaService {
     @Autowired
     private IMedidaRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Medida crear(Medida medida) {
-        return rep.save(medida);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_medida);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	medida.setCodigo(codigo.get());
+    	return rep.save(medida);
     }
 
     @Override

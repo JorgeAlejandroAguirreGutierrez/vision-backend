@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.ModeloExistenteException;
 import com.proyecto.sicecuador.exception.ModeloNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.TablaEquivalenciaMedida;
@@ -25,11 +26,14 @@ import java.util.Optional;
 public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaService {
     @Autowired
     private ITablaEquivalenciaMedidaRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public TablaEquivalenciaMedida crear(TablaEquivalenciaMedida tabla) {
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_equivalencia_medida);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tabla.setCodigo(codigo.get());
     	Optional<TablaEquivalenciaMedida> tem= this.obtenerMedida1Medida2(tabla);
     	if(tem.isPresent()) {
     		throw new ModeloExistenteException();

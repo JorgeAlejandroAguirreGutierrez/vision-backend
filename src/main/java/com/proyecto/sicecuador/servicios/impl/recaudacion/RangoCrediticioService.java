@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IRangoCrediticioRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRangoCrediticioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +17,31 @@ import java.util.Optional;
 public class RangoCrediticioService implements IRangoCrediticioService {
     @Autowired
     private IRangoCrediticioRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
-    public RangoCrediticio crear(RangoCrediticio operador_tarjeta) {
-        return rep.save(operador_tarjeta);
+    public RangoCrediticio crear(RangoCrediticio rango_crediticio) {
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_rango_crediticio);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	rango_crediticio.setCodigo(codigo.get());
+    	return rep.save(rango_crediticio);
     }
 
     @Override
-    public RangoCrediticio actualizar(RangoCrediticio operador_tarjeta) {
-        return rep.save(operador_tarjeta);
+    public RangoCrediticio actualizar(RangoCrediticio rango_crediticio) {
+        return rep.save(rango_crediticio);
     }
 
     @Override
-    public RangoCrediticio eliminar(RangoCrediticio operador_tarjeta) {
-        rep.deleteById(operador_tarjeta.getId());
-        return operador_tarjeta;
+    public RangoCrediticio eliminar(RangoCrediticio rango_crediticio) {
+        rep.deleteById(rango_crediticio.getId());
+        return rango_crediticio;
     }
 
     @Override
-    public Optional<RangoCrediticio> obtener(RangoCrediticio operador_tarjeta) {
-        return rep.findById(operador_tarjeta.getId());
+    public Optional<RangoCrediticio> obtener(RangoCrediticio rango_crediticio) {
+        return rep.findById(rango_crediticio.getId());
     }
 
     @Override

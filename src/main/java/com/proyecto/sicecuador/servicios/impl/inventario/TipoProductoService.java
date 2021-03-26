@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.TipoProducto;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITipoProductoRepository;
@@ -17,12 +19,15 @@ import java.util.Optional;
 public class TipoProductoService implements ITipoProductoService {
     @Autowired
     private ITipoProductoRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public TipoProducto crear(TipoProducto tipo_producto) {
-        return rep.save(tipo_producto);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_producto);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tipo_producto.setCodigo(codigo.get());
+    	return rep.save(tipo_producto);
     }
 
     @Override

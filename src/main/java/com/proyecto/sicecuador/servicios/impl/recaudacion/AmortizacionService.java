@@ -1,14 +1,11 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.modelos.inventario.Impuesto;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
-import com.proyecto.sicecuador.modelos.recaudacion.Banco;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IAmortizacionRepository;
-import com.proyecto.sicecuador.repositorios.interf.recaudacion.IBancoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IAmortizacionService;
-import com.proyecto.sicecuador.servicios.interf.recaudacion.IBancoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,12 +17,15 @@ import java.util.Optional;
 public class AmortizacionService implements IAmortizacionService {
     @Autowired
     private IAmortizacionRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Amortizacion crear(Amortizacion amortizacion) {
-        return rep.save(amortizacion);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_amortizacion);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	amortizacion.setCodigo(codigo.get());
+    	return rep.save(amortizacion);
     }
 
     @Override
