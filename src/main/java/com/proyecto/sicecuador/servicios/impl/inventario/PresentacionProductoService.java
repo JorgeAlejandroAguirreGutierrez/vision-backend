@@ -1,13 +1,14 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
 import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
 import com.proyecto.sicecuador.modelos.inventario.LineaProducto;
 import com.proyecto.sicecuador.modelos.inventario.PresentacionProducto;
 import com.proyecto.sicecuador.modelos.inventario.SubGrupoProducto;
 import com.proyecto.sicecuador.modelos.inventario.SubLineaProducto;
-import com.proyecto.sicecuador.otros.Util;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ICategoriaProductoRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IGrupoProductoRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ILineaProductoRepository;
@@ -43,6 +44,8 @@ public class PresentacionProductoService implements IPresentacionProductoService
     private ILineaProductoRepository lineaProductoRepository;
     @Autowired
     private ISubLineaProductoRepository subLineaProductoRepository;
+    @Autowired
+    private static IParametroRepository parametroRep;
     
     @Override
     public PresentacionProducto crear(PresentacionProducto presentacion_producto) {
@@ -141,25 +144,25 @@ public class PresentacionProductoService implements IPresentacionProductoService
             @Override
             public Predicate toPredicate(Root<PresentacionProducto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (!presentacion_producto.getCodigo().equals(Util.vacio)) {
+                if (!presentacion_producto.getCodigo().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+presentacion_producto.getCodigo()+"%")));
                 }
-                if (!presentacion_producto.getNombre().equals(Util.vacio)) {
+                if (!presentacion_producto.getNombre().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("nombre"), "%"+presentacion_producto.getNombre()+"%")));
                 }
-                if (!presentacion_producto.getSubLineaProducto().getNombre().equals(Util.vacio)) {
+                if (!presentacion_producto.getSubLineaProducto().getNombre().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subLineaProducto").get("nombre"), "%"+presentacion_producto.getSubLineaProducto().getNombre()+"%")));
                 }
-                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getNombre().equals(Util.vacio)) {
+                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getNombre().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subLineaProducto").get("lineaProducto").get("nombre"), "%"+presentacion_producto.getSubLineaProducto().getLineaProducto().getNombre()+"%")));
                 }
-                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getNombre().equals(Util.vacio)) {
+                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getNombre().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subLineaProducto").get("lineaProducto").get("categoriaProducto").get("nombre"), "%"+presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getNombre()+"%")));
                 }
-                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getNombre().equals(Util.vacio)) {
+                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getNombre().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subLineaProducto").get("lineaProducto").get("categoriaProducto").get("subGrupoProducto").get("nombre"), "%"+presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getNombre()+"%")));
                 }
-                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getGrupoProducto().getNombre().equals(Util.vacio)) {
+                if (!presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getGrupoProducto().getNombre().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subLineaProducto").get("lineaProducto").get("categoriaProducto").get("subGrupoProducto").get("grupoProducto").get("nombre"), "%"+presentacion_producto.getSubLineaProducto().getLineaProducto().getCategoria_producto().getSubGrupoProducto().getGrupoProducto().getNombre()+"%")));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -171,7 +174,7 @@ public class PresentacionProductoService implements IPresentacionProductoService
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<PresentacionProducto> presentaciones_productos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
             for (List<String> datos: info) {
             	PresentacionProducto presentacion_producto = new PresentacionProducto(datos);
             	presentaciones_productos.add(presentacion_producto);

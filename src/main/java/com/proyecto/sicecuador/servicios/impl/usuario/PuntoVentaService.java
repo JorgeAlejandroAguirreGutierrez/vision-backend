@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IPuntoVentaRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPuntoVentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import java.util.Optional;
 public class PuntoVentaService implements IPuntoVentaService {
     @Autowired
     private IPuntoVentaRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public PuntoVenta crear(PuntoVenta punto_venta) {
         return rep.save(punto_venta);
@@ -65,7 +69,7 @@ public class PuntoVentaService implements IPuntoVentaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<PuntoVenta> puntos_ventas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,3);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,3);
             for (List<String> datos: info) {
                 PuntoVenta punto_venta = new PuntoVenta(datos);
                 puntos_ventas.add(punto_venta);

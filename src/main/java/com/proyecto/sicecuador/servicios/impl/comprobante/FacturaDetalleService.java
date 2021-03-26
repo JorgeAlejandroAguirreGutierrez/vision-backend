@@ -1,14 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
-import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.DetalleFactura;
-import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaDetalleRepository;
-import com.proyecto.sicecuador.repositorios.interf.inventario.IProductoRepository;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaDetalleService;
-import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +15,9 @@ public class FacturaDetalleService implements IFacturaDetalleService {
 
     @Autowired
     private IFacturaDetalleRepository rep;
+    
+    @Autowired
+    private static IParametroRepository parametroRep;
 
     @Override
     public DetalleFactura crear(DetalleFactura factura_detalle) {

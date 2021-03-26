@@ -1,11 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.inventario.TipoProducto;
-import com.proyecto.sicecuador.repositorios.interf.inventario.ITipoGastoRepository;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITipoProductoRepository;
-import com.proyecto.sicecuador.servicios.interf.inventario.ITipoGastoService;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITipoProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,9 @@ import java.util.Optional;
 public class TipoProductoService implements ITipoProductoService {
     @Autowired
     private ITipoProductoRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public TipoProducto crear(TipoProducto tipo_producto) {
         return rep.save(tipo_producto);
@@ -49,7 +50,7 @@ public class TipoProductoService implements ITipoProductoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoProducto> tipos_productos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,10);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,10);
             for (List<String> datos: info) {
                 TipoProducto tipo_producto = new TipoProducto(datos);
                 tipos_productos.add(tipo_producto);

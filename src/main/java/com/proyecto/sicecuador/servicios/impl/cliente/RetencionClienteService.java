@@ -1,11 +1,11 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IOrigenIngresoRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IRetencionClienteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IRetencionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +21,15 @@ public class RetencionClienteService implements IRetencionClienteService {
     private IRetencionClienteRepository rep;
     @Autowired
     private IClienteRepository rep_cliente;
+    
     @Override
     public RetencionCliente crear(RetencionCliente retencion_cliente) {
-        return rep.save(retencion_cliente);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_retencion_cliente);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	retencion_cliente.setCodigo(codigo.get());
+    	return rep.save(retencion_cliente);
     }
 
     @Override
@@ -51,7 +57,7 @@ public class RetencionClienteService implements IRetencionClienteService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<RetencionCliente> retenciones_clientes=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 15);
+            List<List<String>>info= Util.leer_importar(archivo_temporal, 15);
             for (List<String> datos: info) {
                 RetencionCliente retencion_cliente = new RetencionCliente(datos);
                 Optional<Cliente> cliente=rep_cliente.findById(retencion_cliente.getCliente().getId());

@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.otros.cliente.TipoContribuyenteUtil;
-import com.proyecto.sicecuador.otros.usuario.PermisoUtil;
 
 import javax.persistence.*;
 import java.util.List;

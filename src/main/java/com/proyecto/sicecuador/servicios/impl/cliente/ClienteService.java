@@ -1,9 +1,14 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.ModeloExistenteException;
+import com.proyecto.sicecuador.exception.ModeloNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.*;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRepository;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -323,6 +328,11 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente crear(Cliente cliente) {
     	cliente.normalizar();
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cliente);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	cliente.setCodigo(codigo.get());
         return rep.save(cliente);
     }
 
@@ -352,7 +362,7 @@ public class ClienteService implements IClienteService {
     public boolean importar(MultipartFile archivo_temporal) {
         List<Cliente> clientes=new ArrayList<>();
         try {
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,4);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,4);
             for (List<String> datos: info){
                 Cliente cliente=new Cliente(datos);
                 Direccion direccion=cliente.getDireccion()!= null? adm.merge(cliente.getDireccion()): null;

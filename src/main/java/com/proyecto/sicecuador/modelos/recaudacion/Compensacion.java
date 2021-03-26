@@ -5,14 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
-import com.proyecto.sicecuador.otros.recaudacion.CompensacionUtil;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "compensacion")
-//@EntityListeners({CompensacionUtil.class})
 public class Compensacion extends Entidad {
 	@JsonProperty("comprobante")
     @Column(name = "comprobante", nullable = true)

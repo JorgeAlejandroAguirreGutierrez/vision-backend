@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathLineaProducto;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.inventario.LineaProducto;
@@ -26,62 +27,37 @@ public class LineaProductoController implements GenericoController<LineaProducto
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<LineaProducto> lineas_productos=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, lineas_productos);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<LineaProducto> lineas_productos=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, lineas_productos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            Optional<LineaProducto> linea_producto=servicio.obtener(new LineaProducto(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, linea_producto);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Optional<LineaProducto> linea_producto=servicio.obtener(new LineaProducto(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, linea_producto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid LineaProducto _linea_producto) {
-        try {
-            LineaProducto linea_producto=servicio.crear(_linea_producto);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, linea_producto);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        LineaProducto linea_producto=servicio.crear(_linea_producto);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, linea_producto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody LineaProducto _linea_producto) {
-        try {
-            LineaProducto linea_producto=servicio.actualizar(_linea_producto);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, linea_producto);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        LineaProducto linea_producto=servicio.actualizar(_linea_producto);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, linea_producto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            LineaProducto linea_producto=servicio.eliminar(new LineaProducto(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, linea_producto);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        LineaProducto linea_producto=servicio.eliminar(new LineaProducto(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, linea_producto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @Override

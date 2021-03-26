@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.DetalleFactura;
-import com.proyecto.sicecuador.otros.inventario.CaracteristicaUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "caracteristica")
-@EntityListeners({CaracteristicaUtil.class})
 public class Caracteristica extends Entidad {
 	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)

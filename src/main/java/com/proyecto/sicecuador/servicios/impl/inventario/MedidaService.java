@@ -1,7 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IMedidaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IMedidaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ import java.util.Optional;
 public class MedidaService implements IMedidaService {
     @Autowired
     private IMedidaRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public Medida crear(Medida medida) {
         return rep.save(medida);
@@ -45,7 +49,7 @@ public class MedidaService implements IMedidaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Medida> medidas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,5);
             for (List<String> datos: info) {
                 Medida medida = new Medida(datos);
                 medidas.add(medida);

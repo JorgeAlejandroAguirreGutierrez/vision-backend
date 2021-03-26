@@ -3,14 +3,12 @@ package com.proyecto.sicecuador.modelos.inventario;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.ProductoUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "producto")
-@EntityListeners({ProductoUtil.class})
 public class Producto extends Entidad {
 	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)

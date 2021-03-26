@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.ISesionRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.ISesionService;
@@ -18,6 +19,9 @@ import java.util.Optional;
 public class SesionService implements ISesionService {
     @Autowired
     private ISesionRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Autowired
     private IUsuarioRepository rep_usuario;
     @Override
@@ -54,7 +58,7 @@ public class SesionService implements ISesionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Sesion> sesiones=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,4);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,4);
             for (List<String> datos: info) {
                 Sesion sesion = new Sesion(datos);
                 sesiones.add(sesion);

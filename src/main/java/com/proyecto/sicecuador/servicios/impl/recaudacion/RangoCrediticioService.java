@@ -1,8 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IRangoCrediticioRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRangoCrediticioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,9 @@ import java.util.Optional;
 public class RangoCrediticioService implements IRangoCrediticioService {
     @Autowired
     private IRangoCrediticioRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public RangoCrediticio crear(RangoCrediticio operador_tarjeta) {
         return rep.save(operador_tarjeta);
@@ -46,7 +49,7 @@ public class RangoCrediticioService implements IRangoCrediticioService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<RangoCrediticio> rangos_crediticios=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,6);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,6);
             for (List<String> datos: info) {
                 RangoCrediticio rango_crediticio = new RangoCrediticio(datos);
                 rangos_crediticios.add(rango_crediticio);

@@ -1,9 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.inventario.Impuesto;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
 import com.proyecto.sicecuador.modelos.recaudacion.Banco;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IAmortizacionRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IBancoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IAmortizacionService;
@@ -19,6 +20,9 @@ import java.util.Optional;
 public class AmortizacionService implements IAmortizacionService {
     @Autowired
     private IAmortizacionRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public Amortizacion crear(Amortizacion amortizacion) {
         return rep.save(amortizacion);
@@ -49,7 +53,7 @@ public class AmortizacionService implements IAmortizacionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Amortizacion> amortizaciones=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
             for (List<String> datos: info) {
                 Amortizacion amortizacion = new Amortizacion(datos);
                 amortizaciones.add(amortizacion);

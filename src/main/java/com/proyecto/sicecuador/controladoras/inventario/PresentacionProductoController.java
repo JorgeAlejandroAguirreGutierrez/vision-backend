@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathPresentacionProducto;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.inventario.PresentacionProducto;
@@ -60,9 +61,9 @@ public class PresentacionProductoController implements GenericoController<Presen
     
     @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> buscar(@RequestBody PresentacionProducto presentacion_producto) {
-        	List<PresentacionProducto> presentaciones_productos=servicio.buscar(presentacion_producto);
-            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, presentaciones_productos);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    	List<PresentacionProducto> presentaciones_productos=servicio.buscar(presentacion_producto);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, presentaciones_productos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @Override

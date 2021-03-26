@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.cliente.TelefonoUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;

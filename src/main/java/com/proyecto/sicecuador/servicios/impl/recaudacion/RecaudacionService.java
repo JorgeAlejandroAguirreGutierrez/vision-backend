@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
 import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IRecaudacionRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRecaudacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import java.util.Optional;
 public class RecaudacionService implements IRecaudacionService {
     @Autowired
     private IRecaudacionRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public Recaudacion crear(Recaudacion recaudacion) {
         return rep.save(recaudacion);

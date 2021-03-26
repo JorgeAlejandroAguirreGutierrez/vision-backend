@@ -1,8 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IOperadorTarjetaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IOperadorTarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,9 @@ import java.util.Optional;
 public class OperadorTarjetaService implements IOperadorTarjetaService {
     @Autowired
     private IOperadorTarjetaRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public OperadorTarjeta crear(OperadorTarjeta operador_tarjeta) {
         return rep.save(operador_tarjeta);
@@ -65,7 +68,7 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<OperadorTarjeta> operadores_tarjetas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,5);
             for (List<String> datos: info) {
                 OperadorTarjeta operador_tarjeta = new OperadorTarjeta(datos);
                 operadores_tarjetas.add(operador_tarjeta);

@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 
 import com.proyecto.sicecuador.modelos.comprobante.Pedido;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IPedidoRepository;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ import java.util.Optional;
 public class PedidoService implements IPedidoService {
     @Autowired
     private IPedidoRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public Pedido crear(Pedido pedido) {
         return rep.save(pedido);

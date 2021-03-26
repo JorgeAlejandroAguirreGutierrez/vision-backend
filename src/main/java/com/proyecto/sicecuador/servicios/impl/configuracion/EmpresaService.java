@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.configuracion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IEmpresaRepository;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IEmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class EmpresaService implements IEmpresaService {
     @Autowired
     private IEmpresaRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
 
     @Override
     public Empresa crear(Empresa empresa) {
@@ -47,7 +50,7 @@ public class EmpresaService implements IEmpresaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Empresa> empresas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
             for (List<String> datos: info) {
                 Empresa empresa = new Empresa(datos);
                 empresas.add(empresa);

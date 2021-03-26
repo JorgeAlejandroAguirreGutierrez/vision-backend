@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
 import com.proyecto.sicecuador.modelos.inventario.LineaProducto;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IGrupoProductoRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ILineaProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IGrupoProductoService;
@@ -19,6 +20,9 @@ import java.util.Optional;
 public class LineaProductoService implements ILineaProductoService {
     @Autowired
     private ILineaProductoRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public LineaProducto crear(LineaProducto linea_producto) {
         return rep.save(linea_producto);
@@ -49,7 +53,7 @@ public class LineaProductoService implements ILineaProductoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<LineaProducto> lineas_productos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,4);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,4);
             for (List<String> datos: info) {
                 LineaProducto linea_producto = new LineaProducto(datos);
                 lineas_productos.add(linea_producto);

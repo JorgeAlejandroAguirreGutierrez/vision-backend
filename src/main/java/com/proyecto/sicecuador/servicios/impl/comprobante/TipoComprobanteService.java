@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.ITipoComprobanteRepository;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ import java.util.Optional;
 public class TipoComprobanteService implements ITipoComprobanteService {
     @Autowired
     private ITipoComprobanteRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public TipoComprobante crear(TipoComprobante tipo_comprobante) {
         return rep.save(tipo_comprobante);

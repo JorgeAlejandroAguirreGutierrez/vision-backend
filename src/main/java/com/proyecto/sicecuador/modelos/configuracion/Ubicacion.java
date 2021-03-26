@@ -2,14 +2,12 @@ package com.proyecto.sicecuador.modelos.configuracion;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.configuracion.UbicacionUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "ubicacion")
-@EntityListeners({UbicacionUtil.class})
 public class Ubicacion extends Entidad {
 	@JsonProperty("codigo_norma")
     @Column(name = "codigo_norma", nullable = true)

@@ -1,21 +1,24 @@
 package com.proyecto.sicecuador.exception;
 
-import org.springframework.http.HttpStatus;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class RestExceptionMessage {
+	private String codigo;
     private String message;
     private List<String> errors;
     private Date timestamp;
 
-    public RestExceptionMessage(String message, List<String> errors) {
+    public RestExceptionMessage(String codigo, String message, List<String> errors) {
         this.message = message;
         this.errors = errors;
         this.timestamp = new Date();
+        this.codigo=codigo;
     }
+    
+    public String getCodigo() {
+		return codigo;
+	}
 
     public String getMessage() {
         return message;

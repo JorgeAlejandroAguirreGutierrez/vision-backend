@@ -1,12 +1,13 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
-import com.proyecto.sicecuador.otros.Util;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ import java.util.Optional;
 public class ProductoService implements IProductoService {
     @Autowired
     private IProductoRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public Producto crear(Producto producto) {
         return rep.save(producto);
@@ -105,7 +109,7 @@ public class ProductoService implements IProductoService {
             @Override
             public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (!producto.getNombre().equals(Util.vacio)) {
+                if (!producto.getNombre().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("nombre"), "%"+producto.getNombre()+"%")));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -117,7 +121,7 @@ public class ProductoService implements IProductoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Producto> productos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,7);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,7);
             for (List<String> datos: info) {
                 Producto producto = new Producto(datos);
                 productos.add(producto);

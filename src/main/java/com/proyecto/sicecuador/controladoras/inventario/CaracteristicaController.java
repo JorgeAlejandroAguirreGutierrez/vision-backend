@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathCaracteristica;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
@@ -27,62 +28,37 @@ public class CaracteristicaController implements GenericoController<Caracteristi
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<Caracteristica> caracteristicas=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, caracteristicas);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Caracteristica> caracteristicas=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, caracteristicas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            Optional<Caracteristica> caracteristica=servicio.obtener(new Caracteristica(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, caracteristica);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Optional<Caracteristica> caracteristica=servicio.obtener(new Caracteristica(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, caracteristica);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Caracteristica _caracteristica) {
-        try {
-            Caracteristica caracteristica=servicio.crear(_caracteristica);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, caracteristica);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Caracteristica caracteristica=servicio.crear(_caracteristica);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, caracteristica);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Caracteristica _caracteristica) {
-        try {
-            Caracteristica caracteristica=servicio.actualizar(_caracteristica);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, caracteristica);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Caracteristica caracteristica=servicio.actualizar(_caracteristica);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, caracteristica);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            Caracteristica caracteristica=servicio.eliminar(new Caracteristica(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, caracteristica);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Caracteristica caracteristica=servicio.eliminar(new Caracteristica(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, caracteristica);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @Override
@@ -92,24 +68,14 @@ public class CaracteristicaController implements GenericoController<Caracteristi
 
     @GetMapping(value = "/tipo/bien/{producto_id}/existencias", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarBienExistencias(@PathVariable("producto_id") long producto_id) {
-        try {
-            List<Caracteristica> caracteristicas=servicio.consultarBienExistencias(new Producto(producto_id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, caracteristicas);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Caracteristica> caracteristicas=servicio.consultarBienExistencias(new Producto(producto_id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, caracteristicas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/tipo/bien/{producto_id}/existencias/{bodega_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarBienExistenciasBodega(@PathVariable("producto_id") long producto_id, @PathVariable("bodega_id") long bodega_id) {
-        try {
-            List<Caracteristica> caracteristicas=servicio.consultarBienExistenciasBodega(new Producto(producto_id), new Bodega(bodega_id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, caracteristicas);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Caracteristica> caracteristicas=servicio.consultarBienExistenciasBodega(new Producto(producto_id), new Bodega(bodega_id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, caracteristicas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

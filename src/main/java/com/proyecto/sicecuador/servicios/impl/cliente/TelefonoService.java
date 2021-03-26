@@ -1,11 +1,11 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
 import com.proyecto.sicecuador.modelos.cliente.Telefono;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IOrigenIngresoRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITelefonoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITelefonoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,12 @@ public class TelefonoService implements ITelefonoService {
     private IClienteRepository rep_cliente;
     @Override
     public Telefono crear(Telefono telefono) {
-        return rep.save(telefono);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_telefono);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	telefono.setCodigo(codigo.get());
+    	return rep.save(telefono);
     }
 
     @Override
@@ -51,7 +56,7 @@ public class TelefonoService implements ITelefonoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Telefono> telefonos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 16);
+            List<List<String>>info= Util.leer_importar(archivo_temporal, 16);
             for (List<String> datos: info) {
                 Telefono telefono = new Telefono(datos);
                 Optional<Cliente> cliente=rep_cliente.findById(telefono.getCliente().getId());

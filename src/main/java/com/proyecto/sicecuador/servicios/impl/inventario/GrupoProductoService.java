@@ -1,7 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IGrupoProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IGrupoProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class GrupoProductoService implements IGrupoProductoService {
     @Autowired
     private IGrupoProductoRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public GrupoProducto crear(GrupoProducto grupo_producto) {
         return rep.save(grupo_producto);
@@ -46,7 +50,7 @@ public class GrupoProductoService implements IGrupoProductoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<GrupoProducto> grupos_productos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,2);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,2);
             for (List<String> datos: info) {
                 GrupoProducto caracteristica = new GrupoProducto(datos);
                 grupos_productos.add(caracteristica);

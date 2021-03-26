@@ -1,7 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEstablecimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ import java.util.Optional;
 public class EstablecimientoService implements IEstablecimientoService {
     @Autowired
     private IEstablecimientoRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public Establecimiento crear(Establecimiento establecimiento) {
         return rep.save(establecimiento);
@@ -45,7 +49,7 @@ public class EstablecimientoService implements IEstablecimientoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Establecimiento> establecimientos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
             for (List<String> datos: info) {
                 Establecimiento establecimiento = new Establecimiento(datos);
                 establecimientos.add(establecimiento);

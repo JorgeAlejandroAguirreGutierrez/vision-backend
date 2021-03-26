@@ -1,14 +1,12 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.usuario.UsuarioUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "usuario")
-@EntityListeners({UsuarioUtil.class})
 public class Usuario extends Entidad {
     @Column(name = "nombre", nullable = true)
     private String nombre;

@@ -7,7 +7,6 @@ import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
-import com.proyecto.sicecuador.otros.comprobante.FacturaUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,7 +15,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "factura")
-@EntityListeners({ FacturaUtil.class })
 public class Factura extends Entidad {
 	@JsonProperty("numero")
 	@Column(name = "numero", nullable = true)

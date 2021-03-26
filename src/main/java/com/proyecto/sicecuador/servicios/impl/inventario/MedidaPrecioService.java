@@ -1,7 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.inventario.MedidaPrecio;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IMedidaPrecioRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IMedidaPrecioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class MedidaPrecioService implements IMedidaPrecioService {
     @Autowired
     private IMedidaPrecioRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public MedidaPrecio crear(MedidaPrecio medida_precio) {
         return rep.save(medida_precio);
@@ -46,7 +50,7 @@ public class MedidaPrecioService implements IMedidaPrecioService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<MedidaPrecio> medidas_precios=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,5);
             for (List<String> datos: info) {
                 MedidaPrecio medida_precio = new MedidaPrecio(datos);
                 medidas_precios.add(medida_precio);

@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.ICuentaPropiaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class CuentaPropiaService implements ICuentaPropiaService {
     @Autowired
     private ICuentaPropiaRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public CuentaPropia crear(CuentaPropia cuenta_propia) {
         return rep.save(cuenta_propia);
@@ -46,7 +50,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<CuentaPropia> cuentas_propias=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,3);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,3);
             for (List<String> datos: info) {
                 CuentaPropia cuenta_propia = new CuentaPropia(datos);
                 cuentas_propias.add(cuenta_propia);

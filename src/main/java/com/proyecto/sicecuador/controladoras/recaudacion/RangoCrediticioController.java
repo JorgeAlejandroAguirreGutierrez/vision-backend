@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathRangoCrediticio;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
@@ -26,62 +27,37 @@ public class RangoCrediticioController implements GenericoController<RangoCredit
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<RangoCrediticio> rangos_crediticios=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, rangos_crediticios);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<RangoCrediticio> rangos_crediticios=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, rangos_crediticios);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            Optional<RangoCrediticio> rango_crediticio=servicio.obtener(new RangoCrediticio(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, rango_crediticio);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Optional<RangoCrediticio> rango_crediticio=servicio.obtener(new RangoCrediticio(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, rango_crediticio);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid RangoCrediticio _rango_crediticio) {
-        try {
-            RangoCrediticio rango_crediticio=servicio.crear(_rango_crediticio);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, rango_crediticio);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        RangoCrediticio rango_crediticio=servicio.crear(_rango_crediticio);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, rango_crediticio);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody RangoCrediticio _rango_crediticio) {
-        try {
-            RangoCrediticio rango_crediticio=servicio.actualizar(_rango_crediticio);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, rango_crediticio);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        RangoCrediticio rango_crediticio=servicio.actualizar(_rango_crediticio);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, rango_crediticio);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            RangoCrediticio rango_crediticio=servicio.eliminar(new RangoCrediticio(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, rango_crediticio);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        RangoCrediticio rango_crediticio=servicio.eliminar(new RangoCrediticio(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, rango_crediticio);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @Override

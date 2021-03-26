@@ -1,7 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITipoGastoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITipoGastoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class TipoGastoService implements ITipoGastoService {
     @Autowired
     private ITipoGastoRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public TipoGasto crear(TipoGasto bodega) {
         return rep.save(bodega);
@@ -46,7 +50,7 @@ public class TipoGastoService implements ITipoGastoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoGasto> tipos_gastos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,9);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,9);
             for (List<String> datos: info) {
                 TipoGasto tipo_gasto = new TipoGasto(datos);
                 tipos_gastos.add(tipo_gasto);

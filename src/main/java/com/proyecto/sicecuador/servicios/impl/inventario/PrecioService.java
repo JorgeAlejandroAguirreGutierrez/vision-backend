@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Precio;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IBodegaRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IPrecioRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IBodegaService;
@@ -19,6 +20,9 @@ import java.util.Optional;
 public class PrecioService implements IPrecioService {
     @Autowired
     private IPrecioRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public Precio crear(Precio precio) {
         return rep.save(precio);
@@ -49,7 +53,7 @@ public class PrecioService implements IPrecioService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Precio> precios=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,6);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,6);
             for (List<String> datos: info) {
                 Precio precio = new Precio(datos);
                 precios.add(precio);
