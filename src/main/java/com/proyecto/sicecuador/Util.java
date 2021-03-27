@@ -105,6 +105,7 @@ public class Util {
 
                 }
             }
+            libro.close();
             return info;
         } catch (FileNotFoundException fileNotFoundException) {
             return null;

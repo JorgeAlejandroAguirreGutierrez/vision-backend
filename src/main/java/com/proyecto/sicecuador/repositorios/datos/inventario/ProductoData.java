@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.repositorios.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.inventario.*;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
