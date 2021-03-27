@@ -1,6 +1,18 @@
 package com.proyecto.sicecuador;
 
 public class Constantes {
+	
+	public static final String identificacion_consumidor_final="9999999999999";
+	public static final String tipo_contribuyente_natural="NATURAL";
+	public static final String tipo_contribuyente_juridica="JURIDICA";
+	public static final String tipo_contribuyente_publica="PUBLICA";
+	
+	public static final String cedula_abreviatura="C";
+	public static final String consumidor_final_abreviatura="CF";
+	public static final String ruc_abreviatura="CF";
+	public static final String placa_abreviatura="PL";
+	public static final String pasaporte_abreviatura="E";
+	
     public static final String mensaje_consultar_exitoso="Exito en la consulta";
     public static final String mensaje_obtener_exitoso="Exito en la consulta";
     public static final String mensaje_crear_exitoso="Exito al procesar";

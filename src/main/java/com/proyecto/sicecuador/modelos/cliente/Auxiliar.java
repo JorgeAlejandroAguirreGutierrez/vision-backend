@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "auxiliar")
-//@EntityListeners({AuxiliarUtil.class})
 public class Auxiliar extends Entidad {
     @NotNull
     @NotBlank

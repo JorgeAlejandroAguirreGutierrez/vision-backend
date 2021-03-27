@@ -24,7 +24,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		errors.add(ex.getMessage());
 		errors.add(ex.toString());
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_generico,
-			ex.getMessage(),
+			Constantes.error_generico,
 	        errors
         );
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -34,7 +34,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	public final ResponseEntity<RestExceptionMessage> handleModeloExistenteException(
 	    ModeloExistenteException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_modelo_existente,
-	        ex.getMessage(),
+			Constantes.error_modelo_existente,
 	        null
 	    );
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -44,7 +44,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	public final ResponseEntity<RestExceptionMessage> handleModeloNoExistenteException(
 	    ModeloExistenteException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_modelo_no_existente,
-	        ex.getMessage(),
+			Constantes.error_modelo_no_existente,
 	        null
 	    );
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,7 +54,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	public final ResponseEntity<RestExceptionMessage> handleCodigoNoExistenteException(
 			CodigoNoExistenteException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_codigo_interno_no_existente,
-	        ex.getMessage(),
+	        Constantes.error_codigo_interno_no_existente,
 	        null
 	    );
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);

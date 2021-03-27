@@ -70,6 +70,9 @@ public class ClienteService implements IClienteService {
 
     @Override
     public Optional<Cliente> obtenerIdentificacion(Cliente cliente) {
+    	if (cliente.getIdentificacion().equals(Constantes.identificacion_consumidor_final)){
+    		return null;
+    	}
         return  rep.findOne(new Specification<Cliente>() {
             @Override
             public Predicate toPredicate(Root<Cliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -103,7 +106,7 @@ public class ClienteService implements IClienteService {
             String tipo = null;
             TipoContribuyente tipo_contribuyente=null;
             if (identificacion.length() == 10 && Integer.parseInt((identificacion.substring(2,3))) != 6 && Integer.parseInt((identificacion.substring(2,3))) != 9) {
-                tipo = "C";
+                tipo = Constantes.cedula_abreviatura;
                 boolean bandera = verificarCedula(identificacion);
                 if (bandera) {
                     tipo_contribuyente= rep_tipo_contribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
@@ -112,16 +115,16 @@ public class ClienteService implements IClienteService {
                 } else {
                     return Optional.empty();
                 }
-            } else if (identificacion == "9999999999999") {
-                tipo = "CF";
-                tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo("NATURAL", "");
+            } else if (identificacion.equals(Constantes.identificacion_consumidor_final)) {
+                tipo = Constantes.consumidor_final_abreviatura;
+                tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
                 Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                 return Optional.of(cliente);
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
                 boolean bandera = verificarSociedadesPublicas(identificacion);
                 if (bandera) {
-                    tipo = "R";
-                    tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo("JURIDICA", "PUBLICA");
+                    tipo = Constantes.ruc_abreviatura;
+                    tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
                 } else {
@@ -130,7 +133,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 9) {
                 boolean bandera = verificarSociedadesPrivadas(identificacion);
                 if (bandera) {
-                    tipo = "R";
+                    tipo = Constantes.ruc_abreviatura;
                     tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo("JURIDICA","PRIVADA");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
@@ -140,7 +143,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 13 && (Integer.parseInt(identificacion.substring(2,3)) != 6 || Integer.parseInt(identificacion.substring(2,3)) != 9)) {
                 boolean bandera=verificarCedula(identificacion);
                 if (bandera) {
-                    tipo = "R";
+                    tipo = Constantes.ruc_abreviatura;
                     tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
@@ -151,7 +154,7 @@ public class ClienteService implements IClienteService {
             else if (identificacion.length() == 13) {
                 boolean bandera = verificarPersonaNatural(identificacion);
                 if (bandera) {
-                    tipo = "R";
+                    tipo = Constantes.ruc_abreviatura;
                     tipo_contribuyente= rep_tipo_contribuyente.findByTipoAndSubtipo("JURIDICA","PUBLICA");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
@@ -161,7 +164,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 7) {
                 boolean bandera = verificarPlaca(identificacion);
                 if (bandera) {
-                    tipo = "PL";
+                    tipo = Constantes.placa_abreviatura;
                     Cliente cliente=new Cliente(tipo,null);
                     return Optional.of(cliente);
                 } else {
@@ -170,7 +173,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 6) {
                 boolean bandera = verificarPlacaMoto(identificacion);
                 if (bandera) {
-                    tipo = "PL";
+                    tipo = Constantes.placa_abreviatura;
                     Cliente cliente=new Cliente(tipo,null);
                     return Optional.of(cliente);
                 } else {
@@ -180,14 +183,12 @@ public class ClienteService implements IClienteService {
             else if (identificacion.length() >=8) {
                 boolean bandera = verificarPasaporte(identificacion);
                 if (bandera) {
-                    tipo = "E";
+                    tipo = Constantes.pasaporte_abreviatura;
                     Cliente cliente=new Cliente(tipo,null);
                     return Optional.of(cliente);
                 } else {
                     return Optional.empty();
                 }
-            } else if (identificacion=="9999999999999") {
-                return Optional.empty();
             } else {
                 return Optional.empty();
             }
