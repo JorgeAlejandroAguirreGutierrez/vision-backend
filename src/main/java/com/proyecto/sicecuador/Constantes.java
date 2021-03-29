@@ -9,7 +9,7 @@ public class Constantes {
 	
 	public static final String cedula_abreviatura="C";
 	public static final String consumidor_final_abreviatura="CF";
-	public static final String ruc_abreviatura="CF";
+	public static final String ruc_abreviatura="R";
 	public static final String placa_abreviatura="PL";
 	public static final String pasaporte_abreviatura="E";
 	
