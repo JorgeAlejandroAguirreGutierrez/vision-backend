@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.repositorios.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.inventario.LineaProducto;
 import com.proyecto.sicecuador.modelos.inventario.PresentacionProducto;
 import com.proyecto.sicecuador.modelos.inventario.SubLineaProducto;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IPresentacionProductoRepository;

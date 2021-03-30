@@ -27,26 +27,6 @@ public class Producto extends Entidad {
     @JoinColumn(name = "tipo_producto_id", nullable = true)
     private TipoProducto tipoProducto;
     @ManyToOne
-    @JsonProperty("grupo_producto")
-    @JoinColumn(name = "grupo_producto_id", nullable = true)
-    private GrupoProducto grupoProducto;
-    @ManyToOne
-    @JsonProperty("sub_grupo_producto")
-    @JoinColumn(name = "sub_grupo_producto_id", nullable = true)
-    private SubGrupoProducto subGrupoProducto;
-    @ManyToOne
-    @JsonProperty("categoria_producto")
-    @JoinColumn(name = "categoria_producto_id", nullable = true)
-    private CategoriaProducto categoriaProducto;
-    @ManyToOne
-    @JsonProperty("linea_producto")
-    @JoinColumn(name = "linea_producto_id", nullable = true)
-    private LineaProducto lineaProducto;
-    @ManyToOne
-    @JsonProperty("sub_linea_producto")
-    @JoinColumn(name = "sub_linea_producto_id", nullable = true)
-    private SubLineaProducto subLineaProducto;
-    @ManyToOne
     @JsonProperty("presentacion_producto")
     @JoinColumn(name = "presentacion_producto_id", nullable = true)
     private PresentacionProducto presentacionProducto;
@@ -86,10 +66,7 @@ public class Producto extends Entidad {
 
     public Producto(String codigo, String nombre, boolean consignacion, boolean estado,
                     boolean serieAutogenerado, TipoGasto tipoGasto,
-                    TipoProducto tipoProducto, GrupoProducto grupoProducto, SubGrupoProducto subGrupoProducto,
-                    LineaProducto lineaProducto, SubLineaProducto subLineaProducto,
-                    CategoriaProducto categoriaProducto, PresentacionProducto presentacionProducto,
-                    Impuesto impuesto) {
+                    TipoProducto tipoProducto, Impuesto impuesto, PresentacionProducto presentacionProducto) {
         super(codigo);
         this.nombre = nombre;
         this.presentacionProducto = presentacionProducto;
@@ -98,11 +75,6 @@ public class Producto extends Entidad {
         this.serieAutogenerado = serieAutogenerado;
         this.tipoGasto = tipoGasto;
         this.tipoProducto = tipoProducto;
-        this.grupoProducto= grupoProducto;
-        this.subGrupoProducto = subGrupoProducto;
-        this.categoriaProducto = categoriaProducto;
-        this.lineaProducto = lineaProducto;
-        this.subLineaProducto = subLineaProducto;
         this.presentacionProducto = presentacionProducto;
         this.impuesto = impuesto;
     }
@@ -142,26 +114,6 @@ public class Producto extends Entidad {
 
     public TipoProducto getTipoProducto() {
 		return tipoProducto;
-	}
-
-    public GrupoProducto getGrupoProducto() {
-		return grupoProducto;
-	}
-
-    public SubGrupoProducto getSubGrupoProducto() {
-		return subGrupoProducto;
-	}
-
-    public CategoriaProducto getCategoriaProducto() {
-		return categoriaProducto;
-	}
-
-    public LineaProducto getLineaProducto() {
-		return lineaProducto;
-	}
-
-    public SubLineaProducto getSubLineaProducto() {
-		return subLineaProducto;
 	}
 
     public PresentacionProducto getPresentacionProducto() {

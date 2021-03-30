@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.ModeloExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.*;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRepository;
@@ -41,27 +42,16 @@ public class ClienteService implements IClienteService {
      * @return
      */
     @Override
-    public List<Cliente> consultarIdentificacion(Cliente cliente) {
+    public List<Cliente> buscar(String razonSocial, String identificacion) {
         return  rep.findAll(new Specification<Cliente>() {
             @Override
             public Predicate toPredicate(Root<Cliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (cliente.getIdentificacion()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("identificacion"), "%"+cliente.getIdentificacion()+"%")));
+                if (razonSocial!=null && !razonSocial.isEmpty()) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("razonSocial"), "%"+razonSocial+"%")));
                 }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
-    }
-
-    @Override
-    public List<Cliente>  consultarRazonSocial(Cliente cliente) {
-        return  rep.findAll(new Specification<Cliente>() {
-            @Override
-            public Predicate toPredicate(Root<Cliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (cliente.getRazonSocial()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("razonSocial"), "%"+cliente.getRazonSocial()+"%")));
+                if (identificacion!=null && !identificacion.isEmpty()) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("identificacion"), "%"+identificacion+"%")));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -326,6 +316,10 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente crear(Cliente cliente) {
     	cliente.normalizar();
+    	Optional<Cliente>buscarCliente=rep.obtenerPorIdentificacion(cliente.getIdentificacion());
+    	if(buscarCliente.isPresent()) {
+    		throw new ModeloExistenteException();
+    	}
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cliente);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();

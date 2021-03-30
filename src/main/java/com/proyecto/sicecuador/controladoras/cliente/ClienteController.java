@@ -77,22 +77,13 @@ public class ClienteController implements GenericoController<Cliente> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/buscar/razonsocial/{razonsocial}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarRazonSocial(@PathVariable("razonsocial") String razonSocial) {
-        Cliente cliente=new Cliente();
-        cliente.setRazonSocial(razonSocial);
-        List<Cliente> _cliente=servicio.consultarRazonSocial(cliente);
+    @GetMapping(value = "/buscar",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestParam("razon_social") String razonSocial, @RequestParam("identificacion") String identificacion) {
+        List<Cliente> _cliente=servicio.buscar(razonSocial, identificacion);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/buscar/identificacion/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarIdentificacion(@PathVariable("identificacion") String identificacion) {
-        Cliente cliente=new Cliente();
-        cliente.setIdentificacion(identificacion);
-        List<Cliente> _cliente=servicio.consultarIdentificacion(cliente);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
+    
     @GetMapping(value = "/identificacion/validar/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> validarIdentificacion(@PathVariable("identificacion") String identificacion) {
         Cliente cliente=new Cliente();

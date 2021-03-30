@@ -60,7 +60,7 @@ public class ProductoService implements IProductoService {
             @Override
             public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipo_producto").get("tipo"), "BIEN")));
+                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), Constantes.tipo_producto_bien)));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });

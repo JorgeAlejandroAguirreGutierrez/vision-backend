@@ -13,6 +13,8 @@ public class Constantes {
 	public static final String placa_abreviatura="PL";
 	public static final String pasaporte_abreviatura="E";
 	
+	public static final String tipo_producto_bien="BIEN";
+	
     public static final String mensaje_consultar_exitoso="Exito en la consulta";
     public static final String mensaje_obtener_exitoso="Exito en la consulta";
     public static final String mensaje_crear_exitoso="Exito al procesar";
