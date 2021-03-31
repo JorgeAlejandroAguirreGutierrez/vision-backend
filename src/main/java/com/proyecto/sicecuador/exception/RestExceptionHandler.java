@@ -60,6 +60,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@ExceptionHandler(IdentificacionInvalidaException.class)
+	public final ResponseEntity<RestExceptionMessage> handleIdentificacionInvalidaException(
+			IdentificacionInvalidaException ex, WebRequest req) {
+		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_identificacion_invalida,
+	        Constantes.error_identificacion_invalida,
+	        null
+	    );
+	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = new ArrayList<>();

@@ -49,6 +49,7 @@ public class Constantes {
     public static String error_codigo_codigo_interno_no_existente="4003";
     public static String error_codigo_sesion_invalida="4004";
     public static String error_codigo_datos_invalidos="4005";
+    public static String error_codigo_identificacion_invalida="4006";
     
     public static String error_generico="ERROR INTERNO DE SERVIDOR";
     public static String error_modelo_existente="ERROR ENTIDAD YA EXISTE";
@@ -56,6 +57,7 @@ public class Constantes {
     public static String error_codigo_interno_no_existente="ERROR CODIGO INTERNO NO EXISTENTE";
     public static String error_sesion_invalida="ERROR SESION INVALIDA";
     public static String error_datos_invalidos="ERROR DATOS INVALIDOS";
+    public static String error_identificacion_invalida="ERROR IDENTIFICACION INVALIDA";
     
     //CODIGO PARA CREAR
     public static final String tipo="CREAR";
