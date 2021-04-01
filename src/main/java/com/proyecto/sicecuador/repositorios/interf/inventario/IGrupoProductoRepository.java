@@ -10,7 +10,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IGrupoProductoRepository extends JpaRepository<GrupoProducto, Long>, JpaSpecificationExecutor<GrupoProducto> {
-	@Query(value="SELECT gp FROM GrupoProducto gp WHERE gp.nombre = :nombre")
-    Optional<GrupoProducto> findByNombre(
-            @Param("nombre") String nombre);
 }
