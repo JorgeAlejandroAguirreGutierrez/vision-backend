@@ -1,9 +1,6 @@
 package com.proyecto.sicecuador.repositorios.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
-import com.proyecto.sicecuador.modelos.inventario.LineaProducto;
 import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
-import com.proyecto.sicecuador.repositorios.interf.inventario.ILineaProductoRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITipoGastoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

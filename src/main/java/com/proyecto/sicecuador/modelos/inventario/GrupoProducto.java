@@ -9,13 +9,29 @@ import java.util.List;
 @Entity
 @Table(name = "grupo_producto")
 public class GrupoProducto extends Entidad {
-	@JsonProperty("nombre")
-    @Column(name = "nombre", nullable = true)
-    private String nombre;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonProperty("sub_grupos_productos")
-    @JoinColumn(name = "grupo_producto_id")
-    private List<SubGrupoProducto> subGruposProductos;
+	@JsonProperty("grupo")
+    @Column(name = "grupo", nullable = true)
+    private String grupo;
+	
+	@JsonProperty("subgrupo")
+    @Column(name = "subgrupo", nullable = true)
+    private String subgrupo;
+	
+	@JsonProperty("categoria")
+    @Column(name = "categoria", nullable = true)
+    private String categoria;
+	
+	@JsonProperty("linea")
+    @Column(name = "linea", nullable = true)
+    private String linea;
+	
+	@JsonProperty("sublinea")
+    @Column(name = "sublinea", nullable = true)
+    private String sublinea;
+	
+	@JsonProperty("presentacion")
+    @Column(name = "presentacion", nullable = true)
+    private String presentacion;
 
     public GrupoProducto(){
 
@@ -25,20 +41,38 @@ public class GrupoProducto extends Entidad {
         super(id);
     }
 
-    public GrupoProducto(String codigo, String nombre){
+    public GrupoProducto(String codigo, String grupo, String subgrupo, String categoria, String linea, String sublinea, String presentacion){
         super(codigo);
-        this.nombre=nombre;
+        this.grupo=grupo;
+        this.subgrupo=subgrupo;
+        this.categoria=categoria;
+        this.linea=linea;
+        this.sublinea=sublinea;
+        this.presentacion=presentacion;
+        
     }
 
     public GrupoProducto(List<String>datos){
 
     }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public String getGrupo() {
+		return grupo;
+	}
     
-    public void setNombre(String nombre) {
-		this.nombre = nombre;
+    public String getSubgrupo() {
+		return subgrupo;
+	}
+    
+    public String getCategoria() {
+		return categoria;
+	}
+    
+    public String getLinea() {
+		return linea;
+	}
+    
+    public String getSublinea() {
+		return sublinea;
 	}
 }

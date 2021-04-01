@@ -27,10 +27,6 @@ public class Producto extends Entidad {
     @JoinColumn(name = "tipo_producto_id", nullable = true)
     private TipoProducto tipoProducto;
     @ManyToOne
-    @JsonProperty("presentacion_producto")
-    @JoinColumn(name = "presentacion_producto_id", nullable = true)
-    private PresentacionProducto presentacionProducto;
-    @ManyToOne
     @JsonProperty("tipo_gasto")
     @JoinColumn(name = "tipo_gasto_id", nullable = true)
     private TipoGasto tipoGasto;
@@ -38,6 +34,10 @@ public class Producto extends Entidad {
     @JsonProperty("impuesto")
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
+    @ManyToOne
+    @JsonProperty("grupo_producto")
+    @JoinColumn(name = "grupo_producto_id", nullable = true)
+    private GrupoProducto grupoProducto;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("kardexs")
     @JoinColumn(name = "producto_id", nullable = true)
@@ -66,16 +66,15 @@ public class Producto extends Entidad {
 
     public Producto(String codigo, String nombre, boolean consignacion, boolean estado,
                     boolean serieAutogenerado, TipoGasto tipoGasto,
-                    TipoProducto tipoProducto, Impuesto impuesto, PresentacionProducto presentacionProducto) {
+                    TipoProducto tipoProducto, Impuesto impuesto, GrupoProducto grupoProducto) {
         super(codigo);
         this.nombre = nombre;
-        this.presentacionProducto = presentacionProducto;
         this.consignacion = consignacion;
         this.estado = estado;
         this.serieAutogenerado = serieAutogenerado;
         this.tipoGasto = tipoGasto;
         this.tipoProducto = tipoProducto;
-        this.presentacionProducto = presentacionProducto;
+        this.grupoProducto = grupoProducto;
         this.impuesto = impuesto;
     }
     public Producto(List<String>datos){
@@ -84,7 +83,7 @@ public class Producto extends Entidad {
         estado=datos.get(2)== null ? null: datos.get(2).equals("S") ? true : false;
         serieAutogenerado=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
         tipoProducto=datos.get(4)== null ? null: new TipoProducto((long) Double.parseDouble(datos.get(4)));
-        presentacionProducto=datos.get(5)== null ? null: new PresentacionProducto((long) Double.parseDouble(datos.get(5)));
+        grupoProducto=datos.get(5)== null ? null: new GrupoProducto((long) Double.parseDouble(datos.get(5)));
         impuesto=datos.get(6)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(6)));
     }
 
@@ -115,10 +114,6 @@ public class Producto extends Entidad {
     public TipoProducto getTipoProducto() {
 		return tipoProducto;
 	}
-
-    public PresentacionProducto getPresentacionProducto() {
-    	return presentacionProducto;
-    }
 
     public Impuesto getImpuesto() {
         return impuesto;
