@@ -43,16 +43,16 @@ public class ClienteService implements IClienteService {
      * @return
      */
     @Override
-    public List<Cliente> buscar(String razonSocial, String identificacion) {
+    public List<Cliente> buscar(Cliente cliente) {
         return  rep.findAll(new Specification<Cliente>() {
             @Override
             public Predicate toPredicate(Root<Cliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (razonSocial!=null && !razonSocial.isEmpty()) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("razonSocial"), "%"+razonSocial+"%")));
+                if (cliente.getRazonSocial()!=null && !cliente.getRazonSocial().isEmpty()) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("razonSocial"), "%"+cliente.getRazonSocial()+"%")));
                 }
-                if (identificacion!=null && !identificacion.isEmpty()) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("identificacion"), "%"+identificacion+"%")));
+                if (cliente.getIdentificacion()!=null && !cliente.getIdentificacion().isEmpty()) {
+                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("identificacion"), "%"+cliente.getIdentificacion()+"%")));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }

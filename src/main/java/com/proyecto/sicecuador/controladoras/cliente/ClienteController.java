@@ -78,8 +78,8 @@ public class ClienteController implements GenericoController<Cliente> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/buscar",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestParam("razon_social") String razonSocial, @RequestParam("identificacion") String identificacion) {
-        List<Cliente> _cliente=servicio.buscar(razonSocial, identificacion);
+    public ResponseEntity<?> buscar(@RequestBody Cliente cliente) {
+        List<Cliente> _cliente=servicio.buscar(cliente);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

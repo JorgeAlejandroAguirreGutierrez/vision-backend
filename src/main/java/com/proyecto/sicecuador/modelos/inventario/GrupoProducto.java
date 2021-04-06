@@ -75,4 +75,8 @@ public class GrupoProducto extends Entidad {
     public String getSublinea() {
 		return sublinea;
 	}
+    
+    public String getPresentacion() {
+		return presentacion;
+	}
 }
