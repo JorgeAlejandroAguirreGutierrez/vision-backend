@@ -21,16 +21,16 @@ public interface IGrupoProductoRepository extends JpaRepository<GrupoProducto, L
     @Query(value = "SELECT DISTINCT gp.categoria FROM grupo_producto gp WHERE gp.grupo=:grupo AND gp.subgrupo=:subgrupo", nativeQuery = true)
     List<String> findCategorias(String grupo, String subgrupo);
     
-    @Query(value = "SELECT DISTINCT gp.linea FROM grupo_producto gp WHERE gp.grupo=:grupo AND gp.subgrupo=:subgrupo AND gp.categoria:categoria", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT gp.linea FROM grupo_producto gp WHERE gp.grupo=:grupo AND gp.subgrupo=:subgrupo AND gp.categoria=:categoria", nativeQuery = true)
     List<String> findLineas(String grupo, String subgrupo, String categoria);
     
-    @Query(value = "SELECT DISTINCT gp.sublinea FROM grupo_producto gp WHERE gp.grupo=:grupo AND gp.subgrupo=:subgrupo AND gp.categoria:categoria AND gp.linea=:linea", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT gp.sublinea FROM grupo_producto gp WHERE gp.grupo=:grupo AND gp.subgrupo=:subgrupo AND gp.categoria=:categoria AND gp.linea=:linea", nativeQuery = true)
     List<String> findSublineas(String grupo, String subgrupo, String categoria, String linea);
     
-    @Query(value = "SELECT DISTINCT gp.presentacion FROM grupo_producto gp WHERE gp.grupo=:grupo AND gp.subgrupo=:subgrupo AND gp.categoria:categoria AND gp.linea=:linea AND gp.sublinea=:sublinea", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT gp.presentacion FROM grupo_producto gp WHERE gp.grupo=:grupo AND gp.subgrupo=:subgrupo AND gp.categoria=:categoria AND gp.linea=:linea AND gp.sublinea=:sublinea", nativeQuery = true)
     List<String> findPresentaciones(String grupo, String subgrupo, String categoria, String linea, String sublinea);
     
-    @Query(value = "SELECT * FROM grupo_producto gp WHERE gp.grupo=:grupo AND gp.subgrupo=:subgrupo AND gp.categoria:categoria AND gp.linea=:linea AND gp.sublinea=:sublinea AND gp.presentacion=:presentacion", nativeQuery = true)
+    @Query(value = "SELECT * FROM grupo_producto gp WHERE gp.grupo=:grupo AND gp.subgrupo=:subgrupo AND gp.categoria=:categoria AND gp.linea=:linea AND gp.sublinea=:sublinea AND gp.presentacion=:presentacion", nativeQuery = true)
     Optional<GrupoProducto> findGrupoProducto(String grupo, String subgrupo, String categoria, String linea, String sublinea, String presentacion);
 
 }

@@ -7,15 +7,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -26,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
+
 @Component
 public class Util {
 	
@@ -143,8 +142,14 @@ public class Util {
         	if (parametro.isPresent() && conteo.isPresent()) {
             	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get()));
                 Date fecha = new Date();
-                String año = String.valueOf(fecha.getYear());
-                String mes = String.valueOf(fecha.getMonth());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(fecha);
+                String año = calendar.get(Calendar.YEAR)+"";
+                int mesC=calendar.get(Calendar.MONTH)+1;
+                String mes="";
+                if(mesC<10) {
+                	mes= "0"+mesC;
+                }
                 return Optional.of(parametro.get().getAbreviatura() + año + mes + rellenoConteo);
             }
         	return Optional.ofNullable(null);
