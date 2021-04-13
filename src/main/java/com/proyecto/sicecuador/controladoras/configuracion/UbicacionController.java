@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.controladoras.configuracion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathUbicacion;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
@@ -26,137 +27,82 @@ public class UbicacionController implements GenericoController<Ubicacion> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<Ubicacion> ubicaciones=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, ubicaciones);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Ubicacion> ubicaciones=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, ubicaciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            Ubicacion ubicacion=servicio.obtener(new Ubicacion(id)).get();
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, ubicacion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Ubicacion ubicacion=servicio.obtener(new Ubicacion(id)).get();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, ubicacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Ubicacion _ubicacion) {
-        try {
-            Ubicacion ubicacion=servicio.crear(_ubicacion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, ubicacion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Ubicacion ubicacion=servicio.crear(_ubicacion);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, ubicacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Ubicacion _ubicacion) {
-        try {
-            Ubicacion ubicacion=servicio.actualizar(_ubicacion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, ubicacion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Ubicacion ubicacion=servicio.actualizar(_ubicacion);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, ubicacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            Ubicacion ubicacion=servicio.eliminar(new Ubicacion(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, ubicacion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Ubicacion ubicacion=servicio.eliminar(new Ubicacion(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, ubicacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/provincia",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarProvincias() {
-        try {
-            List<Ubicacion> ubicaciones=servicio.consultarProvincias();
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Ubicacion> ubicaciones=servicio.consultarProvincias();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/provincia/{provincia}/canton", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarCantones(@PathVariable("provincia") String provincia) {
-        try {
-            Ubicacion ubicacion=new Ubicacion();
-            ubicacion.setProvincia(provincia);
-            List<Ubicacion> ubicaciones=servicio.consultarCantones(ubicacion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Ubicacion ubicacion=new Ubicacion();
+        ubicacion.setProvincia(provincia);
+        List<Ubicacion> ubicaciones=servicio.consultarCantones(ubicacion);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/provincia/canton/{canton}/parroquia", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarParroquias(@PathVariable("canton") String canton) {
-        try {
-            Ubicacion ubicacion=new Ubicacion();
-            ubicacion.setCanton(canton);
-            List<Ubicacion> ubicaciones=servicio.consultarParroquias(ubicacion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Ubicacion ubicacion=new Ubicacion();
+        ubicacion.setCanton(canton);
+        List<Ubicacion> ubicaciones=servicio.consultarParroquias(ubicacion);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/{provincia}/{canton}/{parroquia}/id", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerUbicacionID(@PathVariable("provincia") String provincia,
                                                 @PathVariable("canton") String canton,
                                                 @PathVariable("parroquia") String parroquia) {
-        try {
-            Ubicacion ubicacion=new Ubicacion(provincia, canton, parroquia);
-            Optional<Ubicacion> _ubicacion=servicio.obtenerUbicacionID(ubicacion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, _ubicacion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Ubicacion ubicacion=new Ubicacion(provincia, canton, parroquia);
+        Optional<Ubicacion> _ubicacion=servicio.obtenerUbicacionID(ubicacion);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, _ubicacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/buscar/{codigo_norma}/{provincia}/{canton}/{parroquia}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> buscar(@PathVariable("codigo_norma") String codigo_norma, @PathVariable("provincia") String provincia,
                                           @PathVariable("canton") String canton, @PathVariable("parroquia") String parroquia) {
-        try {
-            List<Ubicacion> ubicaciones=servicio.buscar(new Ubicacion(codigo_norma, provincia, canton, parroquia));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Ubicacion> ubicaciones=servicio.buscar(new Ubicacion(codigo_norma, provincia, canton, parroquia));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        try {
-            boolean bandera=servicio.importar(archivo);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        boolean bandera=servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
 }

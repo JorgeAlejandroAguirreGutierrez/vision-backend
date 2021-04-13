@@ -1,7 +1,11 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Pedido;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IPedidoRepository;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +17,15 @@ import java.util.Optional;
 public class PedidoService implements IPedidoService {
     @Autowired
     private IPedidoRepository rep;
+    
     @Override
     public Pedido crear(Pedido pedido) {
-        return rep.save(pedido);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_pedido);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	pedido.setCodigo(codigo.get());
+    	return rep.save(pedido);
     }
 
     @Override

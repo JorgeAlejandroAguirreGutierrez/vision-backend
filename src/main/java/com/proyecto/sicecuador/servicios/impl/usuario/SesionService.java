@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.interf.usuario.ISesionRepository;
@@ -18,14 +20,20 @@ import java.util.Optional;
 public class SesionService implements ISesionService {
     @Autowired
     private ISesionRepository rep;
+    
     @Autowired
     private IUsuarioRepository rep_usuario;
     @Override
     public Sesion crear(Sesion sesion) {
-        Usuario usuario=rep_usuario.findByIdentificacionContrasena(sesion.getUsuario().getIdentificacion(),sesion.getUsuario().getContrasena());
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_sesion);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	sesion.setCodigo(codigo.get());
+    	Usuario usuario=rep_usuario.findByIdentificacionContrasena(sesion.getUsuario().getIdentificacion(),sesion.getUsuario().getContrasena());
         sesion.setUsuario(usuario);
-        //sesion.setFecha_apertura(new Date());
-        //sesion.setActiva(true);
+        sesion.setFechaApertura(new Date());
+        sesion.setActiva(true);
         return rep.save(sesion);
     }
 
@@ -54,7 +62,7 @@ public class SesionService implements ISesionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Sesion> sesiones=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,4);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,4);
             for (List<String> datos: info) {
                 Sesion sesion = new Sesion(datos);
                 sesiones.add(sesion);

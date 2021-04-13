@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.entrega;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.entrega.IGuiaRemisionRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.IGuiaRemisionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,15 @@ import java.util.Optional;
 public class GuiaRemisionService implements IGuiaRemisionService {
     @Autowired
     private IGuiaRemisionRepository rep;
+    
     @Override
     public GuiaRemision crear(GuiaRemision guia_remision) {
-        return rep.save(guia_remision);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_guia_remision);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	guia_remision.setCodigo(codigo.get());
+    	return rep.save(guia_remision);
     }
 
     @Override
@@ -46,7 +54,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<GuiaRemision> guias_remisiones=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
             for (List<String> datos: info) {
                 GuiaRemision guia_remision = new GuiaRemision(datos);
                 guias_remisiones.add(guia_remision);

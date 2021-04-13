@@ -1,9 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.configuracion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IUbicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,15 @@ import java.util.Optional;
 public class UbicacionService implements IUbicacionService {
     @Autowired
     private IUbicacionRepository rep;
+    
     @Override
     public Ubicacion crear(Ubicacion ubicacion) {
-        return rep.save(ubicacion);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_ubicacion);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	ubicacion.setCodigo(codigo.get());
+    	return rep.save(ubicacion);
     }
 
     @Override
@@ -52,7 +58,7 @@ public class UbicacionService implements IUbicacionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Ubicacion> ubicaciones=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 3);
+            List<List<String>>info= Util.leer_importar(archivo_temporal, 3);
             for (List<String> datos: info) {
                 Ubicacion ubicacion = new Ubicacion(datos);
                 ubicaciones.add(ubicacion);

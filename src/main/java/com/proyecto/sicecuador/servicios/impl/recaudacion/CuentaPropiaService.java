@@ -1,7 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.recaudacion.Credito;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.ICuentaPropiaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICuentaPropiaService;
@@ -16,9 +17,15 @@ import java.util.Optional;
 public class CuentaPropiaService implements ICuentaPropiaService {
     @Autowired
     private ICuentaPropiaRepository rep;
+    
     @Override
     public CuentaPropia crear(CuentaPropia cuenta_propia) {
-        return rep.save(cuenta_propia);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cuenta_propia);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	cuenta_propia.setCodigo(codigo.get());
+    	return rep.save(cuenta_propia);
     }
 
     @Override
@@ -46,7 +53,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<CuentaPropia> cuentas_propias=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,3);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,3);
             for (List<String> datos: info) {
                 CuentaPropia cuenta_propia = new CuentaPropia(datos);
                 cuentas_propias.add(cuenta_propia);

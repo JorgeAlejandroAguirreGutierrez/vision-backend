@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.configuracion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.Parametro;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.ITipoRetencionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoRetencionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,15 @@ import java.util.Optional;
 public class TipoRetencionService implements ITipoRetencionService {
     @Autowired
     private ITipoRetencionRepository rep;
+    
     @Override
     public TipoRetencion crear(TipoRetencion tipo_retencion) {
-        return rep.save(tipo_retencion);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_retencion);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tipo_retencion.setCodigo(codigo.get());
+    	return rep.save(tipo_retencion);
     }
 
     @Override
@@ -46,7 +54,7 @@ public class TipoRetencionService implements ITipoRetencionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoRetencion> tipos_retenciones=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 2);
+            List<List<String>>info= Util.leer_importar(archivo_temporal, 2);
             for (List<String> datos: info) {
                 TipoRetencion tipo_retencion = new TipoRetencion(datos);
                 tipos_retenciones.add(tipo_retencion);

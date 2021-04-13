@@ -1,7 +1,5 @@
 package com.proyecto.sicecuador.repositorios.datos.configuracion;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
-import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IUbicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +25,12 @@ public class UbicacionData implements ApplicationRunner {
         Optional<Ubicacion> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Ubicacion> ubicaciones = new ArrayList<>();
-            ubicaciones.add(new Ubicacion("U1", "1", "AZUAY", "CUENCA", "BELLAVISTA"));
-            ubicaciones.add(new Ubicacion("U2", "2", "AZUAY", "CUENCA", "CAÑARIBAMBA"));
-            ubicaciones.add(new Ubicacion("U3", "3", "CHIMBORAZO", "ALAUSI", "ALAUSI"));
-            ubicaciones.add(new Ubicacion("U4", "4", "CHIMBORAZO", "RIOBAMBA", "VELASCO"));
-            ubicaciones.add(new Ubicacion("U5", "5", "CHIMBORAZO", "RIOBAMBA", "RIOBAMBA"));
+            ubicaciones.add(new Ubicacion("U1", "010150", "AZUAY", "CUENCA", "CUENCA"));
+            ubicaciones.add(new Ubicacion("U2", "010101", "AZUAY", "CUENCA", "BELLAVISTA"));
+            ubicaciones.add(new Ubicacion("U3", "010102", "AZUAY", "CUENCA", "CAÑARIBAMBA"));
+            ubicaciones.add(new Ubicacion("U4", "010103", "AZUAY", "CUENCA", "EL BATAN"));
+            ubicaciones.add(new Ubicacion("U5", "010104", "AZUAY", "CUENCA", "EL SAGRARIO"));
+            ubicaciones.add(new Ubicacion("U5", "010105", "AZUAY", "CUENCA", "EL VECINO"));
             rep.saveAll(ubicaciones);
         }
     }

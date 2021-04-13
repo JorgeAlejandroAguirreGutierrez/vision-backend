@@ -1,8 +1,6 @@
 package com.proyecto.sicecuador.servicios.interf.configuracion;
 
-import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 import java.util.List;

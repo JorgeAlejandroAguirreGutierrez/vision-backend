@@ -1,15 +1,17 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IAuxiliarRepository;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IAuxiliarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.persistence.PostPersist;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -21,9 +23,15 @@ import java.util.Optional;
 public class AuxiliarService implements IAuxiliarService {
     @Autowired
     private IAuxiliarRepository rep;
+    
     @Override
     public Auxiliar crear(Auxiliar auxiliar) {
-        return rep.save(auxiliar);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_auxiliar);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	auxiliar.setCodigo(codigo.get());
+    	return rep.save(auxiliar);
     }
 
     @Override
@@ -82,7 +90,7 @@ public class AuxiliarService implements IAuxiliarService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Auxiliar> auxiliares=new ArrayList<>();
-            List<List<String>>info=Constantes.leer_importar(archivo_temporal,0);
+            List<List<String>>info=Util.leer_importar(archivo_temporal,0);
             for (List<String> datos: info){
                 Auxiliar auxiliar = new Auxiliar(datos);
                 auxiliares.add(auxiliar);

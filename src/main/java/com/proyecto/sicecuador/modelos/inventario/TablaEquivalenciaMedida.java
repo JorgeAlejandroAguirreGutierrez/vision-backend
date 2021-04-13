@@ -2,14 +2,12 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.TablaEquivalenciaMedidaUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "tabla_equivalencia_medida")
-@EntityListeners({TablaEquivalenciaMedidaUtil.class})
 public class TablaEquivalenciaMedida extends Entidad {
     @ManyToOne
     @JsonProperty("medida1")

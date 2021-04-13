@@ -1,9 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.TipoPago;
-import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoPagoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITipoPagoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,15 @@ import java.util.Optional;
 public class TipoPagoService implements ITipoPagoService {
     @Autowired
     private ITipoPagoRepository rep;
+    
     @Override
     public TipoPago crear(TipoPago tipo_pago) {
-        return rep.save(tipo_pago);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_pago);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tipo_pago.setCodigo(codigo.get());
+    	return rep.save(tipo_pago);
     }
 
     @Override
@@ -46,7 +52,7 @@ public class TipoPagoService implements ITipoPagoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoPago> tipos_pagos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,19);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,19);
             for (List<String> datos: info) {
                 TipoPago tipo_pago = new TipoPago(datos);
                 tipos_pagos.add(tipo_pago);

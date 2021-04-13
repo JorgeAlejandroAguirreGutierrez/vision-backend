@@ -1,10 +1,12 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.ModeloExistenteException;
 import com.proyecto.sicecuador.exception.ModeloNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.TablaEquivalenciaMedida;
-import com.proyecto.sicecuador.otros.Util;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITablaEquivalenciaMedidaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITablaEquivalenciaMedidaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,14 @@ import java.util.Optional;
 public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaService {
     @Autowired
     private ITablaEquivalenciaMedidaRepository rep;
+    
     @Override
     public TablaEquivalenciaMedida crear(TablaEquivalenciaMedida tabla) {
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_equivalencia_medida);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tabla.setCodigo(codigo.get());
     	Optional<TablaEquivalenciaMedida> tem= this.obtenerMedida1Medida2(tabla);
     	if(tem.isPresent()) {
     		throw new ModeloExistenteException();
@@ -85,13 +93,13 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
             @Override
             public Predicate toPredicate(Root<TablaEquivalenciaMedida> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (!tem.getCodigo().equals(Util.vacio)) {
+                if (!tem.getCodigo().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo").get("codigo"), "%"+tem.getCodigo()+"%")));
                 }
-                if (!tem.getMedida1().getDescripcion().equals(Util.vacio)) {
+                if (!tem.getMedida1().getDescripcion().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("medida1").get("descripcion"), "%"+tem.getMedida1().getDescripcion()+"%")));
                 }
-                if (!tem.getMedida2().getDescripcion().equals(Util.vacio)) {
+                if (!tem.getMedida2().getDescripcion().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("medida2").get("descripcion"), "%"+tem.getMedida2().getDescripcion()+"%")));
                 }
                 if (tem.getEquivalencia()!=0) {
@@ -106,7 +114,7 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TablaEquivalenciaMedida> tablas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
             for (List<String> datos: info) {
                 TablaEquivalenciaMedida tabla = new TablaEquivalenciaMedida(datos);
                 tablas.add(tabla);

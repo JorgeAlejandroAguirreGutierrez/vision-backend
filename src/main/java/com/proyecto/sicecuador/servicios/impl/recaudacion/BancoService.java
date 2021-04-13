@@ -1,7 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IBancoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IBancoService;
@@ -16,9 +17,15 @@ import java.util.Optional;
 public class BancoService implements IBancoService {
     @Autowired
     private IBancoRepository rep;
+    
     @Override
     public Banco crear(Banco banco) {
-        return rep.save(banco);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_banco);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	banco.setCodigo(codigo.get());
+    	return rep.save(banco);
     }
 
     @Override
@@ -46,7 +53,7 @@ public class BancoService implements IBancoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Banco> bancos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,1);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,1);
             for (List<String> datos: info) {
                 Banco banco = new Banco(datos);
                 bancos.add(banco);

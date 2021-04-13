@@ -2,13 +2,11 @@ package com.proyecto.sicecuador.modelos.comprobante;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.comprobante.TipoComprobanteUtil;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tipo_comprobante")
-//@EntityListeners({TipoComprobanteUtil.class})
 public class TipoComprobante extends Entidad {
 	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)

@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.repositorios.datos.usuario;
 
 import com.proyecto.sicecuador.modelos.usuario.Perfil;
-import com.proyecto.sicecuador.modelos.usuario.Permiso;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IUsuarioRepository;

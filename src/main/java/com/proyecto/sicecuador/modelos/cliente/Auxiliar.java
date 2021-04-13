@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "auxiliar")
-//@EntityListeners({AuxiliarUtil.class})
 public class Auxiliar extends Entidad {
     @NotNull
     @NotBlank
@@ -35,15 +34,15 @@ public class Auxiliar extends Entidad {
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
     @JsonProperty("telefonos_auxiliar")
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
     private List<TelefonoAuxiliar> telefonosAuxiliar;
     @JsonProperty("celulares_auxiliar")
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true,  fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
     private List<CelularAuxiliar> celularesAuxiliar;
     @JsonProperty("correos_auxiliar")
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
     private List<CorreoAuxiliar> correosAuxiliar;
 

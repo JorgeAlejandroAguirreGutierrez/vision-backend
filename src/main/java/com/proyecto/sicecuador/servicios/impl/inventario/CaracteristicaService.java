@@ -1,9 +1,12 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ICaracteristicaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ICaracteristicaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +20,17 @@ import java.util.Optional;
 public class CaracteristicaService implements ICaracteristicaService {
     @Autowired
     private ICaracteristicaRepository rep;
+    @Autowired
+    private static IParametroRepository parametroRep;
+    
     @Override
     public Caracteristica crear(Caracteristica caracteristica) {
-        return rep.save(caracteristica);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_caracteristica);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	caracteristica.setCodigo(codigo.get());
+    	return rep.save(caracteristica);
     }
 
     @Override
@@ -59,7 +70,7 @@ public class CaracteristicaService implements ICaracteristicaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Caracteristica> caracteristicas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,1);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,1);
             for (List<String> datos: info) {
                 Caracteristica caracteristica = new Caracteristica(datos);
                 caracteristicas.add(caracteristica);

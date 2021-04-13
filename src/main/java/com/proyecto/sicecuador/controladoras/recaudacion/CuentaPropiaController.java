@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathCuentaPropia;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
@@ -25,62 +26,37 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<CuentaPropia> cuentas_propias=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentas_propias);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<CuentaPropia> cuentas_propias=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentas_propias);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            Optional<CuentaPropia> cuenta_propia=servicio.obtener(new CuentaPropia(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuenta_propia);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Optional<CuentaPropia> cuenta_propia=servicio.obtener(new CuentaPropia(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuenta_propia);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid CuentaPropia _cuenta_propia) {
-        try {
-            CuentaPropia cuenta_propia=servicio.crear(_cuenta_propia);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cuenta_propia);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        CuentaPropia cuenta_propia=servicio.crear(_cuenta_propia);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cuenta_propia);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody CuentaPropia _cuenta_propia) {
-        try {
-            CuentaPropia cuenta_propia=servicio.actualizar(_cuenta_propia);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cuenta_propia);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        CuentaPropia cuenta_propia=servicio.actualizar(_cuenta_propia);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cuenta_propia);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            CuentaPropia cuenta_propia=servicio.eliminar(new CuentaPropia(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, cuenta_propia);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        CuentaPropia cuenta_propia=servicio.eliminar(new CuentaPropia(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, cuenta_propia);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @Override

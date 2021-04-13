@@ -1,10 +1,7 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.proyecto.sicecuador.controladoras.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.cliente.CategoriaClienteUtil;
-import com.proyecto.sicecuador.otros.cliente.ClienteUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "categoria_cliente")
-@EntityListeners({CategoriaClienteUtil.class})
 public class CategoriaCliente extends Entidad {
 	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)

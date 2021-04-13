@@ -2,14 +2,12 @@ package com.proyecto.sicecuador.modelos.configuracion;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.configuracion.EmpresaUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "empresa")
-@EntityListeners({EmpresaUtil.class})
 public class Empresa extends Entidad {
 	@JsonProperty("identificacion")
     @Column(name = "identificacion", nullable = true)

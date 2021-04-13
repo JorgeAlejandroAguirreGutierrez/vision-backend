@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Permiso;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IPermisoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPermisoService;
@@ -15,9 +17,15 @@ import java.util.Optional;
 public class PermisoService implements IPermisoService {
     @Autowired
     private IPermisoRepository rep;
+    
     @Override
     public Permiso crear(Permiso permiso) {
-        return rep.save(permiso);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_permiso);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	permiso.setCodigo(codigo.get());
+    	return rep.save(permiso);
     }
 
     @Override
@@ -45,7 +53,7 @@ public class PermisoService implements IPermisoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Permiso> permisos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,2);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,2);
             for (List<String> datos: info) {
                 Permiso permiso = new Permiso(datos);
                 permisos.add(permiso);

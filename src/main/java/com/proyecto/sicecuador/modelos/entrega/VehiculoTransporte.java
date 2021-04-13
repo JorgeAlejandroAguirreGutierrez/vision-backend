@@ -2,14 +2,12 @@ package com.proyecto.sicecuador.modelos.entrega;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.entrega.VehiculoTransporteUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "vehiculo_transporte")
-@EntityListeners({VehiculoTransporteUtil.class})
 public class VehiculoTransporte extends Entidad {
 	@JsonProperty("placa")
     @Column(name = "placa", nullable = true)

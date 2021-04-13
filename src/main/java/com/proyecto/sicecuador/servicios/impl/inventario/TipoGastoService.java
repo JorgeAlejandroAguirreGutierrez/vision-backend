@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
 import com.proyecto.sicecuador.repositorios.interf.inventario.ITipoGastoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITipoGastoService;
@@ -16,20 +18,26 @@ import java.util.Optional;
 public class TipoGastoService implements ITipoGastoService {
     @Autowired
     private ITipoGastoRepository rep;
+    
     @Override
-    public TipoGasto crear(TipoGasto bodega) {
-        return rep.save(bodega);
+    public TipoGasto crear(TipoGasto tipo_gasto) {
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_gasto);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tipo_gasto.setCodigo(codigo.get());
+    	return rep.save(tipo_gasto);
     }
 
     @Override
-    public TipoGasto actualizar(TipoGasto bodega) {
-        return rep.save(bodega);
+    public TipoGasto actualizar(TipoGasto tipo_gasto) {
+        return rep.save(tipo_gasto);
     }
 
     @Override
-    public TipoGasto eliminar(TipoGasto bodega) {
-        rep.deleteById(bodega.getId());
-        return bodega;
+    public TipoGasto eliminar(TipoGasto tipo_gasto) {
+        rep.deleteById(tipo_gasto.getId());
+        return tipo_gasto;
     }
 
     @Override
@@ -46,7 +54,7 @@ public class TipoGastoService implements ITipoGastoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoGasto> tipos_gastos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,9);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,9);
             for (List<String> datos: info) {
                 TipoGasto tipo_gasto = new TipoGasto(datos);
                 tipos_gastos.add(tipo_gasto);

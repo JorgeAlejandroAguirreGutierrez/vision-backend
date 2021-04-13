@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.otros.entrega.GuiaRemisionUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,7 +12,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "guia_remision")
-@EntityListeners({GuiaRemisionUtil.class})
 public class GuiaRemision extends Entidad {
 	@JsonProperty("numero")
     @Column(name = "numero", nullable = true)

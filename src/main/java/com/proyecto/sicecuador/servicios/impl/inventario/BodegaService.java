@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.entrega.VehiculoTransporte;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IBodegaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IBodegaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,15 @@ import java.util.Optional;
 public class BodegaService implements IBodegaService {
     @Autowired
     private IBodegaRepository rep;
+    
     @Override
     public Bodega crear(Bodega bodega) {
-        return rep.save(bodega);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_bodega);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	bodega.setCodigo(codigo.get());
+    	return rep.save(bodega);
     }
 
     @Override
@@ -46,7 +54,7 @@ public class BodegaService implements IBodegaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Bodega> bodegas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
             for (List<String> datos: info) {
                 Bodega bodega = new Bodega(datos);
                 bodegas.add(bodega);

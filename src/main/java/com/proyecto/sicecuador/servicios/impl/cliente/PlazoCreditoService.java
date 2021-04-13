@@ -1,11 +1,11 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
-import com.proyecto.sicecuador.otros.Util;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IOrigenIngresoRepository;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IPlazoCreditoRepository;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IPlazoCreditoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +18,15 @@ import java.util.Optional;
 public class PlazoCreditoService implements IPlazoCreditoService {
     @Autowired
     private IPlazoCreditoRepository rep;
+    
     @Override
     public PlazoCredito crear(PlazoCredito plazo_credito) {
-        return rep.save(plazo_credito);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_plazo_credito);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	plazo_credito.setCodigo(codigo.get());
+    	return rep.save(plazo_credito);
     }
 
     @Override
@@ -48,7 +54,7 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<PlazoCredito> plazos_creditos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 14);
+            List<List<String>>info= Util.leer_importar(archivo_temporal, 14);
             for (List<String> datos: info) {
                 PlazoCredito plazo_credito = new PlazoCredito(datos);
                 plazos_creditos.add(plazo_credito);

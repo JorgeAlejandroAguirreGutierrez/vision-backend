@@ -1,11 +1,8 @@
 package com.proyecto.sicecuador.repositorios.datos.comprobante;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.comprobante.Pedido;
 import com.proyecto.sicecuador.modelos.comprobante.Proforma;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
-import com.proyecto.sicecuador.repositorios.interf.comprobante.IPedidoRepository;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IProformaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

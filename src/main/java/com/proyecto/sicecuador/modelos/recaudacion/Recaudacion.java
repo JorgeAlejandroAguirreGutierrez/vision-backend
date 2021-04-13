@@ -3,11 +3,10 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
-import com.proyecto.sicecuador.otros.recaudacion.RecaudacionUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -16,7 +15,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "recaudacion")
-@EntityListeners({RecaudacionUtil.class})
 public class Recaudacion extends Entidad {
 	@JsonProperty("fecha")
     @JsonFormat(pattern = "yyyy-MM-dd")

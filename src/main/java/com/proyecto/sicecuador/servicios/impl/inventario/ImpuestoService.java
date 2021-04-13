@@ -1,8 +1,11 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
 import com.proyecto.sicecuador.modelos.inventario.Impuesto;
+import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IImpuestoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IImpuestoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +19,15 @@ import java.util.Optional;
 public class ImpuestoService implements IImpuestoService {
     @Autowired
     private IImpuestoRepository rep;
+    
     @Override
     public Impuesto crear(Impuesto impuesto) {
-        return rep.save(impuesto);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_impuesto);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	impuesto.setCodigo(codigo.get());
+    	return rep.save(impuesto);
     }
 
     @Override
@@ -50,7 +59,7 @@ public class ImpuestoService implements IImpuestoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Impuesto> impuestos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,3);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,3);
             for (List<String> datos: info) {
                 Impuesto impuesto = new Impuesto(datos);
                 impuestos.add(impuesto);

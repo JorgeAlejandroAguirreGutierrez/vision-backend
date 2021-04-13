@@ -5,14 +5,12 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
-import com.proyecto.sicecuador.otros.comprobante.EgresoUtil;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "egreso")
-@EntityListeners({EgresoUtil.class})
 public class Egreso extends Entidad {
 	@JsonProperty("numero_interno")
     @Column(name = "numero_interno", nullable = true)

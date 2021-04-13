@@ -1,8 +1,9 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
-import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.ICreditoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
@@ -16,9 +17,15 @@ import java.util.*;
 public class CreditoService implements ICreditoService {
     @Autowired
     private ICreditoRepository rep;
+    
     @Override
     public Credito crear(Credito credito) {
-        return rep.save(credito);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_credito);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	credito.setCodigo(codigo.get());
+    	return rep.save(credito);
     }
 
     @Override
@@ -175,7 +182,7 @@ public class CreditoService implements ICreditoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Credito> creditos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,2);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,2);
             for (List<String> datos: info) {
                 Credito credito = new Credito(datos);
                 creditos.add(credito);

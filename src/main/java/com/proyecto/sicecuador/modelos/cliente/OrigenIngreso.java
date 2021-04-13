@@ -2,15 +2,12 @@ package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.cliente.GeneroUtil;
-import com.proyecto.sicecuador.otros.cliente.OrigenIngresoUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "origen_ingreso")
-//@EntityListeners({OrigenIngresoUtil.class})
 public class OrigenIngreso extends Entidad {
 	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
