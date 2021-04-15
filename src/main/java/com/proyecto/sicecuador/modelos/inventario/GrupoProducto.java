@@ -34,7 +34,7 @@ public class GrupoProducto extends Entidad {
     private String presentacion;
 
     public GrupoProducto(){
-
+    	super();
     }
 
     public GrupoProducto(long id){
