@@ -27,27 +27,27 @@ public class TablaEquivalenciaMedidaData implements ApplicationRunner {
             List<TablaEquivalenciaMedida> tablas = new ArrayList<>();
             //LIBRA
             tablas.add(new TablaEquivalenciaMedida("TEM011909000001", new Medida(1), new Medida(1), 0));
-            tablas.add(new TablaEquivalenciaMedida("TEM011909000002", new Medida(1), new Medida(2), 0.45359237));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000002", new Medida(1), new Medida(2), 0.454));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000003", new Medida(1), new Medida(3), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000004", new Medida(1), new Medida(4), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000005", new Medida(1), new Medida(5), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000006", new Medida(1), new Medida(6), 16));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000007", new Medida(1), new Medida(7), 0));
-            tablas.add(new TablaEquivalenciaMedida("TEM011909000008", new Medida(1), new Medida(8), 453.59237));
-            tablas.add(new TablaEquivalenciaMedida("TEM011909000009", new Medida(1), new Medida(9), 0.0310809501715673));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000008", new Medida(1), new Medida(8), 453.592));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000009", new Medida(1), new Medida(9), 0.031));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000010", new Medida(1), new Medida(10), 0));
-            tablas.add(new TablaEquivalenciaMedida("TEM011909000011", new Medida(1), new Medida(11), 0.00045359237));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000011", new Medida(1), new Medida(11), 0.001));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000012", new Medida(1), new Medida(12), 0));
             //KILOGRAMO
-            tablas.add(new TablaEquivalenciaMedida("TEM011909000001", new Medida(2), new Medida(1), 2.20458553791887));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000001", new Medida(2), new Medida(1), 2.204));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000002", new Medida(2), new Medida(2), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000003", new Medida(2), new Medida(3), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000004", new Medida(2), new Medida(4), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000005", new Medida(2), new Medida(5), 0));
-            tablas.add(new TablaEquivalenciaMedida("TEM011909000006", new Medida(2), new Medida(6), 35.2739619495804));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000006", new Medida(2), new Medida(6), 35.273));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000007", new Medida(2), new Medida(7), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000008", new Medida(2), new Medida(8), 1000));
-            tablas.add(new TablaEquivalenciaMedida("TEM011909000009", new Medida(2), new Medida(9), 0.0685217658567918));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000009", new Medida(2), new Medida(9), 0.068));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000010", new Medida(2), new Medida(10), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000011", new Medida(2), new Medida(11), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000012", new Medida(2), new Medida(12), 1000000));
@@ -56,7 +56,7 @@ public class TablaEquivalenciaMedidaData implements ApplicationRunner {
             tablas.add(new TablaEquivalenciaMedida("TEM011909000002", new Medida(3), new Medida(2), 100));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000003", new Medida(3), new Medida(3), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000004", new Medida(3), new Medida(4), 0));
-            tablas.add(new TablaEquivalenciaMedida("TEM011909000005", new Medida(3), new Medida(5), 15.7473));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000005", new Medida(3), new Medida(5), 15.747));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000006", new Medida(3), new Medida(6), 3527.4));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000007", new Medida(3), new Medida(7), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000008", new Medida(3), new Medida(8), 100000));

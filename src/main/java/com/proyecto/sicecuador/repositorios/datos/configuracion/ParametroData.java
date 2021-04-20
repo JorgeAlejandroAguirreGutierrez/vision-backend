@@ -1,13 +1,9 @@
 package com.proyecto.sicecuador.repositorios.datos.configuracion;
-
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -63,6 +59,14 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR35", "CREAR", "", "tarjeta_credito", "TCR"));
             parametros.add(new Parametro("PAR36", "CREAR", "", "tarjeta_debito", "TDE"));
             parametros.add(new Parametro("PAR37", "CREAR", "", "usuario", "USR"));
+            parametros.add(new Parametro("PAR61", "CREAR", "", "sesion", "SES"));
+            parametros.add(new Parametro("PAR62", "CREAR", "", "telefono_auxiliar", "TEA"));
+            parametros.add(new Parametro("PAR63", "CREAR", "", "celular_auxiliar", "CEA"));
+            parametros.add(new Parametro("PAR64", "CREAR", "", "correo_auxiliar", "COA"));
+            parametros.add(new Parametro("PAR65", "CREAR", "", "bodega_producto", "BOP"));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "factura_detalle", "FDE"));
+            parametros.add(new Parametro("PAR67", "CREAR", "", "recaudacion", "REC"));
+            parametros.add(new Parametro("PAR67", "CREAR", "", "grupo_producto", "GRP"));
             parametros.add(new Parametro("PAR38", "CREAR", "", "parametro", "PAR"));
             parametros.add(new Parametro("PAR39", "TIPOS USUARIOS", "VENDEDOR", "", "V"));
             parametros.add(new Parametro("PAR40", "TIPOS USUARIOS", "CAJERO", "", "C"));
@@ -87,13 +91,6 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR58", "FORMA TIEMPO", "DIA", "", "D"));
             parametros.add(new Parametro("PAR59", "FORMA TIEMPO", "MES", "", "M"));
             parametros.add(new Parametro("PAR60", "FORMA TIEMPO", "ANIO", "", "A"));
-            parametros.add(new Parametro("PAR61", "CREAR", "", "sesion", "SES"));
-            parametros.add(new Parametro("PAR62", "CREAR", "", "telefono_auxiliar", "TEA"));
-            parametros.add(new Parametro("PAR63", "CREAR", "", "celular_auxiliar", "CEA"));
-            parametros.add(new Parametro("PAR64", "CREAR", "", "correo_auxiliar", "COA"));
-            parametros.add(new Parametro("PAR65", "CREAR", "", "bodega_producto", "BOP"));
-            parametros.add(new Parametro("PAR66", "CREAR", "", "factura_detalle", "FDE"));
-            parametros.add(new Parametro("PAR67", "CREAR", "", "recaudacion", "REC"));
             parametros.add(new Parametro("PAR68", "PERIODO_MENSUAL", "12", "", "PME"));
             parametros.add(new Parametro("PAR69", "PERIODO_QUINCENAL", "24", "", "PQU"));
             parametros.add(new Parametro("PAR70", "PERIODO_TRIMESTRAL", "4", "", "PTR"));
