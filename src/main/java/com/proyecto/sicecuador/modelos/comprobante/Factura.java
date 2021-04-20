@@ -104,9 +104,9 @@ public class Factura extends Entidad {
 	private Sesion sesion;
 
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
-	@JsonProperty("detalles_factura")
+	@JsonProperty("factura_detalles")
 	@JoinColumn(name = "factura_id")
-	private List<FacturaDetalle> detallesFactura;
+	private List<FacturaDetalle> facturaDetalles;
 
 	public Factura() {
 
@@ -311,8 +311,8 @@ public class Factura extends Entidad {
 	}
 
 	@JsonManagedReference(value = "factura-detalle-factura")
-	public List<FacturaDetalle> getDetallesFactura() {
-		return detallesFactura;
+	public List<FacturaDetalle> getFacturaDetalles() {
+		return facturaDetalles;
 	}
 
 	public void normalizar() {
