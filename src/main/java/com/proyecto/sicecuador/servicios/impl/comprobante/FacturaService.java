@@ -17,7 +17,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
-import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaRepository;
+import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;

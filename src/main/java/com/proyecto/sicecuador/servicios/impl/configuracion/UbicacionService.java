@@ -4,7 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IUbicacionRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IUbicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;

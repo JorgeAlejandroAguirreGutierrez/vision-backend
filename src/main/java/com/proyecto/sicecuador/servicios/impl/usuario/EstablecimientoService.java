@@ -4,7 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
-import com.proyecto.sicecuador.repositorios.interf.usuario.IEstablecimientoRepository;
+import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEstablecimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

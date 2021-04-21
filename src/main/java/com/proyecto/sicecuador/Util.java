@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 
 @Component
 public class Util {

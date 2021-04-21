@@ -6,8 +6,7 @@ import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
-import com.proyecto.sicecuador.repositorios.interf.inventario.ICaracteristicaRepository;
+import com.proyecto.sicecuador.repositorios.inventario.ICaracteristicaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ICaracteristicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +19,6 @@ import java.util.Optional;
 public class CaracteristicaService implements ICaracteristicaService {
     @Autowired
     private ICaracteristicaRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Caracteristica crear(Caracteristica caracteristica) {
