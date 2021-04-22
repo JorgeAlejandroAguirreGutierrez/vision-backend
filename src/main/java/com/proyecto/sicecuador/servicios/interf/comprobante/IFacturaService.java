@@ -6,7 +6,6 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 public interface IFacturaService extends IGenericoService<Factura> {
-    List<Factura> consultarClienteRazonSocial(Factura factura);
-    List<Factura> consultarNumero(Factura factura);
+	List<Factura> buscar(Factura factura);
     ByteArrayInputStream generarPDF(Factura factura);
 }

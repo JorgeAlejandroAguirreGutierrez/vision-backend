@@ -5,7 +5,6 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaDetalleRepository;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaDetalleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +17,6 @@ public class FacturaDetalleService implements IFacturaDetalleService {
 
     @Autowired
     private IFacturaDetalleRepository rep;
-    
-    @Autowired
-    private static IParametroRepository parametroRep;
 
     @Override
     public FacturaDetalle crear(FacturaDetalle factura_detalle) {

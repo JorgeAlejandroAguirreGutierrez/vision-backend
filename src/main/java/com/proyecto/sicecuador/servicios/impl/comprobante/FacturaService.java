@@ -15,6 +15,7 @@ import com.itextpdf.layout.property.VerticalAlignment;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
@@ -52,7 +53,12 @@ public class FacturaService implements IFacturaService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
+    	Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_factura);
+    	if (secuencia.isEmpty()) {
+    		throw new SecuenciaNoExistenteException();
+    	}
     	factura.setCodigo(codigo.get());
+    	factura.setSecuencia(secuencia.get());
         return rep.save(factura);
     }
 
@@ -83,26 +89,19 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarClienteRazonSocial(Factura factura) {
+    public List<Factura> buscar(Factura factura) {
         return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();
-		    if (factura.getCliente().getRazonSocial()!=null) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("cliente").get("razon_social"), "%"+factura.getCliente().getRazonSocial()+"%")));
+		    if (!factura.getSecuencia().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+factura.getSecuencia()+"%")));
+		    }
+		    if (!factura.getCliente().getRazonSocial().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("cliente").get("razonSocial"), "%"+factura.getCliente().getRazonSocial()+"%")));
 		    }
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 		});
     }
 
-    @Override
-    public List<Factura> consultarNumero(Factura factura) {
-        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
-		    List<Predicate> predicates = new ArrayList<>();
-		    if (factura.getNumero()!=null) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("numero"), "%"+factura.getNumero()+"%")));
-		    }
-		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-		});
-    }
     @Override
     public ByteArrayInputStream generarPDF(Factura factura) {
         try {
@@ -120,7 +119,7 @@ public class FacturaService implements IFacturaService {
             documento.add( new Paragraph("\n"));
             documento.add(new Paragraph("RUC: "+factura.getVendedor().getPuntoVenta().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
                     "FACTURA"+"\n"+
-                    "No."+factura.getNumero()+"\n"+
+                    "No."+factura.getSecuencia()+"\n"+
                     "Fecha: "+factura.getFecha().toString()).setBorder(new SolidBorder(1)));
             documento.add( new Paragraph("\n"));
             documento.add( new Paragraph("Razon Social: "+factura.getCliente().getRazonSocial()+"\n"+

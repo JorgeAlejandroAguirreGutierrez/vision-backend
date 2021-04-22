@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathFactura;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +49,13 @@ public class FacturaController implements GenericoController<Factura> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @PostMapping(value = "/buscar",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestBody Factura factura) {
+        List<Factura> facturas=servicio.buscar(factura);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, facturas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Factura _factura) {
@@ -70,21 +76,7 @@ public class FacturaController implements GenericoController<Factura> {
     public ResponseEntity<?> importar(MultipartFile file) {
         return null;
     }
-
-    @GetMapping(value = "/buscar/numero/{numero}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarNumero(@PathVariable("numero") String numero) {
-        List<Factura> factura=servicio.consultarNumero(new Factura(numero));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, factura);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    @GetMapping(value = "/buscar/cliente/razonsocial/{razon_social}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarClienteRazonSocial(@PathVariable("razon_social") String razon_social) {
-        Factura factura=new Factura();
-        factura.setCliente(new Cliente(razon_social));
-        List<Factura> facturas=servicio.consultarClienteRazonSocial(factura);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, facturas);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
+    
     @GetMapping(value = "/generar/pdf/{factura_id}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<?> generarPDF(@PathVariable("factura_id") long factura_id) {
         Optional<Factura> factura=servicio.obtener(new Factura(factura_id));

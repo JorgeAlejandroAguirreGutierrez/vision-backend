@@ -2,9 +2,7 @@ package com.proyecto.sicecuador.datos.cliente;
 
 import com.proyecto.sicecuador.modelos.cliente.*;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.repositorios.cliente.IAuxiliarRepository;
-import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Component
 @Order(16)
+@Profile({"dev","prod"})
 public class ParametroData implements ApplicationRunner {
     @Autowired
     private IParametroRepository rep;

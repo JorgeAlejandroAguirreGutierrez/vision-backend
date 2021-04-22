@@ -157,4 +157,17 @@ public class Util {
     		return Optional.ofNullable(null);
     	}
     }
+    
+    public static Optional<String> generarSecuencia(String tabla){
+    	try {
+        	Optional<String> conteo= conteo(tabla);
+        	if (conteo.isPresent()) {
+            	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get()));
+                return Optional.of(rellenoConteo);
+            }
+        	return Optional.ofNullable(null);
+    	}catch(Exception e) {
+    		return Optional.ofNullable(null);
+    	}
+    }
 }

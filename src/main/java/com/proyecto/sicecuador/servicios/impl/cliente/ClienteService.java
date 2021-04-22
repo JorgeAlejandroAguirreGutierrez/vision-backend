@@ -35,7 +35,7 @@ public class ClienteService implements IClienteService {
     private EntityManager adm;
 
     /**
-     *
+     *Busca los clientes por razon social e identificacion
      * @param cliente
      * @return
      */
