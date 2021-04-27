@@ -72,6 +72,7 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR67", "CREAR", "", "grupo_producto", "GRP"));
             parametros.add(new Parametro("PAR67", "CREAR", "", "kardex", "KAR"));
             parametros.add(new Parametro("PAR67", "CREAR", "", "medida_precio", "MP"));
+            parametros.add(new Parametro("PAR67", "CREAR", "", "tabla_equivalencia_medida", "TEM"));
             parametros.add(new Parametro("PAR38", "CREAR", "", "parametro", "PAR"));
             parametros.add(new Parametro("PAR39", "TIPOS USUARIOS", "VENDEDOR", "", "V"));
             parametros.add(new Parametro("PAR40", "TIPOS USUARIOS", "CAJERO", "", "C"));

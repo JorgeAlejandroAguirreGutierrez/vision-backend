@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.repositorios.inventario.IMedidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,8 @@ public class MedidaData implements ApplicationRunner {
             medidas.add(new Medida("MED011907000007", "GRANO", "PESO","GRANO", "GRAIN"));
             medidas.add(new Medida("MED011907000008", "GRAMO", "PESO","GRAMO", "GR"));
             medidas.add(new Medida("MED011907000009", "SLUG", "PESO","SLUG", "TON"));
-            medidas.add(new Medida("MED011907000010", "TONELADA", "PESO","TONELADA LARGA", "UK_TON"));
-            medidas.add(new Medida("MED011907000011", "TONELADA LARGA", "PESO","QUINTAL US", "CWT"));
+            medidas.add(new Medida("MED011907000010", "TONELADA", "PESO","TONELADA", "UK_TON"));
+            medidas.add(new Medida("MED011907000011", "TONELADA LARGA", "PESO","TONELADA LARGA", "CWT"));
             medidas.add(new Medida("MED011907000012", "MILIGRAMO", "PESO","MILIGRAMO", "MG"));
             rep.saveAll(medidas);
         }
