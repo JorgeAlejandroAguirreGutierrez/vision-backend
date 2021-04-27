@@ -23,6 +23,7 @@ public class ProductoService implements IProductoService {
     
     @Override
     public Producto crear(Producto producto) {
+    	producto.normalizar();
     	Optional<Producto> getProducto=rep.obtenerPorNombre(producto.getNombre());
     	if(getProducto.isPresent()) {
     		throw new ModeloExistenteException();
@@ -37,7 +38,8 @@ public class ProductoService implements IProductoService {
 
     @Override
     public Producto actualizar(Producto producto) {
-        return rep.save(producto);
+    	producto.normalizar();
+    	return rep.save(producto);
     }
 
     @Override
