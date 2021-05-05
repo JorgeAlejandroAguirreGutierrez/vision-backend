@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
 import com.proyecto.sicecuador.modelos.cliente.FormaPago;
 import com.proyecto.sicecuador.Util;
@@ -10,6 +11,8 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.IFormaPagoRepository;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IFormaPagoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,7 +60,12 @@ public class FormaPagoService implements IFormaPagoService {
     public List<FormaPago> consultar() {
         return rep.findAll();
     }
-    
+
+    @Override
+    public Page<FormaPago> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
     @Override
     public List<FormaPago> buscar(FormaPago forma_pago) {
         return  rep.findAll(new Specification<FormaPago>() {

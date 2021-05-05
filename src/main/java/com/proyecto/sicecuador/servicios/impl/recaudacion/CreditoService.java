@@ -3,11 +3,14 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.ICreditoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,6 +51,12 @@ public class CreditoService implements ICreditoService {
     public List<Credito> consultar() {
         return rep.findAll();
     }
+
+    @Override
+    public Page<Credito> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
 
     @Override
     public Optional<Credito> construir(Credito credito) {

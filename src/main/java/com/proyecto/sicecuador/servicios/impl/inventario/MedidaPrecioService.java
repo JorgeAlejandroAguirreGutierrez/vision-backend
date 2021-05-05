@@ -3,11 +3,14 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.MedidaPrecio;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.interf.inventario.IMedidaPrecioRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IMedidaPrecioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,6 +52,11 @@ public class MedidaPrecioService implements IMedidaPrecioService {
     @Override
     public List<MedidaPrecio> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<MedidaPrecio> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

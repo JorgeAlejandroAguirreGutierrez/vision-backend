@@ -9,6 +9,8 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.IRetencionClienteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IRetencionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,6 +53,11 @@ public class RetencionClienteService implements IRetencionClienteService {
     @Override
     public List<RetencionCliente> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<RetencionCliente> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

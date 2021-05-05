@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
 import com.proyecto.sicecuador.Util;
@@ -9,6 +10,8 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.IFinanciamientoReposi
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IFinanciamientoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,6 +52,11 @@ public class FinanciamientoService implements IFinanciamientoService {
     @Override
     public List<Financiamiento> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public Page<Financiamiento> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

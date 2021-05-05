@@ -15,6 +15,7 @@ import com.itextpdf.layout.property.VerticalAlignment;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaRepository;
@@ -22,6 +23,8 @@ import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepos
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -82,6 +85,11 @@ public class FacturaService implements IFacturaService {
     @Override
     public List<Factura> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<Factura> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

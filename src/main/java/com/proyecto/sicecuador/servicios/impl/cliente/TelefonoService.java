@@ -9,6 +9,8 @@ import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.interf.cliente.ITelefonoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITelefonoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,6 +52,11 @@ public class TelefonoService implements ITelefonoService {
     @Override
     public List<Telefono> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<Telefono> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

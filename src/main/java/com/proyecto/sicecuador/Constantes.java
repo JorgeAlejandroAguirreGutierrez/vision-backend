@@ -157,4 +157,8 @@ public class Constantes {
     public static final String tabla_sesion="sesion";
     public static final String tabla_usuario="usuario";
 	
+    
+    //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
+    public static final int size=20;
+    public static final String order="id";
 }

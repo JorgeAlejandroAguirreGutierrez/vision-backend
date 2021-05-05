@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.entrega;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
 import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
@@ -10,6 +11,8 @@ import com.proyecto.sicecuador.repositorios.interf.entrega.IGuiaRemisionReposito
 import com.proyecto.sicecuador.repositorios.interf.entrega.ITransportistaRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.ITransportistaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,6 +53,11 @@ public class TransportistaService implements ITransportistaService {
     @Override
     public List<Transportista> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<Transportista> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

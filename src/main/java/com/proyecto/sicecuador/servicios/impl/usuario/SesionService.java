@@ -3,12 +3,15 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.interf.usuario.ISesionRepository;
 import com.proyecto.sicecuador.repositorios.interf.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.ISesionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +59,11 @@ public class SesionService implements ISesionService {
     @Override
     public List<Sesion> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<Sesion> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

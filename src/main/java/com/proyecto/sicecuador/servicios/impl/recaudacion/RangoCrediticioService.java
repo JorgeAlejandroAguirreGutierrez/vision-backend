@@ -3,10 +3,13 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
 import com.proyecto.sicecuador.repositorios.interf.recaudacion.IRangoCrediticioRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRangoCrediticioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +50,11 @@ public class RangoCrediticioService implements IRangoCrediticioService {
     @Override
     public List<RangoCrediticio> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<RangoCrediticio> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override
