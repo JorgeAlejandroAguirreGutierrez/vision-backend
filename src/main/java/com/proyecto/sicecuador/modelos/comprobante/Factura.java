@@ -16,9 +16,9 @@ import java.util.List;
 @Entity
 @Table(name = "factura")
 public class Factura extends Entidad {
-	@JsonProperty("numero")
-	@Column(name = "numero", nullable = true)
-	private String numero;
+	@JsonProperty("secuencia")
+	@Column(name = "secuencia", nullable = true)
+	private String secuencia;
 	@JsonProperty("fecha")
 	@Column(name = "fecha", nullable = true)
 	private Date fecha;
@@ -104,9 +104,9 @@ public class Factura extends Entidad {
 	private Sesion sesion;
 
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
-	@JsonProperty("detalles_factura")
+	@JsonProperty("factura_detalles")
 	@JoinColumn(name = "factura_id")
-	private List<FacturaDetalle> detallesFactura;
+	private List<FacturaDetalle> facturaDetalles;
 
 	public Factura() {
 
@@ -116,18 +116,18 @@ public class Factura extends Entidad {
 		super(id);
 	}
 
-	public Factura(String numero) {
+	public Factura(String secuencia) {
 		super(0);
-		this.numero = numero;
+		this.secuencia = secuencia;
 	}
 
-	public Factura(String codigo, String numero, Date fecha, boolean estado, double subtotal,
+	public Factura(String codigo, String secuencia, Date fecha, boolean estado, double subtotal,
 			double valorDescuentoSubtotal, double porcentajeDescuentoSubtotal, double valorPorcentajeDescuentoSubtotal,
 			double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal,
 			double descuento, double base12, double base0, double importeIva, double total, String comentario,
 			Cliente cliente, Cliente clienteFactura, Auxiliar auxiliar, Usuario vendedor, Sesion sesion) {
 		super(codigo);
-		this.numero = numero;
+		this.secuencia = secuencia;
 		this.fecha = fecha;
 		this.estado = estado;
 		this.comentario = comentario;
@@ -138,8 +138,8 @@ public class Factura extends Entidad {
 		this.sesion = sesion;
 	}
 
-	public String getNumero() {
-		return numero;
+	public String getSecuencia() {
+		return secuencia;
 	}
 
 	public Date getFecha() {
@@ -298,8 +298,8 @@ public class Factura extends Entidad {
 		return vendedor;
 	}
 
-	public void setNumero(String numero) {
-		this.numero = numero;
+	public void setSecuencia(String secuencia) {
+		this.secuencia = secuencia;
 	}
 
 	public void setSesion(Sesion sesion) {
@@ -311,8 +311,8 @@ public class Factura extends Entidad {
 	}
 
 	@JsonManagedReference(value = "factura-detalle-factura")
-	public List<FacturaDetalle> getDetallesFactura() {
-		return detallesFactura;
+	public List<FacturaDetalle> getFacturaDetalles() {
+		return facturaDetalles;
 	}
 
 	public void normalizar() {

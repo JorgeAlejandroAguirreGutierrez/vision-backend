@@ -1,16 +1,12 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
-import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
 import com.proyecto.sicecuador.modelos.cliente.FormaPago;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IFormaPagoRepository;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
+import com.proyecto.sicecuador.repositorios.cliente.IFormaPagoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IFormaPagoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,10 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 @Service
 public class FormaPagoService implements IFormaPagoService {
     @Autowired
@@ -60,22 +53,19 @@ public class FormaPagoService implements IFormaPagoService {
     
     @Override
     public List<FormaPago> buscar(FormaPago forma_pago) {
-        return  rep.findAll(new Specification<FormaPago>() {
-            @Override
-            public Predicate toPredicate(Root<FormaPago> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (!forma_pago.getCodigo().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+forma_pago.getCodigo()+"%")));
-                }
-                if (!forma_pago.getDescripcion().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("descripcion"), "%"+forma_pago.getDescripcion()+"%")));
-                }
-                if (!forma_pago.getAbreviatura().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("abreviatura"), "%"+forma_pago.getAbreviatura()+"%")));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    if (!forma_pago.getCodigo().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+forma_pago.getCodigo()+"%")));
+		    }
+		    if (!forma_pago.getDescripcion().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("descripcion"), "%"+forma_pago.getDescripcion()+"%")));
+		    }
+		    if (!forma_pago.getAbreviatura().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("abreviatura"), "%"+forma_pago.getAbreviatura()+"%")));
+		    }
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
     }
 
     @Override

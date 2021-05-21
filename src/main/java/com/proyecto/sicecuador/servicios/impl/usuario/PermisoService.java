@@ -4,7 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Permiso;
-import com.proyecto.sicecuador.repositorios.interf.usuario.IPermisoRepository;
+import com.proyecto.sicecuador.repositorios.usuario.IPermisoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPermisoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

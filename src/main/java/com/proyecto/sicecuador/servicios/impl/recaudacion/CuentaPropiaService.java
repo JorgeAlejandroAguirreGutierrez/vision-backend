@@ -4,7 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
-import com.proyecto.sicecuador.repositorios.interf.recaudacion.ICuentaPropiaRepository;
+import com.proyecto.sicecuador.repositorios.recaudacion.ICuentaPropiaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

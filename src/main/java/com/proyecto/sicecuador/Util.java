@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 
 @Component
 public class Util {
@@ -151,6 +151,19 @@ public class Util {
                 	mes= "0"+mesC;
                 }
                 return Optional.of(parametro.get().getAbreviatura() + año + mes + rellenoConteo);
+            }
+        	return Optional.ofNullable(null);
+    	}catch(Exception e) {
+    		return Optional.ofNullable(null);
+    	}
+    }
+    
+    public static Optional<String> generarSecuencia(String tabla){
+    	try {
+        	Optional<String> conteo= conteo(tabla);
+        	if (conteo.isPresent()) {
+            	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get()));
+                return Optional.of(rellenoConteo);
             }
         	return Optional.ofNullable(null);
     	}catch(Exception e) {

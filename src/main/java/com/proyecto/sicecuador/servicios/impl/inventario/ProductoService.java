@@ -4,17 +4,15 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.repositorios.interf.inventario.IProductoRepository;
+import com.proyecto.sicecuador.exception.ModeloExistenteException;
+import com.proyecto.sicecuador.repositorios.inventario.IProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +23,11 @@ public class ProductoService implements IProductoService {
     
     @Override
     public Producto crear(Producto producto) {
+    	producto.normalizar();
+    	Optional<Producto> getProducto=rep.obtenerPorNombre(producto.getNombre());
+    	if(getProducto.isPresent()) {
+    		throw new ModeloExistenteException();
+    	}
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_producto);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -35,7 +38,8 @@ public class ProductoService implements IProductoService {
 
     @Override
     public Producto actualizar(Producto producto) {
-        return rep.save(producto);
+    	producto.normalizar();
+    	return rep.save(producto);
     }
 
     @Override
@@ -56,64 +60,49 @@ public class ProductoService implements IProductoService {
 
     @Override
     public List<Producto> consultarBien() {
-        List<Producto> productos=  rep.findAll(new Specification<Producto>() {
-            @Override
-            public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), Constantes.tipo_producto_bien)));
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        List<Producto> productos=  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), Constantes.tipo_producto_bien)));
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
         return productos;
     }
 
     @Override
     public List<Producto> consultarServicio() {
-        return  rep.findAll(new Specification<Producto>() {
-            @Override
-            public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "SERVICIO")));
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "SERVICIO")));
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
     }
 
     @Override
     public List<Producto> consultarActivoFijo() {
-        return  rep.findAll(new Specification<Producto>() {
-            @Override
-            public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "ACTIVOFIJO")));
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "ACTIVOFIJO")));
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
     }
     @Override
     public List<Producto> consultarBodega() {
-        return  rep.findAll(new Specification<Producto>() {
-            @Override
-            public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "ACTIVOFIJO")));
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "ACTIVOFIJO")));
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
     }
 
     @Override
     public List<Producto> buscar(Producto producto) {
-        return  rep.findAll(new Specification<Producto>() {
-            @Override
-            public Predicate toPredicate(Root<Producto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (!producto.getNombre().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("nombre"), "%"+producto.getNombre()+"%")));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    if (!producto.getNombre().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("nombre"), "%"+producto.getNombre()+"%")));
+		    }
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
     }
     
     @Override

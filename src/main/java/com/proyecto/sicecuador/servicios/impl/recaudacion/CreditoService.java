@@ -5,7 +5,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
-import com.proyecto.sicecuador.repositorios.interf.recaudacion.ICreditoRepository;
+import com.proyecto.sicecuador.repositorios.recaudacion.ICreditoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

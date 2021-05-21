@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.administracion;
 
 import com.proyecto.sicecuador.modelos.administracion.Modelo;
-import com.proyecto.sicecuador.repositorios.interf.administracion.IModeloRepository;
+import com.proyecto.sicecuador.repositorios.administracion.IModeloRepository;
 import com.proyecto.sicecuador.servicios.interf.administracion.IModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

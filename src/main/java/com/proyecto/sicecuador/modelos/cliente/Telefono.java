@@ -12,7 +12,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "telefono")
-//@EntityListeners({TelefonoUtil.class})
 public class Telefono extends Entidad {
 	@NotNull
     @NotEmpty
