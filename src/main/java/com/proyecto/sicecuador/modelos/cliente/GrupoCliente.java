@@ -8,7 +8,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "grupo_cliente")
-//@EntityListeners({GrupoClienteUtil.class})
 public class GrupoCliente extends Entidad {
 	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)

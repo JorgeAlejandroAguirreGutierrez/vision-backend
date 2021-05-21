@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "retencion_cliente")
-//@EntityListeners({RetencionClienteUtil.class})
 public class RetencionCliente extends Entidad {
     @ManyToOne
     @JsonProperty("tipo_retencion")
