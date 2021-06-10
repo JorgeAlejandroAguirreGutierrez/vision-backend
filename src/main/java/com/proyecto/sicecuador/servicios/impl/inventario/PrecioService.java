@@ -5,7 +5,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Precio;
-import com.proyecto.sicecuador.repositorios.interf.inventario.IPrecioRepository;
+import com.proyecto.sicecuador.repositorios.inventario.IPrecioRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IPrecioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

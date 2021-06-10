@@ -87,10 +87,10 @@ public class ClienteController implements GenericoController<Cliente> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/buscar",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/buscar",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> buscar(@RequestBody Cliente cliente) {
-        List<Cliente> _cliente=servicio.buscar(cliente);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
+        List<Cliente> clientes=servicio.buscar(cliente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     

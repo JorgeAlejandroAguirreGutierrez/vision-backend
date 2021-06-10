@@ -5,7 +5,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
-import com.proyecto.sicecuador.repositorios.interf.recaudacion.IAmortizacionRepository;
+import com.proyecto.sicecuador.repositorios.recaudacion.IAmortizacionRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IAmortizacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

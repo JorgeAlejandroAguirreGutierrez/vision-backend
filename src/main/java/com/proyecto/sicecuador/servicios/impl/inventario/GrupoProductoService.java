@@ -7,8 +7,7 @@ import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
-import com.proyecto.sicecuador.repositorios.interf.inventario.IGrupoProductoRepository;
+import com.proyecto.sicecuador.repositorios.inventario.IGrupoProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IGrupoProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,10 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 @Service
 public class GrupoProductoService implements IGrupoProductoService {
@@ -69,34 +65,31 @@ public class GrupoProductoService implements IGrupoProductoService {
 
     @Override
     public List<GrupoProducto> buscar(GrupoProducto grupo_producto) {
-        return  rep.findAll(new Specification<GrupoProducto>() {
-            @Override
-            public Predicate toPredicate(Root<GrupoProducto> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (!grupo_producto.getCodigo().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+grupo_producto.getCodigo()+"%")));
-                }
-                if (!grupo_producto.getGrupo().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("grupo"), "%"+grupo_producto.getGrupo()+"%")));
-                }
-                if (!grupo_producto.getSubgrupo().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subgrupo"), "%"+grupo_producto.getSubgrupo()+"%")));
-                }
-                if (!grupo_producto.getCategoria().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("categoria"), "%"+grupo_producto.getCategoria()+"%")));
-                }
-                if (!grupo_producto.getLinea().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("linea"), "%"+grupo_producto.getLinea()+"%")));
-                }
-                if (!grupo_producto.getSublinea().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("sublinea"), "%"+grupo_producto.getSublinea()+"%")));
-                }
-                if (!grupo_producto.getPresentacion().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("presentacion"), "%"+grupo_producto.getPresentacion()+"%")));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    if (!grupo_producto.getCodigo().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+grupo_producto.getCodigo()+"%")));
+		    }
+		    if (!grupo_producto.getGrupo().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("grupo"), "%"+grupo_producto.getGrupo()+"%")));
+		    }
+		    if (!grupo_producto.getSubgrupo().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subgrupo"), "%"+grupo_producto.getSubgrupo()+"%")));
+		    }
+		    if (!grupo_producto.getCategoria().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("categoria"), "%"+grupo_producto.getCategoria()+"%")));
+		    }
+		    if (!grupo_producto.getLinea().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("linea"), "%"+grupo_producto.getLinea()+"%")));
+		    }
+		    if (!grupo_producto.getSublinea().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("sublinea"), "%"+grupo_producto.getSublinea()+"%")));
+		    }
+		    if (!grupo_producto.getPresentacion().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("presentacion"), "%"+grupo_producto.getPresentacion()+"%")));
+		    }
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
     }
     
     @Override

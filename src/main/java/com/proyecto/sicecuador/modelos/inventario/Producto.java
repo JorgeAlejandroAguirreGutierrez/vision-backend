@@ -118,6 +118,10 @@ public class Producto extends Entidad {
     public Impuesto getImpuesto() {
         return impuesto;
     }
+    
+    public GrupoProducto getGrupoProducto() {
+		return grupoProducto;
+	}
 
     @JsonManagedReference
     public List<Kardex> getKardexs() {

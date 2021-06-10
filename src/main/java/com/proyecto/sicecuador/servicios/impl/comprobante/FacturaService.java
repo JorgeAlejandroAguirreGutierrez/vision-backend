@@ -16,10 +16,10 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
-import com.proyecto.sicecuador.repositorios.interf.comprobante.IFacturaRepository;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
+import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +29,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.util.ArrayList;
@@ -44,25 +41,28 @@ public class FacturaService implements IFacturaService {
     private IFacturaRepository rep;
     @Autowired
     private IKardexService kardexService;
-    @Autowired
-    private static IParametroRepository parametroRep;
 
     @Transactional
     @Override
     public Factura crear(Factura factura) {
         //ACTUALIZACION DE KARDEX
-        for(int i=0; i<factura.getDetallesFactura().size(); i++){
-            int cantidad=factura.getDetallesFactura().get(i).getProducto().getKardexs().size();
-            Kardex kardex_actualizar=factura.getDetallesFactura().get(i).getProducto().getKardexs().get(cantidad-1);
+        for(int i=0; i<factura.getFacturaDetalles().size(); i++){
+            int cantidad=factura.getFacturaDetalles().get(i).getProducto().getKardexs().size();
+            Kardex kardex_actualizar=factura.getFacturaDetalles().get(i).getProducto().getKardexs().get(cantidad-1);
             long salida_actual=kardex_actualizar.getSalida();
-            kardex_actualizar.setSalida(salida_actual+factura.getDetallesFactura().get(i).getCantidad());
+            kardex_actualizar.setSalida(salida_actual+factura.getFacturaDetalles().get(i).getCantidad());
             kardexService.actualizar(kardex_actualizar);
         }
         Optional<String>codigo=Util.generarCodigo(Constantes.tabla_factura);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
+    	Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_factura);
+    	if (secuencia.isEmpty()) {
+    		throw new SecuenciaNoExistenteException();
+    	}
     	factura.setCodigo(codigo.get());
+    	factura.setSecuencia(secuencia.get());
         return rep.save(factura);
     }
 
@@ -98,32 +98,19 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarClienteRazonSocial(Factura factura) {
-        return  rep.findAll(new Specification<Factura>() {
-            @Override
-            public Predicate toPredicate(Root<Factura> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (factura.getCliente().getRazonSocial()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("cliente").get("razon_social"), "%"+factura.getCliente().getRazonSocial()+"%")));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+    public List<Factura> buscar(Factura factura) {
+        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    if (!factura.getSecuencia().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+factura.getSecuencia()+"%")));
+		    }
+		    if (!factura.getCliente().getRazonSocial().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("cliente").get("razonSocial"), "%"+factura.getCliente().getRazonSocial()+"%")));
+		    }
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
     }
 
-    @Override
-    public List<Factura> consultarNumero(Factura factura) {
-        return  rep.findAll(new Specification<Factura>() {
-            @Override
-            public Predicate toPredicate(Root<Factura> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (factura.getNumero()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("numero"), "%"+factura.getNumero()+"%")));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
-    }
     @Override
     public ByteArrayInputStream generarPDF(Factura factura) {
         try {
@@ -141,7 +128,7 @@ public class FacturaService implements IFacturaService {
             documento.add( new Paragraph("\n"));
             documento.add(new Paragraph("RUC: "+factura.getVendedor().getPuntoVenta().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
                     "FACTURA"+"\n"+
-                    "No."+factura.getNumero()+"\n"+
+                    "No."+factura.getSecuencia()+"\n"+
                     "Fecha: "+factura.getFecha().toString()).setBorder(new SolidBorder(1)));
             documento.add( new Paragraph("\n"));
             documento.add( new Paragraph("Razon Social: "+factura.getCliente().getRazonSocial()+"\n"+
@@ -160,23 +147,23 @@ public class FacturaService implements IFacturaService {
             tabla_factura_detalle.addCell("Sin subsidio");
             tabla_factura_detalle.addCell("Descuento");
             tabla_factura_detalle.addCell("Total");
-            for (int i = 0; i <factura.getDetallesFactura().size(); i++)
+            for (int i = 0; i <factura.getFacturaDetalles().size(); i++)
             {
-                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getProducto().getCodigo());
-                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getCantidad()+"");
-                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getProducto().getNombre());
+                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getProducto().getCodigo());
+                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getCantidad()+"");
+                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getProducto().getNombre());
                 String series="";
-                if (!factura.getDetallesFactura().get(i).getProducto().isSerieAutogenerado()){
-                    for (int j = 0; j <factura.getDetallesFactura().get(i).getCaracteristicas().size(); j++){
-                        series=series+" "+factura.getDetallesFactura().get(i).getCaracteristicas().get(j).getSerie();
+                if (!factura.getFacturaDetalles().get(i).getProducto().isSerieAutogenerado()){
+                    for (int j = 0; j <factura.getFacturaDetalles().get(i).getCaracteristicas().size(); j++){
+                        series=series+" "+factura.getFacturaDetalles().get(i).getCaracteristicas().get(j).getSerie();
                     }
                 }
                 tabla_factura_detalle.addCell(series);
-                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getPrecio().getPrecioVentaPublicoIva()+"");
-                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getSubsidio()+"");
-                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getSinSubsidio()+"");
-                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getValorDescuentoIndividualTotales()+"");
-                tabla_factura_detalle.addCell(factura.getDetallesFactura().get(i).getTotalConDescuento()+"");
+                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getPrecio().getPrecioVentaPublicoIva()+"");
+                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getSubsidio()+"");
+                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getSinSubsidio()+"");
+                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getValorDescuentoIndividualTotales()+"");
+                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getTotalConDescuento()+"");
             }
             documento.add(tabla_factura_detalle);
             float [] columnas_tabla_factura = {130F, 100F};

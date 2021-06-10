@@ -6,8 +6,8 @@ import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.IdentificacionInvalidaException;
 import com.proyecto.sicecuador.exception.ModeloExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.*;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
-import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRepository;
+import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
+import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,7 +37,7 @@ public class ClienteService implements IClienteService {
     private EntityManager adm;
 
     /**
-     *
+     *Busca los clientes por razon social e identificacion
      * @param cliente
      * @return
      */

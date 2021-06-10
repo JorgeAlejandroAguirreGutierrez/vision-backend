@@ -5,8 +5,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.Egreso;
-import com.proyecto.sicecuador.repositorios.interf.comprobante.IEgresoRepository;
-import com.proyecto.sicecuador.repositorios.interf.configuracion.IParametroRepository;
+import com.proyecto.sicecuador.repositorios.comprobante.IEgresoRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IEgresoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,8 +19,6 @@ import java.util.Optional;
 public class EgresoService implements IEgresoService {
     @Autowired
     private IEgresoRepository rep;
-    @Autowired
-    private static IParametroRepository parametroRep;
     
     @Override
     public Egreso crear(Egreso egreso) {
