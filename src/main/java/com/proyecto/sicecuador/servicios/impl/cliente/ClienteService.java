@@ -10,6 +10,8 @@ import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -315,6 +317,8 @@ public class ClienteService implements IClienteService {
         return rep.save(cliente);
     }
 
+    
+    
     @Override
     public Cliente actualizar(Cliente cliente) {
         return rep.save(cliente);
@@ -334,6 +338,11 @@ public class ClienteService implements IClienteService {
     @Override
     public List<Cliente> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public Page<Cliente> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

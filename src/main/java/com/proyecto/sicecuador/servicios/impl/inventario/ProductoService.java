@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -8,6 +9,9 @@ import com.proyecto.sicecuador.exception.ModeloExistenteException;
 import com.proyecto.sicecuador.repositorios.inventario.IProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +60,11 @@ public class ProductoService implements IProductoService {
     @Override
     public List<Producto> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<Producto> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

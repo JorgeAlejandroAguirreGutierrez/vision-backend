@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
 import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
 import com.proyecto.sicecuador.Util;
@@ -10,6 +11,8 @@ import com.proyecto.sicecuador.repositorios.cliente.IEstadoCivilRepository;
 import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IEstadoCivilService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,6 +60,11 @@ public class EstadoCivilService implements IEstadoCivilService {
     @Override
     public List<EstadoCivil> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public Page<EstadoCivil> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
     
     @Override

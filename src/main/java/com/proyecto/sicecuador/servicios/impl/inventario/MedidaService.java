@@ -3,10 +3,13 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.repositorios.inventario.IMedidaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IMedidaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +50,11 @@ public class MedidaService implements IMedidaService {
     @Override
     public List<Medida> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<Medida> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

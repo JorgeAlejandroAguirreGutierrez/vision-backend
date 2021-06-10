@@ -1,9 +1,12 @@
 package com.proyecto.sicecuador.servicios.impl.administracion;
 
 import com.proyecto.sicecuador.modelos.administracion.Modelo;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.repositorios.administracion.IModeloRepository;
 import com.proyecto.sicecuador.servicios.interf.administracion.IModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +40,11 @@ public class ModeloService implements IModeloService {
     @Override
     public List<Modelo> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<Modelo> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

@@ -3,11 +3,14 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
 import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.recaudacion.IFranquiciaTarjetaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IFranquiciaTarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,6 +51,11 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     @Override
     public List<FranquiciaTarjeta> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<FranquiciaTarjeta> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

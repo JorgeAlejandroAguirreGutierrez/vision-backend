@@ -3,10 +3,13 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEstablecimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +50,11 @@ public class EstablecimientoService implements IEstablecimientoService {
     @Override
     public List<Establecimiento> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<Establecimiento> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

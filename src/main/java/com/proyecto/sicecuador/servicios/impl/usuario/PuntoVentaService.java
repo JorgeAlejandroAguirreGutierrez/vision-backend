@@ -3,11 +3,15 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.repositorios.usuario.IPuntoVentaRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPuntoVentaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,6 +54,11 @@ public class PuntoVentaService implements IPuntoVentaService {
     @Override
     public List<PuntoVenta> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<PuntoVenta> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

@@ -3,11 +3,14 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.Proforma;
 import com.proyecto.sicecuador.repositorios.comprobante.IProformaRepository;
 import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IProformaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +50,11 @@ public class ProformaService implements IProformaService {
     @Override
     public List<Proforma> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<Proforma> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

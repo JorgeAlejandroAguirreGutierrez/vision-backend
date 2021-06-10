@@ -1,12 +1,15 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Genero;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.repositorios.cliente.IGeneroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IGeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,7 +57,12 @@ public class GeneroService implements IGeneroService {
     public List<Genero> consultar() {
         return rep.findAll();
     }
-    
+
+    @Override
+    public Page<Genero> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
     @Override
     public List<Genero> buscar(Genero genero) {
         return  rep.findAll(new Specification<Genero>() {
