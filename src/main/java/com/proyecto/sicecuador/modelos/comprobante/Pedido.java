@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
-import com.proyecto.sicecuador.otros.comprobante.PedidoUtil;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "pedido")
-@EntityListeners({PedidoUtil.class})
 public class Pedido extends Entidad {
 	@JsonProperty("numero_interno")
     @Column(name = "numero_interno", nullable = true)

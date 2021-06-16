@@ -1,13 +1,18 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
 import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
-import com.proyecto.sicecuador.otros.Util;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IEstadoCivilRepository;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.repositorios.cliente.IEstadoCivilRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IEstadoCivilService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,9 +30,15 @@ public class EstadoCivilService implements IEstadoCivilService {
 	
     @Autowired
     private IEstadoCivilRepository rep;
+    
     @Override
     public EstadoCivil crear(EstadoCivil estado_civil) {
-        return rep.save(estado_civil);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_estado_civil);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	estado_civil.setCodigo(codigo.get());
+    	return rep.save(estado_civil);
     }
 
     @Override
@@ -52,18 +63,23 @@ public class EstadoCivilService implements IEstadoCivilService {
     }
     
     @Override
+    public Page<EstadoCivil> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+    
+    @Override
     public List<EstadoCivil> buscar(EstadoCivil estado_civil) {
         return  rep.findAll(new Specification<EstadoCivil>() {
             @Override
             public Predicate toPredicate(Root<EstadoCivil> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (!estado_civil.getCodigo().equals(Util.vacio)) {
+                if (!estado_civil.getCodigo().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+estado_civil.getCodigo()+"%")));
                 }
-                if (!estado_civil.getDescripcion().equals(Util.vacio)) {
+                if (!estado_civil.getDescripcion().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("descripcion"), "%"+estado_civil.getDescripcion()+"%")));
                 }
-                if (!estado_civil.getAbreviatura().equals(Util.vacio)) {
+                if (!estado_civil.getAbreviatura().equals(Constantes.vacio)) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("abreviatura"), "%"+estado_civil.getAbreviatura()+"%")));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -75,7 +91,7 @@ public class EstadoCivilService implements IEstadoCivilService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<EstadoCivil> estados_civiles=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,8);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,8);
             for (List<String> datos: info) {
                 EstadoCivil estado_civil = new EstadoCivil(datos);
                 estados_civiles.add(estado_civil);

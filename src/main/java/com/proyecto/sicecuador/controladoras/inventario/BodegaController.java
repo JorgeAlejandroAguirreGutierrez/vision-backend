@@ -2,12 +2,17 @@ package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathBodega;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.servicios.interf.inventario.IBodegaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,62 +29,44 @@ public class BodegaController implements GenericoController<Bodega> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<Bodega> bodegas=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bodegas);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Bodega> bodegas=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bodegas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
+    	Page<Bodega> bodegas = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, bodegas);
+    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            Bodega bodega=servicio.obtener(new Bodega(id)).get();
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, bodega);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Bodega bodega=servicio.obtener(new Bodega(id)).get();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, bodega);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Bodega _bodega) {
-        try {
-            Bodega bodega=servicio.crear(_bodega);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bodega);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Bodega bodega=servicio.crear(_bodega);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bodega);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Bodega _bodega) {
-        try {
-            Bodega bodega=servicio.actualizar(_bodega);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, bodega);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Bodega bodega=servicio.actualizar(_bodega);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, bodega);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            Bodega bodega=servicio.eliminar(new Bodega(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, bodega);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Bodega bodega=servicio.eliminar(new Bodega(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, bodega);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @Override

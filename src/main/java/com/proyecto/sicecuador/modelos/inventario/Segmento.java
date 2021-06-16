@@ -2,17 +2,14 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.SegmentoUtil;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.Table;
 import java.util.List;
 
 @Entity
 @Table(name = "segmento")
-@EntityListeners({SegmentoUtil.class})
 public class Segmento extends Entidad {
 	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)

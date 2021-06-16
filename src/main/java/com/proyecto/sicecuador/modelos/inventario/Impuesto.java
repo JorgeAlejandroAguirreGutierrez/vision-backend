@@ -2,14 +2,12 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.ImpuestoUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "impuesto")
-@EntityListeners({ImpuestoUtil.class})
 public class Impuesto extends Entidad {
 	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)

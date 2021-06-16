@@ -2,14 +2,12 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.BodegaUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "bodega")
-@EntityListeners({BodegaUtil.class})
 public class Bodega extends Entidad {
 	@JsonProperty("codigo_interno")
     @Column(name = "codigo_interno", nullable = true)

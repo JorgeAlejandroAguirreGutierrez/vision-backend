@@ -1,22 +1,25 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.IdentificacionInvalidaException;
+import com.proyecto.sicecuador.exception.ModeloExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.*;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
-import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRepository;
+import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
+import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,64 +37,48 @@ public class ClienteService implements IClienteService {
     private EntityManager adm;
 
     /**
-     *
+     *Busca los clientes por razon social e identificacion
      * @param cliente
      * @return
      */
     @Override
-    public List<Cliente> consultarIdentificacion(Cliente cliente) {
-        return  rep.findAll(new Specification<Cliente>() {
-            @Override
-            public Predicate toPredicate(Root<Cliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (cliente.getIdentificacion()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("identificacion"), "%"+cliente.getIdentificacion()+"%")));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
-    }
-
-    @Override
-    public List<Cliente>  consultarRazonSocial(Cliente cliente) {
-        return  rep.findAll(new Specification<Cliente>() {
-            @Override
-            public Predicate toPredicate(Root<Cliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (cliente.getRazonSocial()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("razonSocial"), "%"+cliente.getRazonSocial()+"%")));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+    public List<Cliente> buscar(Cliente cliente) {
+        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    if (cliente.getRazonSocial()!=null && !cliente.getRazonSocial().isEmpty()) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("razonSocial"), "%"+cliente.getRazonSocial()+"%")));
+		    }
+		    if (cliente.getIdentificacion()!=null && !cliente.getIdentificacion().isEmpty()) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("identificacion"), "%"+cliente.getIdentificacion()+"%")));
+		    }
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
     }
 
     @Override
     public Optional<Cliente> obtenerIdentificacion(Cliente cliente) {
-        return  rep.findOne(new Specification<Cliente>() {
-            @Override
-            public Predicate toPredicate(Root<Cliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (cliente.getIdentificacion()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("identificacion"), cliente.getIdentificacion())));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        Optional<Cliente> respCliente= rep.findOne((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    if (cliente.getIdentificacion()!=null) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("identificacion"), cliente.getIdentificacion())));
+		    }
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
+        if (respCliente.isPresent()) {
+        	throw new ModeloExistenteException();
+        }
+        return respCliente;
     }
 
     @Override
     public Optional<Cliente>  obtenerRazonSocial(Cliente cliente) {
-        return  rep.findOne(new Specification<Cliente>() {
-            @Override
-            public Predicate toPredicate(Root<Cliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (cliente.getRazonSocial()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("razonSocial"), cliente.getRazonSocial())));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        return  rep.findOne((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    if (cliente.getRazonSocial()!=null) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("razonSocial"), cliente.getRazonSocial())));
+		    }
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
     }
 
     @Override
@@ -101,96 +88,89 @@ public class ClienteService implements IClienteService {
             String tipo = null;
             TipoContribuyente tipo_contribuyente=null;
             if (identificacion.length() == 10 && Integer.parseInt((identificacion.substring(2,3))) != 6 && Integer.parseInt((identificacion.substring(2,3))) != 9) {
-                tipo = "C";
+                tipo = Constantes.cedula_abreviatura;
                 boolean bandera = verificarCedula(identificacion);
                 if (bandera) {
                     tipo_contribuyente= rep_tipo_contribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
-                } else {
-                    return Optional.empty();
                 }
-            } else if (identificacion == "9999999999999") {
-                tipo = "CF";
-                tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo("NATURAL", "");
+                throw new IdentificacionInvalidaException();
+            } else if (identificacion.equals(Constantes.identificacion_consumidor_final)) {
+                tipo = Constantes.consumidor_final_abreviatura;
+                tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
                 Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                 return Optional.of(cliente);
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
                 boolean bandera = verificarSociedadesPublicas(identificacion);
                 if (bandera) {
-                    tipo = "R";
-                    tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo("JURIDICA", "PUBLICA");
+                    tipo = Constantes.ruc_abreviatura;
+                    tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
-                } else {
-                    return Optional.empty();
-                }
+                } 
+            	throw new IdentificacionInvalidaException();
+            	
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 9) {
                 boolean bandera = verificarSociedadesPrivadas(identificacion);
                 if (bandera) {
-                    tipo = "R";
+                    tipo = Constantes.ruc_abreviatura;
                     tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo("JURIDICA","PRIVADA");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
-                } else {
-                    return Optional.empty();
-                }
+                } 
+            	throw new IdentificacionInvalidaException();
+            	
             } else if (identificacion.length() == 13 && (Integer.parseInt(identificacion.substring(2,3)) != 6 || Integer.parseInt(identificacion.substring(2,3)) != 9)) {
                 boolean bandera=verificarCedula(identificacion);
                 if (bandera) {
-                    tipo = "R";
+                    tipo = Constantes.ruc_abreviatura;
                     tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
-                } else {
-                    return Optional.empty();
                 }
-            }
-            else if (identificacion.length() == 13) {
+            	throw new IdentificacionInvalidaException();
+            	
+            }else if (identificacion.length() == 13) {
                 boolean bandera = verificarPersonaNatural(identificacion);
                 if (bandera) {
-                    tipo = "R";
+                    tipo = Constantes.ruc_abreviatura;
                     tipo_contribuyente= rep_tipo_contribuyente.findByTipoAndSubtipo("JURIDICA","PUBLICA");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
-                } else {
-                    return Optional.empty();
-                }
+                } 
+            	throw new IdentificacionInvalidaException();
+            	
             } else if (identificacion.length() == 7) {
                 boolean bandera = verificarPlaca(identificacion);
                 if (bandera) {
-                    tipo = "PL";
+                    tipo = Constantes.placa_abreviatura;
                     Cliente cliente=new Cliente(tipo,null);
                     return Optional.of(cliente);
-                } else {
-                    return Optional.empty();
                 }
+            	throw new IdentificacionInvalidaException();
+            	
             } else if (identificacion.length() == 6) {
                 boolean bandera = verificarPlacaMoto(identificacion);
                 if (bandera) {
-                    tipo = "PL";
+                    tipo = Constantes.placa_abreviatura;
                     Cliente cliente=new Cliente(tipo,null);
                     return Optional.of(cliente);
-                } else {
-                    return Optional.empty();
-                }
+                } 
+            	throw new IdentificacionInvalidaException();
             }
             else if (identificacion.length() >=8) {
                 boolean bandera = verificarPasaporte(identificacion);
                 if (bandera) {
-                    tipo = "E";
+                    tipo = Constantes.pasaporte_abreviatura;
                     Cliente cliente=new Cliente(tipo,null);
                     return Optional.of(cliente);
-                } else {
-                    return Optional.empty();
                 }
-            } else if (identificacion=="9999999999999") {
-                return Optional.empty();
-            } else {
-                return Optional.empty();
+            	throw new IdentificacionInvalidaException();
             }
+        	throw new IdentificacionInvalidaException();
         }
-        return Optional.empty();
+        throw new IdentificacionInvalidaException();
     }
 
     @Override
@@ -323,9 +303,22 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente crear(Cliente cliente) {
     	cliente.normalizar();
+    	Optional<Cliente>buscarCliente=rep.obtenerPorIdentificacion(cliente.getIdentificacion());
+    	if(buscarCliente.isPresent()) {
+    		throw new ModeloExistenteException();
+    	}
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cliente);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	cliente.setCodigo(codigo.get());
+    	cliente.setEstado(true);
+    	cliente.setEliminado(false);
         return rep.save(cliente);
     }
 
+    
+    
     @Override
     public Cliente actualizar(Cliente cliente) {
         return rep.save(cliente);
@@ -346,13 +339,18 @@ public class ClienteService implements IClienteService {
     public List<Cliente> consultar() {
         return rep.findAll();
     }
+    
+    @Override
+    public Page<Cliente> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
 
     @Override
     @Transactional
     public boolean importar(MultipartFile archivo_temporal) {
         List<Cliente> clientes=new ArrayList<>();
         try {
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,4);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,4);
             for (List<String> datos: info){
                 Cliente cliente=new Cliente(datos);
                 Direccion direccion=cliente.getDireccion()!= null? adm.merge(cliente.getDireccion()): null;

@@ -1,12 +1,15 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Telefono;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IOrigenIngresoRepository;
-import com.proyecto.sicecuador.repositorios.interf.cliente.ITipoContribuyenteRepository;
+import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITipoContribuyenteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +22,12 @@ public class TipoContribuyenteService implements ITipoContribuyenteService {
     private ITipoContribuyenteRepository rep;
     @Override
     public TipoContribuyente crear(TipoContribuyente tipo_contribuyente) {
-        return rep.save(tipo_contribuyente);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_contribuyente);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tipo_contribuyente.setCodigo(codigo.get());
+    	return rep.save(tipo_contribuyente);
     }
 
     @Override
@@ -44,10 +52,15 @@ public class TipoContribuyenteService implements ITipoContribuyenteService {
     }
 
     @Override
+    public Page<TipoContribuyente> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
+    @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoContribuyente> tipos_contribuyentes=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal, 18);
+            List<List<String>>info= Util.leer_importar(archivo_temporal, 18);
             for (List<String> datos: info) {
                 TipoContribuyente tipo_contribuyente = new TipoContribuyente(datos);
                 tipos_contribuyentes.add(tipo_contribuyente);

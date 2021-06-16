@@ -1,14 +1,12 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.recaudacion.BancoUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "banco")
-@EntityListeners({BancoUtil.class})
 public class Banco extends Entidad {
     @Column(name = "tipo", nullable = true)
     private String tipo;

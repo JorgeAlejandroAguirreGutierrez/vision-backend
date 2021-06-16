@@ -2,12 +2,17 @@ package com.proyecto.sicecuador.controladoras.usuario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathSesion;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.servicios.interf.usuario.ISesionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,73 +29,50 @@ public class SesionController implements GenericoController<Sesion> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<Sesion> sesiones=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, sesiones);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Sesion> sesiones=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, sesiones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
+    	Page<Sesion> sesiones = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, sesiones);
+    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            Sesion sesion=servicio.obtener(new Sesion(id)).get();
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, sesion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Sesion sesion=servicio.obtener(new Sesion(id)).get();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, sesion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Sesion _sesion) {
-        try {
-            Sesion sesion=servicio.crear(_sesion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, sesion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Sesion sesion=servicio.crear(_sesion);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, sesion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Sesion _sesion) {
-        try {
-            Sesion sesion=servicio.actualizar(_sesion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, sesion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Sesion sesion=servicio.actualizar(_sesion);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, sesion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            Sesion sesion=servicio.eliminar(new Sesion(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, sesion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Sesion sesion=servicio.eliminar(new Sesion(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, sesion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(MultipartFile archivo) {
-        try {
-            boolean bandera=servicio.importar(archivo);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        boolean bandera=servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

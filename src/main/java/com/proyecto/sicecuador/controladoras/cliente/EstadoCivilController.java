@@ -2,12 +2,17 @@ package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathEstadoCivil;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
 import com.proyecto.sicecuador.servicios.interf.cliente.IEstadoCivilService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +32,13 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
         List<EstadoCivil> estados_civiles=servicio.consultar();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estados_civiles);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
+    	Page<EstadoCivil> estadosciviles = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, estadosciviles);
+    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

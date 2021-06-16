@@ -1,10 +1,15 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Perfil;
-import com.proyecto.sicecuador.repositorios.interf.usuario.IPerfilRepository;
+import com.proyecto.sicecuador.repositorios.usuario.IPerfilRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,9 +20,15 @@ import java.util.Optional;
 public class PerfilService implements IPerfilService {
     @Autowired
     private IPerfilRepository rep;
+    
     @Override
     public Perfil crear(Perfil perfil) {
-        return rep.save(perfil);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_perfil);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	perfil.setCodigo(codigo.get());
+    	return rep.save(perfil);
     }
 
     @Override
@@ -42,10 +53,15 @@ public class PerfilService implements IPerfilService {
     }
 
     @Override
+    public Page<Perfil> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
+    @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Perfil> perfiles=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,1);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,1);
             for (List<String> datos: info) {
                 Perfil perfil = new Perfil(datos);
                 perfiles.add(perfil);

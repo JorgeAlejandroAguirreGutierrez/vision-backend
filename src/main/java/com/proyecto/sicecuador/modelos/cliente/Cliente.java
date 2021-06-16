@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "cliente")
-//@EntityListeners({ClienteUtil.class})
 public class Cliente extends Entidad {
     @NotNull
     @NotEmpty
@@ -38,62 +37,62 @@ public class Cliente extends Entidad {
     @Column(name = "eliminado")
     private boolean eliminado;
     @NotNull
-    @ManyToOne
     @JsonProperty("tipo_contribuyente")
+    @ManyToOne
     @JoinColumn(name = "tipo_contribuyente_id", nullable = false)
     private TipoContribuyente tipoContribuyente;
     @NotNull
-    @ManyToOne
     @JsonProperty("punto_venta")
+    @ManyToOne
     @JoinColumn(name = "punto_venta_id")
     private PuntoVenta puntoVenta;
     @NotNull
-    @ManyToOne
     @JsonProperty("grupo_cliente")
+    @ManyToOne
     @JoinColumn(name = "grupo_cliente_id")
     private GrupoCliente grupoCliente;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("direccion")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("financiamiento")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "financiamiento_id", nullable = true)
     private Financiamiento financiamiento;
-    @ManyToOne
     @JsonProperty("genero")
+    @ManyToOne
     @JoinColumn(name = "genero_id", nullable = true)
     private Genero genero;
-    @ManyToOne
     @JsonProperty("estado_civil")
+    @ManyToOne
     @JoinColumn(name = "estado_civil_id", nullable = true)
     private EstadoCivil estadoCivil;
-    @ManyToOne
     @JsonProperty("categoria_cliente")
+    @ManyToOne
     @JoinColumn(name = "categoria_cliente_id", nullable = true)
     private CategoriaCliente categoriaCliente;
-    @ManyToOne
     @JsonProperty("origen_ingreso")
+    @ManyToOne
     @JoinColumn(name = "origen_ingreso_id", nullable = true)
     private OrigenIngreso origenIngreso;
-    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JsonProperty("auxiliares")
+    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Auxiliar> auxiliares;
-    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JsonProperty("telefonos")
+    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Telefono> telefonos;
-    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JsonProperty("celulares")
+    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Celular> celulares;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JsonProperty("correos")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Correo> correos;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JsonProperty("retenciones_cliente")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<RetencionCliente> retencionesCliente;
 
@@ -284,6 +283,10 @@ public class Cliente extends Entidad {
 
     public void setOrigenIngreso(OrigenIngreso origenIngreso) {
 		this.origenIngreso = origenIngreso;
+	}
+    
+    public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
     
     

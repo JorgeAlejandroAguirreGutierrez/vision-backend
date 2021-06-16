@@ -2,14 +2,15 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.MedidaUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import java.util.List;
 
 @Entity
 @Table(name = "medida")
-@EntityListeners({MedidaUtil.class})
 public class Medida extends Entidad {
 	@JsonProperty("codigo_norma")
     @Column(name = "codigo_norma", nullable = true)
@@ -17,6 +18,8 @@ public class Medida extends Entidad {
 	@JsonProperty("tipo")
     @Column(name = "tipo", nullable = true)
     private String tipo;
+	@NotNull
+	@NotEmpty
 	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;

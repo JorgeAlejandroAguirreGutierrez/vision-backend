@@ -1,9 +1,15 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
-import com.proyecto.sicecuador.repositorios.interf.comprobante.ITipoComprobanteRepository;
+import com.proyecto.sicecuador.repositorios.comprobante.ITipoComprobanteRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,9 +20,15 @@ import java.util.Optional;
 public class TipoComprobanteService implements ITipoComprobanteService {
     @Autowired
     private ITipoComprobanteRepository rep;
+    
     @Override
     public TipoComprobante crear(TipoComprobante tipo_comprobante) {
-        return rep.save(tipo_comprobante);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_comprobante);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	tipo_comprobante.setCodigo(codigo.get());
+    	return rep.save(tipo_comprobante);
     }
 
     @Override
@@ -38,6 +50,11 @@ public class TipoComprobanteService implements ITipoComprobanteService {
     @Override
     public List<TipoComprobante> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public Page<TipoComprobante> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
     }
 
     @Override

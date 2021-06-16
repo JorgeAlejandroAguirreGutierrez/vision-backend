@@ -2,13 +2,17 @@ package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathAuxiliar;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.IAuxiliarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +34,13 @@ public class AuxiliarController implements GenericoController<Auxiliar> {
         List<Auxiliar> categorias_clientes=servicio.consultar();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, categorias_clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
+    	Page<Auxiliar> auxiliares = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, auxiliares);
+    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

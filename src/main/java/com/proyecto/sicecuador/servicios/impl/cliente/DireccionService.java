@@ -1,13 +1,15 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Correo;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Direccion;
-import com.proyecto.sicecuador.otros.Util;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IDireccionRepository;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.repositorios.cliente.IDireccionRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IDireccionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,9 +20,15 @@ import java.util.Optional;
 public class DireccionService implements IDireccionService {
     @Autowired
     private IDireccionRepository rep;
+    
     @Override
     public Direccion crear(Direccion direccion) {
-        return rep.save(direccion);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_direccion);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	direccion.setCodigo(codigo.get());
+    	return rep.save(direccion);
     }
 
     @Override
@@ -45,10 +53,15 @@ public class DireccionService implements IDireccionService {
     }
 
     @Override
+    public Page<Direccion> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
+    @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Direccion> direcciones=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,7);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,7);
             for (List<String> datos: info) {
                 Direccion direccion = new Direccion(datos);
                 direcciones.add(direccion);

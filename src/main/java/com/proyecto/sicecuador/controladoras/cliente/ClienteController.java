@@ -2,12 +2,16 @@ package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathCliente;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +33,13 @@ public class ClienteController implements GenericoController<Cliente> {
         List<Cliente> clientes=servicio.consultar();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
+    	Page<Cliente> clientes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, clientes);
+    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -76,22 +87,13 @@ public class ClienteController implements GenericoController<Cliente> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/buscar/razonsocial/{razonsocial}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarRazonSocial(@PathVariable("razonsocial") String razonSocial) {
-        Cliente cliente=new Cliente();
-        cliente.setRazonSocial(razonSocial);
-        List<Cliente> _cliente=servicio.consultarRazonSocial(cliente);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
+    @PostMapping(value = "/buscar",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@RequestBody Cliente cliente) {
+        List<Cliente> clientes=servicio.buscar(cliente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/buscar/identificacion/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarIdentificacion(@PathVariable("identificacion") String identificacion) {
-        Cliente cliente=new Cliente();
-        cliente.setIdentificacion(identificacion);
-        List<Cliente> _cliente=servicio.consultarIdentificacion(cliente);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, _cliente);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
+    
     @GetMapping(value = "/identificacion/validar/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> validarIdentificacion(@PathVariable("identificacion") String identificacion) {
         Cliente cliente=new Cliente();

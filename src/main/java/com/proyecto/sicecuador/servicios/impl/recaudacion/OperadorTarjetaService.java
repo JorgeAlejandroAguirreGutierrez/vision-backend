@@ -1,11 +1,15 @@
 package com.proyecto.sicecuador.servicios.impl.recaudacion;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
-import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
-import com.proyecto.sicecuador.repositorios.interf.recaudacion.IOperadorTarjetaRepository;
+import com.proyecto.sicecuador.repositorios.recaudacion.IOperadorTarjetaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IOperadorTarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,9 +26,15 @@ import java.util.Optional;
 public class OperadorTarjetaService implements IOperadorTarjetaService {
     @Autowired
     private IOperadorTarjetaRepository rep;
+    
     @Override
     public OperadorTarjeta crear(OperadorTarjeta operador_tarjeta) {
-        return rep.save(operador_tarjeta);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_operador_tarjeta);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	operador_tarjeta.setCodigo(codigo.get());
+    	return rep.save(operador_tarjeta);
     }
 
     @Override
@@ -47,6 +57,11 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     public List<OperadorTarjeta> consultar() {
         return rep.findAll();
     }
+    
+    @Override
+    public Page<OperadorTarjeta> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
 
     @Override
     public List<OperadorTarjeta> consultarTipo(OperadorTarjeta operador_tarjeta) {
@@ -65,7 +80,7 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<OperadorTarjeta> operadores_tarjetas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,5);
             for (List<String> datos: info) {
                 OperadorTarjeta operador_tarjeta = new OperadorTarjeta(datos);
                 operadores_tarjetas.add(operador_tarjeta);

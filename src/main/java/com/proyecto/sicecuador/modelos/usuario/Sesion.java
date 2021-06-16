@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.modelos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.usuario.SesionUtil;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "sesion")
-@EntityListeners({SesionUtil.class})
 public class Sesion extends Entidad {
 	@JsonProperty("fecha_apertura")
     @Column(name = "fecha_apertura", nullable = true)

@@ -2,14 +2,12 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.recaudacion.OperadorTarjetaUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "operador_tarjeta")
-@EntityListeners({OperadorTarjetaUtil.class})
 public class OperadorTarjeta extends Entidad {
 	@JsonProperty("tipo")
     @Column(name = "tipo", nullable = true)

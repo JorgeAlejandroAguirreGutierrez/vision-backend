@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
-import com.proyecto.sicecuador.otros.cliente.RetencionClienteUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "retencion_cliente")
-//@EntityListeners({RetencionClienteUtil.class})
 public class RetencionCliente extends Entidad {
     @ManyToOne
     @JsonProperty("tipo_retencion")

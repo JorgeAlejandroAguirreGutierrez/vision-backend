@@ -1,12 +1,17 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Correo;
-import com.proyecto.sicecuador.repositorios.interf.cliente.IClienteRepository;
-import com.proyecto.sicecuador.repositorios.interf.cliente.ICorreoRepository;
+import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
+import com.proyecto.sicecuador.repositorios.cliente.ICorreoRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICorreoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,9 +24,15 @@ public class CorreoService implements ICorreoService {
     private ICorreoRepository rep;
     @Autowired
     private IClienteRepository rep_cliente;
+    
     @Override
     public Correo crear(Correo correo) {
-        return rep.save(correo);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_correo);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	correo.setCodigo(codigo.get());
+    	return rep.save(correo);
     }
 
     @Override
@@ -46,10 +57,16 @@ public class CorreoService implements ICorreoService {
     }
 
     @Override
+    public Page<Correo> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
+
+    @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Correo> correos=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,5);
             for (List<String> datos: info) {
                 Correo correo = new Correo(datos);
                 Optional<Cliente> cliente=rep_cliente.findById(correo.getCliente().getId());

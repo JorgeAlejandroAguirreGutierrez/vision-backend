@@ -1,10 +1,7 @@
 package com.proyecto.sicecuador.controladoras;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Optional;
 
 public interface GenericoController<T> {
     ResponseEntity<?> consultar();

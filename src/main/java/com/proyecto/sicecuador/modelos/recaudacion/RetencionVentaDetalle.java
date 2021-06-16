@@ -3,13 +3,11 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
-import com.proyecto.sicecuador.otros.recaudacion.RetencionVentaDetalleUtil;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "retencion_venta_detalle")
-@EntityListeners({RetencionVentaDetalleUtil.class})
 public class RetencionVentaDetalle extends Entidad {
 	@JsonProperty("posicion")
     @Column(name = "posicion", nullable = true)

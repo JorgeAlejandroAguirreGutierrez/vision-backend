@@ -2,12 +2,17 @@ package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathCategoriaCliente;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICategoriaClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +32,13 @@ public class CategoriaClienteController implements GenericoController<CategoriaC
         List<CategoriaCliente> categorias_clientes=servicio.consultar();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, categorias_clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
+    	Page<CategoriaCliente> categoriaclientes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, categoriaclientes);
+    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

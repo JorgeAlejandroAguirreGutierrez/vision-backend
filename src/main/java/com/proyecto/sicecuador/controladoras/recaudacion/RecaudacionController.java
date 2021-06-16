@@ -2,15 +2,20 @@ package com.proyecto.sicecuador.controladoras.recaudacion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathRecaudacion;
-import com.proyecto.sicecuador.controladoras.Constantes;
+
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
 import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRangoCrediticioService;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRecaudacionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,73 +37,55 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        try {
-            List<Recaudacion> recaudaciones=servicio.consultar();
-            Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, recaudaciones);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Recaudacion> recaudaciones=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, recaudaciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
+    	Page<Recaudacion> recaudaciones = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, recaudaciones);
+    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        try {
-            Recaudacion recaudacion=servicio.obtener(new Recaudacion(id)).get();
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, recaudacion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Recaudacion recaudacion=servicio.obtener(new Recaudacion(id)).get();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, recaudacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Recaudacion _recaudacion) {
-        try {
-            _recaudacion.normalizar();
-            double diferencia= _recaudacion.getFactura().getTotalConDescuento()-_recaudacion.getTotal();
-            if (diferencia>0){
-                _recaudacion.getCredito().setSaldo(diferencia);
-                _recaudacion.setTotal(_recaudacion.getTotal()+diferencia);
-            }
-            RangoCrediticio rango_crediticio=servicio_rango_crediticio.obtenerSaldo(_recaudacion.getCredito().getSaldo()).get();
-            _recaudacion.getCredito().setTasaInteresAnual(rango_crediticio.getTasaInteresAnual());
-            double tasa_periodo=Math.rint((rango_crediticio.getTasaInteresAnual()/_recaudacion.getCredito().getPeriodicidadTotal())*100d)/100d;
-            _recaudacion.getCredito().setTasaPeriodo(tasa_periodo);
-            _recaudacion.setCredito(servicio_credito.construir(_recaudacion.getCredito()).get());
-            Recaudacion recaudacion=servicio.crear(_recaudacion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, recaudacion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+        _recaudacion.normalizar();
+        double diferencia= _recaudacion.getFactura().getTotalConDescuento()-_recaudacion.getTotal();
+        if (diferencia>0){
+            _recaudacion.getCredito().setSaldo(diferencia);
+            _recaudacion.setTotal(_recaudacion.getTotal()+diferencia);
         }
+        RangoCrediticio rango_crediticio=servicio_rango_crediticio.obtenerSaldo(_recaudacion.getCredito().getSaldo()).get();
+        _recaudacion.getCredito().setTasaInteresAnual(rango_crediticio.getTasaInteresAnual());
+        double tasa_periodo=Math.rint((rango_crediticio.getTasaInteresAnual()/_recaudacion.getCredito().getPeriodicidadTotal())*100d)/100d;
+        _recaudacion.getCredito().setTasaPeriodo(tasa_periodo);
+        _recaudacion.setCredito(servicio_credito.construir(_recaudacion.getCredito()).get());
+        Recaudacion recaudacion=servicio.crear(_recaudacion);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, recaudacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Recaudacion _recaudacion) {
-        try {
-            Recaudacion recaudacion=servicio.actualizar(_recaudacion);
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, recaudacion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Recaudacion recaudacion=servicio.actualizar(_recaudacion);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, recaudacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        try {
-            Recaudacion recaudacion=servicio.eliminar(new Recaudacion(id));
-            Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, recaudacion);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-        }catch(Exception e){
-            Respuesta respuesta = new Respuesta(false, e.getMessage(), null);
-            return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Recaudacion recaudacion=servicio.eliminar(new Recaudacion(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, recaudacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @Override

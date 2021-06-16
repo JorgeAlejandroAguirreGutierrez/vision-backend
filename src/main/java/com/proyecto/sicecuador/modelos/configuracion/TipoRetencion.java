@@ -2,14 +2,12 @@ package com.proyecto.sicecuador.modelos.configuracion;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.configuracion.TipoRetencionUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "tipo_retencion")
-@EntityListeners({TipoRetencionUtil.class})
 public class TipoRetencion extends Entidad {
 	@JsonProperty("impuesto_retencion")
     @Column(name = "impuesto_retencion", nullable = true)

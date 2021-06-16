@@ -1,19 +1,22 @@
 package com.proyecto.sicecuador.servicios.impl.usuario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
-import com.proyecto.sicecuador.repositorios.interf.usuario.IPuntoVentaRepository;
+import com.proyecto.sicecuador.repositorios.usuario.IPuntoVentaRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPuntoVentaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +24,15 @@ import java.util.Optional;
 public class PuntoVentaService implements IPuntoVentaService {
     @Autowired
     private IPuntoVentaRepository rep;
+    
     @Override
     public PuntoVenta crear(PuntoVenta punto_venta) {
-        return rep.save(punto_venta);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_punto_venta);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	punto_venta.setCodigo(codigo.get());
+    	return rep.save(punto_venta);
     }
 
     @Override
@@ -48,24 +57,26 @@ public class PuntoVentaService implements IPuntoVentaService {
     }
 
     @Override
+    public Page<PuntoVenta> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
+    @Override
     public List<PuntoVenta> consultarEstablecimiento(Establecimiento establecimiento) {
-        return  rep.findAll(new Specification<PuntoVenta>() {
-            @Override
-            public Predicate toPredicate(Root<PuntoVenta> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (establecimiento.getId()!=0) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("establecimiento").get("id"), establecimiento.getId())));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    if (establecimiento.getId()!=0) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("establecimiento").get("id"), establecimiento.getId())));
+		    }
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
     }
 
     @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<PuntoVenta> puntos_ventas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,3);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,3);
             for (List<String> datos: info) {
                 PuntoVenta punto_venta = new PuntoVenta(datos);
                 puntos_ventas.add(punto_venta);

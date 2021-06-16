@@ -1,10 +1,15 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
-import com.proyecto.sicecuador.repositorios.interf.inventario.IMedidaRepository;
+import com.proyecto.sicecuador.repositorios.inventario.IMedidaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IMedidaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,9 +20,15 @@ import java.util.Optional;
 public class MedidaService implements IMedidaService {
     @Autowired
     private IMedidaRepository rep;
+    
     @Override
     public Medida crear(Medida medida) {
-        return rep.save(medida);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_medida);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	medida.setCodigo(codigo.get());
+    	return rep.save(medida);
     }
 
     @Override
@@ -42,10 +53,15 @@ public class MedidaService implements IMedidaService {
     }
 
     @Override
+    public Page<Medida> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
+    @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Medida> medidas=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,5);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,5);
             for (List<String> datos: info) {
                 Medida medida = new Medida(datos);
                 medidas.add(medida);

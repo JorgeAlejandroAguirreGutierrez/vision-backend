@@ -1,11 +1,16 @@
 package com.proyecto.sicecuador.servicios.impl.entrega;
 
-import com.proyecto.sicecuador.controladoras.Constantes;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.modelos.entrega.VehiculoTransporte;
-import com.proyecto.sicecuador.repositorios.interf.entrega.IVehiculoTransporteRepository;
+import com.proyecto.sicecuador.repositorios.entrega.IVehiculoTransporteRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.IVehiculoTransporteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,9 +21,15 @@ import java.util.Optional;
 public class VehiculoTransporteService implements IVehiculoTransporteService {
     @Autowired
     private IVehiculoTransporteRepository rep;
+    
     @Override
     public VehiculoTransporte crear(VehiculoTransporte vehiculo_transporte) {
-        return rep.save(vehiculo_transporte);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_vehiculo_transporte);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	vehiculo_transporte.setCodigo(codigo.get());
+    	return rep.save(vehiculo_transporte);
     }
 
     @Override
@@ -43,10 +54,15 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
     }
 
     @Override
+    public Page<VehiculoTransporte> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
+    @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<VehiculoTransporte> vehiculos_transportes=new ArrayList<>();
-            List<List<String>>info= Constantes.leer_importar(archivo_temporal,2);
+            List<List<String>>info= Util.leer_importar(archivo_temporal,2);
             for (List<String> datos: info) {
                 VehiculoTransporte vehculo_transporte = new VehiculoTransporte(datos);
                 vehiculos_transportes.add(vehculo_transporte);

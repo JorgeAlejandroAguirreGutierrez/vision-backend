@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.otros.inventario.MedidaPrecioUtil;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "medida_precio")
-//@EntityListeners({MedidaPrecioUtil.class})
 public class MedidaPrecio extends Entidad {
     @ManyToOne
     @JsonProperty("medida")
