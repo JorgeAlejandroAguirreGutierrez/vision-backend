@@ -10,9 +10,9 @@ public interface IGrupoProductoService extends IGenericoService<GrupoProducto> {
 	List<GrupoProducto> buscar(GrupoProducto grupo_producto);
 	List<String> consultarGrupos();
 	List<String> consultarSubgrupos(String grupo);
-	List<String> consultarCategorias(String grupo, String subgrupo);
-	List<String> consultarLineas(String grupo, String subgrupo, String categoria);
-	List<String> consultarSublineas(String grupo, String subgrupo, String categoria, String linea);
-	List<String> consultarPresentaciones(String grupo, String subgrupo, String categoria, String linea, String sublinea);
-	Optional<GrupoProducto> obtenerGrupoProducto(String grupo, String subgrupo, String categoria, String linea, String sublinea, String presentacion);
+	List<String> consultarSecciones(String grupo, String subgrupo);
+	List<String> consultarLineas(String grupo, String subgrupo, String seccion);
+	List<String> consultarSublineas(String grupo, String subgrupo, String seccion, String linea);
+	List<String> consultarPresentaciones(String grupo, String subgrupo, String seccion, String linea, String sublinea);
+	Optional<GrupoProducto> obtenerGrupoProducto(String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion);
 }
