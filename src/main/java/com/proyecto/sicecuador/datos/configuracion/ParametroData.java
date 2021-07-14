@@ -107,6 +107,10 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR75", "ANUAL", "365", "", "ANU"));
             parametros.add(new Parametro("PAR76", "CREAR", "", "amortizacion", "AMO"));
             parametros.add(new Parametro("PAR77", "LOGO", "siice.png", "", "LOG"));
+            
+            parametros.add(new Parametro("PAR78", "CREAR", "", "proveedor", "PRV"));
+            parametros.add(new Parametro("PAR79", "CREAR", "", "afectacion_contable", "AFC"));
+            
             rep.saveAll(parametros);
         }
     }

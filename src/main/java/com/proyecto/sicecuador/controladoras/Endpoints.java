@@ -60,6 +60,7 @@ public class Endpoints {
     public static final String pathMedidaPrecio="medidaprecio";
     public static final String pathPresentacionProducto="presentacionproducto";
     public static final String pathProducto="producto";
+    public static final String pathProveedor="proveedor";
     public static final String pathSegmento="segmento";
     public static final String pathTablaEquivalenciaMedida="tablaequivalenciamedida";
     public static final String pathTipoGasto="tipogasto";
@@ -82,6 +83,9 @@ public class Endpoints {
     public static final String pathPuntoVenta="puntoventa";
     public static final String pathSesion="sesion";
     public static final String pathUsuario="usuario";
+    
+    //CONTABILIDAD
+    public static final String pathAfectacionContable="afectacioncontable";
 	
 
 }

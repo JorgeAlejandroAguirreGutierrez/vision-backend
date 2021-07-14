@@ -159,6 +159,8 @@ public class Constantes {
     public static final String tabla_sesion="sesion";
     public static final String tabla_usuario="usuario";
 	
+    //CONTABILIDAD
+    public static final String tabla_afectacion_contable="afectacion_contable";
     
     //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
     public static final int size=20;
