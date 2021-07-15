@@ -168,6 +168,26 @@ public class TablaEquivalenciaMedidaData implements ApplicationRunner {
             tablas.add(new TablaEquivalenciaMedida("TEM011909000010", new Medida(11), new Medida(10), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000011", new Medida(11), new Medida(11), 0));
             tablas.add(new TablaEquivalenciaMedida("TEM011909000012", new Medida(11), new Medida(12), 0));
+            //MILIGRAMO
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000001", new Medida(12), new Medida(1), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000002", new Medida(12), new Medida(2), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000003", new Medida(12), new Medida(3), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000004", new Medida(12), new Medida(4), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000005", new Medida(12), new Medida(5), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000006", new Medida(12), new Medida(6), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000007", new Medida(12), new Medida(7), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000008", new Medida(12), new Medida(8), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000009", new Medida(12), new Medida(9), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000010", new Medida(12), new Medida(10), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000011", new Medida(12), new Medida(11), 0));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000012", new Medida(12), new Medida(12), 0));
+            //UNIDAD
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000001", new Medida(13), new Medida(13), 1));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000002", new Medida(13), new Medida(14), 0.0834));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000003", new Medida(13), new Medida(15), 0.002));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000004", new Medida(13), new Medida(16), 0.1667));
+            tablas.add(new TablaEquivalenciaMedida("TEM011909000005", new Medida(13), new Medida(17), 0.0834));
+            
             rep.saveAll(tablas);
         }
     }
