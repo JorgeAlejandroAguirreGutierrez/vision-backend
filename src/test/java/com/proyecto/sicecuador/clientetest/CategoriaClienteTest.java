@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.clientetest;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathCategoriaCliente;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathCalificacionCliente;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.proyecto.sicecuador.servicios.interf.cliente.ICategoriaClienteService;
+import com.proyecto.sicecuador.servicios.interf.cliente.ICalificacionClienteService;
 
 import static org.hamcrest.Matchers.*;
 
@@ -40,11 +40,11 @@ public class CategoriaClienteTest {
 	
 	private static String token;
     
-    private static ICategoriaClienteService categoriaClienteService;
+    private static ICalificacionClienteService calificacionClienteService;
     
     @Autowired
-    public void setCategoriaClienteService (ICategoriaClienteService cc) {
-    	categoriaClienteService= cc;
+    public void setCalificacionClienteService (ICalificacionClienteService cc) {
+    	calificacionClienteService= cc;
     }
     
     @BeforeClass
@@ -56,35 +56,35 @@ public class CategoriaClienteTest {
     }
 
     @Test
-    public void testA1WhenCreateCategoriaClienteSuccess() throws Exception {
-    	String filename = ClienteTest.class.getResource("/testdata/cliente/categoriaCliente.json").getPath();
-    	String categoriaCliente=readFileAsString(filename);
-    	this.mockMvc.perform(post(contexto+pathCategoriaCliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
-                .content(categoriaCliente))
+    public void testA1WhenCreateCalificacionClienteSuccess() throws Exception {
+    	String filename = ClienteTest.class.getResource("/testdata/cliente/calificacionCliente.json").getPath();
+    	String calificacionCliente=readFileAsString(filename);
+    	this.mockMvc.perform(post(contexto+pathCalificacionCliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+                .content(calificacionCliente))
                 .andExpect(status().isOk());
     }
     @Test
-    public void testA2WhenFindAllCategoriaClienteSuccess() throws Exception {
-        this.mockMvc.perform(get(contexto+pathCategoriaCliente).header("Authorization", "Basic " + token)
+    public void testA2WhenFindAllCalificacionClienteSuccess() throws Exception {
+        this.mockMvc.perform(get(contexto+pathCalificacionCliente).header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
     }
     
     @Test
-    public void testA3WhenFindByIdCategoriaClienteSuccess() throws Exception {
-    	this.mockMvc.perform(get(contexto+pathCategoriaCliente+"/"+"1").header("Authorization", "Basic " + token)
+    public void testA3WhenFindByIdCalificacionClienteSuccess() throws Exception {
+    	this.mockMvc.perform(get(contexto+pathCalificacionCliente+"/"+"1").header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
     }
     
     @Test
-    public void testA4WhenUpdateCategoriaClienteSuccess() throws Exception {
-    	String filename = ClienteTest.class.getResource("/testdata/cliente/categoriaClienteUpdate.json").getPath();
-    	String categoriaCliente=readFileAsString(filename);
-    	this.mockMvc.perform(put(contexto+pathCategoriaCliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
-                .content(categoriaCliente))
+    public void testA4WhenUpdateCalificacionClienteSuccess() throws Exception {
+    	String filename = ClienteTest.class.getResource("/testdata/cliente/calificacionClienteUpdate.json").getPath();
+    	String calificacionCliente=readFileAsString(filename);
+    	this.mockMvc.perform(put(contexto+pathCalificacionCliente).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+                .content(calificacionCliente))
                 .andExpect(status().isOk());
     }
     

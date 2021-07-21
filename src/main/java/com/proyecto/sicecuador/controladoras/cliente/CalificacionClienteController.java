@@ -1,14 +1,14 @@
 package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathCategoriaCliente;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathCalificacionCliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
+import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.servicios.interf.cliente.ICategoriaClienteService;
+import com.proyecto.sicecuador.servicios.interf.cliente.ICalificacionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,57 +22,57 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 @RestController
-@RequestMapping(contexto+pathCategoriaCliente)
-public class CategoriaClienteController implements GenericoController<CategoriaCliente> {
+@RequestMapping(contexto+pathCalificacionCliente)
+public class CalificacionClienteController implements GenericoController<CalificacionCliente> {
     @Autowired
-    private ICategoriaClienteService servicio;
+    private ICalificacionClienteService servicio;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<CategoriaCliente> categorias_clientes=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, categorias_clientes);
+        List<CalificacionCliente> calificaciones_clientes=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, calificaciones_clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<CategoriaCliente> categoriaclientes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, categoriaclientes);
+    	Page<CalificacionCliente> calificacionesclientes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, calificacionesclientes);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        CategoriaCliente categoria_cliente=servicio.obtener(new CategoriaCliente(id)).get();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, categoria_cliente);
+        CalificacionCliente calificacion_cliente=servicio.obtener(new CalificacionCliente(id)).get();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, calificacion_cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid CategoriaCliente _categoria_cliente) {
-        CategoriaCliente categoria_cliente=servicio.crear(_categoria_cliente);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, categoria_cliente);
+    public ResponseEntity<?> crear(@RequestBody @Valid CalificacionCliente _calificacion_cliente) {
+        CalificacionCliente calificacion_cliente=servicio.crear(_calificacion_cliente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, calificacion_cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody CategoriaCliente _categoria_cliente) {
-        CategoriaCliente categoria_cliente=servicio.actualizar(_categoria_cliente);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, categoria_cliente);
+    public ResponseEntity<?> actualizar(@RequestBody CalificacionCliente _calificacion_cliente) {
+        CalificacionCliente calificacion_cliente=servicio.actualizar(_calificacion_cliente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, calificacion_cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        CategoriaCliente categoria_cliente=servicio.eliminar(new CategoriaCliente(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, categoria_cliente);
+        CalificacionCliente calificacion_cliente=servicio.eliminar(new CalificacionCliente(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, calificacion_cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
     @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody CategoriaCliente categoria_cliente) {
-    	List<CategoriaCliente> categorias_clientes=servicio.buscar(categoria_cliente);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, categorias_clientes);
+    public ResponseEntity<?> buscar(@RequestBody CalificacionCliente calificacion_cliente) {
+    	List<CalificacionCliente> calificaciones_clientes=servicio.buscar(calificacion_cliente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, calificaciones_clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

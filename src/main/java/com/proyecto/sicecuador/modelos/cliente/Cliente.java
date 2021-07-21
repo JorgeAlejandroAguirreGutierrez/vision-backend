@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 
 import javax.persistence.*;
@@ -67,14 +68,19 @@ public class Cliente extends Entidad {
     @ManyToOne
     @JoinColumn(name = "estado_civil_id", nullable = true)
     private EstadoCivil estadoCivil;
-    @JsonProperty("categoria_cliente")
+    @JsonProperty("calificacion_cliente")
     @ManyToOne
-    @JoinColumn(name = "categoria_cliente_id", nullable = true)
-    private CategoriaCliente categoriaCliente;
+    @JoinColumn(name = "calificacion_cliente_id", nullable = true)
+    private CalificacionCliente calificacionCliente;
     @JsonProperty("origen_ingreso")
     @ManyToOne
     @JoinColumn(name = "origen_ingreso_id", nullable = true)
     private OrigenIngreso origenIngreso;
+    @JsonProperty("segmento")
+    @ManyToOne
+    @JoinColumn(name = "segmento_id", nullable = true)
+    private Segmento segmento;
+
     @JsonProperty("auxiliares")
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
@@ -117,7 +123,7 @@ public class Cliente extends Entidad {
                    String razon_social, boolean especial, boolean estado, boolean eliminado,
                    PuntoVenta punto_venta, GrupoCliente grupo_cliente, TipoContribuyente tipo_contribuyente,
                    Direccion direccion, Financiamiento financiamiento, Genero genero, EstadoCivil estado_civil,
-                   CategoriaCliente categoria_cliente, OrigenIngreso origen_ingreso){
+                   CalificacionCliente calificacion_cliente, OrigenIngreso origen_ingreso, Segmento segmento){
         super(codigo);
         this.tipoIdentificacion=tipo_identificacion;
         this.identificacion=identificacion;
@@ -132,8 +138,9 @@ public class Cliente extends Entidad {
         this.financiamiento=financiamiento;
         this.genero=genero;
         this.estadoCivil=estado_civil;
-        this.categoriaCliente=categoria_cliente;
+        this.calificacionCliente=calificacion_cliente;
         this.origenIngreso=origen_ingreso;
+        this.segmento=segmento;
     }
 
     public Cliente(List<String> datos){
@@ -151,8 +158,10 @@ public class Cliente extends Entidad {
         financiamiento=datos.get(10)== null ? null:new Financiamiento((long) Double.parseDouble(datos.get(10)));
         genero=datos.get(11)== null ? null:new Genero((long) Double.parseDouble(datos.get(11)));
         estadoCivil=datos.get(12)== null ? null:new EstadoCivil((long) Double.parseDouble(datos.get(12)));
-        categoriaCliente=datos.get(13)== null ? null:new CategoriaCliente((long) Double.parseDouble(datos.get(13)));
+        calificacionCliente=datos.get(13)== null ? null:new CalificacionCliente((long) Double.parseDouble(datos.get(13)));
         origenIngreso=datos.get(14)== null ? null:new OrigenIngreso((long) Double.parseDouble(datos.get(14)));
+                
+        segmento=datos.get(15)== null ? null:new Segmento((long) Double.parseDouble(datos.get(15)));
     }
     
     public String getTipoIdentificacion() {
@@ -207,14 +216,18 @@ public class Cliente extends Entidad {
 		return estadoCivil;
 	}
 
-    public CategoriaCliente getCategoriaCliente() {
-		return categoriaCliente;
+    public CalificacionCliente getCalificacionCliente() {
+		return calificacionCliente;
 	}
 
     public OrigenIngreso getOrigenIngreso() {
 		return origenIngreso;
 	}
     
+    public Segmento getSegmento() {
+		return segmento;
+	}
+
     @JsonManagedReference
     public List<Auxiliar> getAuxiliares() {return auxiliares;}
     
@@ -265,8 +278,8 @@ public class Cliente extends Entidad {
         this.eliminado = eliminado;
     }
 
-    public void setCategoriaCliente(CategoriaCliente categoriaCliente) {
-		this.categoriaCliente = categoriaCliente;
+    public void setCalificacionCliente(CalificacionCliente calificacionaCliente) {
+		this.calificacionCliente = calificacionCliente;
 	}
 
     public void setEstadoCivil(EstadoCivil estadoCivil) {
@@ -285,6 +298,10 @@ public class Cliente extends Entidad {
 		this.origenIngreso = origenIngreso;
 	}
     
+    public void setSegmento(Segmento segmento) {
+		this.segmento = segmento;
+	}
+
     public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
@@ -295,10 +312,12 @@ public class Cliente extends Entidad {
         if (this.financiamiento.getFormaPago().getId()==0) this.financiamiento.setFormaPago(null);
         if (this.financiamiento.getTipoPago().getId()==0) this.financiamiento.setTipoPago(null);
         if (this.financiamiento.getPlazoCredito() != null && this.financiamiento.getPlazoCredito().getId()==0) this.financiamiento.setPlazoCredito(null);
-        if (this.categoriaCliente.getId()==0) this.categoriaCliente=null;
+        if (this.calificacionCliente.getId()==0) this.calificacionCliente=null;
         if (this.genero.getId()==0) this.genero=null;
         if (this.estadoCivil.getId()==0) this.estadoCivil=null;
         if (this.origenIngreso.getId()==0) this.origenIngreso=null;
+      //  if (this.segmento.getId()==0) this.segmento=null;
+        
         for (int i=0; i<retencionesCliente.size(); i++){
             if (retencionesCliente.get(i).getTipoRetencion().getId()==0){
                 retencionesCliente.get(i).setTipoRetencion(null);
