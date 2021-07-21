@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(33)
+@Order(19)
 @Profile({"dev","prod"})
 public class SegmentoData implements ApplicationRunner {
     @Autowired
@@ -26,10 +26,10 @@ public class SegmentoData implements ApplicationRunner {
         Optional<Segmento> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Segmento> segmentos = new ArrayList<>();
-            segmentos.add(new Segmento("SEG011907000001", "MAYORISTA"));
-            segmentos.add(new Segmento("SEG011907000002", "DISTRIBUIDOR"));
-            segmentos.add(new Segmento("SEG011907000003", "TARJETA DE CREDITO"));
-            segmentos.add(new Segmento("SEG011907000004", "CLIENTE FINAL"));
+            segmentos.add(new Segmento("SEG011907000001", "CLIENTE FINAL", 6));
+            segmentos.add(new Segmento("SEG011907000002", "MAYORISTA", 2));
+            segmentos.add(new Segmento("SEG011907000003", "DISTRIBUIDOR", 3));
+            segmentos.add(new Segmento("SEG011907000004", "TARJETA DE CREDITO", 10));
             rep.saveAll(segmentos);
         }
     }
