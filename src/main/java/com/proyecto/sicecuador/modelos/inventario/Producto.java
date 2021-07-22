@@ -50,7 +50,12 @@ public class Producto extends Entidad {
     @JsonProperty("caracteristicas")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Caracteristica> caracteristicas;
-
+    
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JsonProperty("producto_proveedor")
+    @JoinColumn(name = "producto_id", nullable = true)
+    private List<ProductoProveedor> productosProveedores;
+    
     public Producto() {
         super();
     }
@@ -137,6 +142,7 @@ public class Producto extends Entidad {
     public List<Caracteristica> getCaracteristicas() {
         return caracteristicas;
     }
+
 
     public void normalizar(){
         for(int i=0; i<kardexs.size(); i++){

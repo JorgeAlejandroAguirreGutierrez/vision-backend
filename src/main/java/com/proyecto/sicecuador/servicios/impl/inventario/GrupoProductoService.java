@@ -76,8 +76,8 @@ public class GrupoProductoService implements IGrupoProductoService {
 		    if (!grupo_producto.getSubgrupo().equals(Constantes.vacio)) {
 		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("subgrupo"), "%"+grupo_producto.getSubgrupo()+"%")));
 		    }
-		    if (!grupo_producto.getCategoria().equals(Constantes.vacio)) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("categoria"), "%"+grupo_producto.getCategoria()+"%")));
+		    if (!grupo_producto.getSeccion().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("seccion"), "%"+grupo_producto.getSeccion()+"%")));
 		    }
 		    if (!grupo_producto.getLinea().equals(Constantes.vacio)) {
 		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("linea"), "%"+grupo_producto.getLinea()+"%")));
@@ -105,32 +105,32 @@ public class GrupoProductoService implements IGrupoProductoService {
     }
     
     @Override
-    public List<String> consultarCategorias(String grupo, String subgrupo) {
-        List<String> categorias=rep.findCategorias(grupo, subgrupo);
-        return categorias;
+    public List<String> consultarSecciones(String grupo, String subgrupo) {
+        List<String> secciones=rep.findSecciones(grupo, subgrupo);
+        return secciones;
     }
     
     @Override
-    public List<String> consultarLineas(String grupo, String subgrupo, String categoria) {
-        List<String> lineas=rep.findLineas(grupo, subgrupo, categoria);
+    public List<String> consultarLineas(String grupo, String subgrupo, String seccion) {
+        List<String> lineas=rep.findLineas(grupo, subgrupo, seccion);
         return lineas;
     }
     
     @Override
-    public List<String> consultarSublineas(String grupo, String subgrupo, String categoria, String linea) {
-        List<String> sublineas=rep.findSublineas(grupo, subgrupo, categoria, linea);
+    public List<String> consultarSublineas(String grupo, String subgrupo, String seccion, String linea) {
+        List<String> sublineas=rep.findSublineas(grupo, subgrupo, seccion, linea);
         return sublineas;
     }
     
     @Override
-    public List<String> consultarPresentaciones(String grupo, String subgrupo, String categoria, String linea, String sublinea) {
-        List<String> presentaciones=rep.findPresentaciones(grupo, subgrupo, categoria, linea, sublinea);
+    public List<String> consultarPresentaciones(String grupo, String subgrupo, String seccion, String linea, String sublinea) {
+        List<String> presentaciones=rep.findPresentaciones(grupo, subgrupo, seccion, linea, sublinea);
         return presentaciones;
     }
     
     @Override
-    public Optional<GrupoProducto> obtenerGrupoProducto(String grupo, String subgrupo, String categoria, String linea, String sublinea, String presentacion) {
-        Optional<GrupoProducto> grupoProducto=rep.findGrupoProducto(grupo, subgrupo, categoria, linea, sublinea, presentacion);
+    public Optional<GrupoProducto> obtenerGrupoProducto(String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion) {
+        Optional<GrupoProducto> grupoProducto=rep.findGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion);
         return grupoProducto;
     }
 

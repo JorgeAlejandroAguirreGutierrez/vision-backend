@@ -17,9 +17,9 @@ public class GrupoProducto extends Entidad {
     @Column(name = "subgrupo", nullable = true)
     private String subgrupo;
 	
-	@JsonProperty("categoria")
-    @Column(name = "categoria", nullable = true)
-    private String categoria;
+	@JsonProperty("seccion")
+    @Column(name = "seccion", nullable = true)
+    private String seccion;
 	
 	@JsonProperty("linea")
     @Column(name = "linea", nullable = true)
@@ -41,11 +41,11 @@ public class GrupoProducto extends Entidad {
         super(id);
     }
 
-    public GrupoProducto(String codigo, String grupo, String subgrupo, String categoria, String linea, String sublinea, String presentacion){
+    public GrupoProducto(String codigo, String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion){
         super(codigo);
         this.grupo=grupo;
         this.subgrupo=subgrupo;
-        this.categoria=categoria;
+        this.seccion=seccion;
         this.linea=linea;
         this.sublinea=sublinea;
         this.presentacion=presentacion;
@@ -64,8 +64,8 @@ public class GrupoProducto extends Entidad {
 		return subgrupo;
 	}
     
-    public String getCategoria() {
-		return categoria;
+    public String getSeccion() {
+		return seccion;
 	}
     
     public String getLinea() {

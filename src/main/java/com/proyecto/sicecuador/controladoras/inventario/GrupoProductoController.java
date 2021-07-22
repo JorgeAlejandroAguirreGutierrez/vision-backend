@@ -63,37 +63,37 @@ public class GrupoProductoController implements GenericoController<GrupoProducto
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, subgrupos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/consultarcategorias", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarCategorias(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo) {
-    	List<String> categorias=servicio.consultarCategorias(grupo, subgrupo);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, categorias);
+    @GetMapping(value = "/consultarsecciones", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarSecciones(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo) {
+    	List<String> secciones=servicio.consultarSecciones(grupo, subgrupo);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, secciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
     @GetMapping(value = "/consultarlineas", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarLineas(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("categoria") String categoria) {
-    	List<String> lineas=servicio.consultarLineas(grupo, subgrupo, categoria);
+    public ResponseEntity<?> consultarLineas(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("seccion") String seccion) {
+    	List<String> lineas=servicio.consultarLineas(grupo, subgrupo, seccion);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, lineas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
     @GetMapping(value = "/consultarsublineas", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarSublineas(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("categoria") String categoria, @RequestParam("linea") String linea) {
-    	List<String> lineas=servicio.consultarSublineas(grupo, subgrupo, categoria, linea);
+    public ResponseEntity<?> consultarSublineas(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("seccion") String seccion, @RequestParam("linea") String linea) {
+    	List<String> lineas=servicio.consultarSublineas(grupo, subgrupo, seccion, linea);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, lineas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
     @GetMapping(value = "/consultarpresentaciones", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPresentaciones(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("categoria") String categoria, @RequestParam("linea") String linea, @RequestParam("sublinea") String sublinea) {
-    	List<String> presentaciones=servicio.consultarPresentaciones(grupo, subgrupo, categoria, linea, sublinea);
+    public ResponseEntity<?> consultarPresentaciones(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("seccion") String seccion, @RequestParam("linea") String linea, @RequestParam("sublinea") String sublinea) {
+    	List<String> presentaciones=servicio.consultarPresentaciones(grupo, subgrupo, seccion, linea, sublinea);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, presentaciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
     @GetMapping(value = "/obtenergrupoproducto", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerGrupoProducto(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("categoria") String categoria, @RequestParam("linea") String linea, @RequestParam("sublinea") String sublinea, @RequestParam("presentacion") String presentacion) {
-    	Optional<GrupoProducto> grupo_producto=servicio.obtenerGrupoProducto(grupo, subgrupo, categoria, linea, sublinea, presentacion);
+    public ResponseEntity<?> obtenerGrupoProducto(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("seccion") String seccion, @RequestParam("linea") String linea, @RequestParam("sublinea") String sublinea, @RequestParam("presentacion") String presentacion) {
+    	Optional<GrupoProducto> grupo_producto=servicio.obtenerGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, grupo_producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
