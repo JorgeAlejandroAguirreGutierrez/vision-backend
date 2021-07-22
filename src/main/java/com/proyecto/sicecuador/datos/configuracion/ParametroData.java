@@ -26,7 +26,7 @@ public class ParametroData implements ApplicationRunner {
         if (!ant.isPresent()) {
             List<Parametro> parametros = new ArrayList<>();
             parametros.add(new Parametro("PAR1", "CREAR", "", "auxiliar", "AUX"));
-            parametros.add(new Parametro("PAR2", "CREAR", "", "categoria_cliente", "CCL"));
+            parametros.add(new Parametro("PAR2", "CREAR", "", "calificacion_cliente", "CCL"));
             parametros.add(new Parametro("PAR3", "CREAR", "", "celular", "CEL"));
             parametros.add(new Parametro("PAR4", "CREAR", "", "cliente", "CLI"));
             parametros.add(new Parametro("PAR5", "CREAR", "", "correo", "COR"));

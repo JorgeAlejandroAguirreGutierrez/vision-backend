@@ -69,7 +69,7 @@ public class Constantes {
     //CLIENTE
     public static final String tabla_modelo="modelo";
     public static final String tabla_auxiliar="auxiliar";
-    public static final String tabla_categoria_cliente="categoria_cliente";
+    public static final String tabla_calificacion_cliente="calificacion_cliente";
     public static final String tabla_celular="celular";
     public static final String tabla_celular_auxiliar="celular_auxiliar";
     public static final String tabla_cliente="cliente";

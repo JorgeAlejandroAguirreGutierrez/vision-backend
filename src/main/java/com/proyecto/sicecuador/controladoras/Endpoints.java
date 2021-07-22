@@ -10,7 +10,7 @@ public class Endpoints {
     
     //CLIENTE
     public static final String pathAuxiliar="auxiliar";
-    public static final String pathCategoriaCliente="categoriacliente";
+    public static final String pathCalificacionCliente="calificacioncliente";
     public static final String pathCelular="celular";
     public static final String pathCliente="cliente";
     public static final String pathCorreo="correo";
