@@ -110,6 +110,7 @@ public class ParametroData implements ApplicationRunner {
             
             parametros.add(new Parametro("PAR78", "CREAR", "", "proveedor", "PRV"));
             parametros.add(new Parametro("PAR79", "CREAR", "", "afectacion_contable", "AFC"));
+            parametros.add(new Parametro("PAR80", "CREAR", "", "segmento", "SEG"));
             
             rep.saveAll(parametros);
         }

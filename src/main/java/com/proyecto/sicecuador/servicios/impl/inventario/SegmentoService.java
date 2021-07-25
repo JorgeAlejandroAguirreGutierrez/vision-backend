@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.modelos.inventario.Proveedor;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.repositorios.inventario.ISegmentoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ISegmentoService;
@@ -16,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.criteria.Predicate;
 
 @Service
 public class SegmentoService implements ISegmentoService {
@@ -58,6 +61,18 @@ public class SegmentoService implements ISegmentoService {
     	return rep.findAll(pageable);
     }
 
+    @Override
+    public List<Segmento> buscar(Segmento segmento) {
+        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    if (!segmento.getCodigo().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+segmento.getCodigo()+"%")));
+		    }
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+		});
+    }
+    
+    
     @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
