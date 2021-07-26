@@ -6,51 +6,71 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "segmento")
 public class Segmento extends Entidad {
-	@JsonProperty("nombre")
-    @Column(name = "nombre", nullable = true)
-    private String nombre;
-	
+	@NotNull
+	@NotEmpty
+	@JsonProperty("descripcion")
+    @Column(name = "descripcion")
+    private String descripcion;
 	@JsonProperty("margen_ganancia")
     @Column(name = "margen_ganancia", nullable = true)
     private double margenGanancia;
+	@NotNull
+	@NotEmpty
+	@JsonProperty("estado")
+    @Column(name = "estado")
+    private String estado;
 	
     public Segmento(){
+    	super();
     }
     public Segmento(long id){
         super(id);
     }
-    public Segmento(String codigo){
+/*    public Segmento(String codigo){
         super(codigo);
-    }
-    public Segmento(String codigo, String nombre, double margenGanancia){
+    }*/
+    public Segmento(String codigo, String descripcion, double margenGanancia, String estado){
         super(codigo);
-        this.nombre=nombre;
+        this.descripcion=descripcion;
         this.margenGanancia=margenGanancia;
+        this.estado=estado;
     }
 
     public Segmento(List<String>datos){
-    	nombre=datos.get(0)==null? null : datos.get(0);
-    	//margenGanancia=datos.get(1)==null? null : datos.get(1);
+    	super(null);
+    	descripcion=datos.get(0)==null ? null : datos.get(0);
+    	margenGanancia=datos.get(1)==null ? null : Double.parseDouble(datos.get(1));
+    	descripcion=datos.get(2)==null ? null : datos.get(2);
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDescripcion() {
+        return descripcion;
     }
 
     public double getMargenGanancia() {
         return margenGanancia;
     }
 
-    public void setNombre(String nombre) {
-		this.nombre = nombre;
+    public String getEstado() {
+        return estado;
+    }
+    
+    public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
     
     public void setMargenGanancia(double margenGanancia) {
 		this.margenGanancia = margenGanancia;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
 	}
 }

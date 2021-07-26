@@ -25,11 +25,11 @@ public class GrupoClienteData implements ApplicationRunner {
         Optional<GrupoCliente> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<GrupoCliente> grupos_clientes = new ArrayList<>();
-            grupos_clientes.add(new GrupoCliente("GCL011907000001", "CLIENTES NACIONALES", "NAC"));
-            grupos_clientes.add(new GrupoCliente("GCL011908000002", "CLIENTES INTERNACIONALES", "INTER"));
-            grupos_clientes.add(new GrupoCliente("GCL011909000003", "HONORARIOS", "HON"));
-            grupos_clientes.add(new GrupoCliente("GCL011909000004", "ASESORIAS", "ASES"));
-            grupos_clientes.add(new GrupoCliente("GCL011909000005", "SERVICIOS", "SRV"));
+            grupos_clientes.add(new GrupoCliente("GCL011907000001", "CLIENTES NACIONALES", "NAC", "ACTIVO"));
+            grupos_clientes.add(new GrupoCliente("GCL011908000002", "CLIENTES INTERNACIONALES", "INTER", "ACTIVO"));
+            grupos_clientes.add(new GrupoCliente("GCL011909000003", "HONORARIOS", "HON", "ACTIVO"));
+            grupos_clientes.add(new GrupoCliente("GCL011909000004", "ASESORIAS", "ASES", "ACTIVO"));
+            grupos_clientes.add(new GrupoCliente("GCL011909000005", "SERVICIOS", "SRV", "ACTIVO"));
             rep.saveAll(grupos_clientes);
         }
     }

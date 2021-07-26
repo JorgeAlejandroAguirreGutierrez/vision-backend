@@ -24,9 +24,9 @@ public class PlazoCreditoData implements ApplicationRunner {
         Optional<PlazoCredito> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<PlazoCredito> plazos_creditos = new ArrayList<>();
-            plazos_creditos.add(new PlazoCredito("PCR011908000001", "CORTO PLAZO", 30));
-            plazos_creditos.add(new PlazoCredito("PCR011908000002", "MEDIANO PLAZO", 45));
-            plazos_creditos.add(new PlazoCredito("PCR011908000003", "LARGO PLAZO", 60));
+            plazos_creditos.add(new PlazoCredito("PCR011908000001", "CORTO PLAZO", 30, "ACTIVO"));
+            plazos_creditos.add(new PlazoCredito("PCR011908000002", "MEDIANO PLAZO", 45, "ACTIVO"));
+            plazos_creditos.add(new PlazoCredito("PCR011908000003", "LARGO PLAZO", 60, "ACTIVO"));
             rep.saveAll(plazos_creditos);
         }
     }
