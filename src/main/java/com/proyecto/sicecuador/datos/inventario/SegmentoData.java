@@ -1,9 +1,7 @@
 package com.proyecto.sicecuador.datos.inventario;
 
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
-import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
 import com.proyecto.sicecuador.repositorios.inventario.ISegmentoRepository;
-import com.proyecto.sicecuador.repositorios.inventario.ITipoGastoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -26,10 +24,10 @@ public class SegmentoData implements ApplicationRunner {
         Optional<Segmento> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Segmento> segmentos = new ArrayList<>();
-            segmentos.add(new Segmento("SEG011907000001", "CLIENTE FINAL", 6));
-            segmentos.add(new Segmento("SEG011907000002", "MAYORISTA", 2));
-            segmentos.add(new Segmento("SEG011907000003", "DISTRIBUIDOR", 3));
-            segmentos.add(new Segmento("SEG011907000004", "TARJETA DE CREDITO", 10));
+            segmentos.add(new Segmento("SEG011907000001", "CLIENTE FINAL", 6, "ACTIVO"));
+            segmentos.add(new Segmento("SEG011907000002", "MAYORISTA", 2, "ACTIVO"));
+            segmentos.add(new Segmento("SEG011907000003", "DISTRIBUIDOR", 3, "ACTIVO"));
+            segmentos.add(new Segmento("SEG011907000004", "TARJETA DE CREDITO", 10, "ACTIVO"));
             rep.saveAll(segmentos);
         }
     }

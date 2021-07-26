@@ -24,9 +24,9 @@ public class OrigenIngresoData implements ApplicationRunner {
         Optional<OrigenIngreso> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<OrigenIngreso> origenes_ingresos = new ArrayList<>();
-            origenes_ingresos.add(new OrigenIngreso("OIN011907000001", "SALARIO", "S"));
-            origenes_ingresos.add(new OrigenIngreso("OIN011908000002", "VENTAS", "V"));
-            origenes_ingresos.add(new OrigenIngreso("OIN011909000003", "INDEPENDIENTE", "I"));
+            origenes_ingresos.add(new OrigenIngreso("OIN011907000001", "SALARIO", "S", "ACTIVO"));
+            origenes_ingresos.add(new OrigenIngreso("OIN011908000002", "VENTAS", "V", "ACTIVO"));
+            origenes_ingresos.add(new OrigenIngreso("OIN011909000003", "INDEPENDIENTE", "I", "ACTIVO"));
             rep.saveAll(origenes_ingresos);
         }
     }

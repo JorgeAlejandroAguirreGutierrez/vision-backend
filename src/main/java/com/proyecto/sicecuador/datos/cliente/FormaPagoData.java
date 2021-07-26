@@ -24,8 +24,8 @@ public class FormaPagoData implements ApplicationRunner {
         Optional<FormaPago> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<FormaPago> formas_pagos = new ArrayList<>();
-            formas_pagos.add(new FormaPago("FPA011907000001", "PREPAGO", "PRE"));
-            formas_pagos.add(new FormaPago("FPA011908000002", "POSTPAGO", "POS"));
+            formas_pagos.add(new FormaPago("FPA011907000001", "PREPAGO", "PRE", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA011908000002", "POSTPAGO", "POS", "ACTIVO"));
             rep.saveAll(formas_pagos);
         }
     }

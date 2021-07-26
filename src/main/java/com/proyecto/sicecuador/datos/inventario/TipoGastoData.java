@@ -24,13 +24,14 @@ public class TipoGastoData implements ApplicationRunner {
         Optional<TipoGasto> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<TipoGasto> tipos_gastos = new ArrayList<>();
-            tipos_gastos.add(new TipoGasto("TGA011907000001", "ALIMENTACION"));
-            tipos_gastos.add(new TipoGasto("TGA011907000002", "SALUD"));
-            tipos_gastos.add(new TipoGasto("TGA011907000003", "VIVIENDA"));
-            tipos_gastos.add(new TipoGasto("TGA011907000004", "VESTIMENTA"));
-            tipos_gastos.add(new TipoGasto("TGA011907000004", "EDUCACION"));
-            tipos_gastos.add(new TipoGasto("TGA011907000004", "ARTE"));
-            tipos_gastos.add(new TipoGasto("TGA011907000004", "CULTURA"));
+            tipos_gastos.add(new TipoGasto("TGA011907000001", "NO APLICA"));
+            tipos_gastos.add(new TipoGasto("TGA011907000002", "ALIMENTACION"));
+            tipos_gastos.add(new TipoGasto("TGA011907000003", "SALUD"));
+            tipos_gastos.add(new TipoGasto("TGA011907000004", "VIVIENDA"));
+            tipos_gastos.add(new TipoGasto("TGA011907000005", "VESTIMENTA"));
+            tipos_gastos.add(new TipoGasto("TGA011907000006", "EDUCACION"));
+            tipos_gastos.add(new TipoGasto("TGA011907000007", "ARTE"));
+            tipos_gastos.add(new TipoGasto("TGA011907000008", "CULTURA"));
             rep.saveAll(tipos_gastos);
         }
     }
