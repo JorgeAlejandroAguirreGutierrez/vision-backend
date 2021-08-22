@@ -85,6 +85,14 @@ public class TablaEquivalenciaMedidaController implements GenericoController<Tab
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/buscarmedidasequivalentes/{medida1_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscarMedidasEquivalentes(@PathVariable("medida1_id") long medida1_id) {
+    	TablaEquivalenciaMedida parametro = new TablaEquivalenciaMedida();
+    	parametro.setMedida1(new Medida(medida1_id));
+        List<TablaEquivalenciaMedida> tablas=servicio.buscarMedidasEquivalentes(parametro);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tablas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }    
     @Override
     public ResponseEntity<?> importar(MultipartFile file) {
         return null;
