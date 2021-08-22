@@ -61,4 +61,11 @@ public class TablaEquivalenciaMedida extends Entidad {
     public void setEquivalencia(double equivalencia) {
 		this.equivalencia = equivalencia;
 	}
+    
+    public void setMedida1(Medida medida1) {
+		this.medida1 = medida1;
+	}
+    public void setMedida2(Medida medida2) {
+		this.medida2 = medida2;
+	}
 }
