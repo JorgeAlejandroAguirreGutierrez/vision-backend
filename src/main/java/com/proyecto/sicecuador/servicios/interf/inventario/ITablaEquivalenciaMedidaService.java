@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ITablaEquivalenciaMedidaService extends IGenericoService<TablaEquivalenciaMedida> {
     Optional<TablaEquivalenciaMedida> obtenerMedida1Medida2(TablaEquivalenciaMedida tabla);
     List<TablaEquivalenciaMedida> buscar(TablaEquivalenciaMedida tem);
+    List<TablaEquivalenciaMedida> buscarMedidasEquivalentes(TablaEquivalenciaMedida equivalencias);
 }

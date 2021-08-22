@@ -83,6 +83,17 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
 		});
         return tabla;
     }
+
+    @Override
+    public List<TablaEquivalenciaMedida> buscarMedidasEquivalentes(TablaEquivalenciaMedida _tabla){
+        	List<TablaEquivalenciaMedida> equivalencias =  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+		    List<Predicate> predicates = new ArrayList<>();
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medida1").get("id"), _tabla.getMedida1().getId())));
+		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));                
+		});
+        return equivalencias;
+    }
+
     
     @Override
     public List<TablaEquivalenciaMedida> buscar(TablaEquivalenciaMedida tem) {
