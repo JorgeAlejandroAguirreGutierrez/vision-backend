@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.inventario;
+package com.proyecto.sicecuador.repositorios.proveedor;
 
-import com.proyecto.sicecuador.modelos.inventario.Proveedor;
+import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
