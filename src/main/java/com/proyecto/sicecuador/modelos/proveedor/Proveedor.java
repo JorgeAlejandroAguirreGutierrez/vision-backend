@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.inventario;
+package com.proyecto.sicecuador.modelos.proveedor;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
@@ -25,7 +25,7 @@ public class Proveedor extends Entidad {
     private String razonSocial;
     @JsonProperty("estado")
     @Column(name = "estado")
-    private boolean estado;
+    private String estado;
     @JsonProperty("eliminado")
     @Column(name = "eliminado")
     private boolean eliminado;
@@ -48,7 +48,7 @@ public class Proveedor extends Entidad {
     }
 
     public Proveedor(String codigo, String tipo_identificacion, String identificacion,  
-    				String razon_social, boolean estado, boolean eliminado,
+    				String razon_social, String estado, boolean eliminado,
     				String direccion, String telefono, String correo){
         super(codigo);
     	this.tipoIdentificacion = tipo_identificacion;
@@ -67,7 +67,7 @@ public class Proveedor extends Entidad {
     	tipoIdentificacion=datos.get(0)== null ? null: datos.get(0);
         identificacion=datos.get(1)== null ? null: datos.get(1);
         razonSocial=datos.get(2)== null ? null: datos.get(2);
-        estado=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
+        estado=datos.get(3)== null ? null: datos.get(3);
         eliminado= datos.get(4)== null ? null: datos.get(4).equals("S") ? true : false;
         direccion= datos.get(5)== null ? null: datos.get(5);
         telefono= datos.get(6)== null ? null: datos.get(6);
@@ -87,7 +87,7 @@ public class Proveedor extends Entidad {
 		return razonSocial;
 	}
 
-    public boolean isEstado() {
+    public String getEstado() {
         return estado;
     }
 
@@ -118,7 +118,7 @@ public class Proveedor extends Entidad {
 		this.razonSocial = razonSocial;
 	}
     
-    public void setEstado(boolean estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
     

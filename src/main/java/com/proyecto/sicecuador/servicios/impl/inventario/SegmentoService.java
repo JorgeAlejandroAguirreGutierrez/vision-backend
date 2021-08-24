@@ -4,7 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.inventario.Proveedor;
+import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.repositorios.inventario.ISegmentoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ISegmentoService;

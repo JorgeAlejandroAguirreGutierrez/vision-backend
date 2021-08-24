@@ -33,7 +33,7 @@ public class Cliente extends Entidad {
     private boolean especial;
     @JsonProperty("estado")
     @Column(name = "estado")
-    private boolean estado;
+    private String estado;
     @JsonProperty("eliminado")
     @Column(name = "eliminado")
     private boolean eliminado;
@@ -120,7 +120,7 @@ public class Cliente extends Entidad {
     }
 
     public Cliente(String codigo, String tipo_identificacion, String identificacion,
-                   String razon_social, boolean especial, boolean estado, boolean eliminado,
+                   String razon_social, boolean especial, String estado, boolean eliminado,
                    PuntoVenta punto_venta, GrupoCliente grupo_cliente, TipoContribuyente tipo_contribuyente,
                    Direccion direccion, Financiamiento financiamiento, Genero genero, EstadoCivil estado_civil,
                    CalificacionCliente calificacion_cliente, OrigenIngreso origen_ingreso, Segmento segmento){
@@ -149,7 +149,7 @@ public class Cliente extends Entidad {
         identificacion=datos.get(1)== null ? null: datos.get(1);
         razonSocial=datos.get(2)== null ? null: datos.get(2);
         especial=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
-        estado= datos.get(4)== null ? null: datos.get(4).equals("S") ? true : false;
+        estado= datos.get(4)== null ? null: datos.get(4);
         eliminado=datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
         tipoContribuyente= datos.get(6)== null ? null: new TipoContribuyente((long) Double.parseDouble(datos.get(6)));
         puntoVenta= datos.get(7)== null ? null: new PuntoVenta((long) Double.parseDouble(datos.get(7)));
@@ -183,7 +183,7 @@ public class Cliente extends Entidad {
         return especial;
     }
 
-    public boolean isEstado() {
+    public String getEstado() {
         return estado;
     }
 
@@ -302,7 +302,7 @@ public class Cliente extends Entidad {
 		this.segmento = segmento;
 	}
 
-    public void setEstado(boolean estado) {
+    public void setEstado(String estado) {
 		this.estado = estado;
 	}
     

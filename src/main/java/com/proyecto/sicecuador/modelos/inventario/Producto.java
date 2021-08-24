@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Producto extends Entidad {
     private boolean consignacion;
 	@JsonProperty("estado")
     @Column(name = "estado", nullable = true)
-    private boolean estado;
+    private String estado;
 	@JsonProperty("serie_autogenerado")
     @Column(name = "serie_autogenerado", nullable = true)
     private boolean serieAutogenerado;
@@ -38,6 +39,12 @@ public class Producto extends Entidad {
     @JsonProperty("grupo_producto")
     @JoinColumn(name = "grupo_producto_id", nullable = true)
     private GrupoProducto grupoProducto;
+    
+    @ManyToOne
+    @JsonProperty("medida_kardex")
+    @JoinColumn(name = "medida_kardex_id", nullable = true)
+    private Medida medidaKardex;
+    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("kardexs")
     @JoinColumn(name = "producto_id", nullable = true)
@@ -56,6 +63,8 @@ public class Producto extends Entidad {
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoProveedor> productosProveedores;
     
+    
+    
     public Producto() {
         super();
     }
@@ -69,9 +78,9 @@ public class Producto extends Entidad {
         this.nombre=nombre;
     }
 
-    public Producto(String codigo, String nombre, boolean consignacion, boolean estado,
+    public Producto(String codigo, String nombre, boolean consignacion, String estado,
                     boolean serieAutogenerado, TipoGasto tipoGasto,
-                    TipoProducto tipoProducto, Impuesto impuesto, GrupoProducto grupoProducto) {
+                    TipoProducto tipoProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex) {
         super(codigo);
         this.nombre = nombre;
         this.consignacion = consignacion;
@@ -79,17 +88,21 @@ public class Producto extends Entidad {
         this.serieAutogenerado = serieAutogenerado;
         this.tipoGasto = tipoGasto;
         this.tipoProducto = tipoProducto;
-        this.grupoProducto = grupoProducto;
         this.impuesto = impuesto;
+        this.grupoProducto = grupoProducto;
+        this.medidaKardex = medidaKardex;
     }
     public Producto(List<String>datos){
         nombre=datos.get(0)== null ? null: datos.get(0);
         consignacion=datos.get(1)== null ? null: datos.get(1).equals("S") ? true : false;
-        estado=datos.get(2)== null ? null: datos.get(2).equals("S") ? true : false;
+        estado=datos.get(2)== null ? null: datos.get(2);
         serieAutogenerado=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
-        tipoProducto=datos.get(4)== null ? null: new TipoProducto((long) Double.parseDouble(datos.get(4)));
-        grupoProducto=datos.get(5)== null ? null: new GrupoProducto((long) Double.parseDouble(datos.get(5)));
+        tipoGasto=datos.get(4)== null ? null: new TipoGasto((long) Double.parseDouble(datos.get(4)));
+        tipoProducto=datos.get(5)== null ? null: new TipoProducto((long) Double.parseDouble(datos.get(5)));
         impuesto=datos.get(6)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(6)));
+        grupoProducto=datos.get(7)== null ? null: new GrupoProducto((long) Double.parseDouble(datos.get(7)));
+        medidaKardex=datos.get(8)== null ? null: new Medida((long) Double.parseDouble(datos.get(8)));
+        
     }
 
     public String getNombre() {
@@ -100,7 +113,7 @@ public class Producto extends Entidad {
         return consignacion;
     }
 
-    public boolean isEstado() {
+    public String getEstado() {
         return estado;
     }
 
@@ -116,6 +129,10 @@ public class Producto extends Entidad {
 		this.serieAutogenerado = serieAutogenerado;
 	}
 
+    public void setMedidaKardex(Medida medidaKardex) {
+    	this.medidaKardex = medidaKardex;
+    }
+    
     public TipoProducto getTipoProducto() {
 		return tipoProducto;
 	}
@@ -127,6 +144,10 @@ public class Producto extends Entidad {
     public GrupoProducto getGrupoProducto() {
 		return grupoProducto;
 	}
+    
+    public Medida getMedidaKardex() {
+    	return medidaKardex;
+    }
 
     @JsonManagedReference
     public List<Kardex> getKardexs() {
