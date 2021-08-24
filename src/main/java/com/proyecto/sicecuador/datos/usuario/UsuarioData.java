@@ -33,6 +33,7 @@ public class UsuarioData implements ApplicationRunner {
             usuarios.add(new Usuario("U5", "JORGE ALEJANDRO", "alejandro@gmail.com", "12345", "0123456789", "/storage/img/imagen5", true, new PuntoVenta(1), new Perfil(1)));
             usuarios.add(new Usuario("U6", "MARIA JOSE", "mariajose@gmail.com", "12345", "080212685", "/storage/img/imagen6", true, new PuntoVenta(1), new Perfil(2)));
             usuarios.add(new Usuario("U7", "MARIA JULIANA", "nariajuliana@gmail.com", "12345", "130735366", "/storage/img/imagen7", true, new PuntoVenta(1), new Perfil(2)));
+            usuarios.add(new Usuario("U8", "SANTIAGO CANTOS", "santiago_cantos@hotmail.com", "12345", "0101010101", "/storage/img/imagen4", true, new PuntoVenta(1), new Perfil(1)));
             rep.saveAll(usuarios);
         }
     }

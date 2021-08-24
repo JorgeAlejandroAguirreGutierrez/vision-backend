@@ -12,9 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "medida")
 public class Medida extends Entidad {
-	@JsonProperty("codigo_norma")
-    @Column(name = "codigo_norma", nullable = true)
-    private String codigoNorma;
 	@JsonProperty("tipo")
     @Column(name = "tipo", nullable = true)
     private String tipo;
@@ -26,8 +23,11 @@ public class Medida extends Entidad {
 	@JsonProperty("abreviatura")
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
+	@JsonProperty("estado")
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
-    public Medida(){
+	public Medida(){
         super();
     }
 
@@ -35,30 +35,44 @@ public class Medida extends Entidad {
         super(id);
     }
 
-    public Medida(String codigo, String codigoNorma, String tipo, String descripcion, String abreviatura){
+    public Medida(String codigo, String tipo, String descripcion, String abreviatura, String estado){
         super(codigo);
-        this.codigoNorma=codigoNorma;
         this.tipo=tipo;
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
+        this.estado=estado;
     }
     public Medida(List<String> datos){
-        codigoNorma=datos.get(0)== null ? null: datos.get(0);
+        tipo=datos.get(0)== null ? null: datos.get(0);
         descripcion=datos.get(1)== null ? null: datos.get(1);
+        abreviatura=datos.get(2)== null ? null: datos.get(2);
+        estado=datos.get(3)== null ? null: datos.get(3);
     }
     
-    public String getCodigoNorma() {
-		return codigoNorma;
-	}
-
     public String getTipo() {
         return tipo;
     }
     public String getDescripcion() {
         return descripcion;
     }
-
     public String getAbreviatura() {
         return abreviatura;
     }
+    public String getEstado() {
+        return estado;
+    }
+    
+    public void setTipo(String tipo) {
+        this.tipo=tipo;
+    }
+    public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+    public void setAbreviatura(String abreviatura) {
+		this.abreviatura = abreviatura;
+	}
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 }

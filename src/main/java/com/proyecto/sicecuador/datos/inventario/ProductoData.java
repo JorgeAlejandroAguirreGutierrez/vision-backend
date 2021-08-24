@@ -24,32 +24,32 @@ public class ProductoData implements ApplicationRunner {
             Optional<Producto> ant=rep.findById((long) 1);
             if (!ant.isPresent()) {
                 List<Producto> productos = new ArrayList<>();
-                productos.add(new Producto("PRO011907000001", "ARROZ", false, true, true, new TipoGasto(1), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000002", "HUEVOS", true, true, true, new TipoGasto(2), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000003", "GALLETAS", true, true, true, new TipoGasto(3), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000004", "CAFE", true, true, true, new TipoGasto(4), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000005", "FRIJOLES", true, true, true, new TipoGasto(1),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000006", "COMPUTADOR", true, true, false, new TipoGasto(2),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000007", "TELEVISOR", true, true, false, new TipoGasto(3),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000008", "VENTILADOR", true, true, false, new TipoGasto(4), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000009", "ESCRITORIO", true, true, false, new TipoGasto(1),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000010", "MESA", true, true, false, new TipoGasto(2),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000011", "SILLA", true, true, false, new TipoGasto(3), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000012", "PS4", true, true, false, new TipoGasto(4), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000013", "CELULAR", true, true, false, new TipoGasto(1),new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000014", "AURICULARES", true, true, true, new TipoGasto(2),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000015", "ZAPATOS", true, true, true, new TipoGasto(3),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000016", "CARGADOR", true, true, true, new TipoGasto(4), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
-                productos.add(new Producto("PRO011907000017", "CAMA", true, true, true, new TipoGasto(1), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1)));
+                productos.add(new Producto("PRO011907000001", "ARROZ", false, "ACTIVO", true, new TipoGasto(1), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000002", "HUEVOS", true, "ACTIVO", true, new TipoGasto(2), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000003", "GALLETAS", true, "ACTIVO", true, new TipoGasto(3), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1),new Medida(2)));
+                productos.add(new Producto("PRO011907000004", "CAFE", true, "ACTIVO", true, new TipoGasto(4), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000005", "FRIJOLES", true, "ACTIVO", true, new TipoGasto(1),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000006", "COMPUTADOR", true, "ACTIVO", false, new TipoGasto(2),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000007", "TELEVISOR", true, "ACTIVO", false, new TipoGasto(3),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000008", "VENTILADOR", true, "ACTIVO", false, new TipoGasto(4), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000009", "ESCRITORIO", true, "ACTIVO", false, new TipoGasto(1),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000010", "MESA", true, "ACTIVO", false, new TipoGasto(2),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000011", "SILLA", true, "ACTIVO", false, new TipoGasto(3), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000012", "PS4", true, "ACTIVO", false, new TipoGasto(4), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000013", "CELULAR", true, "ACTIVO", false, new TipoGasto(1),new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000014", "AURICULARES", true, "ACTIVO", true, new TipoGasto(2),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000015", "ZAPATOS", true, "ACTIVO", true, new TipoGasto(3),  new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000016", "CARGADOR", true, "ACTIVO", true, new TipoGasto(4), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
+                productos.add(new Producto("PRO011907000017", "CAMA", true, "ACTIVO", true, new TipoGasto(1), new TipoProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1)));
 
-                productos.add(new Producto("PRO011907000018", "CARGA PANELA", true, true, true, new TipoGasto(2), new TipoProducto(2),new Impuesto(1), new GrupoProducto(2)));
-                productos.add(new Producto("PRO011907000019", "CARGA LENTEJA", true, true, true, new TipoGasto(3), new TipoProducto(2), new Impuesto(1), new GrupoProducto(2)));
-                productos.add(new Producto("PRO011907000020", "LIMPIEZA", true, true, true, new TipoGasto(4), new TipoProducto(2), new Impuesto(1), new GrupoProducto(2)));
-                productos.add(new Producto("PRO011907000021", "EMPAQUE", true, true, true, new TipoGasto(1), new TipoProducto(2), new Impuesto(1), new GrupoProducto(2)));
-                productos.add(new Producto("PRO011907000022", "CARGA PANELA AF",true, true, true, new TipoGasto(2), new TipoProducto(3), new Impuesto(1), new GrupoProducto(3)));
-                productos.add(new Producto("PRO011907000023", "CARGA LENTEJA AF", true, true, true, new TipoGasto(3), new TipoProducto(3), new Impuesto(1), new GrupoProducto(3)));
-                productos.add(new Producto("PRO011907000024", "CARGA ARROZ AF", true, true, true, new TipoGasto(4), new TipoProducto(3), new Impuesto(1), new GrupoProducto(3)));
-                productos.add(new Producto("PRO011907000025", "CARGA FRIJOLES AF", true, true, true, new TipoGasto(1), new TipoProducto(3), new Impuesto(1), new GrupoProducto(3)));
+                productos.add(new Producto("PRO011907000018", "CARGA PANELA", true, "ACTIVO", true, new TipoGasto(2), new TipoProducto(2),new Impuesto(1), new GrupoProducto(2), new Medida(3)));
+                productos.add(new Producto("PRO011907000019", "CARGA LENTEJA", true, "ACTIVO", true, new TipoGasto(3), new TipoProducto(2), new Impuesto(1), new GrupoProducto(2), new Medida(3)));
+                productos.add(new Producto("PRO011907000020", "LIMPIEZA", true, "ACTIVO", true, new TipoGasto(4), new TipoProducto(2), new Impuesto(1), new GrupoProducto(2), new Medida(3)));
+                productos.add(new Producto("PRO011907000021", "EMPAQUE", true, "ACTIVO", true, new TipoGasto(1), new TipoProducto(2), new Impuesto(1), new GrupoProducto(2), new Medida(3)));
+                productos.add(new Producto("PRO011907000022", "CARGA PANELA AF",true, "ACTIVO", true, new TipoGasto(2), new TipoProducto(3), new Impuesto(1), new GrupoProducto(3), new Medida(3)));
+                productos.add(new Producto("PRO011907000023", "CARGA LENTEJA AF", true, "ACTIVO", true, new TipoGasto(3), new TipoProducto(3), new Impuesto(1), new GrupoProducto(3), new Medida(3)));
+                productos.add(new Producto("PRO011907000024", "CARGA ARROZ AF", true, "ACTIVO", true, new TipoGasto(4), new TipoProducto(3), new Impuesto(1), new GrupoProducto(3), new Medida(3)));
+                productos.add(new Producto("PRO011907000025", "CARGA FRIJOLES AF", true, "ACTIVO", true, new TipoGasto(1), new TipoProducto(3), new Impuesto(1), new GrupoProducto(3), new Medida(3)));
                 rep.saveAll(productos);
             }
     }

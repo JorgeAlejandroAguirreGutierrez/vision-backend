@@ -312,7 +312,7 @@ public class ClienteService implements IClienteService {
     		throw new CodigoNoExistenteException();
     	}
     	cliente.setCodigo(codigo.get());
-    	cliente.setEstado(true);
+    	cliente.setEstado("ACTIVO");
     	cliente.setEliminado(false);
         return rep.save(cliente);
     }

@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.controladoras.inventario;
+package com.proyecto.sicecuador.controladoras.proveedor;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathProveedor;
@@ -7,8 +7,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 //import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.inventario.Proveedor;
-import com.proyecto.sicecuador.servicios.interf.inventario.IProveedorService;
+import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
+import com.proyecto.sicecuador.servicios.interf.proveedor.IProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
