@@ -19,9 +19,9 @@ public class Precio extends Entidad {
 	@JsonProperty("precio_venta_publico")
     @Column(name = "precio_venta_publico", nullable = true)
     private double precioVentaPublico;
-	@JsonProperty("precio_venta_publico_iva")
-    @Column(name = "precio_venta_publico_iva", nullable = true)
-    private double precioVentaPublicoIva;
+	@JsonProperty("precio_sin_iva")
+    @Column(name = "precio_sin_iva", nullable = true)
+    private double precioSinIva;
 	@JsonProperty("precio_venta_publico_manual")
     @Column(name = "precio_venta_publico_manual", nullable = true)
     private double precioVentaPublicoManual;
@@ -31,10 +31,15 @@ public class Precio extends Entidad {
 	@JsonProperty("utilidad_porcentaje")
     @Column(name = "utilidad_porcentaje", nullable = true)
     private double utilidadPorcentaje;
-
     @ManyToOne
-    @JoinColumn(name = "medida_precio_id", nullable = true)
-    private MedidaPrecio medidaPrecio;
+    @JsonProperty("producto")
+    @JoinColumn(name = "producto_id", nullable = true)
+    private Producto producto;
+    @ManyToOne
+    @JsonProperty("medida")
+    @JoinColumn(name = "medida_id", nullable = true)
+    private Medida medida;
+
     @ManyToOne
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
@@ -52,17 +57,18 @@ public class Precio extends Entidad {
     }
 
     public Precio(String codigo, double costo, double margen_ganancia,
-                  double precioVentaPublico, double precioVentaPublicoIva, double precioVentaPublicoManual,
-                  double utilidad, double utilidadPocentaje, MedidaPrecio medidaPrecio, Segmento segmento){
+                  double precioVentaPublico, double precioSinIva, double precioVentaPublicoManual,
+                  double utilidad, double utilidadPocentaje, Producto producto, Medida medida, Segmento segmento){
         super(codigo);
         this.costo=costo;
         this.margenGanancia=margen_ganancia;
         this.precioVentaPublico=precioVentaPublico;
-        this.precioVentaPublicoIva=precioVentaPublicoIva;
+        this.precioSinIva=precioSinIva;
         this.precioVentaPublicoManual=precioVentaPublicoManual;
         this.utilidad=utilidad;
         this.utilidadPorcentaje=utilidadPocentaje;
-        this.medidaPrecio=medidaPrecio;
+        this.producto=producto;
+        this.medida=medida;
         this.segmento=segmento;
     }
 
@@ -78,8 +84,8 @@ public class Precio extends Entidad {
 		return precioVentaPublico;
 	}
 
-    public double getPrecioVentaPublicoIva() {
-		return precioVentaPublicoIva;
+    public double getPrecioSinIva() {
+		return precioSinIva;
 	}
 
     public double getPrecioVentaPublicoManual() {
@@ -93,13 +99,21 @@ public class Precio extends Entidad {
     public double getUtilidadPorcentaje() {
 		return utilidadPorcentaje;
 	}
-
+    
+    @JsonBackReference
+    public Producto getProducto() {
+		return producto;
+	}
+    @JsonBackReference
+    public Medida getMedida() {
+		return medida;
+	}
     public Segmento getSegmento() {
         return segmento;
     }
 
-    @JsonBackReference
+/*    @JsonBackReference
     public MedidaPrecio getMedidaPrecio() {
 		return medidaPrecio;
-	}
+	}*/
 }
