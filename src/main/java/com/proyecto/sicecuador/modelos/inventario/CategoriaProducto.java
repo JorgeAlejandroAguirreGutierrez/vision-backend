@@ -7,42 +7,42 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "tipo_producto")
+@Table(name = "categoria_producto")
 //@EntityListeners({TipoProductoUtil.class})
-public class TipoProducto extends Entidad {
+public class CategoriaProducto extends Entidad {
 	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
-	@JsonProperty("tipo")
-    @Column(name = "tipo", nullable = true)
-    private String tipo;
+	@JsonProperty("categoria")
+    @Column(name = "categoria", nullable = true)
+    private String categoria;
 	@JsonProperty("abreviatura")
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
 
-    public TipoProducto(){
+    public CategoriaProducto(){
         super();
     }
 
-    public TipoProducto(long id){
+    public CategoriaProducto(long id){
         super(id);
     }
 
-    public TipoProducto(List<String> datos){
+    public CategoriaProducto(List<String> datos){
 
     }
-    public TipoProducto(String codigo, String descripcion, String tipo, String abreviatura){
+    public CategoriaProducto(String codigo, String descripcion, String categoria, String abreviatura){
         super(codigo);
         this.descripcion=descripcion;
-        this.tipo=tipo;
+        this.categoria=categoria;
         this.abreviatura=abreviatura;
     }
     public String getDescripcion() {
         return descripcion;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getCategoria() {
+        return categoria;
     }
 
     public String getAbreviatura() {

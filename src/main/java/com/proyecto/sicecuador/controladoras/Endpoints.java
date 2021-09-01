@@ -64,7 +64,7 @@ public class Endpoints {
     public static final String pathSegmento="segmento";
     public static final String pathTablaEquivalenciaMedida="tablaequivalenciamedida";
     public static final String pathTipoGasto="tipogasto";
-    public static final String pathTipoProducto="tipoproducto";
+    public static final String pathCategoriaProducto="categoriaproducto";
     
     //RECAUDACION
     public static final String pathAmortizacion="amortizacion";

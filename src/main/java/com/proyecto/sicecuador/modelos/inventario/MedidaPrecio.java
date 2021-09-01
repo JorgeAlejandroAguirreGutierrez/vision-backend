@@ -19,9 +19,10 @@ public class MedidaPrecio extends Entidad {
     @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+/*    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("precios")
-    @JoinColumn(name = "medida_precio_id", nullable = true)
+    @JoinColumn(name = "medida_precio_id", nullable = true)*/
+    
     private List<Precio> precios;
 
     public MedidaPrecio(){

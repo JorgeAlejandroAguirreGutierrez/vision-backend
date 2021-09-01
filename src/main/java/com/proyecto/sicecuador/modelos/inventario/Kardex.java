@@ -39,19 +39,12 @@ public class Kardex extends Entidad {
 	@JsonProperty("cantidad")
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
-	@JsonProperty("costo_unitario")
-    @Column(name = "costo_unitario", nullable = true)
-    private double costoUnitario;
 	@JsonProperty("costo_promedio")
     @Column(name = "costo_promedio", nullable = true)
     private double costoPromedio;
 	@JsonProperty("costo_total")
     @Column(name = "costo_total", nullable = true)
     private double costoTotal;
-    @ManyToOne
-    @JsonProperty("medida")
-    @JoinColumn(name = "medida_id", nullable = true)
-    private Medida medida;
     @ManyToOne
     @JsonProperty("proveedor")
     @JoinColumn(name = "proveedor_id", nullable = true)
@@ -70,8 +63,8 @@ public class Kardex extends Entidad {
     }
 
     public Kardex(String codigo, Date fecha, String documento, String numero, String operacion, double entrada, long salida,
-                  double debe, double haber, long cantidad, double costoUnitario, double costoPromedio,double costoTotal,
-                  Medida medida, Proveedor proveedor,Producto producto){
+                  double debe, double haber, long cantidad, double costoPromedio,
+                  double costoTotal, Proveedor proveedor,Producto producto){
         super(codigo);
         this.fecha=fecha;
         this.documento=documento;
@@ -82,10 +75,9 @@ public class Kardex extends Entidad {
         this.debe=debe;
         this.haber=haber;
         this.cantidad=cantidad;
-        this.costoUnitario=costoUnitario;
+//        this.costoUnitario=costoUnitario;
         this.costoPromedio=costoPromedio;
         this.costoTotal=costoTotal;
-        this.medida=medida;
         this.proveedor=proveedor;
         this.producto=producto;
     }
@@ -130,10 +122,6 @@ public class Kardex extends Entidad {
 		return costoPromedio;
 	}
     
-    public Medida getMedida() {
-		return medida;
-	}
-
     public Proveedor getProveedor() {
         return proveedor;
     }
@@ -141,10 +129,6 @@ public class Kardex extends Entidad {
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
     }
-
-    public double getCostoUnitario() {
-		return costoUnitario;
-	}
 
     public long getCantidad() {
         return cantidad;

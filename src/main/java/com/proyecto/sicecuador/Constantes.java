@@ -131,7 +131,6 @@ public class Constantes {
     public static final String tabla_sub_linea_producto="sub_linea_producto";
     public static final String tabla_equivalencia_medida="tabla_equivalencia_medida";
     public static final String tabla_tipo_gasto="tipo_gasto";
-    public static final String tabla_tipo_producto="tipo_producto";
     
     //RECAUDACION
     public static final String tabla_amortizacion="amortizacion";

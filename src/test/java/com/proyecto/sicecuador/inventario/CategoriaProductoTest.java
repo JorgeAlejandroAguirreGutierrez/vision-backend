@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathTipoProducto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathCategoriaProducto;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -32,7 +32,7 @@ import java.util.Base64;
 @SpringBootTest
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TipoProductoTest {
+public class CategoriaProductoTest {
 	
 	@Autowired
     private MockMvc mockMvc;
@@ -49,34 +49,34 @@ public class TipoProductoTest {
     }
 
     @Test
-    public void testA1WhenCreateTipoProductoSuccess() throws Exception {
-    	String filename = TipoProductoTest.class.getResource("/testdata/inventario/TipoProducto.json").getPath();
+    public void testA1WhenCreateCategoriaProductoSuccess() throws Exception {
+    	String filename = CategoriaProductoTest.class.getResource("/testdata/inventario/CategoriaProducto.json").getPath();
     	String tipoGasto=readFileAsString(filename);
-    	this.mockMvc.perform(post(contexto+pathTipoProducto).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+    	this.mockMvc.perform(post(contexto+pathCategoriaProducto).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
                 .content(tipoGasto))
                 .andExpect(status().isOk());
     }
     @Test
-    public void testA2WhenFindAllTipoProductoSuccess() throws Exception {
-        this.mockMvc.perform(get(contexto+pathTipoProducto).header("Authorization", "Basic " + token)
+    public void testA2WhenFindAllCategoriaProductoSuccess() throws Exception {
+        this.mockMvc.perform(get(contexto+pathCategoriaProducto).header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
     }
     
     @Test
-    public void testA3WhenFindByIdTipoProductoSuccess() throws Exception {
-    	this.mockMvc.perform(get(contexto+pathTipoProducto+"/"+"1").header("Authorization", "Basic " + token)
+    public void testA3WhenFindByIdCategoriaProductoSuccess() throws Exception {
+    	this.mockMvc.perform(get(contexto+pathCategoriaProducto+"/"+"1").header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
     }
     
     @Test
-    public void testA4WhenUpdateTipoProductoSuccess() throws Exception {
-    	String filename = TipoProductoTest.class.getResource("/testdata/inventario/TipoProductoUpdate.json").getPath();
+    public void testA4WhenUpdateCategoriaProductoSuccess() throws Exception {
+    	String filename = CategoriaProductoTest.class.getResource("/testdata/inventario/CategoriaProductoUpdate.json").getPath();
     	String tipoGasto=readFileAsString(filename);
-    	this.mockMvc.perform(put(contexto+pathTipoProducto).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+    	this.mockMvc.perform(put(contexto+pathCategoriaProducto).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
                 .content(tipoGasto))
                 .andExpect(status().isOk());
     }

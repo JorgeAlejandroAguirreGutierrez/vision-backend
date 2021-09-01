@@ -24,9 +24,9 @@ public class Producto extends Entidad {
     @Column(name = "serie_autogenerado", nullable = true)
     private boolean serieAutogenerado;
     @ManyToOne
-    @JsonProperty("tipo_producto")
-    @JoinColumn(name = "tipo_producto_id", nullable = true)
-    private TipoProducto tipoProducto;
+    @JsonProperty("categoria_producto")
+    @JoinColumn(name = "categoria_producto_id", nullable = true)
+    private CategoriaProducto categoriaProducto;
     @ManyToOne
     @JsonProperty("tipo_gasto")
     @JoinColumn(name = "tipo_gasto_id", nullable = true)
@@ -59,6 +59,11 @@ public class Producto extends Entidad {
     private List<Caracteristica> caracteristicas;
     
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JsonProperty("precios")
+    @JoinColumn(name = "producto_id", nullable = true)
+    private List<Precio> precios;
+        
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("producto_proveedor")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoProveedor> productosProveedores;
@@ -80,14 +85,14 @@ public class Producto extends Entidad {
 
     public Producto(String codigo, String nombre, boolean consignacion, String estado,
                     boolean serieAutogenerado, TipoGasto tipoGasto,
-                    TipoProducto tipoProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex) {
+                    CategoriaProducto categoriaProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex) {
         super(codigo);
         this.nombre = nombre;
         this.consignacion = consignacion;
         this.estado = estado;
         this.serieAutogenerado = serieAutogenerado;
         this.tipoGasto = tipoGasto;
-        this.tipoProducto = tipoProducto;
+        this.categoriaProducto = categoriaProducto;
         this.impuesto = impuesto;
         this.grupoProducto = grupoProducto;
         this.medidaKardex = medidaKardex;
@@ -98,7 +103,7 @@ public class Producto extends Entidad {
         estado=datos.get(2)== null ? null: datos.get(2);
         serieAutogenerado=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
         tipoGasto=datos.get(4)== null ? null: new TipoGasto((long) Double.parseDouble(datos.get(4)));
-        tipoProducto=datos.get(5)== null ? null: new TipoProducto((long) Double.parseDouble(datos.get(5)));
+        categoriaProducto=datos.get(5)== null ? null: new CategoriaProducto((long) Double.parseDouble(datos.get(5)));
         impuesto=datos.get(6)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(6)));
         grupoProducto=datos.get(7)== null ? null: new GrupoProducto((long) Double.parseDouble(datos.get(7)));
         medidaKardex=datos.get(8)== null ? null: new Medida((long) Double.parseDouble(datos.get(8)));
@@ -133,8 +138,8 @@ public class Producto extends Entidad {
     	this.medidaKardex = medidaKardex;
     }
     
-    public TipoProducto getTipoProducto() {
-		return tipoProducto;
+    public CategoriaProducto getCategoriaProducto() {
+		return categoriaProducto;
 	}
 
     public Impuesto getImpuesto() {
@@ -163,6 +168,11 @@ public class Producto extends Entidad {
     public List<Caracteristica> getCaracteristicas() {
         return caracteristicas;
     }
+    
+    @JsonManagedReference
+    public List<Precio> getPrecios() {
+		return precios;
+	}
 
 
     public void normalizar(){
