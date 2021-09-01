@@ -21,9 +21,9 @@ public class MedidaPrecio extends Entidad {
     private Producto producto;
 /*    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("precios")
-    @JoinColumn(name = "medida_precio_id", nullable = true)*/
+    @JoinColumn(name = "medida_precio_id", nullable = true)
     
-    private List<Precio> precios;
+    private List<Precio> precios;*/
 
     public MedidaPrecio(){
         super();
@@ -45,11 +45,11 @@ public class MedidaPrecio extends Entidad {
         return medida;
     }
 
-    @JsonManagedReference
+/*    @JsonManagedReference
     public List<Precio> getPrecios() {
         return precios;
     }
-
+*/
     @JsonBackReference
     public Producto getProducto() {
         return producto;
