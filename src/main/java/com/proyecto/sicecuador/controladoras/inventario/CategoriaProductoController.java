@@ -1,14 +1,14 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathTipoProducto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathCategoriaProducto;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.inventario.TipoProducto;
-import com.proyecto.sicecuador.servicios.interf.inventario.ITipoProductoService;
+import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
+import com.proyecto.sicecuador.servicios.interf.inventario.ICategoriaProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,50 +24,50 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+pathTipoProducto)
-public class TipoProductoController implements GenericoController<TipoProducto> {
+@RequestMapping(contexto+pathCategoriaProducto)
+public class CategoriaProductoController implements GenericoController<CategoriaProducto> {
     @Autowired
-    private ITipoProductoService servicio;
+    private ICategoriaProductoService servicio;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<TipoProducto> tipos_productos=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_productos);
+        List<CategoriaProducto> categorias_productos=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, categorias_productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<TipoProducto> tipos_productos = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_productos);
+    	Page<CategoriaProducto> categorias_productos = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, categorias_productos);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<TipoProducto> tipo_producto=servicio.obtener(new TipoProducto(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_producto);
+        Optional<CategoriaProducto> categoria_producto=servicio.obtener(new CategoriaProducto(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, categoria_producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid TipoProducto _tipo_producto) {
-        TipoProducto tipo_producto=servicio.crear(_tipo_producto);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_producto);
+    public ResponseEntity<?> crear(@RequestBody @Valid CategoriaProducto _categoria_producto) {
+        CategoriaProducto categoria_producto=servicio.crear(_categoria_producto);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, categoria_producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody TipoProducto _tipo_producto) {
-        TipoProducto tipo_producto=servicio.actualizar(_tipo_producto);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_producto);
+    public ResponseEntity<?> actualizar(@RequestBody CategoriaProducto _categoria_producto) {
+        CategoriaProducto categoria_producto=servicio.actualizar(_categoria_producto);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, categoria_producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        TipoProducto tipo_producto=servicio.eliminar(new TipoProducto(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_producto);
+        CategoriaProducto categoria_producto=servicio.eliminar(new CategoriaProducto(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, categoria_producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

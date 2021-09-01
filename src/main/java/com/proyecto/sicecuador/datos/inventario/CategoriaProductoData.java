@@ -2,9 +2,9 @@ package com.proyecto.sicecuador.datos.inventario;
 
 import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
-import com.proyecto.sicecuador.modelos.inventario.TipoProducto;
+import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
 import com.proyecto.sicecuador.repositorios.inventario.IPrecioRepository;
-import com.proyecto.sicecuador.repositorios.inventario.ITipoProductoRepository;
+import com.proyecto.sicecuador.repositorios.inventario.ICategoriaProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -19,18 +19,18 @@ import java.util.Optional;
 @Component
 @Order(40)
 @Profile({"dev","prod"})
-public class TipoProductoData implements ApplicationRunner {
+public class CategoriaProductoData implements ApplicationRunner {
     @Autowired
-    private ITipoProductoRepository rep;
+    private ICategoriaProductoRepository rep;
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Optional<TipoProducto> ant=rep.findById((long) 1);
+        Optional<CategoriaProducto> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<TipoProducto> tipos_productos = new ArrayList<>();
-            tipos_productos.add(new TipoProducto("TPR011907000001", "BIEN", "BIEN", "B"));
-            tipos_productos.add(new TipoProducto("TPR011907000002", "SERVICIO", "SERVICIO", "S"));
-            tipos_productos.add(new TipoProducto("TPR011907000003", "ACTIVO FIJO", "ACTIVOFIJO", "AF"));
-            rep.saveAll(tipos_productos);
+            List<CategoriaProducto> categorias_productos = new ArrayList<>();
+            categorias_productos.add(new CategoriaProducto("TPR011907000001", "BIEN", "BIEN", "B"));
+            categorias_productos.add(new CategoriaProducto("TPR011907000002", "SERVICIO", "SERVICIO", "S"));
+            categorias_productos.add(new CategoriaProducto("TPR011907000003", "ACTIVO FIJO", "ACTIVOFIJO", "AF"));
+            rep.saveAll(categorias_productos);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
@@ -26,6 +27,10 @@ public class Medida extends Entidad {
 	@JsonProperty("estado")
     @Column(name = "estado", nullable = true)
     private String estado;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JsonProperty("precios")
+    @JoinColumn(name = "medida_id", nullable = true)
+    private List<Precio> precios;
 
 	public Medida(){
         super();
@@ -61,6 +66,10 @@ public class Medida extends Entidad {
     public String getEstado() {
         return estado;
     }
+    @JsonManagedReference
+    public List<Precio> getPrecios() {
+		return precios;
+	}   
     
     public void setTipo(String tipo) {
         this.tipo=tipo;
