@@ -1,10 +1,14 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -33,9 +37,6 @@ public class Segmento extends Entidad {
     public Segmento(long id){
         super(id);
     }
-/*    public Segmento(String codigo){
-        super(codigo);
-    }*/
     public Segmento(String codigo, String descripcion, double margenGanancia, String estado){
         super(codigo);
         this.descripcion=descripcion;
@@ -61,7 +62,6 @@ public class Segmento extends Entidad {
     public String getEstado() {
         return estado;
     }
-    
     public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
