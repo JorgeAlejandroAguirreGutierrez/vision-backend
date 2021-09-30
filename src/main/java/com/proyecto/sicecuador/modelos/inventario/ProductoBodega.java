@@ -4,14 +4,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "producto_proveedor")
-public class ProductoProveedor extends Entidad {
+@Table(name = "producto_bodega")
+public class ProductoBodega extends Entidad {
     
 	@JsonBackReference
 	@ManyToOne
@@ -19,29 +18,31 @@ public class ProductoProveedor extends Entidad {
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
-    @JsonProperty("proveedor")
-    @JoinColumn(name = "proveedor_id", nullable = true)
-    private Proveedor proveedor;
+    @JsonProperty("bodega")
+    @JoinColumn(name = "bodega_id", nullable = true)
+    private Bodega bodega;
 
-    public ProductoProveedor(){
+    public ProductoBodega(){
         super();
     }
 
-    public ProductoProveedor(long id){
+    public ProductoBodega(long id){
         super(id);
     }
 
-    public ProductoProveedor(String codigo, Producto producto, Proveedor proveedor){
+    public ProductoBodega(String codigo, Producto producto, Bodega bodega){
         super(codigo);
         this.producto=producto;
-        this.proveedor=proveedor;
+        this.bodega=bodega;
     }
    
     
-
-    public Proveedor getProveedor() {
-        return proveedor;
+    public Bodega getBodega() {
+        return bodega;
     }
+    public void setBodega(Bodega bodega) {
+		this.bodega = bodega;
+	}
 
  /*   public Producto getProducto() {
         return producto;

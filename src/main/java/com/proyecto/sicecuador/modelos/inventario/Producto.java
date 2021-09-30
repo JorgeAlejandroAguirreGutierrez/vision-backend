@@ -20,6 +20,10 @@ public class Producto extends Entidad {
 	@JsonProperty("estado")
     @Column(name = "estado", nullable = true)
     private String estado;
+	@JsonProperty("stock_total")
+    @Column(name = "stock_total", nullable = true)
+    private double stockTotal;
+		
 	@JsonProperty("serie_autogenerado")
     @Column(name = "serie_autogenerado", nullable = true)
     private boolean serieAutogenerado;
@@ -44,30 +48,32 @@ public class Producto extends Entidad {
     @JsonProperty("medida_kardex")
     @JoinColumn(name = "medida_kardex_id", nullable = true)
     private Medida medidaKardex;
-    
+    @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("kardexs")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Kardex> kardexs;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonProperty("medidas_precios")
-    @JoinColumn(name = "producto_id", nullable = true)
-    private List<MedidaPrecio> medidasPrecios;
+    @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("caracteristicas")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Caracteristica> caracteristicas;
-    
+    //crear precios a partir de productos
+    @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("precios")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Precio> precios;
-        
+    @JsonManagedReference    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonProperty("producto_proveedor")
+    @JsonProperty("productos_proveedores")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoProveedor> productosProveedores;
-    
+    @JsonManagedReference    
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JsonProperty("productos_bodegas")
+    @JoinColumn(name = "producto_id", nullable = true)
+    private List<ProductoBodega> productosBodegas;
     
     
     public Producto() {
@@ -154,27 +160,35 @@ public class Producto extends Entidad {
     	return medidaKardex;
     }
 
-    @JsonManagedReference
     public List<Kardex> getKardexs() {
         return kardexs;
     }
 
-    @JsonManagedReference
-    public List<MedidaPrecio> getMedidasPrecios() {
-		return medidasPrecios;
-	}
-
-    @JsonManagedReference
     public List<Caracteristica> getCaracteristicas() {
         return caracteristicas;
     }
     
-    @JsonManagedReference
     public List<Precio> getPrecios() {
 		return precios;
 	}
+    
+    public List<ProductoProveedor> getProductosProveedores(){
+    	return productosProveedores;
+    	
+    }
 
-
+    public void setProductosProveedores(List<ProductoProveedor> productosProveedores) {
+    	this.productosProveedores = productosProveedores;
+    }
+    
+    public List<ProductoBodega> getProductosBodegas() {
+		return productosBodegas;
+	}
+    
+    public void setProductosBodegas(List<ProductoBodega> productosBodegas) {
+		this.productosBodegas = productosBodegas;
+	}
+    
     public void normalizar(){
         for(int i=0; i<kardexs.size(); i++){
             if (kardexs.get(i).getProveedor().getId()==0){

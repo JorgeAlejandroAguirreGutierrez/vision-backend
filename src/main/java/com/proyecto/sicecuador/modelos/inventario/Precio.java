@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
@@ -31,16 +32,17 @@ public class Precio extends Entidad {
 	@JsonProperty("utilidad_porcentaje")
     @Column(name = "utilidad_porcentaje", nullable = true)
     private double utilidadPorcentaje;
-    @ManyToOne
+    @JsonBackReference
+	@ManyToOne
     @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
-    @ManyToOne
+	@ManyToOne
     @JsonProperty("medida")
     @JoinColumn(name = "medida_id", nullable = true)
     private Medida medida;
-
     @ManyToOne
+    @JsonProperty("segmento")
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
 
@@ -99,12 +101,9 @@ public class Precio extends Entidad {
     public double getUtilidadPorcentaje() {
 		return utilidadPorcentaje;
 	}
-    
-    @JsonBackReference
     public Producto getProducto() {
 		return producto;
 	}
-    @JsonBackReference
     public Medida getMedida() {
 		return medida;
 	}
@@ -112,8 +111,4 @@ public class Precio extends Entidad {
         return segmento;
     }
 
-/*    @JsonBackReference
-    public MedidaPrecio getMedidaPrecio() {
-		return medidaPrecio;
-	}*/
 }
