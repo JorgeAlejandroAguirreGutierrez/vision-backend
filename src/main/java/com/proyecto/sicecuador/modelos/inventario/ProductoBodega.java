@@ -12,11 +12,12 @@ import java.util.List;
 @Table(name = "producto_bodega")
 public class ProductoBodega extends Entidad {
     
-	@JsonBackReference
+/*	@JsonBackReference
 	@ManyToOne
     @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
+    */
     @ManyToOne
     @JsonProperty("bodega")
     @JoinColumn(name = "bodega_id", nullable = true)
@@ -30,9 +31,9 @@ public class ProductoBodega extends Entidad {
         super(id);
     }
 
-    public ProductoBodega(String codigo, Producto producto, Bodega bodega){
+    public ProductoBodega(String codigo, Bodega bodega){
         super(codigo);
-        this.producto=producto;
+       // this.producto=producto;
         this.bodega=bodega;
     }
    
