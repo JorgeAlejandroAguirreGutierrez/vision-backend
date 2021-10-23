@@ -48,7 +48,13 @@ public class Producto extends Entidad {
     @JsonProperty("medida_kardex")
     @JoinColumn(name = "medida_kardex_id", nullable = true)
     private Medida medidaKardex;
-    @JsonManagedReference
+    
+    @ManyToOne
+    @JsonProperty("bodega")
+    @JoinColumn(name = "bodega_id", nullable = true)
+    private Bodega bodega;
+    
+//    @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("kardexs")
     @JoinColumn(name = "producto_id", nullable = true)
@@ -69,12 +75,12 @@ public class Producto extends Entidad {
     @JsonProperty("productos_proveedores")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoProveedor> productosProveedores;
-    @JsonManagedReference    
+ /*   @JsonManagedReference    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("productos_bodegas")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoBodega> productosBodegas;
-    
+*/    
     
     public Producto() {
         super();
@@ -91,7 +97,7 @@ public class Producto extends Entidad {
 
     public Producto(String codigo, String nombre, boolean consignacion, String estado,
                     boolean serieAutogenerado, TipoGasto tipoGasto,
-                    CategoriaProducto categoriaProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex) {
+                    CategoriaProducto categoriaProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex, Bodega bodega) {
         super(codigo);
         this.nombre = nombre;
         this.consignacion = consignacion;
@@ -102,6 +108,7 @@ public class Producto extends Entidad {
         this.impuesto = impuesto;
         this.grupoProducto = grupoProducto;
         this.medidaKardex = medidaKardex;
+        this.bodega = bodega;
     }
     public Producto(List<String>datos){
         nombre=datos.get(0)== null ? null: datos.get(0);
@@ -113,6 +120,7 @@ public class Producto extends Entidad {
         impuesto=datos.get(6)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(6)));
         grupoProducto=datos.get(7)== null ? null: new GrupoProducto((long) Double.parseDouble(datos.get(7)));
         medidaKardex=datos.get(8)== null ? null: new Medida((long) Double.parseDouble(datos.get(8)));
+        bodega=datos.get(9)== null ? null: new Bodega((long) Double.parseDouble(datos.get(9)));
         
     }
 
@@ -159,7 +167,15 @@ public class Producto extends Entidad {
     public Medida getMedidaKardex() {
     	return medidaKardex;
     }
+    
+    public Bodega getBodega() {
+		return bodega;
+	}
 
+    public void setBodega(Bodega bodega) {
+		this.bodega = bodega;
+	}
+    
     public List<Kardex> getKardexs() {
         return kardexs;
     }
@@ -181,14 +197,14 @@ public class Producto extends Entidad {
     	this.productosProveedores = productosProveedores;
     }
     
-    public List<ProductoBodega> getProductosBodegas() {
+ /*   public List<ProductoBodega> getProductosBodegas() {
 		return productosBodegas;
 	}
     
     public void setProductosBodegas(List<ProductoBodega> productosBodegas) {
 		this.productosBodegas = productosBodegas;
 	}
-    
+    */
     public void normalizar(){
         for(int i=0; i<kardexs.size(); i++){
             if (kardexs.get(i).getProveedor().getId()==0){
