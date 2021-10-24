@@ -49,6 +49,7 @@ public class Kardex extends Entidad {
     @JsonProperty("proveedor")
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
+    @JsonBackReference
     @ManyToOne
     @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
@@ -138,7 +139,6 @@ public class Kardex extends Entidad {
 		return costoTotal;
 	}
 
-    @JsonBackReference
     public Producto getProducto() {
         return producto;
     }
