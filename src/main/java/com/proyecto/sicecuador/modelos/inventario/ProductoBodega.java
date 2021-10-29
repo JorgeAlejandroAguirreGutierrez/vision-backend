@@ -17,6 +17,7 @@ public class ProductoBodega extends Entidad {
     @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
+    
     @ManyToOne
     @JsonProperty("bodega")
     @JoinColumn(name = "bodega_id", nullable = true)
@@ -40,11 +41,8 @@ public class ProductoBodega extends Entidad {
     public Bodega getBodega() {
         return bodega;
     }
-    public void setBodega(Bodega bodega) {
-		this.bodega = bodega;
-	}
 
- /*   public Producto getProducto() {
+    public Producto getProducto() {
         return producto;
-    }*/
+    }
 }

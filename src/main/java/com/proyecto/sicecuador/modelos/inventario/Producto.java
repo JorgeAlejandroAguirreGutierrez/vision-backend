@@ -48,6 +48,8 @@ public class Producto extends Entidad {
     @JsonProperty("medida_kardex")
     @JoinColumn(name = "medida_kardex_id", nullable = true)
     private Medida medidaKardex;
+    
+    //corregir agregar jsonbackreference
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("kardexs")
@@ -69,12 +71,14 @@ public class Producto extends Entidad {
     @JsonProperty("productos_proveedores")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoProveedor> productosProveedores;
+ //esto esta aplicado en la versión de george
+    //no olvidar
     @JsonManagedReference    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JsonProperty("productos_bodegas")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoBodega> productosBodegas;
-    
+  
     
     public Producto() {
         super();
@@ -91,7 +95,7 @@ public class Producto extends Entidad {
 
     public Producto(String codigo, String nombre, boolean consignacion, String estado,
                     boolean serieAutogenerado, TipoGasto tipoGasto,
-                    CategoriaProducto categoriaProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex) {
+                    CategoriaProducto categoriaProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex, Bodega bodega) {
         super(codigo);
         this.nombre = nombre;
         this.consignacion = consignacion;
@@ -159,7 +163,8 @@ public class Producto extends Entidad {
     public Medida getMedidaKardex() {
     	return medidaKardex;
     }
-
+    
+    
     public List<Kardex> getKardexs() {
         return kardexs;
     }
@@ -183,10 +188,6 @@ public class Producto extends Entidad {
     
     public List<ProductoBodega> getProductosBodegas() {
 		return productosBodegas;
-	}
-    
-    public void setProductosBodegas(List<ProductoBodega> productosBodegas) {
-		this.productosBodegas = productosBodegas;
 	}
     
     public void normalizar(){
