@@ -1,42 +1,30 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "vehiculo_transporte")
 public class VehiculoTransporte extends Entidad {
-	@JsonProperty("placa")
     @Column(name = "placa", nullable = true)
     private String placa;
-	@JsonProperty("numero")
     @Column(name = "numero", nullable = true)
     private String numero;
-	@JsonProperty("marca")
     @Column(name = "marca", nullable = true)
     private String marca;
-	@JsonProperty("modelo")
     @Column(name = "modelo", nullable = true)
     private String modelo;
-	@JsonProperty("anio")
     @Column(name = "anio", nullable = true)
     private String anio;
-	@JsonProperty("cilindraje")
     @Column(name = "cilindraje", nullable = true)
     private String cilindraje;
-	@JsonProperty("clase")
     @Column(name = "clase", nullable = true)
     private String clase;
-	@JsonProperty("color")
     @Column(name = "color", nullable = true)
     private String color;
-	@JsonProperty("fabricacion")
     @Column(name = "fabricacion", nullable = true)
     private String fabricacion;
-	@JsonProperty("activo")
     @Column(name = "activo", nullable = true)
     private boolean activo;
 	@OneToOne

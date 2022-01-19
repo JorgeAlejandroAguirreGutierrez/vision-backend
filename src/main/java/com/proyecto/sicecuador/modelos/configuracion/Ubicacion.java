@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.configuracion;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -9,16 +8,12 @@ import java.util.List;
 @Entity
 @Table(name = "ubicacion")
 public class Ubicacion extends Entidad {
-	@JsonProperty("codigo_norma")
     @Column(name = "codigo_norma", nullable = true)
     private String codigoNorma;
-	@JsonProperty("provincia")
     @Column(name = "provincia", nullable = true)
     private String provincia;
-	@JsonProperty("canton")
     @Column(name = "canton", nullable = true)
     private String canton;
-	@JsonProperty("parroquia")
     @Column(name = "parroquia", nullable = true)
     private String parroquia;
 

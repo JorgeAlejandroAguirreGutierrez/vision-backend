@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -10,44 +9,31 @@ import java.util.List;
 @Entity
 @Table(name = "credito")
 public class Credito extends Entidad {
-	@JsonProperty("saldo")
     @Column(name = "saldo", nullable = true)
     private double saldo;
-	@JsonProperty("tasa_interes_anual")
     @Column(name = "tasa_interes_anual", nullable = true)
     private double tasaInteresAnual;
-	@JsonProperty("periodicidad")
     @Column(name = "periodicidad", nullable = true)
     private String periodicidad;
-	@JsonProperty("periodicidad_numero")
     @Column(name = "periodicidad_numero", nullable = true)
     private int periodicidadNumero;
-	@JsonProperty("periodicidad_total")
     @Column(name = "periodicidad_total", nullable = true)
     private int periodicidadTotal;
-	@JsonProperty("tasa_periodo")
     @Column(name = "tasa_periodo", nullable = true)
     private double tasaPeriodo;
-	@JsonProperty("cuotas")
     @Column(name = "cuotas", nullable = true)
     private long cuotas;
-	@JsonProperty("fecha_primera_cuota")
     @Column(name = "fecha_primera_cuota", nullable = true)
     private Date fechaPrimeraCuota;
-	@JsonProperty("fecha_consecion")
     @Column(name = "fecha_consecion", nullable = true)
     private Date fechaConsecion;
-	@JsonProperty("dividendo")
     @Column(name = "dividendo", nullable = true)
     private double dividendo;
-	@JsonProperty("tipo")
     @Column(name = "tipo", nullable = true)
     private String tipo;
-	@JsonProperty("sin_intereses")
     @Column(name = "sin_intereses", nullable = true)
     private boolean sinIntereses;
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JsonProperty("amortizaciones")
     @JoinColumn(name = "credito_id", nullable = true)
     private List<Amortizacion> amortizaciones;
 

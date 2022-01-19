@@ -1,19 +1,14 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "cuenta_propia")
 public class CuentaPropia extends Entidad {
-	@JsonProperty("numero")
     @Column(name = "numero", nullable = true)
     private String numero;
     @ManyToOne
-    @JsonProperty("banco")
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
 

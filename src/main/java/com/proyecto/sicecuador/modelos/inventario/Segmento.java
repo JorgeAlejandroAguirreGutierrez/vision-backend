@@ -1,14 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -19,15 +12,12 @@ import java.util.List;
 public class Segmento extends Entidad {
 	@NotNull
 	@NotEmpty
-	@JsonProperty("descripcion")
     @Column(name = "descripcion")
     private String descripcion;
-	@JsonProperty("margen_ganancia")
     @Column(name = "margen_ganancia", nullable = true)
     private double margenGanancia;
 	@NotNull
 	@NotEmpty
-	@JsonProperty("estado")
     @Column(name = "estado")
     private String estado;
 	

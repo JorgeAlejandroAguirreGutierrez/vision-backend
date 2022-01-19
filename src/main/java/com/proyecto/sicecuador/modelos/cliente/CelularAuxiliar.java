@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -13,11 +12,9 @@ import javax.validation.constraints.NotNull;
 public class CelularAuxiliar extends Entidad {
     @NotNull
     @NotBlank
-    @JsonProperty("numero")
     @Column(name = "numero")
     private String numero;
     @NotNull
-    @JsonProperty("auxiliar")
     @ManyToOne
     @JoinColumn(name = "auxiliar_id")
     private Auxiliar auxiliar;

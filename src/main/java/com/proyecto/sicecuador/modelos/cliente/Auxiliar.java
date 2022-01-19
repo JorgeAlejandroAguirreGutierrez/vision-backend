@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -14,34 +13,26 @@ import java.util.List;
 public class Auxiliar extends Entidad {
     @NotNull
     @NotBlank
-    @JsonProperty("razon_social")
     @Column(name = "razon_social", nullable = true)
     private String razonSocial;
     @NotNull
-    @JsonProperty("estado")
     @Column(name = "estado")
     private boolean estado;
     @NotNull
-    @JsonProperty("eliminado")
     @Column(name = "eliminado")
     private boolean eliminado;
-    @JsonProperty("direccion")
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
-    @JsonProperty("cliente")
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
-    @JsonProperty("telefonos_auxiliar")
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
     private List<TelefonoAuxiliar> telefonosAuxiliar;
-    @JsonProperty("celulares_auxiliar")
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true,  fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
     private List<CelularAuxiliar> celularesAuxiliar;
-    @JsonProperty("correos_auxiliar")
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "auxiliar_id")
     private List<CorreoAuxiliar> correosAuxiliar;

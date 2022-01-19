@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
@@ -15,89 +14,68 @@ import java.util.List;
 public class Cliente extends Entidad {
     @NotNull
     @NotEmpty
-    @JsonProperty("tipo_identificacion")
     @Column(name = "tipo_identificacion")
     private String tipoIdentificacion;
     @NotNull
     @NotEmpty
-    @JsonProperty("identificacion")
     @Column(name = "identificacion")
     private String identificacion;
     @NotNull
     @NotEmpty
-    @JsonProperty("razon_social")
     @Column(name = "razon_social")
     private String razonSocial;
-    @JsonProperty("especial")
     @Column(name = "especial")
     private boolean especial;
-    @JsonProperty("estado")
     @Column(name = "estado")
     private String estado;
-    @JsonProperty("eliminado")
     @Column(name = "eliminado")
     private boolean eliminado;
     @NotNull
-    @JsonProperty("tipo_contribuyente")
     @ManyToOne
     @JoinColumn(name = "tipo_contribuyente_id", nullable = false)
     private TipoContribuyente tipoContribuyente;
     @NotNull
-    @JsonProperty("punto_venta")
     @ManyToOne
     @JoinColumn(name = "punto_venta_id")
     private PuntoVenta puntoVenta;
     @NotNull
-    @JsonProperty("grupo_cliente")
     @ManyToOne
     @JoinColumn(name = "grupo_cliente_id")
     private GrupoCliente grupoCliente;
-    @JsonProperty("direccion")
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "direccion_id", nullable = true)
     private Direccion direccion;
-    @JsonProperty("financiamiento")
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "financiamiento_id", nullable = true)
     private Financiamiento financiamiento;
-    @JsonProperty("genero")
     @ManyToOne
     @JoinColumn(name = "genero_id", nullable = true)
     private Genero genero;
-    @JsonProperty("estado_civil")
     @ManyToOne
     @JoinColumn(name = "estado_civil_id", nullable = true)
     private EstadoCivil estadoCivil;
-    @JsonProperty("calificacion_cliente")
     @ManyToOne
     @JoinColumn(name = "calificacion_cliente_id", nullable = true)
     private CalificacionCliente calificacionCliente;
-    @JsonProperty("origen_ingreso")
     @ManyToOne
     @JoinColumn(name = "origen_ingreso_id", nullable = true)
     private OrigenIngreso origenIngreso;
-    @JsonProperty("segmento")
     @ManyToOne
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
 
-    @JsonProperty("auxiliares")
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Auxiliar> auxiliares;
-    @JsonProperty("telefonos")
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Telefono> telefonos;
-    @JsonProperty("celulares")
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Celular> celulares;
-    @JsonProperty("correos")
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Correo> correos;
-    @JsonProperty("retenciones_cliente")
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<RetencionCliente> retencionesCliente;
@@ -277,10 +255,6 @@ public class Cliente extends Entidad {
     public void setEliminado(boolean eliminado) {
         this.eliminado = eliminado;
     }
-
-    public void setCalificacionCliente(CalificacionCliente calificacionaCliente) {
-		this.calificacionCliente = calificacionCliente;
-	}
 
     public void setEstadoCivil(EstadoCivil estadoCivil) {
 		this.estadoCivil = estadoCivil;

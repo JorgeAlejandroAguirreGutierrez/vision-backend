@@ -1,8 +1,5 @@
 package com.proyecto.sicecuador.modelos.inventario;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,14 +7,11 @@ import java.util.List;
 @Table(name = "tabla_equivalencia_medida")
 public class TablaEquivalenciaMedida extends Entidad {
     @ManyToOne
-    @JsonProperty("medida1")
     @JoinColumn(name = "medida1_id", nullable = true)
     private Medida medida1;
     @ManyToOne
-    @JsonProperty("medida2")
     @JoinColumn(name = "medida2_id", nullable = true)
     private Medida medida2;
-    @JsonProperty("equivalencia")
     @Column(name = "equivalencia", nullable = true)
     private double equivalencia;
 

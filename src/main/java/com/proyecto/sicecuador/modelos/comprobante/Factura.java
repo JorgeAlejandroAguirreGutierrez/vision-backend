@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.comprobante;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
@@ -16,95 +15,71 @@ import java.util.List;
 @Entity
 @Table(name = "factura")
 public class Factura extends Entidad {
-	@JsonProperty("secuencia")
 	@Column(name = "secuencia", nullable = true)
 	private String secuencia;
-	@JsonProperty("fecha")
 	@Column(name = "fecha", nullable = true)
 	private Date fecha;
-	@JsonProperty("estado")
 	@Column(name = "estado", nullable = true)
 	private boolean estado;
-	@JsonProperty("subtotal_sin_descuento")
 	@Column(name = "subtotal_sin_descuento", nullable = true)
 	private double subtotalSinDescuento;
-	@JsonProperty("subtotal_con_descuento")
 	@Column(name = "subtotal_con_descuento", nullable = true)
 	private double subtotalConDescuento;
-	@JsonProperty("descuento_total")
 	@Column(name = "descuento_total", nullable = true)
 	private double descuentoTotal;
-	@JsonProperty("subtotal_base12_sin_descuento")
 	@Column(name = "subtotal_base12_sin_descuento", nullable = true)
 	private double subtotalBase12SinDescuento;
-	@JsonProperty("subtotal_base0_sin_descuento")
 	@Column(name = "subtotal_base0_sin_descuento", nullable = true)
 	private double subtotalBase0SinDescuento;
-	@JsonProperty("subtotal_base12_con_descuento")
 	@Column(name = "subtotal_base12_con_descuento", nullable = true)
 	private double subtotalBase12ConDescuento;
-	@JsonProperty("subtotal_base0_con_descuento")
 	@Column(name = "subtotal_base0_con_descuento", nullable = true)
 	private double subtotalBase0ConDescuento;
-	@JsonProperty("importe_iva_sin_descuento")
 	@Column(name = "importe_iva_sin_descuento", nullable = true)
 	private double importeIvaSinDescuento;
-	@JsonProperty("importe_iva_con_descuento")
 	@Column(name = "importe_iva_con_descuento", nullable = true)
 	private double importeIvaConDescuento;
-	@JsonProperty("total_sin_descuento")
 	@Column(name = "total_sin_descuento", nullable = true)
 	private double totalSinDescuento;
-	@JsonProperty("total_con_descuento")
 	@Column(name = "total_con_descuento", nullable = true)
 	private double totalConDescuento;
 
 	// GENERAL
-	@JsonProperty("valor_descuento_subtotal")
 	@Column(name = "valor_descuento_subtotal", nullable = true)
 	private double valorDescuentoSubtotal;
-	@JsonProperty("porcentaje_descuento_subtotal")
 	@Column(name = "porcentaje_descuento_subtotal", nullable = true)
 	private double porcentajeDescuentoSubtotal;
-	@JsonProperty("valor_descuento_total")
 	@Column(name = "valor_descuento_total", nullable = true)
 	private double valorDescuentoTotal;
-	@JsonProperty("porcentaje_descuento_total")
 	@Column(name = "porcentaje_descuento_total", nullable = true)
 	private double porcentajeDescuentoTotal;
-	@JsonProperty("valor_porcentaje_descuento_total")
+	@Column(name = "valor_porcentaje_descuento_subtotal", nullable = true)
+	private double valorPorcentajeDescuentoSubtotal;
 	@Column(name = "valor_porcentaje_descuento_total", nullable = true)
 	private double valorPorcentajeDescuentoTotal;
 
-	@JsonProperty("comentario")
 	@Column(name = "comentario", nullable = true)
 	private String comentario;
 	@NotNull
 	@ManyToOne
-	@JsonProperty("cliente")
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	@ManyToOne
-	@JsonProperty("cliente_factura")
 	@JoinColumn(name = "cliente_factura_id", nullable = true)
 	private Cliente clienteFactura;
 	@ManyToOne
-	@JsonProperty("auxiliar")
 	@JoinColumn(name = "auxiliar_id", nullable = true)
 	private Auxiliar auxiliar;
 	@NotNull
 	@ManyToOne
-	@JsonProperty("vendedor")
 	@JoinColumn(name = "vendedor_id")
 	private Usuario vendedor;
 	@NotNull
 	@ManyToOne
-	@JsonProperty("sesion")
 	@JoinColumn(name = "sesion_id", nullable = true)
 	private Sesion sesion;
 
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
-	@JsonProperty("factura_detalles")
 	@JoinColumn(name = "factura_id")
 	private List<FacturaDetalle> facturaDetalles;
 
@@ -208,6 +183,10 @@ public class Factura extends Entidad {
 
 	public double getPorcentajeDescuentoTotal() {
 		return porcentajeDescuentoTotal;
+	}
+	
+	public double getValorPorcentajeDescuentoSubtotal() {
+		return valorPorcentajeDescuentoSubtotal;
 	}
 
 	public double getValorPorcentajeDescuentoTotal() {

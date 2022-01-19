@@ -1,10 +1,9 @@
 package com.proyecto.sicecuador.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.Precio;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
-import com.proyecto.sicecuador.repositorios.inventario.IMedidaRepository;
+import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.repositorios.inventario.IPrecioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -27,11 +26,11 @@ public class PrecioData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<Precio> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            /*List<Precio> precios = new ArrayList<>();
-            precios.add(new Precio("PRE011907000001", "", 0, 5.62, new Producto(1)));
-            precios.add(new Precio("PRE011907000002", "", 0, 10.23, new Producto(2)));
-            precios.add(new Precio("PRE011907000003", "", 0, 15.45, new Producto(3)));
-            precios.add(new Precio("PRE011907000004", "", 0, 20, new Producto(4)));
+            List<Precio> precios = new ArrayList<>();
+            precios.add(new Precio("PRE011907000001", 150.0, 10.0, 180.0, 170.0, 180.0, 30.0, 10.0, new Producto(1), new Medida(1), new Segmento(1)));
+            precios.add(new Precio("PRE011907000002", 200.0, 10.0, 220.0, 210.0, 220.0, 20.0, 10.0, new Producto(2), new Medida(2), new Segmento(2)));
+            precios.add(new Precio("PRE011907000003", 250.0, 10.0, 280.0, 260.0, 220.0, 30.0, 10.0, new Producto(3), new Medida(3), new Segmento(3)));
+            /*precios.add(new Precio("PRE011907000004", "", 0, 20, new Producto(4)));
             precios.add(new Precio("PRE011907000005", "", 0, 25, new Producto(5)));
             precios.add(new Precio("PRE011907000006", "", 0, 30.36, new Producto(6)));
             precios.add(new Precio("PRE011907000007", "", 0, 35, new Producto(7)));
@@ -53,8 +52,8 @@ public class PrecioData implements ApplicationRunner {
             precios.add(new Precio("PRE011907000022", "", 0, 80.22, new Producto(22)));
             precios.add(new Precio("PRE011907000023", "", 0, 85, new Producto(23)));
             precios.add(new Precio("PRE011907000024", "", 0, 90, new Producto(24)));
-            precios.add(new Precio("PRE011907000025", "", 0, 95.15, new Producto(25)));
-            rep.saveAll(precios);*/
+            precios.add(new Precio("PRE011907000025", "", 0, 95.15, new Producto(25)));*/
+            rep.saveAll(precios);
         }
     }
 }

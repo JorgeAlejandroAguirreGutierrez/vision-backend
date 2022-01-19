@@ -1,15 +1,11 @@
 package com.proyecto.sicecuador.modelos.inventario;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "tipo_gasto")
 public class TipoGasto extends Entidad {
-	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)
     private String nombre;
 

@@ -1,8 +1,5 @@
 package com.proyecto.sicecuador.modelos.usuario;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -10,23 +7,17 @@ import java.util.List;
 @Entity
 @Table(name = "sesion")
 public class Sesion extends Entidad {
-	@JsonProperty("fecha_apertura")
     @Column(name = "fecha_apertura", nullable = true)
     private Date fechaApertura;
-	@JsonProperty("fecha_cierre")
     @Column(name = "fecha_cierre", nullable = true)
     private Date fechaCierre;
-	@JsonProperty("nombre_pc")
     @Column(name = "nombre_pc", nullable = true)
     private String nombrePC;
-	@JsonProperty("sesion_ip")
     @Column(name = "sesion_ip", nullable = true)
     private String sesionIP;
-	@JsonProperty("activa")
     @Column(name = "activa", nullable = true)
     private boolean activa;
     @ManyToOne
-    @JsonProperty("usuario")
     @JoinColumn(name = "usuario_id", nullable = true)
     private Usuario usuario;
 
