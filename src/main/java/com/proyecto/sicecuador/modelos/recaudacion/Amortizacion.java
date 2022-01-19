@@ -1,9 +1,7 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -11,32 +9,23 @@ import java.util.List;
 @Entity
 @Table(name = "amortizacion")
 public class Amortizacion extends Entidad {
-	@JsonProperty("numero_cuota")
     @Column(name = "numero_cuota", nullable = true)
     private int numeroCuota;
-	@JsonProperty("fecha_pago")
     @Column(name = "fecha_pago", nullable = true)
     private Date fechaPago;
-	@JsonProperty("numero_dias")
     @Column(name = "numero_dias", nullable = true)
     private long numeroDias;
-	@JsonProperty("capital_inicio_periodo")
     @Column(name = "capital_inicio_periodo", nullable = true)
     private double capitalInicioPeriodo;
-	@JsonProperty("capital")
     @Column(name = "capital", nullable = true)
     private double capital;
-	@JsonProperty("interesesPeriodo")
     @Column(name = "intereses_periodo", nullable = true)
     private double interesesPeriodo;
-	@JsonProperty("cuota")
     @Column(name = "cuota", nullable = true)
     private double valorCuota;
-	@JsonProperty("saldo_capital")
     @Column(name = "saldo_capital", nullable = true)
     private double saldoCapital;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JsonProperty("credito")
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
 

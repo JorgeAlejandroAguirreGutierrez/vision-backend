@@ -1,42 +1,30 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tarjeta_credito")
 public class TarjetaCredito extends Entidad {
-	@JsonProperty("diferido")
     @Column(name = "diferido", nullable = true)
     private boolean diferido;
-	@JsonProperty("titular")
     @Column(name = "titular", nullable = true)
     private boolean titular;
-	@JsonProperty("identificacion")
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
-	@JsonProperty("nombre_titular")
     @Column(name = "nombre_titular", nullable = true)
     private String nombreTitular;
-	@JsonProperty("lote")
     @Column(name = "lote", nullable = true)
     private String lote;
-	@JsonProperty("valor")
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
-    @JsonProperty("operador_tarjeta")
     @JoinColumn(name = "operador_tarjeta_id", nullable = true)
     private OperadorTarjeta operadorTarjeta;
     @ManyToOne
-    @JsonProperty("franquicia_tarjeta")
     @JoinColumn(name = "franquicia_tarjeta_id", nullable = true)
     private FranquiciaTarjeta franquiciaTarjeta;
     @ManyToOne
-    @JsonProperty("recaudacion")
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 

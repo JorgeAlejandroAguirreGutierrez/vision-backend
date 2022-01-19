@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 
@@ -10,20 +9,15 @@ import java.util.List;
 @Entity
 @Table(name = "direccion")
 public class Direccion extends Entidad {
-	@JsonProperty("direccion")
     @Column(name = "direccion", nullable = true)
     private String direccion;
-	@JsonProperty("referencia")
     @Column(name = "referencia", nullable = true)
     private String referencia;
-	@JsonProperty("latitudgeo")
     @Column(name = "latitudgeo", nullable = true)
     private String latitudgeo;
-	@JsonProperty("longitudgeo")
     @Column(name = "longitudgeo", nullable = true)
     private String longitudgeo;
     @ManyToOne
-    @JsonProperty("ubicacion")
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
 

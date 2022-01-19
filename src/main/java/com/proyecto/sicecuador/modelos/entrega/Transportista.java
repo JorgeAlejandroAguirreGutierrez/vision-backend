@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -9,17 +8,13 @@ import java.util.List;
 @Entity
 @Table(name = "transportista")
 public class Transportista extends Entidad {
-	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)
     private String nombre;
-	@JsonProperty("identificacion")
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
-	@JsonProperty("vehiculo_propio")
     @Column(name = "vehiculo_propio")
     private boolean vehiculoPropio;
     @OneToOne
-    @JsonProperty("vehiculo_transporte")
     @JoinColumn(name = "vehiculo_transporte_id")
     private VehiculoTransporte vehiculoTransporte;
 

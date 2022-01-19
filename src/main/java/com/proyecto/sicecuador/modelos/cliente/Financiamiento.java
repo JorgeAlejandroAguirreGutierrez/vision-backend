@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -9,19 +8,15 @@ import java.util.List;
 @Entity
 @Table(name = "financiamiento")
 public class Financiamiento extends Entidad {
-	@JsonProperty("monto")
     @Column(name = "monto", nullable = true)
     private double monto;
     @ManyToOne
-    @JsonProperty("tipo_pago")
     @JoinColumn(name = "tipo_pago_id", nullable = true)
     private TipoPago tipoPago;
     @ManyToOne
-    @JsonProperty("forma_pago")
     @JoinColumn(name = "forma_pago_id", nullable = true)
     private FormaPago formaPago;
     @ManyToOne
-    @JsonProperty("plazo_credito")
     @JoinColumn(name = "plazo_credito_id", nullable = true)
     private PlazoCredito plazoCredito;
 

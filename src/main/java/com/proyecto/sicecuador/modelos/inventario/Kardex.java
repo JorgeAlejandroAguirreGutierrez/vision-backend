@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 
@@ -12,46 +11,33 @@ import java.util.List;
 @Entity
 @Table(name = "kardex")
 public class Kardex extends Entidad {
-	@JsonProperty("fecha")
     @Column(name = "fecha", nullable = true)
     private Date fecha;
-	@JsonProperty("documento")
     @Column(name = "documento", nullable = true)
     private String documento;
-	@JsonProperty("numero")
     @Column(name = "numero", nullable = true)
     private String numero;
-	@JsonProperty("operacion")
     @Column(name = "operacion", nullable = true)
     private String operacion;
-	@JsonProperty("entrada")
     @Column(name = "entrada", nullable = true)
     private double entrada;
-	@JsonProperty("salida")
     @Column(name = "salida", nullable = true)
     private long salida;
-	@JsonProperty("debe")
     @Column(name = "debe", nullable = true)
     private double debe;
-	@JsonProperty("haber")
     @Column(name = "haber", nullable = true)
     private double haber;
-	@JsonProperty("cantidad")
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
-	@JsonProperty("costo_promedio")
     @Column(name = "costo_promedio", nullable = true)
     private double costoPromedio;
-	@JsonProperty("costo_total")
     @Column(name = "costo_total", nullable = true)
     private double costoTotal;
     @ManyToOne
-    @JsonProperty("proveedor")
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
     @JsonBackReference
     @ManyToOne
-    @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
 
@@ -76,7 +62,6 @@ public class Kardex extends Entidad {
         this.debe=debe;
         this.haber=haber;
         this.cantidad=cantidad;
-//        this.costoUnitario=costoUnitario;
         this.costoPromedio=costoPromedio;
         this.costoTotal=costoTotal;
         this.proveedor=proveedor;

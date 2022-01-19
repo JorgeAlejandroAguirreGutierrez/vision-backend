@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.proveedor;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -12,30 +11,22 @@ import java.util.List;
 public class Proveedor extends Entidad {
     @NotNull
     @NotEmpty
-    @JsonProperty("tipo_identificacion")
     @Column(name = "tipo_identificacion")
     private String tipoIdentificacion;
     @NotNull
     @NotEmpty
-    @JsonProperty("identificacion")
     @Column(name = "identificacion")
     private String identificacion;
-    @JsonProperty("razon_social")
     @Column(name = "razon_social")
     private String razonSocial;
-    @JsonProperty("estado")
     @Column(name = "estado")
     private String estado;
-    @JsonProperty("eliminado")
     @Column(name = "eliminado")
     private boolean eliminado;
-	@JsonProperty("direccion")
     @Column(name = "direccion", nullable = true)
     private String direccion;
-	@JsonProperty("telefono")
     @Column(name = "telefono", nullable = true)
     private String telefono;
-	@JsonProperty("correo")
     @Column(name = "correo", nullable = true)
     private String correo;
 	

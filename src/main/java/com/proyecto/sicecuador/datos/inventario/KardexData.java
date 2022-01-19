@@ -1,8 +1,8 @@
 package com.proyecto.sicecuador.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
+import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 import com.proyecto.sicecuador.repositorios.inventario.IKardexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(42)
+@Order(44)
 @Profile({"dev","prod"})
 public class KardexData implements ApplicationRunner {
     @Autowired
@@ -26,11 +26,11 @@ public class KardexData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<Kardex> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            /*List<Kardex> kardexs = new ArrayList<>();
-            kardexs.add(new Kardex("KAR012001000001", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000001", "COMPRA", 2, 0, 90, 80, 0, 100.00, 50.0, 90000, null, null, null));
-            kardexs.add(new Kardex("KAR012001000002", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000002", "COMPRA", 1, 0, 130, 120, 0, 106.1538, 60.0, 13800, null, null, null));
-            kardexs.add(new Kardex("KAR012001000003", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000003", "COMPRA", 1, 0, 95, 0, 106.1538, 106.1538, 70.0,  10084.62, null, null, null));
-            kardexs.add(new Kardex("KAR012001000004", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000004", "COMPRA", 1, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
+            List<Kardex> kardexs = new ArrayList<>();
+            kardexs.add(new Kardex("KAR012001000001", Date.valueOf("2021-01-29"), "FACTURA DE COMPRA", "001-001-000001", "COMPRA", 2, 0, 0, 200, 2, 100.00, 200.0, new Proveedor(1), new Producto(1)));
+            kardexs.add(new Kardex("KAR012001000002", Date.valueOf("2021-01-29"), "FACTURA DE COMPRA", "001-001-000002", "COMPRA", 1, 0, 0, 240, 1, 120.0, 240.0, new Proveedor(1), new Producto(2)));
+            kardexs.add(new Kardex("KAR012001000003", Date.valueOf("2021-01-29"), "FACTURA DE COMPRA", "001-001-000003", "COMPRA", 3, 0, 0, 50, 3, 200, 400.0, new Proveedor(1), new Producto(3)));
+            /*kardexs.add(new Kardex("KAR012001000004", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000004", "COMPRA", 1, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
             kardexs.add(new Kardex("KAR012001000005", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000005", "COMPRA", 3, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
             kardexs.add(new Kardex("KAR012001000006", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000006", "COMPRA", 2, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
             kardexs.add(new Kardex("KAR012001000007", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000007", "COMPRA", 3, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54,null, null, null));
@@ -52,7 +52,8 @@ public class KardexData implements ApplicationRunner {
             kardexs.add(new Kardex("KAR012001000023", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
             kardexs.add(new Kardex("KAR012001000024", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
             kardexs.add(new Kardex("KAR012001000025", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            rep.saveAll(kardexs);*/
+            */
+            rep.saveAll(kardexs);
         }
     }
 }

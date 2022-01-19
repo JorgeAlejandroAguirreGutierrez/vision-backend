@@ -1,30 +1,21 @@
 package com.proyecto.sicecuador.modelos.configuracion;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "tipo_retencion")
 public class TipoRetencion extends Entidad {
-	@JsonProperty("impuesto_retencion")
     @Column(name = "impuesto_retencion", nullable = true)
     private String impuestoRetencion;
-	@JsonProperty("tipo_retencion")
     @Column(name = "tipo_retencion", nullable = true)
     private String tipoRetencion;
-	@JsonProperty("codigo_norma")
     @Column(name = "codigo_norma", nullable = true)
     private String codigoNorma;
-	@JsonProperty("homologacion_f_e")
     @Column(name = "homologacion_f_e", nullable = true)
     private String homologacionFE;
-	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
-	@JsonProperty("porcentaje")
     @Column(name = "porcentaje", nullable = true)
     private double porcentaje;
 

@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.comprobante;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
@@ -12,58 +11,41 @@ import java.util.Date;
 @Entity
 @Table(name = "egreso")
 public class Egreso extends Entidad {
-	@JsonProperty("numero_interno")
     @Column(name = "numero_interno", nullable = true)
     private String numeroInterno;
-	@JsonProperty("fecha")
     @Column(name = "fecha", nullable = true)
     private Date fecha;
-	@JsonProperty("fecha_entrega")
     @Column(name = "fecha_entrega", nullable = true)
     private Date fechaEntrega;
-	@JsonProperty("estado")
     @Column(name = "estado", nullable = true)
     private String estado;
-	@JsonProperty("subtotal")
     @Column(name = "subtotal", nullable = true)
     private double subtotal;
-	@JsonProperty("subdescuento")
     @Column(name = "subdescuento", nullable = true)
     private double subdescuento;
-	@JsonProperty("base_iva")
     @Column(name = "base_iva", nullable = true)
     private double baseIva;
-	@JsonProperty("base_0")
     @Column(name = "base_0", nullable = true)
     private double base0;
-	@JsonProperty("importe_iva")
     @Column(name = "importe_iva", nullable = true)
     private double importeIva;
-	@JsonProperty("total")
     @Column(name = "total", nullable = true)
     private double total;
-	@JsonProperty("descuento_porcentaje")
     @Column(name = "descuento_porcentaje", nullable = true)
     private double descuentoPorcentaje;
-	@JsonProperty("descuento")
     @Column(name = "descuento", nullable = true)
     private double descuento;
-	@JsonProperty("abono")
     @Column(name = "abono", nullable = true)
     private double abono;
-	@JsonProperty("comentario")
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @ManyToOne
-    @JsonProperty("cliente")
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
     @ManyToOne
-    @JsonProperty("sesion")
     @JoinColumn(name = "sesion_id", nullable = true)
     private Sesion sesion;
     @ManyToOne
-    @JsonProperty("vendedor")
     @JoinColumn(name = "vendedor_id", nullable = true)
     private Usuario vendedor;
 

@@ -1,12 +1,8 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "producto_bodega")
@@ -14,12 +10,10 @@ public class ProductoBodega extends Entidad {
     
 	@JsonBackReference
 	@ManyToOne
-    @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     
     @ManyToOne
-    @JsonProperty("bodega")
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
 

@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
@@ -20,6 +19,9 @@ public class Precio extends Entidad {
 	@JsonProperty("precio_venta_publico")
     @Column(name = "precio_venta_publico", nullable = true)
     private double precioVentaPublico;
+	@JsonProperty("precio_venta_publico_iva")
+    @Column(name = "precio_venta_publico_iva", nullable = true)
+    private double precioVentaPublicoIva;
 	@JsonProperty("precio_sin_iva")
     @Column(name = "precio_sin_iva", nullable = true)
     private double precioSinIva;
@@ -88,6 +90,10 @@ public class Precio extends Entidad {
 
     public double getPrecioSinIva() {
 		return precioSinIva;
+	}
+    
+    public double getPrecioVentaPublicoIva() {
+		return precioVentaPublicoIva;
 	}
 
     public double getPrecioVentaPublicoManual() {

@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -9,13 +8,10 @@ import java.util.List;
 @Entity
 @Table(name = "tipo_contribuyente")
 public class TipoContribuyente extends Entidad {
-	@JsonProperty("tipo")
     @Column(name = "tipo", nullable = true)
     private String tipo;
-	@JsonProperty("subtipo")
     @Column(name = "subtipo", nullable = true)
     private String subtipo;
-	@JsonProperty("obligado_contabilidad")
     @Column(name = "obligado_contabilidad", nullable = true)
     private boolean obligadoContabilidad;
 

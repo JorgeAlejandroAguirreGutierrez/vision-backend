@@ -1,33 +1,24 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "transferencia")
 public class Transferencia extends Entidad {
-	@JsonProperty("tipo_transaccion")
     @Column(name = "tipo_transaccion", nullable = true)
     private String tipoTransaccion;
-	@JsonProperty("numero_transaccion")
     @Column(name = "numero_transaccion", nullable = true)
     private String numeroTransaccion;
-	@JsonProperty("fecha_transaccion")
     @Column(name = "fecha_transaccion", nullable = true)
     private Date fechaTransaccion;
-	@JsonProperty("valor")
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
-    @JsonProperty("banco")
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
     @ManyToOne
-    @JsonProperty("recaudacion")
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 
