@@ -22,6 +22,7 @@ public class Constantes {
     public static final String mensaje_eliminar_exitoso="Exito al eliminar";
     public static final String mensaje_importacion_exitoso="Exito al importar";
     public static final String mensaje_exportacion_exitoso="Exito al exportar";
+    public static final String mensaje_calcular_exitoso="Exito al calcular";
 
     public static final String mensaje_consulta_fallido="Error en la consulta los objetos";
     public static final String mensaje_obtener_fallido="Error al obtener un objeto";
