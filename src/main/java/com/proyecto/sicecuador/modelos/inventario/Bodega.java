@@ -8,8 +8,8 @@ import java.util.List;
 @Entity
 @Table(name = "bodega")
 public class Bodega extends Entidad {
-    @Column(name = "codigo_interno", nullable = true)
-    private String codigoInterno;
+    @Column(name = "nombre", nullable = true)
+    private String nombre;
     public Bodega(){
     }
     public Bodega(long id){
@@ -18,16 +18,16 @@ public class Bodega extends Entidad {
     public Bodega(String codigo){
         super(codigo);
     }
-    public Bodega(String codigo, String codigoInterno){
+    public Bodega(String codigo, String nombre){
         super(codigo);
-        this.codigoInterno=codigoInterno;
+        this.nombre=nombre;
     }
 
     public Bodega(List<String>datos){
-        codigoInterno=datos.get(0)== null ? null: datos.get(0);
+        nombre=datos.get(0)== null ? null: datos.get(0);
     }
 
-    public String getCodigoInterno() {
-		return codigoInterno;
+    public String getNombre() {
+		return nombre;
 	}
 }
