@@ -9,6 +9,9 @@ import javax.persistence.*;
 @Table(name = "producto_proveedor")
 public class ProductoProveedor extends Entidad {
     
+	//agregar campo codigoEquivalente
+	@Column(name = "codigoEquivalente", nullable = true)
+    private String codigoEquivalente;
 	@JsonBackReference
 	@ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
@@ -25,13 +28,16 @@ public class ProductoProveedor extends Entidad {
         super(id);
     }
 
-    public ProductoProveedor(String codigo, Producto producto, Proveedor proveedor){
+    public ProductoProveedor(String codigo, String codigoEquivalente, Producto producto, Proveedor proveedor){
         super(codigo);
+        this.codigoEquivalente=codigoEquivalente;
         this.producto=producto;
         this.proveedor=proveedor;
     }
    
-    
+    public String getCodigoEquivalente() {
+    	return codigoEquivalente;
+    }
 
     public Proveedor getProveedor() {
         return proveedor;
