@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -15,11 +14,9 @@ import java.util.List;
 public class Correo extends Entidad {
 	@NotNull
     @NotEmpty
-    @JsonProperty("email")
     @Column(name = "email", nullable = false)
     private String email;
     @ManyToOne
-    @JsonProperty("cliente")
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 

@@ -1,30 +1,23 @@
 package com.proyecto.sicecuador.modelos.usuario;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 import java.util.List;
 
 @Entity
 @Table(name = "establecimiento")
 public class Establecimiento extends Entidad {
 	@NotNull
-	@JsonProperty("direccion")
     @Column(name = "direccion", nullable = true)
     private String direccion;
 	@NotNull
 	@ManyToOne
-    @JsonProperty("empresa")
     @JoinColumn(name = "empresa_id", nullable = true)
     private Empresa empresa;
     @NotNull
     @ManyToOne
-    @JsonProperty("ubicacion")
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
 

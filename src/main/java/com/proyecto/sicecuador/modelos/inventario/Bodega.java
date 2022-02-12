@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -9,7 +8,6 @@ import java.util.List;
 @Entity
 @Table(name = "bodega")
 public class Bodega extends Entidad {
-	@JsonProperty("codigo_interno")
     @Column(name = "codigo_interno", nullable = true)
     private String codigoInterno;
     public Bodega(){

@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 
@@ -11,71 +10,54 @@ import java.util.List;
 @Entity
 @Table(name = "producto")
 public class Producto extends Entidad {
-	@JsonProperty("nombre")
     @Column(name = "nombre", nullable = true)
     private String nombre;
-	@JsonProperty("consignacion")
     @Column(name = "consignacion", nullable = true)
     private boolean consignacion;
-	@JsonProperty("estado")
     @Column(name = "estado", nullable = true)
     private String estado;
-	@JsonProperty("stock_total")
     @Column(name = "stock_total", nullable = true)
     private double stockTotal;
-		
-	@JsonProperty("serie_autogenerado")
     @Column(name = "serie_autogenerado", nullable = true)
     private boolean serieAutogenerado;
     @ManyToOne
-    @JsonProperty("categoria_producto")
     @JoinColumn(name = "categoria_producto_id", nullable = true)
     private CategoriaProducto categoriaProducto;
     @ManyToOne
-    @JsonProperty("tipo_gasto")
     @JoinColumn(name = "tipo_gasto_id", nullable = true)
     private TipoGasto tipoGasto;
     @ManyToOne
-    @JsonProperty("impuesto")
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
     @ManyToOne
-    @JsonProperty("grupo_producto")
     @JoinColumn(name = "grupo_producto_id", nullable = true)
-    private GrupoProducto grupoProducto;
-    
+    private GrupoProducto grupoProducto; 
     @ManyToOne
-    @JsonProperty("medida_kardex")
     @JoinColumn(name = "medida_kardex_id", nullable = true)
     private Medida medidaKardex;
     
     //corregir agregar jsonbackreference
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonProperty("kardexs")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Kardex> kardexs;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonProperty("caracteristicas")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Caracteristica> caracteristicas;
     //crear precios a partir de productos
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonProperty("precios")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Precio> precios;
     @JsonManagedReference    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonProperty("productos_proveedores")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoProveedor> productosProveedores;
- //esto esta aplicado en la versión de george
+    //esto esta aplicado en la versión de george
     //no olvidar
     @JsonManagedReference    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JsonProperty("productos_bodegas")
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoBodega> productosBodegas;
   

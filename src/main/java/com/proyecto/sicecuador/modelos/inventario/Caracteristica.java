@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 
@@ -11,31 +10,23 @@ import java.util.List;
 @Entity
 @Table(name = "caracteristica")
 public class Caracteristica extends Entidad {
-	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
-	@JsonProperty("color")
     @Column(name = "color", nullable = true)
     private String color;
-	@JsonProperty("marca")
     @Column(name = "marca", nullable = true)
     private String marca;
-	@JsonProperty("modelo")
     @Column(name = "modelo", nullable = true)
     private String modelo;
-	@JsonProperty("serie")
     @Column(name = "serie", nullable = true)
     private String serie;
     @ManyToOne
-    @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
-    @JsonProperty("detalle_factura")
     @JoinColumn(name = "detalle_factura_id", nullable = true)
     private FacturaDetalle detalleFactura;
     @ManyToOne
-    @JsonProperty("bodega")
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
 

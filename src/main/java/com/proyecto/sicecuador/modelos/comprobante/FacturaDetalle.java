@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.modelos.comprobante;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.inventario.*;
 
@@ -12,110 +11,80 @@ import java.util.List;
 @Entity
 @Table(name = "factura_detalle")
 public class FacturaDetalle extends Entidad {
-	@JsonProperty("posicion")
     @Column(name = "posicion", nullable = true)
     private long posicion;
-	@JsonProperty("comentario")
     @Column(name = "comentario", nullable = true)
     private long comentario;
-	@JsonProperty("entregado")
     @Column(name = "entregado", nullable = true)
     private boolean entregado;
-	@JsonProperty("consignacion")
     @Column(name = "consignacion", nullable = true)
     private boolean consignacion;
-	@JsonProperty("cantidad")
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
-	@JsonProperty("subsidio")
     @Column(name = "subsidio", nullable = true)
     private double subsidio;
-	@JsonProperty("sin_subsidio")
     @Column(name = "sin_subsidio", nullable = true)
     private double sinSubsidio;
     //INDIVIDUALES
-	@JsonProperty("valor_descuento_individual")
     @Column(name = "valor_descuento_individual", nullable = true)
     private double valorDescuentoIndividual;
-	@JsonProperty("porcentaje_descuento_individual")
     @Column(name = "porcentaje_descuento_individual", nullable = true)
     private double porcentajeDescuentoIndividual;
-	@JsonProperty("valor_porcentaje_descuento_individual")
     @Column(name = "valor_porcentaje_descuento_individual", nullable = true)
     private double valorPorcentajeDescuentoIndividual;
-	@JsonProperty("total_descuento_individual")
     @Column(name = "total_descuento_individual", nullable = true)
     private double totalDescuentoIndividual;
     //FIN INDIVIDUALES
 
     //SUBTOTALES
-	@JsonProperty("valor_descuento_individual_subtotales")
     @Column(name = "valor_descuento_individual_subtotales", nullable = true)
     private double valorDescuentoIndividualSubtotales;
-	@JsonProperty("porcentaje_descuento_individual_subtotales")
     @Column(name = "porcentaje_descuento_individual_subtotales", nullable = true)
     private double porcentajeDescuentoIndividualSubtotales;
-	@JsonProperty("valor_porcentaje_descuento_individual_subtotales")
     @Column(name = "valor_porcentaje_descuento_individual_subtotales", nullable = true)
     private double valorPorcentajeDescuentoIndividualSubtotales;
 
     //TOTALES
-	@JsonProperty("valor_descuento_individual_totales")
     @Column(name = "valor_descuento_individual_totales", nullable = true)
     private double valorDescuentoIndividualTotales;
-	@JsonProperty("porcentaje_descuento_individual_totales")
     @Column(name = "porcentaje_descuento_individual_totales", nullable = true)
     private double porcentajeDescuentoIndividualTotales;
-	@JsonProperty("valor_porcentaje_descuento_individual_totales")
     @Column(name = "valor_porcentaje_descuento_individual_totales", nullable = true)
     private double valorPorcentajeDescuentoIndividualTotales;
 
-	@JsonProperty("valor_descuento_totales")
     @Column(name = "valor_descuento_totales", nullable = true)
     private double valorDescuentoTotales;
-	@JsonProperty("porcentaje_descuento_totales")
     @Column(name = "porcentaje_descuento_totales", nullable = true)
     private double porcentajeDescuentoTotales;
-	@JsonProperty("valor_porcentaje_descuento_totales")
     @Column(name = "valor_porcentaje_descuento_totales", nullable = true)
     private double valorPorcentajeDescuentoTotales;
     
     //FIN TOTALES
-	@JsonProperty("total_sin_descuento")
     @Column(name = "total_sin_descuento", nullable = true)
     private double totalSinDescuento;
-	@JsonProperty("total_con_descuento")
     @Column(name = "total_con_descuento", nullable = true)
     private double totalConDescuento;
-	@JsonProperty("valor_iva_sin_descuento")
     @Column(name = "valor_iva_sin_descuento", nullable = true)
     private double valorIvaSinDescuento;
-	@JsonProperty("valor_iva_con_descuento")
     @Column(name = "valor_iva_con_descuento", nullable = true)
     private double valorIvaConDescuento;
 
     @ManyToOne
-    @JsonProperty("medida")
     @JoinColumn(name = "medida_id", nullable = true)
     private Medida medida;
     @ManyToOne
-    @JsonProperty("producto")
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
-    @JsonProperty("impuesto")
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
     @ManyToOne
-    @JsonProperty("precio")
     @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
     @ManyToOne
-    @JsonProperty("factura")
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
     @OneToMany(cascade =CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JsonProperty("caracteristicas")
     @JoinColumn(name = "detalle_factura_id")
     private List<Caracteristica> caracteristicas;
 
@@ -267,7 +236,76 @@ public class FacturaDetalle extends Entidad {
     public List<Caracteristica> getCaracteristicas() {
         return caracteristicas;
     }
-
+    
+    /* SETS**/
+    
+    public void setPorcentajeDescuentoIndividual(double porcentajeDescuentoIndividual) {
+		this.porcentajeDescuentoIndividual = porcentajeDescuentoIndividual;
+	}
+    
+    public void setPorcentajeDescuentoIndividualSubtotales(double porcentajeDescuentoIndividualSubtotales) {
+		this.porcentajeDescuentoIndividualSubtotales = porcentajeDescuentoIndividualSubtotales;
+	}
+    
+    public void setPorcentajeDescuentoIndividualTotales(double porcentajeDescuentoIndividualTotales) {
+		this.porcentajeDescuentoIndividualTotales = porcentajeDescuentoIndividualTotales;
+	}
+    
+    public void setPorcentajeDescuentoTotales(double porcentajeDescuentoTotales) {
+		this.porcentajeDescuentoTotales = porcentajeDescuentoTotales;
+	}
+    
+    public void setTotalConDescuento(double totalConDescuento) {
+		this.totalConDescuento = totalConDescuento;
+	}
+    
+    public void setTotalDescuentoIndividual(double totalDescuentoIndividual) {
+		this.totalDescuentoIndividual = totalDescuentoIndividual;
+	}
+    
+    public void setTotalSinDescuento(double totalSinDescuento) {
+		this.totalSinDescuento = totalSinDescuento;
+	}
+    
+    public void setValorDescuentoIndividual(double valorDescuentoIndividual) {
+		this.valorDescuentoIndividual = valorDescuentoIndividual;
+	}
+    
+    public void setValorDescuentoIndividualSubtotales(double valorDescuentoIndividualSubtotales) {
+		this.valorDescuentoIndividualSubtotales = valorDescuentoIndividualSubtotales;
+	}
+    
+    public void setValorDescuentoIndividualTotales(double valorDescuentoIndividualTotales) {
+		this.valorDescuentoIndividualTotales = valorDescuentoIndividualTotales;
+	}
+    
+    public void setValorDescuentoTotales(double valorDescuentoTotales) {
+		this.valorDescuentoTotales = valorDescuentoTotales;
+	}
+    
+    public void setValorIvaConDescuento(double valorIvaConDescuento) {
+		this.valorIvaConDescuento = valorIvaConDescuento;
+	}
+    
+    public void setValorIvaSinDescuento(double valorIvaSinDescuento) {
+		this.valorIvaSinDescuento = valorIvaSinDescuento;
+	}
+    
+    public void setValorPorcentajeDescuentoIndividual(double valorPorcentajeDescuentoIndividual) {
+		this.valorPorcentajeDescuentoIndividual = valorPorcentajeDescuentoIndividual;
+	}
+    
+    public void setValorPorcentajeDescuentoIndividualSubtotales(double valorPorcentajeDescuentoIndividualSubtotales) {
+		this.valorPorcentajeDescuentoIndividualSubtotales = valorPorcentajeDescuentoIndividualSubtotales;
+	}
+    
+    public void setValorPorcentajeDescuentoIndividualTotales(double valorPorcentajeDescuentoIndividualTotales) {
+		this.valorPorcentajeDescuentoIndividualTotales = valorPorcentajeDescuentoIndividualTotales;
+	}
+    
+    public void setValorPorcentajeDescuentoTotales(double valorPorcentajeDescuentoTotales) {
+		this.valorPorcentajeDescuentoTotales = valorPorcentajeDescuentoTotales;
+	}
 
 }
 

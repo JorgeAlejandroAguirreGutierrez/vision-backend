@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -9,27 +8,16 @@ import java.util.List;
 @Entity
 @Table(name = "grupo_producto")
 public class GrupoProducto extends Entidad {
-	@JsonProperty("grupo")
     @Column(name = "grupo", nullable = true)
     private String grupo;
-	
-	@JsonProperty("subgrupo")
     @Column(name = "subgrupo", nullable = true)
     private String subgrupo;
-	
-	@JsonProperty("seccion")
     @Column(name = "seccion", nullable = true)
     private String seccion;
-	
-	@JsonProperty("linea")
     @Column(name = "linea", nullable = true)
     private String linea;
-	
-	@JsonProperty("sublinea")
     @Column(name = "sublinea", nullable = true)
     private String sublinea;
-	
-	@JsonProperty("presentacion")
     @Column(name = "presentacion", nullable = true)
     private String presentacion;
 

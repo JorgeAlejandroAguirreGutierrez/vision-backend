@@ -5,7 +5,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @MappedSuperclass
 public class Entidad {
@@ -17,11 +16,11 @@ public class Entidad {
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "fecha_creacion", nullable = true)
-    private Timestamp fecha_creacion;
+    private Timestamp fechaCreacion;
     @UpdateTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "fecha_actualizacion", nullable = true)
-    private Timestamp fecha_actualizacion;
+    private Timestamp fechaActualizacion;
 
     public Entidad(){
 
@@ -52,20 +51,20 @@ public class Entidad {
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
+    
+    public Timestamp getFechaCreacion() {
+		return fechaCreacion;
+	}
+    
+    public void setFechaCreacion(Timestamp fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
 
-    public Date getFecha_creacion() {
-        return fecha_creacion;
-    }
-
-    public Date getFecha_actualizacion() {
-        return fecha_actualizacion;
-    }
-
-    public void setFecha_creacion(Timestamp fecha_creacion) {
-        this.fecha_creacion = fecha_creacion;
-    }
-
-    public void setFecha_actualizacion(Timestamp fecha_actualizacion) {
-        this.fecha_actualizacion = fecha_actualizacion;
-    }
+    public Timestamp getFechaActualizacion() {
+		return fechaActualizacion;
+	}
+    
+    public void setFechaActualizacion(Timestamp fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}    
 }

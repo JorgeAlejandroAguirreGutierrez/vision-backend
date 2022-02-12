@@ -71,7 +71,7 @@ public class ProductoService implements IProductoService {
     public List<Producto> consultarBien() {
         List<Producto> productos=  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();
-		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), Constantes.tipo_producto_bien)));
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("categoriaProducto").get("descripcion"), Constantes.tipo_producto_bien)));
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 		});
         return productos;

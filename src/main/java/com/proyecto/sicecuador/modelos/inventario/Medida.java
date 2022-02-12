@@ -1,10 +1,5 @@
 package com.proyecto.sicecuador.modelos.inventario;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -14,18 +9,14 @@ import java.util.List;
 @Entity
 @Table(name = "medida")
 public class Medida extends Entidad {
-	@JsonProperty("tipo")
     @Column(name = "tipo", nullable = true)
     private String tipo;
 	@NotNull
 	@NotEmpty
-	@JsonProperty("descripcion")
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
-	@JsonProperty("abreviatura")
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
-	@JsonProperty("estado")
     @Column(name = "estado", nullable = true)
     private String estado;
 

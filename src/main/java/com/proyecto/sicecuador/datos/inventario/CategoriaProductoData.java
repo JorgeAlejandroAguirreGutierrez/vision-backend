@@ -27,9 +27,9 @@ public class CategoriaProductoData implements ApplicationRunner {
         Optional<CategoriaProducto> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<CategoriaProducto> categorias_productos = new ArrayList<>();
-            categorias_productos.add(new CategoriaProducto("TPR011907000001", "BIEN", "BIEN", "B"));
-            categorias_productos.add(new CategoriaProducto("TPR011907000002", "SERVICIO", "SERVICIO", "S"));
-            categorias_productos.add(new CategoriaProducto("TPR011907000003", "ACTIVO FIJO", "ACTIVOFIJO", "AF"));
+            categorias_productos.add(new CategoriaProducto("TPR011907000001", "BIEN", "B"));
+            categorias_productos.add(new CategoriaProducto("TPR011907000002", "SERVICIO", "S"));
+            categorias_productos.add(new CategoriaProducto("TPR011907000003", "ACTIVO_FIJO", "AF"));
             rep.saveAll(categorias_productos);
         }
     }

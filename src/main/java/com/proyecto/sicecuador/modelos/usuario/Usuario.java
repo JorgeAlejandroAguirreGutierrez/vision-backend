@@ -1,37 +1,26 @@
 package com.proyecto.sicecuador.modelos.usuario;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario extends Entidad {
-	@JsonProperty("nombre")
 	@Column(name = "nombre", nullable = true)
     private String nombre;
-	@JsonProperty("correo")
 	@Column(name = "correo", nullable = true)
     private String correo;
-	@JsonProperty("contrasena")
 	@Column(name = "contrasena", nullable = true)
     private String contrasena;
-	@JsonProperty("identificacion")
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
-	@JsonProperty("avatar")
     @Column(name = "avatar", nullable = true)
     private String avatar;
-	@JsonProperty("activo")
     @Column(name = "activo", nullable = true)
     private boolean activo;
-	@JsonProperty("punto_venta")
 	@ManyToOne
     @JoinColumn(name = "punto_venta_id", nullable = true)
     private PuntoVenta puntoVenta;
-	@JsonProperty("perfil")
 	@ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;

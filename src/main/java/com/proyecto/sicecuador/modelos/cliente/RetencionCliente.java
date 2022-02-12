@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 
@@ -12,11 +11,9 @@ import java.util.List;
 @Table(name = "retencion_cliente")
 public class RetencionCliente extends Entidad {
     @ManyToOne
-    @JsonProperty("tipo_retencion")
     @JoinColumn(name = "tipo_retencion_id", nullable = true)
     private TipoRetencion tipoRetencion;
     @ManyToOne
-    @JsonProperty("cliente")
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 
