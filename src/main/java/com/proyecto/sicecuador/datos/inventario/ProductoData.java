@@ -24,7 +24,13 @@ public class ProductoData implements ApplicationRunner {
             Optional<Producto> ant=rep.findById((long) 1);
             if (!ant.isPresent()) {
                 List<Producto> productos = new ArrayList<>();
-                productos.add(new Producto("PRO011907000001", "ARROZ", false, "ACTIVO", true, new TipoGasto(1), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1), new Bodega(1)));
+                productos.add(new Producto("PRO011907000001", "CELULARES", false, "ACTIVO", true, new TipoGasto(1), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1), new Bodega(1)));
+                productos.add(new Producto("PRO011907000002", "REFRIGERADOR", false, "ACTIVO", true, new TipoGasto(1), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1), new Bodega(1)));
+                productos.add(new Producto("PRO011907000003", "TELEVISOR", false, "ACTIVO", true, new TipoGasto(1), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1), new Bodega(1)));
+                productos.add(new Producto("PRO011907000004", "CAMAS", false, "ACTIVO", true, new TipoGasto(1), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1), new Bodega(1)));
+                productos.add(new Producto("PRO011907000005", "LADRILLOS", false, "ACTIVO", true, new TipoGasto(1), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1), new Bodega(1)));
+                productos.add(new Producto("PRO011907000006", "AVIONES", false, "ACTIVO", true, new TipoGasto(1), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1), new Bodega(1)));
+                /*productos.add(new Producto("PRO011907000001", "ARROZ", false, "ACTIVO", true, new TipoGasto(1), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1), new Bodega(1)));
                 productos.add(new Producto("PRO011907000002", "HUEVOS", true, "ACTIVO", true, new TipoGasto(2), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1), new Bodega(1)));
                 productos.add(new Producto("PRO011907000003", "GALLETAS", true, "ACTIVO", true, new TipoGasto(3), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1),new Medida(2), new Bodega(1)));
                 productos.add(new Producto("PRO011907000004", "CAFE", true, "ACTIVO", true, new TipoGasto(4), new CategoriaProducto(1), new Impuesto(1), new GrupoProducto(1), new Medida(1), new Bodega(1)));
@@ -49,7 +55,7 @@ public class ProductoData implements ApplicationRunner {
                 productos.add(new Producto("PRO011907000022", "CARGA PANELA AF",true, "ACTIVO", true, new TipoGasto(2), new CategoriaProducto(3), new Impuesto(1), new GrupoProducto(3), new Medida(3), new Bodega(1)));
                 productos.add(new Producto("PRO011907000023", "CARGA LENTEJA AF", true, "ACTIVO", true, new TipoGasto(3), new CategoriaProducto(3), new Impuesto(1), new GrupoProducto(3), new Medida(3), new Bodega(1)));
                 productos.add(new Producto("PRO011907000024", "CARGA ARROZ AF", true, "ACTIVO", true, new TipoGasto(4), new CategoriaProducto(3), new Impuesto(1), new GrupoProducto(3), new Medida(3), new Bodega(1)));
-                productos.add(new Producto("PRO011907000025", "CARGA FRIJOLES AF", true, "ACTIVO", true, new TipoGasto(1), new CategoriaProducto(3), new Impuesto(1), new GrupoProducto(3), new Medida(3), new Bodega(1)));
+                productos.add(new Producto("PRO011907000025", "CARGA FRIJOLES AF", true, "ACTIVO", true, new TipoGasto(1), new CategoriaProducto(3), new Impuesto(1), new GrupoProducto(3), new Medida(3), new Bodega(1)));*/
                 rep.saveAll(productos);
             }
     }

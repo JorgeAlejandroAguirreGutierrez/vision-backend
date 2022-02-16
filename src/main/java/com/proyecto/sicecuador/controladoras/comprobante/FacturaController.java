@@ -85,16 +85,8 @@ public class FacturaController implements GenericoController<Factura> {
     
     @PostMapping(value = "/calcular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> calcular(@RequestBody @Valid Factura _factura) {
-        _factura.normalizar();
         Optional<Factura> factura=servicio.calcular(_factura);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, factura);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    
-    @PostMapping(value = "/calcularfacturadetalletemp", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> calcular(@RequestBody @Valid FacturaDetalle _facturaDetalle) {
-        Optional<FacturaDetalle> facturaDetalle=servicio.calcularFacturaDetalleTemp(_facturaDetalle);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, facturaDetalle);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

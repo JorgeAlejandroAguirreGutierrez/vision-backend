@@ -27,9 +27,12 @@ public class PrecioData implements ApplicationRunner {
         Optional<Precio> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Precio> precios = new ArrayList<>();
-            precios.add(new Precio("PRE011907000001", 150.0, 10.0, 180.0, 170.0, 180.0, 30.0, 10.0, new Producto(1), new Medida(1), new Segmento(1)));
-            precios.add(new Precio("PRE011907000002", 200.0, 10.0, 220.0, 210.0, 220.0, 20.0, 10.0, new Producto(2), new Medida(2), new Segmento(2)));
-            precios.add(new Precio("PRE011907000003", 250.0, 10.0, 280.0, 260.0, 220.0, 30.0, 10.0, new Producto(3), new Medida(3), new Segmento(3)));
+            precios.add(new Precio("PRE011907000001", 15.0, 10.0, 15.0, 15.0, 15.0, 30.0, 10.0, new Producto(1), new Medida(1), new Segmento(1)));
+            precios.add(new Precio("PRE011907000002", 2.0, 10.0, 2.0, 2.0, 2.0, 20.0, 10.0, new Producto(2), new Medida(2), new Segmento(2)));
+            precios.add(new Precio("PRE011907000003", 3.0, 10.0, 3.0, 3.0, 3.0, 30.0, 10.0, new Producto(3), new Medida(3), new Segmento(3)));
+            precios.add(new Precio("PRE011907000004", 20.0, 10.0, 20.0, 20.0, 20.0, 30.0, 10.0, new Producto(4), new Medida(1), new Segmento(3)));
+            precios.add(new Precio("PRE011907000005", 15.0, 10.0, 15.0, 15.0, 15.0, 30.0, 10.0, new Producto(5), new Medida(2), new Segmento(3)));
+            precios.add(new Precio("PRE011907000006", 25.0, 10.0, 25.0, 25.0, 25.0, 30.0, 10.0, new Producto(6), new Medida(3), new Segmento(3)));
             /*precios.add(new Precio("PRE011907000004", "", 0, 20, new Producto(4)));
             precios.add(new Precio("PRE011907000005", "", 0, 25, new Producto(5)));
             precios.add(new Precio("PRE011907000006", "", 0, 30.36, new Producto(6)));
