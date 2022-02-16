@@ -47,7 +47,7 @@ public class Producto extends Entidad {
     private List<Caracteristica> caracteristicas;
     //crear precios a partir de productos
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true)
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Precio> precios;
     @JsonManagedReference    

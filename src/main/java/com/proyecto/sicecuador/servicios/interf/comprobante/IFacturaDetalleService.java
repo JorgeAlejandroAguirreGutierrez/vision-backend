@@ -6,4 +6,5 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.Optional;
 
 public interface IFacturaDetalleService extends IGenericoService<FacturaDetalle> {
+	Optional<FacturaDetalle> calcular(FacturaDetalle facturaDetalle);
 }

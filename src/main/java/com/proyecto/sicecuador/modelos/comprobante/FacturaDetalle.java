@@ -14,7 +14,7 @@ public class FacturaDetalle extends Entidad {
     @Column(name = "posicion", nullable = true)
     private long posicion;
     @Column(name = "comentario", nullable = true)
-    private long comentario;
+    private String comentario;
     @Column(name = "entregado", nullable = true)
     private boolean entregado;
     @Column(name = "consignacion", nullable = true)
@@ -25,53 +25,32 @@ public class FacturaDetalle extends Entidad {
     private double subsidio;
     @Column(name = "sin_subsidio", nullable = true)
     private double sinSubsidio;
-    //INDIVIDUALES
-    @Column(name = "valor_descuento_individual", nullable = true)
-    private double valorDescuentoIndividual;
-    @Column(name = "porcentaje_descuento_individual", nullable = true)
-    private double porcentajeDescuentoIndividual;
-    @Column(name = "valor_porcentaje_descuento_individual", nullable = true)
-    private double valorPorcentajeDescuentoIndividual;
-    @Column(name = "total_descuento_individual", nullable = true)
-    private double totalDescuentoIndividual;
-    //FIN INDIVIDUALES
+    //LINEA
+    @Column(name = "valor_descuento_linea", nullable = true)
+    private double valorDescuentoLinea;
+    @Column(name = "porcentaje_descuento_linea", nullable = true)
+    private double porcentajeDescuentoLinea;
+    @Column(name = "valor_porcentaje_descuento_linea", nullable = true)
+    private double valorPorcentajeDescuentoLinea;
+    @Column(name = "valor_descuento_total_linea", nullable = true)
+    private double valorDescuentoTotalLinea;
+    @Column(name = "porcentaje_descuento_total_linea", nullable = true)
+    private double porcentajeDescuentoTotalLinea;
+    @Column(name = "valor_porcentaje_descuento_total_linea", nullable = true)
+    private double valorPorcentajeDescuentoTotalLinea;
+    @Column(name = "total_descuento_linea", nullable = true)
+    private double totalDescuentoLinea;
+    @Column(name = "subtotal_sin_descuento_linea", nullable = true)
+    private double subtotalSinDescuentoLinea;
+    @Column(name = "iva_sin_descuento_linea", nullable = true)
+    private double ivaSinDescuentoLinea;
+    @Column(name = "subtotal_con_descuento_linea", nullable = true)
+    private double subtotalConDescuentoLinea;
+    @Column(name = "iva_con_descuento_linea", nullable = true)
+    private double ivaConDescuentoLinea;
+    @Column(name = "total_con_descuento_linea", nullable = true)
+    private double totalConDescuentoLinea;
 
-    //SUBTOTALES
-    @Column(name = "valor_descuento_individual_subtotales", nullable = true)
-    private double valorDescuentoIndividualSubtotales;
-    @Column(name = "porcentaje_descuento_individual_subtotales", nullable = true)
-    private double porcentajeDescuentoIndividualSubtotales;
-    @Column(name = "valor_porcentaje_descuento_individual_subtotales", nullable = true)
-    private double valorPorcentajeDescuentoIndividualSubtotales;
-
-    //TOTALES
-    @Column(name = "valor_descuento_individual_totales", nullable = true)
-    private double valorDescuentoIndividualTotales;
-    @Column(name = "porcentaje_descuento_individual_totales", nullable = true)
-    private double porcentajeDescuentoIndividualTotales;
-    @Column(name = "valor_porcentaje_descuento_individual_totales", nullable = true)
-    private double valorPorcentajeDescuentoIndividualTotales;
-
-    @Column(name = "valor_descuento_totales", nullable = true)
-    private double valorDescuentoTotales;
-    @Column(name = "porcentaje_descuento_totales", nullable = true)
-    private double porcentajeDescuentoTotales;
-    @Column(name = "valor_porcentaje_descuento_totales", nullable = true)
-    private double valorPorcentajeDescuentoTotales;
-    
-    //FIN TOTALES
-    @Column(name = "total_sin_descuento", nullable = true)
-    private double totalSinDescuento;
-    @Column(name = "total_con_descuento", nullable = true)
-    private double totalConDescuento;
-    @Column(name = "valor_iva_sin_descuento", nullable = true)
-    private double valorIvaSinDescuento;
-    @Column(name = "valor_iva_con_descuento", nullable = true)
-    private double valorIvaConDescuento;
-
-    @ManyToOne
-    @JoinColumn(name = "medida_id", nullable = true)
-    private Medida medida;
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
@@ -84,8 +63,11 @@ public class FacturaDetalle extends Entidad {
     @ManyToOne
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
+    @ManyToOne
+    @JoinColumn(name = "bodega_id", nullable = true)
+    private Bodega bodega;
     @OneToMany(cascade =CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "detalle_factura_id")
+    @JoinColumn(name = "factura_detalle_id")
     private List<Caracteristica> caracteristicas;
 
 
@@ -110,9 +92,9 @@ public class FacturaDetalle extends Entidad {
         return posicion;
     }
 
-    public long getComentario() {
-        return comentario;
-    }
+    public String getComentario() {
+		return comentario;
+	}
 
     public boolean isEntregado() {
         return entregado;
@@ -133,79 +115,54 @@ public class FacturaDetalle extends Entidad {
     public double getSinSubsidio() {
 		return sinSubsidio;
 	}
-
-    public double getValorDescuentoIndividual() {
-		return valorDescuentoIndividual;
-	}
-
-    public double getPorcentajeDescuentoIndividual() {
-		return porcentajeDescuentoIndividual;
-	}
-
-    public double getValorPorcentajeDescuentoIndividual() {
-		return valorPorcentajeDescuentoIndividual;
-	}
-
-    public double getValorDescuentoIndividualTotales() {
-		return valorDescuentoIndividualTotales;
-	}
-
-    public double getPorcentajeDescuentoTotales() {
-		return porcentajeDescuentoTotales;
-	}
-
-    public double getValorPorcentajeDescuentoIndividualSubtotales() {
-		return valorPorcentajeDescuentoIndividualSubtotales;
-	}
-
-    public double getTotalConDescuento() {
-		return totalConDescuento;
-	}
-
-    public double getTotalSinDescuento() {
-		return totalSinDescuento;
-	}
-
-    public double getValorIvaConDescuento() {
-		return valorIvaConDescuento;
-	}
-
-    public double getValorIvaSinDescuento() {
-		return valorIvaSinDescuento;
-	}
-
-    public double getValorDescuentoIndividualSubtotales() {
-		return valorDescuentoIndividualSubtotales;
-	}
-
-    public double getPorcentajeDescuentoIndividualSubtotales() {
-		return porcentajeDescuentoIndividualSubtotales;
-	}
-
-    public double getValorPorcentajeDescuentoIndividualTotales() {
-		return valorPorcentajeDescuentoIndividualTotales;
-	}
-
-    public double getValorDescuentoTotales() {
-		return valorDescuentoTotales;
-	}
-
-    public double getValorPorcentajeDescuentoTotales() {
-		return valorPorcentajeDescuentoTotales;
-	}
-
-    public double getPorcentajeDescuentoIndividualTotales() {
-		return porcentajeDescuentoIndividualTotales;
-	}
-
-    public double getTotalDescuentoIndividual() {
-		return totalDescuentoIndividual;
+    
+    public double getValorDescuentoLinea() {
+		return valorDescuentoLinea;
 	}
     
+    public double getPorcentajeDescuentoLinea() {
+		return porcentajeDescuentoLinea;
+	}
     
-    public Medida getMedida() {
-        return medida;
-    }
+    public double getValorPorcentajeDescuentoLinea() {
+		return valorPorcentajeDescuentoLinea;
+	}
+    
+    public double getValorDescuentoTotalLinea() {
+		return valorDescuentoTotalLinea;
+	}
+    
+    public double getPorcentajeDescuentoTotalLinea() {
+		return porcentajeDescuentoTotalLinea;
+	}
+    
+    public double getValorPorcentajeDescuentoTotalLinea() {
+		return valorPorcentajeDescuentoTotalLinea;
+	}
+    
+    public double getTotalDescuentoLinea() {
+		return totalDescuentoLinea;
+	}
+    
+    public double getSubtotalSinDescuentoLinea() {
+		return subtotalSinDescuentoLinea;
+	}
+    
+    public double getIvaSinDescuentoLinea() {
+		return ivaSinDescuentoLinea;
+	}
+    
+    public double getSubtotalConDescuentoLinea() {
+		return subtotalConDescuentoLinea;
+	}
+    
+    public double getIvaConDescuentoLinea() {
+		return ivaConDescuentoLinea;
+	}
+    
+    public double getTotalConDescuentoLinea() {
+		return totalConDescuentoLinea;
+	}
 
     public Impuesto getImpuesto() {
         return impuesto;
@@ -214,6 +171,11 @@ public class FacturaDetalle extends Entidad {
     public void setImpuesto(Impuesto impuesto) {
         this.impuesto = impuesto;
     }
+    
+    public Bodega getBodega() {
+		return bodega;
+	}
+    
     public Producto getProducto() {
         return producto;
     }
@@ -225,6 +187,55 @@ public class FacturaDetalle extends Entidad {
     public Precio getPrecio() {
         return precio;
     }
+    
+    public void setValorDescuentoLinea(double valorDescuentoLinea) {
+		this.valorDescuentoLinea = valorDescuentoLinea;
+	}
+    
+    public void setPorcentajeDescuentoLinea(double porcentajeDescuentoLinea) {
+		this.porcentajeDescuentoLinea = porcentajeDescuentoLinea;
+	}
+    
+    public void setValorPorcentajeDescuentoLinea(double valorPorcentajeDescuentoLinea) {
+		this.valorPorcentajeDescuentoLinea = valorPorcentajeDescuentoLinea;
+	}
+    
+    public void setValorDescuentoTotalLinea(double valorDescuentoTotalLinea) {
+		this.valorDescuentoTotalLinea = valorDescuentoTotalLinea;
+	}
+    
+    public void setPorcentajeDescuentoTotalLinea(double porcentajeDescuentoTotalLinea) {
+		this.porcentajeDescuentoTotalLinea = porcentajeDescuentoTotalLinea;
+	}
+    
+    public void setValorPorcentajeDescuentoTotalLinea(double valorPorcentajeDescuentoTotalLinea) {
+		this.valorPorcentajeDescuentoTotalLinea = valorPorcentajeDescuentoTotalLinea;
+	}
+    
+    public void setTotalDescuentoLinea(double totalDescuentoLinea) {
+		this.totalDescuentoLinea = totalDescuentoLinea;
+	}
+    
+    public void setSubtotalSinDescuentoLinea(double subtotalSinDescuentoLinea) {
+		this.subtotalSinDescuentoLinea = subtotalSinDescuentoLinea;
+	}
+    
+    public void setIvaSinDescuentoLinea(double ivaSinDescuentoLinea) {
+		this.ivaSinDescuentoLinea = ivaSinDescuentoLinea;
+	}
+    
+    public void setSubtotalConDescuentoLinea(double subtotalConDescuentoLinea) {
+		this.subtotalConDescuentoLinea = subtotalConDescuentoLinea;
+	}
+    
+    public void setIvaConDescuentoLinea(double ivaConDescuentoLinea) {
+		this.ivaConDescuentoLinea = ivaConDescuentoLinea;
+	}
+    
+    public void setTotalConDescuentoLinea(double totalConDescuentoLinea) {
+		this.totalConDescuentoLinea = totalConDescuentoLinea;
+	}
+    
     public void setPrecio(Precio precio) {
         this.precio = precio;
     }
@@ -236,76 +247,6 @@ public class FacturaDetalle extends Entidad {
     public List<Caracteristica> getCaracteristicas() {
         return caracteristicas;
     }
-    
-    /* SETS**/
-    
-    public void setPorcentajeDescuentoIndividual(double porcentajeDescuentoIndividual) {
-		this.porcentajeDescuentoIndividual = porcentajeDescuentoIndividual;
-	}
-    
-    public void setPorcentajeDescuentoIndividualSubtotales(double porcentajeDescuentoIndividualSubtotales) {
-		this.porcentajeDescuentoIndividualSubtotales = porcentajeDescuentoIndividualSubtotales;
-	}
-    
-    public void setPorcentajeDescuentoIndividualTotales(double porcentajeDescuentoIndividualTotales) {
-		this.porcentajeDescuentoIndividualTotales = porcentajeDescuentoIndividualTotales;
-	}
-    
-    public void setPorcentajeDescuentoTotales(double porcentajeDescuentoTotales) {
-		this.porcentajeDescuentoTotales = porcentajeDescuentoTotales;
-	}
-    
-    public void setTotalConDescuento(double totalConDescuento) {
-		this.totalConDescuento = totalConDescuento;
-	}
-    
-    public void setTotalDescuentoIndividual(double totalDescuentoIndividual) {
-		this.totalDescuentoIndividual = totalDescuentoIndividual;
-	}
-    
-    public void setTotalSinDescuento(double totalSinDescuento) {
-		this.totalSinDescuento = totalSinDescuento;
-	}
-    
-    public void setValorDescuentoIndividual(double valorDescuentoIndividual) {
-		this.valorDescuentoIndividual = valorDescuentoIndividual;
-	}
-    
-    public void setValorDescuentoIndividualSubtotales(double valorDescuentoIndividualSubtotales) {
-		this.valorDescuentoIndividualSubtotales = valorDescuentoIndividualSubtotales;
-	}
-    
-    public void setValorDescuentoIndividualTotales(double valorDescuentoIndividualTotales) {
-		this.valorDescuentoIndividualTotales = valorDescuentoIndividualTotales;
-	}
-    
-    public void setValorDescuentoTotales(double valorDescuentoTotales) {
-		this.valorDescuentoTotales = valorDescuentoTotales;
-	}
-    
-    public void setValorIvaConDescuento(double valorIvaConDescuento) {
-		this.valorIvaConDescuento = valorIvaConDescuento;
-	}
-    
-    public void setValorIvaSinDescuento(double valorIvaSinDescuento) {
-		this.valorIvaSinDescuento = valorIvaSinDescuento;
-	}
-    
-    public void setValorPorcentajeDescuentoIndividual(double valorPorcentajeDescuentoIndividual) {
-		this.valorPorcentajeDescuentoIndividual = valorPorcentajeDescuentoIndividual;
-	}
-    
-    public void setValorPorcentajeDescuentoIndividualSubtotales(double valorPorcentajeDescuentoIndividualSubtotales) {
-		this.valorPorcentajeDescuentoIndividualSubtotales = valorPorcentajeDescuentoIndividualSubtotales;
-	}
-    
-    public void setValorPorcentajeDescuentoIndividualTotales(double valorPorcentajeDescuentoIndividualTotales) {
-		this.valorPorcentajeDescuentoIndividualTotales = valorPorcentajeDescuentoIndividualTotales;
-	}
-    
-    public void setValorPorcentajeDescuentoTotales(double valorPorcentajeDescuentoTotales) {
-		this.valorPorcentajeDescuentoTotales = valorPorcentajeDescuentoTotales;
-	}
 
 }
 
