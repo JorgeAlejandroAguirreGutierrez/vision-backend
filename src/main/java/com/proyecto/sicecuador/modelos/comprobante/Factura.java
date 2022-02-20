@@ -252,6 +252,14 @@ public class Factura extends Entidad {
 	public void setValorPorcentajeDescuentoTotal(double valorPorcentajeDescuentoTotal) {
 		this.valorPorcentajeDescuentoTotal = valorPorcentajeDescuentoTotal;
 	}
+	
+	public void setTotalSinDescuento(double totalSinDescuento) {
+		this.totalSinDescuento = totalSinDescuento;
+	}
+	
+	public void setValorPorcentajeDescuentoSubtotal(double valorPorcentajeDescuentoSubtotal) {
+		this.valorPorcentajeDescuentoSubtotal = valorPorcentajeDescuentoSubtotal;
+	}
 
 	public String getComentario() {
 		return comentario;
