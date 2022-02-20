@@ -35,10 +35,10 @@ public class Factura extends Entidad {
 	private double subtotalBase12ConDescuento;
 	@Column(name = "subtotal_base0_con_descuento", nullable = true)
 	private double subtotalBase0ConDescuento;
-	@Column(name = "importe_iva_sin_descuento", nullable = true)
-	private double importeIvaSinDescuento;
-	@Column(name = "importe_iva_con_descuento", nullable = true)
-	private double importeIvaConDescuento;
+	@Column(name = "iva_sin_descuento", nullable = true)
+	private double ivaSinDescuento;
+	@Column(name = "iva_con_descuento", nullable = true)
+	private double ivaConDescuento;
 	@Column(name = "total_sin_descuento", nullable = true)
 	private double totalSinDescuento;
 	@Column(name = "total_con_descuento", nullable = true)
@@ -53,8 +53,6 @@ public class Factura extends Entidad {
 	private double valorDescuentoTotal;
 	@Column(name = "porcentaje_descuento_total", nullable = true)
 	private double porcentajeDescuentoTotal;
-	@Column(name = "valor_porcentaje_descuento_subtotal", nullable = true)
-	private double valorPorcentajeDescuentoSubtotal;
 	@Column(name = "valor_porcentaje_descuento_total", nullable = true)
 	private double valorPorcentajeDescuentoTotal;
 
@@ -152,13 +150,13 @@ public class Factura extends Entidad {
 	public double getSubtotalBase0SinDescuento() {
 		return subtotalBase0SinDescuento;
 	}
-
-	public double getImporteIvaConDescuento() {
-		return importeIvaConDescuento;
+	
+	public double getIvaSinDescuento() {
+		return ivaSinDescuento;
 	}
 
-	public double getImporteIvaSinDescuento() {
-		return importeIvaSinDescuento;
+	public double getIvaConDescuento() {
+		return ivaConDescuento;
 	}
 
 	public double getTotalSinDescuento() {
@@ -183,10 +181,6 @@ public class Factura extends Entidad {
 
 	public double getPorcentajeDescuentoTotal() {
 		return porcentajeDescuentoTotal;
-	}
-	
-	public double getValorPorcentajeDescuentoSubtotal() {
-		return valorPorcentajeDescuentoSubtotal;
 	}
 
 	public double getValorPorcentajeDescuentoTotal() {
@@ -221,13 +215,14 @@ public class Factura extends Entidad {
 		this.subtotalBase12SinDescuento = subtotalBase12SinDescuento;
 	}
 
-	public void setImporteIvaSinDescuento(double importeIvaSinDescuento) {
-		this.importeIvaSinDescuento = importeIvaSinDescuento;
+	public void setIvaSinDescuento(double ivaSinDescuento) {
+		this.ivaSinDescuento = ivaSinDescuento;
 	}
 
-	public void setImporteIvaConDescuento(double importeIvaConDescuento) {
-		this.importeIvaConDescuento = importeIvaConDescuento;
+	public void setIvaConDescuento(double ivaConDescuento) {
+		this.ivaConDescuento = ivaConDescuento;
 	}
+	
 
 	public void setTotalConDescuento(double totalConDescuento) {
 		this.totalConDescuento = totalConDescuento;
@@ -255,10 +250,6 @@ public class Factura extends Entidad {
 	
 	public void setTotalSinDescuento(double totalSinDescuento) {
 		this.totalSinDescuento = totalSinDescuento;
-	}
-	
-	public void setValorPorcentajeDescuentoSubtotal(double valorPorcentajeDescuentoSubtotal) {
-		this.valorPorcentajeDescuentoSubtotal = valorPorcentajeDescuentoSubtotal;
 	}
 
 	public String getComentario() {
