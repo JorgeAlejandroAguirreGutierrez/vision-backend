@@ -35,8 +35,10 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 import java.io.*;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 @Service
 public class FacturaService implements IFacturaService {
@@ -213,7 +215,7 @@ public class FacturaService implements IFacturaService {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double subtotalSinDescuentoLinea=facturaDetalle.getCantidad()*facturaDetalle.getPrecio().getPrecioVentaPublicoManual();
         	subtotalSinDescuentoLinea=Math.round(subtotalSinDescuentoLinea*100.0)/100.0;
-        	DecimalFormat df = new DecimalFormat("#.00");      
+        	DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));    
         	subtotalSinDescuentoLinea = Double.valueOf(df.format(subtotalSinDescuentoLinea));
         	facturaDetalle.setSubtotalSinDescuentoLinea(subtotalSinDescuentoLinea);
     	}
@@ -223,7 +225,7 @@ public class FacturaService implements IFacturaService {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double valorPorcentajeDescuentoLinea=(facturaDetalle.getSubtotalSinDescuentoLinea()*facturaDetalle.getPorcentajeDescuentoLinea())/100;
         	valorPorcentajeDescuentoLinea= Math.round(valorPorcentajeDescuentoLinea*100.0)/100.0;
-        	DecimalFormat df = new DecimalFormat("#.00");      
+        	DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         	valorPorcentajeDescuentoLinea = Double.valueOf(df.format(valorPorcentajeDescuentoLinea));
             facturaDetalle.setValorPorcentajeDescuentoLinea(valorPorcentajeDescuentoLinea);
     	}
@@ -234,7 +236,7 @@ public class FacturaService implements IFacturaService {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double totalDescuentoLinea=facturaDetalle.getValorDescuentoTotalLinea()+facturaDetalle.getValorPorcentajeDescuentoLinea()+facturaDetalle.getValorDescuentoLinea()+facturaDetalle.getValorPorcentajeDescuentoTotalLinea();  
         	totalDescuentoLinea= Math.round(totalDescuentoLinea*100.0)/100.0;
-        	DecimalFormat df = new DecimalFormat("#.00");      
+        	DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         	totalDescuentoLinea = Double.valueOf(df.format(totalDescuentoLinea));
             facturaDetalle.setTotalDescuentoLinea(totalDescuentoLinea);
     	}
@@ -245,7 +247,7 @@ public class FacturaService implements IFacturaService {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double ivaSinDescuentoLinea=facturaDetalle.getSubtotalSinDescuentoLinea()*facturaDetalle.getImpuesto().getPorcentaje()/100;
             ivaSinDescuentoLinea= Math.round(ivaSinDescuentoLinea*100.0)/100.0;
-            DecimalFormat df = new DecimalFormat("#.00");      
+            DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
             ivaSinDescuentoLinea = Double.valueOf(df.format(ivaSinDescuentoLinea));
             facturaDetalle.setIvaSinDescuentoLinea(ivaSinDescuentoLinea);
     	}
@@ -256,7 +258,7 @@ public class FacturaService implements IFacturaService {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double subtotalConDescuentoLinea=facturaDetalle.getSubtotalSinDescuentoLinea()-facturaDetalle.getTotalDescuentoLinea();
         	subtotalConDescuentoLinea= Math.round(subtotalConDescuentoLinea*100.0)/100.0;
-        	DecimalFormat df = new DecimalFormat("#.00");      
+        	DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         	subtotalConDescuentoLinea = Double.valueOf(df.format(subtotalConDescuentoLinea));
             facturaDetalle.setSubtotalConDescuentoLinea(subtotalConDescuentoLinea);
     	}
@@ -267,7 +269,7 @@ public class FacturaService implements IFacturaService {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double ivaConDescuentoLinea=facturaDetalle.getSubtotalConDescuentoLinea()*facturaDetalle.getImpuesto().getPorcentaje()/100;
         	ivaConDescuentoLinea = Math.round(ivaConDescuentoLinea*100.0)/100.0;
-        	DecimalFormat df = new DecimalFormat("#.00");      
+        	DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         	ivaConDescuentoLinea = Double.valueOf(df.format(ivaConDescuentoLinea));
             facturaDetalle.setIvaConDescuentoLinea(ivaConDescuentoLinea);
     	}
@@ -278,7 +280,7 @@ public class FacturaService implements IFacturaService {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double totalConDescuentoLinea=facturaDetalle.getSubtotalConDescuentoLinea()+facturaDetalle.getIvaConDescuentoLinea();
         	totalConDescuentoLinea = Math.round(totalConDescuentoLinea*100.0)/100.0;
-        	DecimalFormat df = new DecimalFormat("#.00");      
+        	DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         	totalConDescuentoLinea = Double.valueOf(df.format(totalConDescuentoLinea));
             facturaDetalle.setTotalConDescuentoLinea(totalConDescuentoLinea);
     	}
@@ -295,7 +297,7 @@ public class FacturaService implements IFacturaService {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double valorDescuentoLinea=factura.getValorDescuentoSubtotal()*facturaDetalle.getSubtotalSinDescuentoLinea()/factura.getSubtotalSinDescuento();
     		valorDescuentoLinea = Math.round(valorDescuentoLinea*100.0)/100.0;
-    		DecimalFormat df = new DecimalFormat("#.00");      
+    		DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
     		valorDescuentoLinea = Double.valueOf(df.format(valorDescuentoLinea));
     		facturaDetalle.setValorDescuentoLinea(valorDescuentoLinea);
     	}
@@ -303,7 +305,7 @@ public class FacturaService implements IFacturaService {
     private void calcularPorcentajeDescuentoLineaPorDescuentosGenerales(Factura factura) {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double porcentajeDescuentoLinea=factura.getPorcentajeDescuentoSubtotal();
-    		DecimalFormat df = new DecimalFormat("#.00");      
+    		DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
     		porcentajeDescuentoLinea = Double.valueOf(df.format(porcentajeDescuentoLinea));
     		facturaDetalle.setPorcentajeDescuentoLinea(porcentajeDescuentoLinea);
     	}
@@ -313,7 +315,7 @@ public class FacturaService implements IFacturaService {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double valorPorcentajeDescuentoLinea=(facturaDetalle.getSubtotalSinDescuentoLinea()*facturaDetalle.getPorcentajeDescuentoLinea())/100;
         	valorPorcentajeDescuentoLinea= Math.round(valorPorcentajeDescuentoLinea*100.0)/100.0;
-        	DecimalFormat df = new DecimalFormat("#.00");      
+        	DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         	valorPorcentajeDescuentoLinea = Double.valueOf(df.format(valorPorcentajeDescuentoLinea));
             facturaDetalle.setValorPorcentajeDescuentoLinea(valorPorcentajeDescuentoLinea);
     	}
@@ -328,7 +330,7 @@ public class FacturaService implements IFacturaService {
         		valorDescuentoTotalLinea=((factura.getValorDescuentoTotal()*facturaDetalle.getSubtotalSinDescuentoLinea())/factura.getSubtotalSinDescuento());
         	}
         	valorDescuentoTotalLinea= Math.round(valorDescuentoTotalLinea*100.0)/100.0;
-        	DecimalFormat df = new DecimalFormat("#.00");      
+        	DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         	valorDescuentoTotalLinea = Double.valueOf(df.format(valorDescuentoTotalLinea));
         	facturaDetalle.setValorDescuentoTotalLinea(valorDescuentoTotalLinea);
     	}
@@ -337,7 +339,7 @@ public class FacturaService implements IFacturaService {
     private void calcularValorPorcentajeDescuentoTotal(Factura factura){
     	double valorPorcentajeDescuentoTotal=factura.getTotalConDescuento()*(factura.getPorcentajeDescuentoTotal()/100);
     	valorPorcentajeDescuentoTotal= Math.round(valorPorcentajeDescuentoTotal*100.0)/100.0;
-    	DecimalFormat df = new DecimalFormat("#.00");      
+    	DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
     	valorPorcentajeDescuentoTotal = Double.valueOf(df.format(valorPorcentajeDescuentoTotal));
     	factura.setValorPorcentajeDescuentoTotal(valorPorcentajeDescuentoTotal);
     }
@@ -351,7 +353,7 @@ public class FacturaService implements IFacturaService {
         		valorPorcentajeDescuentoTotalLinea=((factura.getValorPorcentajeDescuentoTotal()*facturaDetalle.getSubtotalSinDescuentoLinea())/factura.getSubtotalSinDescuento());
         	}
         	valorPorcentajeDescuentoTotalLinea= Math.round(valorPorcentajeDescuentoTotalLinea*100.0)/100.0;
-        	DecimalFormat df = new DecimalFormat("#.00");      
+        	DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         	valorPorcentajeDescuentoTotalLinea = Double.valueOf(df.format(valorPorcentajeDescuentoTotalLinea));
         	facturaDetalle.setValorPorcentajeDescuentoTotalLinea(valorPorcentajeDescuentoTotalLinea);
     	}
@@ -361,7 +363,7 @@ public class FacturaService implements IFacturaService {
     	for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()) {
     		double porcentajeDescuentoTotalLinea=(facturaDetalle.getValorPorcentajeDescuentoTotalLinea()/facturaDetalle.getSubtotalSinDescuentoLinea())*100;
     		porcentajeDescuentoTotalLinea= Math.round(porcentajeDescuentoTotalLinea*100.0)/100.0;
-    		DecimalFormat df = new DecimalFormat("#.00");      
+    		DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
     		porcentajeDescuentoTotalLinea = Double.valueOf(df.format(porcentajeDescuentoTotalLinea));
         	facturaDetalle.setPorcentajeDescuentoTotalLinea(porcentajeDescuentoTotalLinea);
     	}
@@ -380,7 +382,7 @@ public class FacturaService implements IFacturaService {
           subtotalSinDescuento+=facturaDetalle.getSubtotalSinDescuentoLinea();
         }
         subtotalSinDescuento=Math.round(subtotalSinDescuento*100.0)/100.0;
-        DecimalFormat df = new DecimalFormat("#.00");      
+        DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         subtotalSinDescuento = Double.valueOf(df.format(subtotalSinDescuento));
         factura.setSubtotalSinDescuento(subtotalSinDescuento);
     }
@@ -391,7 +393,7 @@ public class FacturaService implements IFacturaService {
           subtotalConDescuento+=facturaDetalle.getSubtotalConDescuentoLinea();
         }
         subtotalConDescuento=Math.round(subtotalConDescuento*100.0)/100.0;
-        DecimalFormat df = new DecimalFormat("#.00");      
+        DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         subtotalConDescuento = Double.valueOf(df.format(subtotalConDescuento));
         factura.setSubtotalConDescuento(subtotalConDescuento);
     }
@@ -402,7 +404,7 @@ public class FacturaService implements IFacturaService {
 	      descuentoTotal= descuentoTotal+facturaDetalle.getTotalDescuentoLinea();
 	    }
 	    descuentoTotal= Math.round(descuentoTotal*100.0)/100.0;
-	    DecimalFormat df = new DecimalFormat("#.00");      
+	    DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
 	    descuentoTotal = Double.valueOf(df.format(descuentoTotal));
 	    factura.setDescuentoTotal(descuentoTotal);
     }
@@ -415,7 +417,7 @@ public class FacturaService implements IFacturaService {
           }
     	}
         subtotalBase12SinDescuento= Math.round(subtotalBase12SinDescuento*100.0)/100.0;
-        DecimalFormat df = new DecimalFormat("#.00");      
+        DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         subtotalBase12SinDescuento = Double.valueOf(df.format(subtotalBase12SinDescuento));
         factura.setSubtotalBase12SinDescuento(subtotalBase12SinDescuento);
     }
@@ -428,7 +430,7 @@ public class FacturaService implements IFacturaService {
           }
         }
         subtotalBase0SinDescuento=Math.round(subtotalBase0SinDescuento*100.0)/100.0;
-        DecimalFormat df = new DecimalFormat("#.00");      
+        DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         subtotalBase0SinDescuento = Double.valueOf(df.format(subtotalBase0SinDescuento));
         factura.setSubtotalBase0SinDescuento(subtotalBase0SinDescuento);
     }
@@ -441,7 +443,7 @@ public class FacturaService implements IFacturaService {
           }
         }
         subtotalBase12ConDescuento= Math.round(subtotalBase12ConDescuento*100.0)/100.0;
-        DecimalFormat df = new DecimalFormat("#.00");      
+        DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         subtotalBase12ConDescuento = Double.valueOf(df.format(subtotalBase12ConDescuento));
         factura.setSubtotalBase12ConDescuento(subtotalBase12ConDescuento);
     }
@@ -455,7 +457,7 @@ public class FacturaService implements IFacturaService {
           }
         }
         subtotalBase0ConDescuento=Math.round(subtotalBase0ConDescuento*100.0)/100.0;
-        DecimalFormat df = new DecimalFormat("#.00");      
+        DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         subtotalBase0ConDescuento = Double.valueOf(df.format(subtotalBase0ConDescuento));
         factura.setSubtotalBase0ConDescuento(subtotalBase0ConDescuento);
     }
@@ -463,7 +465,7 @@ public class FacturaService implements IFacturaService {
     private void calcularIvaSinDescuento(Factura factura) {
         double ivaSinDescuento=factura.getSubtotalBase12SinDescuento()*12/100;
         ivaSinDescuento=Math.round(ivaSinDescuento*100.0)/100.0;
-        DecimalFormat df = new DecimalFormat("#.00");      
+        DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         ivaSinDescuento = Double.valueOf(df.format(ivaSinDescuento));
         factura.setIvaSinDescuento(ivaSinDescuento);
     }
@@ -471,7 +473,7 @@ public class FacturaService implements IFacturaService {
     private void calcularIvaConDescuento(Factura factura) {
         double ivaConDescuento=factura.getSubtotalBase12ConDescuento()*12/100;
         ivaConDescuento= Math.round(ivaConDescuento*100.0)/100.0;
-        DecimalFormat df = new DecimalFormat("#.00");      
+        DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         ivaConDescuento = Double.valueOf(df.format(ivaConDescuento));
         factura.setIvaConDescuento(ivaConDescuento);
     }
@@ -479,7 +481,7 @@ public class FacturaService implements IFacturaService {
     private void calcularTotalSinDescuento(Factura factura) {
         double totalSinDescuento=factura.getSubtotalBase0SinDescuento()+factura.getSubtotalBase12SinDescuento()+factura.getIvaSinDescuento();
         totalSinDescuento= Math.round(totalSinDescuento*100.0)/100.0;
-        DecimalFormat df = new DecimalFormat("#.00");      
+        DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         totalSinDescuento = Double.valueOf(df.format(totalSinDescuento));
         factura.setTotalSinDescuento(totalSinDescuento);
     }
@@ -487,7 +489,7 @@ public class FacturaService implements IFacturaService {
     private void calcularTotalConDescuento(Factura factura) {
         double totalConDescuento=factura.getSubtotalBase0ConDescuento()+factura.getSubtotalBase12ConDescuento()+factura.getIvaConDescuento();
         totalConDescuento=Math.round(totalConDescuento*100.0)/100.0;
-        DecimalFormat df = new DecimalFormat("#.00");      
+        DecimalFormat df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US));
         totalConDescuento = Double.valueOf(df.format(totalConDescuento));
         factura.setTotalConDescuento(totalConDescuento);
     }
