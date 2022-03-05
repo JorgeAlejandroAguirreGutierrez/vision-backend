@@ -29,7 +29,7 @@ public class ProductoProveedorData implements ApplicationRunner {
             List<ProductoProveedor> productos_proveedores = new ArrayList<>();
             productos_proveedores.add(new ProductoProveedor("PYP011907000001","EQUIVALENTE 1",new Producto(2),new Proveedor(1)));
             productos_proveedores.add(new ProductoProveedor("PYP011907000002","EQUIVALENTE 2",new Producto(2),new Proveedor(2)));
-            productos_proveedores.add(new ProductoProveedor("PYP011907000003","EQUIVALENTE 3",new Producto(21),new Proveedor(1)));
+            productos_proveedores.add(new ProductoProveedor("PYP011907000003","EQUIVALENTE 3",new Producto(2),new Proveedor(1)));
             rep.saveAll(productos_proveedores);
             /*medidas_precios.add(new Medida("MED011907000001", "LIBRA", "PESO","LIBRA", "LB"));
             medidas_precios.add(new Medida("MED011907000002", "KILOGRAMO", "PESO","KILOGRAMO", "KG"));
