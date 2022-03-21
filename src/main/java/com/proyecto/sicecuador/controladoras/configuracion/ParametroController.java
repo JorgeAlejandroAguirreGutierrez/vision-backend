@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathParametro;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IParametroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +79,7 @@ public class ParametroController implements GenericoController<Parametro> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/consultartipo/{tipo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarTipo/{tipo}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarTipo(@PathVariable("tipo") String tipo) {
         List<Parametro> parametro=servicio.consultarTipo(new Parametro(tipo));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);

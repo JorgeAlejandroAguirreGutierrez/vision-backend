@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathFranquiciaTarj
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IFranquiciaTarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;

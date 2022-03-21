@@ -15,6 +15,9 @@ public class Constantes {
 	
 	public static final String tipo_producto_bien="BIEN";
 	
+	public static final String recaudado="RECAUDADO";
+	public static final String norecaudado="NORECAUDADO";
+	
     public static final String mensaje_consultar_exitoso="Exito en la consulta";
     public static final String mensaje_obtener_exitoso="Exito en la consulta";
     public static final String mensaje_crear_exitoso="Exito al procesar";

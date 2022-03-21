@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathCaracteristica
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
@@ -77,15 +76,15 @@ public class CaracteristicaController implements GenericoController<Caracteristi
         return null;
     }
 
-    @GetMapping(value = "/tipo/bien/{producto_id}/existencias", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarBienExistencias(@PathVariable("producto_id") long producto_id) {
-        List<Caracteristica> caracteristicas=servicio.consultarBienExistencias(new Producto(producto_id));
+    @GetMapping(value = "/tipo/bien/{productoId}/existencias", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarBienExistencias(@PathVariable("productoId") long productoId) {
+        List<Caracteristica> caracteristicas=servicio.consultarBienExistencias(new Producto(productoId));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, caracteristicas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/tipo/bien/{producto_id}/existencias/{bodega_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarBienExistenciasBodega(@PathVariable("producto_id") long producto_id, @PathVariable("bodega_id") long bodega_id) {
-        List<Caracteristica> caracteristicas=servicio.consultarBienExistenciasBodega(new Producto(producto_id), new Bodega(bodega_id));
+    @GetMapping(value = "/tipo/bien/{productoId}/existencias/{bodegaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarBienExistenciasBodega(@PathVariable("productoId") long productoId, @PathVariable("bodegaId") long bodegaId) {
+        List<Caracteristica> caracteristicas=servicio.consultarBienExistenciasBodega(new Producto(productoId), new Bodega(bodegaId));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, caracteristicas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

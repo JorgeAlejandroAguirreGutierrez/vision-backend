@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathCredito;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;

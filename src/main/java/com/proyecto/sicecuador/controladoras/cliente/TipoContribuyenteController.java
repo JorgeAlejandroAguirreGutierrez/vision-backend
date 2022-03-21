@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathTipoContribuye
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITipoContribuyenteService;
 import org.springframework.beans.factory.annotation.Autowired;

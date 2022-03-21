@@ -3,8 +3,15 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.modelos.recaudacion.Cheque;
+import com.proyecto.sicecuador.modelos.recaudacion.Compensacion;
+import com.proyecto.sicecuador.modelos.recaudacion.Deposito;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
 import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
+import com.proyecto.sicecuador.modelos.recaudacion.RetencionVenta;
+import com.proyecto.sicecuador.modelos.recaudacion.TarjetaCredito;
+import com.proyecto.sicecuador.modelos.recaudacion.TarjetaDebito;
+import com.proyecto.sicecuador.modelos.recaudacion.Transferencia;
 import com.proyecto.sicecuador.repositorios.recaudacion.IRecaudacionRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRangoCrediticioService;
@@ -81,6 +88,71 @@ public class RecaudacionService implements IRecaudacionService {
     public Optional<Recaudacion> obtenerPorFactura(long facturaId){
     	return rep.obtenerPorFactura(facturaId);
     }
+    
+    @Override
+    public Optional<Recaudacion> calcular(Recaudacion recaudacion){
+    	double totalCheques=0;
+    	double total=0;
+        for(Cheque cheque: recaudacion.getCheques()) {
+        	totalCheques=totalCheques+cheque.getValor();
+        	total=total+totalCheques;
+        }
+        
+        double totalDepositos=0;
+        for(Deposito deposito: recaudacion.getDepositos()) {
+        	totalDepositos=totalDepositos+deposito.getValor();
+        	total=total+totalDepositos;
+        }
+        
+        double totalTransferencias=0;
+        for(Transferencia transferencia: recaudacion.getTransferencias()) {
+        	totalTransferencias=totalTransferencias+transferencia.getValor();
+        	total=total+totalTransferencias;
+        }
+        
+        double totalTarjetasDebitos=0;
+        for(TarjetaDebito tarjetaDebito: recaudacion.getTarjetasDebitos()) {
+        	totalTarjetasDebitos=totalTarjetasDebitos+tarjetaDebito.getValor();
+        	total=total+totalTarjetasDebitos;
+        }
+        
+        double totalTarjetasCreditos=0;
+        for(TarjetaCredito tarjetaCredito: recaudacion.getTarjetasCreditos()) {
+        	totalTarjetasCreditos=totalTarjetasCreditos+tarjetaCredito.getValor();
+        	total=total+totalTarjetasCreditos;
+        }
+        
+        double totalCompensaciones=0;
+        for(Compensacion compensacion: recaudacion.getCompensaciones()) {
+        	totalCompensaciones=totalCompensaciones+compensacion.getSaldo();
+        	total=total+totalCompensaciones;
+        }
+        
+        double totalRetencionesVentas=0;
+        for(RetencionVenta retencionVenta: recaudacion.getRetencionesVentas()) {
+        	totalRetencionesVentas=totalRetencionesVentas+retencionVenta.getValor();
+        	total=total+totalRetencionesVentas;
+        }
+        
+        recaudacion.setTotalCheques(totalCheques);
+        recaudacion.setTotalDepositos(totalDepositos);
+        recaudacion.setTotalTransferencias(totalTransferencias);
+        recaudacion.setTotalTarjetasDebitos(totalTarjetasDebitos);
+        recaudacion.setTotalTarjetasCreditos(totalTarjetasCreditos);   
+        recaudacion.setTotalCompensaciones(totalCompensaciones);   
+        recaudacion.setTotalRetencionesVentas(totalRetencionesVentas);   
+        recaudacion.setTotal(total);
+        double pagar=recaudacion.getFactura().getTotalConDescuento()-total;
+        recaudacion.setTotalCredito(pagar);
+        recaudacion.getCredito().setSaldo(pagar);
+        if(recaudacion.getTotal()==recaudacion.getFactura().getTotalConDescuento()) {
+        	recaudacion.setEstado(Constantes.recaudado);
+        } else {
+        	recaudacion.setEstado(Constantes.norecaudado);
+        }
+		return Optional.of(recaudacion);
+    }
+    
     @Override
     public boolean importar(MultipartFile file) {
         return false;

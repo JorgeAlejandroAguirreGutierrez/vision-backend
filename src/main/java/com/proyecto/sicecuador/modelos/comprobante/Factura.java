@@ -294,7 +294,7 @@ public class Factura extends Entidad {
 	}
 
 	public void normalizar() {
-		if (this.clienteFactura.getId() == 0) {
+		if (this.clienteFactura!=null && this.clienteFactura.getId() == 0) {
 			this.clienteFactura = null;
 		}
 	}

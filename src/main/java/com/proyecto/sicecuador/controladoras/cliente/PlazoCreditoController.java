@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathPlazoCredito;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.servicios.interf.cliente.IPlazoCreditoService;
 import org.springframework.beans.factory.annotation.Autowired;

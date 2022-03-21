@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathProducto;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,15 +82,9 @@ public class ProductoController implements GenericoController<Producto> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/tipo/activofijo", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/tipo/activoFijo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarActivoFijo() {
         List<Producto> productos=servicio.consultarActivoFijo();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    @GetMapping(value = "/buscar/producto/{producto_id}/bodega", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarBodega() {
-        List<Producto> productos=servicio.consultarBodega();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

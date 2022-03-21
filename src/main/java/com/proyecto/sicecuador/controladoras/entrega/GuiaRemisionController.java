@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathGuiaRemision;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
 import com.proyecto.sicecuador.servicios.interf.entrega.IGuiaRemisionService;
 import org.springframework.beans.factory.annotation.Autowired;
