@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathAmortizacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IAmortizacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+
 @RestController
 @RequestMapping(contexto+pathAmortizacion)
 public class AmortizacionController implements GenericoController<Amortizacion> {

@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.datos.usuario;
 
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
-import com.proyecto.sicecuador.modelos.usuario.Permiso;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.repositorios.usuario.IPuntoVentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -72,8 +72,8 @@ public class AfectacionContableController implements GenericoController<Afectaci
 
     @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> buscar(@RequestBody AfectacionContable afectacionContable) {
-    	List<AfectacionContable> afectaciones_contables=servicio.buscar(afectacionContable);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, afectaciones_contables);
+    	List<AfectacionContable> afectacionesContables=servicio.buscar(afectacionContable);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, afectacionesContables);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathTablaEquivalen
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.TablaEquivalenciaMedida;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITablaEquivalenciaMedidaService;
@@ -78,17 +77,17 @@ public class TablaEquivalenciaMedidaController implements GenericoController<Tab
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{medida1_id}/{medida2_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerMedida1Medida2(@PathVariable("medida1_id") long medida1_id, @PathVariable("medida2_id") long medida2_id) {
-        TablaEquivalenciaMedida tabla=servicio.obtenerMedida1Medida2(new TablaEquivalenciaMedida(new Medida(medida1_id), new Medida(medida2_id))).get();
+    @GetMapping(value = "/{medida1Id}/{medida2Id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerMedida1Medida2(@PathVariable("medida1Id") long medida1Id, @PathVariable("medida2Id") long medida2Id) {
+        TablaEquivalenciaMedida tabla=servicio.obtenerMedida1Medida2(new TablaEquivalenciaMedida(new Medida(medida1Id), new Medida(medida2Id))).get();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tabla);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscarmedidasequivalentes/{medida1_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscarMedidasEquivalentes(@PathVariable("medida1_id") long medida1_id) {
+    @GetMapping(value = "/buscarMedidasEquivalentes/{medida1Id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscarMedidasEquivalentes(@PathVariable("medida1Id") long medida1Id) {
     	TablaEquivalenciaMedida parametro = new TablaEquivalenciaMedida();
-    	parametro.setMedida1(new Medida(medida1_id));
+    	parametro.setMedida1(new Medida(medida1Id));
         List<TablaEquivalenciaMedida> tablas=servicio.buscarMedidasEquivalentes(parametro);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tablas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);

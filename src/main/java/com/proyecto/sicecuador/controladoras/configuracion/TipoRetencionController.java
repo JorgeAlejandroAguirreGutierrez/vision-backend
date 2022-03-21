@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathTipoRetencion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoRetencionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,25 +68,25 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/ivabien", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/ivaBien", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarIvaBien() {
         List<TipoRetencion> tipos_retenciones=servicio.consultarIvaBien();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_retenciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/ivaservicio", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/ivaServicio", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarIvaServicio() {
         List<TipoRetencion> tipos_retenciones=servicio.consultarIvaServicio();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_retenciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/rentabien", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/rentaBien", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarRentaBien() {
         List<TipoRetencion> tipos_retenciones=servicio.consultarRentaBien();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_retenciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/rentaservicio", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/rentaServicio", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarRentaServicio() {
         List<TipoRetencion> tipos_retenciones=servicio.consultarRentaServicio();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_retenciones);
