@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathSesion)
@@ -67,6 +68,12 @@ public class SesionController implements GenericoController<Sesion> {
         Sesion sesion=servicio.eliminar(new Sesion(id));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, sesion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @PostMapping(value = "/validar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> validarSesion(@RequestBody @Valid Sesion _sesion) {
+        Optional<Sesion> sesion=servicio.validar(_sesion);
+        return new ResponseEntity<>(sesion, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)

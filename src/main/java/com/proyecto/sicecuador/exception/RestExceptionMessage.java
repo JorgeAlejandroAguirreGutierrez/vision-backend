@@ -5,13 +5,13 @@ import java.util.List;
 
 public class RestExceptionMessage {
 	private String codigo;
-    private String message;
-    private List<String> errors;
+    private String mensaje;
+    private List<String> errores;
     private Date timestamp;
 
-    public RestExceptionMessage(String codigo, String message, List<String> errors) {
-        this.message = message;
-        this.errors = errors;
+    public RestExceptionMessage(String codigo, String mensaje, List<String> errores) {
+        this.mensaje = mensaje;
+        this.errores = errores;
         this.timestamp = new Date();
         this.codigo=codigo;
     }
@@ -20,21 +20,21 @@ public class RestExceptionMessage {
 		return codigo;
 	}
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public List<String> getErrors() {
-        return errors;
-    }
-
-    public void setErrors(List<String> errors) {
-        this.errors = errors;
-    }
+    public String getMensaje() {
+		return mensaje;
+	}
+    
+    public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+    
+    public List<String> getErrores() {
+		return errores;
+	}
+    
+    public void setErrores(List<String> errores) {
+		this.errores = errores;
+	}
 
     public Date getTimestamp() {
         return timestamp;

@@ -10,8 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "guia_remision")
-public class GuiaRemision extends Entidad {
+@Table(name = "entrega")
+public class Entrega extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;
     @Column(name = "fecha", nullable = true)
@@ -23,7 +23,7 @@ public class GuiaRemision extends Entidad {
     @Column(name = "latitudgeo", nullable = true)
     private String latitudgeo;
     @Column(name = "estado", nullable = true)
-    private boolean estado;
+    private String estado;
     @Column(name = "inhabilitar", nullable = true)
     private boolean inhabilitar;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
@@ -38,21 +38,21 @@ public class GuiaRemision extends Entidad {
     private Transportista transportista;
 
 
-    public GuiaRemision(){
+    public Entrega(){
 
     }
 
-    public GuiaRemision(long id){
+    public Entrega(long id){
         super(id);
     }
 
-    public GuiaRemision(List<String> datos){
+    public Entrega(List<String> datos){
         numero=datos.get(0)== null ? null: datos.get(0);
         fecha=datos.get(1)== null ? null: new Date(datos.get(1));
         referencia=datos.get(2)== null ? null: datos.get(2);
         longitudgeo=datos.get(3)== null ? null: datos.get(3);
         latitudgeo=datos.get(4)== null ? null: datos.get(4);
-        estado=datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
+        estado=datos.get(5)== null ? null: datos.get(5);
         inhabilitar=datos.get(6)== null ? null: datos.get(6).equals("S") ? true : false;
         direccion=datos.get(7)== null ? null:new Direccion((long) Double.parseDouble(datos.get(7)));
         factura=datos.get(8)== null ? null:new Factura((long) Double.parseDouble(datos.get(8)));
@@ -83,9 +83,9 @@ public class GuiaRemision extends Entidad {
         return latitudgeo;
     }
 
-    public boolean isEstado() {
-        return estado;
-    }
+    public String getEstado() {
+		return estado;
+	}
 
     public Factura getFactura() {
         return factura;

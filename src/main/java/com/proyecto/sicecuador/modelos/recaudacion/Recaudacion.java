@@ -41,7 +41,7 @@ public class Recaudacion extends Entidad {
     private double totalRetencionesVentas;
     @Column(name = "total_credito", nullable = true)
     private double totalCredito;
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
     @NotNull
