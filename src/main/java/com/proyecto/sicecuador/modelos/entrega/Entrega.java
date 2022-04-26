@@ -24,6 +24,12 @@ public class Entrega extends Entidad {
     private String latitudgeo;
     @Column(name = "estado", nullable = true)
     private String estado;
+    @Column(name = "telefono", nullable = true)
+    private String telefono;
+    @Column(name = "celular", nullable = true)
+    private String celular;
+    @Column(name = "correo", nullable = true)
+    private String correo;
     @Column(name = "inhabilitar", nullable = true)
     private boolean inhabilitar;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
@@ -82,6 +88,18 @@ public class Entrega extends Entidad {
     public String getLatitudgeo() {
         return latitudgeo;
     }
+    
+    public String getTelefono() {
+		return telefono;
+	}
+    
+    public String getCelular() {
+		return celular;
+	}
+    
+    public String getCorreo() {
+		return correo;
+	}
 
     public String getEstado() {
 		return estado;

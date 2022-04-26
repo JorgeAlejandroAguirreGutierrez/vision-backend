@@ -18,6 +18,9 @@ public class Constantes {
 	public static final String recaudado="RECAUDADO";
 	public static final String norecaudado="NORECAUDADO";
 	
+	public static final String emitida="EMITIDA";
+	public static final String noemitida="NOEMITIDA";
+	
 	public static final String pendiente="PENDIENTE";
 	public static final String entregado="ENTREGADO";
 	
