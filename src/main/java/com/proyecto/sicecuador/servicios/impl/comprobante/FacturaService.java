@@ -63,6 +63,7 @@ public class FacturaService implements IFacturaService {
     	}
     	factura.setCodigo(codigo.get());
     	factura.setSecuencia(secuencia.get());
+    	factura.setEstado(Constantes.noemitida);
         return rep.save(factura);
     }
 

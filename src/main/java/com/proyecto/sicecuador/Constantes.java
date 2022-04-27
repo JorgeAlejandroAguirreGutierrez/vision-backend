@@ -18,6 +18,12 @@ public class Constantes {
 	public static final String recaudado="RECAUDADO";
 	public static final String norecaudado="NORECAUDADO";
 	
+	public static final String emitida="EMITIDA";
+	public static final String noemitida="NOEMITIDA";
+	
+	public static final String pendiente="PENDIENTE";
+	public static final String entregado="ENTREGADO";
+	
     public static final String mensaje_consultar_exitoso="Exito en la consulta";
     public static final String mensaje_obtener_exitoso="Exito en la consulta";
     public static final String mensaje_crear_exitoso="Exito al procesar";
@@ -112,7 +118,7 @@ public class Constantes {
     public static final String tabla_ubicacion="ubicacion";
     
     //ENTREGA
-    public static final String tabla_guia_remision="guia_remision";
+    public static final String tabla_entrega="entrega";
     public static final String tabla_transportista="transportista";
     public static final String tabla_vehiculo_transporte="vehiculo_transporte";
     

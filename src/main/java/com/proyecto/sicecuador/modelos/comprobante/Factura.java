@@ -20,7 +20,7 @@ public class Factura extends Entidad {
 	@Column(name = "fecha", nullable = true)
 	private Date fecha;
 	@Column(name = "estado", nullable = true)
-	private boolean estado;
+	private String estado;
 	@Column(name = "subtotal_sin_descuento", nullable = true)
 	private double subtotalSinDescuento;
 	@Column(name = "subtotal_con_descuento", nullable = true)
@@ -94,7 +94,7 @@ public class Factura extends Entidad {
 		this.secuencia = secuencia;
 	}
 
-	public Factura(String codigo, String secuencia, Date fecha, boolean estado, double subtotal,
+	public Factura(String codigo, String secuencia, Date fecha, String estado, double subtotal,
 			double valorDescuentoSubtotal, double porcentajeDescuentoSubtotal, double valorPorcentajeDescuentoSubtotal,
 			double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal,
 			double descuento, double base12, double base0, double importeIva, double total, String comentario,
@@ -119,7 +119,7 @@ public class Factura extends Entidad {
 		return fecha;
 	}
 
-	public boolean isEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
@@ -185,6 +185,10 @@ public class Factura extends Entidad {
 
 	public double getValorPorcentajeDescuentoTotal() {
 		return valorPorcentajeDescuentoTotal;
+	}
+	
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	public void setSubtotalSinDescuento(double subtotalSinDescuento) {

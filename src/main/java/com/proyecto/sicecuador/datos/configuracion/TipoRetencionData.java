@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.datos.configuracion;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoRetencionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

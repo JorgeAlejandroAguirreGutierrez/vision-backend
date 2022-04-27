@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.repositorios.inventario;
 
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

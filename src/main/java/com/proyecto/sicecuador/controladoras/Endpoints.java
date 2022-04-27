@@ -46,7 +46,7 @@ public class Endpoints {
     public static final String pathUbicacion="ubicacion";
     
     //ENTREGA
-    public static final String pathGuiaRemision="guiaRemision";
+    public static final String pathEntrega="entrega";
     public static final String pathTransportista="transportista";
     public static final String pathVehiculoTransporte="vehiculoTransporte";
     
