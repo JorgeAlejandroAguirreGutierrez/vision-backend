@@ -284,7 +284,6 @@ public class Cliente extends Entidad {
     public void normalizar(){
         if (this.direccion.getUbicacion().getId()==0) this.direccion.setUbicacion(null);
         if (this.financiamiento.getFormaPago().getId()==0) this.financiamiento.setFormaPago(null);
-        if (this.financiamiento.getTipoPago().getId()==0) this.financiamiento.setTipoPago(null);
         if (this.financiamiento.getPlazoCredito() != null && this.financiamiento.getPlazoCredito().getId()==0) this.financiamiento.setPlazoCredito(null);
         if (this.calificacionCliente.getId()==0) this.calificacionCliente=null;
         if (this.genero.getId()==0) this.genero=null;
