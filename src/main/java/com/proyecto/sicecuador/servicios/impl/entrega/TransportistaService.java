@@ -60,7 +60,7 @@ public class TransportistaService implements ITransportistaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Transportista> transportistas=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,1);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,1);
             for (List<String> datos: info) {
                 Transportista transportista = new Transportista(datos);
                 transportistas.add(transportista);

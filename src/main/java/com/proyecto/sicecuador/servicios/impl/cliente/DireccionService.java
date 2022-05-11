@@ -61,7 +61,7 @@ public class DireccionService implements IDireccionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Direccion> direcciones=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,7);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,7);
             for (List<String> datos: info) {
                 Direccion direccion = new Direccion(datos);
                 direcciones.add(direccion);

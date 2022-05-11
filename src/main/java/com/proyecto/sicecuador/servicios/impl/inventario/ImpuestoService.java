@@ -64,7 +64,7 @@ public class ImpuestoService implements IImpuestoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Impuesto> impuestos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,3);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,3);
             for (List<String> datos: info) {
                 Impuesto impuesto = new Impuesto(datos);
                 impuestos.add(impuesto);

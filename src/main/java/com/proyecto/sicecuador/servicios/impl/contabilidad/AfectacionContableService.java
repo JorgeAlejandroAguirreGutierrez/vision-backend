@@ -4,7 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.ModeloExistenteException;
+import com.proyecto.sicecuador.exception.EntidadExistenteException;
 import com.proyecto.sicecuador.repositorios.contabilidad.IAfectacionContableRepository;
 import com.proyecto.sicecuador.servicios.interf.contabilidad.IAfectacionContableService;
 
@@ -84,7 +84,7 @@ public class AfectacionContableService implements IAfectacionContableService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<AfectacionContable> afectaciones_contables=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,7);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,7);
             for (List<String> datos: info) {
                 AfectacionContable afectacionContable = new AfectacionContable(datos);
                 afectaciones_contables.add(afectacionContable);

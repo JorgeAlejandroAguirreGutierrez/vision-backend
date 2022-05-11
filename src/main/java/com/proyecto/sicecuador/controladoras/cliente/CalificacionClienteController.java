@@ -7,6 +7,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICalificacionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 @RestController
 @RequestMapping(contexto+pathCalificacionCliente)
 public class CalificacionClienteController implements GenericoController<CalificacionCliente> {
@@ -65,6 +67,13 @@ public class CalificacionClienteController implements GenericoController<Calific
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
         CalificacionCliente calificacion_cliente=servicio.eliminar(new CalificacionCliente(id));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, calificacion_cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @DeleteMapping(value = "personalizado/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> eliminarPersonalizado(@PathVariable("id") long id) {
+        Optional<CalificacionCliente> _calificacionCliente=servicio.eliminarPersonalizado(id);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_eliminar_exitoso, _calificacionCliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     

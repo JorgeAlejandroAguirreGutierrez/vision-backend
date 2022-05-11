@@ -46,7 +46,7 @@ public class Util {
 	
 	
 	
-	public static File archivo_convertir(MultipartFile archivo ) throws IOException
+	public static File archivoConvertir(MultipartFile archivo ) throws IOException
     {
         File archivo_convertir = new File( archivo.getOriginalFilename() );
         FileOutputStream archivo_salida = new FileOutputStream( archivo_convertir );
@@ -55,11 +55,11 @@ public class Util {
         return archivo_convertir;
     }
 
-    public static List<List<String>> leer_importar(MultipartFile archivo_temporal, int pagina){
+    public static List<List<String>> leerImportar(MultipartFile archivo_temporal, int pagina){
         List<List<String>> info=new ArrayList<>();
         InputStream archivo_excel=null;
         try {
-            File archivo= archivo_convertir(archivo_temporal);
+            File archivo= archivoConvertir(archivo_temporal);
             archivo_excel = new FileInputStream(archivo);
             // Representación del más alto nivel de la hoja excel.
             XSSFWorkbook libro = new XSSFWorkbook(archivo_excel);
@@ -98,7 +98,7 @@ public class Util {
                         System.out.print("[Column " + columna + ": " + valor_celda + "] ");
                         datos.add(valor_celda);
                     }
-                    if(validar_datos_importacion(datos)){
+                    if(validar_datosImportacion(datos)){
                         info.add(datos);
                     }
 
@@ -119,7 +119,7 @@ public class Util {
         }
     }
 
-    private static boolean validar_datos_importacion(List<String>datos){
+    private static boolean validar_datosImportacion(List<String>datos){
         for (int i=0; i<datos.size(); i++){
             if (datos.get(i)!= null){
                 return true;

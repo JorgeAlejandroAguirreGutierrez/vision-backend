@@ -60,7 +60,7 @@ public class BodegaService implements IBodegaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Bodega> bodegas=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
             for (List<String> datos: info) {
                 Bodega bodega = new Bodega(datos);
                 bodegas.add(bodega);

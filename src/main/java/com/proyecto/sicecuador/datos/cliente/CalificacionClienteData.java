@@ -1,10 +1,6 @@
 package com.proyecto.sicecuador.datos.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
 import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.Direccion;
-import com.proyecto.sicecuador.repositorios.cliente.IAuxiliarRepository;
 import com.proyecto.sicecuador.repositorios.cliente.ICalificacionClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

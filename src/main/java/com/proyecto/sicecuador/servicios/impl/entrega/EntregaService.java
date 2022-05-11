@@ -68,7 +68,7 @@ public class EntregaService implements IEntregaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Entrega> guias_remisiones=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
             for (List<String> datos: info) {
                 Entrega guia_remision = new Entrega(datos);
                 guias_remisiones.add(guia_remision);

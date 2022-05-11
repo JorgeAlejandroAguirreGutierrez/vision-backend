@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.ModeloNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.exception.SesionInvalidaException;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
@@ -42,7 +42,7 @@ public class SesionService implements ISesionService {
             sesion.setActiva(true);
             return rep.save(sesion);
     	}
-    	throw new ModeloNoExistenteException(); 
+    	throw new EntidadNoExistenteException(Constantes.sesion); 
     }
 
     @Override
@@ -89,7 +89,7 @@ public class SesionService implements ISesionService {
 			}
 			throw new SesionInvalidaException();
         }
-        throw new ModeloNoExistenteException();
+        throw new EntidadNoExistenteException(Constantes.sesion);
     }
     
     @Override
@@ -105,7 +105,7 @@ public class SesionService implements ISesionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Sesion> sesiones=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,4);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,4);
             for (List<String> datos: info) {
                 Sesion sesion = new Sesion(datos);
                 sesiones.add(sesion);

@@ -1,13 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.repositorios.cliente.IFinanciamientoRepository;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IFinanciamientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -63,7 +60,7 @@ public class FinanciamientoService implements IFinanciamientoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Financiamiento> financiamientos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,9);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,9);
             for (List<String> datos: info) {
                 Financiamiento financiamiento = new Financiamiento(datos);
                 financiamientos.add(financiamiento);

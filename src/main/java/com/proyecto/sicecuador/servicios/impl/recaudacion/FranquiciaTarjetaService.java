@@ -62,7 +62,7 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<FranquiciaTarjeta> franquicias_tarjetas=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,4);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,4);
             for (List<String> datos: info) {
                 FranquiciaTarjeta franquicia_tarjeta = new FranquiciaTarjeta(datos);
                 franquicias_tarjetas.add(franquicia_tarjeta);

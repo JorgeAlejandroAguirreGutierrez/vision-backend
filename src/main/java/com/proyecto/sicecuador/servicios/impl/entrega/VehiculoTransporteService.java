@@ -60,7 +60,7 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<VehiculoTransporte> vehiculos_transportes=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,2);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,2);
             for (List<String> datos: info) {
                 VehiculoTransporte vehculo_transporte = new VehiculoTransporte(datos);
                 vehiculos_transportes.add(vehculo_transporte);

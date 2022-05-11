@@ -64,7 +64,7 @@ public class RetencionClienteService implements IRetencionClienteService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<RetencionCliente> retenciones_clientes=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal, 15);
+            List<List<String>>info= Util.leerImportar(archivo_temporal, 15);
             for (List<String> datos: info) {
                 RetencionCliente retencion_cliente = new RetencionCliente(datos);
                 Optional<Cliente> cliente=rep_cliente.findById(retencion_cliente.getCliente().getId());

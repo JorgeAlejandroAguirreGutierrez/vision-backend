@@ -78,7 +78,7 @@ public class UsuarioService implements IUsuarioService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Usuario> usuarios=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,5);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,5);
             for (List<String> datos: info) {
                 Usuario usuario = new Usuario(datos);
                 usuarios.add(usuario);

@@ -61,7 +61,7 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<CategoriaProducto> categorias_productos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,10);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,10);
             for (List<String> datos: info) {
                 CategoriaProducto categoria_producto = new CategoriaProducto(datos);
                 categorias_productos.add(categoria_producto);

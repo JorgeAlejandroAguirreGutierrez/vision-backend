@@ -4,7 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.ModeloExistenteException;
+import com.proyecto.sicecuador.exception.EntidadExistenteException;
 import com.proyecto.sicecuador.repositorios.proveedor.IProveedorRepository;
 import com.proyecto.sicecuador.servicios.interf.proveedor.IProveedorService;
 
@@ -84,7 +84,7 @@ public class ProveedorService implements IProveedorService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Proveedor> proveedores=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,7);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,7);
             for (List<String> datos: info) {
                 Proveedor proveedor = new Proveedor(datos);
                 proveedores.add(proveedor);

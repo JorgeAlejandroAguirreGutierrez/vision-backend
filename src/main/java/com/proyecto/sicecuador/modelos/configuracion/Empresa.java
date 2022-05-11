@@ -11,8 +11,8 @@ public class Empresa extends Entidad {
     private String identificacion;
     @Column(name = "razon_social", nullable = true)
     private String razonSocial;
-    @Column(name = "logo", nullable = true)
-    private String logo;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public Empresa(){
 
@@ -22,16 +22,16 @@ public class Empresa extends Entidad {
         super(id);
     }
 
-    public Empresa(String codigo, String identificacion, String razonSocial, String logo) {
+    public Empresa(String codigo, String identificacion, String razonSocial, String estado) {
         super(codigo);
         this.identificacion=identificacion;
         this.razonSocial=razonSocial;
-        this.logo=logo;
+        this.estado=estado;
     }
     public Empresa(List<String> datos){
         identificacion=datos.get(0)== null ? null: datos.get(0);
         razonSocial=datos.get(1)== null ? null: datos.get(1);
-        logo=datos.get(2)== null ? null: datos.get(2);
+        estado=datos.get(2)== null ? null: datos.get(2);
 
     }
     public String getIdentificacion() {
@@ -42,7 +42,7 @@ public class Empresa extends Entidad {
 	   return razonSocial;
    }
 
-    public String getLogo() {
-        return logo;
-    }
+    public String getEstado() {
+		return estado;
+	}
 }

@@ -77,7 +77,7 @@ public class SegmentoService implements ISegmentoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Segmento> segmentos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,8);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,8);
             for (List<String> datos: info) {
                 Segmento segmento = new Segmento(datos);
                 segmentos.add(segmento);

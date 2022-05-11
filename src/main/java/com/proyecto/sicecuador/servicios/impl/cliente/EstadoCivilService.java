@@ -1,14 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
-import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.repositorios.cliente.IEstadoCivilRepository;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IEstadoCivilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -91,7 +87,7 @@ public class EstadoCivilService implements IEstadoCivilService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<EstadoCivil> estados_civiles=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,8);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,8);
             for (List<String> datos: info) {
                 EstadoCivil estado_civil = new EstadoCivil(datos);
                 estados_civiles.add(estado_civil);

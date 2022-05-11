@@ -61,7 +61,7 @@ public class RangoCrediticioService implements IRangoCrediticioService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<RangoCrediticio> rangos_crediticios=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,6);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,6);
             for (List<String> datos: info) {
                 RangoCrediticio rango_crediticio = new RangoCrediticio(datos);
                 rangos_crediticios.add(rango_crediticio);
