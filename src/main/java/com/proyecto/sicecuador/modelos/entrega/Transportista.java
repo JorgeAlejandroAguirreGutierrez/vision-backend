@@ -13,7 +13,7 @@ public class Transportista extends Entidad {
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
     @Column(name = "vehiculo_propio")
-    private boolean vehiculoPropio;
+    private String vehiculoPropio;
     @OneToOne
     @JoinColumn(name = "vehiculo_transporte_id")
     private VehiculoTransporte vehiculoTransporte;
@@ -26,7 +26,7 @@ public class Transportista extends Entidad {
         super(id);
     }
 
-    public Transportista(String codigo, String nombre, String identificacion, boolean vehiculoPropio, VehiculoTransporte vehiculoTransporte){
+    public Transportista(String codigo, String nombre, String identificacion, String vehiculoPropio, VehiculoTransporte vehiculoTransporte){
         super(codigo);
         this.nombre=nombre;
         this.identificacion=identificacion;
@@ -37,7 +37,7 @@ public class Transportista extends Entidad {
     public Transportista(List<String>datos){
         nombre=datos.get(0)== null ? null: datos.get(0);
         identificacion=datos.get(1)== null ? null: datos.get(1);
-        vehiculoPropio=datos.get(2)== null ? null: datos.get(2).equals("S") ? true : false;
+        vehiculoPropio=datos.get(2)== null ? null: datos.get(2);
         vehiculoTransporte=datos.get(3)== null ? null: new VehiculoTransporte((long) Double.parseDouble(datos.get(3)));
     }
     public String getNombre() {
@@ -48,11 +48,11 @@ public class Transportista extends Entidad {
         return identificacion;
     }
 
-    public boolean isVehiculoPropio() {
+    public String getVehiculoPropio() {
 		return vehiculoPropio;
 	}
     
-    public void setVehiculoPropio(boolean vehiculoPropio) {
+    public void setVehiculoPropio(String vehiculoPropio) {
 		this.vehiculoPropio = vehiculoPropio;
 	}
     

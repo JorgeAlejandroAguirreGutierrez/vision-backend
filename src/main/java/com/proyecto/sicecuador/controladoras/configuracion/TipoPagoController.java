@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.controladoras.cliente;
+package com.proyecto.sicecuador.controladoras.configuracion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathTipoPago;
