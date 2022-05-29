@@ -1,6 +1,6 @@
 package com.proyecto.sicecuador.datos.comprobante;
 
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.Dependiente;
 import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.Egreso;

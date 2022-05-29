@@ -6,7 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathAuxiliar;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.Dependiente;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.IAuxiliarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,62 +24,62 @@ import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequestMapping(contexto+pathAuxiliar)
-public class AuxiliarController implements GenericoController<Auxiliar> {
+public class DependienteController implements GenericoController<Dependiente> {
     @Autowired
     private IAuxiliarService servicio;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<Auxiliar> categorias_clientes=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, categorias_clientes);
+        List<Dependiente> dependientes=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, dependientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<Auxiliar> auxiliares = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, auxiliares);
+    	Page<Dependiente> dependientes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, dependientes);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Auxiliar auxiliar=servicio.obtener(new Auxiliar(id)).get();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, auxiliar);
+        Dependiente dependiente=servicio.obtener(new Dependiente(id)).get();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Auxiliar _auxiliar) {
-        Auxiliar auxiliar=servicio.crear(_auxiliar);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, auxiliar);
+    public ResponseEntity<?> crear(@RequestBody @Valid Dependiente _auxiliar) {
+        Dependiente dependiente=servicio.crear(_auxiliar);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody Auxiliar _auxiliar) {
-        Auxiliar auxiliar=servicio.actualizar(_auxiliar);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, auxiliar);
+    public ResponseEntity<?> actualizar(@RequestBody Dependiente _dependiente) {
+        Dependiente dependiente=servicio.actualizar(_dependiente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Auxiliar auxiliar=servicio.eliminar(new Auxiliar(id));
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_eliminar_exitoso, auxiliar);
+        Dependiente dependiente=servicio.eliminar(new Dependiente(id));
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_eliminar_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/buscar/razonSocial/{razonSocial}/{clienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtener(@PathVariable("razonSocial") String razon_social,
+    public ResponseEntity<?> obtener(@PathVariable("razonSocial") String razonSocial,
                                      @PathVariable("clienteId") long cliente_id) {
-        List<Auxiliar> auxiliar=servicio.consultarRazonSocial(new Auxiliar(razon_social, new Cliente(cliente_id)));
+        List<Dependiente> auxiliar=servicio.consultarRazonSocial(new Dependiente(razonSocial, new Cliente(cliente_id)));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, auxiliar);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/cliente/{clienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarClienteID(@PathVariable("clienteId") long clienteId) {
-        List<Auxiliar> auxiliar=servicio.consultarClienteID(new Auxiliar(new Cliente(clienteId)));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, auxiliar);
+        List<Dependiente> dependiente=servicio.consultarClienteID(new Dependiente(new Cliente(clienteId)));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

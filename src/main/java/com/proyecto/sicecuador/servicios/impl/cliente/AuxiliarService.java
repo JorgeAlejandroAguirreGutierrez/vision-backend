@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.Dependiente;
 import com.proyecto.sicecuador.repositorios.cliente.IAuxiliarRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IAuxiliarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class AuxiliarService implements IAuxiliarService {
     private IAuxiliarRepository rep;
     
     @Override
-    public Auxiliar crear(Auxiliar auxiliar) {
+    public Dependiente crear(Dependiente auxiliar) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_auxiliar);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -35,37 +35,37 @@ public class AuxiliarService implements IAuxiliarService {
     }
 
     @Override
-    public Auxiliar actualizar(Auxiliar auxiliar) {
+    public Dependiente actualizar(Dependiente auxiliar) {
         return rep.save(auxiliar);
     }
 
     @Override
-    public Auxiliar eliminar(Auxiliar auxiliar) {
+    public Dependiente eliminar(Dependiente auxiliar) {
         rep.deleteById(auxiliar.getId());
         return auxiliar;
     }
 
     @Override
-    public Optional<Auxiliar> obtener(Auxiliar auxiliar) {
+    public Optional<Dependiente> obtener(Dependiente auxiliar) {
         return rep.findById(auxiliar.getId());
     }
 
     @Override
-    public List<Auxiliar> consultar() {
+    public List<Dependiente> consultar() {
         return rep.findAll();
     }
     
     @Override
-    public Page<Auxiliar> consultarPagina(Pageable pageable){
+    public Page<Dependiente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
 
 
     @Override
-    public List<Auxiliar> consultarRazonSocial(Auxiliar auxiliar) {
-        return  rep.findAll(new Specification<Auxiliar>() {
+    public List<Dependiente> consultarRazonSocial(Dependiente auxiliar) {
+        return  rep.findAll(new Specification<Dependiente>() {
             @Override
-            public Predicate toPredicate(Root<Auxiliar> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+            public Predicate toPredicate(Root<Dependiente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
                 if (auxiliar.getRazonSocial()!=null) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("razonSocial"), "%"+auxiliar.getRazonSocial()+"%")));
@@ -79,10 +79,10 @@ public class AuxiliarService implements IAuxiliarService {
 
     }
     @Override
-    public List<Auxiliar> consultarClienteID(Auxiliar auxiliar) {
-        return  rep.findAll(new Specification<Auxiliar>() {
+    public List<Dependiente> consultarClienteID(Dependiente auxiliar) {
+        return  rep.findAll(new Specification<Dependiente>() {
             @Override
-            public Predicate toPredicate(Root<Auxiliar> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+            public Predicate toPredicate(Root<Dependiente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
                 if (auxiliar.getCliente().getId()!=0) {
                     predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("cliente").get("id"), auxiliar.getCliente().getId())));
@@ -95,10 +95,10 @@ public class AuxiliarService implements IAuxiliarService {
     @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
-            List<Auxiliar> auxiliares=new ArrayList<>();
+            List<Dependiente> auxiliares=new ArrayList<>();
             List<List<String>>info=Util.leerImportar(archivo_temporal,0);
             for (List<String> datos: info){
-                Auxiliar auxiliar = new Auxiliar(datos);
+                Dependiente auxiliar = new Dependiente(datos);
                 auxiliares.add(auxiliar);
             }
             if(auxiliares.isEmpty()){

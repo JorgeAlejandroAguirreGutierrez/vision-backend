@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="ca4ee225-e4c9-4df7-bc5b-c632532fbf1a" activeEnvironment="Default" name="RecepcionComprobanteSRI" resourceRoot="" soapui-version="5.7.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="e3367781-823c-43c6-89fe-c1c0edf30370" wsaVersion="NONE" name="RecepcionComprobantesOfflineServiceSoapBinding" type="wsdl" bindingName="{http://ec.gob.sri.ws.recepcion}RecepcionComprobantesOfflineServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl"><con:part><con:url>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="RecepcionComprobantesOfflineService" targetNamespace="http://ec.gob.sri.ws.recepcion" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ec.gob.sri.ws.recepcion" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://ec.gob.sri.ws.recepcion" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="RespuestaSolicitud" type="tns:respuestaSolicitud"/>
+      <xs:element name="comprobante" type="tns:comprobante"/>
+      <xs:element name="mensaje" type="tns:mensaje"/>
+      <xs:element name="validarComprobante" type="tns:validarComprobante"/>
+      <xs:element name="validarComprobanteResponse" type="tns:validarComprobanteResponse"/>
+      <xs:complexType name="validarComprobante">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="xml" type="xs:base64Binary"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="validarComprobanteResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="RespuestaRecepcionComprobante" type="tns:respuestaSolicitud"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="respuestaSolicitud">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="estado" type="xs:string"/>
+          <xs:element minOccurs="0" name="comprobantes">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:comprobante"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="comprobante">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="claveAcceso" type="xs:string"/>
+          <xs:element minOccurs="0" name="mensajes">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:mensaje"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mensaje">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="identificador" type="xs:string"/>
+          <xs:element minOccurs="0" name="mensaje" type="xs:string"/>
+          <xs:element minOccurs="0" name="informacionAdicional" type="xs:string"/>
+          <xs:element minOccurs="0" name="tipo" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="validarComprobanteResponse">
+    <wsdl:part element="tns:validarComprobanteResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validarComprobante">
+    <wsdl:part element="tns:validarComprobante" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="RecepcionComprobantesOffline">
+    <wsdl:operation name="validarComprobante">
+      <wsdl:input message="tns:validarComprobante" name="validarComprobante"></wsdl:input>
+      <wsdl:output message="tns:validarComprobanteResponse" name="validarComprobanteResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RecepcionComprobantesOfflineServiceSoapBinding" type="tns:RecepcionComprobantesOffline">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="validarComprobante">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validarComprobante">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validarComprobanteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RecepcionComprobantesOfflineService">
+    <wsdl:port binding="tns:RecepcionComprobantesOfflineServiceSoapBinding" name="RecepcionComprobantesOfflinePort">
+      <soap:address location="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint></con:endpoints><con:operation id="c1d876b4-2530-4632-b0b1-f37090f539a2" isOneWay="false" action="" name="validarComprobante" bindingOperationName="validarComprobante" type="Request-Response" outputName="validarComprobanteResponse" inputName="validarComprobante" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8c49594a-24df-44ca-8c0d-c862bb56fcba" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.recepcion">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ec:validarComprobante>\r
+         <!--Optional:-->\r
+         <xml>cid:321415361668</xml>\r
+      </ec:validarComprobante>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.recepcion/RecepcionComprobantesOffline/validarComprobante"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

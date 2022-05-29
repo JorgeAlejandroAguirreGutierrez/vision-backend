@@ -4,31 +4,26 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "celular_auxiliar")
-public class CelularAuxiliar extends Entidad {
-    @NotNull
-    @NotBlank
-    @Column(name = "numero")
+@Table(name = "telefono_auxiliar")
+public class TelefonoDependiente extends Entidad {
+    @Column(name = "numero", nullable = true)
     private String numero;
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "auxiliar_id")
-    private Auxiliar auxiliar;
+    @JoinColumn(name = "auxiliar_id", nullable = true)
+    private Dependiente auxiliar;
 
-    public CelularAuxiliar(){
+    public TelefonoDependiente(){
         super();
     }
 
 
-    public CelularAuxiliar(long id) {
+    public TelefonoDependiente(long id) {
         super(id);
     }
 
-    public CelularAuxiliar(String codigo, String numero, Auxiliar auxiliar) {
+    public TelefonoDependiente(String codigo, String numero, Dependiente auxiliar) {
         super(codigo);
         this.numero=numero;
         this.auxiliar=auxiliar;
@@ -38,7 +33,7 @@ public class CelularAuxiliar extends Entidad {
         return numero;
     }
     @JsonBackReference
-    public Auxiliar getAuxiliar() {
+    public Dependiente getAuxiliar() {
         return auxiliar;
     }
 }
