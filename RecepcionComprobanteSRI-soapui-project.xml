@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="ca4ee225-e4c9-4df7-bc5b-c632532fbf1a" activeEnvironment="Default" name="RecepcionComprobanteSRI" resourceRoot="" soapui-version="5.7.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="e3367781-823c-43c6-89fe-c1c0edf30370" wsaVersion="NONE" name="RecepcionComprobantesOfflineServiceSoapBinding" type="wsdl" bindingName="{http://ec.gob.sri.ws.recepcion}RecepcionComprobantesOfflineServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl"><con:part><con:url>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="RecepcionComprobantesOfflineService" targetNamespace="http://ec.gob.sri.ws.recepcion" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ec.gob.sri.ws.recepcion" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+<con:soapui-project id="ca4ee225-e4c9-4df7-bc5b-c632532fbf1a" activeEnvironment="Default" name="RecepcionComprobanteSRI" resourceRoot="" soapui-version="5.7.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="e3367781-823c-43c6-89fe-c1c0edf30370" wsaVersion="NONE" name="RecepcionComprobantesOfflineServiceSoapBinding" type="wsdl" bindingName="{http://ec.gob.sri.ws.recepcion}RecepcionComprobantesOfflineServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl"><con:part><con:url>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="RecepcionComprobantesOfflineService" targetNamespace="http://ec.gob.sri.ws.recepcion" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ec.gob.sri.ws.recepcion" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
   <wsdl:types>
     <xs:schema elementFormDefault="unqualified" targetNamespace="http://ec.gob.sri.ws.recepcion" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="RespuestaSolicitud" type="tns:respuestaSolicitud"/>
@@ -80,12 +80,114 @@
       <soap:address location="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint></con:endpoints><con:operation id="c1d876b4-2530-4632-b0b1-f37090f539a2" isOneWay="false" action="" name="validarComprobante" bindingOperationName="validarComprobante" type="Request-Response" outputName="validarComprobanteResponse" inputName="validarComprobante" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8c49594a-24df-44ca-8c0d-c862bb56fcba" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.recepcion">\r
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint></con:endpoints><con:operation id="c1d876b4-2530-4632-b0b1-f37090f539a2" isOneWay="false" action="" name="validarComprobante" bindingOperationName="validarComprobante" type="Request-Response" outputName="validarComprobanteResponse" inputName="validarComprobante" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8c49594a-24df-44ca-8c0d-c862bb56fcba" name="Request 1" outgoingWss="outgoing" incomingWss=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.recepcion">\r
    <soapenv:Header/>\r
    <soapenv:Body>\r
       <ec:validarComprobante>\r
          <!--Optional:-->\r
-         <xml>cid:321415361668</xml>\r
+         <xml><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="1.1.0">
+    <infoTributaria>
+        <ambiente>1</ambiente>
+        <tipoEmision>1</tipoEmision>
+        <razonSocial>PRUEBAS SERVICIO DE RENTAS INTERNAS</razonSocial>
+        <nombreComercial>PRIMAX COMERCIAL DEL ECUADOR S.A.</nombreComercial>
+        <ruc>1791408683001</ruc>
+        <claveAcceso>0706202201179140868300120010500007256060706202219</claveAcceso>
+        <codDoc>01</codDoc>
+        <estab>001</estab>
+        <ptoEmi>050</ptoEmi>
+        <secuencial>000725606</secuencial>
+        <dirMatriz>Lizardo Garcia E10-80 y Av.12 de Octubre Edificio Alto Aragon 3.Piso Ofi.3A</dirMatriz>
+    </infoTributaria>
+    <infoFactura>
+        <fechaEmision>07/06/2022</fechaEmision>
+        <dirEstablecimiento>TERMINALES</dirEstablecimiento>
+        <contribuyenteEspecial>0155</contribuyenteEspecial>
+        <obligadoContabilidad>SI</obligadoContabilidad>
+        <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+        <razonSocialComprador>ADECAMOR CIA LTDA.</razonSocialComprador>
+        <identificacionComprador>1792458935001</identificacionComprador>
+        <totalSinImpuestos>3161.67</totalSinImpuestos>
+        <totalDescuento>0.00</totalDescuento>
+        <totalConImpuestos>
+            <totalImpuesto>
+                <codigo>2</codigo>
+                <codigoPorcentaje>0</codigoPorcentaje>
+                <descuentoAdicional>0.00</descuentoAdicional>
+                <baseImponible>0.00</baseImponible>
+                <valor>0.00</valor>
+            </totalImpuesto>
+            <totalImpuesto>
+                <codigo>2</codigo>
+                <codigoPorcentaje>2</codigoPorcentaje>
+                <descuentoAdicional>0.00</descuentoAdicional>
+                <baseImponible>3161.67</baseImponible>
+                <valor>379.40</valor>
+            </totalImpuesto>
+        </totalConImpuestos>
+        <propina>0.00</propina>
+        <importeTotal>3565.74</importeTotal>
+        <moneda>DOLAR</moneda>
+        <pagos>
+            <pago>
+                <formaPago>20</formaPago>
+                <total>3565.74</total>
+                <plazo>7</plazo>
+                <unidadTiempo>DIAS</unidadTiempo>
+            </pago>
+        </pagos>
+        <valorRetIva>0.00</valorRetIva>
+        <valorRetRenta>0.00</valorRetRenta>
+    </infoFactura>
+    <detalles>
+        <detalle>
+            <codigoPrincipal>318</codigoPrincipal>
+            <codigoAuxiliar>116C041177</codigoAuxiliar>
+            <descripcion>DIESEL PREMIUM</descripcion>
+            <cantidad>2000.000000</cantidad>
+            <precioUnitario>1.580835</precioUnitario>
+            <descuento>0.00</descuento>
+            <precioTotalSinImpuesto>3161.67</precioTotalSinImpuesto>
+            <impuestos>
+                <impuesto>
+                    <codigo>2</codigo>
+                    <codigoPorcentaje>2</codigoPorcentaje>
+                    <tarifa>12.00</tarifa>
+                    <baseImponible>3161.67</baseImponible>
+                    <valor>379.40</valor>
+                </impuesto>
+            </impuestos>
+        </detalle>
+    </detalles>
+    <retenciones>
+        <retencion>
+            <codigo>4</codigo>
+            <codigoPorcentaje>3</codigoPorcentaje>
+            <tarifa>1.00</tarifa>
+            <valor>15.18</valor>
+        </retencion>
+        <retencion>
+            <codigo>4</codigo>
+            <codigoPorcentaje>328</codigoPorcentaje>
+            <tarifa>0.30</tarifa>
+            <valor>9.49</valor>
+        </retencion>
+    </retenciones>
+    <infoAdicional>
+        <campoAdicional nombre="Mail Cliente">estacionbypass2001@yahoo.es</campoAdicional>
+        <campoAdicional nombre="Direccion Cliente">AV.MONSENOR LEONIDAS PROANO Y ALFONSO PEREZ</campoAdicional>
+        <campoAdicional nombre="Telefono Cliente">593 2 3958440 593 9 99782875</campoAdicional>
+        <campoAdicional nombre="Contribuyente Especial">0155 24/04/1999</campoAdicional>
+        <campoAdicional nombre="Fecha Vencimiento">14/06/22</campoAdicional>
+        <campoAdicional nombre="Punto Partida">Terminal Riobamba (Retail)</campoAdicional>
+        <campoAdicional nombre="Fecha Despacho">07/06/22</campoAdicional>
+        <campoAdicional nombre="Nombre Estacion">E.S. BYPASS</campoAdicional>
+        <campoAdicional nombre="CUENTA CORRIENTE O PAPELETA DEPOSITO">07950764</campoAdicional>
+        <campoAdicional nombre="DESCRIPCION BANCO">BCO.PACIFICO</campoAdicional>
+        <campoAdicional nombre="OTROS">.</campoAdicional>
+    </infoAdicional>
+</factura>]]]]>><![CDATA[</xml>\r
       </ec:validarComprobante>\r
    </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.recepcion/RecepcionComprobantesOffline/validarComprobante"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.recepcion/RecepcionComprobantesOffline/validarComprobante"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer><con:crypto><con:source>C:/Users/ML-113149/Documents/Desarrollo/sic-ecuador-backend/mario_ruben_delgado_daquilema.p12</con:source><con:password>mPrimero1981</con:password><con:type>KEYSTORE</con:type></con:crypto><con:outgoing><con:name>outgoing</con:name><con:entry type="Signature" username="serialnumber=0000333055+cn=mario ruben delgado daquilema,l=quito,ou=entidad de certificacion de informacion-ecibce,o=banco central del ecuador,c=ec signing key" password="mPrimero1981"><con:configuration><crypto>mario_ruben_delgado_daquilema.p12</crypto><keyIdentifierType>1</keyIdentifierType><signatureAlgorithm>http://www.w3.org/2000/09/xmldsig#rsa-sha1</signatureAlgorithm><signatureCanonicalization>http://www.w3.org/2001/10/xml-exc-c14n#</signatureCanonicalization><useSingleCert>true</useSingleCert><prependSignature>false</prependSignature><digestAlgorithm>http://www.w3.org/2000/09/xmldsig#sha1</digestAlgorithm><customTokenValueType/><customTokenId/></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
