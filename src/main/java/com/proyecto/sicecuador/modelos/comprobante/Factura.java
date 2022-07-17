@@ -2,7 +2,7 @@ package com.proyecto.sicecuador.modelos.comprobante;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
+import com.proyecto.sicecuador.modelos.cliente.Dependiente;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
@@ -67,7 +67,7 @@ public class Factura extends Entidad {
 	private Cliente clienteFactura;
 	@ManyToOne
 	@JoinColumn(name = "auxiliar_id", nullable = true)
-	private Auxiliar auxiliar;
+	private Dependiente auxiliar;
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "vendedor_id")
@@ -98,7 +98,7 @@ public class Factura extends Entidad {
 			double valorDescuentoSubtotal, double porcentajeDescuentoSubtotal, double valorPorcentajeDescuentoSubtotal,
 			double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal,
 			double descuento, double base12, double base0, double importeIva, double total, String comentario,
-			Cliente cliente, Cliente clienteFactura, Auxiliar auxiliar, Usuario vendedor, Sesion sesion) {
+			Cliente cliente, Cliente clienteFactura, Dependiente auxiliar, Usuario vendedor, Sesion sesion) {
 		super(codigo);
 		this.secuencia = secuencia;
 		this.fecha = fecha;
@@ -268,7 +268,7 @@ public class Factura extends Entidad {
 		return clienteFactura;
 	}
 
-	public Auxiliar getAuxiliar() {
+	public Dependiente getAuxiliar() {
 		return auxiliar;
 	}
 

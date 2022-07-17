@@ -7,8 +7,10 @@ import com.proyecto.sicecuador.exception.IdentificacionInvalidaException;
 import com.proyecto.sicecuador.exception.EntidadExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.*;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,7 +34,9 @@ public class ClienteService implements IClienteService {
     @Autowired
     private IClienteRepository rep;
     @Autowired
-    private ITipoContribuyenteRepository rep_tipo_contribuyente;
+    private ITipoContribuyenteRepository repTipoContribuyente;
+    @Autowired
+    private IUbicacionRepository repUbicacion;
 
     @PersistenceContext
     private EntityManager adm;
@@ -92,21 +96,21 @@ public class ClienteService implements IClienteService {
                 tipo = Constantes.cedula_abreviatura;
                 boolean bandera = verificarCedula(identificacion);
                 if (bandera) {
-                    tipo_contribuyente= rep_tipo_contribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
+                    tipo_contribuyente= repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
                 }
                 throw new IdentificacionInvalidaException();
             } else if (identificacion.equals(Constantes.identificacion_consumidor_final)) {
                 tipo = Constantes.consumidor_final_abreviatura;
-                tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
+                tipo_contribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
                 Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                 return Optional.of(cliente);
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
                 boolean bandera = verificarSociedadesPublicas(identificacion);
                 if (bandera) {
                     tipo = Constantes.ruc_abreviatura;
-                    tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
+                    tipo_contribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
                 } 
@@ -116,7 +120,7 @@ public class ClienteService implements IClienteService {
                 boolean bandera = verificarSociedadesPrivadas(identificacion);
                 if (bandera) {
                     tipo = Constantes.ruc_abreviatura;
-                    tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo("JURIDICA","PRIVADA");
+                    tipo_contribuyente=repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PRIVADA");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
                 } 
@@ -126,7 +130,7 @@ public class ClienteService implements IClienteService {
                 boolean bandera=verificarCedula(identificacion);
                 if (bandera) {
                     tipo = Constantes.ruc_abreviatura;
-                    tipo_contribuyente=rep_tipo_contribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
+                    tipo_contribuyente=repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
                 }
@@ -136,7 +140,7 @@ public class ClienteService implements IClienteService {
                 boolean bandera = verificarPersonaNatural(identificacion);
                 if (bandera) {
                     tipo = Constantes.ruc_abreviatura;
-                    tipo_contribuyente= rep_tipo_contribuyente.findByTipoAndSubtipo("JURIDICA","PUBLICA");
+                    tipo_contribuyente= repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PUBLICA");
                     Cliente cliente=new Cliente(tipo,tipo_contribuyente);
                     return Optional.of(cliente);
                 } 
@@ -311,6 +315,17 @@ public class ClienteService implements IClienteService {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cliente);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
+    	}
+    	Optional<Ubicacion> ubicacion= repUbicacion.findByProvinciaAndCantonAndParroquia(cliente.getDireccion().getUbicacion().getProvincia(),cliente.getDireccion().getUbicacion().getCanton(), cliente.getDireccion().getUbicacion().getParroquia());
+    	if(ubicacion.isEmpty()) {
+    		throw new EntidadNoExistenteException(Constantes.ubicacion);
+    	}
+    	for(Dependiente dependiente: cliente.getDependientes()) {
+    		Optional<Ubicacion> ubicacionAuxiliar= repUbicacion.findByProvinciaAndCantonAndParroquia(dependiente.getDireccion().getUbicacion().getProvincia(),dependiente.getDireccion().getUbicacion().getCanton(), dependiente.getDireccion().getUbicacion().getParroquia());
+        	if(ubicacionAuxiliar.isEmpty()) {
+        		throw new EntidadNoExistenteException(Constantes.ubicacion);
+        	}
+        	dependiente.getDireccion().setUbicacion(ubicacionAuxiliar.get());
     	}
     	cliente.setCodigo(codigo.get());
     	cliente.setEstado(Constantes.activo);

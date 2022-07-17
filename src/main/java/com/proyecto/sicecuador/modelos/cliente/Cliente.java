@@ -64,7 +64,7 @@ public class Cliente extends Entidad {
 
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
-    private List<Auxiliar> auxiliares;
+    private List<Dependiente> dependientes;
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Telefono> telefonos;
@@ -199,7 +199,7 @@ public class Cliente extends Entidad {
 	}
 
     @JsonManagedReference
-    public List<Auxiliar> getAuxiliares() {return auxiliares;}
+    public List<Dependiente> getDependientes() {return dependientes;}
     
     @JsonManagedReference
     public List<Celular> getCelulares() {
@@ -284,8 +284,8 @@ public class Cliente extends Entidad {
                 retencionesCliente.get(i).setTipoRetencion(null);
             }
         }
-        for (int i=0; i<auxiliares.size(); i++){
-            if (auxiliares.get(i).getDireccion().getUbicacion().getId()==0) auxiliares.get(i).getDireccion().setUbicacion(null);
+        for (int i=0; i<dependientes.size(); i++){
+            if (dependientes.get(i).getDireccion().getUbicacion().getId()==0) dependientes.get(i).getDireccion().setUbicacion(null);
         }
     }
 }

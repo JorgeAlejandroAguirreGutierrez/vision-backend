@@ -7,23 +7,23 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "correo_auxiliar")
-public class CorreoAuxiliar extends Entidad {
+public class CorreoDependiente extends Entidad {
     @Column(name = "email", nullable = true)
     private String email;
     @ManyToOne
     @JoinColumn(name = "auxiliar_id", nullable = true)
-    private Auxiliar auxiliar;
+    private Dependiente auxiliar;
 
-    public CorreoAuxiliar(){
+    public CorreoDependiente(){
         super();
     }
 
 
-    public CorreoAuxiliar(long id) {
+    public CorreoDependiente(long id) {
         super(id);
     }
 
-    public CorreoAuxiliar(String codigo, String email, Auxiliar auxiliar) {
+    public CorreoDependiente(String codigo, String email, Dependiente auxiliar) {
         super(codigo);
         this.email=email;
         this.auxiliar=auxiliar;
@@ -34,7 +34,7 @@ public class CorreoAuxiliar extends Entidad {
     }
 
     @JsonBackReference
-    public Auxiliar getAuxiliar() {
+    public Dependiente getAuxiliar() {
         return auxiliar;
     }
 }

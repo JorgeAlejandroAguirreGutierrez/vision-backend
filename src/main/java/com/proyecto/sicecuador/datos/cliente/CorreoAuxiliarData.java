@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.datos.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
-import com.proyecto.sicecuador.modelos.cliente.CorreoAuxiliar;
+import com.proyecto.sicecuador.modelos.cliente.Dependiente;
+import com.proyecto.sicecuador.modelos.cliente.CorreoDependiente;
 import com.proyecto.sicecuador.repositorios.cliente.ICorreoAuxiliarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -21,14 +21,14 @@ public class CorreoAuxiliarData implements ApplicationRunner {
     private ICorreoAuxiliarRepository rep;
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Optional<CorreoAuxiliar> ant=rep.findById((long) 1);
+        Optional<CorreoDependiente> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<CorreoAuxiliar> correos = new ArrayList<>();
-            correos.add(new CorreoAuxiliar("COA011908000001", "AUXILIAR1@GMAIL.COM", new Auxiliar(1)));
-            correos.add(new CorreoAuxiliar("COA011908000002", "AUXILIAR11@GMAIL.COM", new Auxiliar(1)));
-            correos.add(new CorreoAuxiliar("COA011909000003", "AUXILIAR2@GMAIL.COM", new Auxiliar(2)));
-            correos.add(new CorreoAuxiliar("COA011909000004", "AUXILIAR3@GMAIL.COM", new Auxiliar(3)));
-            correos.add(new CorreoAuxiliar("COA011909000005", "AUXILIAR4@GMAIL.COM", new Auxiliar(4)));
+            List<CorreoDependiente> correos = new ArrayList<>();
+            correos.add(new CorreoDependiente("COA011908000001", "AUXILIAR1@GMAIL.COM", new Dependiente(1)));
+            correos.add(new CorreoDependiente("COA011908000002", "AUXILIAR11@GMAIL.COM", new Dependiente(1)));
+            correos.add(new CorreoDependiente("COA011909000003", "AUXILIAR2@GMAIL.COM", new Dependiente(2)));
+            correos.add(new CorreoDependiente("COA011909000004", "AUXILIAR3@GMAIL.COM", new Dependiente(3)));
+            correos.add(new CorreoDependiente("COA011909000005", "AUXILIAR4@GMAIL.COM", new Dependiente(4)));
             rep.saveAll(correos);
         }
     }
