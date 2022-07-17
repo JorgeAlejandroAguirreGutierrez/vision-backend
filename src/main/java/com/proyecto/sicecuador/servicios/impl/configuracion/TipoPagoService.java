@@ -1,11 +1,10 @@
-package com.proyecto.sicecuador.servicios.impl.cliente;
+package com.proyecto.sicecuador.servicios.impl.configuracion;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.TipoPago;
-import com.proyecto.sicecuador.repositorios.cliente.ITipoPagoRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.ITipoPagoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITipoPagoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -60,7 +59,7 @@ public class TipoPagoService implements ITipoPagoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoPago> tipos_pagos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,19);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,19);
             for (List<String> datos: info) {
                 TipoPago tipo_pago = new TipoPago(datos);
                 tipos_pagos.add(tipo_pago);

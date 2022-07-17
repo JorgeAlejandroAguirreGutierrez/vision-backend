@@ -28,8 +28,6 @@ public class Cliente extends Entidad {
     private boolean especial;
     @Column(name = "estado")
     private String estado;
-    @Column(name = "eliminado")
-    private boolean eliminado;
     @NotNull
     @ManyToOne
     @JoinColumn(name = "tipo_contribuyente_id", nullable = false)
@@ -108,7 +106,6 @@ public class Cliente extends Entidad {
         this.razonSocial=razon_social;
         this.especial=especial;
         this.estado=estado;
-        this.eliminado=eliminado;
         this.puntoVenta=punto_venta;
         this.grupoCliente=grupo_cliente;
         this.tipoContribuyente=tipo_contribuyente;
@@ -128,7 +125,6 @@ public class Cliente extends Entidad {
         razonSocial=datos.get(2)== null ? null: datos.get(2);
         especial=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
         estado= datos.get(4)== null ? null: datos.get(4);
-        eliminado=datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
         tipoContribuyente= datos.get(6)== null ? null: new TipoContribuyente((long) Double.parseDouble(datos.get(6)));
         puntoVenta= datos.get(7)== null ? null: new PuntoVenta((long) Double.parseDouble(datos.get(7)));
         grupoCliente= datos.get(8)== null ? null: new GrupoCliente((long) Double.parseDouble(datos.get(8)));
@@ -163,10 +159,6 @@ public class Cliente extends Entidad {
 
     public String getEstado() {
         return estado;
-    }
-
-    public boolean isEliminado() {
-        return eliminado;
     }
 
     public PuntoVenta getPuntoVenta() {
@@ -252,10 +244,6 @@ public class Cliente extends Entidad {
 		this.razonSocial = razonSocial;
 	}
 
-    public void setEliminado(boolean eliminado) {
-        this.eliminado = eliminado;
-    }
-
     public void setEstadoCivil(EstadoCivil estadoCivil) {
 		this.estadoCivil = estadoCivil;
 	}
@@ -284,7 +272,6 @@ public class Cliente extends Entidad {
     public void normalizar(){
         if (this.direccion.getUbicacion().getId()==0) this.direccion.setUbicacion(null);
         if (this.financiamiento.getFormaPago().getId()==0) this.financiamiento.setFormaPago(null);
-        if (this.financiamiento.getTipoPago().getId()==0) this.financiamiento.setTipoPago(null);
         if (this.financiamiento.getPlazoCredito() != null && this.financiamiento.getPlazoCredito().getId()==0) this.financiamiento.setPlazoCredito(null);
         if (this.calificacionCliente.getId()==0) this.calificacionCliente=null;
         if (this.genero.getId()==0) this.genero=null;

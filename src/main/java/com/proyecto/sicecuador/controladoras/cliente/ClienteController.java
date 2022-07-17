@@ -79,8 +79,8 @@ public class ClienteController implements GenericoController<Cliente> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/razonsocial/{razonsocial}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerRazonSocial(@PathVariable("razonsocial") String razonSocial) {
+    @GetMapping(value = "/razonSocial/{razonSocial}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerRazonSocial(@PathVariable("razonSocial") String razonSocial) {
         Cliente cliente=new Cliente();
         cliente.setRazonSocial(razonSocial);
         Optional<Cliente> _cliente=servicio.obtenerRazonSocial(cliente);
@@ -102,6 +102,15 @@ public class ClienteController implements GenericoController<Cliente> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @DeleteMapping(value = "personalizado/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> eliminarPersonalizado(@PathVariable("id") long id) {
+        Optional<Cliente> _cliente=servicio.eliminarPersonalizado(id);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
 	    boolean bandera=servicio.importar(archivo);

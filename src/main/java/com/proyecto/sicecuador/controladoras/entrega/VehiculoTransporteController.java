@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathVehiculoTransp
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.entrega.VehiculoTransporte;
 import com.proyecto.sicecuador.servicios.interf.entrega.IVehiculoTransporteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+
 @RestController
 @RequestMapping(contexto+pathVehiculoTransporte)
 public class VehiculoTransporteController implements GenericoController<VehiculoTransporte> {

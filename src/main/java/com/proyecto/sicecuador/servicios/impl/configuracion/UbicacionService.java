@@ -66,7 +66,7 @@ public class UbicacionService implements IUbicacionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Ubicacion> ubicaciones=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal, 3);
+            List<List<String>>info= Util.leerImportar(archivo_temporal, 3);
             for (List<String> datos: info) {
                 Ubicacion ubicacion = new Ubicacion(datos);
                 ubicaciones.add(ubicacion);

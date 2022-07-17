@@ -3,8 +3,6 @@ package com.proyecto.sicecuador.servicios.impl.entrega;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.modelos.entrega.VehiculoTransporte;
 import com.proyecto.sicecuador.repositorios.entrega.IVehiculoTransporteRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.IVehiculoTransporteService;
@@ -62,7 +60,7 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<VehiculoTransporte> vehiculos_transportes=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,2);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,2);
             for (List<String> datos: info) {
                 VehiculoTransporte vehculo_transporte = new VehiculoTransporte(datos);
                 vehiculos_transportes.add(vehculo_transporte);

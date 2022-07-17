@@ -61,7 +61,7 @@ public class EstablecimientoService implements IEstablecimientoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Establecimiento> establecimientos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
             for (List<String> datos: info) {
                 Establecimiento establecimiento = new Establecimiento(datos);
                 establecimientos.add(establecimiento);

@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
@@ -75,7 +74,7 @@ public class CaracteristicaService implements ICaracteristicaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Caracteristica> caracteristicas=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,1);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,1);
             for (List<String> datos: info) {
                 Caracteristica caracteristica = new Caracteristica(datos);
                 caracteristicas.add(caracteristica);

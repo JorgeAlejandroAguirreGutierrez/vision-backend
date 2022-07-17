@@ -63,7 +63,7 @@ public class TelefonoService implements ITelefonoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Telefono> telefonos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal, 16);
+            List<List<String>>info= Util.leerImportar(archivo_temporal, 16);
             for (List<String> datos: info) {
                 Telefono telefono = new Telefono(datos);
                 Optional<Cliente> cliente=rep_cliente.findById(telefono.getCliente().getId());

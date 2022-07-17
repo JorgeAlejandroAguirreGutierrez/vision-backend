@@ -15,6 +15,18 @@ public class Constantes {
 	
 	public static final String tipo_producto_bien="BIEN";
 	
+	public static final String recaudado="RECAUDADO";
+	public static final String norecaudado="NORECAUDADO";
+	
+	public static final String emitida="EMITIDA";
+	public static final String noemitida="NOEMITIDA";
+	
+	public static final String pendiente="PENDIENTE";
+	public static final String entregado="ENTREGADO";
+	
+	public static final String activo="ACTIVO";
+	public static final String inactivo="INACTIVO";
+	
     public static final String mensaje_consultar_exitoso="Exito en la consulta";
     public static final String mensaje_obtener_exitoso="Exito en la consulta";
     public static final String mensaje_crear_exitoso="Exito al procesar";
@@ -41,32 +53,35 @@ public class Constantes {
     public static final String periodo_trimestral="TRIMESTRAL";
     
     public static String vacio="";
+    public static String espacio=" ";
+    
     public static String error_registro_existente="REGISTRO EXISTENTE";
     public static String error_registro_no_existente="REGISTRO NO EXISTENTE";
     
     public static String error_codigo_generico="4000";
     public static String error_codigo_modelo_existente="4001";
     public static String error_codigo_modelo_no_existente="4002";
-    public static String error_codigo_codigo_interno_no_existente="4003";
+    public static String error_codigo_codigo_no_existente="4003";
     public static String error_codigo_sesion_invalida="4004";
     public static String error_codigo_datos_invalidos="4005";
     public static String error_codigo_identificacion_invalida="4006";
     public static String error_codigo_secuencia_no_existente="4007";
+    public static String error_codigo_cliente_no_existente="4008";
     
     public static String error_generico="ERROR INTERNO DE SERVIDOR";
-    public static String error_modelo_existente="ERROR ENTIDAD YA EXISTE";
-    public static String error_modelo_no_existente="ERROR ENTIDAD NO EXISTENTE";
-    public static String error_codigo_interno_no_existente="ERROR CODIGO INTERNO NO EXISTENTE";
+    public static String error_entidad_existente="ERROR ENTIDAD YA EXISTE";
+    public static String error_entidad_no_existente="ERROR ENTIDAD NO EXISTENTE";
+    public static String error_codigo_no_existente="ERROR CODIGO INTERNO NO EXISTENTE";
     public static String error_sesion_invalida="ERROR SESION INVALIDA";
     public static String error_datos_invalidos="ERROR DATOS INVALIDOS";
     public static String error_identificacion_invalida="ERROR IDENTIFICACION INVALIDA";
     public static String error_secuencia_no_existente="ERROR SECUENCIA NO EXISTENTE";
+    public static String error_cliente_no_existente="ERROR CLIENTE NO EXISTENTE";
     
     //CODIGO PARA CREAR
     public static final String tipo="CREAR";
     
     //TABLAS
-    
     //CLIENTE
     public static final String tabla_modelo="modelo";
     public static final String tabla_auxiliar="auxiliar";
@@ -109,7 +124,7 @@ public class Constantes {
     public static final String tabla_ubicacion="ubicacion";
     
     //ENTREGA
-    public static final String tabla_guia_remision="guia_remision";
+    public static final String tabla_entrega="entrega";
     public static final String tabla_transportista="transportista";
     public static final String tabla_vehiculo_transporte="vehiculo_transporte";
     
@@ -161,6 +176,102 @@ public class Constantes {
 	
     //CONTABILIDAD
     public static final String tabla_afectacion_contable="afectacion_contable";
+    
+    //NOMBRES
+    //CLIENTE
+    public static final String modelo="MODELO";
+    public static final String auxiliar="AUXILIAR";
+    public static final String calificacion_cliente="CALIFICACION CLIENTE";
+    public static final String celular="CELULAR";
+    public static final String celular_auxiliar="CELULAR AUXILIAR";
+    public static final String cliente="CLIENTE";
+    public static final String correo="CORREO";
+    public static final String correo_auxiliar="CORREO AUXILIAR";
+    public static final String direccion="DIRECCION";
+    public static final String estado_civil="ESTADO CIVIL";
+    public static final String financiamiento="FINANCIAMIENTO";
+    public static final String forma_pago="FORMA PAGO";
+    public static final String genero="GENERO";
+    public static final String grupo_cliente="GRUPO CLIENTE";
+    public static final String origen_ingreso="ORIGEN INGRESO";
+    public static final String plazo_credito="PLAZO CREDITO";
+    public static final String retencion_cliente="RETENCION CLIENTE";
+    public static final String telefono="TELEFONO";
+    public static final String telefono_auxiliar="TELEFONO AUXILIAR";
+    public static final String tipo_contribuyente="TIPO CONTRIBUYENTE";
+    public static final String tipo_pago="TIPO PAGO";
+    
+    //COMPRA
+    public static final String factura_compra="FACTURA COMPRA";
+    public static final String retencion_compra="RETENCION COMPRA";
+    
+    //COMPROBANTE
+    public static final String factura_detalle="DETALLE FACTURA";
+    public static final String egreso="EGRESO";
+    public static final String factura="FACTURA";
+    public static final String pedido="PEDIDO";
+    public static final String proforma="PROFORMA";
+    public static final String tipo_comprobante="TIPO COMPROBANTE";
+    
+    //CONFIGURACION
+    public static final String empresa="EMPRESA";
+    public static final String parametro="PARAMETRO";
+    public static final String tipo_retencion="TIPO RETENCION";
+    public static final String ubicacion="UBICACION";
+    
+    //ENTREGA
+    public static final String entrega="ENTREGA";
+    public static final String transportista="TRANSPORTISTA";
+    public static final String vehiculo_transporte="VEHICULO TRANSPORTE";
+    
+    //INVENTARIO
+    public static final String bodega="BODEGA";
+    public static final String caracteristica="CARACTERISTICA";
+    public static final String categoria_producto="CATEGORIA PRODUCTO";
+    public static final String grupo_producto="GRUPO PRODUCTO";
+    public static final String impuesto="IMPUESTO";
+    public static final String kardex="KARDEX";
+    public static final String linea_producto="LINEA PRODUCTO";
+    public static final String medida="MEDIDA";
+    public static final String medida_precio="MEDIDA PRECIO";
+    public static final String precio="PRECIO";
+    public static final String presentacion_producto="PRESENTACION PRODUCTO";
+    public static final String producto="PRODUCTO";
+    public static final String proveedor="PROVEEDOR";
+    public static final String segmento="SEGMENTO";
+    public static final String sub_grupo_producto="SUB GRUPO PRODUCTO";
+    public static final String sub_linea_producto="SUB LINEA PRODUCTO";
+    public static final String equivalencia_medida="TABLA EQUIVALENCIA MEDIDA";
+    public static final String tipo_gasto="TIPO GASTO";
+    
+    //RECAUDACION
+    public static final String amortizacion="AMORTIZACION";
+    public static final String banco="BANCO";
+    public static final String cheque="CHEQUE";
+    public static final String compensacion="COMPENSACION";
+    public static final String credito="CREDITO";
+    public static final String cuenta_propia="CUENTA PROPIA";
+    public static final String deposito="DEPOSITO";
+    public static final String franquicia_tarjeta="FRANQUICIA TARJETA";
+    public static final String operador_tarjeta="OPERADOR TARJETA";
+    public static final String rango_crediticio="RANGO CREDITICIO";
+    public static final String recaudacion="RECAUDACION";
+    public static final String retencion_venta="RETENCION VENTA";
+    public static final String retencion_venta_detalle="RETENCION VENTA DETALLE";
+    public static final String tarjeta_credito="TARJETA CREDITO";
+    public static final String tarjeta_debito="TARJETA DEBITO";
+    public static final String tranferencia="TRANSFERENCIA";
+    
+    //USUARIO
+    public static final String establecimiento="ESTABLECIMIENTO";
+    public static final String perfil="PERFIL";
+    public static final String permiso="PERMISO";
+    public static final String punto_venta="PUNTO VENTA";
+    public static final String sesion="SESION";
+    public static final String usuario="USUARIO";
+	
+    //CONTABILIDAD
+    public static final String afectacion_contable="AFECTACION CONTABLE";
     
     //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
     public static final int size=20;

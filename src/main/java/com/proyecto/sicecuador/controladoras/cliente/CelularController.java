@@ -7,7 +7,6 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.Celular;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICelularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

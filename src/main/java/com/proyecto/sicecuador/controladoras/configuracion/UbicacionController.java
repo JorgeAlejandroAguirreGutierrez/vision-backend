@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathUbicacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IUbicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,10 +101,10 @@ public class UbicacionController implements GenericoController<Ubicacion> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, _ubicacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/buscar/{codigo_norma}/{provincia}/{canton}/{parroquia}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@PathVariable("codigo_norma") String codigo_norma, @PathVariable("provincia") String provincia,
+    @GetMapping(value = "/buscar/{codigoNorma}/{provincia}/{canton}/{parroquia}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscar(@PathVariable("codigoNorma") String codigoNorma, @PathVariable("provincia") String provincia,
                                           @PathVariable("canton") String canton, @PathVariable("parroquia") String parroquia) {
-        List<Ubicacion> ubicaciones=servicio.buscar(new Ubicacion(codigo_norma, provincia, canton, parroquia));
+        List<Ubicacion> ubicaciones=servicio.buscar(new Ubicacion(codigoNorma, provincia, canton, parroquia));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

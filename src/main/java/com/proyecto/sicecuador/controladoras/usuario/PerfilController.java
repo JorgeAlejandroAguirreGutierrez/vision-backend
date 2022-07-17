@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathPerfil;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPerfilService;
 import org.springframework.beans.factory.annotation.Autowired;

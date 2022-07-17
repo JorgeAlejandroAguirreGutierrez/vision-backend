@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathEstadoCivil;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
 import com.proyecto.sicecuador.servicios.interf.cliente.IEstadoCivilService;
 import org.springframework.beans.factory.annotation.Autowired;

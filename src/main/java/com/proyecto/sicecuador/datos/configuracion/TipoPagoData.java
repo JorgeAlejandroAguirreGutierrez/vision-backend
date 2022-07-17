@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.datos.cliente;
+package com.proyecto.sicecuador.datos.configuracion;
 
 import com.proyecto.sicecuador.modelos.cliente.TipoPago;
-import com.proyecto.sicecuador.repositorios.cliente.ITipoPagoRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.ITipoPagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -5,7 +5,7 @@ import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.ModeloExistenteException;
+import com.proyecto.sicecuador.exception.EntidadExistenteException;
 import com.proyecto.sicecuador.repositorios.inventario.IProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class ProductoService implements IProductoService {
     	producto.normalizar();
     	Optional<Producto> getProducto=rep.obtenerPorNombre(producto.getNombre());
     	if(getProducto.isPresent()) {
-    		throw new ModeloExistenteException();
+    		throw new EntidadExistenteException(Constantes.producto);
     	}
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_producto);
     	if (codigo.isEmpty()) {
@@ -118,7 +118,7 @@ public class ProductoService implements IProductoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Producto> productos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,7);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,7);
             for (List<String> datos: info) {
                 Producto producto = new Producto(datos);
                 productos.add(producto);

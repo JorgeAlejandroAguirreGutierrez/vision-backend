@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.proyecto.sicecuador.Constantes;
 
-
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)
@@ -30,21 +29,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	
-	@ExceptionHandler(ModeloExistenteException.class)
+	@ExceptionHandler(EntidadExistenteException.class)
 	public final ResponseEntity<RestExceptionMessage> handleModeloExistenteException(
-	    ModeloExistenteException ex, WebRequest req) {
+	    EntidadExistenteException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_modelo_existente,
-			Constantes.error_modelo_existente,
+			Constantes.error_entidad_existente+Constantes.espacio+ex.getEntidad(),
 	        null
 	    );
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@ExceptionHandler(ModeloNoExistenteException.class)
-	public final ResponseEntity<RestExceptionMessage> handleModeloNoExistenteException(
-	    ModeloExistenteException ex, WebRequest req) {
+	@ExceptionHandler(EntidadNoExistenteException.class)
+	public final ResponseEntity<RestExceptionMessage> handleModeloNoExistenteException(EntidadNoExistenteException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_modelo_no_existente,
-			Constantes.error_modelo_no_existente,
+			Constantes.error_entidad_no_existente+Constantes.espacio+ex.getEntidad(),
 	        null
 	    );
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -53,8 +51,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(CodigoNoExistenteException.class)
 	public final ResponseEntity<RestExceptionMessage> handleCodigoNoExistenteException(
 			CodigoNoExistenteException ex, WebRequest req) {
-		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_codigo_interno_no_existente,
-	        Constantes.error_codigo_interno_no_existente,
+		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_codigo_no_existente,
+	        Constantes.error_codigo_no_existente,
 	        null
 	    );
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);

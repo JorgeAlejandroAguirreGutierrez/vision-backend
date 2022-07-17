@@ -4,7 +4,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.IdentificacionInvalidaException;
-import com.proyecto.sicecuador.exception.ModeloExistenteException;
+import com.proyecto.sicecuador.exception.EntidadExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.*;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
@@ -65,7 +66,7 @@ public class ClienteService implements IClienteService {
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 		});
         if (respCliente.isPresent()) {
-        	throw new ModeloExistenteException();
+        	throw new EntidadExistenteException(Constantes.cliente);
         }
         return respCliente;
     }
@@ -303,17 +304,16 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente crear(Cliente cliente) {
     	cliente.normalizar();
-    	Optional<Cliente>buscarCliente=rep.obtenerPorIdentificacion(cliente.getIdentificacion());
+    	Optional<Cliente>buscarCliente=rep.obtenerPorIdentificacion(cliente.getIdentificacion(), Constantes.activo);
     	if(buscarCliente.isPresent()) {
-    		throw new ModeloExistenteException();
+    		throw new EntidadExistenteException(Constantes.cliente);
     	}
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cliente);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	cliente.setCodigo(codigo.get());
-    	cliente.setEstado("ACTIVO");
-    	cliente.setEliminado(false);
+    	cliente.setEstado(Constantes.activo);
         return rep.save(cliente);
     }
 
@@ -326,10 +326,23 @@ public class ClienteService implements IClienteService {
 
     @Override
     public Cliente eliminar(Cliente cliente) {
-        rep.deleteById(cliente.getId());
+        rep.delete(cliente);
         return cliente;
     }
 
+    @Override
+    public Optional<Cliente> eliminarPersonalizado(long id) {
+        if(id!=0) {
+        	Optional<Cliente> cliente=rep.findById(id);
+        	if(cliente.isPresent()) {
+        		cliente.get().setEstado(Constantes.inactivo);
+            	return Optional.of(rep.save(cliente.get()));
+        	}
+        }
+        throw new EntidadNoExistenteException(Constantes.cliente);
+    }
+
+    
     @Override
     public Optional<Cliente> obtener(Cliente cliente) {
         return rep.findById(cliente.getId());
@@ -338,6 +351,11 @@ public class ClienteService implements IClienteService {
     @Override
     public List<Cliente> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Cliente> consultarPersonalizado() {
+        return rep.consultar(Constantes.activo);
     }
     
     @Override
@@ -350,7 +368,7 @@ public class ClienteService implements IClienteService {
     public boolean importar(MultipartFile archivo_temporal) {
         List<Cliente> clientes=new ArrayList<>();
         try {
-            List<List<String>>info= Util.leer_importar(archivo_temporal,4);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,4);
             for (List<String> datos: info){
                 Cliente cliente=new Cliente(datos);
                 Direccion direccion=cliente.getDireccion()!= null? adm.merge(cliente.getDireccion()): null;

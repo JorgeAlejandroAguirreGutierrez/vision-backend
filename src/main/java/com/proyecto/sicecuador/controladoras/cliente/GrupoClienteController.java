@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathGrupoCliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.IGrupoClienteService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathCuentaPropia;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+
 @RestController
 @RequestMapping(contexto+pathCuentaPropia)
 public class CuentaPropiaController implements GenericoController<CuentaPropia> {

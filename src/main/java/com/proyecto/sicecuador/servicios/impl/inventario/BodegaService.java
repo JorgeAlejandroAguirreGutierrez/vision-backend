@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.repositorios.inventario.IBodegaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IBodegaService;
@@ -61,7 +60,7 @@ public class BodegaService implements IBodegaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Bodega> bodegas=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
             for (List<String> datos: info) {
                 Bodega bodega = new Bodega(datos);
                 bodegas.add(bodega);

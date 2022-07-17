@@ -4,10 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Auxiliar;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.cliente.IAuxiliarRepository;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IAuxiliarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -99,7 +96,7 @@ public class AuxiliarService implements IAuxiliarService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Auxiliar> auxiliares=new ArrayList<>();
-            List<List<String>>info=Util.leer_importar(archivo_temporal,0);
+            List<List<String>>info=Util.leerImportar(archivo_temporal,0);
             for (List<String> datos: info){
                 Auxiliar auxiliar = new Auxiliar(datos);
                 auxiliares.add(auxiliar);

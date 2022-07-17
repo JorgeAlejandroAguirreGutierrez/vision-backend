@@ -1,10 +1,7 @@
 package com.proyecto.sicecuador.repositorios.recaudacion;
 
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
-
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

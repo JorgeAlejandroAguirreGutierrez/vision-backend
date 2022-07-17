@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathPuntoVenta;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPuntoVentaService;
@@ -22,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+
 @RestController
 @RequestMapping(contexto+pathPuntoVenta)
 public class PuntoVentaController implements GenericoController<PuntoVenta> {
@@ -69,10 +69,10 @@ public class PuntoVentaController implements GenericoController<PuntoVenta> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, punto_venta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/establecimiento/{establecimiento_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarEstablecimiento(@PathVariable("establecimiento_id") long establecimiento_id) {
-        List<PuntoVenta> punto_venta=servicio.consultarEstablecimiento(new Establecimiento(establecimiento_id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, punto_venta);
+    @GetMapping(value = "/establecimiento/{establecimientoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarEstablecimiento(@PathVariable("establecimientoId") long establecimientoId) {
+        List<PuntoVenta> puntoVenta=servicio.consultarEstablecimiento(new Establecimiento(establecimientoId));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, puntoVenta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)

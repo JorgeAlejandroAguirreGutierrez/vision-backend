@@ -6,10 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathRecaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
 import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
-import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
-import com.proyecto.sicecuador.servicios.interf.recaudacion.IRangoCrediticioService;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRecaudacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -74,9 +71,16 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
     }
     
     @GetMapping(value = "/factura/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerPorFactura(@PathVariable("facturaId") long facturaId) {
-        Optional<Recaudacion> recaudacion=servicio.obtenerPorFactura(facturaId);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, recaudacion);
+    public ResponseEntity<?> obtenerPorFactura(@PathVariable("id") long id) {
+        Optional<Recaudacion> recaudacion=servicio.obtenerPorFactura(id);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_obtener_exitoso, recaudacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @PostMapping(value = "/calcular", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> calcular(@RequestBody @Valid Recaudacion _recaudacion) {
+        Optional<Recaudacion> recaudacion=servicio.calcular(_recaudacion);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, recaudacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,16 +69,16 @@ public class AuxiliarController implements GenericoController<Auxiliar> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_eliminar_exitoso, auxiliar);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/buscar/razonsocial/{razon_social}/{cliente_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtener(@PathVariable("razon_social") String razon_social,
-                                     @PathVariable("cliente_id") long cliente_id) {
+    @GetMapping(value = "/buscar/razonSocial/{razonSocial}/{clienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("razonSocial") String razon_social,
+                                     @PathVariable("clienteId") long cliente_id) {
         List<Auxiliar> auxiliar=servicio.consultarRazonSocial(new Auxiliar(razon_social, new Cliente(cliente_id)));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, auxiliar);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/cliente/{cliente_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarClienteID(@PathVariable("cliente_id") long cliente_id) {
-        List<Auxiliar> auxiliar=servicio.consultarClienteID(new Auxiliar(new Cliente(cliente_id)));
+    @GetMapping(value = "/cliente/{clienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarClienteID(@PathVariable("clienteId") long clienteId) {
+        List<Auxiliar> auxiliar=servicio.consultarClienteID(new Auxiliar(new Cliente(clienteId)));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, auxiliar);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

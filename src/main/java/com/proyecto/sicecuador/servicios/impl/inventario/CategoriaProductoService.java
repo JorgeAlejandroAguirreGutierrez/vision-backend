@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
 import com.proyecto.sicecuador.repositorios.inventario.ICategoriaProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ICategoriaProductoService;
@@ -62,7 +61,7 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<CategoriaProducto> categorias_productos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,10);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,10);
             for (List<String> datos: info) {
                 CategoriaProducto categoria_producto = new CategoriaProducto(datos);
                 categorias_productos.add(categoria_producto);

@@ -62,7 +62,7 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<PlazoCredito> plazos_creditos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal, 14);
+            List<List<String>>info= Util.leerImportar(archivo_temporal, 14);
             for (List<String> datos: info) {
                 PlazoCredito plazo_credito = new PlazoCredito(datos);
                 plazos_creditos.add(plazo_credito);

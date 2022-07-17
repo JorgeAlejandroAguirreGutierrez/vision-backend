@@ -3,9 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoRetencionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoRetencionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +60,7 @@ public class TipoRetencionService implements ITipoRetencionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TipoRetencion> tipos_retenciones=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal, 2);
+            List<List<String>>info= Util.leerImportar(archivo_temporal, 2);
             for (List<String> datos: info) {
                 TipoRetencion tipo_retencion = new TipoRetencion(datos);
                 tipos_retenciones.add(tipo_retencion);

@@ -7,7 +7,6 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -95,9 +94,9 @@ public class FacturaController implements GenericoController<Factura> {
         return null;
     }
     
-    @GetMapping(value = "/generar/pdf/{factura_id}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<?> generarPDF(@PathVariable("factura_id") long factura_id) {
-        Optional<Factura> factura=servicio.obtener(new Factura(factura_id));
+    @GetMapping(value = "/generar/pdf/{facturaId}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<?> generarPDF(@PathVariable("facturaId") long facturaId) {
+        Optional<Factura> factura=servicio.obtener(new Factura(facturaId));
         if (factura.isPresent()){
             ByteArrayInputStream pdf = servicio.generarPDF(factura.get());
             HttpHeaders headers = new HttpHeaders();

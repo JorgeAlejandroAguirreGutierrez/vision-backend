@@ -3,8 +3,6 @@ package com.proyecto.sicecuador.servicios.impl.entrega;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
 import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.repositorios.entrega.ITransportistaRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.ITransportistaService;
@@ -62,7 +60,7 @@ public class TransportistaService implements ITransportistaService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Transportista> transportistas=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,1);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,1);
             for (List<String> datos: info) {
                 Transportista transportista = new Transportista(datos);
                 transportistas.add(transportista);

@@ -6,8 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathGrupoProducto;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
 import com.proyecto.sicecuador.servicios.interf.inventario.IGrupoProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,50 +49,50 @@ public class GrupoProductoController implements GenericoController<GrupoProducto
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultargrupos", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarGrupos", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarGrupos() {
     	List<String> grupos=servicio.consultarGrupos();
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, grupos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/consultarsubgrupos", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarSubgrupos", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarSubgrupos(@RequestParam("grupo") String grupo) {
     	List<String> subgrupos=servicio.consultarSubgrupos(grupo);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, subgrupos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/consultarsecciones", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarSecciones", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarSecciones(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo) {
     	List<String> secciones=servicio.consultarSecciones(grupo, subgrupo);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, secciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarlineas", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarLineas", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarLineas(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("seccion") String seccion) {
     	List<String> lineas=servicio.consultarLineas(grupo, subgrupo, seccion);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, lineas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarsublineas", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarSublineas", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarSublineas(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("seccion") String seccion, @RequestParam("linea") String linea) {
     	List<String> lineas=servicio.consultarSublineas(grupo, subgrupo, seccion, linea);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, lineas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarpresentaciones", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarPresentaciones", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPresentaciones(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("seccion") String seccion, @RequestParam("linea") String linea, @RequestParam("sublinea") String sublinea) {
     	List<String> presentaciones=servicio.consultarPresentaciones(grupo, subgrupo, seccion, linea, sublinea);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, presentaciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/obtenergrupoproducto", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/obteneGrupo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerGrupoProducto(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("seccion") String seccion, @RequestParam("linea") String linea, @RequestParam("sublinea") String sublinea, @RequestParam("presentacion") String presentacion) {
-    	Optional<GrupoProducto> grupo_producto=servicio.obtenerGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, grupo_producto);
+    	Optional<GrupoProducto> grupoProducto=servicio.obtenerGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, grupoProducto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     

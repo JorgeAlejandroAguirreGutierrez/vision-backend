@@ -45,7 +45,7 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR18", "CREAR", "", "factura", "FAC"));
             parametros.add(new Parametro("PAR19", "CREAR", "", "egreso", "EGRE"));
             parametros.add(new Parametro("PAR20", "CREAR", "", "ubicacion", "UBI"));
-            parametros.add(new Parametro("PAR21", "CREAR", "", "guia_remision", "REM"));
+            parametros.add(new Parametro("PAR21", "CREAR", "", "entrega", "ENT"));
             parametros.add(new Parametro("PAR22", "CREAR", "", "transportista", "TRAN"));
             parametros.add(new Parametro("PAR23", "CREAR", "", "vehiculo_transporte", "VEH"));
             parametros.add(new Parametro("PAR24", "CREAR", "", "bodega", "BOD"));

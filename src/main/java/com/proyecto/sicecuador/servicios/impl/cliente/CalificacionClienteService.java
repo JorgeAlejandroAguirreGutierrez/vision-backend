@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.repositorios.cliente.ICalificacionClienteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICalificacionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,18 @@ public class CalificacionClienteService implements ICalificacionClienteService {
         rep.deleteById(calificacion_cliente.getId());
         return calificacion_cliente;
     }
+    
+    @Override
+    public Optional<CalificacionCliente> eliminarPersonalizado(long id) {
+        if(id!=0) {
+        	Optional<CalificacionCliente> calificacionCliente=rep.findById(id);
+        	if(calificacionCliente.isPresent()) {
+        		calificacionCliente.get().setEstado(Constantes.inactivo);
+            	return Optional.of(rep.save(calificacionCliente.get()));
+        	}
+        }
+        throw new EntidadNoExistenteException(Constantes.calificacion_cliente);
+    }
 
     @Override
     public Optional<CalificacionCliente> obtener(CalificacionCliente calificacion_cliente) {
@@ -86,7 +99,7 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<CalificacionCliente> calificaciones_clientes=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,1);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,1);
             for (List<String> datos: info) {
                 CalificacionCliente calificacion_cliente = new CalificacionCliente(datos);
                 calificaciones_clientes.add(calificacion_cliente);

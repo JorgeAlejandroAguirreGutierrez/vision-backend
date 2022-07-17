@@ -2,8 +2,8 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.ModeloExistenteException;
-import com.proyecto.sicecuador.exception.ModeloNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.TablaEquivalenciaMedida;
 import com.proyecto.sicecuador.Util;
@@ -36,7 +36,7 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     	tabla.setCodigo(codigo.get());
     	Optional<TablaEquivalenciaMedida> tem= this.obtenerMedida1Medida2(tabla);
     	if(tem.isPresent()) {
-    		throw new ModeloExistenteException();
+    		throw new EntidadExistenteException(Constantes.equivalencia_medida);
     	}
         return rep.save(tabla);
     }
@@ -49,7 +49,7 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     		tem.setEquivalencia(tabla.getEquivalencia());
     		return rep.save(tem);
     	}
-    	throw new ModeloNoExistenteException();
+    	throw new EntidadNoExistenteException(Constantes.equivalencia_medida);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<TablaEquivalenciaMedida> tablas=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
             for (List<String> datos: info) {
                 TablaEquivalenciaMedida tabla = new TablaEquivalenciaMedida(datos);
                 tablas.add(tabla);

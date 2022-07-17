@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Genero;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -88,7 +87,7 @@ public class GeneroService implements IGeneroService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Genero> generos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal, 11);
+            List<List<String>>info= Util.leerImportar(archivo_temporal, 11);
             for (List<String> datos: info) {
                 Genero genero = new Genero(datos);
                 generos.add(genero);

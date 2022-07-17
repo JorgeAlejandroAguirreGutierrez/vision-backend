@@ -3,7 +3,8 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.exception.SesionInvalidaException;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.usuario.ISesionRepository;
@@ -26,6 +27,7 @@ public class SesionService implements ISesionService {
     
     @Autowired
     private IUsuarioRepository rep_usuario;
+    
     @Override
     public Sesion crear(Sesion sesion) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_sesion);
@@ -33,11 +35,14 @@ public class SesionService implements ISesionService {
     		throw new CodigoNoExistenteException();
     	}
     	sesion.setCodigo(codigo.get());
-    	Usuario usuario=rep_usuario.findByIdentificacionContrasena(sesion.getUsuario().getIdentificacion(),sesion.getUsuario().getContrasena());
-        sesion.setUsuario(usuario);
-        sesion.setFechaApertura(new Date());
-        sesion.setActiva(true);
-        return rep.save(sesion);
+    	Optional<Usuario> usuario=rep_usuario.findByIdentificacionContrasena(sesion.getUsuario().getIdentificacion(),sesion.getUsuario().getContrasena());
+    	if(usuario.isPresent()) {
+    		sesion.setUsuario(usuario.get());
+            sesion.setFechaApertura(new Date());
+            sesion.setActiva(true);
+            return rep.save(sesion);
+    	}
+    	throw new EntidadNoExistenteException(Constantes.sesion); 
     }
 
     @Override
@@ -65,12 +70,42 @@ public class SesionService implements ISesionService {
     public Page<Sesion> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
+    
+    /**
+     * Valida la sesion del usuario por id
+     * @param Sesion
+     * @return Sesion
+     */
+    @Override
+    public Optional<Sesion> validar(Sesion _sesion) {
+        final Optional<Sesion> sesion= rep.findById(_sesion.getId());
+        if (sesion.isPresent()) {
+        	long startTime = sesion.get().getFechaApertura().getTime();
+			long endTime = new Date().getTime();
+			long diffTime = endTime - startTime;
+			long diffDays = diffTime / (1000 * 60 * 60 * 24);
+			if(diffDays<1) {
+				return sesion;
+			}
+			throw new SesionInvalidaException();
+        }
+        throw new EntidadNoExistenteException(Constantes.sesion);
+    }
+    
+    @Override
+    public Optional<Sesion> cerrar(Sesion sesion) {
+        Sesion _sesion=rep.findById(sesion.getId()).get();
+        sesion.setFechaCierre(new Date());
+        sesion.setActiva(false);
+        _sesion=rep.save(_sesion);
+        return Optional.of(_sesion);
+    }
 
     @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Sesion> sesiones=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,4);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,4);
             for (List<String> datos: info) {
                 Sesion sesion = new Sesion(datos);
                 sesiones.add(sesion);
@@ -83,23 +118,5 @@ public class SesionService implements ISesionService {
         }catch (Exception e){
             return false;
         }
-    }
-
-    @Override
-    public Optional<Sesion> verificar(Sesion sesion) {
-        Sesion _sesion= rep.findById(sesion.getId()).get();
-        if (_sesion.getFechaCierre()==null){
-            return Optional.of(_sesion);
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Sesion> cerrar(Sesion sesion) {
-        Sesion _sesion=rep.findById(sesion.getId()).get();
-        sesion.setFechaCierre(new Date());
-        sesion.setActiva(false);
-        _sesion=rep.save(_sesion);
-        return Optional.of(_sesion);
     }
 }

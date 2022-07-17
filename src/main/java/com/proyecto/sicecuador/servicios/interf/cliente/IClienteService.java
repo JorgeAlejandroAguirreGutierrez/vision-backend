@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface IClienteService extends IGenericoService<Cliente> {
 
+	List<Cliente> consultarPersonalizado();
+	Optional<Cliente> eliminarPersonalizado(long id);
     Optional<Cliente> obtenerIdentificacion(Cliente cliente);
     Optional<Cliente> obtenerRazonSocial(Cliente cliente);
     List<Cliente> buscar(Cliente cliente);

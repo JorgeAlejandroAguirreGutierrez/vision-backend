@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.repositorios.configuracion;
 
-import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

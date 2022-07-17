@@ -3,10 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
 import com.proyecto.sicecuador.modelos.inventario.Impuesto;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.inventario.IImpuestoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IImpuestoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +64,7 @@ public class ImpuestoService implements IImpuestoService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Impuesto> impuestos=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,3);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,3);
             for (List<String> datos: info) {
                 Impuesto impuesto = new Impuesto(datos);
                 impuestos.add(impuesto);

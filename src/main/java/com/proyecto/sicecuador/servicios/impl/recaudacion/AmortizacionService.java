@@ -62,7 +62,7 @@ public class AmortizacionService implements IAmortizacionService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Amortizacion> amortizaciones=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,0);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
             for (List<String> datos: info) {
                 Amortizacion amortizacion = new Amortizacion(datos);
                 amortizaciones.add(amortizacion);

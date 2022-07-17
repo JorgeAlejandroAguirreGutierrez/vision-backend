@@ -61,7 +61,7 @@ public class PerfilService implements IPerfilService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Perfil> perfiles=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,1);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,1);
             for (List<String> datos: info) {
                 Perfil perfil = new Perfil(datos);
                 perfiles.add(perfil);

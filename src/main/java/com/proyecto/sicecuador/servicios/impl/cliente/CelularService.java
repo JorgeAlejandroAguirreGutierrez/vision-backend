@@ -7,7 +7,6 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.repositorios.cliente.ICelularRepository;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICelularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -66,7 +65,7 @@ public class CelularService implements ICelularService {
     public boolean importar(MultipartFile archivo_temporal) {
         try {
             List<Celular> celulares=new ArrayList<>();
-            List<List<String>>info= Util.leer_importar(archivo_temporal,2);
+            List<List<String>>info= Util.leerImportar(archivo_temporal,2);
             for (List<String> datos: info) {
                 Celular celular = new Celular(datos);
                 Optional<Cliente> cliente=rep_cliente.findById(celular.getCliente().getId());

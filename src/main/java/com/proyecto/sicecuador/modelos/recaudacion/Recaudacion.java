@@ -19,6 +19,8 @@ public class Recaudacion extends Entidad {
     private Date fecha;
     @Column(name = "total", nullable = true)
     private double total;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @Column(name = "efectivo", nullable = true)
@@ -39,7 +41,7 @@ public class Recaudacion extends Entidad {
     private double totalRetencionesVentas;
     @Column(name = "total_credito", nullable = true)
     private double totalCredito;
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
     @NotNull
@@ -118,7 +120,11 @@ public class Recaudacion extends Entidad {
     public double getTotal() {
         return total;
     }
-
+    
+    public String getEstado() {
+		return estado;
+	}
+    
     public String getComentario() {
         return comentario;
     }
@@ -205,6 +211,10 @@ public class Recaudacion extends Entidad {
             this.credito=null;
         }
     }
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
     public void setCredito(Credito credito) {
         this.credito = credito;
@@ -213,4 +223,38 @@ public class Recaudacion extends Entidad {
     public void setTotal(double total) {
         this.total = total;
     }
+    
+    public void setTotalCheques(double totalCheques) {
+		this.totalCheques = totalCheques;
+	}
+    
+    public void setTotalDepositos(double totalDepositos) {
+		this.totalDepositos = totalDepositos;
+	}
+    
+    public void setTotalTransferencias(double totalTransferencias) {
+		this.totalTransferencias = totalTransferencias;
+	}
+    
+    public void setTotalCredito(double totalCredito) {
+		this.totalCredito = totalCredito;
+	}
+    
+    public void setTotalTarjetasDebitos(double totalTarjetasDebitos) {
+		this.totalTarjetasDebitos = totalTarjetasDebitos;
+	}
+    
+    public void setTotalTarjetasCreditos(double totalTarjetasCreditos) {
+		this.totalTarjetasCreditos = totalTarjetasCreditos;
+	}
+    
+    public void setTotalCompensaciones(double totalCompensaciones) {
+		this.totalCompensaciones = totalCompensaciones;
+	}
+    
+    public void setTotalRetencionesVentas(double totalRetencionesVentas) {
+		this.totalRetencionesVentas = totalRetencionesVentas;
+	}
+    
+    
 }
