@@ -25,9 +25,9 @@ public class PuntoVentaData implements ApplicationRunner {
         Optional<PuntoVenta> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<PuntoVenta> puntos_ventas = new ArrayList<>();
-            puntos_ventas.add(new PuntoVenta("EM1ES1CA001", "CAJA1", new Establecimiento(1)));
-            puntos_ventas.add(new PuntoVenta("EM1ES1CA002", "CAJA2", new Establecimiento(1)));
-            puntos_ventas.add(new PuntoVenta("EM1ES2CA001", "CAJA1", new Establecimiento(2)));
+            puntos_ventas.add(new PuntoVenta("EM1ES1CA001", "001", "CAJA1", new Establecimiento(1)));
+            puntos_ventas.add(new PuntoVenta("EM1ES1CA002", "002", "CAJA2", new Establecimiento(1)));
+            puntos_ventas.add(new PuntoVenta("EM1ES2CA001", "001", "CAJA1", new Establecimiento(2)));
             rep.saveAll(puntos_ventas);
         }
     }

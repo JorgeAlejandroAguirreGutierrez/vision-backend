@@ -24,8 +24,8 @@ public class ProveedorData implements ApplicationRunner {
             Optional<Proveedor> ant=rep.findById((long) 1);
             if (!ant.isPresent()) {
                 List<Proveedor> proveedores = new ArrayList<>();
-                proveedores.add(new Proveedor("PRV110721000001", "C", "0101010101", "CORAL CENTRO", "ACTIVO", false, "CALLE SUCRE Y VEGA MUÑOZ", "072865654", "coralcentro@coral.com.ec"));
-                proveedores.add(new Proveedor("PRV110721000002", "C", "0101010102", "SUPERMAXI", "ACTIVO", false, "AV HURTADO DE MENDOZA", "072995654", "supermaxi@supermaxi.com.ec"));
+                proveedores.add(new Proveedor("PRV110721000001", "C", "0101010101", "CORAL CENTRO", "NOMBRE COMERCIAL CORAL", "ACTIVO", false, "CALLE SUCRE Y VEGA MUÑOZ", "072865654", "coralcentro@coral.com.ec"));
+                proveedores.add(new Proveedor("PRV110721000002", "C", "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", "ACTIVO", false, "AV HURTADO DE MENDOZA", "072995654", "supermaxi@supermaxi.com.ec"));
                 rep.saveAll(proveedores);
             }
     }
