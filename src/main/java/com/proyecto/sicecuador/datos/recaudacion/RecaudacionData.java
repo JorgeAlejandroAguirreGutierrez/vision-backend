@@ -28,8 +28,8 @@ public class RecaudacionData implements ApplicationRunner {
         /*Optional<Recaudacion> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Recaudacion> recaudaciones = new ArrayList<>();
-            recaudaciones.add(new Recaudacion("REC000001", Date.valueOf("2019-08-26"), 100.00, "Recaudación factura 1", 0.00, 60.00, 10.00, 10.00, new TarjetaCredito(1), new TarjetaDebito(1), new Credito(1), new TipoComprobante(1), new Factura(1), new Sesion(1)));
-            recaudaciones.add(new Recaudacion("REC000002", Date.valueOf("2019-08-27"), 300.00, "Recaudación factura 2", 100.00, 80.00, 20.00, 0.00, new TarjetaCredito(2), new TarjetaDebito(2), new Credito(2), new TipoComprobante(1), new Factura(1), new Sesion(1)));
+            recaudaciones.add(new Recaudacion("REC000001", Date.valueOf("2019-08-26"), 100.00, "Recaudación factura 1", 0.00, 60.00, 10.00, 10.00, new TarjetaCredito(1), new TarjetaDebito(1), new Credito(1), new TipoComprobante(1), new Factura(1), new FormaPago(1), new Sesion(1)));
+            recaudaciones.add(new Recaudacion("REC000002", Date.valueOf("2019-08-27"), 300.00, "Recaudación factura 2", 100.00, 80.00, 20.00, 0.00, new TarjetaCredito(2), new TarjetaDebito(2), new Credito(2), new TipoComprobante(1), new Factura(1), new FormaPago(1), new Sesion(1)));
             rep.saveAll(recaudaciones);
         }*/
     }

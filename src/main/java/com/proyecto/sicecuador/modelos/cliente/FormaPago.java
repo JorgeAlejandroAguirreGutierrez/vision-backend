@@ -11,7 +11,11 @@ import java.util.List;
 @Entity
 @Table(name = "forma_pago")
 public class FormaPago extends Entidad {
-    @Column(name = "descripcion", nullable = true)
+	@NotNull
+	@NotEmpty
+    @Column(name = "codigo_sri")
+    private String codigoSri;    
+	@Column(name = "descripcion", nullable = true)
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
@@ -28,17 +32,23 @@ public class FormaPago extends Entidad {
         super(id);
     }
 
-    public FormaPago(String codigo, String descripcion, String abreviatura, String estado){
+    public FormaPago(String codigo, String codigoSri, String descripcion, String abreviatura, String estado){
         super(codigo);
+        this.codigoSri=codigoSri;
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
         this.estado=estado;
     }
 
     public FormaPago(List<String> datos) {
-        descripcion=datos.get(0)== null? null : datos.get(0);
-        abreviatura=datos.get(1)== null? null : datos.get(1);
-        estado=datos.get(2)== null? null : datos.get(2);
+    	codigoSri=datos.get(0)== null? null : datos.get(0);
+        descripcion=datos.get(1)== null? null : datos.get(1);
+        abreviatura=datos.get(2)== null? null : datos.get(2);
+        estado=datos.get(3)== null? null : datos.get(3);
+    }
+
+    public String getCodigoSri() {
+        return codigoSri;
     }
 
     public String getDescripcion() {
