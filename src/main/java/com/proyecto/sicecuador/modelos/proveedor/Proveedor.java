@@ -19,6 +19,8 @@ public class Proveedor extends Entidad {
     private String identificacion;
     @Column(name = "razon_social")
     private String razonSocial;
+    @Column(name = "nombre_comercial")
+    private String nombreComercial;
     @Column(name = "estado")
     private String estado;
     @Column(name = "eliminado")
@@ -39,12 +41,13 @@ public class Proveedor extends Entidad {
     }
 
     public Proveedor(String codigo, String tipo_identificacion, String identificacion,  
-    				String razon_social, String estado, boolean eliminado,
+    				String razon_social, String nombreComercial, String estado, boolean eliminado,
     				String direccion, String telefono, String correo){
         super(codigo);
     	this.tipoIdentificacion = tipo_identificacion;
     	this.identificacion = identificacion;
     	this.razonSocial = razon_social;
+    	this.nombreComercial = nombreComercial;
     	this.estado = estado;
     	this.eliminado = eliminado;
     	this.direccion = direccion;
@@ -58,11 +61,12 @@ public class Proveedor extends Entidad {
     	tipoIdentificacion=datos.get(0)== null ? null: datos.get(0);
         identificacion=datos.get(1)== null ? null: datos.get(1);
         razonSocial=datos.get(2)== null ? null: datos.get(2);
-        estado=datos.get(3)== null ? null: datos.get(3);
-        eliminado= datos.get(4)== null ? null: datos.get(4).equals("S") ? true : false;
-        direccion= datos.get(5)== null ? null: datos.get(5);
-        telefono= datos.get(6)== null ? null: datos.get(6);
-        correo= datos.get(7)== null ? null: datos.get(7);
+        nombreComercial=datos.get(3)== null ? null: datos.get(3);
+        estado=datos.get(4)== null ? null: datos.get(4);
+        eliminado= datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
+        direccion= datos.get(6)== null ? null: datos.get(6);
+        telefono= datos.get(7)== null ? null: datos.get(7);
+        correo= datos.get(8)== null ? null: datos.get(8);
         
     }
 
@@ -77,6 +81,10 @@ public class Proveedor extends Entidad {
     public String getRazonSocial() {
 		return razonSocial;
 	}
+    
+    public String getNombreComercial() {
+    	return nombreComercial;
+    }
 
     public String getEstado() {
         return estado;
@@ -107,6 +115,10 @@ public class Proveedor extends Entidad {
     
     public void setRazonSocial(String razonSocial) {
 		this.razonSocial = razonSocial;
+	}
+    
+    public void setNombreComercial(String nombreComercial) {
+		this.nombreComercial = nombreComercial;
 	}
     
     public void setEstado(String estado) {
