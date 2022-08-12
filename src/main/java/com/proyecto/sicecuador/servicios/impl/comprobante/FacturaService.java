@@ -18,6 +18,7 @@ import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaE;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
@@ -30,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.io.*;
+import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +67,9 @@ public class FacturaService implements IFacturaService {
     	factura.setSecuencia(secuencia.get());
     	factura.setEstado(Constantes.noemitida);
     	
-        return rep.save(factura);
+        rep.save(factura);
+        //FACTURACION ELECTRONICA
+        this.crearFacturaElectronica(factura);
     }
 
     @Override
@@ -99,8 +103,19 @@ public class FacturaService implements IFacturaService {
         return false;
     }
     
-    public void crearFacturaElectronica(Factura factura) {
+    public FacturaE crearFacturaElectronica(Factura factura) {
     	//MAPEO A FACTURA ELECTRONICA
+    	FacturaE facturaE=new FacturaE();
+    	
+    	return facturaE;
+    }
+    
+    public void enviarFacturaElectronica(FacturaE facturaE) {
+    	Xml facturaXml= libreria.convertXml(facturaE);
+    	this.firmarFactura(facturaXml);
+    	this.base64(facturaXml);
+    	HttpClient cliente=new HttpClient(facturaXml);
+    	facturaXml.generateFile();
     }
 
     @Override
