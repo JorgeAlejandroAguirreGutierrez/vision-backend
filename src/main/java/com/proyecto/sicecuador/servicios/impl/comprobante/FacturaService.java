@@ -64,6 +64,7 @@ public class FacturaService implements IFacturaService {
     	factura.setCodigo(codigo.get());
     	factura.setSecuencia(secuencia.get());
     	factura.setEstado(Constantes.noemitida);
+    	
         return rep.save(factura);
     }
 
@@ -96,6 +97,10 @@ public class FacturaService implements IFacturaService {
     @Override
     public boolean importar(MultipartFile file) {
         return false;
+    }
+    
+    public void crearFacturaElectronica(Factura factura) {
+    	//MAPEO A FACTURA ELECTRONICA
     }
 
     @Override

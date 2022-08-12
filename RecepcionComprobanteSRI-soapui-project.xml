@@ -80,114 +80,148 @@
       <soap:address location="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint></con:endpoints><con:operation id="c1d876b4-2530-4632-b0b1-f37090f539a2" isOneWay="false" action="" name="validarComprobante" bindingOperationName="validarComprobante" type="Request-Response" outputName="validarComprobanteResponse" inputName="validarComprobante" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8c49594a-24df-44ca-8c0d-c862bb56fcba" name="Request 1" outgoingWss="outgoing" incomingWss=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.recepcion">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
-      <ec:validarComprobante>\r
-         <!--Optional:-->\r
-         <xml><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<factura id="comprobante" version="1.1.0">
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint></con:endpoints><con:operation id="c1d876b4-2530-4632-b0b1-f37090f539a2" isOneWay="false" action="" name="validarComprobante" bindingOperationName="validarComprobante" type="Request-Response" outputName="validarComprobanteResponse" inputName="validarComprobante" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8c49594a-24df-44ca-8c0d-c862bb56fcba" name="Request 1" outgoingWss="outgoing" incomingWss=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:ec="http://ec.gob.sri.ws.recepcion" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header><wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"><wsse:BinarySecurityToken EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" wsu:Id="X509-C3E59ED1DE7BA36C43165653669744533">MIIJCTCCBvGgAwIBAgIEW2bm8zANBgkqhkiG9w0BAQsFADCBoTELMAkGA1UEBhMCRUMxIjAgBgNVBAoTGUJBTkNPIENFTlRSQUwgREVMIEVDVUFET1IxNzA1BgNVBAsTLkVOVElEQUQgREUgQ0VSVElGSUNBQ0lPTiBERSBJTkZPUk1BQ0lPTi1FQ0lCQ0UxDjAMBgNVBAcTBVFVSVRPMSUwIwYDVQQDExxBQyBCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMB4XDTIwMTIxNzE0MTcwM1oXDTIyMTIxNzE0NDcwM1owgbUxCzAJBgNVBAYTAkVDMSIwIAYDVQQKExlCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMTcwNQYDVQQLEy5FTlRJREFEIERFIENFUlRJRklDQUNJT04gREUgSU5GT1JNQUNJT04tRUNJQkNFMQ4wDAYDVQQHEwVRVUlUTzE5MBEGA1UEBRMKMDAwMDMzMzA1NTAkBgNVBAMTHU1BUklPIFJVQkVOIERFTEdBRE8gREFRVUlMRU1BMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAle30TV/YfyQhaRpnQy9r7y8YLgM+Jc+MuIwzPcIY0VPMjOeKfsEcqSfrEtSGbsgcxO2tSWSvs1QZhjUkkd4MXvR9lDV3wLAzCC6TQU0CPJe7VlfirVDpt8l1oDy2ar/nMIe0fhB9Kr/tfLWj+w/Kupp8x3TMPl2g0qDuvnA2N4F985c1dbZOwk30T0Q1EAWMHQA23bYp9N5I364OzXvHMAapaV1Af2GzI9ntVUn3v9+eT/fRTed9YXJal1jebP9mv6g0Nft2OYzkbRUolXI0iZC05ZDg8/6kpQQWD4FWujgPZj5FOlCWDOv/Y3psn5vLzreAZqfiLKQpE4+5YuYpIQIDAQABo4IEMTCCBC0wgZEGCCsGAQUFBwEBBIGEMIGBMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5lY2kuYmNlLmVjL2VqYmNhL3B1YmxpY3dlYi9zdGF0dXMvb2NzcDA/BggrBgEFBQcwAYYzaHR0cDovL29jc3AxLmVjaS5iY2UuZWMvZWpiY2EvcHVibGljd2ViL3N0YXR1cy9vY3NwMBoGCisGAQQBgqg7AwEEDBMKMDYwMzQ2NzIyNjAbBgorBgEEAYKoOwMCBA0TC01BUklPIFJVQkVOMBcGCisGAQQBgqg7AwMECRMHREVMR0FETzAZBgorBgEEAYKoOwMEBAsTCURBUVVJTEVNQTAhBgorBgEEAYKoOwMHBBMTEUJFTElOIFkgQU1TVEVSREFNMBkGCisGAQQBgqg7AwgECxMJMDMyOTI0MTM1MBgGCisGAQQBgqg7AwkEChMIUmlvYmFtYmEwFwYKKwYBBAGCqDsDDAQJEwdFQ1VBRE9SMB0GCisGAQQBgqg7AwsEDxMNMDYwMzQ2NzIyNjAwMTAgBgorBgEEAYKoOwMzBBITEFNPRlRXQVJFLUFSQ0hJVk8wIAYDVR0RBBkwF4EVbWFzdGVyX21kdXNAeWFob28uY29tMIIB4QYDVR0fBIIB2DCCAdQwggHQoIIBzKCCAciGgdZsZGFwOi8vYmNlcWxkYXBzdWJwMS5iY2UuZWMvY249Q1JMMTE1MCxjbj1BQyUyMEJBTkNPJTIwQ0VOVFJBTCUyMERFTCUyMEVDVUFET1IsbD1RVUlUTyxvdT1FTlRJREFEJTIwREUlMjBDRVJUSUZJQ0FDSU9OJTIwREUlMjBJTkZPUk1BQ0lPTi1FQ0lCQ0Usbz1CQU5DTyUyMENFTlRSQUwlMjBERUwlMjBFQ1VBRE9SLGM9RUM/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlhjRodHRwOi8vd3d3LmVjaS5iY2UuZWMvQ1JML2VjaV9iY2VfZWNfY3JsZmlsZWNvbWIuY3JspIG2MIGzMQswCQYDVQQGEwJFQzEiMCAGA1UEChMZQkFOQ08gQ0VOVFJBTCBERUwgRUNVQURPUjE3MDUGA1UECxMuRU5USURBRCBERSBDRVJUSUZJQ0FDSU9OIERFIElORk9STUFDSU9OLUVDSUJDRTEOMAwGA1UEBxMFUVVJVE8xJTAjBgNVBAMTHEFDIEJBTkNPIENFTlRSQUwgREVMIEVDVUFET1IxEDAOBgNVBAMTB0NSTDExNTAwCwYDVR0PBAQDAgUgMB8GA1UdIwQYMBaAFEii3yMfHfgsUXqMA81JMqUJwZSrMB0GA1UdDgQWBBTQvQuAD3a9XfD7k6LON+52KHZKDzAJBgNVHRMEAjAAMBkGCSqGSIb2fQdBAAQMMAobBFY4LjEDAgSQMA0GCSqGSIb3DQEBCwUAA4ICAQBUBdNtkzEFu9ewxgY5apnWGqCpz5BA9c0zejlvLKpxrTSTQLiVCW9crRUb8y3K0SC+rI4YjZJgOp92QtzgHI0P3RmGTZVnO+rfV5EWmj/PZ8s3H0mJ2f0L5RzMrIH7idumB+S8Wb6gwyYtFYPJ5g5rTwwDAKl6J4OL8I/uDthzkTLT+r68OCriY1H+E/Cix85DqAEC0nfc7C0GOMQtAaLn5acYr80zxb3OnQTwXPUU9xR9B9JMiiHfCILJMJa7yVsTVuzKrmc+rMsto5/DMRpd1rNlN/CAac5LoyMr3T06mrmnUSB9OJV2vf3kn6uumQsOmbWrauFlsJLvquCMvT4hiQXFH/H10qtL+ispLXIHS0k96Or8xvepKjpL/+ShSrjjlzENtWsBlIXfS3PA3O97nqMfTvm8fmK3OyV30MB4hGa0KmDitP1vhgS/L3C6Lsy8Ar2+H8JKMxuCNKYyS4GYtufHLLQOEnrM4NH2BkZSHS8LmPMouhPM4X5ACNcEnuNDe9g8SKfern1B+XKJ1FJYJzTlniIQ2okE9ur5GBQvuygyBD4DY7eW+jG9FpAy6Zb6Azbkxq1fopLGbUVkxh3Iex21wE1WzV76MZKX05scJiySviG/DNbjXG7+AXA9FX8DM8xUohFpCEtn6PmbwbXTeWO3UX6b9XrnFUIQU0tOqw==</wsse:BinarySecurityToken><ds:Signature Id="SIG-C3E59ED1DE7BA36C43165653669744737" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><ds:Reference URI="#id-C3E59ED1DE7BA36C43165653669744636"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><InclusiveNamespaces PrefixList="ec" xmlns="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>h7ECHwCHFjJPVjyCG+zf7xLvonY=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>Lp9uJpwJuCrj+y33DDyP46ribLmuOzNs4K83XY2CJUHN0GLGth2T+v3j9a/HzJT31Ysea6jmzVelIdEhA72gpHDalw1lIX0lQv41EZcS5ABx+apU3h9omWoh43C0XavghoCnQkyb8pu1UqzSiS/U7kxDc5i3lDZzIynLhfjXjxXAAyuf4P1aEpOD+ii2K4Tw/8AuuIIGHBMw3tUrCYBoGeu0EZU4vUI6iv+XvJOaMaFZlurjK+iVikSxk3hWctYNKp5fTy8NPXsoe0piVPqu/mtK02xqQv0v5J5gDjQ8UVrjxxVuQhIxUhPCaXvh54nONEEMSRZ7E7+qbNeYeCcGsA==</ds:SignatureValue><ds:KeyInfo Id="KI-C3E59ED1DE7BA36C43165653669744534"><wsse:SecurityTokenReference wsu:Id="STR-C3E59ED1DE7BA36C43165653669744535"><wsse:Reference URI="#X509-C3E59ED1DE7BA36C43165653669744533" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/></wsse:SecurityTokenReference></ds:KeyInfo></ds:Signature></wsse:Security></soapenv:Header>
+    <soapenv:Body wsu:Id="id-C3E59ED1DE7BA36C43165653669744636" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+        <ec:validarComprobante>
+            <!--Optional:-->
+            <xml><![CDATA[
+                <?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="1.0.0">
     <infoTributaria>
         <ambiente>1</ambiente>
         <tipoEmision>1</tipoEmision>
-        <razonSocial>PRUEBAS SERVICIO DE RENTAS INTERNAS</razonSocial>
-        <nombreComercial>PRIMAX COMERCIAL DEL ECUADOR S.A.</nombreComercial>
-        <ruc>1791408683001</ruc>
-        <claveAcceso>0706202201179140868300120010500007256060706202219</claveAcceso>
+        <razonSocial>SERVICIO DE RENTAS INTERNAS</razonSocial>
+        <nombreComercial>LE HACE BIEN AL PAIS</nombreComercial>
+        <ruc>1760013210001</ruc>
+        <claveAcceso>0503201201176001321000110010030009900641234567814</claveAcceso>
         <codDoc>01</codDoc>
         <estab>001</estab>
-        <ptoEmi>050</ptoEmi>
-        <secuencial>000725606</secuencial>
-        <dirMatriz>Lizardo Garcia E10-80 y Av.12 de Octubre Edificio Alto Aragon 3.Piso Ofi.3A</dirMatriz>
+        <ptoEmi>003</ptoEmi>
+        <secuencial>000990064</secuencial>
+        <dirMatriz>AMAZONAS Y ROCA</dirMatriz>
     </infoTributaria>
     <infoFactura>
-        <fechaEmision>07/06/2022</fechaEmision>
-        <dirEstablecimiento>TERMINALES</dirEstablecimiento>
-        <contribuyenteEspecial>0155</contribuyenteEspecial>
+        <fechaEmision>05/03/2012</fechaEmision>
+        <dirEstablecimiento>SALINAS Y SANTIAGO</dirEstablecimiento>
+        <contribuyenteEspecial>12345</contribuyenteEspecial>
         <obligadoContabilidad>SI</obligadoContabilidad>
-        <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
-        <razonSocialComprador>ADECAMOR CIA LTDA.</razonSocialComprador>
-        <identificacionComprador>1792458935001</identificacionComprador>
-        <totalSinImpuestos>3161.67</totalSinImpuestos>
+        <tipoIdentificacionComprador>05</tipoIdentificacionComprador>
+        <razonSocialComprador>EGUIGUREN PENARRETA GABRIEL FERNANDO</razonSocialComprador>
+        <identificacionComprador>1103029144</identificacionComprador>
+        <totalSinImpuestos>100.00</totalSinImpuestos>
         <totalDescuento>0.00</totalDescuento>
         <totalConImpuestos>
             <totalImpuesto>
-                <codigo>2</codigo>
-                <codigoPorcentaje>0</codigoPorcentaje>
-                <descuentoAdicional>0.00</descuentoAdicional>
-                <baseImponible>0.00</baseImponible>
-                <valor>0.00</valor>
-            </totalImpuesto>
-            <totalImpuesto>
-                <codigo>2</codigo>
                 <codigoPorcentaje>2</codigoPorcentaje>
-                <descuentoAdicional>0.00</descuentoAdicional>
-                <baseImponible>3161.67</baseImponible>
-                <valor>379.40</valor>
+                <baseImponible>100.00</baseImponible>
+                <valor>12.00</valor>
             </totalImpuesto>
         </totalConImpuestos>
         <propina>0.00</propina>
-        <importeTotal>3565.74</importeTotal>
+        <importeTotal>112.00</importeTotal>
         <moneda>DOLAR</moneda>
-        <pagos>
-            <pago>
-                <formaPago>20</formaPago>
-                <total>3565.74</total>
-                <plazo>7</plazo>
-                <unidadTiempo>DIAS</unidadTiempo>
-            </pago>
-        </pagos>
-        <valorRetIva>0.00</valorRetIva>
-        <valorRetRenta>0.00</valorRetRenta>
     </infoFactura>
     <detalles>
         <detalle>
-            <codigoPrincipal>318</codigoPrincipal>
-            <codigoAuxiliar>116C041177</codigoAuxiliar>
-            <descripcion>DIESEL PREMIUM</descripcion>
-            <cantidad>2000.000000</cantidad>
-            <precioUnitario>1.580835</precioUnitario>
+            <codigoPrincipal>001</codigoPrincipal>
+            <codigoAuxiliar>001</codigoAuxiliar>
+            <descripcion>
+                SILLA DE MADERA
+            </descripcion>
+            <cantidad>1.00</cantidad>
+            <precioUnitario>100.00</precioUnitario>
             <descuento>0.00</descuento>
-            <precioTotalSinImpuesto>3161.67</precioTotalSinImpuesto>
+            <precioTotalSinImpuesto>100.00</precioTotalSinImpuesto>
             <impuestos>
                 <impuesto>
-                    <codigo>2</codigo>
                     <codigoPorcentaje>2</codigoPorcentaje>
                     <tarifa>12.00</tarifa>
-                    <baseImponible>3161.67</baseImponible>
-                    <valor>379.40</valor>
+                    <baseImponible>100.00</baseImponible>
+                    <valor>12.00</valor>
                 </impuesto>
             </impuestos>
         </detalle>
     </detalles>
-    <retenciones>
-        <retencion>
-            <codigo>4</codigo>
-            <codigoPorcentaje>3</codigoPorcentaje>
-            <tarifa>1.00</tarifa>
-            <valor>15.18</valor>
-        </retencion>
-        <retencion>
-            <codigo>4</codigo>
-            <codigoPorcentaje>328</codigoPorcentaje>
-            <tarifa>0.30</tarifa>
-            <valor>9.49</valor>
-        </retencion>
-    </retenciones>
     <infoAdicional>
-        <campoAdicional nombre="Mail Cliente">estacionbypass2001@yahoo.es</campoAdicional>
-        <campoAdicional nombre="Direccion Cliente">AV.MONSENOR LEONIDAS PROANO Y ALFONSO PEREZ</campoAdicional>
-        <campoAdicional nombre="Telefono Cliente">593 2 3958440 593 9 99782875</campoAdicional>
-        <campoAdicional nombre="Contribuyente Especial">0155 24/04/1999</campoAdicional>
-        <campoAdicional nombre="Fecha Vencimiento">14/06/22</campoAdicional>
-        <campoAdicional nombre="Punto Partida">Terminal Riobamba (Retail)</campoAdicional>
-        <campoAdicional nombre="Fecha Despacho">07/06/22</campoAdicional>
-        <campoAdicional nombre="Nombre Estacion">E.S. BYPASS</campoAdicional>
-        <campoAdicional nombre="CUENTA CORRIENTE O PAPELETA DEPOSITO">07950764</campoAdicional>
-        <campoAdicional nombre="DESCRIPCION BANCO">BCO.PACIFICO</campoAdicional>
-        <campoAdicional nombre="OTROS">.</campoAdicional>
+        <campoAdicional nombre="Direccion">LOS PERALES Y AV. ELOY ALFARO</campoAdicional>
+        <campoAdicional nombre="Telefono">2123123</campoAdicional>
+        <campoAdicional nombre="Email">gfeguiguren@sri.gob.ec</campoAdicional>
     </infoAdicional>
-</factura>]]]]>><![CDATA[</xml>\r
-      </ec:validarComprobante>\r
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.recepcion/RecepcionComprobantesOffline/validarComprobante"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer><con:crypto><con:source>C:/Users/ML-113149/Documents/Desarrollo/sic-ecuador-backend/mario_ruben_delgado_daquilema.p12</con:source><con:password>mPrimero1981</con:password><con:type>KEYSTORE</con:type></con:crypto><con:outgoing><con:name>outgoing</con:name><con:entry type="Signature" username="serialnumber=0000333055+cn=mario ruben delgado daquilema,l=quito,ou=entidad de certificacion de informacion-ecibce,o=banco central del ecuador,c=ec signing key" password="mPrimero1981"><con:configuration><crypto>mario_ruben_delgado_daquilema.p12</crypto><keyIdentifierType>1</keyIdentifierType><signatureAlgorithm>http://www.w3.org/2000/09/xmldsig#rsa-sha1</signatureAlgorithm><signatureCanonicalization>http://www.w3.org/2001/10/xml-exc-c14n#</signatureCanonicalization><useSingleCert>true</useSingleCert><prependSignature>false</prependSignature><digestAlgorithm>http://www.w3.org/2000/09/xmldsig#sha1</digestAlgorithm><customTokenValueType/><customTokenId/></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+</factura>
+            ]]]]>><![CDATA[</xml>
+        </ec:validarComprobante>
+    </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.recepcion/RecepcionComprobantesOffline/validarComprobante"/><con:wsrmConfig version="1.2"/></con:call><con:call id="2fa35609-e344-47e7-ba56-5e65a090880b" name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.recepcion">
+    <soapenv:Header />
+    <soapenv:Body>
+        <ec:validarComprobante>
+            <!--Optional:-->
+            <xml>
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="1.0.0">
+    <infoTributaria>
+        <ambiente>1</ambiente>
+        <tipoEmision>1</tipoEmision>
+        <razonSocial>SERVICIO DE RENTAS INTERNAS</razonSocial>
+        <nombreComercial>LE HACE BIEN AL PAIS</nombreComercial>
+        <ruc>1760013210001</ruc>
+        <claveAcceso>0503201201176001321000110010030009900641234567814</claveAcceso>
+        <codDoc>01</codDoc>
+        <estab>001</estab>
+        <ptoEmi>003</ptoEmi>
+        <secuencial>000990064</secuencial>
+        <dirMatriz>AMAZONAS Y ROCA</dirMatriz>
+    </infoTributaria>
+    <infoFactura>
+        <fechaEmision>05/03/2012</fechaEmision>
+        <dirEstablecimiento>SALINAS Y SANTIAGO</dirEstablecimiento>
+        <contribuyenteEspecial>12345</contribuyenteEspecial>
+        <obligadoContabilidad>SI</obligadoContabilidad>
+        <tipoIdentificacionComprador>05</tipoIdentificacionComprador>
+        <razonSocialComprador>EGUIGUREN PENARRETA GABRIEL FERNANDO</razonSocialComprador>
+        <identificacionComprador>1103029144</identificacionComprador>
+        <totalSinImpuestos>100.00</totalSinImpuestos>
+        <totalDescuento>0.00</totalDescuento>
+        <totalConImpuestos>
+            <totalImpuesto>
+                <codigoPorcentaje>2</codigoPorcentaje>
+                <baseImponible>100.00</baseImponible>
+                <valor>12.00</valor>
+            </totalImpuesto>
+        </totalConImpuestos>
+        <propina>0.00</propina>
+        <importeTotal>112.00</importeTotal>
+        <moneda>DOLAR</moneda>
+    </infoFactura>
+    <detalles>
+        <detalle>
+            <codigoPrincipal>001</codigoPrincipal>
+            <codigoAuxiliar>001</codigoAuxiliar>
+            <descripcion>
+                SILLA DE MADERA
+            </descripcion>
+            <cantidad>1.00</cantidad>
+            <precioUnitario>100.00</precioUnitario>
+            <descuento>0.00</descuento>
+            <precioTotalSinImpuesto>100.00</precioTotalSinImpuesto>
+            <impuestos>
+                <impuesto>
+                    <codigoPorcentaje>2</codigoPorcentaje>
+                    <tarifa>12.00</tarifa>
+                    <baseImponible>100.00</baseImponible>
+                    <valor>12.00</valor>
+                </impuesto>
+            </impuestos>
+        </detalle>
+    </detalles>
+    <infoAdicional>
+        <campoAdicional nombre="Direccion">LOS PERALES Y AV. ELOY ALFARO</campoAdicional>
+        <campoAdicional nombre="Telefono">2123123</campoAdicional>
+        <campoAdicional nombre="Email">gfeguiguren@sri.gob.ec</campoAdicional>
+    </infoAdicional>
+</factura>]]]]>><![CDATA[
+            </xml>
+        </ec:validarComprobante>
+    </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.recepcion/RecepcionComprobantesOffline/validarComprobante"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer><con:crypto><con:source>C:/Users/joaaguir/OneDrive - Grupo Bancolombia/Documentos/Desarrollo/sic-ecuador-backend/mario_ruben_delgado_daquilema.p12</con:source><con:password>mPrimero1981</con:password><con:type>KEYSTORE</con:type></con:crypto><con:outgoing><con:name>outgoing</con:name><con:entry type="Timestamp"><con:configuration/></con:entry><con:entry type="Signature" username="serialnumber=0000333055+cn=mario ruben delgado daquilema,l=quito,ou=entidad de certificacion de informacion-ecibce,o=banco central del ecuador,c=ec decryption key" password="mPrimero1981"><con:configuration><crypto>mario_ruben_delgado_daquilema.p12</crypto><keyIdentifierType>1</keyIdentifierType><signatureAlgorithm>http://www.w3.org/2000/09/xmldsig#rsa-sha1</signatureAlgorithm><signatureCanonicalization>http://www.w3.org/TR/2001/REC-xml-c14n-20010315</signatureCanonicalization><useSingleCert>true</useSingleCert><prependSignature>false</prependSignature><digestAlgorithm>http://www.w3.org/2000/09/xmldsig#sha1</digestAlgorithm><customTokenValueType/><customTokenId/></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
