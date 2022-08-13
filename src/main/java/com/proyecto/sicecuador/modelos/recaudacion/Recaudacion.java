@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.cliente.FormaPago;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 
 import javax.persistence.*;
@@ -41,6 +42,10 @@ public class Recaudacion extends Entidad {
     private double totalRetencionesVentas;
     @Column(name = "total_credito", nullable = true)
     private double totalCredito;
+    @Column(name = "plazo", nullable = true)
+    private double plazo;
+    @Column(name = "unidad_tiempo", nullable = true)
+    private String unidadTiempo;
     @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
@@ -73,7 +78,11 @@ public class Recaudacion extends Entidad {
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "retencion_venta_id")
     private List<RetencionVenta> retencionesVentas;
-
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "forma_pago_id", nullable = true)
+    private FormaPago formaPago;
+    
     public Recaudacion(){
     }
 
@@ -84,10 +93,10 @@ public class Recaudacion extends Entidad {
     public Recaudacion(String codigo, Date fecha, double total, String comentario, double efectivo,
                        double totalCheques, double totalDepositos, double totalTransferencias,
                        double totalTarjetasDebitos, double totalTarjetasCreditos, double totalCredito,
-                       double totalCompensaciones, double totalRetencionesVentas, List<Cheque> cheques,
+                       double totalCompensaciones, double totalRetencionesVentas, double plazo, String unidadTiempo, List<Cheque> cheques,
                        List<Deposito>depositos, List<Transferencia> transferencias, List<Compensacion> compensaciones, List<RetencionVenta> retencionesVentas,
                        List<TarjetaCredito> tarjetasCreditos, List<TarjetaDebito> tarjetasDebitos, Credito credito,
-                       Factura factura, Sesion sesion){
+                       Factura factura,FormaPago formaPago, Sesion sesion){
         super(codigo);
         this.fecha=fecha;
         this.total=total;
@@ -101,6 +110,8 @@ public class Recaudacion extends Entidad {
         this.totalCompensaciones=totalCompensaciones;
         this.totalRetencionesVentas=totalRetencionesVentas;
         this.totalCredito=totalCredito;
+        this.plazo=plazo;
+        this.unidadTiempo=unidadTiempo;
 
         this.cheques=cheques;
         this.depositos=depositos;
@@ -111,6 +122,7 @@ public class Recaudacion extends Entidad {
         this.retencionesVentas=retencionesVentas;
         this.credito=credito;
         this.factura=factura;
+        this.formaPago=formaPago;
         this.sesion=sesion;
     }
     public Date getFecha() {
@@ -164,7 +176,13 @@ public class Recaudacion extends Entidad {
     public double getTotalCredito() {
 		return totalCredito;
 	}
-
+    public double getPlazo() {
+		return plazo;
+	}
+    public String getUnidadTiempo() {
+		return unidadTiempo;
+	}
+    
     @JsonManagedReference
     public List<Cheque> getCheques() {
         return cheques;
@@ -202,6 +220,9 @@ public class Recaudacion extends Entidad {
         return factura;
     }
 
+    public FormaPago getFormaPago() {
+        return formaPago;
+    }
     public Sesion getSesion() {
         return sesion;
     }
@@ -223,6 +244,15 @@ public class Recaudacion extends Entidad {
     public void setTotal(double total) {
         this.total = total;
     }
+    
+    public void setPlazo(double plazo) {
+        this.plazo = plazo;
+    }
+
+    public void setUnidadTiempo(String unidadTiempo) {
+        this.unidadTiempo = unidadTiempo;
+    }
+
     
     public void setTotalCheques(double totalCheques) {
 		this.totalCheques = totalCheques;

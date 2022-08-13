@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.datos.configuracion;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.repositorios.configuracion.IEmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,8 @@ public class EmpresaData implements ApplicationRunner {
         Optional<Empresa> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Empresa> empresas = new ArrayList<>();
-            empresas.add(new Empresa("EMP011912001", "0660001840001", "RioTour S.A.", "empresa1.jpg"));
-            empresas.add(new Empresa("EMP022001002", "0690001840001", "Farmacys C.A.", "empresa2.jpg"));
+            empresas.add(new Empresa("EMP011912001", "0660001840001", "RioTour S.A.","Nombre comercial Riotur S A", "Matriz Riobamba y Juan Montalvo", "RES01010101", "SI", "empresa1.jpg", "activo"));
+            empresas.add(new Empresa("EMP022001002", "0690001840001", "Farmacys C.A.","Nombre comercial Farmacys S A", "Matriz Ambato y Juan Leon Mera", "RES01010102", "SI", "empresa2.jpg", "activo"));
             rep.saveAll(empresas);
         }
     }

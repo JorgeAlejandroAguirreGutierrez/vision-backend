@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
+import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -12,10 +13,10 @@ import java.util.List;
 @Entity
 @Table(name = "cliente")
 public class Cliente extends Entidad {
-    @NotNull
+/*    @NotNull
     @NotEmpty
     @Column(name = "tipo_identificacion")
-    private String tipoIdentificacion;
+    private String tipoIdentificacion;*/
     @NotNull
     @NotEmpty
     @Column(name = "identificacion")
@@ -28,6 +29,10 @@ public class Cliente extends Entidad {
     private boolean especial;
     @Column(name = "estado")
     private String estado;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "tipo_identificacion_id", nullable = false)
+    private TipoIdentificacion tipoIdentificacion;
     @NotNull
     @ManyToOne
     @JoinColumn(name = "tipo_contribuyente_id", nullable = false)
@@ -82,7 +87,7 @@ public class Cliente extends Entidad {
 
     }
 
-    public Cliente(String tipoIdentificacion, TipoContribuyente tipoContribuyente){
+    public Cliente(TipoIdentificacion tipoIdentificacion, TipoContribuyente tipoContribuyente){
         this.tipoIdentificacion=tipoIdentificacion;
         this.tipoContribuyente=tipoContribuyente;
     }
@@ -95,7 +100,7 @@ public class Cliente extends Entidad {
         this.razonSocial=razon_social;
     }
 
-    public Cliente(String codigo, String tipo_identificacion, String identificacion,
+    public Cliente(String codigo, TipoIdentificacion tipo_identificacion, String identificacion,
                    String razon_social, boolean especial, String estado, boolean eliminado,
                    PuntoVenta punto_venta, GrupoCliente grupo_cliente, TipoContribuyente tipo_contribuyente,
                    Direccion direccion, Financiamiento financiamiento, Genero genero, EstadoCivil estado_civil,
@@ -120,7 +125,7 @@ public class Cliente extends Entidad {
 
     public Cliente(List<String> datos){
         super(null);
-        tipoIdentificacion=datos.get(0)== null ? null: datos.get(0);
+        tipoIdentificacion=datos.get(0)== null ? null: new TipoIdentificacion((long) Double.parseDouble(datos.get(0)));
         identificacion=datos.get(1)== null ? null: datos.get(1);
         razonSocial=datos.get(2)== null ? null: datos.get(2);
         especial=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
@@ -138,7 +143,7 @@ public class Cliente extends Entidad {
         segmento=datos.get(15)== null ? null:new Segmento((long) Double.parseDouble(datos.get(15)));
     }
     
-    public String getTipoIdentificacion() {
+    public TipoIdentificacion getTipoIdentificacion() {
 		return tipoIdentificacion;
 	}
     public TipoContribuyente getTipoContribuyente() {
@@ -220,7 +225,7 @@ public class Cliente extends Entidad {
         this.especial = especial;
     }
 
-    public void setTipoIdentificacion(String tipoIdentificacion) {
+    public void setTipoIdentificacion(TipoIdentificacion tipoIdentificacion) {
 		this.tipoIdentificacion = tipoIdentificacion;
 	}
     

@@ -21,6 +21,10 @@ public class Factura extends Entidad {
 	private Date fecha;
 	@Column(name = "estado", nullable = true)
 	private String estado;
+	@Column(name = "clave_acceso_sri")
+	private String claveAccesoSri;
+	@Column(name = "moneda")
+	private String moneda;	
 	@Column(name = "subtotal_sin_descuento", nullable = true)
 	private double subtotalSinDescuento;
 	@Column(name = "subtotal_con_descuento", nullable = true)
@@ -39,6 +43,8 @@ public class Factura extends Entidad {
 	private double ivaSinDescuento;
 	@Column(name = "iva_con_descuento", nullable = true)
 	private double ivaConDescuento;
+	@Column(name = "iva0", nullable = true)
+	private double iva0;
 	@Column(name = "total_sin_descuento", nullable = true)
 	private double totalSinDescuento;
 	@Column(name = "total_con_descuento", nullable = true)
@@ -94,7 +100,7 @@ public class Factura extends Entidad {
 		this.secuencia = secuencia;
 	}
 
-	public Factura(String codigo, String secuencia, Date fecha, String estado, double subtotal,
+	public Factura(String codigo, String secuencia, Date fecha, String estado, String claveAccesoSri, String moneda, double subtotal,
 			double valorDescuentoSubtotal, double porcentajeDescuentoSubtotal, double valorPorcentajeDescuentoSubtotal,
 			double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal,
 			double descuento, double base12, double base0, double importeIva, double total, String comentario,
@@ -103,6 +109,8 @@ public class Factura extends Entidad {
 		this.secuencia = secuencia;
 		this.fecha = fecha;
 		this.estado = estado;
+		this.claveAccesoSri = claveAccesoSri;
+		this.moneda = moneda;
 		this.comentario = comentario;
 		this.cliente = cliente;
 		this.clienteFactura = clienteFactura;
@@ -123,6 +131,14 @@ public class Factura extends Entidad {
 		return estado;
 	}
 
+	public String getClaveAccesoSri() {
+		return claveAccesoSri;
+	}
+
+	public String getMoneda() {
+		return moneda;
+	}
+	
 	public double getSubtotalSinDescuento() {
 		return subtotalSinDescuento;
 	}
