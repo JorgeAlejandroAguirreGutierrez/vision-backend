@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.datos.comprobante;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.comprobante.Pedido;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;

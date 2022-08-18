@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.datos.recaudacion;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
 import com.proyecto.sicecuador.repositorios.recaudacion.ICreditoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

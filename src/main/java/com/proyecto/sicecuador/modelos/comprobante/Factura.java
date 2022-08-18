@@ -3,6 +3,9 @@ package com.proyecto.sicecuador.modelos.comprobante;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Dependiente;
+import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
+import com.proyecto.sicecuador.modelos.configuracion.TipoAmbiente;
+import com.proyecto.sicecuador.modelos.configuracion.TipoEmision;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
@@ -64,6 +67,13 @@ public class Factura extends Entidad {
 
 	@Column(name = "comentario", nullable = true)
 	private String comentario;
+	
+	@Column(name = "claveAutorizacionSri", nullable = true)
+	private String claveAutorizacionSri;
+	
+	@Column(name = "estadoSri", nullable = true)
+	private String estadoSri;
+	
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
@@ -86,6 +96,14 @@ public class Factura extends Entidad {
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
 	@JoinColumn(name = "factura_id")
 	private List<FacturaDetalle> facturaDetalles;
+	
+    @ManyToOne
+    @JoinColumn(name = "tipo_ambiente_id", nullable = true)
+    private TipoAmbiente tipoAmbiente;
+
+    @ManyToOne
+    @JoinColumn(name = "tipo_emision_id", nullable = true)
+    private TipoEmision tipoEmision;
 
 	public Factura() {
 
@@ -103,8 +121,9 @@ public class Factura extends Entidad {
 	public Factura(String codigo, String secuencia, Date fecha, String estado, String claveAccesoSri, String moneda, double subtotal,
 			double valorDescuentoSubtotal, double porcentajeDescuentoSubtotal, double valorPorcentajeDescuentoSubtotal,
 			double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal,
-			double descuento, double base12, double base0, double importeIva, double total, String comentario,
-			Cliente cliente, Cliente clienteFactura, Dependiente auxiliar, Usuario vendedor, Sesion sesion) {
+			double descuento, double base12, double base0, double importeIva, double total, String comentario, String claveAutorizacionSri,
+			String estadoSri, Cliente cliente, Cliente clienteFactura, Dependiente auxiliar, Usuario vendedor, Sesion sesion,
+			TipoAmbiente tipoAmbiente, TipoEmision tipoEmision) {
 		super(codigo);
 		this.secuencia = secuencia;
 		this.fecha = fecha;
@@ -112,11 +131,15 @@ public class Factura extends Entidad {
 		this.claveAccesoSri = claveAccesoSri;
 		this.moneda = moneda;
 		this.comentario = comentario;
+		this.claveAutorizacionSri = claveAutorizacionSri;
+		this.estadoSri = estadoSri;
 		this.cliente = cliente;
 		this.clienteFactura = clienteFactura;
 		this.auxiliar = auxiliar;
 		this.vendedor = vendedor;
 		this.sesion = sesion;
+		this.tipoAmbiente = tipoAmbiente;
+		this.tipoEmision = tipoEmision;
 	}
 
 	public String getSecuencia() {
@@ -203,6 +226,15 @@ public class Factura extends Entidad {
 		return valorPorcentajeDescuentoTotal;
 	}
 	
+		
+	public TipoAmbiente getTipoAmbiente() {
+		return tipoAmbiente;
+	}
+	
+	public TipoEmision getTipoEmision() {
+		return tipoEmision;
+	}
+
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
@@ -271,9 +303,34 @@ public class Factura extends Entidad {
 	public void setTotalSinDescuento(double totalSinDescuento) {
 		this.totalSinDescuento = totalSinDescuento;
 	}
+	
+	
+	public void setTipoAmbiente(TipoAmbiente tipoAmbiente) {
+		this.tipoAmbiente = tipoAmbiente;
+	}
+
+	public void setTipoEmision(TipoEmision tipoEmision) {
+		this.tipoEmision = tipoEmision;
+	}
 
 	public String getComentario() {
 		return comentario;
+	}	
+
+	public String getClaveAutorizacionSri() {
+		return claveAutorizacionSri;
+	}
+
+	public void setClaveAutorizacionSri(String claveAutorizacionSri) {
+		this.claveAutorizacionSri = claveAutorizacionSri;
+	}
+
+	public String getEstadoSri() {
+		return estadoSri;
+	}
+
+	public void setEstadoSri(String estadoSri) {
+		this.estadoSri = estadoSri;
 	}
 
 	public Cliente getCliente() {
