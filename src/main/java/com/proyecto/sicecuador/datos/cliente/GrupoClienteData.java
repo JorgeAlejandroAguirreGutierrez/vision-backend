@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.datos.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.CategoriaCliente;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.repositorios.cliente.IGrupoClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;

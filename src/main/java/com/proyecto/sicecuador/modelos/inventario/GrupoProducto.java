@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
 
 import javax.persistence.*;
+
 import java.util.List;
 
 @Entity
@@ -20,7 +22,15 @@ public class GrupoProducto extends Entidad {
     private String sublinea;
     @Column(name = "presentacion", nullable = true)
     private String presentacion;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "categoria_producto_id")
+    private CategoriaProducto categoriaProducto;
+    
+    @ManyToOne
+    @JoinColumn(name = "afectacion_contable_id")
+    private AfectacionContable afectacionContable;
+    
     public GrupoProducto(){
     	super();
     }
@@ -29,7 +39,7 @@ public class GrupoProducto extends Entidad {
         super(id);
     }
 
-    public GrupoProducto(String codigo, String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion){
+    public GrupoProducto(String codigo, String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion, CategoriaProducto categoriaProducto, AfectacionContable afectacionContable){
         super(codigo);
         this.grupo=grupo;
         this.subgrupo=subgrupo;
@@ -37,6 +47,8 @@ public class GrupoProducto extends Entidad {
         this.linea=linea;
         this.sublinea=sublinea;
         this.presentacion=presentacion;
+        this.categoriaProducto=categoriaProducto;
+        this.afectacionContable=afectacionContable;
         
     }
 
@@ -67,4 +79,18 @@ public class GrupoProducto extends Entidad {
     public String getPresentacion() {
 		return presentacion;
 	}
+    
+    public CategoriaProducto getCategoriaProducto() {
+    	return categoriaProducto;
+    }
+
+	public AfectacionContable getAfectacionContable() {
+		return afectacionContable;
+	}
+
+	public void setAfectacionContable(AfectacionContable afectacionContable) {
+		this.afectacionContable = afectacionContable;
+	}
+    
+    
 }

@@ -11,6 +11,8 @@ public class CategoriaProducto extends Entidad {
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public CategoriaProducto(){
         super();
@@ -23,10 +25,11 @@ public class CategoriaProducto extends Entidad {
     public CategoriaProducto(List<String> datos){
 
     }
-    public CategoriaProducto(String codigo, String descripcion, String abreviatura){
+    public CategoriaProducto(String codigo, String descripcion, String abreviatura, String estado){
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
+        this.estado=estado;
     }
     public String getDescripcion() {
         return descripcion;
@@ -35,4 +38,9 @@ public class CategoriaProducto extends Entidad {
     public String getAbreviatura() {
         return abreviatura;
     }
+
+    public String getEstado() {
+        return abreviatura;
+    }
+    
 }
