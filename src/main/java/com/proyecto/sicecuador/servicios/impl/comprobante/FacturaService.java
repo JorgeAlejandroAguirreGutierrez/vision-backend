@@ -69,7 +69,8 @@ public class FacturaService implements IFacturaService {
     	
         rep.save(factura);
         //FACTURACION ELECTRONICA
-        this.crearFacturaElectronica(factura);
+        //this.crearFacturaElectronica(factura);
+        return factura;
     }
 
     @Override
@@ -111,11 +112,11 @@ public class FacturaService implements IFacturaService {
     }
     
     public void enviarFacturaElectronica(FacturaE facturaE) {
-    	Xml facturaXml= libreria.convertXml(facturaE);
-    	this.firmarFactura(facturaXml);
-    	this.base64(facturaXml);
-    	HttpClient cliente=new HttpClient(facturaXml);
-    	facturaXml.generateFile();
+    	//Xml facturaXml= libreria.convertXml(facturaE);
+    	//this.firmarFactura(facturaXml);
+    	//this.base64(facturaXml);
+    	//HttpClient cliente=new HttpClient(facturaXml);
+    	//facturaXml.generateFile();
     }
 
     @Override
