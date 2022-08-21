@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(40)
+@Order(29)
 @Profile({"dev","prod"})
 public class CategoriaProductoData implements ApplicationRunner {
     @Autowired
