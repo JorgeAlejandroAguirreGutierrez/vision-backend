@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(45)
+@Order(29)
 @Profile({"dev","prod"})
 public class AfectacionContableData implements ApplicationRunner {
     @Autowired

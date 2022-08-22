@@ -90,7 +90,7 @@
 <factura id="comprobante" version="1.0.0">
     <infoTributaria>
         <ambiente>1</ambiente>
-        <tipoEmision>1</tipoEmision>
+        <tipoEmision>postgres1</tipoEmision>
         <razonSocial>SERVICIO DE RENTAS INTERNAS</razonSocial>
         <nombreComercial>LE HACE BIEN AL PAIS</nombreComercial>
         <ruc>1760013210001</ruc>

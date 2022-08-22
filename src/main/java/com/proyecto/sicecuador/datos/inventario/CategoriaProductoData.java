@@ -1,8 +1,6 @@
 package com.proyecto.sicecuador.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
-import com.proyecto.sicecuador.repositorios.inventario.IPrecioRepository;
 import com.proyecto.sicecuador.repositorios.inventario.ICategoriaProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -16,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(40)
+@Order(29)
 @Profile({"dev","prod"})
 public class CategoriaProductoData implements ApplicationRunner {
     @Autowired
