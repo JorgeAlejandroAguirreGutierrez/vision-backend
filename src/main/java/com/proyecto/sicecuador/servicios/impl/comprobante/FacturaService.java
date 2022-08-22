@@ -19,6 +19,7 @@ import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaE;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoTributaria;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
@@ -67,10 +68,10 @@ public class FacturaService implements IFacturaService {
     	factura.setSecuencia(secuencia.get());
     	factura.setEstado(Constantes.noemitida);
     	
-        rep.save(factura);
+    	this.crearFacturaElectronica(factura);
+        return rep.save(factura);
         //FACTURACION ELECTRONICA
         //this.crearFacturaElectronica(factura);
-        return factura;
     }
 
     @Override
@@ -108,15 +109,23 @@ public class FacturaService implements IFacturaService {
     	//MAPEO A FACTURA ELECTRONICA
     	FacturaE facturaE=new FacturaE();
     	
+    	List <String> infoTribDatos = new ArrayList<>();
+    	infoTribDatos.add(factura.getTipoAmbiente().toString());
+    	infoTribDatos.add(factura.getTipoEmision().toString());
+    	infoTribDatos.add(factura.getClaveAccesoSri());
+    	InfoTributaria info = new InfoTributaria(infoTribDatos);
+    	facturaE.setCampoEjemplo("prueba");
+    	facturaE.setInfoTributaria(info);
+    	
     	return facturaE;
     }
     
     public void enviarFacturaElectronica(FacturaE facturaE) {
-    	//Xml facturaXml= libreria.convertXml(facturaE);
-    	//this.firmarFactura(facturaXml);
-    	//this.base64(facturaXml);
-    	//HttpClient cliente=new HttpClient(facturaXml);
-    	//facturaXml.generateFile();
+/*    	Xml facturaXml= libreria.convertXml(facturaE);
+    	this.firmarFactura(facturaXml);
+    	this.base64(facturaXml);
+    	HttpClient cliente=new HttpClient(facturaXml);
+    	facturaXml.generateFile();*/
     }
 
     @Override
