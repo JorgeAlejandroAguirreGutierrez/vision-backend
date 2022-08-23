@@ -19,6 +19,7 @@ import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaE;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoFactura;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoTributaria;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
@@ -27,12 +28,24 @@ import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
+import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
 import java.io.*;
+import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -68,10 +81,9 @@ public class FacturaService implements IFacturaService {
     	factura.setSecuencia(secuencia.get());
     	factura.setEstado(Constantes.noemitida);
     	
-    	this.crearFacturaElectronica(factura);
+    	FacturaE facturaE=this.crearFacturaElectronica(factura);
+    	this.enviarFacturaElectronica(facturaE);
         return rep.save(factura);
-        //FACTURACION ELECTRONICA
-        //this.crearFacturaElectronica(factura);
     }
 
     @Override
@@ -108,24 +120,52 @@ public class FacturaService implements IFacturaService {
     public FacturaE crearFacturaElectronica(Factura factura) {
     	//MAPEO A FACTURA ELECTRONICA
     	FacturaE facturaE=new FacturaE();
-    	
-    	List <String> infoTribDatos = new ArrayList<>();
-    	infoTribDatos.add(factura.getTipoAmbiente().toString());
-    	infoTribDatos.add(factura.getTipoEmision().toString());
-    	infoTribDatos.add(factura.getClaveAccesoSri());
-    	InfoTributaria info = new InfoTributaria(infoTribDatos);
-    	facturaE.setCampoEjemplo("prueba");
-    	facturaE.setInfoTributaria(info);
+    	InfoTributaria infoTributaria = new InfoTributaria();
+    	InfoFactura infoFactura = new InfoFactura();
+    	facturaE.setInfoTributaria(infoTributaria);
+    	facturaE.setInfoFactura(infoFactura);
     	
     	return facturaE;
     }
     
     public void enviarFacturaElectronica(FacturaE facturaE) {
-/*    	Xml facturaXml= libreria.convertXml(facturaE);
-    	this.firmarFactura(facturaXml);
-    	this.base64(facturaXml);
-    	HttpClient cliente=new HttpClient(facturaXml);
-    	facturaXml.generateFile();*/
+    	try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(FacturaE.class);            
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
+            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");            
+            jaxbMarshaller.setProperty(Marshaller.JAXB_NO_NAMESPACE_SCHEMA_LOCATION, "miesquema.xsd");
+            jaxbMarshaller.marshal(facturaE, System.out);
+            StringWriter sw = new StringWriter();
+            jaxbMarshaller.marshal(facturaE, sw);
+            String body=sw.toString();
+            HttpClient httpClient = HttpClient.newBuilder()
+                    .version(HttpClient.Version.HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(10))
+                    .build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .POST(BodyPublishers.ofString(body))
+                    .uri(URI.create("https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline"))
+                    .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
+                    .build();
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            // print response headers
+            HttpHeaders headers = response.headers();
+            headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
+            // print status code
+            System.out.println(response.statusCode());
+            // print response body
+            System.out.println(response.body());
+        } catch (JAXBException ex) {
+            System.err.println(ex.getMessage());                        
+        } catch (IOException ex) {
+			// TODO Auto-generated catch block
+        	System.err.println(ex.getMessage());   
+		} catch (InterruptedException ex) {
+			// TODO Auto-generated catch block
+			System.err.println(ex.getMessage());   
+		}
     }
 
     @Override

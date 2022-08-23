@@ -1,20 +1,20 @@
 package com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura;
 
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name = "infoTributaria")
 public class InfoTributaria {
-	
-	String ambiente;
-	String tipoEmision;
-	String razonSocial;
-	String nombreComercial;
-	String ruc;
-	String claveAcceso;
-	String codDoc;
-	String estab;
-	String ptoEmi;
-	String secuencial;
-	String dirMatriz;
+	private String ambiente;
+	private String tipoEmision;
+	private String razonSocial;
+	private String nombreComercial;
+	private String ruc;
+	private String claveAcceso;
+	private String codDoc;
+	private String estab;
+	private String ptoEmi;
+	private String secuencial;
+	private String dirMatriz;
 	
 	public InfoTributaria() {
 		
@@ -33,22 +33,6 @@ public class InfoTributaria {
 		this.ptoEmi = ptoEmi;
 		this.secuencial = secuencial;
 		this.dirMatriz = dirMatriz;
-	}
-
-	public InfoTributaria(List<String> datos) {
-		ambiente=datos.get(0)== null ? null: datos.get(0);
-		tipoEmision=datos.get(1)== null ? null: datos.get(1);
-		razonSocial=datos.get(2)== null ? null: datos.get(2);
-		nombreComercial=datos.get(3)== null ? null: datos.get(3);
-		ruc=datos.get(4)== null ? null: datos.get(4);
-		claveAcceso=datos.get(5)== null ? null: datos.get(5);
-		codDoc=datos.get(6)== null ? null: datos.get(6);
-		estab=datos.get(7)== null ? null: datos.get(7);
-		ptoEmi=datos.get(8)== null ? null: datos.get(8);
-		secuencial=datos.get(9)== null ? null: datos.get(9);
-		dirMatriz=datos.get(10)== null ? null: datos.get(10);
-
-		
 	}
 	
 	public String getAmbiente() {
@@ -138,7 +122,4 @@ public class InfoTributaria {
 	public void setDirMatriz(String dirMatriz) {
 		this.dirMatriz = dirMatriz;
 	}
-	
-	
-
 }

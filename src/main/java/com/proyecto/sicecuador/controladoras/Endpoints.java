@@ -9,7 +9,7 @@ public class Endpoints {
     public static final String modelo="modelo";
     
     //CLIENTE
-    public static final String pathAuxiliar="auxiliar";
+    public static final String pathDependiente="dependiente";
     public static final String pathCalificacionCliente="calificacionCliente";
     public static final String pathCelular="celular";
     public static final String pathCliente="cliente";
