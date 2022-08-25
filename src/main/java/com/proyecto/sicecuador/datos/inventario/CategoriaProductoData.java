@@ -1,8 +1,6 @@
 package com.proyecto.sicecuador.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
-import com.proyecto.sicecuador.repositorios.inventario.IPrecioRepository;
 import com.proyecto.sicecuador.repositorios.inventario.ICategoriaProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

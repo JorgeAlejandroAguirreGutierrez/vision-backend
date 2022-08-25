@@ -5,7 +5,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Dependiente;
 import com.proyecto.sicecuador.repositorios.cliente.IAuxiliarRepository;
-import com.proyecto.sicecuador.servicios.interf.cliente.IAuxiliarService;
+import com.proyecto.sicecuador.servicios.interf.cliente.IDependienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
-public class AuxiliarService implements IAuxiliarService {
+public class AuxiliarService implements IDependienteService {
     @Autowired
     private IAuxiliarRepository rep;
     
