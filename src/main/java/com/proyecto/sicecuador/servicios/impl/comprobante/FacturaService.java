@@ -18,9 +18,18 @@ import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalle;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalles;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaE;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.ImpuestoE;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Impuestos;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoFactura;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoTributaria;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Pago;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Pagos;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.TotalConImpuestos;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.TotalImpuesto;
+import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
@@ -62,7 +71,7 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura crear(Factura factura) {
         //ACTUALIZACION DE KARDEX
-        for(int i=0; i<factura.getFacturaDetalles().size(); i++){
+    	for(int i=0; i<factura.getFacturaDetalles().size(); i++){
             int cantidad=factura.getFacturaDetalles().get(i).getProducto().getKardexs().size();
             Kardex kardex_actualizar=factura.getFacturaDetalles().get(i).getProducto().getKardexs().get(cantidad-1);
             long salida_actual=kardex_actualizar.getSalida();
@@ -80,7 +89,6 @@ public class FacturaService implements IFacturaService {
     	factura.setCodigo(codigo.get());
     	factura.setSecuencia(secuencia.get());
     	factura.setEstado(Constantes.noemitida);
-    	
     	FacturaE facturaE=this.crearFacturaElectronica(factura);
     	this.enviarFacturaElectronica(facturaE);
         return rep.save(factura);
@@ -122,11 +130,107 @@ public class FacturaService implements IFacturaService {
     	FacturaE facturaE=new FacturaE();
     	InfoTributaria infoTributaria = new InfoTributaria();
     	InfoFactura infoFactura = new InfoFactura();
+    	TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
+    	Pagos pagos = new Pagos();
+    	Detalles detalles = new Detalles();
+    	Impuestos impuestos = new Impuestos();
+    	
+    	pagos.setPago(crearPagos(factura));
+    	totalConImpuestos.setTotalImpuesto(crearTotalImpuesto(factura));
+    	impuestos.setImpuestoE(crearImpuesto(factura));
+    	
+    	
+    	infoTributaria.setAmbiente("1");
+    	infoTributaria.setTipoEmision("1");
+    	infoTributaria.setRazonSocial("SOCIEDAD DE TURISMO SODETUR");
+    	infoTributaria.setNombreComercial("KFC");
+    	infoTributaria.setRuc("0101010101");
+    	infoTributaria.setClaveAcceso("Clave acceso");
+    	infoTributaria.setCodDoc("01");
+    	infoTributaria.setEstab("001");
+    	infoTributaria.setPtoEmi("001");
+    	infoTributaria.setSecuencial(factura.getSecuencia());
+    	infoTributaria.setDirMatriz("Bolivar 5-5");
+    	
+    	infoFactura.setFechaEmision(factura.getFecha());
+    	infoFactura.setObligadoContabilidad("NO");
+    	infoFactura.setTipoIdentificacionComprador("1");
+    	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
+    	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
+    	infoFactura.setDireccionComprador(factura.getCliente().getDireccion().getDireccion());
+    	infoFactura.setTotalSinImpuestos(factura.getTotalConDescuento());
+    	infoFactura.setTotalDescuento(factura.getValorDescuentoTotal());
+    	infoFactura.setTotalConImpuestos(totalConImpuestos);
+    	infoFactura.setImporteTotal(factura.getTotalConDescuento());
+    	infoFactura.setMoneda(factura.getMoneda());
+    	infoFactura.setPagos(pagos);
+    	
+    	detalles.setDetalle(crearDetalle(factura, impuestos));
+    	
+
     	facturaE.setInfoTributaria(infoTributaria);
     	facturaE.setInfoFactura(infoFactura);
-    	
+    	facturaE.setDetalles(detalles);
+   	
     	return facturaE;
     }
+
+    public List<TotalImpuesto> crearTotalImpuesto(Factura factura){
+    	List<TotalImpuesto> totalImpuestos = new ArrayList<>();
+    	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
+        	TotalImpuesto totalImpuesto = new TotalImpuesto();
+    		totalImpuesto.setCodigo("codigo"+i);
+        	totalImpuesto.setCodigoPorcentaje("codigoporcentaje"+i);
+        	totalImpuesto.setBaseImponible(factura.getSubtotalBase12SinDescuento());
+        	totalImpuesto.setTarifa(12);
+        	totalImpuesto.setValor(factura.getSubtotalConDescuento());
+        	totalImpuestos.add(totalImpuesto);
+    	}
+    	return totalImpuestos;
+    }
+    
+    public List<Pago> crearPagos(Factura factura) {
+    	List<Pago> pagosList = new ArrayList<>();
+    	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
+        	Pago pago = new Pago();
+        	pago.setFormaPago("Contado");
+        	pago.setTotal(factura.getTotalConDescuento());
+        	pago.setPlazo(i);
+        	pago.setUnidadTiempo("Mensual");
+        	pagosList.add(pago);
+    	}
+    	return pagosList;
+    }
+    
+    public List<Detalle> crearDetalle(Factura factura, Impuestos impuestos) {
+    	List<Detalle> detalles = new ArrayList<>();
+    	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
+    		Detalle detalle = new Detalle();
+    		detalle.setCodigoPrincipal(factura.getFacturaDetalles().get(i).getCodigo());
+    		detalle.setDescripcion(factura.getFacturaDetalles().get(i).getProducto().getNombre());
+    		detalle.setCantidad(factura.getFacturaDetalles().get(i).getCantidad());
+    		detalle.setPrecioUnitario(factura.getFacturaDetalles().get(i).getSubtotalSinDescuentoLinea());
+    		detalle.setDescuento(factura.getFacturaDetalles().get(i).getValorDescuentoTotalLinea());
+    		detalle.setPrecioTotalSinImpuesto(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
+    		detalle.setImpuestos(impuestos);
+    		detalles.add(detalle);
+    	}
+    	return detalles;
+    }
+    
+    public List<ImpuestoE> crearImpuesto(Factura factura) {
+    	List<ImpuestoE> impuestosList = new ArrayList<>();
+    	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
+    		ImpuestoE impuesto = new ImpuestoE();
+    		impuesto.setCodigo(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoImpuestoSri());
+    		impuesto.setCodigoPorcentaje(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoTarifaSri());
+    		impuesto.setTarifa(factura.getFacturaDetalles().get(i).getImpuesto().getPorcentaje());
+    		impuesto.setBaseImponible(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
+    		impuestosList.add(impuesto);
+    	}
+    	return impuestosList;
+    }
+
     
     public void enviarFacturaElectronica(FacturaE facturaE) {
     	try {
