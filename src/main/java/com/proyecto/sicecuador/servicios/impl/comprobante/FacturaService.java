@@ -137,20 +137,19 @@ public class FacturaService implements IFacturaService {
     	
     	pagos.setPago(crearPagos(factura));
     	totalConImpuestos.setTotalImpuesto(crearTotalImpuesto(factura));
-    	impuestos.setImpuestoE(crearImpuesto(factura));
+    	impuestos.setImpuestoE(crearImpuesto(factura));   	
     	
-    	
-    	infoTributaria.setAmbiente("1");
-    	infoTributaria.setTipoEmision("1");
-    	infoTributaria.setRazonSocial("SOCIEDAD DE TURISMO SODETUR");
-    	infoTributaria.setNombreComercial("KFC");
-    	infoTributaria.setRuc("0101010101");
-    	infoTributaria.setClaveAcceso("Clave acceso");
-    	infoTributaria.setCodDoc("01");
-    	infoTributaria.setEstab("001");
-    	infoTributaria.setPtoEmi("001");
+    	infoTributaria.setAmbiente(factura.getTipoAmbiente().getCodigoSri());
+    	infoTributaria.setTipoEmision(factura.getTipoEmision().getCodigoSri());
+    	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEmpresa().getRazonSocial());
+    	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEmpresa().getNombreComercial());
+    	infoTributaria.setRuc(factura.getSesion().getUsuario().getEmpresa().getIdentificacion());
+    	infoTributaria.setClaveAcceso(factura.getClaveAccesoSri());
+    	infoTributaria.setCodDoc(factura.getTipoComprobante().getCodigoSri());
+    	infoTributaria.setEstab(factura.getSesion().getPuntoVenta().getEstablecimiento().getCodigoSri());
+    	infoTributaria.setPtoEmi(factura.getSesion().getPuntoVenta().getCodigoSri());
     	infoTributaria.setSecuencial(factura.getSecuencia());
-    	infoTributaria.setDirMatriz("Bolivar 5-5");
+    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEmpresa().getDireccionMatriz());
     	
     	infoFactura.setFechaEmision(factura.getFecha());
     	infoFactura.setObligadoContabilidad("NO");
