@@ -30,6 +30,8 @@ import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factur
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.TotalConImpuestos;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.TotalImpuesto;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
+import com.proyecto.sicecuador.modelos.configuracion.TipoAmbiente;
+import com.proyecto.sicecuador.modelos.configuracion.TipoEmision;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
@@ -135,22 +137,32 @@ public class FacturaService implements IFacturaService {
     	Detalles detalles = new Detalles();
     	Impuestos impuestos = new Impuestos();
     	
+    	Empresa empresa = new Empresa("EMP011912001", "0660001840001", "RioTour S.A.","Nombre comercial Riotur S A", "Matriz Riobamba y Juan Montalvo", "RES01010101", "SI", "empresa1.jpg", "activo");
+   	 	
+    	
     	pagos.setPago(crearPagos(factura));
     	totalConImpuestos.setTotalImpuesto(crearTotalImpuesto(factura));
     	impuestos.setImpuestoE(crearImpuesto(factura));   	
-    	
-    	infoTributaria.setAmbiente(factura.getTipoAmbiente().getCodigoSri());
-    	infoTributaria.setTipoEmision(factura.getTipoEmision().getCodigoSri());
-    	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEmpresa().getRazonSocial());
-    	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEmpresa().getNombreComercial());
-    	infoTributaria.setRuc(factura.getSesion().getUsuario().getEmpresa().getIdentificacion());
+//    	infoTributaria.setAmbiente(factura.getTipoAmbiente().getCodigoSri());
+    	infoTributaria.setAmbiente("1");
+//    	infoTributaria.setTipoEmision(factura.getTipoEmision().getCodigoSri());
+    	infoTributaria.setTipoEmision("1");
+//   	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEmpresa().getRazonSocial());
+    	infoTributaria.setRazonSocial("0101010101");
+//    	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEmpresa().getNombreComercial());
+    	infoTributaria.setNombreComercial("MOVISTAR");
+//    	infoTributaria.setRuc(factura.getSesion().getUsuario().getEmpresa().getIdentificacion());
+    	infoTributaria.setRuc("1111111111111");
     	infoTributaria.setClaveAcceso(factura.getClaveAccesoSri());
-    	infoTributaria.setCodDoc(factura.getTipoComprobante().getCodigoSri());
-    	infoTributaria.setEstab(factura.getSesion().getPuntoVenta().getEstablecimiento().getCodigoSri());
-    	infoTributaria.setPtoEmi(factura.getSesion().getPuntoVenta().getCodigoSri());
+//    	infoTributaria.setCodDoc(factura.getTipoComprobante().getCodigoSri());
+    	infoTributaria.setCodDoc("1");
+//    	infoTributaria.setEstab(factura.getSesion().getPuntoVenta().getEstablecimiento().getCodigoSri());
+    	infoTributaria.setEstab("001");
+//    	infoTributaria.setPtoEmi(factura.getSesion().getPuntoVenta().getCodigoSri());
+    	infoTributaria.setPtoEmi("001");
     	infoTributaria.setSecuencial(factura.getSecuencia());
-    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEmpresa().getDireccionMatriz());
-    	
+//    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEmpresa().getDireccionMatriz());
+    	infoTributaria.setDirMatriz("Guayas y Esmeraldas");
     	infoFactura.setFechaEmision(factura.getFecha());
     	infoFactura.setObligadoContabilidad("NO");
     	infoFactura.setTipoIdentificacionComprador("1");
