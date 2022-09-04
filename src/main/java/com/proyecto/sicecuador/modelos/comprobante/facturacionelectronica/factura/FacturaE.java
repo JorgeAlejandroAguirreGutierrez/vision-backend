@@ -7,6 +7,7 @@ public class FacturaE {
 	//DATOS DEL SRI CAMPOS EXACTAMENTE COMO LOS TIENE
 	private InfoTributaria infoTributaria;
 	private InfoFactura infoFactura;
+	private Detalles detalles;
 	
 	public FacturaE() {
 		
@@ -21,11 +22,19 @@ public class FacturaE {
 		return infoFactura;
 	}
 
+	public Detalles getDetalles() {
+		return detalles;
+	}
+
 	public void setInfoTributaria(InfoTributaria infoTributaria) {
 		this.infoTributaria = infoTributaria;	
 	}
 	public void setInfoFactura(InfoFactura infoFactura) {
 		this.infoFactura = infoFactura;
+	}
+
+	public void setDetalles(Detalles detalles) {
+		this.detalles = detalles;
 	}
 	
 }
