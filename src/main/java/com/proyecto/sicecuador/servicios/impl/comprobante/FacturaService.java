@@ -28,7 +28,6 @@ import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.criteria.Predicate;
@@ -134,8 +133,7 @@ public class FacturaService implements IFacturaService {
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
-            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");            
-            jaxbMarshaller.setProperty(Marshaller.JAXB_NO_NAMESPACE_SCHEMA_LOCATION, "miesquema.xsd");
+            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
             jaxbMarshaller.marshal(facturaE, System.out);
             StringWriter sw = new StringWriter();
             jaxbMarshaller.marshal(facturaE, sw);
