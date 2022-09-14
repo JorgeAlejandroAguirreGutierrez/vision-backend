@@ -3,9 +3,6 @@ package com.proyecto.sicecuador.modelos.comprobante;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Dependiente;
-import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
-import com.proyecto.sicecuador.modelos.configuracion.TipoAmbiente;
-import com.proyecto.sicecuador.modelos.configuracion.TipoEmision;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
@@ -96,14 +93,6 @@ public class Factura extends Entidad {
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
 	@JoinColumn(name = "factura_id")
 	private List<FacturaDetalle> facturaDetalles;
-	
-    @ManyToOne
-    @JoinColumn(name = "tipo_ambiente_id", nullable = true)
-    private TipoAmbiente tipoAmbiente;
-
-    @ManyToOne
-    @JoinColumn(name = "tipo_emision_id", nullable = true)
-    private TipoEmision tipoEmision;
     
     @ManyToOne
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
@@ -128,7 +117,7 @@ public class Factura extends Entidad {
 			double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal,
 			double descuento, double base12, double base0, double importeIva, double total, String comentario, String claveAutorizacionSri,
 			String estadoSri, Cliente cliente, Cliente clienteFactura, Dependiente auxiliar, Usuario vendedor, Sesion sesion,
-			TipoAmbiente tipoAmbiente, TipoEmision tipoEmision, TipoComprobante tipoComprobante) {
+			TipoComprobante tipoComprobante) {
 		super(codigo);
 		this.secuencia = secuencia;
 		this.fecha = fecha;
@@ -143,8 +132,6 @@ public class Factura extends Entidad {
 		this.auxiliar = auxiliar;
 		this.vendedor = vendedor;
 		this.sesion = sesion;
-		this.tipoAmbiente = tipoAmbiente;
-		this.tipoEmision = tipoEmision;
 		this.tipoComprobante = tipoComprobante;
 	}
 
@@ -259,14 +246,6 @@ public class Factura extends Entidad {
 	public String getClaveAutorizacionSri() {
 		return claveAutorizacionSri;
 	}
-		
-	public TipoAmbiente getTipoAmbiente() {
-		return tipoAmbiente;
-	}
-	
-	public TipoEmision getTipoEmision() {
-		return tipoEmision;
-	}
 
 	public double getIva0() {
 		return iva0;
@@ -348,16 +327,6 @@ public class Factura extends Entidad {
 	public void setTotalSinDescuento(double totalSinDescuento) {
 		this.totalSinDescuento = totalSinDescuento;
 	}
-	
-	
-	public void setTipoAmbiente(TipoAmbiente tipoAmbiente) {
-		this.tipoAmbiente = tipoAmbiente;
-	}
-
-	public void setTipoEmision(TipoEmision tipoEmision) {
-		this.tipoEmision = tipoEmision;
-	}
-
 
 	public void setClaveAutorizacionSri(String claveAutorizacionSri) {
 		this.claveAutorizacionSri = claveAutorizacionSri;

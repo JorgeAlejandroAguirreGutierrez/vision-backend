@@ -7,18 +7,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "impuestos")
 public class Impuestos {
 
-	private List<ImpuestoE> impuestoE;
+	private List<Impuesto> impuesto;
 	
 	public Impuestos() {
 		
 	}
 
-	public List<ImpuestoE> getImpuestoE() {
-		return impuestoE;
+	public List<Impuesto> getImpuesto() {
+		return impuesto;
 	}
-
-	public void setImpuestoE(List<ImpuestoE> impuestoE) {
-		this.impuestoE = impuestoE;
+	public void setImpuesto(List<Impuesto> impuesto) {
+		this.impuesto = impuesto;
 	}
 
 

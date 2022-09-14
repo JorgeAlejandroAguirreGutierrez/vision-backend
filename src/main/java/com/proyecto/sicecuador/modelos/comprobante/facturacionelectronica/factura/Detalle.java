@@ -1,7 +1,5 @@
 package com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "detalle")

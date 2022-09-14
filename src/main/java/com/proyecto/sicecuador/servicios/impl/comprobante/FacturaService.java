@@ -21,7 +21,7 @@ import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalles;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaE;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.ImpuestoE;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Impuesto;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Impuestos;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoFactura;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoTributaria;
@@ -29,9 +29,6 @@ import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factur
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Pagos;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.TotalConImpuestos;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.TotalImpuesto;
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
-import com.proyecto.sicecuador.modelos.configuracion.TipoAmbiente;
-import com.proyecto.sicecuador.modelos.configuracion.TipoEmision;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
@@ -130,54 +127,37 @@ public class FacturaService implements IFacturaService {
     	//MAPEO A FACTURA ELECTRONICA
     	FacturaE facturaE=new FacturaE();
     	InfoTributaria infoTributaria = new InfoTributaria();
-    	InfoFactura infoFactura = new InfoFactura();
-    	TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
-    	Pagos pagos = new Pagos();
-    	Detalles detalles = new Detalles();
-    	Impuestos impuestos = new Impuestos();
-    	
-    	Empresa empresa = new Empresa("EMP011912001", "0660001840001", "RioTour S.A.","Nombre comercial Riotur S A", "Matriz Riobamba y Juan Montalvo", "RES01010101", "SI", "empresa1.jpg", "activo");
-   	 	
-    	
-    	pagos.setPago(crearPagos(factura));
-    	totalConImpuestos.setTotalImpuesto(crearTotalImpuesto(factura));
-    	impuestos.setImpuestoE(crearImpuesto(factura));   	
-//    	infoTributaria.setAmbiente(factura.getTipoAmbiente().getCodigoSri());
-    	infoTributaria.setAmbiente("1");
-//    	infoTributaria.setTipoEmision(factura.getTipoEmision().getCodigoSri());
-    	infoTributaria.setTipoEmision("1");
-//   	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEmpresa().getRazonSocial());
-    	infoTributaria.setRazonSocial("0101010101");
-//    	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEmpresa().getNombreComercial());
-    	infoTributaria.setNombreComercial("MOVISTAR");
-//    	infoTributaria.setRuc(factura.getSesion().getUsuario().getEmpresa().getIdentificacion());
-    	infoTributaria.setRuc("1111111111111");
+    	InfoFactura infoFactura = new InfoFactura();	 	
+    	  	
+    	infoTributaria.setAmbiente(Constantes.ambienteFE);
+    	infoTributaria.setTipoEmision(Constantes.tipoEmisionFE);
+    	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEmpresa().getRazonSocial());
+    	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEmpresa().getNombreComercial());
+    	infoTributaria.setRuc(factura.getSesion().getUsuario().getEmpresa().getIdentificacion());
     	infoTributaria.setClaveAcceso(factura.getClaveAccesoSri());
-//    	infoTributaria.setCodDoc(factura.getTipoComprobante().getCodigoSri());
-    	infoTributaria.setCodDoc("1");
-//    	infoTributaria.setEstab(factura.getSesion().getPuntoVenta().getEstablecimiento().getCodigoSri());
-    	infoTributaria.setEstab("001");
-//    	infoTributaria.setPtoEmi(factura.getSesion().getPuntoVenta().getCodigoSri());
-    	infoTributaria.setPtoEmi("001");
+    	infoTributaria.setCodDoc(factura.getSesion().getUsuario().getEmpresa().getTipoIdentificacion().getCodigoSri());
+    	infoTributaria.setEstab(factura.getSesion().getPuntoVenta().getEstablecimiento().getCodigoSri());
+    	infoTributaria.setPtoEmi(factura.getSesion().getPuntoVenta().getCodigoSri());
     	infoTributaria.setSecuencial(factura.getSecuencia());
-//    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEmpresa().getDireccionMatriz());
-    	infoTributaria.setDirMatriz("Guayas y Esmeraldas");
+    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEmpresa().getDireccion().getDireccion());
+    	
     	infoFactura.setFechaEmision(factura.getFecha());
-    	infoFactura.setObligadoContabilidad("NO");
-    	infoFactura.setTipoIdentificacionComprador("1");
+    	infoFactura.setObligadoContabilidad(factura.getCliente().getTipoContribuyente().isObligadoContabilidad()? "SI":"NO");
+    	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSri());
     	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
     	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
     	infoFactura.setDireccionComprador(factura.getCliente().getDireccion().getDireccion());
     	infoFactura.setTotalSinImpuestos(factura.getTotalConDescuento());
     	infoFactura.setTotalDescuento(factura.getValorDescuentoTotal());
-    	infoFactura.setTotalConImpuestos(totalConImpuestos);
+    	infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
+    	infoFactura.setPropina(0);
     	infoFactura.setImporteTotal(factura.getTotalConDescuento());
     	infoFactura.setMoneda(factura.getMoneda());
-    	infoFactura.setPagos(pagos);
+    	infoFactura.setPagos(crearPagos(factura));
     	
-    	detalles.setDetalle(crearDetalle(factura, impuestos));
+    	Impuestos impuestos=crearImpuestos(factura); 
+    	Detalles detalles=crearDetalles(factura, impuestos);
     	
-
     	facturaE.setInfoTributaria(infoTributaria);
     	facturaE.setInfoFactura(infoFactura);
     	facturaE.setDetalles(detalles);
@@ -185,35 +165,39 @@ public class FacturaService implements IFacturaService {
     	return facturaE;
     }
 
-    public List<TotalImpuesto> crearTotalImpuesto(Factura factura){
+    private TotalConImpuestos crearTotalConImpuestos(Factura factura){
+    	TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
     	List<TotalImpuesto> totalImpuestos = new ArrayList<>();
     	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
         	TotalImpuesto totalImpuesto = new TotalImpuesto();
-    		totalImpuesto.setCodigo("codigo"+i);
-        	totalImpuesto.setCodigoPorcentaje("codigoporcentaje"+i);
-        	totalImpuesto.setBaseImponible(factura.getSubtotalBase12SinDescuento());
-        	totalImpuesto.setTarifa(12);
-        	totalImpuesto.setValor(factura.getSubtotalConDescuento());
+    		totalImpuesto.setCodigo(i+""+1);
+        	totalImpuesto.setCodigoPorcentaje(i+""+1);
+        	totalImpuesto.setBaseImponible(factura.getFacturaDetalles().get(i).getIvaSinDescuentoLinea());
+        	totalImpuesto.setValor(factura.getFacturaDetalles().get(i).getIvaConDescuentoLinea());
         	totalImpuestos.add(totalImpuesto);
     	}
-    	return totalImpuestos;
+    	totalConImpuestos.setTotalImpuesto(totalImpuestos);
+    	return totalConImpuestos;
     }
     
-    public List<Pago> crearPagos(Factura factura) {
-    	List<Pago> pagosList = new ArrayList<>();
+    private Pagos crearPagos(Factura factura) {
+    	Pagos pagos = new Pagos();
+    	List<Pago> pagosLista = new ArrayList<>();
     	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
         	Pago pago = new Pago();
         	pago.setFormaPago("Contado");
         	pago.setTotal(factura.getTotalConDescuento());
         	pago.setPlazo(i);
         	pago.setUnidadTiempo("Mensual");
-        	pagosList.add(pago);
+        	pagosLista.add(pago);
     	}
-    	return pagosList;
+    	pagos.setPago(pagosLista);
+    	return pagos;
     }
     
-    public List<Detalle> crearDetalle(Factura factura, Impuestos impuestos) {
-    	List<Detalle> detalles = new ArrayList<>();
+    private Detalles crearDetalles(Factura factura, Impuestos impuestos) {
+    	Detalles detalles=new Detalles();
+    	List<Detalle> detalleLista = new ArrayList<>();
     	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
     		Detalle detalle = new Detalle();
     		detalle.setCodigoPrincipal(factura.getFacturaDetalles().get(i).getCodigo());
@@ -223,22 +207,25 @@ public class FacturaService implements IFacturaService {
     		detalle.setDescuento(factura.getFacturaDetalles().get(i).getValorDescuentoTotalLinea());
     		detalle.setPrecioTotalSinImpuesto(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
     		detalle.setImpuestos(impuestos);
-    		detalles.add(detalle);
+    		detalleLista.add(detalle);
     	}
+    	detalles.setDetalle(detalleLista);
     	return detalles;
     }
     
-    public List<ImpuestoE> crearImpuesto(Factura factura) {
-    	List<ImpuestoE> impuestosList = new ArrayList<>();
+    private Impuestos crearImpuestos(Factura factura) {
+    	Impuestos impuestos =new Impuestos();
+    	List<Impuesto> impuestosLista = new ArrayList<>();
     	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
-    		ImpuestoE impuesto = new ImpuestoE();
+    		Impuesto impuesto = new Impuesto();
     		impuesto.setCodigo(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoImpuestoSri());
     		impuesto.setCodigoPorcentaje(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoTarifaSri());
     		impuesto.setTarifa(factura.getFacturaDetalles().get(i).getImpuesto().getPorcentaje());
     		impuesto.setBaseImponible(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
-    		impuestosList.add(impuesto);
+    		impuestosLista.add(impuesto);
     	}
-    	return impuestosList;
+    	impuestos.setImpuesto(impuestosLista);
+    	return impuestos;
     }
 
     

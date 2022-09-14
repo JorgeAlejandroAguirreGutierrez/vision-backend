@@ -5,7 +5,7 @@ import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.inventario.TablaEquivalenciaMedida;
+import com.proyecto.sicecuador.modelos.inventario.EquivalenciaMedida;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.repositorios.inventario.ITablaEquivalenciaMedidaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITablaEquivalenciaMedidaService;
@@ -28,13 +28,13 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     private ITablaEquivalenciaMedidaRepository rep;
     
     @Override
-    public TablaEquivalenciaMedida crear(TablaEquivalenciaMedida tabla) {
+    public EquivalenciaMedida crear(EquivalenciaMedida tabla) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_equivalencia_medida);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	tabla.setCodigo(codigo.get());
-    	Optional<TablaEquivalenciaMedida> tem= this.obtenerMedida1Medida2(tabla);
+    	Optional<EquivalenciaMedida> tem= this.obtenerMedida1Medida2(tabla);
     	if(tem.isPresent()) {
     		throw new EntidadExistenteException(Constantes.equivalencia_medida);
     	}
@@ -42,10 +42,10 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     }
 
     @Override
-    public TablaEquivalenciaMedida actualizar(TablaEquivalenciaMedida tabla) {
-    	Optional<TablaEquivalenciaMedida> optionalTem= this.obtenerMedida1Medida2(tabla);
+    public EquivalenciaMedida actualizar(EquivalenciaMedida tabla) {
+    	Optional<EquivalenciaMedida> optionalTem= this.obtenerMedida1Medida2(tabla);
     	if(optionalTem.isPresent()) {
-    		TablaEquivalenciaMedida tem=optionalTem.get();
+    		EquivalenciaMedida tem=optionalTem.get();
     		tem.setEquivalencia(tabla.getEquivalencia());
     		return rep.save(tem);
     	}
@@ -53,29 +53,29 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     }
 
     @Override
-    public TablaEquivalenciaMedida eliminar(TablaEquivalenciaMedida tabla) {
+    public EquivalenciaMedida eliminar(EquivalenciaMedida tabla) {
         rep.deleteById(tabla.getId());
         return tabla;
     }
 
     @Override
-    public Optional<TablaEquivalenciaMedida> obtener(TablaEquivalenciaMedida tabla) {
+    public Optional<EquivalenciaMedida> obtener(EquivalenciaMedida tabla) {
         return rep.findById(tabla.getId());
     }
 
     @Override
-    public List<TablaEquivalenciaMedida> consultar() {
+    public List<EquivalenciaMedida> consultar() {
         return rep.findAll();
     }
 
     @Override
-    public Page<TablaEquivalenciaMedida> consultarPagina(Pageable pageable){
+    public Page<EquivalenciaMedida> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
 
     @Override
-    public Optional<TablaEquivalenciaMedida> obtenerMedida1Medida2(TablaEquivalenciaMedida _tabla){
-        Optional<TablaEquivalenciaMedida> tabla =  rep.findOne((root, criteriaQuery, criteriaBuilder) -> {
+    public Optional<EquivalenciaMedida> obtenerMedida1Medida2(EquivalenciaMedida _tabla){
+        Optional<EquivalenciaMedida> tabla =  rep.findOne((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();
 		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medida1").get("descripcion"), _tabla.getMedida1().getDescripcion())));
 		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medida2").get("descripcion"), _tabla.getMedida2().getDescripcion())));
@@ -85,8 +85,8 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     }
 
     @Override
-    public List<TablaEquivalenciaMedida> buscarMedidasEquivalentes(TablaEquivalenciaMedida _tabla){
-        	List<TablaEquivalenciaMedida> equivalencias =  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+    public List<EquivalenciaMedida> buscarMedidasEquivalentes(EquivalenciaMedida _tabla){
+        	List<EquivalenciaMedida> equivalencias =  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();
 		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medida1").get("id"), _tabla.getMedida1().getId())));
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));                
@@ -96,7 +96,7 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
 
     
     @Override
-    public List<TablaEquivalenciaMedida> buscar(TablaEquivalenciaMedida tem) {
+    public List<EquivalenciaMedida> buscar(EquivalenciaMedida tem) {
         return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();
 		    if (!tem.getCodigo().equals(Constantes.vacio)) {
@@ -118,10 +118,10 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     @Override
     public boolean importar(MultipartFile archivo_temporal) {
         try {
-            List<TablaEquivalenciaMedida> tablas=new ArrayList<>();
+            List<EquivalenciaMedida> tablas=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,0);
             for (List<String> datos: info) {
-                TablaEquivalenciaMedida tabla = new TablaEquivalenciaMedida(datos);
+                EquivalenciaMedida tabla = new EquivalenciaMedida(datos);
                 tablas.add(tabla);
             }
             if(tablas.isEmpty()){

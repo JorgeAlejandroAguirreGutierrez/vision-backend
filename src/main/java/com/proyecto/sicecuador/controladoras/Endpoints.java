@@ -44,6 +44,7 @@ public class Endpoints {
     public static final String pathParametro="parametro";
     public static final String pathTipoRetencion="tipoRetencion";
     public static final String pathUbicacion="ubicacion";
+    public static final String pathTipoIdentificacion="tipoIdentificacion";
     
     //ENTREGA
     public static final String pathEntrega="entrega";

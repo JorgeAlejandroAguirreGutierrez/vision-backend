@@ -14,10 +14,12 @@ public class InfoFactura {
 	private String direccionComprador;
 	private double totalSinImpuestos;
 	private double totalDescuento;
+	private TotalConImpuestos totalConImpuestos;
+	private double propina;
 	private double importeTotal;
 	private String moneda;
 	
-	private TotalConImpuestos totalConImpuestos;
+	
 	private Pagos pagos;
 	
 	public InfoFactura() {
@@ -63,6 +65,10 @@ public class InfoFactura {
 	public double getImporteTotal() {
 		return importeTotal;
 	}
+	
+	public double getPropina() {
+		return propina;
+	}
 
 	public String getMoneda() {
 		return moneda;
@@ -98,6 +104,10 @@ public class InfoFactura {
 
 	public void setTotalSinImpuestos(double totalSinImpuestos) {
 		this.totalSinImpuestos = totalSinImpuestos;
+	}
+	
+	public void setPropina(double propina) {
+		this.propina = propina;
 	}
 
 	public void setTotalDescuento(double totalDescuento) {

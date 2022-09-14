@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(15)
+@Order(1)
 @Profile({"dev","prod"})
 public class TipoIdentificacionData implements ApplicationRunner {
     @Autowired
