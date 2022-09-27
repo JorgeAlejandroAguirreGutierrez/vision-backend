@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.modelos.inventario;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -35,6 +34,7 @@ public class Producto extends Entidad {
     @ManyToOne
     @JoinColumn(name = "medida_kardex_id", nullable = true)
     private Medida medidaKardex;
+    
     
     //corregir agregar jsonbackreference
     @JsonManagedReference
@@ -77,7 +77,7 @@ public class Producto extends Entidad {
 
     public Producto(String codigo, String nombre, boolean consignacion, String estado,
                     boolean serieAutogenerado, TipoGasto tipoGasto,
-                    CategoriaProducto categoriaProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex, Bodega bodega) {
+                    CategoriaProducto categoriaProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex) {
         super(codigo);
         this.nombre = nombre;
         this.consignacion = consignacion;
@@ -122,14 +122,6 @@ public class Producto extends Entidad {
 		return serieAutogenerado;
 	}
 
-    public void setSerieAutogenerado(boolean serieAutogenerado) {
-		this.serieAutogenerado = serieAutogenerado;
-	}
-
-    public void setMedidaKardex(Medida medidaKardex) {
-    	this.medidaKardex = medidaKardex;
-    }
-    
     public CategoriaProducto getCategoriaProducto() {
 		return categoriaProducto;
 	}
@@ -145,7 +137,6 @@ public class Producto extends Entidad {
     public Medida getMedidaKardex() {
     	return medidaKardex;
     }
-    
     
     public List<Kardex> getKardexs() {
         return kardexs;
@@ -164,13 +155,24 @@ public class Producto extends Entidad {
     	
     }
 
+    public List<ProductoBodega> getProductosBodegas() {
+		return productosBodegas;
+	}
+
+    
+    public void setSerieAutogenerado(boolean serieAutogenerado) {
+		this.serieAutogenerado = serieAutogenerado;
+	}
+
+    public void setMedidaKardex(Medida medidaKardex) {
+    	this.medidaKardex = medidaKardex;
+    }
+    
+
     public void setProductosProveedores(List<ProductoProveedor> productosProveedores) {
     	this.productosProveedores = productosProveedores;
     }
     
-    public List<ProductoBodega> getProductosBodegas() {
-		return productosBodegas;
-	}
     
     public void normalizar(){
         for(int i=0; i<kardexs.size(); i++){
