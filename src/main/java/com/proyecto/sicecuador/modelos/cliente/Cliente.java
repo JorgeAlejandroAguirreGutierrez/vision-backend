@@ -1,9 +1,9 @@
 package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
-import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -13,10 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "cliente")
 public class Cliente extends Entidad {
-/*    @NotNull
-    @NotEmpty
-    @Column(name = "tipo_identificacion")
-    private String tipoIdentificacion;*/
     @NotNull
     @NotEmpty
     @Column(name = "identificacion")
@@ -87,11 +83,6 @@ public class Cliente extends Entidad {
 
     }
 
-    public Cliente(TipoIdentificacion tipoIdentificacion, TipoContribuyente tipoContribuyente){
-        this.tipoIdentificacion=tipoIdentificacion;
-        this.tipoContribuyente=tipoContribuyente;
-    }
-
     public Cliente(long id){
         super(id);
     }
@@ -99,33 +90,39 @@ public class Cliente extends Entidad {
         super(0);
         this.razonSocial=razon_social;
     }
+    
+    public Cliente(TipoIdentificacion tipoIdentificacion, TipoContribuyente tipoContribuyente){
+        super(0);
+        this.tipoIdentificacion=tipoIdentificacion;
+        this.tipoContribuyente=tipoContribuyente;
+    }
 
-    public Cliente(String codigo, TipoIdentificacion tipo_identificacion, String identificacion,
-                   String razon_social, boolean especial, String estado, boolean eliminado,
-                   PuntoVenta punto_venta, GrupoCliente grupo_cliente, TipoContribuyente tipo_contribuyente,
-                   Direccion direccion, Financiamiento financiamiento, Genero genero, EstadoCivil estado_civil,
-                   CalificacionCliente calificacion_cliente, OrigenIngreso origen_ingreso, Segmento segmento){
+    public Cliente(String codigo, String identificacion, String razonSocial, boolean especial, String estado, 
+    		boolean eliminado, TipoIdentificacion tipoIdentificacion, PuntoVenta puntoVenta, 
+    		GrupoCliente grupoCliente, TipoContribuyente tipoContribuyente, Direccion direccion, 
+    		Financiamiento financiamiento, Genero genero, EstadoCivil estadoCivil,
+            CalificacionCliente calificacionCliente, OrigenIngreso origenIngreso, Segmento segmento){
         super(codigo);
-        this.tipoIdentificacion=tipo_identificacion;
+        this.tipoIdentificacion=tipoIdentificacion;
         this.identificacion=identificacion;
-        this.razonSocial=razon_social;
+        this.razonSocial=razonSocial;
         this.especial=especial;
         this.estado=estado;
-        this.puntoVenta=punto_venta;
-        this.grupoCliente=grupo_cliente;
-        this.tipoContribuyente=tipo_contribuyente;
+        this.puntoVenta=puntoVenta;
+        this.grupoCliente=grupoCliente;
+        this.tipoContribuyente=tipoContribuyente;
         this.direccion=direccion;
         this.financiamiento=financiamiento;
         this.genero=genero;
-        this.estadoCivil=estado_civil;
-        this.calificacionCliente=calificacion_cliente;
-        this.origenIngreso=origen_ingreso;
+        this.estadoCivil=estadoCivil;
+        this.calificacionCliente=calificacionCliente;
+        this.origenIngreso=origenIngreso;
         this.segmento=segmento;
     }
 
     public Cliente(List<String> datos){
         super(null);
-        tipoIdentificacion=datos.get(0)== null ? null: new TipoIdentificacion((long) Double.parseDouble(datos.get(0)));
+        tipoIdentificacion=datos.get(0)== null ? null: new TipoIdentificacion(Long.parseLong(datos.get(0)));
         identificacion=datos.get(1)== null ? null: datos.get(1);
         razonSocial=datos.get(2)== null ? null: datos.get(2);
         especial=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
@@ -139,15 +136,15 @@ public class Cliente extends Entidad {
         estadoCivil=datos.get(12)== null ? null:new EstadoCivil((long) Double.parseDouble(datos.get(12)));
         calificacionCliente=datos.get(13)== null ? null:new CalificacionCliente((long) Double.parseDouble(datos.get(13)));
         origenIngreso=datos.get(14)== null ? null:new OrigenIngreso((long) Double.parseDouble(datos.get(14)));
-                
         segmento=datos.get(15)== null ? null:new Segmento((long) Double.parseDouble(datos.get(15)));
     }
     
-    public TipoIdentificacion getTipoIdentificacion() {
-		return tipoIdentificacion;
-	}
     public TipoContribuyente getTipoContribuyente() {
 		return tipoContribuyente;
+	}
+    
+    public TipoIdentificacion getTipoIdentificacion() {
+		return tipoIdentificacion;
 	}
 
     public String getIdentificacion() {
@@ -224,10 +221,6 @@ public class Cliente extends Entidad {
     public void setEspecial(boolean especial) {
         this.especial = especial;
     }
-
-    public void setTipoIdentificacion(TipoIdentificacion tipoIdentificacion) {
-		this.tipoIdentificacion = tipoIdentificacion;
-	}
     
     public void setTipoContribuyente(TipoContribuyente tipoContribuyente) {
 		this.tipoContribuyente = tipoContribuyente;

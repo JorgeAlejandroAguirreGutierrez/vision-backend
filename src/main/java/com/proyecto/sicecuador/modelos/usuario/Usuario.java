@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.modelos.usuario;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.configuracion.Empresa;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -24,6 +26,9 @@ public class Usuario extends Entidad {
 	@ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
+	@ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+	private Empresa empresa;
 
     public Usuario(){
 
@@ -33,7 +38,7 @@ public class Usuario extends Entidad {
         super(id);
     }
 
-    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, boolean activo, PuntoVenta puntoVenta, Perfil perfil){
+    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, boolean activo, PuntoVenta puntoVenta, Perfil perfil, Empresa empresa){
         super(codigo);
         this.nombre=nombre;
         this.correo=correo;
@@ -43,6 +48,7 @@ public class Usuario extends Entidad {
         this.activo=activo;
         this.puntoVenta=puntoVenta;
         this.perfil=perfil;
+        this.empresa=empresa;
     }
 
     public Usuario(List<String> datos){
@@ -54,6 +60,7 @@ public class Usuario extends Entidad {
         activo=datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
         puntoVenta=datos.get(6)== null ? null:new PuntoVenta((long) Double.parseDouble(datos.get(6)));
         perfil=datos.get(7)== null ? null:new Perfil((long) Double.parseDouble(datos.get(7)));
+        empresa=datos.get(8)== null ? null:new Empresa((long) Double.parseDouble(datos.get(8)));
     }
 
     public String getNombre() {
@@ -87,8 +94,12 @@ public class Usuario extends Entidad {
     public Perfil getPerfil() {
         return perfil;
     }
+        
+    public Empresa getEmpresa() {
+		return empresa;
+	}
 
-    public void setContrasena(String contrasena) {
+	public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
 

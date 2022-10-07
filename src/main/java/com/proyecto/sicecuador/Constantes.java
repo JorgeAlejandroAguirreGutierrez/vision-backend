@@ -122,6 +122,7 @@ public class Constantes {
     public static final String tabla_parametro="parametro";
     public static final String tabla_tipo_retencion="tipo_retencion";
     public static final String tabla_ubicacion="ubicacion";
+    public static final String tabla_tipo_identificacion="tipo_identificacion";
     
     //ENTREGA
     public static final String tabla_entrega="entrega";
@@ -276,4 +277,8 @@ public class Constantes {
     //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
     public static final int size=20;
     public static final String order="id";
+    
+    //CONSTANTE FACTURACION ELECTRONICA
+    public static final String ambienteFE="1";
+    public static final String tipoEmisionFE="1";
 }

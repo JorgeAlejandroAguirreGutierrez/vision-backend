@@ -3,9 +3,6 @@ package com.proyecto.sicecuador.modelos.comprobante;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Dependiente;
-import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
-import com.proyecto.sicecuador.modelos.configuracion.TipoAmbiente;
-import com.proyecto.sicecuador.modelos.configuracion.TipoEmision;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
@@ -96,15 +93,12 @@ public class Factura extends Entidad {
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
 	@JoinColumn(name = "factura_id")
 	private List<FacturaDetalle> facturaDetalles;
-	
+    
     @ManyToOne
-    @JoinColumn(name = "tipo_ambiente_id", nullable = true)
-    private TipoAmbiente tipoAmbiente;
+    @JoinColumn(name = "tipo_comprobante_id", nullable = true)
+    private TipoComprobante tipoComprobante;
 
-    @ManyToOne
-    @JoinColumn(name = "tipo_emision_id", nullable = true)
-    private TipoEmision tipoEmision;
-
+    
 	public Factura() {
 
 	}
@@ -123,7 +117,7 @@ public class Factura extends Entidad {
 			double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal,
 			double descuento, double base12, double base0, double importeIva, double total, String comentario, String claveAutorizacionSri,
 			String estadoSri, Cliente cliente, Cliente clienteFactura, Dependiente auxiliar, Usuario vendedor, Sesion sesion,
-			TipoAmbiente tipoAmbiente, TipoEmision tipoEmision) {
+			TipoComprobante tipoComprobante) {
 		super(codigo);
 		this.secuencia = secuencia;
 		this.fecha = fecha;
@@ -138,8 +132,7 @@ public class Factura extends Entidad {
 		this.auxiliar = auxiliar;
 		this.vendedor = vendedor;
 		this.sesion = sesion;
-		this.tipoAmbiente = tipoAmbiente;
-		this.tipoEmision = tipoEmision;
+		this.tipoComprobante = tipoComprobante;
 	}
 
 	public String getSecuencia() {
@@ -226,13 +219,44 @@ public class Factura extends Entidad {
 		return valorPorcentajeDescuentoTotal;
 	}
 	
-		
-	public TipoAmbiente getTipoAmbiente() {
-		return tipoAmbiente;
+	public String getComentario() {
+		return comentario;
+	}	
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public Cliente getClienteFactura() {
+		return clienteFactura;
+	}
+
+	public Dependiente getAuxiliar() {
+		return auxiliar;
+	}
+
+	public Sesion getSesion() {
+		return sesion;
+	}
+
+	public Usuario getVendedor() {
+		return vendedor;
 	}
 	
-	public TipoEmision getTipoEmision() {
-		return tipoEmision;
+	public String getClaveAutorizacionSri() {
+		return claveAutorizacionSri;
+	}
+
+	public double getIva0() {
+		return iva0;
+	}
+
+	public String getEstadoSri() {
+		return estadoSri;
+	}
+	
+	public TipoComprobante getTipoComprobante() {
+		return tipoComprobante;
 	}
 
 	public void setEstado(String estado) {
@@ -303,55 +327,16 @@ public class Factura extends Entidad {
 	public void setTotalSinDescuento(double totalSinDescuento) {
 		this.totalSinDescuento = totalSinDescuento;
 	}
-	
-	
-	public void setTipoAmbiente(TipoAmbiente tipoAmbiente) {
-		this.tipoAmbiente = tipoAmbiente;
-	}
-
-	public void setTipoEmision(TipoEmision tipoEmision) {
-		this.tipoEmision = tipoEmision;
-	}
-
-	public String getComentario() {
-		return comentario;
-	}	
-
-	public String getClaveAutorizacionSri() {
-		return claveAutorizacionSri;
-	}
 
 	public void setClaveAutorizacionSri(String claveAutorizacionSri) {
 		this.claveAutorizacionSri = claveAutorizacionSri;
 	}
 
-	public String getEstadoSri() {
-		return estadoSri;
-	}
 
 	public void setEstadoSri(String estadoSri) {
 		this.estadoSri = estadoSri;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public Cliente getClienteFactura() {
-		return clienteFactura;
-	}
-
-	public Dependiente getAuxiliar() {
-		return auxiliar;
-	}
-
-	public Sesion getSesion() {
-		return sesion;
-	}
-
-	public Usuario getVendedor() {
-		return vendedor;
-	}
 
 	public void setSecuencia(String secuencia) {
 		this.secuencia = secuencia;
@@ -364,6 +349,7 @@ public class Factura extends Entidad {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
 
 	@JsonManagedReference(value = "factura-detalle-factura")
 	public List<FacturaDetalle> getFacturaDetalles() {

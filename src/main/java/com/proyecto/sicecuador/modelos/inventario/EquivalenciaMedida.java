@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "tabla_equivalencia_medida")
-public class TablaEquivalenciaMedida extends Entidad {
+@Table(name = "equivalencia_medida")
+public class EquivalenciaMedida extends Entidad {
     @ManyToOne
     @JoinColumn(name = "medida1_id", nullable = true)
     private Medida medida1;
@@ -15,28 +15,28 @@ public class TablaEquivalenciaMedida extends Entidad {
     @Column(name = "equivalencia", nullable = true)
     private double equivalencia;
 
-    public TablaEquivalenciaMedida(){
+    public EquivalenciaMedida(){
     }
-    public TablaEquivalenciaMedida(long id){
+    public EquivalenciaMedida(long id){
         super(id);
     }
-    public TablaEquivalenciaMedida(String codigo){
+    public EquivalenciaMedida(String codigo){
         super(codigo);
     }
-    public TablaEquivalenciaMedida(String codigo, Medida medida1, Medida medida2, double equivalencia){
+    public EquivalenciaMedida(String codigo, Medida medida1, Medida medida2, double equivalencia){
         super(codigo);
         this.medida1=medida1;
         this.medida2=medida2;
         this.equivalencia=equivalencia;
     }
 
-    public TablaEquivalenciaMedida(Medida medida1, Medida medida2){
+    public EquivalenciaMedida(Medida medida1, Medida medida2){
         super(null);
         this.medida1=medida1;
         this.medida2=medida2;
     }
 
-    public TablaEquivalenciaMedida(List<String>datos){
+    public EquivalenciaMedida(List<String>datos){
 
     }
 

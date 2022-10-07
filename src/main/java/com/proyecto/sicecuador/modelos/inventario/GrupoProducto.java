@@ -48,7 +48,7 @@ public class GrupoProducto extends Entidad {
         this.sublinea=sublinea;
         this.presentacion=presentacion;
         this.categoriaProducto=categoriaProducto;
-        this.afectacionContable=afectacionContable;
+//        this.afectacionContable=afectacionContable;
         
     }
 
@@ -91,6 +91,4 @@ public class GrupoProducto extends Entidad {
 	public void setAfectacionContable(AfectacionContable afectacionContable) {
 		this.afectacionContable = afectacionContable;
 	}
-
-    
 }
