@@ -7,13 +7,15 @@ import java.util.List;
 @Table(name = "equivalencia_medida")
 public class EquivalenciaMedida extends Entidad {
     @ManyToOne
-    @JoinColumn(name = "medida1_id", nullable = true)
-    private Medida medida1;
+    @JoinColumn(name = "medidaIni_id", nullable = true)
+    private Medida medidaIni;
     @ManyToOne
-    @JoinColumn(name = "medida2_id", nullable = true)
-    private Medida medida2;
+    @JoinColumn(name = "medidaEqui_id", nullable = true)
+    private Medida medidaEqui;
     @Column(name = "equivalencia", nullable = true)
     private double equivalencia;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public EquivalenciaMedida(){
     }
@@ -23,43 +25,52 @@ public class EquivalenciaMedida extends Entidad {
     public EquivalenciaMedida(String codigo){
         super(codigo);
     }
-    public EquivalenciaMedida(String codigo, Medida medida1, Medida medida2, double equivalencia){
+    public EquivalenciaMedida(String codigo, Medida medidaIni, Medida medidaEqui, double equivalencia, String estado){
         super(codigo);
-        this.medida1=medida1;
-        this.medida2=medida2;
+        this.medidaIni=medidaIni;
+        this.medidaEqui=medidaEqui;
         this.equivalencia=equivalencia;
+        this.estado=estado;
     }
 
-    public EquivalenciaMedida(Medida medida1, Medida medida2){
+    public EquivalenciaMedida(Medida medidaIni, Medida medidaEqui){
         super(null);
-        this.medida1=medida1;
-        this.medida2=medida2;
+        this.medidaIni=medidaIni;
+        this.medidaIni=medidaEqui;
     }
 
     public EquivalenciaMedida(List<String>datos){
 
     }
 
-    public Medida getMedida1() {
-        return medida1;
+    public Medida getMedidaIni() {
+        return medidaIni;
     }
 
-    public Medida getMedida2() {
-        return medida2;
+    public Medida getMedidaEqui() {
+        return medidaEqui;
     }
 
     public double getEquivalencia() {
         return equivalencia;
+    }
+
+    public String getEstado() {
+        return estado;
     }
     
     public void setEquivalencia(double equivalencia) {
 		this.equivalencia = equivalencia;
 	}
     
-    public void setMedida1(Medida medida1) {
-		this.medida1 = medida1;
+    public void setMedidaIni(Medida medidaIni) {
+		this.medidaIni = medidaIni;
 	}
-    public void setMedida2(Medida medida2) {
-		this.medida2 = medida2;
+    public void setMedidaEqui(Medida medidaEqui) {
+		this.medidaEqui = medidaEqui;
 	}
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
+    
 }

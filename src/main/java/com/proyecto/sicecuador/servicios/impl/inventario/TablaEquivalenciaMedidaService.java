@@ -77,8 +77,8 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     public Optional<EquivalenciaMedida> obtenerMedida1Medida2(EquivalenciaMedida _tabla){
         Optional<EquivalenciaMedida> tabla =  rep.findOne((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();
-		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medida1").get("descripcion"), _tabla.getMedida1().getDescripcion())));
-		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medida2").get("descripcion"), _tabla.getMedida2().getDescripcion())));
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medidaIni").get("descripcion"), _tabla.getMedidaIni().getDescripcion())));
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medidaEqui").get("descripcion"), _tabla.getMedidaEqui().getDescripcion())));
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));                
 		});
         return tabla;
@@ -88,7 +88,7 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     public List<EquivalenciaMedida> buscarMedidasEquivalentes(EquivalenciaMedida _tabla){
         	List<EquivalenciaMedida> equivalencias =  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();
-		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medida1").get("id"), _tabla.getMedida1().getId())));
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medidaIni").get("id"), _tabla.getMedidaIni().getId())));
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));                
 		});
         return equivalencias;
@@ -102,11 +102,11 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
 		    if (!tem.getCodigo().equals(Constantes.vacio)) {
 		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo").get("codigo"), "%"+tem.getCodigo()+"%")));
 		    }
-		    if (!tem.getMedida1().getDescripcion().equals(Constantes.vacio)) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("medida1").get("descripcion"), "%"+tem.getMedida1().getDescripcion()+"%")));
+		    if (!tem.getMedidaIni().getDescripcion().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("medidaIni").get("descripcion"), "%"+tem.getMedidaIni().getDescripcion()+"%")));
 		    }
-		    if (!tem.getMedida2().getDescripcion().equals(Constantes.vacio)) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("medida2").get("descripcion"), "%"+tem.getMedida2().getDescripcion()+"%")));
+		    if (!tem.getMedidaEqui().getDescripcion().equals(Constantes.vacio)) {
+		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("medidaEqui").get("descripcion"), "%"+tem.getMedidaEqui().getDescripcion()+"%")));
 		    }
 		    if (tem.getEquivalencia()!=0) {
 		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("equivalencia"), "%"+tem.getEquivalencia()+"%")));

@@ -10,6 +10,8 @@ public class AfectacionContable extends Entidad {
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public AfectacionContable(){
         super();
@@ -19,13 +21,17 @@ public class AfectacionContable extends Entidad {
         super(id);
     }
 
-    public AfectacionContable(String codigo, String descripcion, String abreviatura){
+    public AfectacionContable(String codigo, String descripcion, String abreviatura, String estado){
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
+        this.estado=estado;
     }
     
     public AfectacionContable(List<String> datos){
+    	descripcion=datos.get(0)== null ? null: datos.get(0);
+    	abreviatura=datos.get(1)== null ? null: datos.get(1);
+    	estado=datos.get(2)== null ? null: datos.get(2);
     }
 
     public String getDescripcion() {
@@ -35,4 +41,9 @@ public class AfectacionContable extends Entidad {
     public String getAbreviatura() {
         return abreviatura;
     }
+
+	public String getEstado() {
+		return estado;
+	}
+   
 }

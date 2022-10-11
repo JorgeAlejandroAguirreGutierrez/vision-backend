@@ -77,17 +77,17 @@ public class TablaEquivalenciaMedidaController implements GenericoController<Equ
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{medida1Id}/{medida2Id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerMedida1Medida2(@PathVariable("medida1Id") long medida1Id, @PathVariable("medida2Id") long medida2Id) {
-        EquivalenciaMedida tabla=servicio.obtenerMedida1Medida2(new EquivalenciaMedida(new Medida(medida1Id), new Medida(medida2Id))).get();
+    @GetMapping(value = "/{medidaIniId}/{medidaEquiId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerMedidaIniMedidaEqui(@PathVariable("medidaIniId") long medidaIniId, @PathVariable("medidaEquiId") long medidaEquiId) {
+        EquivalenciaMedida tabla=servicio.obtenerMedida1Medida2(new EquivalenciaMedida(new Medida(medidaIniId), new Medida(medidaEquiId))).get();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tabla);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscarMedidasEquivalentes/{medida1Id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscarMedidasEquivalentes(@PathVariable("medida1Id") long medida1Id) {
+    @GetMapping(value = "/buscarMedidasEquivalentes/{medidaIniId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> buscarMedidasEquivalentes(@PathVariable("medidaIniId") long medidaIniId) {
     	EquivalenciaMedida parametro = new EquivalenciaMedida();
-    	parametro.setMedida1(new Medida(medida1Id));
+    	parametro.setMedidaIni(new Medida(medidaIniId));
         List<EquivalenciaMedida> tablas=servicio.buscarMedidasEquivalentes(parametro);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tablas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
