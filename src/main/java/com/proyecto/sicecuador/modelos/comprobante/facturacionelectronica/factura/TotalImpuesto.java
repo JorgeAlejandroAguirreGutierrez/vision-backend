@@ -8,6 +8,7 @@ public class TotalImpuesto {
 	private String codigo;
 	private String codigoPorcentaje;
 	private double baseImponible;
+	private double descuentoAdicional;
 	private double valor;
 	
 	public TotalImpuesto() {
@@ -25,6 +26,10 @@ public class TotalImpuesto {
 	public double getBaseImponible() {
 		return baseImponible;
 	}
+	
+	public double getDescuentoAdicional() {
+		return descuentoAdicional;
+	}
 
 	public double getValor() {
 		return valor;
@@ -40,6 +45,10 @@ public class TotalImpuesto {
 
 	public void setBaseImponible(double baseImponible) {
 		this.baseImponible = baseImponible;
+	}
+	
+	public void setDescuentoAdicional(double descuentoAdicional) {
+		this.descuentoAdicional = descuentoAdicional;
 	}
 
 	public void setValor(double valor) {

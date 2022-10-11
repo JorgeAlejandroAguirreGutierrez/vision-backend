@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IUsuarioService;
@@ -69,7 +68,7 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public Optional<Usuario> activar(Usuario usuario) {
         Usuario _usuario=rep.findById(usuario.getId()).get();
-        usuario.setActivo(false);
+        usuario.setActivo(Constantes.activo);
         _usuario=rep.save(_usuario);
         return Optional.of(usuario);
     }

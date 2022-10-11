@@ -147,16 +147,15 @@ public class FacturaService implements IFacturaService {
     	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
     	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
     	infoFactura.setDireccionComprador(factura.getCliente().getDireccion().getDireccion());
-    	infoFactura.setTotalSinImpuestos(factura.getTotalConDescuento());
-    	infoFactura.setTotalDescuento(factura.getValorDescuentoTotal());
+    	infoFactura.setTotalSinImpuestos(factura.getSubtotalSinDescuento());
+    	infoFactura.setTotalDescuento(factura.getDescuentoTotal());
     	infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
-    	infoFactura.setPropina(0);
+    	infoFactura.setPropina(Constantes.cero);
     	infoFactura.setImporteTotal(factura.getTotalConDescuento());
     	infoFactura.setMoneda(factura.getMoneda());
     	infoFactura.setPagos(crearPagos(factura));
     	
-    	Impuestos impuestos=crearImpuestos(factura); 
-    	Detalles detalles=crearDetalles(factura, impuestos);
+    	Detalles detalles=crearDetalles(factura);
     	
     	facturaE.setInfoTributaria(infoTributaria);
     	facturaE.setInfoFactura(infoFactura);
@@ -170,9 +169,10 @@ public class FacturaService implements IFacturaService {
     	List<TotalImpuesto> totalImpuestos = new ArrayList<>();
     	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
         	TotalImpuesto totalImpuesto = new TotalImpuesto();
-    		totalImpuesto.setCodigo(i+""+1);
-        	totalImpuesto.setCodigoPorcentaje(i+""+1);
-        	totalImpuesto.setBaseImponible(factura.getFacturaDetalles().get(i).getIvaSinDescuentoLinea());
+    		totalImpuesto.setCodigo(Constantes.iva);
+        	totalImpuesto.setCodigoPorcentaje(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoImpuestoSri());
+        	totalImpuesto.setDescuentoAdicional(factura.getFacturaDetalles().get(i).getTotalDescuentoLinea());
+        	totalImpuesto.setBaseImponible(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
         	totalImpuesto.setValor(factura.getFacturaDetalles().get(i).getIvaConDescuentoLinea());
         	totalImpuestos.add(totalImpuesto);
     	}
@@ -195,37 +195,21 @@ public class FacturaService implements IFacturaService {
     	return pagos;
     }
     
-    private Detalles crearDetalles(Factura factura, Impuestos impuestos) {
+    private Detalles crearDetalles(Factura factura) {
     	Detalles detalles=new Detalles();
     	List<Detalle> detalleLista = new ArrayList<>();
     	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
     		Detalle detalle = new Detalle();
-    		detalle.setCodigoPrincipal(factura.getFacturaDetalles().get(i).getCodigo());
+    		detalle.setCodigoPrincipal(factura.getFacturaDetalles().get(i).getProducto().getCodigo());
     		detalle.setDescripcion(factura.getFacturaDetalles().get(i).getProducto().getNombre());
     		detalle.setCantidad(factura.getFacturaDetalles().get(i).getCantidad());
-    		detalle.setPrecioUnitario(factura.getFacturaDetalles().get(i).getSubtotalSinDescuentoLinea());
-    		detalle.setDescuento(factura.getFacturaDetalles().get(i).getValorDescuentoTotalLinea());
+    		detalle.setPrecioUnitario(factura.getFacturaDetalles().get(i).getPrecio().getPrecioVentaPublico());
+    		detalle.setDescuento(factura.getFacturaDetalles().get(i).getTotalDescuentoLinea());
     		detalle.setPrecioTotalSinImpuesto(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
-    		detalle.setImpuestos(impuestos);
     		detalleLista.add(detalle);
     	}
     	detalles.setDetalle(detalleLista);
     	return detalles;
-    }
-    
-    private Impuestos crearImpuestos(Factura factura) {
-    	Impuestos impuestos =new Impuestos();
-    	List<Impuesto> impuestosLista = new ArrayList<>();
-    	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
-    		Impuesto impuesto = new Impuesto();
-    		impuesto.setCodigo(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoImpuestoSri());
-    		impuesto.setCodigoPorcentaje(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoTarifaSri());
-    		impuesto.setTarifa(factura.getFacturaDetalles().get(i).getImpuesto().getPorcentaje());
-    		impuesto.setBaseImponible(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
-    		impuestosLista.add(impuesto);
-    	}
-    	impuestos.setImpuesto(impuestosLista);
-    	return impuestos;
     }
 
     

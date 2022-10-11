@@ -281,4 +281,6 @@ public class Constantes {
     //CONSTANTE FACTURACION ELECTRONICA
     public static final String ambienteFE="1";
     public static final String tipoEmisionFE="1";
+    public static final String iva="2";
+    public static final double cero=0;
 }

@@ -19,7 +19,7 @@ public class Usuario extends Entidad {
     @Column(name = "avatar", nullable = true)
     private String avatar;
     @Column(name = "activo", nullable = true)
-    private boolean activo;
+    private String activo;
 	@ManyToOne
     @JoinColumn(name = "punto_venta_id", nullable = true)
     private PuntoVenta puntoVenta;
@@ -38,7 +38,7 @@ public class Usuario extends Entidad {
         super(id);
     }
 
-    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, boolean activo, PuntoVenta puntoVenta, Perfil perfil, Empresa empresa){
+    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, String activo, PuntoVenta puntoVenta, Perfil perfil, Empresa empresa){
         super(codigo);
         this.nombre=nombre;
         this.correo=correo;
@@ -57,7 +57,7 @@ public class Usuario extends Entidad {
         contrasena=datos.get(2)== null ? null: datos.get(2);
         identificacion=datos.get(3)== null ? null: datos.get(3);
         avatar=datos.get(4)== null ? null: datos.get(4);
-        activo=datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
+        activo=datos.get(5)== null ? null: datos.get(5);
         puntoVenta=datos.get(6)== null ? null:new PuntoVenta((long) Double.parseDouble(datos.get(6)));
         perfil=datos.get(7)== null ? null:new Perfil((long) Double.parseDouble(datos.get(7)));
         empresa=datos.get(8)== null ? null:new Empresa((long) Double.parseDouble(datos.get(8)));
@@ -83,9 +83,9 @@ public class Usuario extends Entidad {
         return avatar;
     }
 
-    public boolean isActivo() {
-        return activo;
-    }
+    public String getActivo() {
+		return activo;
+	}
 
     public PuntoVenta getPuntoVenta() {
 		return puntoVenta;
@@ -103,7 +103,7 @@ public class Usuario extends Entidad {
         this.contrasena = contrasena;
     }
 
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }
+    public void setActivo(String activo) {
+		this.activo = activo;
+	}
 }
