@@ -88,6 +88,8 @@ public class Endpoints {
     
     //CONTABILIDAD
     public static final String pathAfectacionContable="afectacionContable";
+    public static final String pathMovimientoContable="movimientoContable";
+    public static final String pathCuentaContable="cuentaContable";
 	
 
 }
