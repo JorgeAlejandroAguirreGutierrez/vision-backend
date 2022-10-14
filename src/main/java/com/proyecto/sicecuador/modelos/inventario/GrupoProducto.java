@@ -23,10 +23,10 @@ public class GrupoProducto extends Entidad {
     private String sublinea;
     @Column(name = "presentacion", nullable = true)
     private String presentacion;
+
     @Column(name = "estado", nullable = true)
     private String estado;
-    
-    
+
     @ManyToOne
     @JoinColumn(name = "categoria_producto_id")
     private CategoriaProducto categoriaProducto;
@@ -34,7 +34,6 @@ public class GrupoProducto extends Entidad {
     @ManyToOne
     @JoinColumn(name = "movimiento_contable_id", nullable = true)
     private MovimientoContable movimientoContable;
-    
     
     public GrupoProducto(){
     	super();
@@ -94,7 +93,11 @@ public class GrupoProducto extends Entidad {
     public String getPresentacion() {
 		return presentacion;
 	}
-    
+
+    public String getEstado() {
+        return estado;
+    }
+
     public CategoriaProducto getCategoriaProducto() {
     	return categoriaProducto;
     }
@@ -106,6 +109,4 @@ public class GrupoProducto extends Entidad {
 	public void setMovimientoContable(MovimientoContable movimientoContable) {
 		this.movimientoContable = movimientoContable;
 	}
-    
-  
 }

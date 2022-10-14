@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="dc223f72-82be-48f9-9820-bf0acb1b4380" activeEnvironment="Default" name="AutorizacionSRI" resourceRoot="" soapui-version="5.7.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="5e0d5056-b64a-4cdb-8086-e25cbbaa7b1a" wsaVersion="NONE" name="AutorizacionComprobantesOfflineServiceSoapBinding" type="wsdl" bindingName="{http://ec.gob.sri.ws.autorizacion}AutorizacionComprobantesOfflineServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl"><con:part><con:url>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="AutorizacionComprobantesOfflineService" targetNamespace="http://ec.gob.sri.ws.autorizacion" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ec.gob.sri.ws.autorizacion" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://ec.gob.sri.ws.autorizacion" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="RespuestaAutorizacion" nillable="true" type="xs:anyType"/>
+      <xs:element name="autorizacion" type="tns:autorizacion"/>
+      <xs:element name="autorizacionComprobante" type="tns:autorizacionComprobante"/>
+      <xs:element name="autorizacionComprobanteLote" type="tns:autorizacionComprobanteLote"/>
+      <xs:element name="autorizacionComprobanteLoteResponse" type="tns:autorizacionComprobanteLoteResponse"/>
+      <xs:element name="autorizacionComprobanteResponse" type="tns:autorizacionComprobanteResponse"/>
+      <xs:element name="mensaje" type="tns:mensaje"/>
+      <xs:complexType name="autorizacionComprobante">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="claveAccesoComprobante" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="autorizacionComprobanteResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="RespuestaAutorizacionComprobante" type="tns:respuestaComprobante"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="respuestaComprobante">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="claveAccesoConsultada" type="xs:string"/>
+          <xs:element minOccurs="0" name="numeroComprobantes" type="xs:string"/>
+          <xs:element minOccurs="0" name="autorizaciones">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:autorizacion"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="autorizacion">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="estado" type="xs:string"/>
+          <xs:element minOccurs="0" name="numeroAutorizacion" type="xs:string"/>
+          <xs:element minOccurs="0" name="fechaAutorizacion" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="ambiente" type="xs:string"/>
+          <xs:element minOccurs="0" name="comprobante" type="xs:string"/>
+          <xs:element minOccurs="0" name="mensajes">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:mensaje"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mensaje">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="identificador" type="xs:string"/>
+          <xs:element minOccurs="0" name="mensaje" type="xs:string"/>
+          <xs:element minOccurs="0" name="informacionAdicional" type="xs:string"/>
+          <xs:element minOccurs="0" name="tipo" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="autorizacionComprobanteLote">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="claveAccesoLote" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="autorizacionComprobanteLoteResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="RespuestaAutorizacionLote" type="tns:respuestaLote"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="respuestaLote">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="claveAccesoLoteConsultada" type="xs:string"/>
+          <xs:element minOccurs="0" name="numeroComprobantesLote" type="xs:string"/>
+          <xs:element minOccurs="0" name="autorizaciones">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:autorizacion"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="autorizacionComprobanteLote">
+    <wsdl:part element="tns:autorizacionComprobanteLote" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="autorizacionComprobanteResponse">
+    <wsdl:part element="tns:autorizacionComprobanteResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="autorizacionComprobanteLoteResponse">
+    <wsdl:part element="tns:autorizacionComprobanteLoteResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="autorizacionComprobante">
+    <wsdl:part element="tns:autorizacionComprobante" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AutorizacionComprobantesOffline">
+    <wsdl:operation name="autorizacionComprobante">
+      <wsdl:input message="tns:autorizacionComprobante" name="autorizacionComprobante"></wsdl:input>
+      <wsdl:output message="tns:autorizacionComprobanteResponse" name="autorizacionComprobanteResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="autorizacionComprobanteLote">
+      <wsdl:input message="tns:autorizacionComprobanteLote" name="autorizacionComprobanteLote"></wsdl:input>
+      <wsdl:output message="tns:autorizacionComprobanteLoteResponse" name="autorizacionComprobanteLoteResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AutorizacionComprobantesOfflineServiceSoapBinding" type="tns:AutorizacionComprobantesOffline">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="autorizacionComprobante">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="autorizacionComprobante">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="autorizacionComprobanteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="autorizacionComprobanteLote">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="autorizacionComprobanteLote">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="autorizacionComprobanteLoteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AutorizacionComprobantesOfflineService">
+    <wsdl:port binding="tns:AutorizacionComprobantesOfflineServiceSoapBinding" name="AutorizacionComprobantesOfflinePort">
+      <soap:address location="https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline</con:endpoint></con:endpoints><con:operation id="6f1ebc05-14bb-41df-9f88-bcfd46242873" isOneWay="false" action="" name="autorizacionComprobante" bindingOperationName="autorizacionComprobante" type="Request-Response" outputName="autorizacionComprobanteResponse" inputName="autorizacionComprobante" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="9ef9bb82-e940-4f1b-ab9f-b5e7051a41fe" name="Request 1" outgoingWss="outgoing"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.autorizacion">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ec:autorizacionComprobante>\r
+         <!--Optional:-->\r
+         <claveAccesoComprobante>2307202201060346722600110010040000000121234567813</claveAccesoComprobante>\r
+      </ec:autorizacionComprobante>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:preemptive>true</con:preemptive><con:authType>Preemptive</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.autorizacion/AutorizacionComprobantesOffline/autorizacionComprobante"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="c01da912-bd4b-4513-8dd9-e8bd737da31a" isOneWay="false" action="" name="autorizacionComprobanteLote" bindingOperationName="autorizacionComprobanteLote" type="Request-Response" outputName="autorizacionComprobanteLoteResponse" inputName="autorizacionComprobanteLote" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="3e2b7fea-b894-4026-b656-999cb71006a6" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.autorizacion">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ec:autorizacionComprobanteLote>\r
+         <!--Optional:-->\r
+         <claveAccesoLote>?</claveAccesoLote>\r
+      </ec:autorizacionComprobanteLote>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.autorizacion/AutorizacionComprobantesOffline/autorizacionComprobanteLote"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer><con:crypto><con:source>D:/PROYECTO SIICE/sic-ecuador-backend/mario_ruben_delgado_daquilema.p12</con:source><con:password>mPrimero1981</con:password><con:type>KEYSTORE</con:type></con:crypto><con:outgoing mustUnderstand="false"><con:name>outgoing</con:name><con:entry type="Signature" username="serialnumber=0000333055+cn=mario ruben delgado daquilema,l=quito,ou=entidad de certificacion de informacion-ecibce,o=banco central del ecuador,c=ec signing key" password="mPrimero1981"><con:configuration><crypto>mario_ruben_delgado_daquilema.p12</crypto><keyIdentifierType>3</keyIdentifierType><signatureAlgorithm>http://www.w3.org/2000/09/xmldsig#rsa-sha1</signatureAlgorithm><signatureCanonicalization>http://www.w3.org/TR/2001/REC-xml-c14n-20010315</signatureCanonicalization><useSingleCert>false</useSingleCert><prependSignature>false</prependSignature><digestAlgorithm>http://www.w3.org/2000/09/xmldsig#sha1</digestAlgorithm><customTokenValueType/><customTokenId/></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

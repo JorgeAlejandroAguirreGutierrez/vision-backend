@@ -177,6 +177,8 @@ public class Constantes {
 	
     //CONTABILIDAD
     public static final String tabla_afectacion_contable="afectacion_contable";
+    public static final String tabla_movimiento_contable="movimiento_contable";
+    public static final String tabla_cuenta_contable="cuenta_contable";
     
     //NOMBRES
     //CLIENTE
@@ -273,6 +275,8 @@ public class Constantes {
 	
     //CONTABILIDAD
     public static final String afectacion_contable="AFECTACION CONTABLE";
+    public static final String movimiento_contable="MOVIMIENTO CONTABLE";
+    public static final String cuenta_contable="CUENTA CONTABLE";
     
     //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
     public static final int size=20;

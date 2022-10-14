@@ -28,8 +28,8 @@ public class CuentaContableData implements ApplicationRunner {
             cuentas_contables.add(new CuentaContable("CC011907000002","1.1.","ACTIVO CORRIENTE", "G", 2, true, "CASILLERO", "MAPEO", "ACTIVO"));
             cuentas_contables.add(new CuentaContable("CC011907000003","1.1.01.","EFECTIVO Y EQUIVALENTES AL EFECTIVO", "G", 3, true, "CASILLERO", "MAPEO", "ACTIVO"));
             cuentas_contables.add(new CuentaContable("CC011907000004","1.1.01.01.","CAJA GENERAL", "G", 4, true, "CASILLERO", "MAPEO", "ACTIVO"));
-            cuentas_contables.add(new CuentaContable("CC011907000005","1.1.01.01.001","Caja General Chimborazo", "M", 5, true, "CASILLERO", "MAPEO", "ACTIVO"));
-            cuentas_contables.add(new CuentaContable("CC011907000006","1.1.01.01.002","Caja General Oficina Central", "M", 5, true, "CASILLERO", "MAPEO", "ACTIVO"));
+            cuentas_contables.add(new CuentaContable("CC011907000005","1.1.01.01.001","CAJA GENERAL CHIMBORAZO", "M", 5, true, "CASILLERO", "MAPEO", "ACTIVO"));
+            cuentas_contables.add(new CuentaContable("CC011907000006","1.1.01.01.002","CAJA GENERAL OFICINA CENTRAL", "M", 5, true, "CASILLERO", "MAPEO", "ACTIVO"));
             rep.saveAll(cuentas_contables);
         }
     }

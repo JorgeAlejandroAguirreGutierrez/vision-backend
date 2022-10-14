@@ -27,7 +27,7 @@ public class AfectacionContableData implements ApplicationRunner {
             List<AfectacionContable> afectaciones_contables = new ArrayList<>();
             afectaciones_contables.add(new AfectacionContable("AFC011907000001","INVENTARIO","I", "ACTIVO"));
             afectaciones_contables.add(new AfectacionContable("AFC011907000002","CONSUMOS - SUMINISTROS OFICINA","C","ACTIVO"));
-            afectaciones_contables.add(new AfectacionContable("AFC011907000003","INVENTARIOS EN CONSIGNACIÓN","E","ACTIVO"));
+            afectaciones_contables.add(new AfectacionContable("AFC011907000003","INVENTARIOS EN CONSIGNACIÓN","IC","ACTIVO"));
             afectaciones_contables.add(new AfectacionContable("AFC011907000004","ACTIVO FIJO","AF","ACTIVO"));
             rep.saveAll(afectaciones_contables);
         }
