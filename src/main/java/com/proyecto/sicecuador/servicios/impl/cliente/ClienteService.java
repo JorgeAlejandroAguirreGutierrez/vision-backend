@@ -331,17 +331,18 @@ public class ClienteService implements IClienteService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	Optional<Ubicacion> ubicacion= repUbicacion.findByProvinciaAndCantonAndParroquia(cliente.getDireccion().getUbicacion().getProvincia(),cliente.getDireccion().getUbicacion().getCanton(), cliente.getDireccion().getUbicacion().getParroquia());
+    	Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(cliente.getDireccion().getUbicacion().getProvincia(),cliente.getDireccion().getUbicacion().getCanton(), cliente.getDireccion().getUbicacion().getParroquia());
     	if(ubicacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
     	for(Dependiente dependiente: cliente.getDependientes()) {
     		Optional<Ubicacion> ubicacionAuxiliar= repUbicacion.findByProvinciaAndCantonAndParroquia(dependiente.getDireccion().getUbicacion().getProvincia(),dependiente.getDireccion().getUbicacion().getCanton(), dependiente.getDireccion().getUbicacion().getParroquia());
         	if(ubicacionAuxiliar.isEmpty()) {
-        		throw new EntidadNoExistenteException(Constantes.ubicacion);
+        		throw new EntidadNoExistenteException(Constantes.dependiente);
         	}
         	dependiente.getDireccion().setUbicacion(ubicacionAuxiliar.get());
     	}
+    	cliente.getDireccion().setUbicacion(ubicacion.get());
     	cliente.setCodigo(codigo.get());
     	cliente.setEstado(Constantes.activo);
         return rep.save(cliente);

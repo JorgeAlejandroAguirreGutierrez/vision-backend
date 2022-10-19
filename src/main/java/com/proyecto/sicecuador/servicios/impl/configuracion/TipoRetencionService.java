@@ -77,21 +77,21 @@ public class TipoRetencionService implements ITipoRetencionService {
 
     @Override
     public List<TipoRetencion> consultarIvaBien() {
-        return rep.findByImpuestoAndTipo("IVA", "BIEN");
+        return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.bien);
     }
 
     @Override
     public List<TipoRetencion> consultarIvaServicio() {
-        return rep.findByImpuestoAndTipo("IVA", "SERVICIO");
+        return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.servicio);
     }
 
     @Override
     public List<TipoRetencion> consultarRentaBien() {
-        return rep.findByImpuestoAndTipo("RENTA", "BIEN");
+        return rep.findByImpuestoAndTipo(Constantes.renta, Constantes.bien);
     }
 
     @Override
     public List<TipoRetencion> consultarRentaServicio() {
-        return rep.findByImpuestoAndTipo("RENTA", "SERVICIO");
+        return rep.findByImpuestoAndTipo(Constantes.renta, Constantes.servicio);
     }
 }

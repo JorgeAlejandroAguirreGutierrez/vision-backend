@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tarjeta_debito")
 public class TarjetaDebito extends Entidad {
-    @Column(name = "identificacion", nullable = true)
+	@Column(name = "identificacion", nullable = true)
     private String identificacion;
     @Column(name = "nombre_titular", nullable = true)
     private String nombreTitular;
@@ -36,17 +36,18 @@ public class TarjetaDebito extends Entidad {
         super(id);
     }
 
-    public TarjetaDebito(String codigo, String identificacion, String nombre_titular, String lote, double valor, Banco banco, OperadorTarjeta operador_tarjeta, FranquiciaTarjeta franquicia_tarjeta, Recaudacion recaudacion){
+    public TarjetaDebito(String codigo, String identificacion, String nombreTitular, String lote, double valor, Banco banco, OperadorTarjeta operadorTarjeta, FranquiciaTarjeta franquiciaTarjeta, Recaudacion recaudacion){
         super(codigo);
         this.identificacion=identificacion;
-        this.nombreTitular=nombre_titular;
+        this.nombreTitular=nombreTitular;
         this.lote=lote;
         this.valor=valor;
         this.banco=banco;
-        this.operadorTarjeta=operador_tarjeta;
-        this.franquiciaTarjeta=franquicia_tarjeta;
+        this.operadorTarjeta=operadorTarjeta;
+        this.franquiciaTarjeta=franquiciaTarjeta;
         this.recaudacion= recaudacion;
     }
+    
     public String getIdentificacion() {
         return identificacion;
     }

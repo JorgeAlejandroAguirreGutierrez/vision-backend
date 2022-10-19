@@ -47,6 +47,7 @@ public class TarjetaCredito extends Entidad {
         this.franquiciaTarjeta=franquiciaTarjeta;
         this.recaudacion=recaudacion;
     }
+    
     public boolean isDiferido() {
         return diferido;
     }
@@ -78,6 +79,7 @@ public class TarjetaCredito extends Entidad {
     public FranquiciaTarjeta getFranquiciaTarjeta() {
 		return franquiciaTarjeta;
 	}
+    
     @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;

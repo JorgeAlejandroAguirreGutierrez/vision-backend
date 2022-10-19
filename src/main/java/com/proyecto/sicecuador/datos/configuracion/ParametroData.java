@@ -25,7 +25,7 @@ public class ParametroData implements ApplicationRunner {
         Optional<Parametro> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Parametro> parametros = new ArrayList<>();
-            parametros.add(new Parametro("PAR1", "CREAR", "", "auxiliar", "AUX"));
+            parametros.add(new Parametro("PAR1", "CREAR", "", "dependiente", "DEP"));
             parametros.add(new Parametro("PAR2", "CREAR", "", "calificacion_cliente", "CCL"));
             parametros.add(new Parametro("PAR3", "CREAR", "", "celular", "CEL"));
             parametros.add(new Parametro("PAR4", "CREAR", "", "cliente", "CLI"));
@@ -87,8 +87,8 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR49", "PERIODICIDAD", "QUINCENAL", "", "Q"));
             parametros.add(new Parametro("PAR50", "PERIODICIDAD", "TRIMESTRAL", "", "T"));
             parametros.add(new Parametro("PAR50", "PERIODICIDAD", "ANUAL", "", "A"));
-            parametros.add(new Parametro("PAR51", "MODELO_AMORTIZACION", "ALEMANA", "", "AL"));
-            parametros.add(new Parametro("PAR52", "MODELO_AMORTIZACION", "FRANCESA", "", "FR"));
+            parametros.add(new Parametro("PAR51", "AMORTIZACION", "ALEMANA", "", "AL"));
+            parametros.add(new Parametro("PAR52", "AMORTIZACION", "FRANCESA", "", "FR"));
             parametros.add(new Parametro("PAR53", "FORMA COBRO", "CONTADO", "", "C"));
             parametros.add(new Parametro("PAR54", "FORMA COBRO", "DIFERIDO", "", "D"));
             parametros.add(new Parametro("PAR55", "TIPO COMPROBANTE RETENCION", "FACTURA", "", "FAC"));

@@ -28,43 +28,43 @@ public class RetencionClienteController implements GenericoController<RetencionC
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<RetencionCliente> retenciones_clientes = servicio.consultar();
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, retenciones_clientes);
+        List<RetencionCliente> retencionesClientes = servicio.consultar();
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, retencionesClientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<RetencionCliente> retencionclientes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, retencionclientes);
+    	Page<RetencionCliente> retencionClientes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, retencionClientes);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        RetencionCliente retencion_cliente=servicio.obtener(new RetencionCliente(id)).get();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, retencion_cliente);
+        RetencionCliente retencionCliente=servicio.obtener(new RetencionCliente(id)).get();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, retencionCliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid RetencionCliente _retencionCliente) {
-        RetencionCliente retencion_cliente=servicio.crear(_retencionCliente);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, retencion_cliente);
+        RetencionCliente retencionCliente=servicio.crear(_retencionCliente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, retencionCliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody RetencionCliente _retencionCliente) {
-        RetencionCliente retencion_cliente=servicio.actualizar(_retencionCliente);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, retencion_cliente);
+        RetencionCliente retencionCliente=servicio.actualizar(_retencionCliente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, retencionCliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        RetencionCliente retencion_cliente=servicio.eliminar(new RetencionCliente(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, retencion_cliente);
+        RetencionCliente retencionCliente=servicio.eliminar(new RetencionCliente(id));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, retencionCliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

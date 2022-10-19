@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.cliente.FormaPago;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 
 import javax.persistence.*;
@@ -42,10 +41,26 @@ public class Recaudacion extends Entidad {
     private double totalRetencionesVentas;
     @Column(name = "total_credito", nullable = true)
     private double totalCredito;
-    @Column(name = "plazo", nullable = true)
-    private double plazo;
-    @Column(name = "unidad_tiempo", nullable = true)
-    private String unidadTiempo;
+    
+    @Column(name = "efectivo_codigo_sri", nullable = true)
+    private String efectivoCodigoSri;
+    @Column(name = "cheque_codigo_sri", nullable = true)
+    private String chequeCodigoSri;
+    @Column(name = "deposito_codigo_sri", nullable = true)
+    private String depositoCodigoSri;
+    @Column(name = "transferencia_codigo_sri", nullable = true)
+    private String transferenciaCodigoSri;
+    @Column(name = "tarjeta_credito_codigo_sri", nullable = true)
+    private String tarjetaCreditoCodigoSri;
+    @Column(name = "tarjeta_debito_codigo_sri", nullable = true)
+    private String tarjetaDebitoCodigoSri;
+    @Column(name = "compensacion_codigo_sri", nullable = true)
+    private String compensacionCodigoSri;
+    @Column(name = "retencion_venta_codigo_sri", nullable = true)
+    private String retencionVentaCodigoSri;
+    @Column(name = "credito_codigo_sri", nullable = true)
+    private String creditoCodigoSri;
+    
     @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;
@@ -78,10 +93,6 @@ public class Recaudacion extends Entidad {
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "retencion_venta_id")
     private List<RetencionVenta> retencionesVentas;
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "forma_pago_id", nullable = true)
-    private FormaPago formaPago;
     
     public Recaudacion(){
     }
@@ -93,10 +104,13 @@ public class Recaudacion extends Entidad {
     public Recaudacion(String codigo, Date fecha, double total, String comentario, double efectivo,
                        double totalCheques, double totalDepositos, double totalTransferencias,
                        double totalTarjetasDebitos, double totalTarjetasCreditos, double totalCredito,
-                       double totalCompensaciones, double totalRetencionesVentas, double plazo, String unidadTiempo, List<Cheque> cheques,
-                       List<Deposito>depositos, List<Transferencia> transferencias, List<Compensacion> compensaciones, List<RetencionVenta> retencionesVentas,
+                       double totalCompensaciones, double totalRetencionesVentas,
+                       String efectivoCodigoSri, String chequeCodigoSri, String depositoCodigoSri, String transferenciaCodigoSri,
+                       String tarjetaCreditoCodigoSri, String tarjetaDebitoCodigoSri, String compensacionCodigoSri, String retencionVentaCodigoSri, String creditoCodigoSri,
+                       List<Cheque> cheques, List<Deposito>depositos, List<Transferencia> transferencias, 
+                       List<Compensacion> compensaciones, List<RetencionVenta> retencionesVentas,
                        List<TarjetaCredito> tarjetasCreditos, List<TarjetaDebito> tarjetasDebitos, Credito credito,
-                       Factura factura,FormaPago formaPago, Sesion sesion){
+                       Factura factura, Sesion sesion){
         super(codigo);
         this.fecha=fecha;
         this.total=total;
@@ -110,8 +124,16 @@ public class Recaudacion extends Entidad {
         this.totalCompensaciones=totalCompensaciones;
         this.totalRetencionesVentas=totalRetencionesVentas;
         this.totalCredito=totalCredito;
-        this.plazo=plazo;
-        this.unidadTiempo=unidadTiempo;
+        
+        this.efectivoCodigoSri = efectivoCodigoSri;
+        this.chequeCodigoSri = chequeCodigoSri;
+        this.depositoCodigoSri = depositoCodigoSri;
+        this.transferenciaCodigoSri = transferenciaCodigoSri;
+        this.tarjetaCreditoCodigoSri = tarjetaCreditoCodigoSri;
+        this.tarjetaDebitoCodigoSri = tarjetaDebitoCodigoSri;
+        this.compensacionCodigoSri = compensacionCodigoSri;
+        this.retencionVentaCodigoSri = retencionVentaCodigoSri;
+        this.creditoCodigoSri = creditoCodigoSri;
 
         this.cheques=cheques;
         this.depositos=depositos;
@@ -122,7 +144,6 @@ public class Recaudacion extends Entidad {
         this.retencionesVentas=retencionesVentas;
         this.credito=credito;
         this.factura=factura;
-        this.formaPago=formaPago;
         this.sesion=sesion;
     }
     public Date getFecha() {
@@ -176,11 +197,41 @@ public class Recaudacion extends Entidad {
     public double getTotalCredito() {
 		return totalCredito;
 	}
-    public double getPlazo() {
-		return plazo;
+    
+    public String getEfectivoCodigoSri() {
+		return efectivoCodigoSri;
 	}
-    public String getUnidadTiempo() {
-		return unidadTiempo;
+    
+    public String getChequeCodigoSri() {
+		return chequeCodigoSri;
+	}
+    
+    public String getDepositoCodigoSri() {
+		return depositoCodigoSri;
+	}
+    
+    public String getTransferenciaCodigoSri() {
+		return transferenciaCodigoSri;
+	}
+    
+    public String getTarjetaCreditoCodigoSri() {
+		return tarjetaCreditoCodigoSri;
+	}
+    
+    public String getTarjetaDebitoCodigoSri() {
+		return tarjetaDebitoCodigoSri;
+	}
+    
+    public String getCompensacionCodigoSri() {
+		return compensacionCodigoSri;
+	}
+    
+    public String getRetencionVentaCodigoSri() {
+		return retencionVentaCodigoSri;
+	}
+    
+    public String getCreditoCodigoSri() {
+		return creditoCodigoSri;
 	}
     
     @JsonManagedReference
@@ -219,10 +270,7 @@ public class Recaudacion extends Entidad {
     public Factura getFactura() {
         return factura;
     }
-
-    public FormaPago getFormaPago() {
-        return formaPago;
-    }
+    
     public Sesion getSesion() {
         return sesion;
     }
@@ -244,15 +292,6 @@ public class Recaudacion extends Entidad {
     public void setTotal(double total) {
         this.total = total;
     }
-    
-    public void setPlazo(double plazo) {
-        this.plazo = plazo;
-    }
-
-    public void setUnidadTiempo(String unidadTiempo) {
-        this.unidadTiempo = unidadTiempo;
-    }
-
     
     public void setTotalCheques(double totalCheques) {
 		this.totalCheques = totalCheques;
@@ -286,5 +325,40 @@ public class Recaudacion extends Entidad {
 		this.totalRetencionesVentas = totalRetencionesVentas;
 	}
     
+    public void setEfectivoCodigoSri(String efectivoCodigoSri) {
+		this.efectivoCodigoSri = efectivoCodigoSri;
+	}
+    
+    public void setChequeCodigoSri(String chequeCodigoSri) {
+		this.chequeCodigoSri = chequeCodigoSri;
+	}
+    
+    public void setDepositoCodigoSri(String depositoCodigoSri) {
+		this.depositoCodigoSri = depositoCodigoSri;
+	}
+    
+    public void setTransferenciaCodigoSri(String transferenciaCodigoSri) {
+		this.transferenciaCodigoSri = transferenciaCodigoSri;
+	}
+    
+    public void setTarjetaCreditoCodigoSri(String tarjetaCreditoCodigoSri) {
+		this.tarjetaCreditoCodigoSri = tarjetaCreditoCodigoSri;
+	}
+    
+    public void setTarjetaDebitoCodigoSri(String tarjetaDebitoCodigoSri) {
+		this.tarjetaDebitoCodigoSri = tarjetaDebitoCodigoSri;
+	}
+    
+    public void setCompensacionCodigoSri(String compensacionCodigoSri) {
+		this.compensacionCodigoSri = compensacionCodigoSri;
+	}
+    
+    public void setRetencionVentaCodigoSri(String retencionVentaCodigoSri) {
+		this.retencionVentaCodigoSri = retencionVentaCodigoSri;
+	}
+    
+    public void setCreditoCodigoSri(String creditoCodigoSri) {
+		this.creditoCodigoSri = creditoCodigoSri;
+	}
     
 }

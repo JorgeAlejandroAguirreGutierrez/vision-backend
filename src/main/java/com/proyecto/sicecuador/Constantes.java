@@ -183,7 +183,7 @@ public class Constantes {
     //NOMBRES
     //CLIENTE
     public static final String modelo="MODELO";
-    public static final String auxiliar="AUXILIAR";
+    public static final String dependiente="DEPENDIENTE";
     public static final String calificacion_cliente="CALIFICACION CLIENTE";
     public static final String celular="CELULAR";
     public static final String celular_auxiliar="CELULAR AUXILIAR";
@@ -285,6 +285,23 @@ public class Constantes {
     //CONSTANTE FACTURACION ELECTRONICA
     public static final String ambienteFE="1";
     public static final String tipoEmisionFE="1";
-    public static final String iva="2";
+    public static final String ivaFE="2";
     public static final double cero=0;
+    
+    //TABLA 24 FORMAS DE PAGO
+    public static final String sin_utilizacion_del_sistema_financiero="01";
+    public static final String compensacion_de_deudas="15";
+    public static final String tarjeta_de_debito="16";
+    public static final String dinero_electronico="17";
+    public static final String tarjeta_prepago="18";
+    public static final String tarjeta_de_credito="19";
+    public static final String otros_con_utilizacion_sistema_financiero="20";
+    public static final String endoso_titulos="21";
+    
+    //OTRAS
+    public static final String iva= "IVA";
+    public static final String renta= "RENTA";
+    public static final String bien= "BIEN";
+    public static final String servicio = "SERVICIO";
+    
 }

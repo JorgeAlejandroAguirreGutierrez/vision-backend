@@ -3,13 +3,13 @@ package com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factu
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "factura")
-public class FacturaE {
+public class FacturaElectronica {
 	//DATOS DEL SRI CAMPOS EXACTAMENTE COMO LOS TIENE
 	private InfoTributaria infoTributaria;
 	private InfoFactura infoFactura;
 	private Detalles detalles;
 	
-	public FacturaE() {
+	public FacturaElectronica() {
 		
 	}
 	

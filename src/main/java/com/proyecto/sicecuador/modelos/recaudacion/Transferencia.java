@@ -58,6 +58,7 @@ public class Transferencia extends Entidad {
     public Banco getBanco() {
         return banco;
     }
+    
     @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;

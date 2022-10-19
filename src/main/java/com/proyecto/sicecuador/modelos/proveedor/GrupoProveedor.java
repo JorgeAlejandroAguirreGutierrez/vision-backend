@@ -21,6 +21,9 @@ public class GrupoProveedor extends Entidad {
 	@Column(name = "estado")
 	private String estado;
 	
+	public GrupoProveedor() {
+	}
+	
 	public GrupoProveedor(long id) {
 		super(id);
 	}

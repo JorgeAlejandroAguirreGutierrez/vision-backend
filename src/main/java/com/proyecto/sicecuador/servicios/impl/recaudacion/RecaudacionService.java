@@ -55,6 +55,14 @@ public class RecaudacionService implements IRecaudacionService {
         } else {
         	recaudacion.setCredito(null);
         }
+        recaudacion.setEfectivoCodigoSri(Constantes.sin_utilizacion_del_sistema_financiero);
+        recaudacion.setChequeCodigoSri(Constantes.endoso_titulos);
+        recaudacion.setDepositoCodigoSri(Constantes.dinero_electronico);
+        recaudacion.setTransferenciaCodigoSri(Constantes.dinero_electronico);
+        recaudacion.setTarjetaCreditoCodigoSri(Constantes.tarjeta_de_credito);
+        recaudacion.setTarjetaDebitoCodigoSri(Constantes.tarjeta_de_debito);
+        recaudacion.setCompensacionCodigoSri(Constantes.compensacion_de_deudas);
+        recaudacion.setRetencionVentaCodigoSri(Constantes.otros_con_utilizacion_sistema_financiero);
     	return rep.save(recaudacion);
     }
 

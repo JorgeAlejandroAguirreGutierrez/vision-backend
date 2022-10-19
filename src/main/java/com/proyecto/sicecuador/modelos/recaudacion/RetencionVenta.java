@@ -8,6 +8,8 @@ import java.util.Date;
 @Entity
 @Table(name = "retencion_venta")
 public class RetencionVenta extends Entidad {
+	@Column(name = "codigo_sri", nullable = true)
+    private String codigoSri;
     @Column(name = "numero", nullable = true)
     private String numero;
     @Column(name = "fecha", nullable = true)
@@ -36,8 +38,9 @@ public class RetencionVenta extends Entidad {
         super(id);
     }
 
-    public RetencionVenta(String codigo,String numero, Date fecha, String agente, String autorizacion, boolean compensado, double baseImponible, double valor, TipoRetencion tipoRetencion, Recaudacion recaudacion ){
+    public RetencionVenta(String codigo, String codigoSri, String numero, Date fecha, String agente, String autorizacion, boolean compensado, double baseImponible, double valor, TipoRetencion tipoRetencion, Recaudacion recaudacion ){
         super(codigo);
+        this.codigoSri=codigoSri;
         this.numero=numero;
         this.fecha=fecha;
         this.agente=agente;
@@ -48,6 +51,10 @@ public class RetencionVenta extends Entidad {
         this.tipoRetencion=tipoRetencion;
         this.recaudacion=recaudacion;
     }
+    
+    public String getCodigoSri() {
+		return codigoSri;
+	}
 
     public String getNumero() {
         return numero;
@@ -84,4 +91,8 @@ public class RetencionVenta extends Entidad {
     public Recaudacion getRecaudacion() {
         return recaudacion;
     }
+    
+    public void setCodigoSri(String codigoSri) {
+		this.codigoSri = codigoSri;
+	}
 }

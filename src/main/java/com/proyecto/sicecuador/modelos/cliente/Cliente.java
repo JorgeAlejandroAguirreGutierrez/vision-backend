@@ -268,14 +268,12 @@ public class Cliente extends Entidad {
     
     
     public void normalizar(){
-        if (this.direccion.getUbicacion().getId()==0) this.direccion.setUbicacion(null);
         if (this.financiamiento.getFormaPago().getId()==0) this.financiamiento.setFormaPago(null);
-        if (this.financiamiento.getPlazoCredito() != null && this.financiamiento.getPlazoCredito().getId()==0) this.financiamiento.setPlazoCredito(null);
+        if (this.financiamiento.getPlazoCredito().getId()==0) this.financiamiento.setPlazoCredito(null);
         if (this.calificacionCliente.getId()==0) this.calificacionCliente=null;
         if (this.genero.getId()==0) this.genero=null;
         if (this.estadoCivil.getId()==0) this.estadoCivil=null;
         if (this.origenIngreso.getId()==0) this.origenIngreso=null;
-      //  if (this.segmento.getId()==0) this.segmento=null;
         
         for (int i=0; i<retencionesCliente.size(); i++){
             if (retencionesCliente.get(i).getTipoRetencion().getId()==0){

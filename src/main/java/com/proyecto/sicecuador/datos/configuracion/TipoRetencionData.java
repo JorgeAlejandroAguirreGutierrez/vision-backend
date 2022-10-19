@@ -43,6 +43,8 @@ public class TipoRetencionData implements ApplicationRunner {
             tipos_retenciones.add(new TipoRetencion("RETENCION_IR8", "RENTA", "BIEN", "308", null, "Utilización o aprovechamiento de la imagen o renombre", 10));
             tipos_retenciones.add(new TipoRetencion("RETENCION_IR9", "RENTA", "BIEN", "309", null, "Servicios prestados por medios de comunicación y agencias de publicidada", 1.75));
             tipos_retenciones.add(new TipoRetencion("RETENCION_IR10", "RENTA", "BIEN", "310", null, "Servicio de transporte privado de pasajeros o transporte público o privado de carga", 1));
+            
+            tipos_retenciones.add(new TipoRetencion("RETENCION_IR11", "RENTA", "SERVICIO", "0", null, "Renta servicio prueba", 10));
             rep.saveAll(tipos_retenciones);
         }
     }

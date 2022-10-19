@@ -20,7 +20,7 @@ public interface IUbicacionRepository extends JpaRepository<Ubicacion, Long>, Jp
     @Query(value = "SELECT * FROM ubicacion u WHERE u.canton = :canton", nativeQuery = true)
     List<Ubicacion> findParroquias(@Param("canton") String canton);
 
-    @Query(value = "SELECT * FROM ubicacion u WHERE u.provincia = :provincia and u.canton = :canton and u.parroquia = :parroquia", nativeQuery = true)
+    @Query(value = "SELECT u FROM Ubicacion u WHERE u.provincia = :provincia and u.canton = :canton and u.parroquia = :parroquia")
     Optional<Ubicacion> findByProvinciaAndCantonAndParroquia(
             @Param("provincia") String provincia,
             @Param("canton") String canton,

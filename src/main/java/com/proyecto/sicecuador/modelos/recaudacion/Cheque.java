@@ -73,5 +73,4 @@ public class Cheque extends Entidad {
         return recaudacion;
     }
 
-
 }
