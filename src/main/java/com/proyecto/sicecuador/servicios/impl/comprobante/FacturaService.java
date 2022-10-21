@@ -14,7 +14,9 @@ import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.ClaveAccesoNoExistenteException;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.CodigoNumericoNoExistenteException;
 import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
@@ -32,6 +34,8 @@ import javax.transaction.Transactional;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -59,14 +63,60 @@ public class FacturaService implements IFacturaService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
+    	factura.setCodigo(codigo.get());
     	Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_factura);
     	if (secuencia.isEmpty()) {
     		throw new SecuenciaNoExistenteException();
     	}
-    	factura.setCodigo(codigo.get());
     	factura.setSecuencia(secuencia.get());
+    	Optional<String> codigoNumerico = Util.generarCodigoNumerico(Constantes.tabla_factura);
+    	if (codigoNumerico.isEmpty()) {
+    		throw new CodigoNumericoNoExistenteException();
+    	}
+    	factura.setCodigoNumerico(codigoNumerico.get());
+    	Optional<String> claveAcceso= crearClaveAcceso(factura);
+    	if (claveAcceso.isEmpty()) {
+    		throw new ClaveAccesoNoExistenteException();
+    	}
+    	factura.setClaveAcceso(claveAcceso.get());
     	factura.setEstado(Constantes.noemitida);
         return rep.save(factura);
+    }
+    
+    private Optional<String> crearClaveAcceso(Factura factura) {
+    	DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");  
+    	String fechaEmision = dateFormat.format(factura.getFecha());
+    	String tipoComprobante=Constantes.factura_sri;
+    	String numeroRuc=factura.getSesion().getUsuario().getEmpresa().getIdentificacion();
+    	String tipoAmbiente=Constantes.pruebas_sri;
+    	String serie=factura.getSesion().getUsuario().getPuntoVenta().getEstablecimiento().getCodigoSri() + factura.getSesion().getUsuario().getPuntoVenta().getCodigoSri();
+    	String numeroComprobante=factura.getSecuencia();
+    	String codigoNumerico=factura.getCodigoNumerico();
+    	String tipoEmision=Constantes.emision_normal_sri;
+    	String cadenaVerificacion=fechaEmision+tipoComprobante+numeroRuc+tipoAmbiente+serie+numeroComprobante+codigoNumerico+tipoEmision;
+    	int[] arreglo=new int[cadenaVerificacion.length()];
+    	for(int i=0; i<cadenaVerificacion.length(); i++) {
+    		arreglo[i]= Integer.parseInt(cadenaVerificacion.charAt(i)+Constantes.vacio);
+    	}
+    	int factor=Constantes.dos;
+    	int suma=0;
+    	for(int i=0; i<arreglo.length; i++) {
+    		suma=suma+arreglo[i]*factor;
+    		if(factor==Constantes.siete) {
+    			factor=Constantes.dos;
+    		} else {
+    			factor++;
+    		}
+    	}
+    	int digitoVerificador = Constantes.once - (suma % Constantes.once);
+    	if(digitoVerificador == Constantes.diez) {
+    		digitoVerificador = 1;
+    	}
+    	if(digitoVerificador == Constantes.once) {
+    		digitoVerificador = 0;
+    	}
+    	String claveAcceso=cadenaVerificacion+digitoVerificador;
+    	return Optional.of(claveAcceso);
     }
 
     @Override

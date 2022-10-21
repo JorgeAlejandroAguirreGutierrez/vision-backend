@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalles;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaElectronica;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaElectronicaRespuesta;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoFactura;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoTributaria;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Pago;
@@ -21,13 +22,16 @@ import com.proyecto.sicecuador.modelos.recaudacion.TarjetaCredito;
 import com.proyecto.sicecuador.modelos.recaudacion.TarjetaDebito;
 import com.proyecto.sicecuador.modelos.recaudacion.Transferencia;
 import com.proyecto.sicecuador.repositorios.recaudacion.IRecaudacionRepository;
+import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaElectronicaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import java.io.*;
 import java.net.URI;
@@ -35,44 +39,82 @@ import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.security.KeyStore;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import xades4j.algorithms.EnvelopedSignatureTransform;
+import xades4j.production.DataObjectReference;
+import xades4j.production.SignedDataObjects;
+import xades4j.production.XadesBesSigningProfile;
+import xades4j.production.XadesSigner;
+import xades4j.production.XadesTSigningProfile;
+import xades4j.properties.DataObjectDesc;
+import xades4j.providers.CertificateValidationProvider;
+import xades4j.providers.KeyingDataProvider;
+import xades4j.providers.impl.DefaultMessageDigestProvider;
+import xades4j.providers.impl.FileSystemKeyStoreKeyingDataProvider;
+import xades4j.providers.impl.PKIXCertificateValidationProvider;
+import xades4j.utils.DOMHelper;
+import xades4j.utils.FileSystemDirectoryCertStore;
+import xades4j.verification.XadesVerificationProfile;
+
 
 @Service
-public class FacturaElectronicaService {
+public class FacturaElectronicaService implements IFacturaElectronicaService{
     @Autowired
     private IRecaudacionRepository rep;
+    
+    private static final String CERT        = "mario_ruben_delgado_daquilema.p12";
+    private static final String PASS        = "mPrimero1992"; 
+    private static final String DOCUMENT        = "DOCUMENT"; 
 
     
-    public FacturaElectronica crear(long facturaId) {
-    	Optional<Recaudacion> recaudacion= rep.obtenerPorFactura(facturaId);
+    public Optional<FacturaElectronicaRespuesta> crear(Factura _factura) {
+    	Optional<Recaudacion> recaudacion= rep.obtenerPorFactura(_factura.getId());
     	if(recaudacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.recaudacion);
     	}
     	Factura factura = recaudacion.get().getFactura();
     	//MAPEO A FACTURA ELECTRONICA
-    	FacturaElectronica facturaE=new FacturaElectronica();
+    	FacturaElectronica facturaElectronica=new FacturaElectronica();
     	InfoTributaria infoTributaria = new InfoTributaria();
     	InfoFactura infoFactura = new InfoFactura();	 	
     	  	
-    	infoTributaria.setAmbiente(Constantes.ambienteFE);
-    	infoTributaria.setTipoEmision(Constantes.tipoEmisionFE);
+    	infoTributaria.setAmbiente(Constantes.pruebas_sri);
+    	infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
     	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEmpresa().getRazonSocial());
     	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEmpresa().getNombreComercial());
     	infoTributaria.setRuc(factura.getSesion().getUsuario().getEmpresa().getIdentificacion());
-    	infoTributaria.setClaveAcceso(factura.getClaveAccesoSri());
+    	infoTributaria.setClaveAcceso(factura.getClaveAcceso());
     	infoTributaria.setCodDoc(factura.getSesion().getUsuario().getEmpresa().getTipoIdentificacion().getCodigoSri());
-    	infoTributaria.setEstab(factura.getSesion().getPuntoVenta().getEstablecimiento().getCodigoSri());
-    	infoTributaria.setPtoEmi(factura.getSesion().getPuntoVenta().getCodigoSri());
+    	infoTributaria.setEstab(factura.getSesion().getUsuario().getPuntoVenta().getEstablecimiento().getCodigoSri());
+    	infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getPuntoVenta().getCodigoSri());
     	infoTributaria.setSecuencial(factura.getSecuencia());
     	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEmpresa().getDireccion().getDireccion());
     	
-    	infoFactura.setFechaEmision(factura.getFecha());
-    	infoFactura.setObligadoContabilidad(factura.getCliente().getTipoContribuyente().isObligadoContabilidad()? "SI":"NO");
+    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
+    	String fechaEmision = dateFormat.format(factura.getFecha());
+    	infoFactura.setFechaEmision(fechaEmision);
+    	infoFactura.setObligadoContabilidad(factura.getCliente().getTipoContribuyente().isObligadoContabilidad()? Constantes.si : Constantes.no);
     	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSri());
     	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
     	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
@@ -87,11 +129,12 @@ public class FacturaElectronicaService {
     	
     	Detalles detalles=crearDetalles(factura);
     	
-    	facturaE.setInfoTributaria(infoTributaria);
-    	facturaE.setInfoFactura(infoFactura);
-    	facturaE.setDetalles(detalles);
+    	facturaElectronica.setInfoTributaria(infoTributaria);
+    	facturaElectronica.setInfoFactura(infoFactura);
+    	facturaElectronica.setDetalles(detalles);
    	
-    	return facturaE;
+    	FacturaElectronicaRespuesta facturaElectronicaRespuesta= enviar(facturaElectronica);
+    	return Optional.of(facturaElectronicaRespuesta);
     }
 
     private TotalConImpuestos crearTotalConImpuestos(Factura factura){
@@ -99,7 +142,7 @@ public class FacturaElectronicaService {
     	List<TotalImpuesto> totalImpuestos = new ArrayList<>();
     	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
         	TotalImpuesto totalImpuesto = new TotalImpuesto();
-    		totalImpuesto.setCodigo(Constantes.iva);
+    		totalImpuesto.setCodigo(Constantes.iva_sri);
         	totalImpuesto.setCodigoPorcentaje(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoImpuestoSri());
         	totalImpuesto.setDescuentoAdicional(factura.getFacturaDetalles().get(i).getTotalDescuentoLinea());
         	totalImpuesto.setBaseImponible(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
@@ -197,18 +240,17 @@ public class FacturaElectronicaService {
     	detalles.setDetalle(detalleLista);
     	return detalles;
     }
-
     
-    public void enviar(FacturaElectronica facturaE) {
+    public FacturaElectronicaRespuesta enviar(FacturaElectronica facturaElectronica) {
     	try {
             JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);            
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
             jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
-            jaxbMarshaller.marshal(facturaE, System.out);
+            jaxbMarshaller.marshal(facturaElectronica, System.out);
             StringWriter sw = new StringWriter();
-            jaxbMarshaller.marshal(facturaE, sw);
+            jaxbMarshaller.marshal(facturaElectronica, sw);
             String body=sw.toString();
             HttpClient httpClient = HttpClient.newBuilder()
                     .version(HttpClient.Version.HTTP_1_1)
@@ -227,6 +269,7 @@ public class FacturaElectronicaService {
             System.out.println(response.statusCode());
             // print response body
             System.out.println(response.body());
+            return new FacturaElectronicaRespuesta();
         } catch (JAXBException ex) {
             System.err.println(ex.getMessage());                        
         } catch (IOException ex) {
@@ -236,5 +279,6 @@ public class FacturaElectronicaService {
 			// TODO Auto-generated catch block
 			System.err.println(ex.getMessage());   
 		}
+    	throw new EntidadNoExistenteException(Constantes.factura_electronica);
     }
 }

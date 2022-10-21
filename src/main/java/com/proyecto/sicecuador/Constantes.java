@@ -52,8 +52,10 @@ public class Constantes {
     public static final String periodo_mensual="MENSUAL";
     public static final String periodo_trimestral="TRIMESTRAL";
     
-    public static String vacio="";
-    public static String espacio=" ";
+    public static final String vacio="";
+    public static final String espacio=" ";
+    public static final String si = "SI";
+    public static final String no = "NO";
     
     public static String error_registro_existente="REGISTRO EXISTENTE";
     public static String error_registro_no_existente="REGISTRO NO EXISTENTE";
@@ -212,6 +214,7 @@ public class Constantes {
     public static final String factura_detalle="DETALLE FACTURA";
     public static final String egreso="EGRESO";
     public static final String factura="FACTURA";
+    public static final String factura_electronica="FACTURA ELECTRONICA";
     public static final String pedido="PEDIDO";
     public static final String proforma="PROFORMA";
     public static final String tipo_comprobante="TIPO COMPROBANTE";
@@ -282,13 +285,29 @@ public class Constantes {
     public static final int size=20;
     public static final String order="id";
     
-    //CONSTANTE FACTURACION ELECTRONICA
-    public static final String ambienteFE="1";
-    public static final String tipoEmisionFE="1";
-    public static final String ivaFE="2";
+    //CONSTANTES FACTURACION ELECTRONICA
+    
+    public static final String serie_sri="001001";
     public static final double cero=0;
     
-    //TABLA 24 FORMAS DE PAGO
+    //TABLA 2
+    public static final String emision_normal_sri="1";
+    //TABLA 3
+    public static final String factura_sri="01";
+    public static final String liquidacion_de_compra_bienes_y_prestacion_de_servicios_sri="03";
+    public static final String nota_de_credito_sri="04";
+    public static final String nota_de_debito_sri="05";
+    public static final String guia_de_remision_sri="06";
+    public static final String comprobante_de_retencion_sri="07";
+    //TABLA 4
+    public static final String pruebas_sri="1";
+    public static final String produccion_sri="2";
+    
+    //TABLA 16
+    public static final String iva_sri="2";
+    public static final String ice_sri="3";
+    public static final String irbpnr_sri= "5";
+    //TABLA 24
     public static final String sin_utilizacion_del_sistema_financiero="01";
     public static final String compensacion_de_deudas="15";
     public static final String tarjeta_de_debito="16";
@@ -303,5 +322,18 @@ public class Constantes {
     public static final String renta= "RENTA";
     public static final String bien= "BIEN";
     public static final String servicio = "SERVICIO";
+    
+    //NUMEROS
+    public static final int uno = 1;
+    public static final int dos = 2;
+    public static final int tres = 3;
+    public static final int cuatro = 4;
+    public static final int cinco = 5;
+    public static final int seis = 6;
+    public static final int siete = 7;
+    public static final int ocho = 8;
+    public static final int nueve = 9;
+    public static final int diez = 10;
+    public static final int once= 11;
     
 }

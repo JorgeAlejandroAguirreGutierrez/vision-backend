@@ -140,7 +140,7 @@ public class Util {
     		Optional<Parametro> parametro = parametroRep.findByTablaAndTipo(tabla, Constantes.tipo);
         	Optional<String> conteo= conteo(tabla);
         	if (parametro.isPresent() && conteo.isPresent()) {
-            	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get()));
+            	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);
                 Date fecha = new Date();
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(fecha);
@@ -162,7 +162,20 @@ public class Util {
     	try {
         	Optional<String> conteo= conteo(tabla);
         	if (conteo.isPresent()) {
-            	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get()));
+            	String rellenoConteo = String.format("%09d" , Long.parseLong(conteo.get())+1);
+                return Optional.of(rellenoConteo);
+            }
+        	return Optional.ofNullable(null);
+    	}catch(Exception e) {
+    		return Optional.ofNullable(null);
+    	}
+    }
+    
+    public static Optional<String> generarCodigoNumerico(String tabla){
+    	try {
+        	Optional<String> conteo= conteo(tabla);
+        	if (conteo.isPresent()) {
+            	String rellenoConteo = String.format("%08d" , Long.parseLong(conteo.get())+1);
                 return Optional.of(rellenoConteo);
             }
         	return Optional.ofNullable(null);

@@ -17,12 +17,14 @@ import java.util.List;
 public class Factura extends Entidad {
 	@Column(name = "secuencia", nullable = true)
 	private String secuencia;
+	@Column(name = "codigo_numerico", nullable = true)
+	private String codigoNumerico;
 	@Column(name = "fecha", nullable = true)
 	private Date fecha;
 	@Column(name = "estado", nullable = true)
 	private String estado;
-	@Column(name = "clave_acceso_sri")
-	private String claveAccesoSri;
+	@Column(name = "clave_acceso")
+	private String claveAcceso;
 	@Column(name = "moneda")
 	private String moneda;	
 	@Column(name = "subtotal_sin_descuento", nullable = true)
@@ -65,12 +67,6 @@ public class Factura extends Entidad {
 	@Column(name = "comentario", nullable = true)
 	private String comentario;
 	
-	@Column(name = "claveAutorizacionSri", nullable = true)
-	private String claveAutorizacionSri;
-	
-	@Column(name = "estadoSri", nullable = true)
-	private String estadoSri;
-	
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
@@ -112,7 +108,7 @@ public class Factura extends Entidad {
 		this.secuencia = secuencia;
 	}
 
-	public Factura(String codigo, String secuencia, Date fecha, String estado, String claveAccesoSri, String moneda, double subtotal,
+	public Factura(String codigo, String secuencia, Date fecha, String estado, String claveAcceso, String moneda, double subtotal,
 			double valorDescuentoSubtotal, double porcentajeDescuentoSubtotal, double valorPorcentajeDescuentoSubtotal,
 			double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal,
 			double descuento, double base12, double base0, double importeIva, double total, String comentario, String claveAutorizacionSri,
@@ -122,11 +118,9 @@ public class Factura extends Entidad {
 		this.secuencia = secuencia;
 		this.fecha = fecha;
 		this.estado = estado;
-		this.claveAccesoSri = claveAccesoSri;
+		this.claveAcceso = claveAcceso;
 		this.moneda = moneda;
 		this.comentario = comentario;
-		this.claveAutorizacionSri = claveAutorizacionSri;
-		this.estadoSri = estadoSri;
 		this.cliente = cliente;
 		this.clienteFactura = clienteFactura;
 		this.auxiliar = auxiliar;
@@ -138,6 +132,10 @@ public class Factura extends Entidad {
 	public String getSecuencia() {
 		return secuencia;
 	}
+	
+	public String getCodigoNumerico() {
+		return codigoNumerico;
+	}
 
 	public Date getFecha() {
 		return fecha;
@@ -147,8 +145,8 @@ public class Factura extends Entidad {
 		return estado;
 	}
 
-	public String getClaveAccesoSri() {
-		return claveAccesoSri;
+	public String getClaveAcceso() {
+		return claveAcceso;
 	}
 
 	public String getMoneda() {
@@ -242,21 +240,17 @@ public class Factura extends Entidad {
 	public Usuario getVendedor() {
 		return vendedor;
 	}
-	
-	public String getClaveAutorizacionSri() {
-		return claveAutorizacionSri;
-	}
 
 	public double getIva0() {
 		return iva0;
 	}
-
-	public String getEstadoSri() {
-		return estadoSri;
-	}
 	
 	public TipoComprobante getTipoComprobante() {
 		return tipoComprobante;
+	}
+	
+	public void setCodigoNumerico(String codigoNumerico) {
+		this.codigoNumerico = codigoNumerico;
 	}
 
 	public void setEstado(String estado) {
@@ -328,16 +322,10 @@ public class Factura extends Entidad {
 		this.totalSinDescuento = totalSinDescuento;
 	}
 
-	public void setClaveAutorizacionSri(String claveAutorizacionSri) {
-		this.claveAutorizacionSri = claveAutorizacionSri;
+	public void setClaveAcceso(String claveAcceso) {
+		this.claveAcceso = claveAcceso;
 	}
-
-
-	public void setEstadoSri(String estadoSri) {
-		this.estadoSri = estadoSri;
-	}
-
-
+	
 	public void setSecuencia(String secuencia) {
 		this.secuencia = secuencia;
 	}
@@ -350,7 +338,6 @@ public class Factura extends Entidad {
 		this.cliente = cliente;
 	}
 	
-
 	@JsonManagedReference(value = "factura-detalle-factura")
 	public List<FacturaDetalle> getFacturaDetalles() {
 		return facturaDetalles;

@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "infoFactura")
 public class InfoFactura {
-	private Date fechaEmision;
+	private String fechaEmision;
 	private String obligadoContabilidad;
 	private String tipoIdentificacionComprador;
 	private String razonSocialComprador;
@@ -26,7 +26,7 @@ public class InfoFactura {
 		
 	}
 
-	public Date getFechaEmision() {
+	public String getFechaEmision() {
 		return fechaEmision;
 	}
 
@@ -78,10 +78,10 @@ public class InfoFactura {
 		return pagos;
 	}
 
-	public void setFechaEmision(Date fechaEmision) {
+	public void setFechaEmision(String fechaEmision) {
 		this.fechaEmision = fechaEmision;
 	}
-
+	
 	public void setObligadoContabilidad(String obligadoContabilidad) {
 		this.obligadoContabilidad = obligadoContabilidad;
 	}

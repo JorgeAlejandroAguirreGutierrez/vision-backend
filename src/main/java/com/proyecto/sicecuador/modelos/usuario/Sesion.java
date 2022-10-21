@@ -20,9 +20,6 @@ public class Sesion extends Entidad {
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = true)
     private Usuario usuario;
-    @ManyToOne
-    @JoinColumn(name = "punto_venta_id", nullable = true)
-    private PuntoVenta puntoVenta;
     
     public Sesion(){
 
@@ -69,11 +66,6 @@ public class Sesion extends Entidad {
     public Usuario getUsuario() {
         return usuario;
     }
-    
-    
-    public PuntoVenta getPuntoVenta() {
-		return puntoVenta;
-	}
 
 	public boolean isActiva() {
         return activa;
