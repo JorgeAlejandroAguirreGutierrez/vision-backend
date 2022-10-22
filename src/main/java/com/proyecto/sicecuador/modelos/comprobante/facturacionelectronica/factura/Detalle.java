@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "detalle")
+@XmlType(propOrder={"codigoPrincipal", "descripcion", "cantidad", "precioUnitario", "descuento", "precioTotalSinImpuesto", "impuestos"})
 public class Detalle {
 
 	private String codigoPrincipal;
@@ -11,6 +13,7 @@ public class Detalle {
 	private double precioUnitario;
 	private double descuento;
 	private double precioTotalSinImpuesto;
+	private Impuestos impuestos;
 	
 	public Detalle() {
 		
@@ -39,6 +42,10 @@ public class Detalle {
 	public double getPrecioTotalSinImpuesto() {
 		return precioTotalSinImpuesto;
 	}
+	
+	public Impuestos getImpuestos() {
+		return impuestos;
+	}
 
 	public void setCodigoPrincipal(String codigoPrincipal) {
 		this.codigoPrincipal = codigoPrincipal;
@@ -62,6 +69,10 @@ public class Detalle {
 
 	public void setPrecioTotalSinImpuesto(double precioTotalSinImpuesto) {
 		this.precioTotalSinImpuesto = precioTotalSinImpuesto;
+	}
+	
+	public void setImpuestos(Impuestos impuestos) {
+		this.impuestos = impuestos;
 	}
 
 

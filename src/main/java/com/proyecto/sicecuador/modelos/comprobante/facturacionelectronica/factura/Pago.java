@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "pago")
+@XmlType(propOrder={"formaPago", "total", "plazo", "unidadTiempo"})
 public class Pago {
 
 	private String formaPago;

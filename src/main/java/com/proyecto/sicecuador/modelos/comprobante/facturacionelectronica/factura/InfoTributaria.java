@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "infoTributaria")
+@XmlType(propOrder={"ambiente", "tipoEmision", "razonSocial", "nombreComercial", "ruc", "claveAcceso", "codDoc", "estab", "ptoEmi", "secuencial", "dirMatriz"})
 public class InfoTributaria {
 	private String ambiente;
 	private String tipoEmision;

@@ -1,10 +1,10 @@
 package com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura;
 
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "infoFactura")
+@XmlType(propOrder={"fechaEmision", "obligadoContabilidad", "tipoIdentificacionComprador", "razonSocialComprador", "identificacionComprador", "direccionComprador", "totalSinImpuestos", "totalDescuento", "totalConImpuestos", "propina", "importeTotal", "moneda", "pagos"})
 public class InfoFactura {
 	private String fechaEmision;
 	private String obligadoContabilidad;
@@ -18,8 +18,6 @@ public class InfoFactura {
 	private double propina;
 	private double importeTotal;
 	private String moneda;
-	
-	
 	private Pagos pagos;
 	
 	public InfoFactura() {

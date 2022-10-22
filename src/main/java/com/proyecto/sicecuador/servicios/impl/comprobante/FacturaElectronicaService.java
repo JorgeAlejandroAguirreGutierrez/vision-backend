@@ -3,10 +3,13 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalles;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaElectronica;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaElectronicaRespuesta;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Impuesto;
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Impuestos;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoFactura;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoTributaria;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Pago;
@@ -24,14 +27,15 @@ import com.proyecto.sicecuador.modelos.recaudacion.Transferencia;
 import com.proyecto.sicecuador.repositorios.recaudacion.IRecaudacionRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaElectronicaService;
 
+import ayungan.com.signature.ConvertFile;
+import ayungan.com.signature.SignatureXAdESBES;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import java.io.*;
 import java.net.URI;
@@ -42,40 +46,12 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.net.http.HttpResponse;
+import java.security.cert.CertificateException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.security.KeyStore;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import xades4j.algorithms.EnvelopedSignatureTransform;
-import xades4j.production.DataObjectReference;
-import xades4j.production.SignedDataObjects;
-import xades4j.production.XadesBesSigningProfile;
-import xades4j.production.XadesSigner;
-import xades4j.production.XadesTSigningProfile;
-import xades4j.properties.DataObjectDesc;
-import xades4j.providers.CertificateValidationProvider;
-import xades4j.providers.KeyingDataProvider;
-import xades4j.providers.impl.DefaultMessageDigestProvider;
-import xades4j.providers.impl.FileSystemKeyStoreKeyingDataProvider;
-import xades4j.providers.impl.PKIXCertificateValidationProvider;
-import xades4j.utils.DOMHelper;
-import xades4j.utils.FileSystemDirectoryCertStore;
-import xades4j.verification.XadesVerificationProfile;
 
 
 @Service
@@ -83,9 +59,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     @Autowired
     private IRecaudacionRepository rep;
     
-    private static final String CERT        = "mario_ruben_delgado_daquilema.p12";
-    private static final String PASS        = "mPrimero1992"; 
-    private static final String DOCUMENT        = "DOCUMENT"; 
+    private static final String CERT        = "C:\\Users\\joaaguir\\OneDrive - Grupo Bancolombia\\Documentos\\Desarrollo\\sic-ecuador-backend\\mario_ruben_delgado_daquilema.p12";
+    private static final String PASS        = "mPrimero1981";
 
     
     public Optional<FacturaElectronicaRespuesta> crear(Factura _factura) {
@@ -105,7 +80,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEmpresa().getNombreComercial());
     	infoTributaria.setRuc(factura.getSesion().getUsuario().getEmpresa().getIdentificacion());
     	infoTributaria.setClaveAcceso(factura.getClaveAcceso());
-    	infoTributaria.setCodDoc(factura.getSesion().getUsuario().getEmpresa().getTipoIdentificacion().getCodigoSri());
+    	infoTributaria.setCodDoc(Constantes.factura_sri);
     	infoTributaria.setEstab(factura.getSesion().getUsuario().getPuntoVenta().getEstablecimiento().getCodigoSri());
     	infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getPuntoVenta().getCodigoSri());
     	infoTributaria.setSecuencial(factura.getSecuencia());
@@ -114,7 +89,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
     	String fechaEmision = dateFormat.format(factura.getFecha());
     	infoFactura.setFechaEmision(fechaEmision);
-    	infoFactura.setObligadoContabilidad(factura.getCliente().getTipoContribuyente().isObligadoContabilidad()? Constantes.si : Constantes.no);
+    	infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEmpresa().isObligadoContabilidad()? Constantes.si : Constantes.no);
     	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSri());
     	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
     	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
@@ -235,23 +210,42 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     		detalle.setPrecioUnitario(factura.getFacturaDetalles().get(i).getPrecio().getPrecioVentaPublico());
     		detalle.setDescuento(factura.getFacturaDetalles().get(i).getTotalDescuentoLinea());
     		detalle.setPrecioTotalSinImpuesto(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
+    		detalle.setImpuestos(crearImpuestos(factura.getFacturaDetalles().get(i)));
     		detalleLista.add(detalle);
     	}
     	detalles.setDetalle(detalleLista);
     	return detalles;
     }
     
+    private Impuestos crearImpuestos(FacturaDetalle facturaDetalle) {
+    	Impuestos impuestos=new Impuestos();
+    	List<Impuesto> impuestoLista = new ArrayList<>();
+    	Impuesto impuesto=new Impuesto();
+    	impuesto.setCodigo(Constantes.iva_sri);
+    	impuesto.setCodigoPorcentaje(facturaDetalle.getImpuesto().getCodigoImpuestoSri());
+    	impuesto.setTarifa(facturaDetalle.getImpuesto().getPorcentaje());
+    	impuesto.setBaseImponible(facturaDetalle.getSubtotalConDescuentoLinea());
+    	impuesto.setValor(facturaDetalle.getIvaConDescuentoLinea());
+    	impuestoLista.add(impuesto);
+    	impuestos.setImpuesto(impuestoLista);
+    	return impuestos;
+    }
+    
     public FacturaElectronicaRespuesta enviar(FacturaElectronica facturaElectronica) {
     	try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);            
+    		JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);            
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
+            //jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.w3.org/2001/XMLSchema-instance");
             jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
             jaxbMarshaller.marshal(facturaElectronica, System.out);
             StringWriter sw = new StringWriter();
             jaxbMarshaller.marshal(facturaElectronica, sw);
-            String body=sw.toString();
+            String xml=sw.toString();
+			byte[] cert = ConvertFile.readBytesFromFile(CERT);
+            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, PASS);
+            String body=Base64.getEncoder().encodeToString(firmado);
+            System.out.println(body);
             HttpClient httpClient = HttpClient.newBuilder()
                     .version(HttpClient.Version.HTTP_1_1)
                     .connectTimeout(Duration.ofSeconds(10))
@@ -277,7 +271,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
         	System.err.println(ex.getMessage());   
 		} catch (InterruptedException ex) {
 			// TODO Auto-generated catch block
-			System.err.println(ex.getMessage());   
+			System.err.println(ex.getMessage());
+		} catch (CertificateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     	throw new EntidadNoExistenteException(Constantes.factura_electronica);
     }

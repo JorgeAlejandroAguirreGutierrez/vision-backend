@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "impuesto")
+@XmlType(propOrder={"codigo", "codigoPorcentaje", "tarifa", "baseImponible", "valor"})
 public class Impuesto {
 
 	private String codigo;
