@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathFacturacionEle
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaElectronicaRespuesta;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaElectronicaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,8 @@ public class FacturaEletronicaController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Factura _factura) {
-        Optional<FacturaElectronicaRespuesta> facturaElectronicaRespuesta=servicio.crear(_factura);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, facturaElectronicaRespuesta);
+        Optional<String> facturaElectronicaRespuesta=servicio.crear(_factura);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, facturaElectronicaRespuesta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

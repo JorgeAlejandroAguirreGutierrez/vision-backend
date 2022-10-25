@@ -14,14 +14,18 @@ import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.json.JSONObject;
+import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 
@@ -182,5 +186,24 @@ public class Util {
     	}catch(Exception e) {
     		return Optional.ofNullable(null);
     	}
+    }
+    
+    public static Optional<String> soapFacturacionEletronica(String request){
+    	String soap="<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ec=\"http://ec.gob.sri.ws.recepcion\">\r\n"
+    			+ "    <soapenv:Header />\r\n"
+    			+ "    <soapenv:Body>\r\n"
+    			+ "        <ec:validarComprobante>\r\n"
+    			+ "            <xml>\r\n"
+    			+ "                <![CDATA["+request+"]]>\r\n"
+    			+ "            </xml>\r\n"
+    			+ "        </ec:validarComprobante>\r\n"
+    			+ "    </soapenv:Body>\r\n"
+    			+ "</soapenv:Envelope>";
+    	return Optional.of(soap);
+    }
+    
+    public static JSONObject convertirXmlJson(String xml) {
+    	JSONObject json = XML.toJSONObject(xml);
+    	return json;
     }
 }

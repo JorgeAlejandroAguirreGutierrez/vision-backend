@@ -79,7 +79,7 @@ public class FacturaService implements IFacturaService {
     		throw new ClaveAccesoNoExistenteException();
     	}
     	factura.setClaveAcceso(claveAcceso.get());
-    	factura.setEstado(Constantes.noemitida);
+    	factura.setEstado(Constantes.estadoEmitida);
         return rep.save(factura);
     }
     
@@ -100,7 +100,7 @@ public class FacturaService implements IFacturaService {
     	}
     	int factor=Constantes.dos;
     	int suma=0;
-    	for(int i=0; i<arreglo.length; i++) {
+    	for(int i=arreglo.length-1; i>=0; i--) {
     		suma=suma+arreglo[i]*factor;
     		if(factor==Constantes.siete) {
     			factor=Constantes.dos;

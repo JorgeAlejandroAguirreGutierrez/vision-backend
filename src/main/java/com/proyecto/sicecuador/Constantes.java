@@ -18,9 +18,6 @@ public class Constantes {
 	public static final String recaudado="RECAUDADO";
 	public static final String norecaudado="NORECAUDADO";
 	
-	public static final String emitida="EMITIDA";
-	public static final String noemitida="NOEMITIDA";
-	
 	public static final String pendiente="PENDIENTE";
 	public static final String entregado="ENTREGADO";
 	
@@ -335,5 +332,22 @@ public class Constantes {
     public static final int nueve = 9;
     public static final int diez = 10;
     public static final int once= 11;
+    
+    public static final String urlFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline";
+    public static final String utf8 = "utf-8";
+    public static final String contentType = "Content-Type";
+    public static final String contenTypeValor = "text/xml";
+    public static final String mensajeSri = "LA RESPUESTA DEL SRI A LA FACTURA ES: ";
+    public static final String mensajeNoSri = "LA FACTURA YA FUE PROCESADO CON CLAVE DE ACCESO: ";
+    public static final String mensajeClaveAccesoSri = " CON CLAVE DE ACCESO: ";
+    public static final String certificadoSri = "C:\\Users\\joaaguir\\OneDrive - Grupo Bancolombia\\Documentos\\Desarrollo\\sic-ecuador-backend\\mario_ruben_delgado_daquilema.p12";
+    public static final String contrasenaCertificadoSri = "mPrimero1981";
+    public static final String recibidaSri = "RECIBIDA";
+    
+    //ESTADOS FACTURA
+    public static final String estadoEmitida="EMITIDA";
+    public static final String estadoAnulada="ANULADA";
+    public static final String estadoFacturada="FACTURADA";
+    public static final String estadoNoFacturada="NO FACTURADA";
     
 }

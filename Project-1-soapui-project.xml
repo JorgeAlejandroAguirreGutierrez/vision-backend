@@ -134,7 +134,7 @@
    <soapenv:Body>\r
       <ec:autorizacionComprobante>\r
          <!--Optional:-->\r
-         <claveAccesoComprobante>0706202201179140868300120010500007256060706202219</claveAccesoComprobante>\r
+         <claveAccesoComprobante>2210202201066000184000110010010000000010000000113</claveAccesoComprobante>\r
       </ec:autorizacionComprobante>\r
    </soapenv:Body>\r
 </soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.autorizacion/AutorizacionComprobantesOffline/autorizacionComprobante"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="c01da912-bd4b-4513-8dd9-e8bd737da31a" isOneWay="false" action="" name="autorizacionComprobanteLote" bindingOperationName="autorizacionComprobanteLote" type="Request-Response" outputName="autorizacionComprobanteLoteResponse" inputName="autorizacionComprobanteLote" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="3e2b7fea-b894-4026-b656-999cb71006a6" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.autorizacion">\r

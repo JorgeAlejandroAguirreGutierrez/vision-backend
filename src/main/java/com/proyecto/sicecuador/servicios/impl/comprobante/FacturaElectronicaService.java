@@ -1,13 +1,13 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalles;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaElectronica;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaElectronicaRespuesta;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Impuesto;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Impuestos;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoFactura;
@@ -24,12 +24,14 @@ import com.proyecto.sicecuador.modelos.recaudacion.RetencionVenta;
 import com.proyecto.sicecuador.modelos.recaudacion.TarjetaCredito;
 import com.proyecto.sicecuador.modelos.recaudacion.TarjetaDebito;
 import com.proyecto.sicecuador.modelos.recaudacion.Transferencia;
+import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.repositorios.recaudacion.IRecaudacionRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaElectronicaService;
 
 import ayungan.com.signature.ConvertFile;
 import ayungan.com.signature.SignatureXAdESBES;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,57 +61,71 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     @Autowired
     private IRecaudacionRepository rep;
     
-    private static final String CERT        = "C:\\Users\\joaaguir\\OneDrive - Grupo Bancolombia\\Documentos\\Desarrollo\\sic-ecuador-backend\\mario_ruben_delgado_daquilema.p12";
-    private static final String PASS        = "mPrimero1981";
+    @Autowired
+    private IFacturaRepository repFactura;
 
     
-    public Optional<FacturaElectronicaRespuesta> crear(Factura _factura) {
+    public Optional<String> crear(Factura _factura) {
     	Optional<Recaudacion> recaudacion= rep.obtenerPorFactura(_factura.getId());
     	if(recaudacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.recaudacion);
     	}
     	Factura factura = recaudacion.get().getFactura();
-    	//MAPEO A FACTURA ELECTRONICA
-    	FacturaElectronica facturaElectronica=new FacturaElectronica();
-    	InfoTributaria infoTributaria = new InfoTributaria();
-    	InfoFactura infoFactura = new InfoFactura();	 	
-    	  	
-    	infoTributaria.setAmbiente(Constantes.pruebas_sri);
-    	infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
-    	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEmpresa().getRazonSocial());
-    	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEmpresa().getNombreComercial());
-    	infoTributaria.setRuc(factura.getSesion().getUsuario().getEmpresa().getIdentificacion());
-    	infoTributaria.setClaveAcceso(factura.getClaveAcceso());
-    	infoTributaria.setCodDoc(Constantes.factura_sri);
-    	infoTributaria.setEstab(factura.getSesion().getUsuario().getPuntoVenta().getEstablecimiento().getCodigoSri());
-    	infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getPuntoVenta().getCodigoSri());
-    	infoTributaria.setSecuencial(factura.getSecuencia());
-    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEmpresa().getDireccion().getDireccion());
+    	if(factura.getEstado().equals(Constantes.estadoEmitida) || factura.getEstado().equals(Constantes.estadoNoFacturada)) {
+    		//MAPEO A FACTURA ELECTRONICA
+        	FacturaElectronica facturaElectronica=new FacturaElectronica();
+        	InfoTributaria infoTributaria = new InfoTributaria();
+        	InfoFactura infoFactura = new InfoFactura();	 	
+        	  	
+        	infoTributaria.setAmbiente(Constantes.pruebas_sri);
+        	infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
+        	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEmpresa().getRazonSocial());
+        	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEmpresa().getNombreComercial());
+        	infoTributaria.setRuc(factura.getSesion().getUsuario().getEmpresa().getIdentificacion());
+        	infoTributaria.setClaveAcceso(factura.getClaveAcceso());
+        	infoTributaria.setCodDoc(Constantes.factura_sri);
+        	infoTributaria.setEstab(factura.getSesion().getUsuario().getPuntoVenta().getEstablecimiento().getCodigoSri());
+        	infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getPuntoVenta().getCodigoSri());
+        	infoTributaria.setSecuencial(factura.getSecuencia());
+        	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEmpresa().getDireccion().getDireccion());
+        	
+        	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
+        	String fechaEmision = dateFormat.format(factura.getFecha());
+        	infoFactura.setFechaEmision(fechaEmision);
+        	infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEmpresa().isObligadoContabilidad()? Constantes.si : Constantes.no);
+        	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSri());
+        	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
+        	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
+        	infoFactura.setDireccionComprador(factura.getCliente().getDireccion().getDireccion());
+        	infoFactura.setTotalSinImpuestos(factura.getSubtotalSinDescuento());
+        	infoFactura.setTotalDescuento(factura.getDescuentoTotal());
+        	infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
+        	infoFactura.setPropina(Constantes.cero);
+        	infoFactura.setImporteTotal(factura.getTotalConDescuento());
+        	infoFactura.setMoneda(factura.getMoneda());
+        	infoFactura.setPagos(crearPagos(recaudacion.get()));
+        	
+        	Detalles detalles=crearDetalles(factura);
+        	
+        	facturaElectronica.setInfoTributaria(infoTributaria);
+        	facturaElectronica.setInfoFactura(infoFactura);
+        	facturaElectronica.setDetalles(detalles);
+       	
+        	String estado= enviar(facturaElectronica);
+        	if(estado.equals(Constantes.recibidaSri)) {
+        		factura.setEstado(Constantes.estadoFacturada);
+        		repFactura.save(factura);
+        	} else {
+        		factura.setEstado(Constantes.estadoNoFacturada);
+        		repFactura.save(factura);
+        	}
+        	String respuesta=Constantes.mensajeSri+estado+Constantes.mensajeClaveAccesoSri+factura.getClaveAcceso();
+        	return Optional.of(respuesta);
+    	} else {
+    		String respuesta=Constantes.mensajeNoSri+factura.getClaveAcceso();
+        	return Optional.of(respuesta);
+    	}
     	
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
-    	String fechaEmision = dateFormat.format(factura.getFecha());
-    	infoFactura.setFechaEmision(fechaEmision);
-    	infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEmpresa().isObligadoContabilidad()? Constantes.si : Constantes.no);
-    	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSri());
-    	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
-    	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
-    	infoFactura.setDireccionComprador(factura.getCliente().getDireccion().getDireccion());
-    	infoFactura.setTotalSinImpuestos(factura.getSubtotalSinDescuento());
-    	infoFactura.setTotalDescuento(factura.getDescuentoTotal());
-    	infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
-    	infoFactura.setPropina(Constantes.cero);
-    	infoFactura.setImporteTotal(factura.getTotalConDescuento());
-    	infoFactura.setMoneda(factura.getMoneda());
-    	infoFactura.setPagos(crearPagos(recaudacion.get()));
-    	
-    	Detalles detalles=crearDetalles(factura);
-    	
-    	facturaElectronica.setInfoTributaria(infoTributaria);
-    	facturaElectronica.setInfoFactura(infoFactura);
-    	facturaElectronica.setDetalles(detalles);
-   	
-    	FacturaElectronicaRespuesta facturaElectronicaRespuesta= enviar(facturaElectronica);
-    	return Optional.of(facturaElectronicaRespuesta);
     }
 
     private TotalConImpuestos crearTotalConImpuestos(Factura factura){
@@ -231,20 +247,20 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	return impuestos;
     }
     
-    public FacturaElectronicaRespuesta enviar(FacturaElectronica facturaElectronica) {
+    public String enviar(FacturaElectronica facturaElectronica) {
     	try {
     		JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);            
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            //jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.w3.org/2001/XMLSchema-instance");
-            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "utf-8");
+            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
             jaxbMarshaller.marshal(facturaElectronica, System.out);
             StringWriter sw = new StringWriter();
             jaxbMarshaller.marshal(facturaElectronica, sw);
             String xml=sw.toString();
-			byte[] cert = ConvertFile.readBytesFromFile(CERT);
-            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, PASS);
-            String body=Base64.getEncoder().encodeToString(firmado);
+			byte[] cert = ConvertFile.readBytesFromFile(Constantes.certificadoSri);
+            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasenaCertificadoSri);
+            String encode=Base64.getEncoder().encodeToString(firmado);
+            String body=Util.soapFacturacionEletronica(encode).get();
             System.out.println(body);
             HttpClient httpClient = HttpClient.newBuilder()
                     .version(HttpClient.Version.HTTP_1_1)
@@ -252,8 +268,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
                     .build();
             HttpRequest request = HttpRequest.newBuilder()
                     .POST(BodyPublishers.ofString(body))
-                    .uri(URI.create("https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline"))
-                    .setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
+                    .uri(URI.create(Constantes.urlFacturacionEletronicaSri))
+                    .setHeader(Constantes.contentType, Constantes.contenTypeValor)
                     .build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             // print response headers
@@ -263,7 +279,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             System.out.println(response.statusCode());
             // print response body
             System.out.println(response.body());
-            return new FacturaElectronicaRespuesta();
+            JSONObject json=Util.convertirXmlJson(response.body());
+            String estado=json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
+            return estado;
         } catch (JAXBException ex) {
             System.err.println(ex.getMessage());                        
         } catch (IOException ex) {
