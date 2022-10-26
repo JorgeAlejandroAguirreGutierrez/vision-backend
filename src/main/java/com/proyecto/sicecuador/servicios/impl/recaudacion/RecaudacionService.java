@@ -49,8 +49,8 @@ public class RecaudacionService implements IRecaudacionService {
             
             RangoCrediticio rangoCrediticio=servicioRangoCrediticio.obtenerSaldo(recaudacion.getCredito().getSaldo()).get();
             recaudacion.getCredito().setTasaInteresAnual(rangoCrediticio.getTasaInteresAnual());
-            double tasa_periodo=Math.rint((rangoCrediticio.getTasaInteresAnual()/recaudacion.getCredito().getPeriodicidadTotal())*100d)/100d;
-            recaudacion.getCredito().setTasaPeriodo(tasa_periodo);
+            double tasaPeriodo=Math.rint((rangoCrediticio.getTasaInteresAnual()/recaudacion.getCredito().getPeriodicidadTotal())*100d)/100d;
+            recaudacion.getCredito().setTasaPeriodo(tasaPeriodo);
             recaudacion.setCredito(servicioCredito.construir(recaudacion.getCredito()).get());
         } else {
         	recaudacion.setCredito(null);
@@ -99,8 +99,11 @@ public class RecaudacionService implements IRecaudacionService {
     
     @Override
     public Optional<Recaudacion> calcular(Recaudacion recaudacion){
-    	double totalCheques=0;
     	double total=0;
+    	
+    	total=total+recaudacion.getEfectivo();
+    	
+    	double totalCheques=0;
         for(Cheque cheque: recaudacion.getCheques()) {
         	totalCheques=totalCheques+cheque.getValor();
         	total=total+totalCheques;
@@ -151,9 +154,14 @@ public class RecaudacionService implements IRecaudacionService {
         recaudacion.setTotalRetencionesVentas(totalRetencionesVentas);   
         recaudacion.setTotal(total);
         double pagar=recaudacion.getFactura().getTotalConDescuento()-total;
+        pagar=Math.round(pagar*100.0)/100.0;
+        if(pagar<0) {
+        	pagar=0;
+        }
         recaudacion.setTotalCredito(pagar);
         recaudacion.getCredito().setSaldo(pagar);
-        if(recaudacion.getTotal()==recaudacion.getFactura().getTotalConDescuento()) {
+        if(recaudacion.getTotal()>=recaudacion.getFactura().getTotalConDescuento()) {
+        	recaudacion.setCambio(recaudacion.getTotal()-recaudacion.getFactura().getTotalConDescuento());
         	recaudacion.setEstado(Constantes.recaudado);
         } else {
         	recaudacion.setEstado(Constantes.norecaudado);

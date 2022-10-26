@@ -25,6 +25,8 @@ public class Recaudacion extends Entidad {
     private String comentario;
     @Column(name = "efectivo", nullable = true)
     private double efectivo;
+    @Column(name = "cambio", nullable = true)
+    private double cambio;
     @Column(name = "total_cheques", nullable = true)
     private double totalCheques;
     @Column(name = "total_depositos", nullable = true)
@@ -101,7 +103,7 @@ public class Recaudacion extends Entidad {
         super(id);
     }
 
-    public Recaudacion(String codigo, Date fecha, double total, String comentario, double efectivo,
+    public Recaudacion(String codigo, Date fecha, double total, String comentario, double efectivo, double cambio,
                        double totalCheques, double totalDepositos, double totalTransferencias,
                        double totalTarjetasDebitos, double totalTarjetasCreditos, double totalCredito,
                        double totalCompensaciones, double totalRetencionesVentas,
@@ -116,6 +118,7 @@ public class Recaudacion extends Entidad {
         this.total=total;
         this.comentario=comentario;
         this.efectivo=efectivo;
+        this.cambio=cambio;
         this.totalCheques=totalCheques;
         this.totalDepositos=totalDepositos;
         this.totalTransferencias=totalTransferencias;
@@ -165,6 +168,10 @@ public class Recaudacion extends Entidad {
     public double getEfectivo() {
         return efectivo;
     }
+    
+    public double getCambio() {
+		return cambio;
+	}
 
     public double getTotalCheques() {
 		return totalCheques;
@@ -283,6 +290,14 @@ public class Recaudacion extends Entidad {
     
     public void setEstado(String estado) {
 		this.estado = estado;
+	}
+    
+    public void setEfectivo(double efectivo) {
+		this.efectivo = efectivo;
+	}
+    
+    public void setCambio(double cambio) {
+		this.cambio = cambio;
 	}
 
     public void setCredito(Credito credito) {
