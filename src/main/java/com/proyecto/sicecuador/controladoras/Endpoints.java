@@ -34,7 +34,8 @@ public class Endpoints {
     //COMPROBANTE
     public static final String pathEgreso="egreso";
     public static final String pathFactura="factura";
-    public static final String pathFacturacionElectronica="facturacionEletronica";
+    public static final String pathFacturaElectronica="facturaEletronica";
+    public static final String pathFacturaFisica="facturaFisica";
     public static final String pathFacturaDetalle="facturaDetalle";
     public static final String pathPedido="pedido";
     public static final String pathProforma="proforma";

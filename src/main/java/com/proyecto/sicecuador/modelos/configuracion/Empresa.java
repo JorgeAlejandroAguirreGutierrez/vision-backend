@@ -17,7 +17,7 @@ public class Empresa extends Entidad {
     @Column(name = "logo", nullable = true)
     private String logo;
     @Column(name = "obligado_contabilidad", nullable = true)
-    private boolean obligadoContabilidad;
+    private String obligadoContabilidad;
     @Column(name = "estado", nullable = true)
     private String estado;
     @NotNull
@@ -36,7 +36,7 @@ public class Empresa extends Entidad {
         super(id);
     }
 
-    public Empresa(String codigo, String identificacion, String razonSocial, String nombreComercial, String logo, boolean obligadoContabilidad, String estado, TipoIdentificacion tipoIdentificacion, Direccion direccion) {
+    public Empresa(String codigo, String identificacion, String razonSocial, String nombreComercial, String logo, String obligadoContabilidad, String estado, TipoIdentificacion tipoIdentificacion, Direccion direccion) {
         super(codigo);
         this.identificacion=identificacion;
         this.razonSocial=razonSocial;
@@ -70,7 +70,7 @@ public class Empresa extends Entidad {
 	   return razonSocial;
     }
     
-    public boolean isObligadoContabilidad() {
+    public String getObligadoContabilidad() {
 		return obligadoContabilidad;
 	}
     

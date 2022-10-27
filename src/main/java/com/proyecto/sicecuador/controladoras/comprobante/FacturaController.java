@@ -9,11 +9,9 @@ import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,19 +90,4 @@ public class FacturaController implements GenericoController<Factura> {
     public ResponseEntity<?> importar(MultipartFile file) {
         return null;
     }
-    
-    @GetMapping(value = "/generar/pdf/{facturaId}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<?> generarPDF(@PathVariable("facturaId") long facturaId) {
-        Optional<Factura> factura=servicio.obtener(new Factura(facturaId));
-        if (factura.isPresent()){
-            ByteArrayInputStream pdf = servicio.generarPDF(factura.get());
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Disposition", "inline; filename=factura.pdf");
-            return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
-                    .body(new InputStreamResource(pdf));
-        }
-        Respuesta respuesta = new Respuesta(false, Constantes.mensaje_obtener_fallido, null);
-        return new ResponseEntity<>(respuesta, HttpStatus.NOT_FOUND);
-    }
-
 }

@@ -350,4 +350,8 @@ public class Constantes {
     public static final String estadoFacturada="FACTURADA";
     public static final String estadoNoFacturada="NO FACTURADA";
     
+    //CONSTANTES PARA FACTURA FISICA
+    public static final String facturaFisicaAmbienteValor="PRUEBAS";
+    public static final String facturaFisicaEmisionValor= "NORMAL";
+    
 }

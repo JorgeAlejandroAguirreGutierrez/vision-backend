@@ -1,17 +1,5 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
-import com.itextpdf.io.font.constants.StandardFonts;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.borders.SolidBorder;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.HorizontalAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.ClaveAccesoNoExistenteException;
@@ -31,9 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -490,106 +475,5 @@ public class FacturaService implements IFacturaService {
         double totalConDescuento=factura.getSubtotalBase0ConDescuento()+factura.getSubtotalBase12ConDescuento()+factura.getIvaConDescuento();
         totalConDescuento=Math.round(totalConDescuento*100.0)/100.0;
         factura.setTotalConDescuento(totalConDescuento);
-    }
-
-    @Override
-    public ByteArrayInputStream generarPDF(Factura factura) {
-        try {
-            ByteArrayOutputStream salida = new ByteArrayOutputStream();
-            PdfWriter writer = new PdfWriter(salida);
-            PdfDocument pdf = new PdfDocument(writer);
-            // Initialize document
-            Document documento = new Document(pdf, PageSize.A4);
-            documento.setMargins(20, 20, 20, 20);
-            // 4. Add content
-            PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
-            documento.add(new Paragraph("LOGO").setFont(font).setFontSize(30));
-            documento.add(new Paragraph(factura.getVendedor().getPuntoVenta().getEstablecimiento().getEmpresa().getRazonSocial()+"\n"+
-                    "Direccion: "+factura.getVendedor().getPuntoVenta().getEstablecimiento().getDireccion()).setBorder(new SolidBorder(1)));
-            documento.add( new Paragraph("\n"));
-            documento.add(new Paragraph("RUC: "+factura.getVendedor().getPuntoVenta().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
-                    "FACTURA"+"\n"+
-                    "No."+factura.getSecuencia()+"\n"+
-                    "Fecha: "+factura.getFecha().toString()).setBorder(new SolidBorder(1)));
-            documento.add( new Paragraph("\n"));
-            documento.add( new Paragraph("Razon Social: "+factura.getCliente().getRazonSocial()+"\n"+
-                    "Identificacion: "+factura.getCliente().getIdentificacion()+"\n"+
-                    "Fecha: "+factura.getFecha().toString()+"\n"+
-                    "Direccion: "+factura.getCliente().getDireccion().getDireccion()).setBorder(new SolidBorder(1)));
-            documento.add( new Paragraph("\n"));
-            float [] columnas_tabla_factura_detalle = {100F, 100F, 100F,100F, 100F, 100F, 100F, 100F, 100F};
-            Table tabla_factura_detalle = new Table(columnas_tabla_factura_detalle);
-            tabla_factura_detalle.addCell("Codigo");
-            tabla_factura_detalle.addCell("Cantidad");
-            tabla_factura_detalle.addCell("Descripcion");
-            tabla_factura_detalle.addCell("Series");
-            tabla_factura_detalle.addCell("Precio U");
-            tabla_factura_detalle.addCell("Subsidio");
-            tabla_factura_detalle.addCell("Sin subsidio");
-            tabla_factura_detalle.addCell("Descuento");
-            tabla_factura_detalle.addCell("Total");
-            for (int i = 0; i <factura.getFacturaDetalles().size(); i++)
-            {
-                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getProducto().getCodigo());
-                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getCantidad()+"");
-                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getProducto().getNombre());
-                String series="";
-                if (!factura.getFacturaDetalles().get(i).getProducto().isSerieAutogenerado()){
-                    for (int j = 0; j <factura.getFacturaDetalles().get(i).getCaracteristicas().size(); j++){
-                        series=series+" "+factura.getFacturaDetalles().get(i).getCaracteristicas().get(j).getSerie();
-                    }
-                }
-                tabla_factura_detalle.addCell(series);
-                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getPrecio().getPrecioSinIva()+"");
-                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getSubsidio()+"");
-                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getSinSubsidio()+"");
-                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getValorDescuentoLinea()+"");
-                tabla_factura_detalle.addCell(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea()+"");
-            }
-            documento.add(tabla_factura_detalle);
-            float [] columnas_tabla_factura = {130F, 100F};
-            Table tabla_factura = new Table(columnas_tabla_factura);
-            tabla_factura.addCell("Subtotal SD 12%");
-            tabla_factura.addCell(factura.getSubtotalBase12SinDescuento()+"");
-            tabla_factura.addCell("Subtotal CD 12%");
-            tabla_factura.addCell(factura.getSubtotalBase12ConDescuento()+"");
-            tabla_factura.addCell("Subtotal SD 0%");
-            tabla_factura.addCell(factura.getSubtotalBase0SinDescuento()+"");
-            tabla_factura.addCell("Subtotal CD 0%");
-            tabla_factura.addCell(factura.getSubtotalBase0ConDescuento()+"");
-            tabla_factura.addCell("Total SD");
-            tabla_factura.addCell(factura.getTotalSinDescuento()+"");
-            tabla_factura.addCell("Total CD");
-            tabla_factura.addCell(factura.getTotalConDescuento()+"");
-            tabla_factura.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-            documento.add(tabla_factura);
-            String telefono_cliente="";
-            String correo_cliente="";
-            if (!factura.getCliente().getTelefonos().isEmpty()){
-                telefono_cliente=factura.getCliente().getTelefonos().get(0).getNumero();
-            }
-            if (!factura.getCliente().getCorreos().isEmpty()){
-                correo_cliente=factura.getCliente().getCorreos().get(0).getEmail();
-            }
-            documento.add(new Paragraph("INFORMACION ADICIONAL:"+"\n" +
-                    "Direccion del Cliente: "+factura.getCliente().getDireccion().getDireccion()+"\n"+
-                    "Telefono del Cliente: "+telefono_cliente+"\n"+
-                    "Correo del Cliente: "+correo_cliente+"\n"+
-                    "Punto de Partida: "+"\n"+
-                    "Vendedor: "+ factura.getVendedor().getNombre()+"\n"+
-                    "Entrada: "+"\n"+
-                    "Valor a Financiar: "+factura.getTotalConDescuento()+"\n"+
-                    "Financiamiento: "+"\n"+
-                    "1 Letra: "+"\n"+
-                    "2 letra: "+"\n"+
-                    "Todo incluido financiamiento: "+factura.getTotalConDescuento()).setBorder(new SolidBorder(1)).setWidth(300).setVerticalAlignment(VerticalAlignment.TOP).setHorizontalAlignment(HorizontalAlignment.LEFT));
-            documento.add( new Paragraph("\n"));
-
-            // 5. Close document
-            documento.close();
-            return new ByteArrayInputStream(salida.toByteArray());
-        } catch(Exception e){
-            return null;
-        }
     }
 }

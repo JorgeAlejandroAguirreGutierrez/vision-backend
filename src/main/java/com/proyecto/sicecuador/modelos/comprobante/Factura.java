@@ -79,10 +79,6 @@ public class Factura extends Entidad {
 	private Dependiente auxiliar;
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "vendedor_id")
-	private Usuario vendedor;
-	@NotNull
-	@ManyToOne
 	@JoinColumn(name = "sesion_id", nullable = true)
 	private Sesion sesion;
 
@@ -124,7 +120,6 @@ public class Factura extends Entidad {
 		this.cliente = cliente;
 		this.clienteFactura = clienteFactura;
 		this.auxiliar = auxiliar;
-		this.vendedor = vendedor;
 		this.sesion = sesion;
 		this.tipoComprobante = tipoComprobante;
 	}
@@ -235,10 +230,6 @@ public class Factura extends Entidad {
 
 	public Sesion getSesion() {
 		return sesion;
-	}
-
-	public Usuario getVendedor() {
-		return vendedor;
 	}
 
 	public double getIva0() {

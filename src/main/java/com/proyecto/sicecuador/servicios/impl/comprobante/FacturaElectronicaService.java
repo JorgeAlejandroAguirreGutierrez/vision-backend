@@ -92,7 +92,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
         	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
         	String fechaEmision = dateFormat.format(factura.getFecha());
         	infoFactura.setFechaEmision(fechaEmision);
-        	infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEmpresa().isObligadoContabilidad()? Constantes.si : Constantes.no);
+        	infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEmpresa().getObligadoContabilidad());
         	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSri());
         	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
         	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());

@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathFacturacionElectronica;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathFacturaElectronica;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(contexto+pathFacturacionElectronica)
+@RequestMapping(contexto+pathFacturaElectronica)
 public class FacturaEletronicaController {
 	
     @Autowired
