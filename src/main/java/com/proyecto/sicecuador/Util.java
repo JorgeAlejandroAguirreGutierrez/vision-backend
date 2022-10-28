@@ -202,6 +202,18 @@ public class Util {
     	return Optional.of(soap);
     }
     
+    public static Optional<String> soapConsultaFacturacionEletronica(String request){
+    	String soap="<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ec=\"http://ec.gob.sri.ws.autorizacion\">\r\n"
+    			+ "   <soapenv:Header/>\r\n"
+    			+ "   <soapenv:Body>\r\n"
+    			+ "      <ec:autorizacionComprobante>\r\n"
+    			+ "         <claveAccesoComprobante>" + request + "</claveAccesoComprobante>\r\n"
+    			+ "      </ec:autorizacionComprobante>\r\n"
+    			+ "   </soapenv:Body>\r\n"
+    			+ "</soapenv:Envelope>";
+    	return Optional.of(soap);
+    }
+    
     public static JSONObject convertirXmlJson(String xml) {
     	JSONObject json = XML.toJSONObject(xml);
     	return json;

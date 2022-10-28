@@ -334,6 +334,7 @@ public class Constantes {
     public static final int once= 11;
     
     public static final String urlFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline";
+    public static final String urlConsultaFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline";
     public static final String utf8 = "utf-8";
     public static final String contentType = "Content-Type";
     public static final String contenTypeValor = "text/xml";
@@ -353,5 +354,9 @@ public class Constantes {
     //CONSTANTES PARA FACTURA FISICA
     public static final String facturaFisicaAmbienteValor="PRUEBAS";
     public static final String facturaFisicaEmisionValor= "NORMAL";
+    
+    //CONSTANTES PARA ENVIO DE CORREO
+    public static final String mensajeCorreo=" LE ENVIA FACTURA ELECTRONICA: ";
+    public static final String mensajeCorreoExitoso="SE ENVIA FACTURA A CORREO EXITOSAMENTE";
     
 }
