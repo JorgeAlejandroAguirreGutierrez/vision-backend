@@ -25,17 +25,10 @@ public class FacturaEletronicaController {
     private IFacturaElectronicaService servicio;
 
 
-    @PostMapping(value = "/enviarSri", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> enviarSri(@RequestBody @Valid Factura _factura) {
-        Optional<String> facturaElectronicaRespuesta=servicio.enviarSri(_factura);
+        Optional<String> facturaElectronicaRespuesta=servicio.enviar(_factura);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, facturaElectronicaRespuesta);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    
-    @PostMapping(value = "/enviarCorreo", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> enviarCorreo(@RequestBody @Valid Factura _factura) {
-    	Optional<String> facturaElectronicaRespuesta = servicio.enviarCorreo(_factura);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

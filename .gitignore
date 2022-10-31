@@ -33,4 +33,4 @@ build/
 ###pom xml ###
 pom.xml
 ###application properties###
-src/main/resources/application-dev.properties
+/src/main/resources/application-dev.properties

@@ -83,7 +83,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-
 @Service
 public class FacturaElectronicaService implements IFacturaElectronicaService{
     @Autowired
@@ -143,18 +142,20 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	facturaElectronica.setDetalles(detalles);
     	return facturaElectronica;
     }
-    public Optional<String> enviarSri(Factura _factura) {
+    
+    public Optional<String> enviar(Factura _factura) {
     	Optional<Recaudacion> opcional= rep.obtenerPorFactura(_factura.getId());
     	if(opcional.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.recaudacion);
     	}
     	Factura factura = opcional.get().getFactura();
-    	Recaudacion recaudacion= opcional.get();
+    	Recaudacion recaudacion = opcional.get();
     	if(factura.getEstado().equals(Constantes.estadoEmitida) || factura.getEstado().equals(Constantes.estadoNoFacturada)) {
         	FacturaElectronica facturaElectronica = crear(recaudacion, factura);
     		String estado= enviar(facturaElectronica);
         	if(estado.equals(Constantes.recibidaSri)) {
         		factura.setEstado(Constantes.estadoFacturada);
+        		enviarCorreo(factura);
         		repFactura.save(factura);
         	} else {
         		factura.setEstado(Constantes.estadoNoFacturada);
@@ -466,7 +467,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	}
     }
     
-    public Optional<String> enviarCorreo(Factura _factura) {
+    private void enviarCorreo(Factura _factura) {
     	try {
 	    	Optional<Factura> opcional= repFactura.findById(_factura.getId());
 	    	if(opcional.isEmpty()) {
@@ -475,26 +476,25 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	    	Factura factura = opcional.get();
 	    	ByteArrayInputStream pdf = crearPDF(factura);
 	    	ByteArrayInputStream xml = crearXML(factura);
-	    	ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, "application/pdf"); 
-	    	ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, "application/xml"); 
-	        // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
+	    	ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf); 
+	    	ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml); 
 	        Properties props = System.getProperties();
-	        props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
-	        props.put("mail.smtp.user", correoUsuario);
-	        props.put("mail.smtp.clave", correoContrasena);    //La clave de la cuenta
-	        props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
-	        props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
-	        props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
+	        props.put(Constantes.mailSmtpHost, Constantes.valorMailSmtpHost);
+	        props.put(Constantes.mailSmtpUser, correoUsuario); 
+	        props.put(Constantes.mailSmtpClave, correoContrasena);
+	        props.put(Constantes.mailSmtpAuth, Constantes.valorMailtSmtpAuth);
+	        props.put(Constantes.mailSmtpStarttlsEnable, Constantes.valorMailtSmtpStarttlsEnable);
+	        props.put(Constantes.mailSmtpPort, Constantes.valorMailSmtpPort);
 	
 	        Session session = Session.getDefaultInstance(props);
 	        MimeMessage message = new MimeMessage(session);
 	        
 	        MimeBodyPart parte1 = new MimeBodyPart();
 	        parte1.setDataHandler(new DataHandler(pdfData));
-	        parte1.setFileName(Constantes.factura+factura.getSecuencia()+".pdf");
+	        parte1.setFileName(Constantes.factura+factura.getSecuencia()+Constantes.extensionPdf);
 	        MimeBodyPart parte2 = new MimeBodyPart();
 	        parte2.setDataHandler(new DataHandler(xmlData));
-	        parte2.setFileName(Constantes.factura+factura.getSecuencia()+".xml");
+	        parte2.setFileName(Constantes.factura+factura.getSecuencia()+Constantes.extensionXml);
 	        
 	        Multipart multipart = new MimeMultipart();
 	        multipart.addBodyPart(parte1);
@@ -502,18 +502,16 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
             message.setFrom(new InternetAddress(correoUsuario));
             message.addRecipients(Message.RecipientType.TO, factura.getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
-            message.setSubject(Constantes.mensajeCorreo + factura.getCodigo());
+            message.setSubject(factura.getSesion().getUsuario().getPuntoVenta().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + factura.getCodigo());
             message.setText(Constantes.vacio);
             message.setContent(multipart);
-            Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", correoUsuario, correoContrasena);
+            Transport transport = session.getTransport(Constantes.smtp);
+            transport.connect(Constantes.smtpGmailCom, correoUsuario, correoContrasena);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-            return Optional.of(Constantes.mensajeCorreoExitoso);
         }
         catch (MessagingException | IOException me) {
             me.printStackTrace();   //Si se produce un error
-            return Optional.of(null);
         }
     }
 }

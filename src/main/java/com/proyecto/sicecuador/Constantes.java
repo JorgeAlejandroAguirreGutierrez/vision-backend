@@ -337,7 +337,7 @@ public class Constantes {
     public static final String urlConsultaFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline";
     public static final String utf8 = "utf-8";
     public static final String contentType = "Content-Type";
-    public static final String contenTypeValor = "text/xml";
+    public static final String contenTypeValor = "text/xml;charset=UTF-8";
     public static final String mensajeSri = "LA RESPUESTA DEL SRI A LA FACTURA ES: ";
     public static final String mensajeNoSri = "LA FACTURA YA FUE PROCESADO CON CLAVE DE ACCESO: ";
     public static final String mensajeClaveAccesoSri = " CON CLAVE DE ACCESO: ";
@@ -358,5 +358,21 @@ public class Constantes {
     //CONSTANTES PARA ENVIO DE CORREO
     public static final String mensajeCorreo=" LE ENVIA FACTURA ELECTRONICA: ";
     public static final String mensajeCorreoExitoso="SE ENVIA FACTURA A CORREO EXITOSAMENTE";
+    public static final String mailSmtpHost="mail.smtp.host";
+    public static final String mailSmtpUser="mail.smtp.user";
+    public static final String mailSmtpClave="mail.smtp.clave";
+    public static final String mailSmtpAuth="mail.smtp.auth";
+    public static final String mailSmtpStarttlsEnable="mail.smtp.starttls.enable";
+    public static final String mailSmtpPort="mail.smtp.port";
+    public static final String valorMailSmtpHost="smtp.gmail.com";
+    public static final String valorMailtSmtpAuth="true";
+    public static final String valorMailtSmtpStarttlsEnable="true";
+    public static final String valorMailSmtpPort="587";
+    public static final String smtp = "smtp";
+    public static final String smtpGmailCom = "smtp.gmail.com";
+    public static final String extensionPdf =".pdf";
+    public static final String extensionXml =".xml";
+    public static final String applicationPdf="application/pdf";
+    public static final String textXml="text/xml";
     
 }
