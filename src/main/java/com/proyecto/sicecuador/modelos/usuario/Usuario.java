@@ -21,6 +21,8 @@ public class Usuario extends Entidad {
     private String avatar;
     @Column(name = "activo", nullable = true)
     private String activo;
+    @Column(name = "apodo", nullable = true)
+    private String apodo;
     @Column(name = "cambiarContrasena", nullable = true)
     private String cambiarContrasena;
     @Column(name = "pregunta", nullable = true)
@@ -50,7 +52,7 @@ public class Usuario extends Entidad {
     }
 
     public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, String activo, 
-    		String cambiarContrasena, String pregunta, String respuesta, PuntoVenta puntoVenta, Perfil perfil, Empresa empresa){
+    		String apodo, String cambiarContrasena, String pregunta, String respuesta, PuntoVenta puntoVenta, Perfil perfil, Empresa empresa){
         super(codigo);
         this.nombre=nombre;
         this.correo=correo;
@@ -58,6 +60,7 @@ public class Usuario extends Entidad {
         this.contrasena=contrasena;
         this.avatar=avatar;
         this.activo=activo;
+        this.apodo=apodo;
         this.cambiarContrasena=cambiarContrasena;
         this.pregunta=pregunta;
         this.respuesta=respuesta;
@@ -73,12 +76,13 @@ public class Usuario extends Entidad {
         identificacion=datos.get(3)== null ? null: datos.get(3);
         avatar=datos.get(4)== null ? null: datos.get(4);
         activo=datos.get(5)== null ? null: datos.get(5);
-        cambiarContrasena=datos.get(6)== null ? null: datos.get(6);
-        pregunta=datos.get(7)== null ? null: datos.get(7);
-        respuesta=datos.get(8)== null ? null: datos.get(8);        
-        puntoVenta=datos.get(9)== null ? null:new PuntoVenta((long) Double.parseDouble(datos.get(9)));
-        perfil=datos.get(10)== null ? null:new Perfil((long) Double.parseDouble(datos.get(10)));
-        empresa=datos.get(11)== null ? null:new Empresa((long) Double.parseDouble(datos.get(11)));
+        apodo=datos.get(6)== null ? null: datos.get(6);
+        cambiarContrasena=datos.get(7)== null ? null: datos.get(7);
+        pregunta=datos.get(8)== null ? null: datos.get(8);
+        respuesta=datos.get(9)== null ? null: datos.get(9);        
+        puntoVenta=datos.get(10)== null ? null:new PuntoVenta((long) Double.parseDouble(datos.get(10)));
+        perfil=datos.get(11)== null ? null:new Perfil((long) Double.parseDouble(datos.get(11)));
+        empresa=datos.get(12)== null ? null:new Empresa((long) Double.parseDouble(datos.get(12)));
     }
 
     public String getNombre() {
@@ -104,8 +108,12 @@ public class Usuario extends Entidad {
     public String getActivo() {
 		return activo;
 	}
+    
+    public String getApodo() {
+		return apodo;
+	}
 
-    public String getCambiarContrasena() {
+	public String getCambiarContrasena() {
 		return cambiarContrasena;
 	}
 
@@ -156,6 +164,10 @@ public class Usuario extends Entidad {
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+	
+	public void setApodo(String apodo) {
+		this.apodo = apodo;
 	}
 
 	public void setCambiarContrasena(String cambiarContrasena) {
