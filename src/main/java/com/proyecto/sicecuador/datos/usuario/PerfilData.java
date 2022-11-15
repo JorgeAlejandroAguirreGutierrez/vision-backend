@@ -22,10 +22,10 @@ public class PerfilData implements ApplicationRunner {
         Optional<Perfil> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Perfil> perfiles = new ArrayList<>();
-            perfiles.add(new Perfil("PE1", "ADMINISTRADOR", "ADM"));
-            perfiles.add(new Perfil("PE2", "RECAUDADOR", "REC"));
-            perfiles.add(new Perfil("PE3", "DESPACHADOR", "DES"));
-            perfiles.add(new Perfil("PE4", "CONTADOR", "CTD"));
+            perfiles.add(new Perfil("PE1", "ADMINISTRADOR", "ADM", "ACTIVO", true));
+            perfiles.add(new Perfil("PE2", "RECAUDADOR", "REC", "ACTIVO", false));
+            perfiles.add(new Perfil("PE3", "DESPACHADOR", "DES", "ACTIVO", true));
+            perfiles.add(new Perfil("PE4", "CONTADOR", "CTD", "ACTIVO", false));
             rep.saveAll(perfiles);
         }
     }

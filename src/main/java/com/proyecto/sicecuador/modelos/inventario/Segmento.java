@@ -20,6 +20,8 @@ public class Segmento extends Entidad {
 	@NotEmpty
     @Column(name = "estado")
     private String estado;
+	@Column(name = "Abreviatura")
+    private String abreviatura;
 	
     public Segmento(){
     	super();
@@ -27,11 +29,12 @@ public class Segmento extends Entidad {
     public Segmento(long id){
         super(id);
     }
-    public Segmento(String codigo, String descripcion, double margenGanancia, String estado){
+    public Segmento(String codigo, String descripcion, double margenGanancia, String estado, String abreviatura){
         super(codigo);
         this.descripcion=descripcion;
         this.margenGanancia=margenGanancia;
         this.estado=estado;
+        this.abreviatura=abreviatura;
     }
 
     public Segmento(List<String>datos){
@@ -39,6 +42,7 @@ public class Segmento extends Entidad {
     	descripcion=datos.get(0)==null ? null : datos.get(0);
     	margenGanancia=datos.get(1)==null ? null : Double.parseDouble(datos.get(1));
     	descripcion=datos.get(2)==null ? null : datos.get(2);
+    	abreviatura=datos.get(3)==null ? null : datos.get(3);
     }
 
     public String getDescripcion() {
@@ -52,7 +56,11 @@ public class Segmento extends Entidad {
     public String getEstado() {
         return estado;
     }
-    public void setDescripcion(String descripcion) {
+    
+    public String getAbreviatura() {
+		return abreviatura;
+	}
+	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
     
@@ -63,4 +71,8 @@ public class Segmento extends Entidad {
     public void setEstado(String estado) {
 		this.estado = estado;
 	}
+	public void setAbreviatura(String abreviatura) {
+		this.abreviatura = abreviatura;
+	}
+    
 }

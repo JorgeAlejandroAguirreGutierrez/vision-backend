@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.usuario;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 
@@ -20,6 +21,12 @@ public class Usuario extends Entidad {
     private String avatar;
     @Column(name = "activo", nullable = true)
     private String activo;
+    @Column(name = "cambiarContrasena", nullable = true)
+    private String cambiarContrasena;
+    @Column(name = "pregunta", nullable = true)
+    private String pregunta;
+    @Column(name = "respuesta", nullable = true)
+    private String respuesta;
 	@ManyToOne
     @JoinColumn(name = "punto_venta_id", nullable = true)
     private PuntoVenta puntoVenta;
@@ -30,6 +37,10 @@ public class Usuario extends Entidad {
     @JoinColumn(name = "empresa_id", nullable = true)
 	private Empresa empresa;
 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private List<EstacionUsuario> estacionesUsuarios;    
+
     public Usuario(){
 
     }
@@ -38,7 +49,8 @@ public class Usuario extends Entidad {
         super(id);
     }
 
-    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, String activo, PuntoVenta puntoVenta, Perfil perfil, Empresa empresa){
+    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, String activo, 
+    		String cambiarContrasena, String pregunta, String respuesta, PuntoVenta puntoVenta, Perfil perfil, Empresa empresa){
         super(codigo);
         this.nombre=nombre;
         this.correo=correo;
@@ -46,6 +58,9 @@ public class Usuario extends Entidad {
         this.contrasena=contrasena;
         this.avatar=avatar;
         this.activo=activo;
+        this.cambiarContrasena=cambiarContrasena;
+        this.pregunta=pregunta;
+        this.respuesta=respuesta;
         this.puntoVenta=puntoVenta;
         this.perfil=perfil;
         this.empresa=empresa;
@@ -58,9 +73,12 @@ public class Usuario extends Entidad {
         identificacion=datos.get(3)== null ? null: datos.get(3);
         avatar=datos.get(4)== null ? null: datos.get(4);
         activo=datos.get(5)== null ? null: datos.get(5);
-        puntoVenta=datos.get(6)== null ? null:new PuntoVenta((long) Double.parseDouble(datos.get(6)));
-        perfil=datos.get(7)== null ? null:new Perfil((long) Double.parseDouble(datos.get(7)));
-        empresa=datos.get(8)== null ? null:new Empresa((long) Double.parseDouble(datos.get(8)));
+        cambiarContrasena=datos.get(6)== null ? null: datos.get(6);
+        pregunta=datos.get(7)== null ? null: datos.get(7);
+        respuesta=datos.get(8)== null ? null: datos.get(8);        
+        puntoVenta=datos.get(9)== null ? null:new PuntoVenta((long) Double.parseDouble(datos.get(9)));
+        perfil=datos.get(10)== null ? null:new Perfil((long) Double.parseDouble(datos.get(10)));
+        empresa=datos.get(11)== null ? null:new Empresa((long) Double.parseDouble(datos.get(11)));
     }
 
     public String getNombre() {
@@ -87,7 +105,19 @@ public class Usuario extends Entidad {
 		return activo;
 	}
 
-    public PuntoVenta getPuntoVenta() {
+    public String getCambiarContrasena() {
+		return cambiarContrasena;
+	}
+
+	public String getPregunta() {
+		return pregunta;
+	}
+
+	public String getRespuesta() {
+		return respuesta;
+	}
+
+	public PuntoVenta getPuntoVenta() {
 		return puntoVenta;
 	}
 
@@ -99,6 +129,11 @@ public class Usuario extends Entidad {
 		return empresa;
 	}
 
+    @JsonManagedReference
+	public List<EstacionUsuario> getEstacionesUsuarios() {
+		return estacionesUsuarios;
+	}
+
 	public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
@@ -106,4 +141,50 @@ public class Usuario extends Entidad {
     public void setActivo(String activo) {
 		this.activo = activo;
 	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public void setIdentificacion(String identificacion) {
+		this.identificacion = identificacion;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public void setCambiarContrasena(String cambiarContrasena) {
+		this.cambiarContrasena = cambiarContrasena;
+	}
+
+	public void setPregunta(String pregunta) {
+		this.pregunta = pregunta;
+	}
+
+	public void setRespuesta(String respuesta) {
+		this.respuesta = respuesta;
+	}
+
+	public void setPuntoVenta(PuntoVenta puntoVenta) {
+		this.puntoVenta = puntoVenta;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
+
+	public void setEstacionesUsuarios(List<EstacionUsuario> estacionesUsuarios) {
+		this.estacionesUsuarios = estacionesUsuarios;
+	}
+    
+    
 }
