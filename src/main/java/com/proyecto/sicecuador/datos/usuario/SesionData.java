@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.datos.usuario;
 
+import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.modelos.usuario.*;
+
 import com.proyecto.sicecuador.repositorios.usuario.ISesionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -22,11 +24,11 @@ public class SesionData implements ApplicationRunner {
     private ISesionRepository rep;
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Optional<Sesion> ant=rep.findById((long) 1);
-        if (!ant.isPresent()) {
-            List<Sesion> sesiones = new ArrayList<>();
-            sesiones.add(new Sesion("SES00001", Date.valueOf("2019-01-01"), Date.valueOf("2019-01-02"), "JORGE-PC", "10.10.10.10", false, new Usuario(1)));
-            rep.saveAll(sesiones);
-        }
+    	Optional<Sesion> ant=rep.findById((long) 1);
+    	if (!ant.isPresent()){
+    		List<Sesion> sesiones = new ArrayList<>();
+    		sesiones.add(new Sesion("SES00001", Date.valueOf("2019-08-22"), Date.valueOf("2019-08-22"),"1.1.1.1",true,new Usuario(1), new Estacion(1), new Empresa(1)));
+    		rep.saveAll(sesiones);
+    	}
     }
 }
