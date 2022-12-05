@@ -12,6 +12,8 @@ public class TipoPago extends Entidad {
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public TipoPago(){
         super();
@@ -21,10 +23,11 @@ public class TipoPago extends Entidad {
         super(id);
     }
 
-    public TipoPago(String codigo, String descripcion, String abreviatura){
+    public TipoPago(String codigo, String descripcion, String abreviatura, String estado){
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
+        this.estado=estado;
     }
 
     public TipoPago(List<String> datos){
@@ -39,4 +42,12 @@ public class TipoPago extends Entidad {
     public String getAbreviatura() {
         return abreviatura;
     }
+    
+    public String getEstado() {
+		return estado;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

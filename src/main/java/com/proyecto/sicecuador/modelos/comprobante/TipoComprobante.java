@@ -13,8 +13,6 @@ public class TipoComprobante extends Entidad {
     private String nombre;
     @Column(name = "nombre_tabla", nullable = true)
     private String nombreTabla;
-    @Column(name = "estado", nullable = true)
-    private String estado;
 
     public TipoComprobante(){
 
@@ -29,7 +27,6 @@ public class TipoComprobante extends Entidad {
         this.nombre=nombre;
         this.descripcion=descripcion;
         this.nombreTabla=nombreTabla;
-        this.estado=estado;
     }
     
     public String getCodigoSri() {
@@ -47,9 +44,4 @@ public class TipoComprobante extends Entidad {
     public String getNombre() {
         return nombre;
     }
-
-    public String getEstado() {
-        return estado;
-    }
-    
 }

@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.repositorios.cliente.IFinanciamientoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IFinanciamientoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,12 @@ public class FinanciamientoService implements IFinanciamientoService {
     }
 
     @Override
-    public Financiamiento eliminar(Financiamiento financiamiento) {
-        rep.deleteById(financiamiento.getId());
-        return financiamiento;
-    }
-
-    @Override
-    public Optional<Financiamiento> obtener(Financiamiento financiamiento) {
-        return rep.findById(financiamiento.getId());
+    public Financiamiento obtener(long id) {
+        Optional<Financiamiento> resp=rep.findById(id);
+        if(resp.isPresent()) {
+        	return resp.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.financiamiento);
     }
 
     @Override
@@ -57,7 +56,7 @@ public class FinanciamientoService implements IFinanciamientoService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Financiamiento> financiamientos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,9);
@@ -65,13 +64,9 @@ public class FinanciamientoService implements IFinanciamientoService {
                 Financiamiento financiamiento = new Financiamiento(datos);
                 financiamientos.add(financiamiento);
             }
-            if(financiamientos.isEmpty()){
-                return false;
-            }
             rep.saveAll(financiamientos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

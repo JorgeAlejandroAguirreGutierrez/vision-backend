@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Caracteristica;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
@@ -38,14 +39,12 @@ public class CaracteristicaService implements ICaracteristicaService {
     }
 
     @Override
-    public Caracteristica eliminar(Caracteristica caracteristica) {
-        rep.deleteById(caracteristica.getId());
-        return caracteristica;
-    }
-
-    @Override
-    public Optional<Caracteristica> obtener(Caracteristica caracteristica) {
-        return rep.findById(caracteristica.getId());
+    public Caracteristica obtener(long id) {
+        Optional<Caracteristica> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.caracteristica);
     }
 
     @Override
@@ -71,7 +70,7 @@ public class CaracteristicaService implements ICaracteristicaService {
         return caracteristicas;
     }
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Caracteristica> caracteristicas=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,1);
@@ -79,13 +78,9 @@ public class CaracteristicaService implements ICaracteristicaService {
                 Caracteristica caracteristica = new Caracteristica(datos);
                 caracteristicas.add(caracteristica);
             }
-            if(caracteristicas.isEmpty()){
-                return false;
-            }
             rep.saveAll(caracteristicas);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 

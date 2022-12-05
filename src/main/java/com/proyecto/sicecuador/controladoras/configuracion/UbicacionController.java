@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathUbicacion)
@@ -34,6 +33,13 @@ public class UbicacionController implements GenericoController<Ubicacion> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, ubicaciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Ubicacion> ubicaciones = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, ubicaciones);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -44,7 +50,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Ubicacion ubicacion=servicio.obtener(new Ubicacion(id)).get();
+        Ubicacion ubicacion=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, ubicacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -62,11 +68,18 @@ public class UbicacionController implements GenericoController<Ubicacion> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, ubicacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Ubicacion ubicacion=servicio.eliminar(new Ubicacion(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, ubicacion);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Ubicacion _ubicacion) {
+    	Ubicacion ubicacion = servicio.activar(_ubicacion);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, ubicacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Ubicacion _ubicacion) {
+    	Ubicacion ubicacion=servicio.inactivar(_ubicacion);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, ubicacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -97,7 +110,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
                                                 @PathVariable("canton") String canton,
                                                 @PathVariable("parroquia") String parroquia) {
         Ubicacion ubicacion=new Ubicacion(provincia, canton, parroquia);
-        Optional<Ubicacion> _ubicacion=servicio.obtenerUbicacionID(ubicacion);
+        Ubicacion _ubicacion=servicio.obtenerUbicacionId(ubicacion);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, _ubicacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -110,8 +123,8 @@ public class UbicacionController implements GenericoController<Ubicacion> {
     }
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

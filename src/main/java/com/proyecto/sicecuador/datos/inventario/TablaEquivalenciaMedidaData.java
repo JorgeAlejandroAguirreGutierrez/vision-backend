@@ -2,7 +2,7 @@ package com.proyecto.sicecuador.datos.inventario;
 
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.EquivalenciaMedida;
-import com.proyecto.sicecuador.repositorios.inventario.ITablaEquivalenciaMedidaRepository;
+import com.proyecto.sicecuador.repositorios.inventario.IEquivalenciaMedidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @Profile({"dev","prod"})
 public class TablaEquivalenciaMedidaData implements ApplicationRunner {
     @Autowired
-    private ITablaEquivalenciaMedidaRepository rep;
+    private IEquivalenciaMedidaRepository rep;
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Optional<EquivalenciaMedida> ant=rep.findById((long) 1);

@@ -33,6 +33,13 @@ public class PermisoController implements GenericoController<Permiso> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, permisoes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Permiso> permisos= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, permisos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -43,7 +50,7 @@ public class PermisoController implements GenericoController<Permiso> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Permiso permiso=servicio.obtener(new Permiso(id)).get();
+        Permiso permiso=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, permiso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -61,18 +68,25 @@ public class PermisoController implements GenericoController<Permiso> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, permiso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Permiso permiso=servicio.eliminar(new Permiso(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, permiso);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Permiso _permiso) {
+    	Permiso permiso = servicio.activar(_permiso);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_activar_exitoso, permiso);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Permiso _permiso) {
+    	Permiso permiso = servicio.inactivar(_permiso);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, permiso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

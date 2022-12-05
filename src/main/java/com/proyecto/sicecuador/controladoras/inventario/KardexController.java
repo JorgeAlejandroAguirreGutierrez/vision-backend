@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathKardex)
@@ -45,8 +44,16 @@ public class KardexController implements GenericoController<Kardex> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<Kardex> kardex=servicio.obtener(new Kardex(id));
+        Kardex kardex=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> crear(@RequestBody @Valid Kardex _kardex) {
+        _kardex.normalizar();
+        Kardex kardex=servicio.crear(_kardex);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, kardex);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -56,22 +63,7 @@ public class KardexController implements GenericoController<Kardex> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, kardex);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Kardex _kardex) {
-        _kardex.normalizar();
-        Kardex kardex=servicio.crear(_kardex);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, kardex);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Kardex kardex=servicio.eliminar(new Kardex(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, kardex);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
+    
     @Override
     public ResponseEntity<?> importar(MultipartFile file) {
         return null;

@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaDetalleRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaDetalleService;
@@ -21,29 +22,27 @@ public class FacturaDetalleService implements IFacturaDetalleService {
     private IFacturaDetalleRepository rep;
 
     @Override
-    public FacturaDetalle crear(FacturaDetalle factura_detalle) {
+    public FacturaDetalle crear(FacturaDetalle facturaDetalle) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_factura_detalle);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	factura_detalle.setCodigo(codigo.get());
-    	return rep.save(factura_detalle);
+    	facturaDetalle.setCodigo(codigo.get());
+    	return rep.save(facturaDetalle);
     }
 
     @Override
-    public FacturaDetalle actualizar(FacturaDetalle factura_detalle) {
-        return rep.save(factura_detalle);
+    public FacturaDetalle actualizar(FacturaDetalle facturaDetalle) {
+        return rep.save(facturaDetalle);
     }
 
     @Override
-    public FacturaDetalle eliminar(FacturaDetalle factura_detalle) {
-        rep.deleteById(factura_detalle.getId());
-        return factura_detalle;
-    }
-
-    @Override
-    public Optional<FacturaDetalle> obtener(FacturaDetalle factura_detalle) {
-        return rep.findById(factura_detalle.getId());
+    public FacturaDetalle obtener(long id) {
+        Optional<FacturaDetalle> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.factura_detalle);
     }
 
     @Override
@@ -112,7 +111,6 @@ public class FacturaDetalleService implements IFacturaDetalleService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public void importar(MultipartFile file) {
     }    
 }

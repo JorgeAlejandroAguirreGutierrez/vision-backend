@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.repositorios.inventario.IMedidaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IMedidaService;
@@ -37,19 +37,36 @@ public class MedidaService implements IMedidaService {
     }
 
     @Override
-    public Medida eliminar(Medida medida) {
-        rep.deleteById(medida.getId());
+    public Medida activar(Medida medida) {
+        medida.setEstado(Constantes.activo);
+        medida=rep.save(medida);
         return medida;
     }
 
     @Override
-    public Optional<Medida> obtener(Medida medida) {
-        return rep.findById(medida.getId());
+    public Medida inactivar(Medida medida) {
+        medida.setEstado(Constantes.inactivo);
+        medida=rep.save(medida);
+        return medida;
+    }
+
+    @Override
+    public Medida obtener(long id) {
+        Optional<Medida> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.medida);
     }
 
     @Override
     public List<Medida> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Medida> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -58,7 +75,7 @@ public class MedidaService implements IMedidaService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Medida> medidas=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,5);
@@ -66,13 +83,9 @@ public class MedidaService implements IMedidaService {
                 Medida medida = new Medida(datos);
                 medidas.add(medida);
             }
-            if(medidas.isEmpty()){
-                return false;
-            }
             rep.saveAll(medidas);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

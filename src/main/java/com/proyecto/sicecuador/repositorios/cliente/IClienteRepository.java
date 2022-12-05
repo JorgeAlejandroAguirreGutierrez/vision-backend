@@ -12,11 +12,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IClienteRepository extends IGenericoRepository<Cliente> {
 	
-	@Query(value = "select c from Cliente c "
-            + "WHERE c.identificacion=:identificacion and c.estado=:estado")
-    public Optional<Cliente> obtenerPorIdentificacion(String identificacion, String estado);
+	@Query(value = "select c from Cliente c where c.identificacion=:identificacion and c.estado=:estado")
+    Optional<Cliente> obtenerPorIdentificacion(String identificacion, String estado);
 	
-	@Query(value = "select c from Cliente c "
-            + "WHERE c.estado=:estado")
-    public List<Cliente> consultar(String estado);
+	@Query(value = "select c from Cliente c where c.razonSocial=:razonSocial and c.estado=:estado")
+    Optional<Cliente> obtenerPorRazonSocial(String razonSocial, String estado);
+	
+	@Query(value = "select c from Cliente c where c.estado=:estado")
+    List<Cliente> consultarPorEstado(String estado);
 }

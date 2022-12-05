@@ -22,8 +22,6 @@ public class Entrega extends Entidad {
     private String longitudgeo;
     @Column(name = "latitudgeo", nullable = true)
     private String latitudgeo;
-    @Column(name = "estado", nullable = true)
-    private String estado;
     @Column(name = "telefono", nullable = true)
     private String telefono;
     @Column(name = "celular", nullable = true)
@@ -31,7 +29,7 @@ public class Entrega extends Entidad {
     @Column(name = "correo", nullable = true)
     private String correo;
     @Column(name = "inhabilitar", nullable = true)
-    private boolean inhabilitar;
+    private String inhabilitar;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
     @JoinColumn(name = "direccion_id", nullable= true)
     private Direccion direccion;
@@ -58,11 +56,10 @@ public class Entrega extends Entidad {
         referencia=datos.get(2)== null ? null: datos.get(2);
         longitudgeo=datos.get(3)== null ? null: datos.get(3);
         latitudgeo=datos.get(4)== null ? null: datos.get(4);
-        estado=datos.get(5)== null ? null: datos.get(5);
-        inhabilitar=datos.get(6)== null ? null: datos.get(6).equals("S") ? true : false;
-        direccion=datos.get(7)== null ? null:new Direccion((long) Double.parseDouble(datos.get(7)));
-        factura=datos.get(8)== null ? null:new Factura((long) Double.parseDouble(datos.get(8)));
-        transportista=datos.get(9)== null ? null:new Transportista((long) Double.parseDouble(datos.get(9)));
+        inhabilitar=datos.get(6)== null ? null: datos.get(5);
+        direccion=datos.get(7)== null ? null:new Direccion((long) Double.parseDouble(datos.get(6)));
+        factura=datos.get(8)== null ? null:new Factura((long) Double.parseDouble(datos.get(7)));
+        transportista=datos.get(9)== null ? null:new Transportista((long) Double.parseDouble(datos.get(8)));
     }
 
     public String getNumero() {
@@ -101,10 +98,6 @@ public class Entrega extends Entidad {
 		return correo;
 	}
 
-    public String getEstado() {
-		return estado;
-	}
-
     public Factura getFactura() {
         return factura;
     }
@@ -116,8 +109,8 @@ public class Entrega extends Entidad {
     public Direccion getDireccion() {
         return direccion;
     }
-
-    public boolean isInhabilitar() {
-        return inhabilitar;
-    }
+    
+    public String getInhabilitar() {
+		return inhabilitar;
+	}
 }

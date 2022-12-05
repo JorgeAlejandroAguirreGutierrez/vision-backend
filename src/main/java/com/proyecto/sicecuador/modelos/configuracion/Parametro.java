@@ -15,6 +15,8 @@ public class Parametro extends Entidad {
     private String tabla;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public Parametro(){
 
@@ -28,12 +30,13 @@ public class Parametro extends Entidad {
         this.tipo=tipo;
     }
 
-    public Parametro(String codigo, String tipo, String nombre, String tabla, String abreviatura){
+    public Parametro(String codigo, String tipo, String nombre, String tabla, String abreviatura, String estado){
         super(codigo);
         this.tipo=tipo;
         this.nombre=nombre;
         this.tabla=tabla;
         this.abreviatura=abreviatura;
+        this.estado=estado;
     }
     public Parametro(String tabla,String tipo){
         this.tipo=tipo;
@@ -60,4 +63,10 @@ public class Parametro extends Entidad {
     public String getAbreviatura() {
         return abreviatura;
     }
+    public String getEstado() {
+		return estado;
+	}
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

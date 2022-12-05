@@ -30,43 +30,36 @@ public class RangoCrediticioController implements GenericoController<RangoCredit
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<RangoCrediticio> rangos_crediticios=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, rangos_crediticios);
+        List<RangoCrediticio> rangosCrediticios=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, rangosCrediticios);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<RangoCrediticio> rangos_crediticios = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, rangos_crediticios);
+    	Page<RangoCrediticio> rangosCrediticios = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, rangosCrediticios);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<RangoCrediticio> rango_crediticio=servicio.obtener(new RangoCrediticio(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, rango_crediticio);
+        RangoCrediticio rangoCrediticio=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, rangoCrediticio);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid RangoCrediticio _rango_crediticio) {
-        RangoCrediticio rango_crediticio=servicio.crear(_rango_crediticio);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, rango_crediticio);
+        RangoCrediticio rangoCrediticio=servicio.crear(_rango_crediticio);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, rangoCrediticio);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody RangoCrediticio _rango_crediticio) {
-        RangoCrediticio rango_crediticio=servicio.actualizar(_rango_crediticio);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, rango_crediticio);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        RangoCrediticio rango_crediticio=servicio.eliminar(new RangoCrediticio(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, rango_crediticio);
+        RangoCrediticio rangoCrediticio=servicio.actualizar(_rango_crediticio);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, rangoCrediticio);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

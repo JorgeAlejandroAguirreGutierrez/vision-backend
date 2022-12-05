@@ -28,43 +28,57 @@ public class FranquiciaTarjetaController implements GenericoController<Franquici
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<FranquiciaTarjeta> franquicias_tarjetas=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, franquicias_tarjetas);
+        List<FranquiciaTarjeta> franquiciasTarjetas=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, franquiciasTarjetas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<FranquiciaTarjeta> franquiciasTarjetas= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, franquiciasTarjetas);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<FranquiciaTarjeta> franquicias_tarjetas = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, franquicias_tarjetas);
+    	Page<FranquiciaTarjeta> franquiciasTarjetas = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, franquiciasTarjetas);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        FranquiciaTarjeta franquicia_tarjeta=servicio.obtener(new FranquiciaTarjeta(id)).get();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, franquicia_tarjeta);
+        FranquiciaTarjeta franquiciaTarjeta=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, franquiciaTarjeta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid FranquiciaTarjeta _franquicia_tarjeta) {
-        FranquiciaTarjeta franquicia_tarjeta=servicio.crear(_franquicia_tarjeta);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, franquicia_tarjeta);
+    public ResponseEntity<?> crear(@RequestBody @Valid FranquiciaTarjeta _franquiciaTarjeta) {
+        FranquiciaTarjeta franquiciaTarjeta=servicio.crear(_franquiciaTarjeta);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, franquiciaTarjeta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody FranquiciaTarjeta _franquicia_tarjeta) {
-        FranquiciaTarjeta franquicia_tarjeta=servicio.actualizar(_franquicia_tarjeta);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, franquicia_tarjeta);
+    public ResponseEntity<?> actualizar(@RequestBody FranquiciaTarjeta _franquiciaTarjeta) {
+        FranquiciaTarjeta franquiciaTarjeta=servicio.actualizar(_franquiciaTarjeta);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, franquiciaTarjeta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        FranquiciaTarjeta franquicia_tarjeta=servicio.eliminar(new FranquiciaTarjeta(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, franquicia_tarjeta);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody FranquiciaTarjeta _franquiciaTarjeta) {
+    	FranquiciaTarjeta franquiciaTarjeta= servicio.activar(_franquiciaTarjeta);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, franquiciaTarjeta);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody FranquiciaTarjeta _franquiciaTarjeta) {
+    	FranquiciaTarjeta franquiciaTarjeta = servicio.inactivar(_franquiciaTarjeta);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, franquiciaTarjeta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

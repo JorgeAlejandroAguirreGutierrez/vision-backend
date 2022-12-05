@@ -43,4 +43,8 @@ public class CategoriaProducto extends Entidad {
         return abreviatura;
     }
     
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
+    
 }

@@ -32,6 +32,13 @@ public class BodegaController implements GenericoController<Bodega> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bodegas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Bodega> bodegas= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bodegas);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +49,7 @@ public class BodegaController implements GenericoController<Bodega> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Bodega bodega=servicio.obtener(new Bodega(id)).get();
+        Bodega bodega=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, bodega);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,11 +67,18 @@ public class BodegaController implements GenericoController<Bodega> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, bodega);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Bodega bodega=servicio.eliminar(new Bodega(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, bodega);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Bodega _bodega) {
+    	Bodega bodega=servicio.activar(_bodega);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, bodega);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Bodega _bodega) {
+    	Bodega bodega=servicio.inactivar(_bodega);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, bodega);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

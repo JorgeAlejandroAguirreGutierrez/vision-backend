@@ -35,7 +35,7 @@ public class SesionService implements ISesionService {
     		throw new CodigoNoExistenteException();
     	}
     	sesion.setCodigo(codigo.get());
-    	Optional<Usuario> usuario=rep_usuario.findByIdentificacionContrasena(sesion.getUsuario().getIdentificacion(),sesion.getUsuario().getContrasena());
+    	Optional<Usuario> usuario=rep_usuario.findByIdentificacionContrasena(sesion.getUsuario().getIdentificacion(),sesion.getUsuario().getContrasena(), Constantes.activo);
     	if(usuario.isPresent()) {
     		sesion.setUsuario(usuario.get());
             sesion.setFechaApertura(new Date());
@@ -51,14 +51,12 @@ public class SesionService implements ISesionService {
     }
 
     @Override
-    public Sesion eliminar(Sesion sesion) {
-        rep.deleteById(sesion.getId());
-        return sesion;
-    }
-
-    @Override
-    public Optional<Sesion> obtener(Sesion sesion) {
-        return rep.findById(sesion.getId());
+    public Sesion obtener(long id) {
+        Optional<Sesion> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.sesion);
     }
 
     @Override
@@ -102,7 +100,7 @@ public class SesionService implements ISesionService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Sesion> sesiones=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,4);
@@ -110,13 +108,9 @@ public class SesionService implements ISesionService {
                 Sesion sesion = new Sesion(datos);
                 sesiones.add(sesion);
             }
-            if(sesiones.isEmpty()){
-                return false;
-            }
             rep.saveAll(sesiones);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

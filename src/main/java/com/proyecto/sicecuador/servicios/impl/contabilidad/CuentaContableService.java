@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.contabilidad;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import com.proyecto.sicecuador.repositorios.contabilidad.ICuentaContableRepository;
 import com.proyecto.sicecuador.servicios.interf.contabilidad.ICuentaContableService;
@@ -24,11 +25,6 @@ public class CuentaContableService implements ICuentaContableService {
     
     @Override
     public CuentaContable crear(CuentaContable cuentaContable) {
-    	//proveedor.normalizar();
-/*    	Optional<Proveedor> getProveedor=rep.obtenerPorRazonSocial(proveedor.getRazonSocial());
-    	if(getProveedor.isPresent()) {
-    		throw new ModeloExistenteException();
-    	}*/
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cuenta_contable);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -39,24 +35,38 @@ public class CuentaContableService implements ICuentaContableService {
 
     @Override
     public CuentaContable actualizar(CuentaContable cuentaContable) {
-    	//proveedor.normalizar();
     	return rep.save(cuentaContable);
     }
 
     @Override
-    public CuentaContable eliminar(CuentaContable cuentaContable) {
-        rep.deleteById(cuentaContable.getId());
-        return cuentaContable;
+    public CuentaContable activar(CuentaContable cuentaContable) {
+        cuentaContable.setEstado(Constantes.activo);
+        return rep.save(cuentaContable);
     }
 
     @Override
-    public Optional<CuentaContable> obtener(CuentaContable cuentaContable) {
-        return rep.findById(cuentaContable.getId());
+    public CuentaContable inactivar(CuentaContable cuentaContable) {
+        cuentaContable.setEstado(Constantes.inactivo);
+        return rep.save(cuentaContable);
+    }
+
+    @Override
+    public CuentaContable obtener(long id) {
+        Optional<CuentaContable> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.cuenta_contable);
     }
 
     @Override
     public List<CuentaContable> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<CuentaContable> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -77,21 +87,17 @@ public class CuentaContableService implements ICuentaContableService {
     }
     
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
-            List<CuentaContable> cuentas_contables=new ArrayList<>();
+            List<CuentaContable> cuentasContables=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,7);
             for (List<String> datos: info) {
                 CuentaContable cuentaContable = new CuentaContable(datos);
-                cuentas_contables.add(cuentaContable);
+                cuentasContables.add(cuentaContable);
             }
-            if(cuentas_contables.isEmpty()){
-                return false;
-            }
-            rep.saveAll(cuentas_contables);
-            return true;
+            rep.saveAll(cuentasContables);
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 

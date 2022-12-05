@@ -33,6 +33,13 @@ public class EstablecimientoController implements GenericoController<Establecimi
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Establecimiento> establecimientos = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -43,7 +50,7 @@ public class EstablecimientoController implements GenericoController<Establecimi
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Establecimiento establecimiento=servicio.obtener(new Establecimiento(id)).get();
+        Establecimiento establecimiento=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, establecimiento);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -61,18 +68,25 @@ public class EstablecimientoController implements GenericoController<Establecimi
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, establecimiento);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Establecimiento establecimiento=servicio.eliminar(new Establecimiento(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, establecimiento);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Establecimiento _establecimiento) {
+    	Establecimiento establecimiento = servicio.activar(_establecimiento);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, establecimiento);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Establecimiento _establecimiento) {
+    	Establecimiento establecimiento = servicio.inactivar(_establecimiento);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, establecimiento);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

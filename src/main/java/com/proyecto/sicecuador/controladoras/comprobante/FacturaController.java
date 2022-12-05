@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathFactura)
@@ -34,6 +33,13 @@ public class FacturaController implements GenericoController<Factura> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Factura> facturas= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturas);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -44,7 +50,7 @@ public class FacturaController implements GenericoController<Factura> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Factura factura=servicio.obtener(new Factura(id)).get();
+        Factura factura=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -71,17 +77,24 @@ public class FacturaController implements GenericoController<Factura> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Factura factura=servicio.eliminar(new Factura(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, factura);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Factura _factura) {
+    	Factura factura = servicio.activar(_factura);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, factura);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Factura _factura) {
+    	Factura factura = servicio.inactivar(_factura);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
     @PostMapping(value = "/calcular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> calcular(@RequestBody @Valid Factura _factura) {
-        Optional<Factura> factura=servicio.calcular(_factura);
+        Factura factura=servicio.calcular(_factura);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

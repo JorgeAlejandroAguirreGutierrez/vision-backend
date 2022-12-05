@@ -12,6 +12,8 @@ public class Genero extends Entidad {
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public Genero(){
         super();
@@ -21,10 +23,11 @@ public class Genero extends Entidad {
         super(id);
     }
 
-    public Genero(String codigo, String descripcion, String abreviatura) {
+    public Genero(String codigo, String descripcion, String abreviatura, String estado) {
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
+        this.estado=estado;
     }
 
     public Genero(List<String> datos){
@@ -39,6 +42,10 @@ public class Genero extends Entidad {
     public String getAbreviatura() {
         return abreviatura;
     }
+    
+    public String getEstado() {
+		return estado;
+	}
 
     public void setAbreviatura(String abreviatura) {
         this.abreviatura = abreviatura;
@@ -47,4 +54,8 @@ public class Genero extends Entidad {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

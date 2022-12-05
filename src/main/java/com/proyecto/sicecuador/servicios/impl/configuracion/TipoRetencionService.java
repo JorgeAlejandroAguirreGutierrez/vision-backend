@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoRetencionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoRetencionService;
@@ -21,34 +22,49 @@ public class TipoRetencionService implements ITipoRetencionService {
     private ITipoRetencionRepository rep;
     
     @Override
-    public TipoRetencion crear(TipoRetencion tipo_retencion) {
+    public TipoRetencion crear(TipoRetencion tipoRetencion) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_retencion);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	tipo_retencion.setCodigo(codigo.get());
-    	return rep.save(tipo_retencion);
+    	tipoRetencion.setCodigo(codigo.get());
+    	return rep.save(tipoRetencion);
     }
 
     @Override
-    public TipoRetencion actualizar(TipoRetencion tipo_retencion) {
-        return rep.save(tipo_retencion);
+    public TipoRetencion actualizar(TipoRetencion tipoRetencion) {
+        return rep.save(tipoRetencion);
     }
 
     @Override
-    public TipoRetencion eliminar(TipoRetencion tipo_retencion) {
-        rep.deleteById(tipo_retencion.getId());
-        return tipo_retencion;
+    public TipoRetencion activar(TipoRetencion tipoRetencion) {
+        tipoRetencion.setEstado(Constantes.activo);
+        return rep.save(tipoRetencion);
     }
 
     @Override
-    public Optional<TipoRetencion> obtener(TipoRetencion tipo_retencion) {
-        return rep.findById(tipo_retencion.getId());
+    public TipoRetencion inactivar(TipoRetencion tipoRetencion) {
+        tipoRetencion.setEstado(Constantes.inactivo);
+        return rep.save(tipoRetencion);
+    }
+
+    @Override
+    public TipoRetencion obtener(long id) {
+        Optional<TipoRetencion> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.tipo_retencion);
     }
 
     @Override
     public List<TipoRetencion> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<TipoRetencion> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -57,41 +73,37 @@ public class TipoRetencionService implements ITipoRetencionService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
-            List<TipoRetencion> tipos_retenciones=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal, 2);
+            List<TipoRetencion> tiposRetenciones=new ArrayList<>();
+            List<List<String>>info= Util.leerImportar(archivoTemporal, 2);
             for (List<String> datos: info) {
-                TipoRetencion tipo_retencion = new TipoRetencion(datos);
-                tipos_retenciones.add(tipo_retencion);
+                TipoRetencion tipoRetencion = new TipoRetencion(datos);
+                tiposRetenciones.add(tipoRetencion);
             }
-            if(tipos_retenciones.isEmpty()){
-                return false;
-            }
-            rep.saveAll(tipos_retenciones);
-            return true;
+            rep.saveAll(tiposRetenciones);
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 
     @Override
     public List<TipoRetencion> consultarIvaBien() {
-        return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.bien);
+        return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.bien, Constantes.activo);
     }
 
     @Override
     public List<TipoRetencion> consultarIvaServicio() {
-        return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.servicio);
+        return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.servicio, Constantes.activo);
     }
 
     @Override
     public List<TipoRetencion> consultarRentaBien() {
-        return rep.findByImpuestoAndTipo(Constantes.renta, Constantes.bien);
+        return rep.findByImpuestoAndTipo(Constantes.renta, Constantes.bien, Constantes.activo);
     }
 
     @Override
     public List<TipoRetencion> consultarRentaServicio() {
-        return rep.findByImpuestoAndTipo(Constantes.renta, Constantes.servicio);
+        return rep.findByImpuestoAndTipo(Constantes.renta, Constantes.servicio, Constantes.activo);
     }
 }

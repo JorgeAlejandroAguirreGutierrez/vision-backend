@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.entrega;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.repositorios.entrega.ITransportistaRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.ITransportistaService;
@@ -36,19 +37,35 @@ public class TransportistaService implements ITransportistaService {
     }
 
     @Override
-    public Transportista eliminar(Transportista transportista) {
-        rep.deleteById(transportista.getId());
-        return transportista;
+    public Transportista activar(Transportista transportista) {
+        transportista.setEstado(Constantes.activo);
+        return rep.save(transportista);
     }
 
     @Override
-    public Optional<Transportista> obtener(Transportista transportista) {
-        return rep.findById(transportista.getId());
+    public Transportista inactivar(Transportista transportista) {
+        transportista.setEstado(Constantes.inactivo);
+        return rep.save(transportista);
+    }
+
+    @Override
+    public Transportista obtener(long id) {
+        Optional<Transportista> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.transportista);
+        
     }
 
     @Override
     public List<Transportista> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Transportista> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -57,7 +74,7 @@ public class TransportistaService implements ITransportistaService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Transportista> transportistas=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,1);
@@ -65,13 +82,9 @@ public class TransportistaService implements ITransportistaService {
                 Transportista transportista = new Transportista(datos);
                 transportistas.add(transportista);
             }
-            if (transportistas.isEmpty()){
-                return false;
-            }
             rep.saveAll(transportistas);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

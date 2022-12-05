@@ -16,6 +16,8 @@ public class Ubicacion extends Entidad {
     private String canton;
     @Column(name = "parroquia", nullable = true)
     private String parroquia;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public Ubicacion(){
 
@@ -25,12 +27,13 @@ public class Ubicacion extends Entidad {
         super(id);
     }
 
-    public Ubicacion(String codigo, String codigoNorma, String provincia, String canton, String parroquia){
+    public Ubicacion(String codigo, String codigoNorma, String provincia, String canton, String parroquia, String estado){
         super(codigo);
         this.codigoNorma=codigoNorma;
         this.provincia=provincia;
         this.canton=canton;
         this.parroquia=parroquia;
+        this.estado=estado;
     }
 
     public Ubicacion(String codigoNorma, String provincia, String canton, String parroquia){
@@ -68,6 +71,10 @@ public class Ubicacion extends Entidad {
     public String getParroquia() {
         return parroquia;
     }
+    
+    public String getEstado() {
+		return estado;
+	}
 
     public void setProvincia(String provincia) {
         this.provincia = provincia;
@@ -80,4 +87,8 @@ public class Ubicacion extends Entidad {
     public void setParroquia(String parroquia) {
         this.parroquia = parroquia;
     }
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

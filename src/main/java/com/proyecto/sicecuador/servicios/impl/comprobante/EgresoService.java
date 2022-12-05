@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Egreso;
 import com.proyecto.sicecuador.repositorios.comprobante.IEgresoRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IEgresoService;
@@ -36,19 +36,34 @@ public class EgresoService implements IEgresoService {
     }
 
     @Override
-    public Egreso eliminar(Egreso egreso) {
-        rep.deleteById(egreso.getId());
-        return egreso;
+    public Egreso activar(Egreso egreso) {
+        egreso.setEstado(Constantes.activo);
+        return rep.save(egreso);
     }
 
     @Override
-    public Optional<Egreso> obtener(Egreso egreso) {
-        return rep.findById(egreso.getId());
+    public Egreso inactivar(Egreso egreso) {
+        egreso.setEstado(Constantes.inactivo);
+        return rep.save(egreso);
+    }
+
+    @Override
+    public Egreso obtener(long id) {
+        Optional<Egreso> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.egreso);
     }
 
     @Override
     public List<Egreso> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Egreso> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -57,7 +72,6 @@ public class EgresoService implements IEgresoService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public void importar(MultipartFile file) {
     }
 }

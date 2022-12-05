@@ -32,6 +32,13 @@ public class EgresoController implements GenericoController<Egreso> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, egresos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Egreso> egresos = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, egresos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +49,7 @@ public class EgresoController implements GenericoController<Egreso> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Egreso egreso=servicio.obtener(new Egreso(id)).get();
+        Egreso egreso=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, egreso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,11 +67,18 @@ public class EgresoController implements GenericoController<Egreso> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, egreso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Egreso egreso=servicio.eliminar(new Egreso(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, egreso);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Egreso _egreso) {
+    	Egreso egreso=servicio.activar(_egreso);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, egreso);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Egreso _egreso) {
+    	Egreso egreso= servicio.inactivar(_egreso);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, egreso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

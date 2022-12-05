@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.TipoPago;
+import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoPagoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITipoPagoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,33 +23,49 @@ public class TipoPagoService implements ITipoPagoService {
     private ITipoPagoRepository rep;
     
     @Override
-    public TipoPago crear(TipoPago tipo_pago) {
+    public TipoPago crear(TipoPago tipoPago) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_pago);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	tipo_pago.setCodigo(codigo.get());
-    	return rep.save(tipo_pago);
+    	tipoPago.setCodigo(codigo.get());
+    	return rep.save(tipoPago);
     }
 
     @Override
-    public TipoPago actualizar(TipoPago tipo_pago) {
-        return rep.save(tipo_pago);
+    public TipoPago actualizar(TipoPago tipoPago) {
+        return rep.save(tipoPago);
     }
 
     @Override
-    public TipoPago eliminar(TipoPago tipo_pago) {
-        rep.deleteById(tipo_pago.getId());
-        return tipo_pago;
+    public TipoPago activar(TipoPago tipoPago) {
+        tipoPago.setEstado(Constantes.activo);
+        return rep.save(tipoPago);
     }
 
     @Override
-    public Optional<TipoPago> obtener(TipoPago tipo_pago) {return rep.findById(tipo_pago.getId());
+    public TipoPago inactivar(TipoPago tipoPago) {
+        tipoPago.setEstado(Constantes.inactivo);
+        return rep.save(tipoPago);
+    }
+
+    @Override
+    public TipoPago obtener(long id) {
+    	Optional<TipoPago> res= rep.findById(id);
+    	if(res.isPresent()) {
+    		return res.get();
+    	}
+    	throw new EntidadNoExistenteException(Constantes.tipo_pago);
     }
 
     @Override
     public List<TipoPago> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<TipoPago> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -56,21 +74,17 @@ public class TipoPagoService implements ITipoPagoService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
             List<TipoPago> tipos_pagos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,19);
+            List<List<String>>info= Util.leerImportar(archivoTemporal, 19);
             for (List<String> datos: info) {
                 TipoPago tipo_pago = new TipoPago(datos);
                 tipos_pagos.add(tipo_pago);
             }
-            if(tipos_pagos.isEmpty()){
-                return false;
-            }
             rep.saveAll(tipos_pagos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

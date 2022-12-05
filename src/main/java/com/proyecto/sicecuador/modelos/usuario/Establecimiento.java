@@ -67,4 +67,8 @@ public class Establecimiento extends Entidad {
     public Ubicacion getUbicacion() {
         return ubicacion;
     }
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

@@ -42,7 +42,7 @@ public class TipoContribuyenteController implements GenericoController<TipoContr
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        TipoContribuyente tipo_contribuyente=servicio.obtener(new TipoContribuyente(id)).get();
+        TipoContribuyente tipo_contribuyente=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_contribuyente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -61,17 +61,10 @@ public class TipoContribuyenteController implements GenericoController<TipoContr
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        TipoContribuyente tipo_contribuyente=servicio.eliminar(new TipoContribuyente(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_contribuyente);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

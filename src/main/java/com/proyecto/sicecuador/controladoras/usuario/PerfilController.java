@@ -32,6 +32,13 @@ public class PerfilController implements GenericoController<Perfil> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, perfiles);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Perfil> perfiles= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, perfiles);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +49,7 @@ public class PerfilController implements GenericoController<Perfil> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Perfil perfil=servicio.obtener(new Perfil(id)).get();
+        Perfil perfil=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, perfil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,18 +67,25 @@ public class PerfilController implements GenericoController<Perfil> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, perfil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Perfil perfil=servicio.eliminar(new Perfil(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, perfil);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Perfil _perfil) {
+    	Perfil perfil = servicio.activar(_perfil);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, perfil);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Perfil _perfil) {
+    	Perfil perfil = servicio.inactivar(_perfil);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, perfil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 @RestController
 @RequestMapping(contexto+pathEntrega)
 public class EntregaController implements GenericoController<Entrega> {
@@ -43,7 +42,7 @@ public class EntregaController implements GenericoController<Entrega> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Entrega entrega=servicio.obtener(new Entrega(id)).get();
+        Entrega entrega=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, entrega);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -61,25 +60,18 @@ public class EntregaController implements GenericoController<Entrega> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, entrega);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Entrega entrega=servicio.eliminar(new Entrega(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, entrega);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
     
     @GetMapping(value = "/factura/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerPorFactura(@PathVariable("id") long id) {
-        Optional<Entrega> entrega=servicio.obtenerPorFactura(id);
+        Entrega entrega=servicio.obtenerPorFactura(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, entrega);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

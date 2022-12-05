@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Impuesto;
 import com.proyecto.sicecuador.repositorios.inventario.IImpuestoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IImpuestoService;
@@ -36,19 +37,34 @@ public class ImpuestoService implements IImpuestoService {
     }
 
     @Override
-    public Impuesto eliminar(Impuesto impuesto) {
-        rep.deleteById(impuesto.getId());
-        return impuesto;
+    public Impuesto activar(Impuesto impuesto) {
+        impuesto.setEstado(Constantes.activo);
+        return rep.save(impuesto);
     }
 
     @Override
-    public Optional<Impuesto> obtener(Impuesto impuesto) {
-        return rep.findById(impuesto.getId());
+    public Impuesto inactivar(Impuesto impuesto) {
+        impuesto.setEstado(Constantes.inactivo);
+        return rep.save(impuesto);
+    }
+
+    @Override
+    public Impuesto obtener(long id) {
+        Optional<Impuesto> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.impuesto);
     }
 
     @Override
     public List<Impuesto> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Impuesto> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -58,10 +74,10 @@ public class ImpuestoService implements IImpuestoService {
 
     @Override
     public Optional<Impuesto> obtenerImpuestoPorcentaje(Impuesto impuesto) {
-        return rep.findByPorcentaje(impuesto.getPorcentaje());
+        return rep.findByPorcentaje(impuesto.getPorcentaje(), Constantes.activo);
     }
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Impuesto> impuestos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,3);
@@ -69,13 +85,9 @@ public class ImpuestoService implements IImpuestoService {
                 Impuesto impuesto = new Impuesto(datos);
                 impuestos.add(impuesto);
             }
-            if(impuestos.isEmpty()){
-                return false;
-            }
             rep.saveAll(impuestos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 

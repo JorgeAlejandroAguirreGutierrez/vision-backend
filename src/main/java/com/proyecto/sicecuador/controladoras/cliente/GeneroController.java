@@ -32,6 +32,13 @@ public class GeneroController implements GenericoController<Genero> {
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, generos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Genero> generos = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, generos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +49,7 @@ public class GeneroController implements GenericoController<Genero> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Genero genero=servicio.obtener(new Genero(id)).get();
+        Genero genero=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, genero);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,11 +67,18 @@ public class GeneroController implements GenericoController<Genero> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, genero);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Genero genero=servicio.eliminar(new Genero(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, genero);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Genero _genero) {
+    	Genero genero=servicio.activar(_genero);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, genero);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Genero _genero) {
+    	Genero genero=servicio.inactivar(_genero);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, genero);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
@@ -77,8 +91,8 @@ public class GeneroController implements GenericoController<Genero> {
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

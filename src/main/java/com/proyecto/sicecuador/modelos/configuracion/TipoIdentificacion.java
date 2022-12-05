@@ -11,8 +11,6 @@ public class TipoIdentificacion extends Entidad {
     private String codigoSri;
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
-    @Column(name = "estado", nullable = true)
-    private String estado;
 
     public TipoIdentificacion(){
 
@@ -22,17 +20,15 @@ public class TipoIdentificacion extends Entidad {
         super(id);
     }
 
-    public TipoIdentificacion(String codigo, String codigoSri, String descripcion, String estado) {
+    public TipoIdentificacion(String codigo, String codigoSri, String descripcion) {
         super(codigo);
         this.codigoSri=codigoSri;
         this.descripcion=descripcion;
-        this.estado=estado;
     }
     
     public TipoIdentificacion(List<String> datos){
         codigoSri=datos.get(0)== null ? null: datos.get(0);
         descripcion=datos.get(1)== null ? null: datos.get(1);
-        estado=datos.get(2)== null ? null: datos.get(2);
 
     }
     
@@ -42,9 +38,5 @@ public class TipoIdentificacion extends Entidad {
 
     public String getDescripcion() {
 	   return descripcion;
-    }	
-
-    public String getEstado() {
-		return estado;
-	}
+    }
 }

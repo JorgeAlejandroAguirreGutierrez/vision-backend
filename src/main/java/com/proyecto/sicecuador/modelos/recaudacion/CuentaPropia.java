@@ -8,13 +8,15 @@ import java.util.List;
 public class CuentaPropia extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @ManyToOne
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
 
     public CuentaPropia(){
     }
-    public CuentaPropia(String codigo, String numero, Banco banco){
+    public CuentaPropia(String codigo, String numero, String estado, Banco banco){
         super(codigo);
         this.numero=numero;
         this.banco=banco;
@@ -31,6 +33,10 @@ public class CuentaPropia extends Entidad {
     public String getNumero() {
         return numero;
     }
+    
+    public String getEstado() {
+		return estado;
+	}
 
     public Banco getBanco() {
         return banco;
@@ -39,6 +45,10 @@ public class CuentaPropia extends Entidad {
     public void setNumero(String numero) {
         this.numero = numero;
     }
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
     public void setBanco(Banco banco) {
         this.banco = banco;

@@ -15,6 +15,8 @@ public class Modelo extends Entidad {
     private String nombreTecnico;
     @Column(name = "endpoint", nullable = true)
     private String endpoint;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     public Modelo(){
 
     }
@@ -23,10 +25,11 @@ public class Modelo extends Entidad {
         super(id);
     }
 
-    public Modelo(String nombre, String nombreTecnico, String endpoint) {
+    public Modelo(String nombre, String nombreTecnico, String endpoint, String estado) {
         this.nombre = nombre;
         this.endpoint= endpoint;
         this.nombreTecnico=nombreTecnico;
+        this.estado=estado;
     }
 
     public String getNombre() {
@@ -36,4 +39,12 @@ public class Modelo extends Entidad {
     public String getEndpoint() {
         return endpoint;
     }
+    
+    public String getEstado() {
+		return estado;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

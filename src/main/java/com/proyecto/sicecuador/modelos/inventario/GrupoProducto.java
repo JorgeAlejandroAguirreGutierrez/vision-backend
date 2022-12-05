@@ -23,7 +23,6 @@ public class GrupoProducto extends Entidad {
     private String sublinea;
     @Column(name = "presentacion", nullable = true)
     private String presentacion;
-
     @Column(name = "estado", nullable = true)
     private String estado;
 
@@ -108,5 +107,9 @@ public class GrupoProducto extends Entidad {
 
 	public void setMovimientoContable(MovimientoContable movimientoContable) {
 		this.movimientoContable = movimientoContable;
+	}
+	
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 }

@@ -32,6 +32,8 @@ public class Constantes {
     public static final String mensaje_importacion_exitoso="Exito al importar";
     public static final String mensaje_exportacion_exitoso="Exito al exportar";
     public static final String mensaje_calcular_exitoso="Exito al calcular";
+    public static final String mensaje_activar_exitoso="Exito al activar";
+    public static final String mensaje_inactivar_exitoso="Exito al inactivar";
 
     public static final String mensaje_consulta_fallido="Error en la consulta los objetos";
     public static final String mensaje_obtener_fallido="Error al obtener un objeto";
@@ -40,6 +42,8 @@ public class Constantes {
     public static final String mensaje_eliminar_fallido="Exito al eliminar un objeto";
     public static final String mensaje_importacion_fallido="Error al importar";
     public static final String mensaje_exportacion_fallido="Error al exportar";
+    public static final String mensaje_activar_fallido="Error al activar";
+    public static final String mensaje_inactivar_fallido="Error al inactivar";
 
     public static final String mensaje_validacion_not_blank=" no debe estar en blanco";
     public static final String mensaje_validacion_not_null=" se debe registrar";
@@ -187,6 +191,7 @@ public class Constantes {
     public static final String celular="CELULAR";
     public static final String celular_auxiliar="CELULAR AUXILIAR";
     public static final String cliente="CLIENTE";
+    public static final String tipo_identificacion="TIPO IDENTIFICACION";
     public static final String correo="CORREO";
     public static final String correo_auxiliar="CORREO AUXILIAR";
     public static final String direccion="DIRECCION";

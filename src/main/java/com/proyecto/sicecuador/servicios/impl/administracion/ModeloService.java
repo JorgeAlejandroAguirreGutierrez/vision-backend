@@ -1,7 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.administracion;
 
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.administracion.Modelo;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.repositorios.administracion.IModeloRepository;
 import com.proyecto.sicecuador.servicios.interf.administracion.IModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,21 +26,36 @@ public class ModeloService implements IModeloService {
     public Modelo actualizar(Modelo modelo) {
         return rep.save(modelo);
     }
-
+    
     @Override
-    public Modelo eliminar(Modelo modelo) {
-        rep.deleteById(modelo.getId());
-        return modelo;
+    public Modelo activar(Modelo modelo) {
+        modelo.setEstado(Constantes.activo);
+        return rep.save(modelo);
     }
 
     @Override
-    public Optional<Modelo> obtener(Modelo modelo) {
-        return rep.findById(modelo.getId());
+    public Modelo inactivar(Modelo modelo) {
+        modelo.setEstado(Constantes.inactivo);
+        return rep.save(modelo);
     }
 
+    @Override
+    public Modelo obtener(long id) {
+        Optional<Modelo> resp= rep.findById(id);
+        if(resp.isPresent()) {
+        	return resp.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.modelo);
+    }
+    
     @Override
     public List<Modelo> consultar() {
         return rep.findAll();
+    }
+
+    @Override
+    public List<Modelo> consultarActivos() {
+        return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -48,8 +64,7 @@ public class ModeloService implements IModeloService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public void importar(MultipartFile file) {
     }
 
 }

@@ -141,7 +141,7 @@ public class Util {
     
     public static Optional<String> generarCodigo(String tabla){
     	try {
-    		Optional<Parametro> parametro = parametroRep.findByTablaAndTipo(tabla, Constantes.tipo);
+    		Optional<Parametro> parametro = parametroRep.findByTablaAndTipo(tabla, Constantes.tipo, Constantes.activo);
         	Optional<String> conteo= conteo(tabla);
         	if (parametro.isPresent() && conteo.isPresent()) {
             	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);

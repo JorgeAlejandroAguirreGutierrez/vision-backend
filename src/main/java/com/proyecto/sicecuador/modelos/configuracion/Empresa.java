@@ -89,4 +89,8 @@ public class Empresa extends Entidad {
 	public String getLogo() {
 		return logo;
 	}
+	
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

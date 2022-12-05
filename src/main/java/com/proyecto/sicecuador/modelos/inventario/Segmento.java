@@ -16,8 +16,6 @@ public class Segmento extends Entidad {
     private String descripcion;
     @Column(name = "margen_ganancia", nullable = true)
     private double margenGanancia;
-	@NotNull
-	@NotEmpty
     @Column(name = "estado")
     private String estado;
 	

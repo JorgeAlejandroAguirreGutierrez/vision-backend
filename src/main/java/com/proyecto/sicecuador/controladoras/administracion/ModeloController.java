@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.modelo;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.administracion.Modelo;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.administracion.IModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,6 +32,13 @@ public class ModeloController {
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Modelo> modelos=servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, modelos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
     	Page<Modelo> modelos = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
@@ -42,7 +48,7 @@ public class ModeloController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Modelo modelo=servicio.obtener(new Modelo(id)).get();
+        Modelo modelo=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, modelo);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -58,13 +64,6 @@ public class ModeloController {
     public ResponseEntity<?> actualizar(@RequestBody Modelo _modelo) {
         Modelo modelo=servicio.actualizar(_modelo);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, modelo);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Modelo modelo=servicio.eliminar(new Modelo(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, modelo);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

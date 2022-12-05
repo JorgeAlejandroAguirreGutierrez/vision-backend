@@ -4,16 +4,17 @@ import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IClienteService extends IGenericoService<Cliente> {
 
-	List<Cliente> consultarPersonalizado();
-	Optional<Cliente> eliminarPersonalizado(long id);
-    Optional<Cliente> obtenerIdentificacion(Cliente cliente);
-    Optional<Cliente> obtenerRazonSocial(Cliente cliente);
+	List<Cliente> consultarActivos();
+	Cliente activar(Cliente cliente);
+	Cliente inactivar(Cliente cliente);
+    String existe(Cliente cliente);
+    Cliente obtenerPorIdentificacion(Cliente cliente);
+    Cliente obtenerPorRazonSocial(Cliente cliente);
     List<Cliente> buscar(Cliente cliente);
-    Optional<Cliente> validarIdentificacion(Cliente cliente);
+    Cliente validarIdentificacion(Cliente cliente);
     boolean verificarPersonaNatural(String identificacion);
     boolean verificarCedula(String identificacion);
     boolean verificarSociedadesPublicas(String identificacion);

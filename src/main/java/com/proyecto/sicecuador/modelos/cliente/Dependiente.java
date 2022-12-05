@@ -51,10 +51,9 @@ public class Dependiente extends Entidad {
 
     }
 
-    public Dependiente(String razonSocial, Cliente cliente){
+    public Dependiente(String razonSocial){
         super("");
         this.razonSocial=razonSocial;
-        this.cliente=cliente;
     }
 
     public Dependiente(Cliente cliente){
@@ -84,6 +83,11 @@ public class Dependiente extends Entidad {
     public Direccion getDireccion() {
         return direccion;
     }
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
+    
     @JsonManagedReference
     public List<TelefonoDependiente> getTelefonosAuxiliar() {
 		return telefonosAuxiliar;

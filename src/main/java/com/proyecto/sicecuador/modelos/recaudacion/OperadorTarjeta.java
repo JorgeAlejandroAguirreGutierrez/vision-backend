@@ -12,6 +12,8 @@ public class OperadorTarjeta extends Entidad {
     private String nombre;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public OperadorTarjeta(){
     }
@@ -20,11 +22,12 @@ public class OperadorTarjeta extends Entidad {
         super(id);
     }
 
-    public OperadorTarjeta(String codigo, String tipo, String nombre, String abreviatura){
+    public OperadorTarjeta(String codigo, String tipo, String nombre, String abreviatura, String estado){
         super(codigo);
         this.tipo=tipo;
         this.nombre=nombre;
         this.abreviatura=abreviatura;
+        this.estado=estado;
     }
     public OperadorTarjeta(String tipo){
         super();
@@ -46,4 +49,11 @@ public class OperadorTarjeta extends Entidad {
     public String getAbreviatura() {
         return abreviatura;
     }
+    public String getEstado() {
+		return estado;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

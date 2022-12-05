@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathCuentaPropia)
@@ -30,43 +29,57 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<CuentaPropia> cuentas_propias=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentas_propias);
+        List<CuentaPropia> cuentasPropias=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasPropias);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<CuentaPropia> cuentasPropias= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasPropias);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<CuentaPropia> cuentas_propias = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, cuentas_propias);
+    	Page<CuentaPropia> cuentasPropias = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, cuentasPropias);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<CuentaPropia> cuenta_propia=servicio.obtener(new CuentaPropia(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuenta_propia);
+        CuentaPropia cuentaPropia=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentaPropia);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid CuentaPropia _cuenta_propia) {
-        CuentaPropia cuenta_propia=servicio.crear(_cuenta_propia);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cuenta_propia);
+        CuentaPropia cuentaPropia=servicio.crear(_cuenta_propia);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, cuentaPropia);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody CuentaPropia _cuenta_propia) {
-        CuentaPropia cuenta_propia=servicio.actualizar(_cuenta_propia);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cuenta_propia);
+        CuentaPropia cuentaPropia=servicio.actualizar(_cuenta_propia);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cuentaPropia);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        CuentaPropia cuenta_propia=servicio.eliminar(new CuentaPropia(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, cuenta_propia);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody CuentaPropia _cuentaPropia) {
+    	CuentaPropia cuentaPropia = servicio.activar(_cuentaPropia);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, cuentaPropia);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody CuentaPropia _cuentaPropia) {
+    	CuentaPropia cuentaPropia = servicio.inactivar(_cuentaPropia);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, cuentaPropia);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

@@ -23,8 +23,6 @@ public class Proveedor extends Entidad {
     private String nombreComercial;
     @Column(name = "estado")
     private String estado;
-    @Column(name = "eliminado")
-    private boolean eliminado;
     @Column(name = "direccion", nullable = true)
     private String direccion;
     @Column(name = "telefono", nullable = true)
@@ -41,7 +39,7 @@ public class Proveedor extends Entidad {
     }
 
     public Proveedor(String codigo, String tipo_identificacion, String identificacion,  
-    				String razon_social, String nombreComercial, String estado, boolean eliminado,
+    				String razon_social, String nombreComercial, String estado,
     				String direccion, String telefono, String correo){
         super(codigo);
     	this.tipoIdentificacion = tipo_identificacion;
@@ -49,7 +47,6 @@ public class Proveedor extends Entidad {
     	this.razonSocial = razon_social;
     	this.nombreComercial = nombreComercial;
     	this.estado = estado;
-    	this.eliminado = eliminado;
     	this.direccion = direccion;
     	this.telefono = telefono;
     	this.correo = correo;
@@ -63,7 +60,6 @@ public class Proveedor extends Entidad {
         razonSocial=datos.get(2)== null ? null: datos.get(2);
         nombreComercial=datos.get(3)== null ? null: datos.get(3);
         estado=datos.get(4)== null ? null: datos.get(4);
-        eliminado= datos.get(5)== null ? null: datos.get(5).equals("S") ? true : false;
         direccion= datos.get(6)== null ? null: datos.get(6);
         telefono= datos.get(7)== null ? null: datos.get(7);
         correo= datos.get(8)== null ? null: datos.get(8);
@@ -88,10 +84,6 @@ public class Proveedor extends Entidad {
 
     public String getEstado() {
         return estado;
-    }
-
-    public boolean isEliminado() {
-        return eliminado;
     }
 
     public String getDireccion() {
@@ -123,10 +115,6 @@ public class Proveedor extends Entidad {
     
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-    
-    public void setEliminado(boolean eliminado) {
-        this.eliminado = eliminado;
     }
 
     public void setDireccion(String direccion) {

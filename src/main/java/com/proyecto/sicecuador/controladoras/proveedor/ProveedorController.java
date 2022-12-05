@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathProveedor;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-//import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 import com.proyecto.sicecuador.servicios.interf.proveedor.IProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathProveedor)
@@ -35,6 +33,13 @@ public class ProveedorController implements GenericoController<Proveedor> {
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, proveedores);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Proveedor> proveedores= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, proveedores);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -45,7 +50,7 @@ public class ProveedorController implements GenericoController<Proveedor> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<Proveedor> proveedor=servicio.obtener(new Proveedor(id));
+        Proveedor proveedor=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, proveedor);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -63,11 +68,18 @@ public class ProveedorController implements GenericoController<Proveedor> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, proveedor);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Proveedor proveedor=servicio.eliminar(new Proveedor(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, proveedor);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Proveedor _proveedor) {
+    	Proveedor proveedor = servicio.activar(_proveedor);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, proveedor);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Proveedor _proveedor) {
+    	Proveedor proveedor = servicio.inactivar(_proveedor);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, proveedor);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

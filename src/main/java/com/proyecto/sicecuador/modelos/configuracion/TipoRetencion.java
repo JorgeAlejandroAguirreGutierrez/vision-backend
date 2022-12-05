@@ -18,6 +18,8 @@ public class TipoRetencion extends Entidad {
     private String descripcion;
     @Column(name = "porcentaje", nullable = true)
     private double porcentaje;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public TipoRetencion(){
 
@@ -27,7 +29,7 @@ public class TipoRetencion extends Entidad {
         super(id);
     }
 
-    public TipoRetencion(String codigo, String impuestoRetencion, String tipoRetencion, String codigoNorma, String homologacionFE, String descripcion,double porcentaje){
+    public TipoRetencion(String codigo, String impuestoRetencion, String tipoRetencion, String codigoNorma, String homologacionFE, String descripcion, double porcentaje, String estado){
         super(codigo);
         this.impuestoRetencion=impuestoRetencion;
         this.tipoRetencion=tipoRetencion;
@@ -35,6 +37,7 @@ public class TipoRetencion extends Entidad {
         this.homologacionFE=homologacionFE;
         this.descripcion=descripcion;
         this.porcentaje=porcentaje;
+        this.estado=estado;
     }
     public TipoRetencion(List<String> datos){
         impuestoRetencion=datos.get(0)== null ? null: datos.get(0);
@@ -68,4 +71,12 @@ public class TipoRetencion extends Entidad {
     public double getPorcentaje() {
         return porcentaje;
     }
+    
+    public String getEstado() {
+		return estado;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

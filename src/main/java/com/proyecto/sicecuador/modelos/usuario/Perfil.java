@@ -12,6 +12,8 @@ public class Perfil extends Entidad {
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "perfil_id")
     private List<Permiso> permisos;
@@ -23,10 +25,11 @@ public class Perfil extends Entidad {
         super(id);
     }
 
-    public Perfil (String codigo, String descripcion, String abreviatura){
+    public Perfil (String codigo, String descripcion, String abreviatura, String estado){
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
+        this.estado=estado;
     }
 
     public Perfil(List<String>datos){
@@ -41,6 +44,14 @@ public class Perfil extends Entidad {
     public String getAbreviatura() {
         return abreviatura;
     }
+    
+    public String getEstado() {
+		return estado;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
     @JsonManagedReference
     public List<Permiso> getPermisos() {

@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.repositorios.configuracion.IEmpresaRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IEmpresaService;
@@ -38,19 +38,34 @@ public class EmpresaService implements IEmpresaService {
     }
 
     @Override
-    public Empresa eliminar(Empresa empresa) {
-        rep.deleteById(empresa.getId());
-        return empresa;
+    public Empresa activar(Empresa empresa) {
+        empresa.setEstado(Constantes.activo);
+        return rep.save(empresa);
     }
 
     @Override
-    public Optional<Empresa> obtener(Empresa empresa) {
-        return rep.findById(empresa.getId());
+    public Empresa inactivar(Empresa empresa) {
+        empresa.setEstado(Constantes.inactivo);
+        return rep.save(empresa);
+    }
+
+    @Override
+    public Empresa obtener(long id) {
+        Optional<Empresa> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.empresa);
     }
 
     @Override
     public List<Empresa> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Empresa> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -59,21 +74,17 @@ public class EmpresaService implements IEmpresaService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
             List<Empresa> empresas=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
+            List<List<String>>info= Util.leerImportar(archivoTemporal, 0);
             for (List<String> datos: info) {
                 Empresa empresa = new Empresa(datos);
                 empresas.add(empresa);
             }
-            if(empresas.isEmpty()){
-                return false;
-            }
             rep.saveAll(empresas);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

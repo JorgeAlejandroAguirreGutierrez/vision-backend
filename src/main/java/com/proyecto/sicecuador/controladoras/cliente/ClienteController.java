@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathCliente)
@@ -35,6 +34,13 @@ public class ClienteController implements GenericoController<Cliente> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Cliente> clientes=servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
     	Page<Cliente> clientes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
@@ -44,7 +50,7 @@ public class ClienteController implements GenericoController<Cliente> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<Cliente> cliente=servicio.obtener(new Cliente(id));
+        Cliente cliente=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -63,11 +69,18 @@ public class ClienteController implements GenericoController<Cliente> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Cliente cliente=servicio.eliminar(new Cliente(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, cliente);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Cliente _cliente) {
+    	Cliente cliente=servicio.activar(_cliente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, cliente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Cliente _cliente) {
+    	Cliente cliente=servicio.inactivar(_cliente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -75,7 +88,7 @@ public class ClienteController implements GenericoController<Cliente> {
     public ResponseEntity<?> obtenerIdentificacion(@PathVariable("identificacion") String identificacion) {
         Cliente cliente=new Cliente();
         cliente.setIdentificacion(identificacion);
-        Optional<Cliente> _cliente=servicio.obtenerIdentificacion(cliente);
+        Cliente _cliente=servicio.obtenerPorIdentificacion(cliente);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -83,7 +96,7 @@ public class ClienteController implements GenericoController<Cliente> {
     public ResponseEntity<?> obtenerRazonSocial(@PathVariable("razonSocial") String razonSocial) {
         Cliente cliente=new Cliente();
         cliente.setRazonSocial(razonSocial);
-        Optional<Cliente> _cliente=servicio.obtenerRazonSocial(cliente);
+        Cliente _cliente=servicio.obtenerPorRazonSocial(cliente);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -98,27 +111,15 @@ public class ClienteController implements GenericoController<Cliente> {
     public ResponseEntity<?> validarIdentificacion(@PathVariable("identificacion") String identificacion) {
         Cliente cliente=new Cliente();
         cliente.setIdentificacion(identificacion);
-        Optional<Cliente> _cliente=servicio.validarIdentificacion(cliente);
+        Cliente _cliente=servicio.validarIdentificacion(cliente);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    
-    @DeleteMapping(value = "personalizado/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminarPersonalizado(@PathVariable("id") long id) {
-        Optional<Cliente> _cliente=servicio.eliminarPersonalizado(id);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    
+    }  
     
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-	    boolean bandera=servicio.importar(archivo);
-	    if(bandera){
-	        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_importacion_exitoso, bandera);
-	        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-	    }
-	    Respuesta respuesta=new Respuesta(true,Constantes.mensaje_importacion_fallido, bandera);
-	    return new ResponseEntity<>(respuesta, HttpStatus.INTERNAL_SERVER_ERROR);
+	    servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_importacion_exitoso, null);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

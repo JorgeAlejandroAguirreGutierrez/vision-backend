@@ -32,6 +32,13 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposRetenciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<TipoRetencion> tiposRetenciones = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposRetenciones);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +49,7 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        TipoRetencion tipoRetencion=servicio.obtener(new TipoRetencion(id)).get();
+        TipoRetencion tipoRetencion=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipoRetencion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,11 +67,18 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipoRetencion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        TipoRetencion tipoRetencion=servicio.eliminar(new TipoRetencion(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipoRetencion);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody TipoRetencion _tipoRetencion) {
+    	TipoRetencion tipoRetencion=servicio.activar(_tipoRetencion);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, tipoRetencion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody TipoRetencion _tipoRetencion) {
+    	TipoRetencion tipoRetencion = servicio.inactivar(_tipoRetencion);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, tipoRetencion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -92,10 +106,11 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tiposRetenciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

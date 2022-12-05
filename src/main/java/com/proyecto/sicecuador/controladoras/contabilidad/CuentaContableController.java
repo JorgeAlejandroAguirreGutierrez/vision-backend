@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathCuentaContable;
@@ -34,6 +33,13 @@ public class CuentaContableController implements GenericoController<CuentaContab
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentas_contables);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<CuentaContable> cuentasContables = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasContables);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -44,8 +50,8 @@ public class CuentaContableController implements GenericoController<CuentaContab
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<CuentaContable> cuentas_contables=servicio.obtener(new CuentaContable(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentas_contables);
+        CuentaContable cuentaContable=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentaContable);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -62,11 +68,18 @@ public class CuentaContableController implements GenericoController<CuentaContab
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cuentaContable);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        CuentaContable cuentaContable=servicio.eliminar(new CuentaContable(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, cuentaContable);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody CuentaContable _cuentaContable) {
+    	CuentaContable cuentaContable = servicio.activar(_cuentaContable);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, cuentaContable);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody CuentaContable _cuentaContable) {
+    	CuentaContable cuentaContable = servicio.inactivar(_cuentaContable);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, cuentaContable);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

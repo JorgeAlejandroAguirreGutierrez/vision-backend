@@ -3,7 +3,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
-import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
+import com.proyecto.sicecuador.modelos.usuario.Estacion;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -36,7 +36,7 @@ public class Cliente extends Entidad {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "punto_venta_id")
-    private PuntoVenta puntoVenta;
+    private Estacion puntoVenta;
     @NotNull
     @ManyToOne
     @JoinColumn(name = "grupo_cliente_id")
@@ -98,7 +98,7 @@ public class Cliente extends Entidad {
     }
 
     public Cliente(String codigo, String identificacion, String razonSocial, boolean especial, String estado, 
-    		boolean eliminado, TipoIdentificacion tipoIdentificacion, PuntoVenta puntoVenta, 
+    		boolean eliminado, TipoIdentificacion tipoIdentificacion, Estacion puntoVenta, 
     		GrupoCliente grupoCliente, TipoContribuyente tipoContribuyente, Direccion direccion, 
     		Financiamiento financiamiento, Genero genero, EstadoCivil estadoCivil,
             CalificacionCliente calificacionCliente, OrigenIngreso origenIngreso, Segmento segmento){
@@ -128,7 +128,7 @@ public class Cliente extends Entidad {
         especial=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
         estado= datos.get(4)== null ? null: datos.get(4);
         tipoContribuyente= datos.get(6)== null ? null: new TipoContribuyente((long) Double.parseDouble(datos.get(6)));
-        puntoVenta= datos.get(7)== null ? null: new PuntoVenta((long) Double.parseDouble(datos.get(7)));
+        puntoVenta= datos.get(7)== null ? null: new Estacion((long) Double.parseDouble(datos.get(7)));
         grupoCliente= datos.get(8)== null ? null: new GrupoCliente((long) Double.parseDouble(datos.get(8)));
         direccion= datos.get(9)== null ? null: new Direccion((long) Double.parseDouble(datos.get(9)));
         financiamiento=datos.get(10)== null ? null:new Financiamiento((long) Double.parseDouble(datos.get(10)));
@@ -163,7 +163,7 @@ public class Cliente extends Entidad {
         return estado;
     }
 
-    public PuntoVenta getPuntoVenta() {
+    public Estacion getPuntoVenta() {
 		return puntoVenta;
 	}
 

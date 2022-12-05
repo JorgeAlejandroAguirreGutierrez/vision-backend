@@ -159,6 +159,9 @@ public class Producto extends Entidad {
 		return productosBodegas;
 	}
 
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
     
     public void setSerieAutogenerado(boolean serieAutogenerado) {
 		this.serieAutogenerado = serieAutogenerado;

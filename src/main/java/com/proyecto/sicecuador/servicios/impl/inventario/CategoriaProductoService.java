@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
 import com.proyecto.sicecuador.repositorios.inventario.ICategoriaProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ICategoriaProductoService;
@@ -22,34 +23,49 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     private ICategoriaProductoRepository rep;
     
     @Override
-    public CategoriaProducto crear(CategoriaProducto categoria_producto) {
+    public CategoriaProducto crear(CategoriaProducto categoriaProducto) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_categoria_producto);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	categoria_producto.setCodigo(codigo.get());
-    	return rep.save(categoria_producto);
+    	categoriaProducto.setCodigo(codigo.get());
+    	return rep.save(categoriaProducto);
     }
 
     @Override
-    public CategoriaProducto actualizar(CategoriaProducto categoria_producto) {
-        return rep.save(categoria_producto);
+    public CategoriaProducto actualizar(CategoriaProducto categoriaProducto) {
+        return rep.save(categoriaProducto);
     }
 
     @Override
-    public CategoriaProducto eliminar(CategoriaProducto categoria_producto) {
-        rep.deleteById(categoria_producto.getId());
-        return categoria_producto;
+    public CategoriaProducto activar(CategoriaProducto categoriaProducto) {
+        categoriaProducto.setEstado(Constantes.activo);
+        return rep.save(categoriaProducto);
     }
 
     @Override
-    public Optional<CategoriaProducto> obtener(CategoriaProducto categoria_producto) {
-        return rep.findById(categoria_producto.getId());
+    public CategoriaProducto inactivar(CategoriaProducto categoriaProducto) {
+        categoriaProducto.setEstado(Constantes.inactivo);
+        return rep.save(categoriaProducto);
+    }
+
+    @Override
+    public CategoriaProducto obtener(long id) {
+        Optional<CategoriaProducto> resp= rep.findById(id);
+        if(resp.isPresent()) {
+        	return resp.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.categoria_producto);
     }
 
     @Override
     public List<CategoriaProducto> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<CategoriaProducto> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -58,22 +74,18 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
-            List<CategoriaProducto> categorias_productos=new ArrayList<>();
+            List<CategoriaProducto> categoriasProductos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,10);
             for (List<String> datos: info) {
                 CategoriaProducto categoria_producto = new CategoriaProducto(datos);
-                categorias_productos.add(categoria_producto);
+                categoriasProductos.add(categoria_producto);
 
             }
-            if(categorias_productos.isEmpty()){
-                return false;
-            }
-            rep.saveAll(categorias_productos);
-            return true;
+            rep.saveAll(categoriasProductos);
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

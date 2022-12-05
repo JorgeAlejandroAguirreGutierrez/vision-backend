@@ -1,10 +1,10 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.repositorios.cliente.IDireccionRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IDireccionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +37,12 @@ public class DireccionService implements IDireccionService {
     }
 
     @Override
-    public Direccion eliminar(Direccion direccion) {
-        rep.deleteById(direccion.getId());
-        return direccion;
-    }
-
-    @Override
-    public Optional<Direccion> obtener(Direccion direccion) {
-        return rep.findById(direccion.getId());
+    public Direccion obtener(long id) {
+        Optional<Direccion> resp= rep.findById(id);
+        if(resp.isPresent()) {
+        	return resp.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.direccion);
     }
 
     @Override
@@ -58,21 +56,17 @@ public class DireccionService implements IDireccionService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
             List<Direccion> direcciones=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,7);
+            List<List<String>>info= Util.leerImportar(archivoTemporal,7);
             for (List<String> datos: info) {
                 Direccion direccion = new Direccion(datos);
                 direcciones.add(direccion);
             }
-            if(direcciones.isEmpty()){
-                return false;
-            }
             rep.saveAll(direcciones);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

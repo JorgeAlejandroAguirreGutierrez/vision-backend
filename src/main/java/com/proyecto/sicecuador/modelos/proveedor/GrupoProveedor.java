@@ -16,8 +16,6 @@ public class GrupoProveedor extends Entidad {
 	private String descripcion;
 	@Column(name = "abreviatura", nullable = true)
 	private String abreviatura;
-	@NotNull
-	@NotEmpty
 	@Column(name = "estado")
 	private String estado;
 	

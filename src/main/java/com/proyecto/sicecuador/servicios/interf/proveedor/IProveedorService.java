@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IProveedorService extends IGenericoService<Proveedor> {
-    //List<Proveedor> consultarProveedor();
+	Proveedor activar(Proveedor proveedor);
+	Proveedor inactivar(Proveedor proveedor);
+	List<Proveedor> consultarActivos();
     List<Proveedor> buscar(Proveedor proveedor);
 }

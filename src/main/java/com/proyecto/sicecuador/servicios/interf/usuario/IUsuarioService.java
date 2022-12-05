@@ -4,10 +4,11 @@ import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IUsuarioService extends IGenericoService<Usuario> {
+	List<Usuario> consultarActivos();
     List<Usuario> consultarVendedores();
     List<Usuario> consultarCajeros();
-    Optional<Usuario> activar(Usuario usuario);
+    Usuario activar(Usuario usuario);
+    Usuario inactivar(Usuario usuario);
 }

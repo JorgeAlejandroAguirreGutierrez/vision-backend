@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
 import com.proyecto.sicecuador.modelos.recaudacion.Credito;
 import com.proyecto.sicecuador.repositorios.recaudacion.ICreditoRepository;
@@ -37,14 +37,12 @@ public class CreditoService implements ICreditoService {
     }
 
     @Override
-    public Credito eliminar(Credito credito) {
-        rep.deleteById(credito.getId());
-        return credito;
-    }
-
-    @Override
-    public Optional<Credito> obtener(Credito credito) {
-        return rep.findById(credito.getId());
+    public Credito obtener(long id) {
+        Optional<Credito> res=rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.credito);
     }
 
     @Override
@@ -188,7 +186,7 @@ public class CreditoService implements ICreditoService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Credito> creditos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,2);
@@ -196,13 +194,9 @@ public class CreditoService implements ICreditoService {
                 Credito credito = new Credito(datos);
                 creditos.add(credito);
             }
-            if(creditos.isEmpty()){
-                return false;
-            }
             rep.saveAll(creditos);
-            return true;
         }catch (Exception e){
-            return false;
+        	System.err.println(e.getMessage());
         }
     }
 }

@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.inventario.IKardexRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
@@ -38,14 +38,12 @@ public class KardexService implements IKardexService {
     }
 
     @Override
-    public Kardex eliminar(Kardex kardex) {
-        rep.deleteById(kardex.getId());
-        return kardex;
-    }
-
-    @Override
-    public Optional<Kardex> obtener(Kardex kardex) {
-        return rep.findById(kardex.getId());
+    public Kardex obtener(long id) {
+        Optional<Kardex> res=rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.kardex);
     }
 
     @Override
@@ -59,7 +57,7 @@ public class KardexService implements IKardexService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Kardex> kardexs=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,8);
@@ -67,13 +65,9 @@ public class KardexService implements IKardexService {
                 Kardex kardex = new Kardex(datos);
                 kardexs.add(kardex);
             }
-            if(kardexs.isEmpty()){
-                return false;
-            }
             rep.saveAll(kardexs);
-            return true;
         }catch (Exception e){
-            return false;
+        	System.err.println(e.getMessage());
         }
     }
 }

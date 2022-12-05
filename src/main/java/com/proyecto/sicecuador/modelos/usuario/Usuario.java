@@ -18,11 +18,11 @@ public class Usuario extends Entidad {
     private String identificacion;
     @Column(name = "avatar", nullable = true)
     private String avatar;
-    @Column(name = "activo", nullable = true)
-    private String activo;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 	@ManyToOne
     @JoinColumn(name = "punto_venta_id", nullable = true)
-    private PuntoVenta puntoVenta;
+    private Estacion puntoVenta;
 	@ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
@@ -38,14 +38,14 @@ public class Usuario extends Entidad {
         super(id);
     }
 
-    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, String activo, PuntoVenta puntoVenta, Perfil perfil, Empresa empresa){
+    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, String estado, Estacion puntoVenta, Perfil perfil, Empresa empresa){
         super(codigo);
         this.nombre=nombre;
         this.correo=correo;
         this.identificacion=identificacion;
         this.contrasena=contrasena;
         this.avatar=avatar;
-        this.activo=activo;
+        this.estado=estado;
         this.puntoVenta=puntoVenta;
         this.perfil=perfil;
         this.empresa=empresa;
@@ -57,8 +57,8 @@ public class Usuario extends Entidad {
         contrasena=datos.get(2)== null ? null: datos.get(2);
         identificacion=datos.get(3)== null ? null: datos.get(3);
         avatar=datos.get(4)== null ? null: datos.get(4);
-        activo=datos.get(5)== null ? null: datos.get(5);
-        puntoVenta=datos.get(6)== null ? null:new PuntoVenta((long) Double.parseDouble(datos.get(6)));
+        estado=datos.get(5)== null ? null: datos.get(5);
+        puntoVenta=datos.get(6)== null ? null:new Estacion((long) Double.parseDouble(datos.get(6)));
         perfil=datos.get(7)== null ? null:new Perfil((long) Double.parseDouble(datos.get(7)));
         empresa=datos.get(8)== null ? null:new Empresa((long) Double.parseDouble(datos.get(8)));
     }
@@ -83,11 +83,11 @@ public class Usuario extends Entidad {
         return avatar;
     }
 
-    public String getActivo() {
-		return activo;
+    public String getEstado() {
+		return estado;
 	}
 
-    public PuntoVenta getPuntoVenta() {
+    public Estacion getPuntoVenta() {
 		return puntoVenta;
 	}
 
@@ -103,7 +103,7 @@ public class Usuario extends Entidad {
         this.contrasena = contrasena;
     }
 
-    public void setActivo(String activo) {
-		this.activo = activo;
+    public void setEstado(String estado) {
+		this.estado = estado;
 	}
 }

@@ -25,8 +25,8 @@ public class VehiculoTransporte extends Entidad {
     private String color;
     @Column(name = "fabricacion", nullable = true)
     private String fabricacion;
-    @Column(name = "activo", nullable = true)
-    private boolean activo;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 	@OneToOne
     private Transportista transportista;
 
@@ -40,7 +40,7 @@ public class VehiculoTransporte extends Entidad {
 
     public VehiculoTransporte(String codigo, String placa, String numero, String marca, String modelo,
                               String anio, String cilindraje, String clase, String color, String fabricacion,
-                              boolean activo){
+                              String estado){
         super(codigo);
         this.placa=placa;
         this.numero=numero;
@@ -51,7 +51,7 @@ public class VehiculoTransporte extends Entidad {
         this.clase=clase;
         this.color=color;
         this.fabricacion=fabricacion;
-        this.activo=activo;
+        this.estado=estado;
     }
     public VehiculoTransporte(List<String> datos) {
         placa=datos.get(0)== null ? null: datos.get(0);
@@ -63,7 +63,7 @@ public class VehiculoTransporte extends Entidad {
         clase=datos.get(6)== null ? null: datos.get(6);
         color=datos.get(7)== null ? null: datos.get(7);
         fabricacion=datos.get(8)== null ? null: datos.get(8);
-        activo=datos.get(9)== null ? null: datos.get(9).equals("S") ? true : false;
+        estado=datos.get(9)== null ? null: datos.get(9);
     }
 
     public String getPlaca() {
@@ -102,7 +102,11 @@ public class VehiculoTransporte extends Entidad {
         return fabricacion;
     }
 
-    public boolean isActivo() {
-        return activo;
-    }
+    public String getEstado() {
+		return estado;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

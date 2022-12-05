@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Telefono;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
@@ -39,14 +40,12 @@ public class TelefonoService implements ITelefonoService {
     }
 
     @Override
-    public Telefono eliminar(Telefono telefono) {
-        rep.deleteById(telefono.getId());
-        return telefono;
-    }
-
-    @Override
-    public Optional<Telefono> obtener(Telefono telefono) {
-        return rep.findById(telefono.getId());
+    public Telefono obtener(long id) {
+        Optional<Telefono> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.telefono);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class TelefonoService implements ITelefonoService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Telefono> telefonos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal, 16);
@@ -71,13 +70,9 @@ public class TelefonoService implements ITelefonoService {
                     telefonos.add(telefono);
                 }
             }
-            if(telefonos.isEmpty()){
-                return false;
-            }
             rep.saveAll(telefonos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

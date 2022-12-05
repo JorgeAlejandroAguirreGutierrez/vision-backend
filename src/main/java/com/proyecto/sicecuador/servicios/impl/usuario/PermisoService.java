@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Permiso;
 import com.proyecto.sicecuador.repositorios.usuario.IPermisoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPermisoService;
@@ -37,19 +37,34 @@ public class PermisoService implements IPermisoService {
     }
 
     @Override
-    public Permiso eliminar(Permiso permiso) {
-        rep.deleteById(permiso.getId());
-        return permiso;
+    public Permiso activar(Permiso permiso) {
+        permiso.setEstado(Constantes.activo);
+        return rep.save(permiso);
     }
 
     @Override
-    public Optional<Permiso> obtener(Permiso permiso) {
-        return rep.findById(permiso.getId());
+    public Permiso inactivar(Permiso permiso) {
+        permiso.setEstado(Constantes.inactivo);
+        return rep.save(permiso);
+    }
+
+    @Override
+    public Permiso obtener(long id) {
+        Optional<Permiso> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.permiso);
     }
 
     @Override
     public List<Permiso> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Permiso> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -58,7 +73,7 @@ public class PermisoService implements IPermisoService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Permiso> permisos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,2);
@@ -66,13 +81,9 @@ public class PermisoService implements IPermisoService {
                 Permiso permiso = new Permiso(datos);
                 permisos.add(permiso);
             }
-            if(permisos.isEmpty()){
-                return false;
-            }
             rep.saveAll(permisos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

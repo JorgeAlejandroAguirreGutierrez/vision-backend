@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.entrega;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.modelos.entrega.VehiculoTransporte;
 import com.proyecto.sicecuador.repositorios.entrega.ITransportistaRepository;
@@ -25,10 +26,10 @@ public class TransportistaData implements ApplicationRunner {
         Optional<Transportista> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Transportista> transportistas = new ArrayList<>();
-            transportistas.add(new Transportista("TRA001", "ABAD NIETO PABLO MARCELO", "1303753618", "SI", new VehiculoTransporte(1)));
-            transportistas.add(new Transportista("TRA002", "ABATA REINOSO BELLA NARCISA DEL PILAR", "1706172648", "NO", new VehiculoTransporte(2)));
-            transportistas.add(new Transportista("TRA003", "ACEVEDO PALACIO SONIA CECILIA", "1704997012", "SI", new VehiculoTransporte(3)));
-            transportistas.add(new Transportista("TRA004", "AGUILAR PAZMIÑO SHEILA DAYAN", "1715241434", "NO", new VehiculoTransporte(4)));
+            transportistas.add(new Transportista("TRA001", "ABAD NIETO PABLO MARCELO", "1303753618", "SI", Constantes.activo, new VehiculoTransporte(1)));
+            transportistas.add(new Transportista("TRA002", "ABATA REINOSO BELLA NARCISA DEL PILAR", "1706172648", "NO", Constantes.activo, new VehiculoTransporte(2)));
+            transportistas.add(new Transportista("TRA003", "ACEVEDO PALACIO SONIA CECILIA", "1704997012", "SI", Constantes.activo, new VehiculoTransporte(3)));
+            transportistas.add(new Transportista("TRA004", "AGUILAR PAZMIÑO SHEILA DAYAN", "1715241434", "NO", Constantes.activo, new VehiculoTransporte(4)));
             rep.saveAll(transportistas);
         }
     }

@@ -32,6 +32,13 @@ public class MedidaController implements GenericoController<Medida> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, medidas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Medida> medidas= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, medidas);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +49,7 @@ public class MedidaController implements GenericoController<Medida> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Medida medida=servicio.obtener(new Medida(id)).get();
+        Medida medida=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, medida);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,11 +67,18 @@ public class MedidaController implements GenericoController<Medida> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, medida);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Medida medida=servicio.eliminar(new Medida(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, medida);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Medida _medida) {
+    	Medida medida= servicio.activar(_medida);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, medida);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Medida _medida) {
+    	Medida medida = servicio.inactivar(_medida);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_inactivar_exitoso, medida);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

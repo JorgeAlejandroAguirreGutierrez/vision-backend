@@ -3,9 +3,8 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.repositorios.recaudacion.IFranquiciaTarjetaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IFranquiciaTarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,34 +22,49 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     private IFranquiciaTarjetaRepository rep;
     
     @Override
-    public FranquiciaTarjeta crear(FranquiciaTarjeta franquicia_tarjeta) {
+    public FranquiciaTarjeta crear(FranquiciaTarjeta franquiciaTarjeta) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_franquicia_tarjeta);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	franquicia_tarjeta.setCodigo(codigo.get());
-    	return rep.save(franquicia_tarjeta);
+    	franquiciaTarjeta.setCodigo(codigo.get());
+    	return rep.save(franquiciaTarjeta);
     }
 
     @Override
-    public FranquiciaTarjeta actualizar(FranquiciaTarjeta franquicia_tarjeta) {
-        return rep.save(franquicia_tarjeta);
+    public FranquiciaTarjeta actualizar(FranquiciaTarjeta franquiciaTarjeta) {
+        return rep.save(franquiciaTarjeta);
     }
 
     @Override
-    public FranquiciaTarjeta eliminar(FranquiciaTarjeta franquicia_tarjeta) {
-        rep.deleteById(franquicia_tarjeta.getId());
-        return franquicia_tarjeta;
+    public FranquiciaTarjeta activar(FranquiciaTarjeta franquiciaTarjeta) {
+        franquiciaTarjeta.setEstado(Constantes.activo);
+        return rep.save(franquiciaTarjeta);
     }
 
     @Override
-    public Optional<FranquiciaTarjeta> obtener(FranquiciaTarjeta franquicia_tarjeta) {
-        return rep.findById(franquicia_tarjeta.getId());
+    public FranquiciaTarjeta inactivar(FranquiciaTarjeta franquiciaTarjeta) {
+        franquiciaTarjeta.setEstado(Constantes.inactivo);
+        return rep.save(franquiciaTarjeta);
+    }
+
+    @Override
+    public FranquiciaTarjeta obtener(long id) {
+        Optional<FranquiciaTarjeta> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.franquicia_tarjeta);
     }
 
     @Override
     public List<FranquiciaTarjeta> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<FranquiciaTarjeta> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -59,7 +73,7 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<FranquiciaTarjeta> franquicias_tarjetas=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,4);
@@ -67,13 +81,9 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
                 FranquiciaTarjeta franquicia_tarjeta = new FranquiciaTarjeta(datos);
                 franquicias_tarjetas.add(franquicia_tarjeta);
             }
-            if(franquicias_tarjetas.isEmpty()){
-                return false;
-            }
             rep.saveAll(franquicias_tarjetas);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 

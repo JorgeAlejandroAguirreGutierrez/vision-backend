@@ -34,6 +34,13 @@ public class DependienteController implements GenericoController<Dependiente> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, dependientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Dependiente> dependientes=servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, dependientes);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -44,7 +51,7 @@ public class DependienteController implements GenericoController<Dependiente> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Dependiente dependiente=servicio.obtener(new Dependiente(id)).get();
+        Dependiente dependiente=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -62,31 +69,38 @@ public class DependienteController implements GenericoController<Dependiente> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Dependiente dependiente=servicio.eliminar(new Dependiente(id));
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_eliminar_exitoso, dependiente);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Dependiente _dependiente) {
+    	Dependiente dependiente=servicio.activar(_dependiente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/buscar/razonSocial/{razonSocial}/{clienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtener(@PathVariable("razonSocial") String razonSocial,
-                                     @PathVariable("clienteId") long cliente_id) {
-        List<Dependiente> dependiente=servicio.consultarRazonSocial(new Dependiente(razonSocial, new Cliente(cliente_id)));
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Dependiente _dependiente) {
+    	Dependiente dependiente=servicio.inactivar(_dependiente);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, dependiente);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorRazonSocial/{razonSocial}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("razonSocial") String razonSocial) {
+        List<Dependiente> dependiente=servicio.consultarPorRazonSocial(new Dependiente(razonSocial));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/cliente/{clienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarClienteID(@PathVariable("clienteId") long clienteId) {
-        List<Dependiente> dependiente=servicio.consultarClienteID(new Dependiente(new Cliente(clienteId)));
+        List<Dependiente> dependiente=servicio.consultarPorCliente(new Dependiente(new Cliente(clienteId)));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

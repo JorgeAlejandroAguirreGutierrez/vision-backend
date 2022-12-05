@@ -32,6 +32,13 @@ public class FormaPagoController implements GenericoController<FormaPago> {
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, formas_pagos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<FormaPago> formasPagos = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, formasPagos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +49,7 @@ public class FormaPagoController implements GenericoController<FormaPago> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        FormaPago forma_pago=servicio.obtener(new FormaPago(id)).get();
+        FormaPago forma_pago=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, forma_pago);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,11 +67,18 @@ public class FormaPagoController implements GenericoController<FormaPago> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, forma_pago);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        FormaPago forma_pago=servicio.eliminar(new FormaPago(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, forma_pago);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody FormaPago _formaPago) {
+    	FormaPago formaPago=servicio.activar(_formaPago);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, formaPago);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody FormaPago _formaPago) {
+    	FormaPago formaPago=servicio.inactivar(_formaPago);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, formaPago);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
@@ -77,8 +91,8 @@ public class FormaPagoController implements GenericoController<FormaPago> {
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

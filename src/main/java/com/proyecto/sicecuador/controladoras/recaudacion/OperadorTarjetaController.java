@@ -30,50 +30,64 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<OperadorTarjeta> operadores_tarjetas=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, operadores_tarjetas);
+        List<OperadorTarjeta> operadoresTarjetas=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, operadoresTarjetas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<OperadorTarjeta> operadoresTarjetas=servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, operadoresTarjetas);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<OperadorTarjeta> operadores_tarjetas = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, operadores_tarjetas);
+    	Page<OperadorTarjeta> operadoresTarjetas = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, operadoresTarjetas);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/tipo/{tipo}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarPorTipo/{tipo}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar(@PathVariable("tipo") String tipo) {
-        List<OperadorTarjeta> operadores_tarjetas=servicio.consultarTipo(new OperadorTarjeta(tipo));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, operadores_tarjetas);
+        List<OperadorTarjeta> operadoresTarjetas=servicio.consultarPorTipo(new OperadorTarjeta(tipo));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, operadoresTarjetas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        OperadorTarjeta operador_tarjeta=servicio.obtener(new OperadorTarjeta(id)).get();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, operador_tarjeta);
+        OperadorTarjeta operadorTarjeta=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, operadorTarjeta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid OperadorTarjeta _operador_tarjeta) {
-        OperadorTarjeta operador_tarjeta=servicio.crear(_operador_tarjeta);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, operador_tarjeta);
+    public ResponseEntity<?> crear(@RequestBody @Valid OperadorTarjeta _operadorTarjeta) {
+        OperadorTarjeta operadorTarjeta=servicio.crear(_operadorTarjeta);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, operadorTarjeta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody OperadorTarjeta _operador_tarjeta) {
-        OperadorTarjeta operador_tarjeta=servicio.actualizar(_operador_tarjeta);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, operador_tarjeta);
+    public ResponseEntity<?> actualizar(@RequestBody OperadorTarjeta _operadorTarjeta) {
+        OperadorTarjeta operadorTarjeta=servicio.actualizar(_operadorTarjeta);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, operadorTarjeta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        OperadorTarjeta operador_tarjeta=servicio.eliminar(new OperadorTarjeta(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, operador_tarjeta);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody OperadorTarjeta _operadorTarjeta) {
+    	OperadorTarjeta operadorTarjeta = servicio.activar(_operadorTarjeta);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_activar_exitoso, operadorTarjeta);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody OperadorTarjeta _operadorTarjeta) {
+    	OperadorTarjeta operadorTarjeta = servicio.inactivar(_operadorTarjeta);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, operadorTarjeta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

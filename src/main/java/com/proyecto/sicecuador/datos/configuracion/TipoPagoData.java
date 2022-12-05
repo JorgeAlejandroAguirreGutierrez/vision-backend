@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.configuracion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.TipoPago;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoPagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class TipoPagoData implements ApplicationRunner {
         Optional<TipoPago> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<TipoPago> tipos_pagos = new ArrayList<>();
-            tipos_pagos.add(new TipoPago("TPA011907000001", "EFECTIVO", "EF"));
-            tipos_pagos.add(new TipoPago("TPA011908000002", "CREDITO", "CR"));
+            tipos_pagos.add(new TipoPago("TPA011907000001", "EFECTIVO", "EF", Constantes.activo));
+            tipos_pagos.add(new TipoPago("TPA011908000002", "CREDITO", "CR", Constantes.activo));
             rep.saveAll(tipos_pagos);
         }
     }

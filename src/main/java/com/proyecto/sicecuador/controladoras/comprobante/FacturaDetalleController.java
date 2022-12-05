@@ -44,7 +44,7 @@ public class FacturaDetalleController implements GenericoController<FacturaDetal
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-    	FacturaDetalle facturaDetalle=servicio.obtener(new FacturaDetalle(id)).get();
+    	FacturaDetalle facturaDetalle=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, facturaDetalle);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,13 +60,6 @@ public class FacturaDetalleController implements GenericoController<FacturaDetal
     public ResponseEntity<?> actualizar(@RequestBody FacturaDetalle _facturaDetalle) {
         FacturaDetalle facturaDetalle=servicio.actualizar(_facturaDetalle);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, facturaDetalle);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        FacturaDetalle facturaDetalle=servicio.eliminar(new FacturaDetalle(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, facturaDetalle);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     

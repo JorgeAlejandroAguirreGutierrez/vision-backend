@@ -19,8 +19,6 @@ public class Recaudacion extends Entidad {
     private Date fecha;
     @Column(name = "total", nullable = true)
     private double total;
-    @Column(name = "estado", nullable = true)
-    private String estado;
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @Column(name = "efectivo", nullable = true)
@@ -43,6 +41,8 @@ public class Recaudacion extends Entidad {
     private double totalRetencionesVentas;
     @Column(name = "total_credito", nullable = true)
     private double totalCredito;
+    @Column(name = "etapa", nullable = true)
+    private String etapa;
     
     @Column(name = "efectivo_codigo_sri", nullable = true)
     private String efectivoCodigoSri;
@@ -106,7 +106,7 @@ public class Recaudacion extends Entidad {
     public Recaudacion(String codigo, Date fecha, double total, String comentario, double efectivo, double cambio,
                        double totalCheques, double totalDepositos, double totalTransferencias,
                        double totalTarjetasDebitos, double totalTarjetasCreditos, double totalCredito,
-                       double totalCompensaciones, double totalRetencionesVentas,
+                       double totalCompensaciones, double totalRetencionesVentas, String etapa,
                        String efectivoCodigoSri, String chequeCodigoSri, String depositoCodigoSri, String transferenciaCodigoSri,
                        String tarjetaCreditoCodigoSri, String tarjetaDebitoCodigoSri, String compensacionCodigoSri, String retencionVentaCodigoSri, String creditoCodigoSri,
                        List<Cheque> cheques, List<Deposito>depositos, List<Transferencia> transferencias, 
@@ -127,6 +127,7 @@ public class Recaudacion extends Entidad {
         this.totalCompensaciones=totalCompensaciones;
         this.totalRetencionesVentas=totalRetencionesVentas;
         this.totalCredito=totalCredito;
+        this.etapa=etapa;
         
         this.efectivoCodigoSri = efectivoCodigoSri;
         this.chequeCodigoSri = chequeCodigoSri;
@@ -156,10 +157,6 @@ public class Recaudacion extends Entidad {
     public double getTotal() {
         return total;
     }
-    
-    public String getEstado() {
-		return estado;
-	}
     
     public String getComentario() {
         return comentario;
@@ -203,6 +200,10 @@ public class Recaudacion extends Entidad {
 
     public double getTotalCredito() {
 		return totalCredito;
+	}
+    
+    public String getEtapa() {
+		return etapa;
 	}
     
     public String getEfectivoCodigoSri() {
@@ -288,10 +289,6 @@ public class Recaudacion extends Entidad {
         }
     }
     
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
-    
     public void setEfectivo(double efectivo) {
 		this.efectivo = efectivo;
 	}
@@ -322,6 +319,10 @@ public class Recaudacion extends Entidad {
     
     public void setTotalCredito(double totalCredito) {
 		this.totalCredito = totalCredito;
+	}
+    
+    public void setEtapa(String etapa) {
+		this.etapa = etapa;
 	}
     
     public void setTotalTarjetasDebitos(double totalTarjetasDebitos) {

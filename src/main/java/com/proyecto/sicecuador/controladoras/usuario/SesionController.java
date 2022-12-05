@@ -44,7 +44,7 @@ public class SesionController implements GenericoController<Sesion> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Sesion sesion=servicio.obtener(new Sesion(id)).get();
+        Sesion sesion=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, sesion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -62,13 +62,6 @@ public class SesionController implements GenericoController<Sesion> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, sesion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Sesion sesion=servicio.eliminar(new Sesion(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, sesion);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
     
     @PostMapping(value = "/validar", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> validarSesion(@RequestBody @Valid Sesion _sesion) {
@@ -78,8 +71,8 @@ public class SesionController implements GenericoController<Sesion> {
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

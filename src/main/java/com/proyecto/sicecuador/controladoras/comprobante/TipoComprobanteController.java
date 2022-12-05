@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathTipoComprobant
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cliente.FormaPago;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        TipoComprobante tipo_comprobante=servicio.obtener(new TipoComprobante(id)).get();
+        TipoComprobante tipo_comprobante=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_comprobante);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -59,13 +60,6 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
     public ResponseEntity<?> actualizar(@RequestBody TipoComprobante _tipo_comprobante) {
         TipoComprobante tipo_comprobante=servicio.actualizar(_tipo_comprobante);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_comprobante);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        TipoComprobante tipo_comprobante=servicio.eliminar(new TipoComprobante(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_comprobante);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

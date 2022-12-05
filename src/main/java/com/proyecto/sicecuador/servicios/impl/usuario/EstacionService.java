@@ -3,15 +3,14 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
-import com.proyecto.sicecuador.modelos.usuario.PuntoVenta;
-import com.proyecto.sicecuador.repositorios.usuario.IPuntoVentaRepository;
-import com.proyecto.sicecuador.servicios.interf.usuario.IPuntoVentaService;
+import com.proyecto.sicecuador.modelos.usuario.Estacion;
+import com.proyecto.sicecuador.repositorios.usuario.IEstacionRepository;
+import com.proyecto.sicecuador.servicios.interf.usuario.IEstacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,48 +20,63 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
-public class PuntoVentaService implements IPuntoVentaService {
+public class EstacionService implements IEstacionService {
     @Autowired
-    private IPuntoVentaRepository rep;
+    private IEstacionRepository rep;
     
     @Override
-    public PuntoVenta crear(PuntoVenta punto_venta) {
+    public Estacion crear(Estacion estacion) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_punto_venta);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	punto_venta.setCodigo(codigo.get());
-    	return rep.save(punto_venta);
+    	estacion.setCodigo(codigo.get());
+    	return rep.save(estacion);
     }
 
     @Override
-    public PuntoVenta actualizar(PuntoVenta punto_venta) {
-        return rep.save(punto_venta);
+    public Estacion actualizar(Estacion estacion) {
+        return rep.save(estacion);
     }
 
     @Override
-    public PuntoVenta eliminar(PuntoVenta punto_venta) {
-        rep.deleteById(punto_venta.getId());
-        return punto_venta;
+    public Estacion activar(Estacion estacion) {
+        estacion.setEstado(Constantes.activo);
+        return rep.save(estacion);
     }
 
     @Override
-    public Optional<PuntoVenta> obtener(PuntoVenta punto_venta) {
-        return rep.findById(punto_venta.getId());
+    public Estacion inactivar(Estacion estacion) {
+        estacion.setEstado(Constantes.inactivo);
+        return rep.save(estacion);
     }
 
     @Override
-    public List<PuntoVenta> consultar() {
+    public Estacion obtener(long id) {
+        Optional<Estacion> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.punto_venta);
+    }
+
+    @Override
+    public List<Estacion> consultar() {
         return rep.findAll();
     }
+    
+    @Override
+    public List<Estacion> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
+    }
 
     @Override
-    public Page<PuntoVenta> consultarPagina(Pageable pageable){
+    public Page<Estacion> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
 
     @Override
-    public List<PuntoVenta> consultarEstablecimiento(Establecimiento establecimiento) {
+    public List<Estacion> consultarEstablecimiento(Establecimiento establecimiento) {
         return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();
 		    if (establecimiento.getId()!=0) {
@@ -73,21 +87,17 @@ public class PuntoVentaService implements IPuntoVentaService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
-            List<PuntoVenta> puntos_ventas=new ArrayList<>();
+            List<Estacion> puntos_ventas=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,3);
             for (List<String> datos: info) {
-                PuntoVenta punto_venta = new PuntoVenta(datos);
+                Estacion punto_venta = new Estacion(datos);
                 puntos_ventas.add(punto_venta);
             }
-            if(puntos_ventas.isEmpty()){
-                return false;
-            }
             rep.saveAll(puntos_ventas);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

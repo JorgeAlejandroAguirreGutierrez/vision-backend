@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IMovimientoContableService extends IGenericoService<MovimientoContable> {
-    //List<Proveedor> consultarProducto();
+    MovimientoContable activar(MovimientoContable movimientoContable);
+    MovimientoContable inactivar(MovimientoContable movimientoContable);
     List<MovimientoContable> buscar(MovimientoContable movimientoContable);
 }
