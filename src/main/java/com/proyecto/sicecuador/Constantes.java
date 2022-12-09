@@ -171,11 +171,16 @@ public class Constantes {
     public static final String tabla_tranferencia="transferencia";
     
     //USUARIO
+    public static final String tabla_celular_establecimiento="celular_establecimiento";
+    public static final String tabla_correo_establecimiento="correo_establecimiento";
     public static final String tabla_establecimiento="establecimiento";
+    public static final String tabla_estacion="estacion";
+    public static final String tabla_estacion_usuario="estacion_usuario";
     public static final String tabla_perfil="perfil";
     public static final String tabla_permiso="permiso";
     public static final String tabla_punto_venta="punto_venta";
     public static final String tabla_sesion="sesion";
+    public static final String tabla_telefono_establecimiento="telefono_establecimiento";
     public static final String tabla_usuario="usuario";
 	
     //CONTABILIDAD
@@ -274,9 +279,13 @@ public class Constantes {
     public static final String establecimiento="ESTABLECIMIENTO";
     public static final String perfil="PERFIL";
     public static final String permiso="PERMISO";
-    public static final String punto_venta="PUNTO VENTA";
+    public static final String estacion="ESTACION";
     public static final String sesion="SESION";
     public static final String usuario="USUARIO";
+    public static final String estacion_usuario= "ESTACION USUARIO";
+    public static final String celular_establecimiento="CELULAR ESTABLECIMIENTO";
+    public static final String correo_establecimiento="CORREO ESTABLECIMIENTO";
+    public static final String telefono_establecimiento="TELEFONO ESTABLECIMIENTO";
 	
     //CONTABILIDAD
     public static final String afectacion_contable="AFECTACION CONTABLE";

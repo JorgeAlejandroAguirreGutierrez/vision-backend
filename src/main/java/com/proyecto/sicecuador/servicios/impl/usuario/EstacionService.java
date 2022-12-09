@@ -57,7 +57,7 @@ public class EstacionService implements IEstacionService {
         if(res.isPresent()) {
         	return res.get();
         }
-        throw new EntidadNoExistenteException(Constantes.punto_venta);
+        throw new EntidadNoExistenteException(Constantes.estacion);
     }
 
     @Override

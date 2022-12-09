@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.usuario;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 
@@ -20,15 +21,24 @@ public class Usuario extends Entidad {
     private String avatar;
     @Column(name = "estado", nullable = true)
     private String estado;
-	@ManyToOne
-    @JoinColumn(name = "punto_venta_id", nullable = true)
-    private Estacion puntoVenta;
+    @Column(name = "apodo", nullable = true)
+    private String apodo;
+    @Column(name = "cambiarContrasena", nullable = true)
+    private String cambiarContrasena;
+    @Column(name = "pregunta", nullable = true)
+    private String pregunta;
+    @Column(name = "respuesta", nullable = true)
+    private String respuesta;
 	@ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
 	@ManyToOne
     @JoinColumn(name = "empresa_id", nullable = true)
 	private Empresa empresa;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private List<EstacionUsuario> estacionesUsuarios;    
 
     public Usuario(){
 
@@ -37,8 +47,8 @@ public class Usuario extends Entidad {
     public Usuario(long id){
         super(id);
     }
-
-    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar, String estado, Estacion puntoVenta, Perfil perfil, Empresa empresa){
+    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar,
+    		String apodo, String cambiarContrasena, String pregunta, String respuesta, String estado, Perfil perfil, Empresa empresa){
         super(codigo);
         this.nombre=nombre;
         this.correo=correo;
@@ -46,7 +56,10 @@ public class Usuario extends Entidad {
         this.contrasena=contrasena;
         this.avatar=avatar;
         this.estado=estado;
-        this.puntoVenta=puntoVenta;
+        this.apodo=apodo;
+        this.cambiarContrasena=cambiarContrasena;
+        this.pregunta=pregunta;
+        this.respuesta=respuesta;
         this.perfil=perfil;
         this.empresa=empresa;
     }
@@ -58,9 +71,15 @@ public class Usuario extends Entidad {
         identificacion=datos.get(3)== null ? null: datos.get(3);
         avatar=datos.get(4)== null ? null: datos.get(4);
         estado=datos.get(5)== null ? null: datos.get(5);
-        puntoVenta=datos.get(6)== null ? null:new Estacion((long) Double.parseDouble(datos.get(6)));
         perfil=datos.get(7)== null ? null:new Perfil((long) Double.parseDouble(datos.get(7)));
         empresa=datos.get(8)== null ? null:new Empresa((long) Double.parseDouble(datos.get(8)));
+        apodo=datos.get(9)== null ? null: datos.get(9);
+        cambiarContrasena=datos.get(10)== null ? null: datos.get(10);
+        pregunta=datos.get(11)== null ? null: datos.get(11);
+        respuesta=datos.get(12)== null ? null: datos.get(12);        
+        estado=datos.get(13) == null  ? null : datos.get(13);
+        perfil=datos.get(14)== null ? null:new Perfil((long) Double.parseDouble(datos.get(14)));
+        empresa=datos.get(15)== null ? null:new Empresa((long) Double.parseDouble(datos.get(15)));
     }
 
     public String getNombre() {
@@ -86,9 +105,21 @@ public class Usuario extends Entidad {
     public String getEstado() {
 		return estado;
 	}
+    
+    public String getApodo() {
+		return apodo;
+	}
 
-    public Estacion getPuntoVenta() {
-		return puntoVenta;
+	public String getCambiarContrasena() {
+		return cambiarContrasena;
+	}
+
+	public String getPregunta() {
+		return pregunta;
+	}
+
+	public String getRespuesta() {
+		return respuesta;
 	}
 
     public Perfil getPerfil() {
@@ -99,6 +130,11 @@ public class Usuario extends Entidad {
 		return empresa;
 	}
 
+    @JsonManagedReference
+	public List<EstacionUsuario> getEstacionesUsuarios() {
+		return estacionesUsuarios;
+	}
+
 	public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
@@ -106,4 +142,48 @@ public class Usuario extends Entidad {
     public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public void setIdentificacion(String identificacion) {
+		this.identificacion = identificacion;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+	
+	public void setApodo(String apodo) {
+		this.apodo = apodo;
+	}
+
+	public void setCambiarContrasena(String cambiarContrasena) {
+		this.cambiarContrasena = cambiarContrasena;
+	}
+
+	public void setPregunta(String pregunta) {
+		this.pregunta = pregunta;
+	}
+
+	public void setRespuesta(String respuesta) {
+		this.respuesta = respuesta;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
+
+	public void setEstacionesUsuarios(List<EstacionUsuario> estacionesUsuarios) {
+		this.estacionesUsuarios = estacionesUsuarios;
+	}    
 }

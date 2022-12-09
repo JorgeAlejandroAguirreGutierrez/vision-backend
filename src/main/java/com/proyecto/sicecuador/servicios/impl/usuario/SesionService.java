@@ -39,7 +39,8 @@ public class SesionService implements ISesionService {
     	if(usuario.isPresent()) {
     		sesion.setUsuario(usuario.get());
             sesion.setFechaApertura(new Date());
-            sesion.setActiva(true);
+            sesion.setEstado(true);
+            
             return rep.save(sesion);
     	}
     	throw new EntidadNoExistenteException(Constantes.sesion); 
@@ -94,7 +95,7 @@ public class SesionService implements ISesionService {
     public Optional<Sesion> cerrar(Sesion sesion) {
         Sesion _sesion=rep.findById(sesion.getId()).get();
         sesion.setFechaCierre(new Date());
-        sesion.setActiva(false);
+        sesion.setEstado(false);
         _sesion=rep.save(_sesion);
         return Optional.of(_sesion);
     }

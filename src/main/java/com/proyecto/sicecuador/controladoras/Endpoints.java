@@ -81,12 +81,16 @@ public class Endpoints {
     public static final String pathRecaudacion="recaudacion";
     
     //USUARIO
+    public static final String pathCelularEstablecimiento="celularEstablecimiento";
+    public static final String pathCorreoEstablecimiento="correoEstablecimiento";
     public static final String pathEstablecimiento="establecimiento";
+    public static final String pathEstacion="estacion";
+    public static final String pathEstacionUsuario="estacionUsuario";
     public static final String pathPerfil="perfil";
     public static final String pathPermiso="permiso";
-    public static final String pathEstacion="estacion";
     public static final String pathSesion="sesion";
     public static final String pathUsuario="usuario";
+    public static final String pathTelefonoEstablecimiento="telefonoEstablecimiento";
     
     //CONTABILIDAD
     public static final String pathAfectacionContable="afectacionContable";

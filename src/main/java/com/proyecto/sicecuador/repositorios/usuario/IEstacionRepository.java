@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.repositorios.usuario;
 
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
-
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;

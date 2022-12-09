@@ -1,8 +1,8 @@
 package com.proyecto.sicecuador.modelos.usuario;
+
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 import java.util.List;
 
 @Entity
@@ -15,9 +15,13 @@ public class Estacion extends Entidad {
     private String descripcion;
 	@Column(name = "estado", nullable = true)
     private String estado;
-    @ManyToOne
+	@ManyToOne
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private Establecimiento establecimiento;
+	
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "estacion_id")
+    private List<EstacionUsuario> estacionesUsuarios;
 
     public Estacion(){
         super();
@@ -36,7 +40,7 @@ public class Estacion extends Entidad {
     public Estacion(List<String> datos){
     	codigoSri=datos.get(0)==null ? null: datos.get(0);
         descripcion=datos.get(1)== null ? null: datos.get(1);
-        establecimiento=datos.get(1)== null ? null:new Establecimiento((long) Double.parseDouble(datos.get(1)));
+        estado=datos.get(1)== null ? null: datos.get(2);
     }
     public String getCodigoSri() {
     	return codigoSri;
@@ -48,16 +52,16 @@ public class Estacion extends Entidad {
     public String getEstado() {
 		return estado;
 	}
-
+    
     public Establecimiento getEstablecimiento() {
-        return establecimiento;
-    }
+		return establecimiento;
+	}
     
     public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-    public void setEstablecimiento(Establecimiento establecimiento) {
-        this.establecimiento = establecimiento;
-    }
+    
+    public List<EstacionUsuario> getEstacionesUsuarios() {
+		return estacionesUsuarios;
+	}
 }

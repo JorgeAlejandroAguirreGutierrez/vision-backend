@@ -24,10 +24,10 @@ public class SegmentoData implements ApplicationRunner {
         Optional<Segmento> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Segmento> segmentos = new ArrayList<>();
-            segmentos.add(new Segmento("SEG011907000001", "CLIENTE FINAL", 6, "ACTIVO"));
-            segmentos.add(new Segmento("SEG011907000002", "MAYORISTA", 2, "ACTIVO"));
-            segmentos.add(new Segmento("SEG011907000003", "DISTRIBUIDOR", 3, "ACTIVO"));
-            segmentos.add(new Segmento("SEG011907000004", "TARJETA DE CREDITO", 10, "ACTIVO"));
+            segmentos.add(new Segmento("SEG011907000001", "CLIENTE FINAL", 6, "ACTIVO", "ABREVIATURA"));
+            segmentos.add(new Segmento("SEG011907000002", "MAYORISTA", 2, "ACTIVO","ABREVIATURA"));
+            segmentos.add(new Segmento("SEG011907000003", "DISTRIBUIDOR", 3, "ACTIVO","ABREVIATURA"));
+            segmentos.add(new Segmento("SEG011907000004", "TARJETA DE CREDITO", 10, "ACTIVO","ABREVIATURA"));
             rep.saveAll(segmentos);
         }
     }

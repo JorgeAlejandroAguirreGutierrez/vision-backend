@@ -35,8 +35,8 @@ public class Cliente extends Entidad {
     private TipoContribuyente tipoContribuyente;
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "punto_venta_id")
-    private Estacion puntoVenta;
+    @JoinColumn(name = "estacion_id")
+    private Estacion estacion;
     @NotNull
     @ManyToOne
     @JoinColumn(name = "grupo_cliente_id")
@@ -98,7 +98,7 @@ public class Cliente extends Entidad {
     }
 
     public Cliente(String codigo, String identificacion, String razonSocial, boolean especial, String estado, 
-    		boolean eliminado, TipoIdentificacion tipoIdentificacion, Estacion puntoVenta, 
+    		boolean eliminado, TipoIdentificacion tipoIdentificacion, Estacion estacion, 
     		GrupoCliente grupoCliente, TipoContribuyente tipoContribuyente, Direccion direccion, 
     		Financiamiento financiamiento, Genero genero, EstadoCivil estadoCivil,
             CalificacionCliente calificacionCliente, OrigenIngreso origenIngreso, Segmento segmento){
@@ -108,7 +108,7 @@ public class Cliente extends Entidad {
         this.razonSocial=razonSocial;
         this.especial=especial;
         this.estado=estado;
-        this.puntoVenta=puntoVenta;
+        this.estacion=estacion;
         this.grupoCliente=grupoCliente;
         this.tipoContribuyente=tipoContribuyente;
         this.direccion=direccion;
@@ -128,7 +128,7 @@ public class Cliente extends Entidad {
         especial=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
         estado= datos.get(4)== null ? null: datos.get(4);
         tipoContribuyente= datos.get(6)== null ? null: new TipoContribuyente((long) Double.parseDouble(datos.get(6)));
-        puntoVenta= datos.get(7)== null ? null: new Estacion((long) Double.parseDouble(datos.get(7)));
+        estacion= datos.get(7)== null ? null: new Estacion((long) Double.parseDouble(datos.get(7)));
         grupoCliente= datos.get(8)== null ? null: new GrupoCliente((long) Double.parseDouble(datos.get(8)));
         direccion= datos.get(9)== null ? null: new Direccion((long) Double.parseDouble(datos.get(9)));
         financiamiento=datos.get(10)== null ? null:new Financiamiento((long) Double.parseDouble(datos.get(10)));
@@ -163,8 +163,8 @@ public class Cliente extends Entidad {
         return estado;
     }
 
-    public Estacion getPuntoVenta() {
-		return puntoVenta;
+    public Estacion getEstacion() {
+		return estacion;
 	}
 
     public GrupoCliente getGrupoCliente() {
