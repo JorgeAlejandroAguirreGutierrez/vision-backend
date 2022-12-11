@@ -26,7 +26,7 @@ public class Dependiente extends Entidad {
     private Cliente cliente;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "dependiente_id")
-    private List<TelefonoDependiente> telefonosAuxiliar;
+    private List<TelefonoDependiente> telefonosDependiente;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true,  fetch = FetchType.LAZY)
     @JoinColumn(name = "dependiente_id")
     private List<CelularDependiente> celularesDependiente;
@@ -85,8 +85,8 @@ public class Dependiente extends Entidad {
         return direccion;
     }
     @JsonManagedReference
-    public List<TelefonoDependiente> getTelefonosAuxiliar() {
-		return telefonosAuxiliar;
+    public List<TelefonoDependiente> getTelefonosDependiente() {
+		return telefonosDependiente;
 	}
     @JsonManagedReference
     public List<CelularDependiente> getCelularesDependiente() {
