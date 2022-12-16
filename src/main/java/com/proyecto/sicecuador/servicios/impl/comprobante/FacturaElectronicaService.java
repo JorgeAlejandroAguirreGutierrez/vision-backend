@@ -109,20 +109,20 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	  	
     	infoTributaria.setAmbiente(Constantes.pruebas_sri);
     	infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
-    	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEmpresa().getRazonSocial());
-    	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEmpresa().getNombreComercial());
-    	infoTributaria.setRuc(factura.getSesion().getUsuario().getEmpresa().getIdentificacion());
+    	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+    	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+    	infoTributaria.setRuc(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
     	infoTributaria.setClaveAcceso(factura.getClaveAcceso());
     	infoTributaria.setCodDoc(Constantes.factura_sri);
-    	infoTributaria.setEstab(factura.getSesion().getEstacion().getEstablecimiento().getCodigoSri());
-    	infoTributaria.setPtoEmi(factura.getSesion().getEstacion().getCodigoSri());
+    	infoTributaria.setEstab(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSri());
+    	infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getEstacion().getCodigoSri());
     	infoTributaria.setSecuencial(factura.getSecuencia());
-    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEmpresa().getDireccion().getDireccion());
+    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion().getDireccion());
     	
     	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
     	String fechaEmision = dateFormat.format(factura.getFecha());
     	infoFactura.setFechaEmision(fechaEmision);
-    	infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEmpresa().getObligadoContabilidad());
+    	infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
     	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSri());
     	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
     	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
@@ -349,20 +349,20 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             documento.setMargins(20, 20, 20, 20);
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
-            ImageData imageData = ImageDataFactory.create(imagenes+factura.getSesion().getUsuario().getEmpresa().getLogo());
+            ImageData imageData = ImageDataFactory.create(imagenes+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getLogo());
             Image image = new Image(imageData);
             image.setWidth(200);
             image.setHeight(150);
             documento.add(image);
             documento.setFont(font);
             
-            documento.add(new Paragraph(factura.getSesion().getUsuario().getEmpresa().getRazonSocial()+"\n"+
-                    "DIRECCION MATRIZ: "+factura.getSesion().getUsuario().getEmpresa().getDireccion()+"\n"+
-            		"OBLIGADO A LLEVAR CONTABILIDAD: "+factura.getSesion().getUsuario().getEmpresa().getObligadoContabilidad()).setBorder(new SolidBorder(1)));
+            documento.add(new Paragraph(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+"\n"+
+                    "DIRECCION MATRIZ: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion()+"\n"+
+            		"OBLIGADO A LLEVAR CONTABILIDAD: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad()).setBorder(new SolidBorder(1)));
             
             documento.add( new Paragraph("\n"));
             
-            documento.add(new Paragraph("RUC: "+factura.getSesion().getUsuario().getEmpresa().getIdentificacion()+"\n"+
+            documento.add(new Paragraph("RUC: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
                     "FACTURA"+"\n"+
                     "No. " + factura.getSecuencia() + "\n" +
                     "NÚMERO DE AUTORIZACIÓN: " + factura.getClaveAcceso()+ "\n" +
@@ -502,7 +502,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
             message.setFrom(new InternetAddress(correoUsuario));
             message.addRecipients(Message.RecipientType.TO, factura.getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
-            message.setSubject(factura.getSesion().getUsuario().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + factura.getCodigo());
+            message.setSubject(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + factura.getCodigo());
             message.setText(Constantes.vacio);
             message.setContent(multipart);
             Transport transport = session.getTransport(Constantes.smtp);

@@ -5,7 +5,6 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.TipoPago;
-import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoPagoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITipoPagoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,7 @@ public class TipoPagoService implements ITipoPagoService {
     		throw new CodigoNoExistenteException();
     	}
     	tipoPago.setCodigo(codigo.get());
+    	tipoPago.setEstado(Constantes.activo);
     	return rep.save(tipoPago);
     }
 

@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.administracion;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.administracion.Modelo;
 import com.proyecto.sicecuador.repositorios.administracion.IModeloRepository;
@@ -19,6 +21,12 @@ public class ModeloService implements IModeloService {
     private IModeloRepository rep;
     @Override
     public Modelo crear(Modelo modelo) {
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_modelo);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	modelo.setCodigo(codigo.get());
+    	modelo.setEstado(Constantes.activo);
         return rep.save(modelo);
     }
 

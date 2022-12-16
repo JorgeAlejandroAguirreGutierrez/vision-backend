@@ -28,6 +28,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     		throw new CodigoNoExistenteException();
     	}
     	cuentaPropia.setCodigo(codigo.get());
+    	cuentaPropia.setEstado(Constantes.activo);
     	return rep.save(cuentaPropia);
     }
 

@@ -28,6 +28,7 @@ public class PerfilService implements IPerfilService {
     		throw new CodigoNoExistenteException();
     	}
     	perfil.setCodigo(codigo.get());
+    	perfil.setEstado(Constantes.activo);
     	return rep.save(perfil);
     }
 

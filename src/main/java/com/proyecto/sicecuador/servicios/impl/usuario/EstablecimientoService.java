@@ -28,6 +28,7 @@ public class EstablecimientoService implements IEstablecimientoService {
     		throw new CodigoNoExistenteException();
     	}
     	establecimiento.setCodigo(codigo.get());
+    	establecimiento.setEstado(Constantes.activo);
     	return rep.save(establecimiento);
     }
 

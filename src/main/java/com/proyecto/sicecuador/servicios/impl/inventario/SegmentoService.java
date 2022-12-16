@@ -31,6 +31,7 @@ public class SegmentoService implements ISegmentoService {
     		throw new CodigoNoExistenteException();
     	}
     	segmento.setCodigo(codigo.get());
+    	segmento.setEstado(Constantes.activo);
     	return rep.save(segmento);
     }
 

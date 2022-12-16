@@ -3,8 +3,6 @@ package com.proyecto.sicecuador.modelos.proveedor;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import java.util.List;
 

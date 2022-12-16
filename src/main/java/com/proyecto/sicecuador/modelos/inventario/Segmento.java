@@ -16,10 +16,10 @@ public class Segmento extends Entidad {
     private String descripcion;
     @Column(name = "margen_ganancia", nullable = true)
     private double margenGanancia;
-    @Column(name = "estado")
-    private String estado;
-	@Column(name = "Abreviatura")
+	@Column(name = "abreviatura")
     private String abreviatura;
+	@Column(name = "estado")
+    private String estado;
 	
     public Segmento(){
     	super();

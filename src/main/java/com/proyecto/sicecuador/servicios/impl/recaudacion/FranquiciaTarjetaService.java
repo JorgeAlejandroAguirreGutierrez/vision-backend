@@ -28,6 +28,7 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     		throw new CodigoNoExistenteException();
     	}
     	franquiciaTarjeta.setCodigo(codigo.get());
+    	franquiciaTarjeta.setEstado(Constantes.activo);
     	return rep.save(franquiciaTarjeta);
     }
 

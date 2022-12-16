@@ -30,6 +30,7 @@ public class MovimientoContableService implements IMovimientoContableService {
     		throw new CodigoNoExistenteException();
     	}
     	movimientoContable.setCodigo(codigo.get());
+    	movimientoContable.setEstado(Constantes.activo);
     	return rep.save(movimientoContable);
     }
 

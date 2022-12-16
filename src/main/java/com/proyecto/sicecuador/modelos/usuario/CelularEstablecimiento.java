@@ -44,6 +44,7 @@ public class CelularEstablecimiento extends Entidad {
 	public String getEstado() {
 		return estado;
 	}
+	
 	@JsonBackReference
 	public Establecimiento getEstablecimiento() {
 		return establecimiento;
@@ -55,9 +56,4 @@ public class CelularEstablecimiento extends Entidad {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public void setEstablecimiento(Establecimiento establecimiento) {
-		this.establecimiento = establecimiento;
-	}
-	
-	
 }

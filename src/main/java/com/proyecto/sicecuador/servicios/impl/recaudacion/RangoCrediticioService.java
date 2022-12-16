@@ -22,13 +22,13 @@ public class RangoCrediticioService implements IRangoCrediticioService {
     private IRangoCrediticioRepository rep;
     
     @Override
-    public RangoCrediticio crear(RangoCrediticio rango_crediticio) {
+    public RangoCrediticio crear(RangoCrediticio rangoCrediticio) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_rango_crediticio);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	rango_crediticio.setCodigo(codigo.get());
-    	return rep.save(rango_crediticio);
+    	rangoCrediticio.setCodigo(codigo.get());
+    	return rep.save(rangoCrediticio);
     }
 
     @Override

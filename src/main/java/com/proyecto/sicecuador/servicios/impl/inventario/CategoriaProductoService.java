@@ -29,6 +29,7 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     		throw new CodigoNoExistenteException();
     	}
     	categoriaProducto.setCodigo(codigo.get());
+    	categoriaProducto.setEstado(Constantes.activo);
     	return rep.save(categoriaProducto);
     }
 

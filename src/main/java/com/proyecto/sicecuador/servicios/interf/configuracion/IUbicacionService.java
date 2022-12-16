@@ -4,7 +4,6 @@ import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IUbicacionService extends IGenericoService<Ubicacion> {
 	Ubicacion activar(Ubicacion ubicacion);

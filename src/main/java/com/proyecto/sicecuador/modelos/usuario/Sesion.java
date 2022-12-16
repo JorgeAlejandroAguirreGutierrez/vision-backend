@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,16 +13,13 @@ public class Sesion extends Entidad {
     private Date fechaApertura;
     @Column(name = "fecha_cierre", nullable = true)
     private Date fechaCierre;
-    @Column(name = "sesion_ip", nullable = true)
-    private String sesionIP;
+    @Column(name = "ip", nullable = true)
+    private String ip;
     @Column(name = "estado", nullable = true)
-    private boolean estado;
+    private String estado;
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = true)
     private Usuario usuario;
-    @ManyToOne
-    @JoinColumn(name = "estacion_id", nullable = true)
-    private Estacion estacion;
     
     public Sesion(){
 
@@ -33,22 +29,20 @@ public class Sesion extends Entidad {
         super(id);
     }
 
-    public Sesion(String codigo, Date fechaApertura, Date fechaCierre, String sesionIP, boolean estado, Usuario usuario, Estacion estacion, Empresa empresa){
+    public Sesion(String codigo, Date fechaApertura, Date fechaCierre, String sesionIP, String estado, Usuario usuario){
         super(codigo);
         this.fechaApertura=fechaApertura;
         this.fechaCierre=fechaCierre;
-        this.sesionIP=sesionIP;
+        this.ip=sesionIP;
         this.estado=estado;
         this.usuario=usuario;
-        this.estacion=estacion;
     }
     public Sesion(List<String> datos){
         fechaApertura=datos.get(0)== null ? null: new Date(datos.get(0));
         fechaCierre=datos.get(1)== null ? null: new Date(datos.get(1));
-        sesionIP=datos.get(2)== null ? null: datos.get(2);
-        estado=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
+        ip=datos.get(2)== null ? null: datos.get(2);
+        estado=datos.get(3)== null ? null: datos.get(3);
         usuario=datos.get(4)== null ? null:new Usuario((long) Double.parseDouble(datos.get(4)));
-        estacion=datos.get(5)== null ? null:new Estacion((long) Double.parseDouble(datos.get(5)));
     }
     
     public Date getFechaApertura() {
@@ -59,22 +53,17 @@ public class Sesion extends Entidad {
 		return fechaCierre;
 	}
 
-    public String getSesionIP() {
-		return sesionIP;
+    public String getIp() {
+		return ip;
 	}
 
     public Usuario getUsuario() {
         return usuario;
     }
 
-    
-	public Estacion getEstacion() {
-		return estacion;
+	public String getEstado() {
+		return estado;
 	}
-
-	public boolean isEstado() {
-        return estado;
-    }
 
     public void setFechaApertura(Date fechaApertura) {
 		this.fechaApertura = fechaApertura;
@@ -88,16 +77,11 @@ public class Sesion extends Entidad {
         this.usuario = usuario;
     }
 
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
-	public void setSesionIP(String sesionIP) {
-		this.sesionIP = sesionIP;
+    public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
-	public void setEstacion(Estacion estacion) {
-		this.estacion = estacion;
-	}  
-    
+	public void setIp(String ip) {
+		this.ip = ip;
+	}   
 }

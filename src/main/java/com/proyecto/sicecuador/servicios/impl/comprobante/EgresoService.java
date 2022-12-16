@@ -27,6 +27,7 @@ public class EgresoService implements IEgresoService {
     		throw new CodigoNoExistenteException();
     	}
     	egreso.setCodigo(codigo.get());
+    	egreso.setEstado(Constantes.activo);
     	return rep.save(egreso);
     }
 

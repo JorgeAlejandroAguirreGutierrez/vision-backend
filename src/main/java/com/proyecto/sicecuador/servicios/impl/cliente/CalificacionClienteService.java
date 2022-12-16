@@ -28,6 +28,7 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     		throw new CodigoNoExistenteException();
     	}
     	calificacionCliente.setCodigo(codigo.get());
+    	calificacionCliente.setEstado(Constantes.activo);
     	return rep.save(calificacionCliente);
     }
 

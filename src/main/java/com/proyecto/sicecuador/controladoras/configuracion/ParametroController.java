@@ -84,14 +84,14 @@ public class ParametroController implements GenericoController<Parametro> {
 
     @GetMapping(value = "/tipo/{tipo}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerTipo(@PathVariable("tipo") String tipo) {
-        Parametro parametro=servicio.obtenerTipo(new Parametro(tipo));
+        Parametro parametro=servicio.obtenerPorTipo(new Parametro(tipo));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
     @GetMapping(value = "/consultarTipo/{tipo}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarTipo(@PathVariable("tipo") String tipo) {
-        List<Parametro> parametro=servicio.consultarTipo(new Parametro(tipo));
+        List<Parametro> parametro=servicio.consultarPorTipo(new Parametro(tipo));
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

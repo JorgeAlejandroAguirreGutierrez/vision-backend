@@ -32,6 +32,7 @@ public class ProveedorService implements IProveedorService {
     		throw new CodigoNoExistenteException();
     	}
     	proveedor.setCodigo(codigo.get());
+    	proveedor.setEstado(Constantes.activo);
     	return rep.save(proveedor);
     }
 

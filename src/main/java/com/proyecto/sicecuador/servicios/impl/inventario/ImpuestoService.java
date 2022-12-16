@@ -28,6 +28,7 @@ public class ImpuestoService implements IImpuestoService {
     		throw new CodigoNoExistenteException();
     	}
     	impuesto.setCodigo(codigo.get());
+    	impuesto.setEstado(Constantes.activo);
     	return rep.save(impuesto);
     }
 

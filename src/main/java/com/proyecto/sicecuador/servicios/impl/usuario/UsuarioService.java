@@ -28,6 +28,7 @@ public class UsuarioService implements IUsuarioService {
     		throw new CodigoNoExistenteException();
     	}
     	usuario.setCodigo(codigo.get());
+    	usuario.setEstado(Constantes.activo);
     	return rep.save(usuario);
     }
 
@@ -80,6 +81,14 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public List<Usuario> consultarCajeros() {
         return null;
+    }
+    
+    public Usuario obtenerPorApodo(String apodo) {
+    	Optional<Usuario> res= rep.obtenerPorApodo(apodo, Constantes.activo);
+    	if(res.isPresent()) {
+    		return res.get();
+    	}
+    	throw new EntidadNoExistenteException(Constantes.usuario);
     }
 
     @Override

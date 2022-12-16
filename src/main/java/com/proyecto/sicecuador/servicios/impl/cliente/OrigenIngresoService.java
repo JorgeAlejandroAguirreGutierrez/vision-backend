@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.administracion.Modelo;
 import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -29,6 +28,7 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     		throw new CodigoNoExistenteException();
     	}
     	origenIngreso.setCodigo(codigo.get());
+    	origenIngreso.setEstado(Constantes.activo);
     	return rep.save(origenIngreso);
     }
 

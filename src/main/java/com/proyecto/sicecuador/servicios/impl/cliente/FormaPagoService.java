@@ -29,6 +29,7 @@ public class FormaPagoService implements IFormaPagoService {
     		throw new CodigoNoExistenteException();
     	}
     	formaPago.setCodigo(codigo.get());
+    	formaPago.setEstado(Constantes.activo);
     	return rep.save(formaPago);
     }
 

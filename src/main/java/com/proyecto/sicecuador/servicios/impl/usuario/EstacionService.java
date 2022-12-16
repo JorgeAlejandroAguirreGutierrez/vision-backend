@@ -31,6 +31,7 @@ public class EstacionService implements IEstacionService {
     		throw new CodigoNoExistenteException();
     	}
     	estacion.setCodigo(codigo.get());
+    	estacion.setEstado(Constantes.activo);
     	return rep.save(estacion);
     }
 

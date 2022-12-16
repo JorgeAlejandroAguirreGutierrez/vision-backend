@@ -28,6 +28,7 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     		throw new CodigoNoExistenteException();
     	}
     	plazoCredito.setCodigo(codigo.get());
+    	plazoCredito.setEstado(Constantes.activo);
     	return rep.save(plazoCredito);
     }
 

@@ -29,6 +29,7 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
     		throw new CodigoNoExistenteException();
     	}
     	vehiculoTransporte.setCodigo(codigo.get());
+    	vehiculoTransporte.setEstado(Constantes.activo);
     	return rep.save(vehiculoTransporte);
     }
 

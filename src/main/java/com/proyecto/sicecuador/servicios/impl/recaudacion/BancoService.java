@@ -27,6 +27,7 @@ public class BancoService implements IBancoService {
     		throw new CodigoNoExistenteException();
     	}
     	banco.setCodigo(codigo.get());
+    	banco.setEstado(Constantes.activo);
     	return rep.save(banco);
     }
 

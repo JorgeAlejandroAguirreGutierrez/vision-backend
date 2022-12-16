@@ -28,6 +28,7 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     		throw new CodigoNoExistenteException();
     	}
     	operadorTarjeta.setCodigo(codigo.get());
+    	operadorTarjeta.setEstado(Constantes.activo);
     	return rep.save(operadorTarjeta);
     }
 

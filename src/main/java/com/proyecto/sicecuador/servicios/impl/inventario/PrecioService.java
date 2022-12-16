@@ -29,6 +29,7 @@ public class PrecioService implements IPrecioService {
     		throw new CodigoNoExistenteException();
     	}
     	precio.setCodigo(codigo.get());
+    	precio.setEstado(Constantes.activo);
     	return rep.save(precio);
     }
 

@@ -46,10 +46,7 @@ public class Establecimiento extends Entidad {
     private List<CelularEstablecimiento> celularesEstablecimiento;    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id")
-    private List<CorreoEstablecimiento> correosEstablecimiento;    
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "establecimiento_id")
-    private List<Estacion> estaciones;    
+    private List<CorreoEstablecimiento> correosEstablecimiento;
 
     public Establecimiento(){
         super();
@@ -120,10 +117,6 @@ public class Establecimiento extends Entidad {
     public List<CorreoEstablecimiento> getCorreosEstablecimiento() {
 		return correosEstablecimiento;
 	}    
-    @JsonManagedReference
-    public List<Estacion> getEstaciones() {
-		return estaciones;
-	}
 	public void setCodigoSri(String codigoSri) {
 		this.codigoSri = codigoSri;
 	}
@@ -156,8 +149,5 @@ public class Establecimiento extends Entidad {
 	}
 	public void setCorreosEstablecimiento(List<CorreoEstablecimiento> correosEstablecimiento) {
 		this.correosEstablecimiento = correosEstablecimiento;
-	}
-	public void setEstaciones(List<Estacion> estaciones) {
-		this.estaciones = estaciones;
 	}
 }

@@ -28,6 +28,7 @@ public class BodegaService implements IBodegaService {
     		throw new CodigoNoExistenteException();
     	}
     	bodega.setCodigo(codigo.get());
+    	bodega.setEstado(Constantes.activo);
     	return rep.save(bodega);
     }
 

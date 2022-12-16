@@ -27,6 +27,7 @@ public class UbicacionService implements IUbicacionService {
     		throw new CodigoNoExistenteException();
     	}
     	ubicacion.setCodigo(codigo.get());
+    	ubicacion.setEstado(Constantes.activo);
     	return rep.save(ubicacion);
     }
 

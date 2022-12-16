@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
 import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
 import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
 import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;

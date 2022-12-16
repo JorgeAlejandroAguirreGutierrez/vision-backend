@@ -32,6 +32,7 @@ public class EquivalenciaMedidaService implements IEquivalenciaMedidaService {
     		throw new CodigoNoExistenteException();
     	}
     	equivalenciaMedida.setCodigo(codigo.get());
+    	equivalenciaMedida.setEstado(Constantes.activo);
         return rep.save(equivalenciaMedida);
     }
 

@@ -29,6 +29,7 @@ public class EmpresaService implements IEmpresaService {
     		throw new CodigoNoExistenteException();
     	}
     	empresa.setCodigo(codigo.get());
+    	empresa.setEstado(Constantes.activo);
     	return rep.save(empresa);
     }
 

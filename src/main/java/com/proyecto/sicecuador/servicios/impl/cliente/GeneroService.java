@@ -29,6 +29,7 @@ public class GeneroService implements IGeneroService {
     		throw new CodigoNoExistenteException();
     	}
     	genero.setCodigo(codigo.get());
+    	genero.setEstado(Constantes.activo);
     	return rep.save(genero);
     }
 

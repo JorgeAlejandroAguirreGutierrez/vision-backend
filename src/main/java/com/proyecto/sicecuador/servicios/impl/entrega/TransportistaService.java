@@ -28,6 +28,7 @@ public class TransportistaService implements ITransportistaService {
     		throw new CodigoNoExistenteException();
     	}
     	transportista.setCodigo(codigo.get());
+    	transportista.setEstado(Constantes.activo);
     	return rep.save(transportista);
     }
 

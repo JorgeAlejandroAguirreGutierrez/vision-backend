@@ -27,6 +27,7 @@ public class DependienteService implements IDependienteService {
     		throw new CodigoNoExistenteException();
     	}
     	dependiente.setCodigo(codigo.get());
+    	dependiente.setEstado(Constantes.activo);
     	return rep.save(dependiente);
     }
 

@@ -28,6 +28,7 @@ public class MedidaService implements IMedidaService {
     		throw new CodigoNoExistenteException();
     	}
     	medida.setCodigo(codigo.get());
+    	medida.setEstado(Constantes.activo);
     	return rep.save(medida);
     }
 

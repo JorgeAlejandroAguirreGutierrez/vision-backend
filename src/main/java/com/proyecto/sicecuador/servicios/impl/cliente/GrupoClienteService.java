@@ -27,6 +27,7 @@ public class GrupoClienteService implements IGrupoClienteService {
     		throw new CodigoNoExistenteException();
     	}
     	grupoCliente.setCodigo(codigo.get());
+    	grupoCliente.setEstado(Constantes.activo);
     	return rep.save(grupoCliente);
     }
 

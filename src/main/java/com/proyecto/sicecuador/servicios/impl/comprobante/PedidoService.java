@@ -27,6 +27,7 @@ public class PedidoService implements IPedidoService {
     		throw new CodigoNoExistenteException();
     	}
     	pedido.setCodigo(codigo.get());
+    	pedido.setEstado(Constantes.activo);
     	return rep.save(pedido);
     }
 

@@ -18,10 +18,6 @@ public class Estacion extends Entidad {
 	@ManyToOne
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private Establecimiento establecimiento;
-	
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "estacion_id")
-    private List<EstacionUsuario> estacionesUsuarios;
 
     public Estacion(){
         super();
@@ -59,9 +55,5 @@ public class Estacion extends Entidad {
     
     public void setEstado(String estado) {
 		this.estado = estado;
-	}
-    
-    public List<EstacionUsuario> getEstacionesUsuarios() {
-		return estacionesUsuarios;
 	}
 }

@@ -31,6 +31,7 @@ public class GrupoProductoService implements IGrupoProductoService {
     		throw new CodigoNoExistenteException();
     	}
     	grupoProducto.setCodigo(codigo.get());
+    	grupoProducto.setEstado(Constantes.activo);
     	return rep.save(grupoProducto);
     }
 

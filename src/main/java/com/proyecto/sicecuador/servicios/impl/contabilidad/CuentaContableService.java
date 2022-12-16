@@ -30,6 +30,7 @@ public class CuentaContableService implements ICuentaContableService {
     		throw new CodigoNoExistenteException();
     	}
         cuentaContable.setCodigo(codigo.get());
+        cuentaContable.setEstado(Constantes.activo);
     	return rep.save(cuentaContable);
     }
 

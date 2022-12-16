@@ -35,11 +35,11 @@ public class SesionService implements ISesionService {
     		throw new CodigoNoExistenteException();
     	}
     	sesion.setCodigo(codigo.get());
-    	Optional<Usuario> usuario=rep_usuario.findByIdentificacionContrasena(sesion.getUsuario().getIdentificacion(),sesion.getUsuario().getContrasena(), Constantes.activo);
+    	Optional<Usuario> usuario=rep_usuario.obtenerPorApodoContrasena(sesion.getUsuario().getApodo(), sesion.getUsuario().getContrasena(), Constantes.activo);
     	if(usuario.isPresent()) {
     		sesion.setUsuario(usuario.get());
             sesion.setFechaApertura(new Date());
-            sesion.setEstado(true);
+            sesion.setEstado(Constantes.activo);
             
             return rep.save(sesion);
     	}
@@ -95,7 +95,7 @@ public class SesionService implements ISesionService {
     public Optional<Sesion> cerrar(Sesion sesion) {
         Sesion _sesion=rep.findById(sesion.getId()).get();
         sesion.setFechaCierre(new Date());
-        sesion.setEstado(false);
+        sesion.setEstado(Constantes.activo);
         _sesion=rep.save(_sesion);
         return Optional.of(_sesion);
     }

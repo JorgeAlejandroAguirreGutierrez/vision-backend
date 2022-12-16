@@ -30,6 +30,7 @@ public class AfectacionContableService implements IAfectacionContableService {
     		throw new CodigoNoExistenteException();
     	}
     	afectacionContable.setCodigo(codigo.get());
+    	afectacionContable.setEstado(Constantes.activo);
     	return rep.save(afectacionContable);
     }
 

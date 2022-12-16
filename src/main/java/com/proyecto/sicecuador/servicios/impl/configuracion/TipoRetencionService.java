@@ -28,6 +28,7 @@ public class TipoRetencionService implements ITipoRetencionService {
     		throw new CodigoNoExistenteException();
     	}
     	tipoRetencion.setCodigo(codigo.get());
+    	tipoRetencion.setEstado(Constantes.activo);
     	return rep.save(tipoRetencion);
     }
 

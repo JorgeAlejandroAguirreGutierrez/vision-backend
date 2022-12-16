@@ -36,6 +36,7 @@ public class ProductoService implements IProductoService {
     		throw new CodigoNoExistenteException();
     	}
     	producto.setCodigo(codigo.get());
+    	producto.setEstado(Constantes.activo);
     	return rep.save(producto);
     }
 

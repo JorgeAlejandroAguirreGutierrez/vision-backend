@@ -1,8 +1,5 @@
 package com.proyecto.sicecuador.modelos.usuario;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -29,17 +26,13 @@ public class Usuario extends Entidad {
     private String pregunta;
     @Column(name = "respuesta", nullable = true)
     private String respuesta;
-	@ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "estacion_id", nullable = true)
+    private Estacion estacion;
+    @ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
-	@ManyToOne
-    @JoinColumn(name = "empresa_id", nullable = true)
-	private Empresa empresa;
-
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
-    private List<EstacionUsuario> estacionesUsuarios;    
-
+    
     public Usuario(){
 
     }
@@ -48,7 +41,7 @@ public class Usuario extends Entidad {
         super(id);
     }
     public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar,
-    		String apodo, String cambiarContrasena, String pregunta, String respuesta, String estado, Perfil perfil, Empresa empresa){
+    		String apodo, String cambiarContrasena, String pregunta, String respuesta, String estado, Perfil perfil, Estacion estacion){
         super(codigo);
         this.nombre=nombre;
         this.correo=correo;
@@ -61,7 +54,7 @@ public class Usuario extends Entidad {
         this.pregunta=pregunta;
         this.respuesta=respuesta;
         this.perfil=perfil;
-        this.empresa=empresa;
+        this.estacion=estacion;
     }
 
     public Usuario(List<String> datos){
@@ -72,14 +65,12 @@ public class Usuario extends Entidad {
         avatar=datos.get(4)== null ? null: datos.get(4);
         estado=datos.get(5)== null ? null: datos.get(5);
         perfil=datos.get(7)== null ? null:new Perfil((long) Double.parseDouble(datos.get(7)));
-        empresa=datos.get(8)== null ? null:new Empresa((long) Double.parseDouble(datos.get(8)));
-        apodo=datos.get(9)== null ? null: datos.get(9);
-        cambiarContrasena=datos.get(10)== null ? null: datos.get(10);
-        pregunta=datos.get(11)== null ? null: datos.get(11);
-        respuesta=datos.get(12)== null ? null: datos.get(12);        
-        estado=datos.get(13) == null  ? null : datos.get(13);
-        perfil=datos.get(14)== null ? null:new Perfil((long) Double.parseDouble(datos.get(14)));
-        empresa=datos.get(15)== null ? null:new Empresa((long) Double.parseDouble(datos.get(15)));
+        apodo=datos.get(8)== null ? null: datos.get(8);
+        cambiarContrasena=datos.get(9)== null ? null: datos.get(9);
+        pregunta=datos.get(10)== null ? null: datos.get(10);
+        respuesta=datos.get(11)== null ? null: datos.get(11);        
+        estado=datos.get(12) == null  ? null : datos.get(12);
+        perfil=datos.get(13)== null ? null:new Perfil((long) Double.parseDouble(datos.get(13)));
     }
 
     public String getNombre() {
@@ -121,19 +112,14 @@ public class Usuario extends Entidad {
 	public String getRespuesta() {
 		return respuesta;
 	}
+	
+	public Estacion getEstacion() {
+		return estacion;
+	}
 
     public Perfil getPerfil() {
         return perfil;
     }
-        
-    public Empresa getEmpresa() {
-		return empresa;
-	}
-
-    @JsonManagedReference
-	public List<EstacionUsuario> getEstacionesUsuarios() {
-		return estacionesUsuarios;
-	}
 
 	public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
@@ -178,12 +164,8 @@ public class Usuario extends Entidad {
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
-
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	
+	public void setEstacion(Estacion estacion) {
+		this.estacion = estacion;
 	}
-
-	public void setEstacionesUsuarios(List<EstacionUsuario> estacionesUsuarios) {
-		this.estacionesUsuarios = estacionesUsuarios;
-	}    
 }

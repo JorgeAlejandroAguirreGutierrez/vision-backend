@@ -74,7 +74,7 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public Cliente  obtenerPorRazonSocial(Cliente cliente) {
+    public Cliente obtenerPorRazonSocial(Cliente cliente) {
         Optional<Cliente> resp= rep.obtenerPorRazonSocial(cliente.getRazonSocial(), Constantes.activo);
         if(resp.isPresent()){
         	return resp.get();
@@ -82,7 +82,7 @@ public class ClienteService implements IClienteService {
         throw new EntidadNoExistenteException(Constantes.cliente);
     }
     @Override
-    public Cliente  obtenerPorIdentificacion(Cliente cliente) {
+    public Cliente obtenerPorIdentificacion(Cliente cliente) {
         Optional<Cliente> resp= rep.obtenerPorRazonSocial(cliente.getRazonSocial(), Constantes.activo);
         if(resp.isPresent()){
         	return resp.get();

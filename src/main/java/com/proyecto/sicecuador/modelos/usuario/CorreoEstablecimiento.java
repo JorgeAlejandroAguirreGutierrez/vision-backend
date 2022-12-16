@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "correo_establecimiento")
 public class CorreoEstablecimiento extends Entidad {
-    
 	@Column(name = "email", nullable = true)
     private String email;
 	@Column(name = "estado", nullable = true)
@@ -22,6 +21,7 @@ public class CorreoEstablecimiento extends Entidad {
 	public CorreoEstablecimiento() {
 		super();
 	}
+	
 	public CorreoEstablecimiento(long id) {
 		super(id);
 	}
@@ -44,10 +44,7 @@ public class CorreoEstablecimiento extends Entidad {
 	public String getEstado() {
 		return estado;
 	}
-	@JsonBackReference
-	public Establecimiento getEstablecimiento() {
-		return establecimiento;
-	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -55,9 +52,9 @@ public class CorreoEstablecimiento extends Entidad {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public void setEstablecimiento(Establecimiento establecimiento) {
-		this.establecimiento = establecimiento;
+	
+	@JsonBackReference
+	public Establecimiento getEstablecimiento() {
+		return establecimiento;
 	}
-	
-	
 }

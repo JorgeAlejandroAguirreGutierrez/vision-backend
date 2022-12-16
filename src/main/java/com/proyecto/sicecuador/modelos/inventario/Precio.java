@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -25,7 +24,8 @@ public class Precio extends Entidad {
     private double utilidad;
     @Column(name = "utilidad_porcentaje", nullable = true)
     private double utilidadPorcentaje;
-    @JsonBackReference
+    @Column(name = "estado", nullable = true)
+    private String estado;
 	@ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
@@ -50,7 +50,7 @@ public class Precio extends Entidad {
 
     public Precio(String codigo, double costo, double margen_ganancia,
                   double precioVentaPublico, double precioSinIva, double precioVentaPublicoManual,
-                  double utilidad, double utilidadPocentaje, Producto producto, Medida medida, Segmento segmento){
+                  double utilidad, double utilidadPocentaje, String estado, Producto producto, Medida medida, Segmento segmento){
         super(codigo);
         this.costo=costo;
         this.margenGanancia=margen_ganancia;
@@ -59,6 +59,7 @@ public class Precio extends Entidad {
         this.precioVentaPublicoManual=precioVentaPublicoManual;
         this.utilidad=utilidad;
         this.utilidadPorcentaje=utilidadPocentaje;
+        this.estado = estado;
         this.producto=producto;
         this.medida=medida;
         this.segmento=segmento;
@@ -95,14 +96,24 @@ public class Precio extends Entidad {
     public double getUtilidadPorcentaje() {
 		return utilidadPorcentaje;
 	}
+    
+    public String getEstado() {
+		return estado;
+	}
+    
     public Producto getProducto() {
 		return producto;
 	}
     public Medida getMedida() {
 		return medida;
 	}
+    
     public Segmento getSegmento() {
         return segmento;
     }
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
 }

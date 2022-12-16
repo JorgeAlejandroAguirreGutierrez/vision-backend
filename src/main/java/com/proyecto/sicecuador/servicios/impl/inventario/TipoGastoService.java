@@ -29,6 +29,7 @@ public class TipoGastoService implements ITipoGastoService {
     		throw new CodigoNoExistenteException();
     	}
     	tipoGasto.setCodigo(codigo.get());
+    	tipoGasto.setEstado(Constantes.activo);
     	return rep.save(tipoGasto);
     }
 

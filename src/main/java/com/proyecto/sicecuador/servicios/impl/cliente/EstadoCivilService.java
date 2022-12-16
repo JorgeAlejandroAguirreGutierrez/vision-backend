@@ -29,6 +29,7 @@ public class EstadoCivilService implements IEstadoCivilService {
     		throw new CodigoNoExistenteException();
     	}
     	estadoCivil.setCodigo(codigo.get());
+    	estadoCivil.setEstado(Constantes.activo);
     	return rep.save(estadoCivil);
     }
 

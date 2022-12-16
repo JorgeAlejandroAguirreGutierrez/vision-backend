@@ -25,10 +25,14 @@ public class EstacionData implements ApplicationRunner {
         Optional<Estacion> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Estacion> estaciones = new ArrayList<>();
-            estaciones.add(new Estacion("EST001", "001", "CAJA1", Constantes.activo, new Establecimiento(1)));
-            estaciones.add(new Estacion("EST002", "002", "CAJA2", Constantes.activo, new Establecimiento(1)));
-            estaciones.add(new Estacion("EST003", "003", "CAJA3", Constantes.activo, new Establecimiento(2)));
-            estaciones.add(new Estacion("EST004", "004", "PC4", Constantes.activo, new Establecimiento(1)));
+            estaciones.add(new Estacion("ESN001", "001", "CAJA1", Constantes.activo, new Establecimiento(1)));
+            estaciones.add(new Estacion("ESN002", "002", "CAJA2", Constantes.activo, new Establecimiento(2)));
+            estaciones.add(new Estacion("ESN003", "003", "CAJA3", Constantes.activo, new Establecimiento(3)));
+            estaciones.add(new Estacion("ESN004", "004", "PC4", Constantes.activo, new Establecimiento(4)));
+            estaciones.add(new Estacion("ESN005", "005", "PC5", Constantes.activo, new Establecimiento(1)));
+            estaciones.add(new Estacion("ESN006", "006", "PC6", Constantes.activo, new Establecimiento(2)));
+            estaciones.add(new Estacion("ESN007", "007", "PC7", Constantes.activo, new Establecimiento(3)));
+            estaciones.add(new Estacion("ESN008", "008", "PC8", Constantes.activo, new Establecimiento(4)));
             rep.saveAll(estaciones);
         }
     }

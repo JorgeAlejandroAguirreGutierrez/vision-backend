@@ -28,6 +28,7 @@ public class PermisoService implements IPermisoService {
     		throw new CodigoNoExistenteException();
     	}
     	permiso.setCodigo(codigo.get());
+    	permiso.setEstado(Constantes.activo);
     	return rep.save(permiso);
     }
 

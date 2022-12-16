@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.servicios.interf.recaudacion;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;

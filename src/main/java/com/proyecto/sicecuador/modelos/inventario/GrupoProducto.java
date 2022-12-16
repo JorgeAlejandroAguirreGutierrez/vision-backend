@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
 import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
 
 import javax.persistence.*;

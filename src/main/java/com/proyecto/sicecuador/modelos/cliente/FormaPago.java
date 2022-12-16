@@ -58,9 +58,11 @@ public class FormaPago extends Entidad {
     public String getAbreviatura() {
         return abreviatura;
     }
+    
     public String getEstado() {
         return estado;
     }
+    
     public void setEstado(String estado) {
 		this.estado = estado;
 	}

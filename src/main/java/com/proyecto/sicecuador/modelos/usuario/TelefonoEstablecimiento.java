@@ -2,8 +2,6 @@ package com.proyecto.sicecuador.modelos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.Dependiente;
 
 import java.util.List;
 
@@ -57,9 +55,4 @@ public class TelefonoEstablecimiento extends Entidad {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public void setEstablecimiento(Establecimiento establecimiento) {
-		this.establecimiento = establecimiento;
-	}
-	
-	
 }

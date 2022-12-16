@@ -54,6 +54,13 @@ public class UsuarioController implements GenericoController<Usuario> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, usuario);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/obtenerPorApodo/{apodo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo) {
+        Usuario usuario=servicio.obtenerPorApodo(apodo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, usuario);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Usuario _usuario) {

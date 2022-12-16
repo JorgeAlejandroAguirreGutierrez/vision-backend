@@ -27,6 +27,7 @@ public class ProformaService implements IProformaService {
     		throw new CodigoNoExistenteException();
     	}
     	proforma.setCodigo(codigo.get());
+    	proforma.setEstado(Constantes.activo);
     	return rep.save(proforma);
     }
 
