@@ -9,7 +9,7 @@ import java.util.Date;
 @Table(name = "retencion_venta")
 public class RetencionVenta extends Entidad {
 	@Column(name = "codigo_sri", nullable = true)
-    private String codigoSri;
+    private String codigoSRI;
     @Column(name = "numero", nullable = true)
     private String numero;
     @Column(name = "fecha", nullable = true)
@@ -38,9 +38,9 @@ public class RetencionVenta extends Entidad {
         super(id);
     }
 
-    public RetencionVenta(String codigo, String codigoSri, String numero, Date fecha, String agente, String autorizacion, boolean compensado, double baseImponible, double valor, TipoRetencion tipoRetencion, Recaudacion recaudacion ){
+    public RetencionVenta(String codigo, String codigoSRI, String numero, Date fecha, String agente, String autorizacion, boolean compensado, double baseImponible, double valor, TipoRetencion tipoRetencion, Recaudacion recaudacion ){
         super(codigo);
-        this.codigoSri=codigoSri;
+        this.codigoSRI=codigoSRI;
         this.numero=numero;
         this.fecha=fecha;
         this.agente=agente;
@@ -52,8 +52,8 @@ public class RetencionVenta extends Entidad {
         this.recaudacion=recaudacion;
     }
     
-    public String getCodigoSri() {
-		return codigoSri;
+    public String getCodigoSRI() {
+		return codigoSRI;
 	}
 
     public String getNumero() {
@@ -87,12 +87,9 @@ public class RetencionVenta extends Entidad {
     public TipoRetencion getTipoRetencion() {
 		return tipoRetencion;
 	}
+    
     @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;
     }
-    
-    public void setCodigoSri(String codigoSri) {
-		this.codigoSri = codigoSri;
-	}
 }

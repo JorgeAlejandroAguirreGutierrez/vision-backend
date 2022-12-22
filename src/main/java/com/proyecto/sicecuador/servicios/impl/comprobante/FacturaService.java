@@ -74,7 +74,7 @@ public class FacturaService implements IFacturaService {
     	String tipoComprobante=Constantes.factura_sri;
     	String numeroRuc=factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
     	String tipoAmbiente=Constantes.pruebas_sri;
-    	String serie=factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSri() + factura.getSesion().getUsuario().getEstacion().getCodigoSri();
+    	String serie=factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + factura.getSesion().getUsuario().getEstacion().getCodigoSRI();
     	String numeroComprobante=factura.getSecuencia();
     	String codigoNumerico=factura.getCodigoNumerico();
     	String tipoEmision=Constantes.emision_normal_sri;

@@ -13,8 +13,8 @@ import java.util.List;
 @Table(name = "establecimiento")
 public class Establecimiento extends Entidad {
 	@NotNull
-    @Column(name = "codigoSri", nullable = true)
-    private String codigoSri;
+    @Column(name = "codigoSRI", nullable = true)
+    private String codigoSRI;
 	@NotNull
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
@@ -55,9 +55,9 @@ public class Establecimiento extends Entidad {
         super(id);
     }
 
-    public Establecimiento(String codigo, String codigoSri, String descripcion, String direccion, int latitud, int longitud, String estado,  Empresa empresa, Ubicacion ubicacion){
+    public Establecimiento(String codigo, String codigoSRI, String descripcion, String direccion, int latitud, int longitud, String estado,  Empresa empresa, Ubicacion ubicacion){
         super(codigo);
-        this.codigoSri=codigoSri;
+        this.codigoSRI=codigoSRI;
         this.descripcion=descripcion;
         this.direccion=direccion;
         this.latitud=latitud;
@@ -67,7 +67,7 @@ public class Establecimiento extends Entidad {
         this.ubicacion=ubicacion;
     }
     public Establecimiento(List<String> datos){
-        codigoSri=datos.get(0)== null ? null: datos.get(0);
+        codigoSRI=datos.get(0)== null ? null: datos.get(0);
     	descripcion=datos.get(1)== null ? null: datos.get(1);
     	direccion=datos.get(2)== null ? null: datos.get(2);
     	latitud=datos.get(3)== null ? null: Integer.parseInt(datos.get(3));
@@ -76,20 +76,22 @@ public class Establecimiento extends Entidad {
         ubicacion=datos.get(6)== null ? null:new Ubicacion((long) Double.parseDouble(datos.get(6)));
     }
     
-    public String getCodigoSri() {
-        return codigoSri;
-    }
-
+    public String getCodigoSRI() {
+		return codigoSRI;
+	}
     
     public String getDescripcion() {
 		return descripcion;
 	}
+    
 	public int getLatitud() {
 		return latitud;
 	}
+	
 	public int getLongitud() {
 		return longitud;
 	}
+	
 	public String getDireccion() {
         return direccion;
     }
@@ -116,10 +118,8 @@ public class Establecimiento extends Entidad {
     @JsonManagedReference
     public List<CorreoEstablecimiento> getCorreosEstablecimiento() {
 		return correosEstablecimiento;
-	}    
-	public void setCodigoSri(String codigoSri) {
-		this.codigoSri = codigoSri;
 	}
+    
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}

@@ -40,10 +40,9 @@ public class SesionService implements ISesionService {
     		sesion.setUsuario(usuario.get());
             sesion.setFechaApertura(new Date());
             sesion.setEstado(Constantes.activo);
-            
             return rep.save(sesion);
     	}
-    	throw new EntidadNoExistenteException(Constantes.sesion); 
+    	throw new EntidadNoExistenteException(Constantes.usuario); 
     }
 
     @Override

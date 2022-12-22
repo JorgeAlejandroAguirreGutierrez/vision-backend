@@ -4,13 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "segmento")
 public class Segmento extends Entidad {
-	@NotNull
 	@NotEmpty
     @Column(name = "descripcion")
     private String descripcion;

@@ -114,8 +114,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoTributaria.setRuc(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
     	infoTributaria.setClaveAcceso(factura.getClaveAcceso());
     	infoTributaria.setCodDoc(Constantes.factura_sri);
-    	infoTributaria.setEstab(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSri());
-    	infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getEstacion().getCodigoSri());
+    	infoTributaria.setEstab(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
+    	infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getEstacion().getCodigoSRI());
     	infoTributaria.setSecuencial(factura.getSecuencia());
     	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion().getDireccion());
     	
@@ -123,7 +123,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	String fechaEmision = dateFormat.format(factura.getFecha());
     	infoFactura.setFechaEmision(fechaEmision);
     	infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
-    	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSri());
+    	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSRI());
     	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
     	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
     	infoFactura.setDireccionComprador(factura.getCliente().getDireccion().getDireccion());
@@ -176,7 +176,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
         	TotalImpuesto totalImpuesto = new TotalImpuesto();
     		totalImpuesto.setCodigo(Constantes.iva_sri);
-        	totalImpuesto.setCodigoPorcentaje(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoImpuestoSri());
+        	totalImpuesto.setCodigoPorcentaje(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoSRI());
         	totalImpuesto.setDescuentoAdicional(factura.getFacturaDetalles().get(i).getTotalDescuentoLinea());
         	totalImpuesto.setBaseImponible(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
         	totalImpuesto.setValor(factura.getFacturaDetalles().get(i).getIvaConDescuentoLinea());
@@ -280,7 +280,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	List<Impuesto> impuestoLista = new ArrayList<>();
     	Impuesto impuesto=new Impuesto();
     	impuesto.setCodigo(Constantes.iva_sri);
-    	impuesto.setCodigoPorcentaje(facturaDetalle.getImpuesto().getCodigoImpuestoSri());
+    	impuesto.setCodigoPorcentaje(facturaDetalle.getImpuesto().getCodigoSRI());
     	impuesto.setTarifa(facturaDetalle.getImpuesto().getPorcentaje());
     	impuesto.setBaseImponible(facturaDetalle.getSubtotalConDescuentoLinea());
     	impuesto.setValor(facturaDetalle.getIvaConDescuentoLinea());

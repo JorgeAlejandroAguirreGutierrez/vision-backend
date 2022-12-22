@@ -26,26 +26,23 @@ public class TipoRetencionData implements ApplicationRunner {
         Optional<TipoRetencion> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<TipoRetencion> tipos_retenciones = new ArrayList<>();
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IVA1", "IVA", "BIEN", "721", null, "Retencion Iva 10% Bienes", 10, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IVA2", "IVA", "SERVICIO", "723", null, "Retencion Iva 20% Servicios", 20, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IVA3", "IVA", "BIEN", "725", null, "Retencion Iva 30% Bienes", 30, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IVA4", "IVA", "BIEN", "727", null, "Retencion Iva 50% Exportadores", 50, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IVA5", "IVA", "SERVICIO", "729", null, "Retencion Iva 70% Servicios", 70, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IVA6", "IVA", "SERVICIO", "731", null, "Retencion Iva 100% Servicios Profesionales", 100, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000001", "IVA", "BIEN", "721", "RETENCION IVA 10% BIENES", 10, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000002", "IVA", "SERVICIO", "723", "RETENCION IVA 20% SERVICIOS", 20, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000003", "IVA", "BIEN", "725", "RETENCION IVA 30% BIENES", 30, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000004", "IVA", "BIEN", "727", "RETENCION IVA 50% EXPORTADORES", 50, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000005", "IVA", "SERVICIO", "729", "RETENCION IVA 70% SERVICIOS", 70, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000006", "IVA", "SERVICIO", "731", "RETENCION IVA 100% SERVICIOS PROFESIONALES", 100, Constantes.activo));
             
-            
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR1", "RENTA", "BIEN", "303", null, "Honorarios profesionales y demás pagos por servicios relacionados con el título profesional", 10, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR2", "RENTA", "BIEN", "304", null, "Servicios predomina el intelecto no relacionados con el título profesional", 5, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR3", "RENTA", "BIEN", "304A", null, "Comisiones y demás pagos por servicios predomina intelecto no relacionados con el título profesional", 8, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR4", "RENTA", "BIEN", "304B", null, "Pagos a notarios y registradores de la propiedad y mercantil por sus actividades ejercidas como tales", 8, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR5", "RENTA", "BIEN", "304C", null, "Pagos a deportistas, entrenadores, árbitros, miembros del cuerpo técnico por sus actividades ejercidas como tales", 8, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR6", "RENTA", "BIEN", "304D", null, "Pagos a artistas por sus actividades ejercidas como tales", 8, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR7", "RENTA", "BIEN", "307", null, "Servicios predomina la mano de obra", 2, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR8", "RENTA", "BIEN", "308", null, "Utilización o aprovechamiento de la imagen o renombre", 10, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR9", "RENTA", "BIEN", "309", null, "Servicios prestados por medios de comunicación y agencias de publicidada", 1.75, Constantes.activo));
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR10", "RENTA", "BIEN", "310", null, "Servicio de transporte privado de pasajeros o transporte público o privado de carga", 1, Constantes.activo));
-            
-            tipos_retenciones.add(new TipoRetencion("RETENCION_IR11", "RENTA", "SERVICIO", "0", null, "Renta servicio prueba", 10, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000007", "RENTA", "BIEN", "303", "HONORARIOS PROFESIONALES Y DEMAS PAGOS POR SERVICIOS RELACIONADOS CON EL TITULO PROFESIONAL", 10, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000008", "RENTA", "BIEN", "304", "SERVICIOS PREDOMINA EL INTELECTO NO RELACIONADOS CON EL TITULO PROFESIONAL", 5, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000009", "RENTA", "BIEN", "304A", "COMISIONES Y DEMAS PAGOS POR Comisiones y demás pagos por servicios predomina intelecto no relacionados con el título profesional", 8, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000010", "RENTA", "BIEN", "304B", "PAGOS A NOTARIOS Y REGISTRADOS DE LA PROPIEDAD MERCANTIL POR SUS ACTIVIDADES EJERCIDAS COMO TALES", 8, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000011", "RENTA", "BIEN", "304C", "PAGOS A DEPORTISTAS, ENTRENADORES, ARBITROS, MIEMBROS DEL CUERPO TECNICO POR SUS ACTIVIDADES EJERCIDAS COMO TALES", 8, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000012", "RENTA", "BIEN", "304D", "PAGOS A ARTISTAS POR SUS ACTIVIDADES EJERCIDAS COMO TALES", 8, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000013", "RENTA", "BIEN", "307", "SERVICIOS PREDOMINA LA MANO DE OBRA", 2, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000014", "RENTA", "BIEN", "308", "UTILIZACION O APROVECHAMIENTO DE LA IMAGEN O RENOMBRE", 10, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000015", "RENTA", "BIEN", "309", "SERVICIOS PRESTADOS POR MEDIOS DE COMUNICACION Y AGENCIAS DE PUBLICIDAD", 1.75, Constantes.activo));
+            tipos_retenciones.add(new TipoRetencion("TRE00000016", "RENTA", "BIEN", "310", "SERVICIO DE TRANSPORTE PRIVADO DE PASAJEROS O TRANSPORTE PUBLICO O PRIVADO DE CARGA", 1, Constantes.activo));
             rep.saveAll(tipos_retenciones);
         }
     }

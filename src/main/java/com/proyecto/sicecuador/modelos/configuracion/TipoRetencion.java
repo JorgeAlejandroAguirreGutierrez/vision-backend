@@ -10,10 +10,8 @@ public class TipoRetencion extends Entidad {
     private String impuestoRetencion;
     @Column(name = "tipo_retencion", nullable = true)
     private String tipoRetencion;
-    @Column(name = "codigo_norma", nullable = true)
-    private String codigoNorma;
-    @Column(name = "homologacion_f_e", nullable = true)
-    private String homologacionFE;
+    @Column(name = "codigo_sri", nullable = true)
+    private String codigoSRI;
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
     @Column(name = "porcentaje", nullable = true)
@@ -29,12 +27,11 @@ public class TipoRetencion extends Entidad {
         super(id);
     }
 
-    public TipoRetencion(String codigo, String impuestoRetencion, String tipoRetencion, String codigoNorma, String homologacionFE, String descripcion, double porcentaje, String estado){
+    public TipoRetencion(String codigo, String impuestoRetencion, String tipoRetencion, String codigoSRI, String descripcion, double porcentaje, String estado){
         super(codigo);
         this.impuestoRetencion=impuestoRetencion;
         this.tipoRetencion=tipoRetencion;
-        this.codigoNorma=codigoNorma;
-        this.homologacionFE=homologacionFE;
+        this.codigoSRI=codigoSRI;
         this.descripcion=descripcion;
         this.porcentaje=porcentaje;
         this.estado=estado;
@@ -42,10 +39,9 @@ public class TipoRetencion extends Entidad {
     public TipoRetencion(List<String> datos){
         impuestoRetencion=datos.get(0)== null ? null: datos.get(0);
         tipoRetencion=datos.get(1)== null ? null: datos.get(1);
-        codigoNorma=datos.get(2)== null ? null: datos.get(2).substring(0,datos.get(2).length()-1);
-        homologacionFE=datos.get(3)== null ? null: datos.get(3);
-        descripcion=datos.get(4)== null ? null: datos.get(4);
-        porcentaje=datos.get(5)== null ? null: Double.parseDouble(datos.get(5));
+        codigoSRI=datos.get(2)== null ? null: datos.get(2);
+        descripcion=datos.get(4)== null ? null: datos.get(3);
+        porcentaje=datos.get(5)== null ? null: Double.parseDouble(datos.get(4));
     }
     
     public String getImpuestoRetencion() {
@@ -55,14 +51,10 @@ public class TipoRetencion extends Entidad {
     public String getTipoRetencion() {
 		return tipoRetencion;
 	}
-
-    public String getCodigoNorma() {
-		return codigoNorma;
+    
+    public String getCodigoSRI() {
+		return codigoSRI;
 	}
-
-    public String getHomologacionFE() {
-    	return homologacionFE;
-   }
 
     public String getDescripcion() {
         return descripcion;

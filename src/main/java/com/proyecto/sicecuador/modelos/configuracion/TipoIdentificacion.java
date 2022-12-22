@@ -8,7 +8,7 @@ import java.util.List;
 @Table(name = "tipo_identificacion")
 public class TipoIdentificacion extends Entidad {
 	@Column(name = "codigo_sri", nullable = true)
-    private String codigoSri;
+    private String codigoSRI;
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
 
@@ -20,21 +20,21 @@ public class TipoIdentificacion extends Entidad {
         super(id);
     }
 
-    public TipoIdentificacion(String codigo, String codigoSri, String descripcion) {
+    public TipoIdentificacion(String codigo, String codigoSRI, String descripcion) {
         super(codigo);
-        this.codigoSri=codigoSri;
+        this.codigoSRI=codigoSRI;
         this.descripcion=descripcion;
     }
     
     public TipoIdentificacion(List<String> datos){
-        codigoSri=datos.get(0)== null ? null: datos.get(0);
+        codigoSRI=datos.get(0)== null ? null: datos.get(0);
         descripcion=datos.get(1)== null ? null: datos.get(1);
 
     }
     
-    public String getCodigoSri() {
-        return codigoSri;
-    }
+    public String getCodigoSRI() {
+		return codigoSRI;
+	}
 
     public String getDescripcion() {
 	   return descripcion;

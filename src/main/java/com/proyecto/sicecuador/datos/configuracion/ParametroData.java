@@ -112,6 +112,7 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR78", "CREAR", "", "proveedor", "PRV", Constantes.activo));
             parametros.add(new Parametro("PAR79", "CREAR", "", "afectacion_contable", "AFC", Constantes.activo));
             parametros.add(new Parametro("PAR80", "CREAR", "", "segmento", "SEG", Constantes.activo));
+            parametros.add(new Parametro("PAR81", "CREAR", "", "tipo_retencion", "TRE", Constantes.activo));
             
             rep.saveAll(parametros);
         }

@@ -8,8 +8,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "producto_proveedor")
 public class ProductoProveedor extends Entidad {
-    
-	//agregar campo codigoEquivalente
 	@Column(name = "codigoEquivalente", nullable = true)
     private String codigoEquivalente;
 	@JsonBackReference
@@ -42,8 +40,4 @@ public class ProductoProveedor extends Entidad {
     public Proveedor getProveedor() {
         return proveedor;
     }
-
- /*   public Producto getProducto() {
-        return producto;
-    }*/
 }
