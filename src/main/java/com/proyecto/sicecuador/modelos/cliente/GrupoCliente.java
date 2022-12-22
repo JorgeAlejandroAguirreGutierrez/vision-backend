@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -19,6 +20,9 @@ public class GrupoCliente extends Entidad {
 	@NotEmpty
     @Column(name = "estado")
     private String estado;
+	@ManyToOne
+    @JoinColumn(name = "cuenta_contable_id", nullable = true)
+    private CuentaContable cuentaContable;
 	
     public GrupoCliente(){
         super();
@@ -28,11 +32,12 @@ public class GrupoCliente extends Entidad {
         super(id);
     }
 
-    public GrupoCliente(String codigo, String descripcion, String abreviatura, String estado){
+    public GrupoCliente(String codigo, String descripcion, String abreviatura, String estado, CuentaContable cuentaContable){
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
         this.estado=estado;
+        this.cuentaContable=cuentaContable;
     }
 
     public GrupoCliente(List<String> datos){
@@ -53,5 +58,8 @@ public class GrupoCliente extends Entidad {
     }
     public void setEstado(String estado) {
 		this.estado = estado;
+	}
+    public CuentaContable getCuentaContable() {
+		return cuentaContable;
 	}
 }
