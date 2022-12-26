@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
-import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
 
 import javax.persistence.*;
 
@@ -63,7 +62,7 @@ public class GrupoProducto extends Entidad {
     	presentacion=datos.get(1)== null ? null: datos.get(1);
     	estado=datos.get(1)== null ? null: datos.get(1);
     	categoriaProducto=datos.get(0)==null ? null: new CategoriaProducto((long) Double.parseDouble(datos.get(0)));
-    	movimientoContable=datos.get(0)==null ? null: new MovimientoContable((long) Double.parseDouble(datos.get(0)));
+    	cuentaContable=datos.get(0)==null ? null: new CuentaContable((long) Double.parseDouble(datos.get(0)));
 
     }
 

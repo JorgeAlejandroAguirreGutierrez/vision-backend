@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.datos.inventario;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
-import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
 import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
 import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
 import com.proyecto.sicecuador.repositorios.inventario.IGrupoProductoRepository;
@@ -28,7 +27,7 @@ public class GrupoProductoData implements ApplicationRunner {
         Optional<GrupoProducto> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<GrupoProducto> gruposProductos = new ArrayList<>();
-            gruposProductos.add(new GrupoProducto("GPR011907000001", "HOGAR", "ELECTRODOMESTICO", "LINEA BLANCA", "NEVERA", "LG","PUERTA SIMPLE", Constantes.activo,new CategoriaProducto(1), new CuentaContable(51)));
+            gruposProductos.add(new GrupoProducto("GPR011907000001", "HOGAR", "ELECTRODOMESTICO", "LINEA BLANCA", "NEVERA", "LG","PUERTA SIMPLE", Constantes.activo,new CategoriaProducto(1), new CuentaContable(5)));
             gruposProductos.add(new GrupoProducto("GPR011907000002", "HOGAR", "ELECTRODOMESTICO", "LINEA GRIS", "TELEVISOR", "SONY","SMART", Constantes.activo,new CategoriaProducto(1), new CuentaContable(6)));
             gruposProductos.add(new GrupoProducto("GPR011907000003", "HOGAR", "MUEBLES", "LINEA CAFE", "DORMITORIOS", "CAMAS", "ZERO FUSION", Constantes.activo, new CategoriaProducto(1), new CuentaContable(5)));
             gruposProductos.add(new GrupoProducto("GPR011907000004", "JUGUETERIA", "NIÑOS", "MOTORIZADOS", "CARROS", "HOT WEELLS","MINIATURA", Constantes.activo, new CategoriaProducto(1), new CuentaContable(6)));
