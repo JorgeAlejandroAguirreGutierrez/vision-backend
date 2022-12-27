@@ -78,6 +78,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@ExceptionHandler(ParametroInvalidoException.class)
+	public final ResponseEntity<RestExceptionMessage> handleParametroInvalidaException(
+			ParametroInvalidoException ex, WebRequest req) {
+		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_parametro_invalido,
+	        Constantes.error_identificacion_invalida+Constantes.espacio+ex.getParametro(),
+	        null
+	    );
+	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = new ArrayList<>();

@@ -6,20 +6,26 @@ import java.util.List;
 @Entity
 @Table(name = "usuario")
 public class Usuario extends Entidad {
+	@Column(name = "apodo", nullable = true)
+    private String apodo;
 	@Column(name = "nombre", nullable = true)
     private String nombre;
+	@Column(name = "telefono", nullable = true)
+    private String telefono;
+	@Column(name = "celular", nullable = true)
+    private String celular;
 	@Column(name = "correo", nullable = true)
     private String correo;
 	@Column(name = "contrasena", nullable = true)
     private String contrasena;
+	@Column(name = "confirmar_contrasena", nullable = true)
+    private String confirmarContrasena;
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
     @Column(name = "avatar", nullable = true)
     private String avatar;
     @Column(name = "estado", nullable = true)
     private String estado;
-    @Column(name = "apodo", nullable = true)
-    private String apodo;
     @Column(name = "cambiarContrasena", nullable = true)
     private String cambiarContrasena;
     @Column(name = "pregunta", nullable = true)
@@ -40,16 +46,19 @@ public class Usuario extends Entidad {
     public Usuario(long id){
         super(id);
     }
-    public Usuario(String codigo, String nombre, String correo, String contrasena, String identificacion, String avatar,
+    public Usuario(String codigo, String nombre, String telefono, String celular, String correo, String contrasena, String confirmarContrasena, String identificacion, String avatar,
     		String apodo, String cambiarContrasena, String pregunta, String respuesta, String estado, Perfil perfil, Estacion estacion){
         super(codigo);
+        this.apodo=apodo;
         this.nombre=nombre;
+        this.telefono = telefono;
+        this.celular = celular;
         this.correo=correo;
         this.identificacion=identificacion;
         this.contrasena=contrasena;
+        this.confirmarContrasena = confirmarContrasena;
         this.avatar=avatar;
         this.estado=estado;
-        this.apodo=apodo;
         this.cambiarContrasena=cambiarContrasena;
         this.pregunta=pregunta;
         this.respuesta=respuesta;
@@ -72,10 +81,22 @@ public class Usuario extends Entidad {
         estado=datos.get(12) == null  ? null : datos.get(12);
         perfil=datos.get(13)== null ? null:new Perfil((long) Double.parseDouble(datos.get(13)));
     }
+    
+    public String getApodo() {
+		return apodo;
+	}
 
     public String getNombre() {
         return nombre;
     }
+    
+    public String getTelefono() {
+		return telefono;
+	}
+    
+    public String getCelular() {
+		return celular;
+	}
 
     public String getCorreo() {
         return correo;
@@ -88,6 +109,10 @@ public class Usuario extends Entidad {
     public String getContrasena() {
         return contrasena;
     }
+    
+    public String getConfirmarContrasena() {
+		return confirmarContrasena;
+	}
 
     public String getAvatar() {
         return avatar;
@@ -95,10 +120,6 @@ public class Usuario extends Entidad {
 
     public String getEstado() {
 		return estado;
-	}
-    
-    public String getApodo() {
-		return apodo;
 	}
 
 	public String getCambiarContrasena() {

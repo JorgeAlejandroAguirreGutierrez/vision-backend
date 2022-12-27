@@ -70,6 +70,7 @@ public class Constantes {
     public static String error_codigo_identificacion_invalida="4006";
     public static String error_codigo_secuencia_no_existente="4007";
     public static String error_codigo_cliente_no_existente="4008";
+    public static String error_codigo_parametro_invalido="4009";
     
     public static String error_generico="ERROR INTERNO DE SERVIDOR";
     public static String error_entidad_existente="ERROR ENTIDAD YA EXISTE";
@@ -80,9 +81,16 @@ public class Constantes {
     public static String error_identificacion_invalida="ERROR IDENTIFICACION INVALIDA";
     public static String error_secuencia_no_existente="ERROR SECUENCIA NO EXISTENTE";
     public static String error_cliente_no_existente="ERROR CLIENTE NO EXISTENTE";
+    public static String error_parametro_invalido="ERROR PARAMETRO INVALIDO";
     
     //CODIGO PARA CREAR
     public static final String tipo="CREAR";
+    
+    //PARAMETROS
+    public static final String parametro_contrasena = "CONTRASEÑA";
+    public static final String parametro_telefono = "TELEFONO";
+    public static final String parametro_celular = "CELULAR";
+    public static final String parametro_correo = "CORREO";
     
     //TABLAS
     //CLIENTE

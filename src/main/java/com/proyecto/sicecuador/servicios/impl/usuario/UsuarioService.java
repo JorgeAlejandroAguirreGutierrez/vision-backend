@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.ParametroInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
@@ -26,6 +27,20 @@ public class UsuarioService implements IUsuarioService {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_usuario);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
+    	}
+    	if (!usuario.getContrasena().equals(usuario.getConfirmarContrasena())) {
+    		throw new ParametroInvalidoException(Constantes.parametro_contrasena);
+    	}
+    	String digito = usuario.getTelefono().substring(0, 1);
+    	if(usuario.getTelefono().length() != 11 || !digito.equals("0")) {
+    		throw new ParametroInvalidoException(Constantes.parametro_telefono);
+    	}
+    	String digito2 = usuario.getCelular().substring(0, 2);
+    	if(usuario.getCelular().length() != 12 || !digito2.equals("09")) {
+    		throw new ParametroInvalidoException(Constantes.parametro_celular);
+    	}
+    	if(!usuario.getCorreo().contains("@")) {
+    		throw new ParametroInvalidoException(Constantes.parametro_correo);
     	}
     	usuario.setCodigo(codigo.get());
     	usuario.setEstado(Constantes.activo);
