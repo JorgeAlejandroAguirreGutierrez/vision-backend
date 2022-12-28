@@ -186,7 +186,6 @@ public class Constantes {
     public static final String tabla_estacion_usuario="estacion_usuario";
     public static final String tabla_perfil="perfil";
     public static final String tabla_permiso="permiso";
-    public static final String tabla_punto_venta="punto_venta";
     public static final String tabla_sesion="sesion";
     public static final String tabla_telefono_establecimiento="telefono_establecimiento";
     public static final String tabla_usuario="usuario";

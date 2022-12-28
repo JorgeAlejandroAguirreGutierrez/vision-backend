@@ -75,6 +75,8 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR67", "CREAR", "", "medida_precio", "MP", Constantes.activo));
             parametros.add(new Parametro("PAR67", "CREAR", "", "tabla_equivalencia_medida", "TEM", Constantes.activo));
             parametros.add(new Parametro("PAR68", "CREAR", "", "medida", "MED", Constantes.activo));
+            parametros.add(new Parametro("PAR69", "CREAR", "", "establecimiento", "EST", Constantes.activo));
+            parametros.add(new Parametro("PAR70", "CREAR", "", "estacion", "ESC", Constantes.activo));
             parametros.add(new Parametro("PAR38", "CREAR", "", "parametro", "PAR", Constantes.activo));
             parametros.add(new Parametro("PAR39", "TIPOS USUARIOS", "VENDEDOR", "", "V", Constantes.activo));
             parametros.add(new Parametro("PAR40", "TIPOS USUARIOS", "CAJERO", "", "C", Constantes.activo));

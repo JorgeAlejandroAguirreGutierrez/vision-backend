@@ -25,7 +25,7 @@ public class CorreoEstablecimientoData implements ApplicationRunner {
 		Optional<CorreoEstablecimiento> ant=rep.findById((long) 1);
 		if(!ant.isPresent()) {
 			List<CorreoEstablecimiento> correosEstablecimientos = new ArrayList<>();
-			correosEstablecimientos.add(new CorreoEstablecimiento("COR011907000001", "correo@hotmail.com","ACTIVO", new Establecimiento(1)));
+			correosEstablecimientos.add(new CorreoEstablecimiento("COR011907000001", "CORREO@HOTMAIL.COM", new Establecimiento(1)));
 			rep.saveAll(correosEstablecimientos);
 		}
 	}

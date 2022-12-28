@@ -40,13 +40,13 @@ public class Establecimiento extends Entidad {
     private Ubicacion ubicacion;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id")
-    private List<TelefonoEstablecimiento> telefonosEstablecimiento;    
+    private List<TelefonoEstablecimiento> telefonos;    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id")
-    private List<CelularEstablecimiento> celularesEstablecimiento;    
+    private List<CelularEstablecimiento> celulares;    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id")
-    private List<CorreoEstablecimiento> correosEstablecimiento;
+    private List<CorreoEstablecimiento> correos;
 
     public Establecimiento(){
         super();
@@ -108,16 +108,16 @@ public class Establecimiento extends Entidad {
         return ubicacion;
     }
     @JsonManagedReference
-    public List<TelefonoEstablecimiento> getTelefonosEstablecimiento() {
-		return telefonosEstablecimiento;
+    public List<TelefonoEstablecimiento> getTelefonos() {
+		return telefonos;
 	}    
     @JsonManagedReference
-    public List<CelularEstablecimiento> getCelularesEstablecimiento() {
-		return celularesEstablecimiento;
+    public List<CelularEstablecimiento> getCelulares() {
+		return celulares;
 	}    
     @JsonManagedReference
-    public List<CorreoEstablecimiento> getCorreosEstablecimiento() {
-		return correosEstablecimiento;
+    public List<CorreoEstablecimiento> getCorreos() {
+		return correos;
 	}
     
 	public void setDescripcion(String descripcion) {
@@ -141,13 +141,13 @@ public class Establecimiento extends Entidad {
 	public void setUbicacion(Ubicacion ubicacion) {
 		this.ubicacion = ubicacion;
 	}
-	public void setTelefonosEstablecimiento(List<TelefonoEstablecimiento> telefonosEstablecimiento) {
-		this.telefonosEstablecimiento = telefonosEstablecimiento;
+	public void setTelefonos(List<TelefonoEstablecimiento> telefonos) {
+		this.telefonos = telefonos;
 	}
-	public void setCelularesEstablecimiento(List<CelularEstablecimiento> celularesEstablecimiento) {
-		this.celularesEstablecimiento = celularesEstablecimiento;
+	public void setCelulares(List<CelularEstablecimiento> celulares) {
+		this.celulares = celulares;
 	}
-	public void setCorreosEstablecimiento(List<CorreoEstablecimiento> correosEstablecimiento) {
-		this.correosEstablecimiento = correosEstablecimiento;
+	public void setCorreos(List<CorreoEstablecimiento> correos) {
+		this.correos = correos;
 	}
 }

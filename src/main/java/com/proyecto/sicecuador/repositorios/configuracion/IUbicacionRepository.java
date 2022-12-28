@@ -22,7 +22,7 @@ public interface IUbicacionRepository extends JpaRepository<Ubicacion, Long>, Jp
     @Query(value = "select distinct u.canton from ubicacion u where u.provincia =:provincia and u.estado= :estado" ,nativeQuery = true)
     List<String> findCantones(String provincia, String estado);
 
-    @Query(value = "select u from ubicacion u where u.canton = :canton and u.estado= :estado", nativeQuery = true)
+    @Query(value = "select * from ubicacion u where u.canton = :canton and u.estado= :estado", nativeQuery = true)
     List<Ubicacion> findParroquias(String canton, String estado);
 
     @Query(value = "select u from Ubicacion u where u.provincia = :provincia and u.canton = :canton and u.parroquia = :parroquia and u.estado= :estado")

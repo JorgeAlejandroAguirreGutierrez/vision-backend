@@ -4,7 +4,9 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
+import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEstablecimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +22,21 @@ import java.util.Optional;
 public class EstablecimientoService implements IEstablecimientoService {
     @Autowired
     private IEstablecimientoRepository rep;
+    @Autowired
+    private IUbicacionRepository repUbicacion;
     
     @Override
     public Establecimiento crear(Establecimiento establecimiento) {
+    	Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(establecimiento.getUbicacion().getProvincia(),establecimiento.getUbicacion().getCanton(), establecimiento.getUbicacion().getParroquia(), Constantes.activo);
+    	if(ubicacion.isEmpty()) {
+    		throw new EntidadNoExistenteException(Constantes.ubicacion);
+    	}
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_establecimiento);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	establecimiento.setCodigo(codigo.get());
+    	establecimiento.setUbicacion(ubicacion.get());
     	establecimiento.setEstado(Constantes.activo);
     	return rep.save(establecimiento);
     }
@@ -66,6 +75,11 @@ public class EstablecimientoService implements IEstablecimientoService {
     @Override
     public List<Establecimiento> consultarActivos(){
     	return rep.consultarPorEstado(Constantes.activo);
+    }
+    
+    @Override
+    public List<Establecimiento> consultarPorEmpresa(long empresaId){
+    	return rep.consultarPorEmpresa(empresaId, Constantes.activo);
     }
 
     @Override

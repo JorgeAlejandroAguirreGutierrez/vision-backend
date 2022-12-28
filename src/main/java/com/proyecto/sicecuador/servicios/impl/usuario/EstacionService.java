@@ -26,7 +26,7 @@ public class EstacionService implements IEstacionService {
     
     @Override
     public Estacion crear(Estacion estacion) {
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_punto_venta);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_estacion);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

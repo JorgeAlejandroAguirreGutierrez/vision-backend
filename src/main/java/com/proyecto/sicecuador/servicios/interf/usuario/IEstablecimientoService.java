@@ -9,4 +9,5 @@ public interface IEstablecimientoService extends IGenericoService<Establecimient
 	Establecimiento activar(Establecimiento establecimiento);
 	Establecimiento inactivar(Establecimiento establecimiento);
 	List<Establecimiento> consultarActivos();
+	List<Establecimiento> consultarPorEmpresa(long empresaId);
 }

@@ -113,8 +113,8 @@ public class UbicacionService implements IUbicacionService {
     }
 
     @Override
-    public List<Ubicacion> consultarParroquias(Ubicacion ubicacion) {
-        return rep.findParroquias(ubicacion.getCanton(), Constantes.activo);
+    public List<Ubicacion> consultarParroquias(String canton) {
+        return rep.findParroquias(canton, Constantes.activo);
     }
     @Override
     public Ubicacion obtenerUbicacionId(Ubicacion ubicacion) {

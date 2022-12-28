@@ -11,8 +11,10 @@ public class Estacion extends Entidad {
 	@NotNull
 	@Column(name ="codigo_sri", nullable = true)
 	private String codigoSRI;
-	@Column(name = "descripcion", nullable = true)
-    private String descripcion;
+	@Column(name = "nombre", nullable = true)
+    private String nombre;
+	@Column(name = "dispositivo", nullable = true)
+    private String dispositivo;
 	@Column(name = "estado", nullable = true)
     private String estado;
 	@ManyToOne
@@ -26,26 +28,32 @@ public class Estacion extends Entidad {
     public Estacion(long id) {
         super(id);
     }
-    public Estacion(String codigo, String codigoSRI, String descripcion, String estado, Establecimiento establecimiento){
+    public Estacion(String codigo, String codigoSRI, String nombre, String dispositivo, String estado, Establecimiento establecimiento){
         super(codigo);
-        this.codigoSRI=codigoSRI;
-        this.descripcion=descripcion;
+        this.codigoSRI = codigoSRI;
+        this.nombre = nombre;
+        this.dispositivo = dispositivo;
         this.establecimiento=establecimiento;
-        this.estado=estado;
+        this.estado = estado;
     }
     public Estacion(List<String> datos){
     	codigoSRI=datos.get(0)==null ? null: datos.get(0);
-        descripcion=datos.get(1)== null ? null: datos.get(1);
-        estado=datos.get(1)== null ? null: datos.get(2);
+        nombre=datos.get(1)== null ? null: datos.get(1);
+        dispositivo=datos.get(2)== null ? null: datos.get(2);
+        estado=datos.get(3)== null ? null: datos.get(3);
     }
 
     public String getCodigoSRI() {
 		return codigoSRI;
 	}
     
-    public String getDescripcion() {
-        return descripcion;
-    }
+    public String getNombre() {
+		return nombre;
+	}
+    
+    public String getDispositivo() {
+		return dispositivo;
+	}
     
     public String getEstado() {
 		return estado;

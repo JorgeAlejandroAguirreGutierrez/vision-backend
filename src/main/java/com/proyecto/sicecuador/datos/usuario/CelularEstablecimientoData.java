@@ -25,7 +25,7 @@ public class CelularEstablecimientoData implements ApplicationRunner {
 		Optional<CelularEstablecimiento> ant=rep.findById((long) 1);
 		if(!ant.isPresent()) {
 			List<CelularEstablecimiento> telefonosEstablecimientos = new ArrayList<>();
-			telefonosEstablecimientos.add(new CelularEstablecimiento("CEL011907000001", "0999778877","ACTIVO", new Establecimiento(1)));
+			telefonosEstablecimientos.add(new CelularEstablecimiento("CEL011907000001", "0999778877", new Establecimiento(1)));
 			rep.saveAll(telefonosEstablecimientos);
 		}
 	}

@@ -13,4 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface IEstablecimientoRepository extends JpaRepository<Establecimiento, Long>, JpaSpecificationExecutor<Establecimiento> {
 	@Query(value = "select e from Establecimiento e where e.estado=:estado")
     List<Establecimiento> consultarPorEstado(String estado);
+	
+	@Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId and e.estado=:estado")
+    List<Establecimiento> consultarPorEmpresa(long empresaId, String estado);
 }

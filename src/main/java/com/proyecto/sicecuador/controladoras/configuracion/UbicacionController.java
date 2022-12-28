@@ -99,9 +99,7 @@ public class UbicacionController implements GenericoController<Ubicacion> {
     }
     @GetMapping(value = "/provincia/canton/{canton}/parroquia", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarParroquias(@PathVariable("canton") String canton) {
-        Ubicacion ubicacion=new Ubicacion();
-        ubicacion.setCanton(canton);
-        List<Ubicacion> ubicaciones=servicio.consultarParroquias(ubicacion);
+        List<Ubicacion> ubicaciones=servicio.consultarParroquias(canton);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

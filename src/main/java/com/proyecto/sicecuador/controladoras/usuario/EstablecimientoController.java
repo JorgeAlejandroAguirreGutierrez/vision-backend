@@ -17,9 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
 import java.util.List;
+
 @RestController
 @RequestMapping(contexto+pathEstablecimiento)
 public class EstablecimientoController implements GenericoController<Establecimiento> {
@@ -40,6 +39,13 @@ public class EstablecimientoController implements GenericoController<Establecimi
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos(@PathVariable("empresaId") long empresaId) {
+	    List<Establecimiento> establecimientos = servicio.consultarPorEmpresa(empresaId);
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -56,7 +62,7 @@ public class EstablecimientoController implements GenericoController<Establecimi
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Establecimiento _establecimiento) {
+    public ResponseEntity<?> crear(@RequestBody Establecimiento _establecimiento) {
         Establecimiento establecimiento=servicio.crear(_establecimiento);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, establecimiento);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);

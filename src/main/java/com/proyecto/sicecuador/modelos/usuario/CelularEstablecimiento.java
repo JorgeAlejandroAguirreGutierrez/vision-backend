@@ -13,8 +13,6 @@ public class CelularEstablecimiento extends Entidad {
     
 	@Column(name = "numero", nullable = true)
     private String numero;
-	@Column(name = "estado", nullable = true)
-	private String estado;
     @ManyToOne
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private Establecimiento establecimiento;
@@ -26,34 +24,23 @@ public class CelularEstablecimiento extends Entidad {
 		super(id);
 	}
 	
-	public CelularEstablecimiento(String codigo, String numero, String estado, Establecimiento establecimiento) {
+	public CelularEstablecimiento(String codigo, String numero, Establecimiento establecimiento) {
 		super(codigo);
 		this.numero=numero;
-		this.estado=estado;
 		this.establecimiento=establecimiento;
 	}
     public CelularEstablecimiento(List<String>datos) {
         numero=datos.get(0)== null ? null: datos.get(0);
-        estado=datos.get(1)== null ? null: datos.get(1);
-        establecimiento=datos.get(2)== null ? null:new Establecimiento((long) Double.parseDouble(datos.get(2)));
+        establecimiento=datos.get(1)== null ? null:new Establecimiento((long) Double.parseDouble(datos.get(1)));
     }	
 	public String getNumero() {
 		return numero;
 	}
-	
-	public String getEstado() {
-		return estado;
-	}
-	
 	@JsonBackReference
 	public Establecimiento getEstablecimiento() {
 		return establecimiento;
 	}
 	public void setNumero(String numero) {
 		this.numero = numero;
-	}
-	
-	public void setEstado(String estado) {
-		this.estado = estado;
 	}
 }
