@@ -28,24 +28,11 @@ public class PermisoService implements IPermisoService {
     		throw new CodigoNoExistenteException();
     	}
     	permiso.setCodigo(codigo.get());
-    	permiso.setEstado(Constantes.activo);
     	return rep.save(permiso);
     }
 
     @Override
     public Permiso actualizar(Permiso permiso) {
-        return rep.save(permiso);
-    }
-
-    @Override
-    public Permiso activar(Permiso permiso) {
-        permiso.setEstado(Constantes.activo);
-        return rep.save(permiso);
-    }
-
-    @Override
-    public Permiso inactivar(Permiso permiso) {
-        permiso.setEstado(Constantes.inactivo);
         return rep.save(permiso);
     }
 
@@ -61,11 +48,6 @@ public class PermisoService implements IPermisoService {
     @Override
     public List<Permiso> consultar() {
         return rep.findAll();
-    }
-    
-    @Override
-    public List<Permiso> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override

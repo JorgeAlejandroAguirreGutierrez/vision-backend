@@ -77,6 +77,7 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR68", "CREAR", "", "medida", "MED", Constantes.activo));
             parametros.add(new Parametro("PAR69", "CREAR", "", "establecimiento", "EST", Constantes.activo));
             parametros.add(new Parametro("PAR70", "CREAR", "", "estacion", "ESC", Constantes.activo));
+            parametros.add(new Parametro("PAR71", "CREAR", "", "perfil", "PER", Constantes.activo));
             parametros.add(new Parametro("PAR38", "CREAR", "", "parametro", "PAR", Constantes.activo));
             parametros.add(new Parametro("PAR39", "TIPOS USUARIOS", "VENDEDOR", "", "V", Constantes.activo));
             parametros.add(new Parametro("PAR40", "TIPOS USUARIOS", "CAJERO", "", "C", Constantes.activo));
@@ -117,6 +118,34 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR80", "CREAR", "", "segmento", "SEG", Constantes.activo));
             parametros.add(new Parametro("PAR81", "CREAR", "", "tipo_retencion", "TRE", Constantes.activo));
             
+            //MODULOS
+            parametros.add(new Parametro("PAR82", "MODULO", "", "CLIENTES", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "COMPRAS", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "VENTAS", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "INVENTARIOS", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "CAJA BANCOS", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "CUENTAS POR COBRAR", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "CUENTAS POR PAGAR", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "ACTIVOS FIJOS", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "PRODUCCION", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "CONTABILIDAD", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "TALENTO HUMANO", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "FINANCIERO", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "IMPORTACION", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "REPORTES", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "ACCESOS", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "CONFIGURACION", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "INDICADORES", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "ORGANISMOS DE CONTROL", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "AUDITORIA", "", Constantes.activo));
+            parametros.add(new Parametro("PAR82", "MODULO", "", "TUTORIALES", "", Constantes.activo));
+            
+            parametros.add(new Parametro("PAR82", "OPERACION", "", "CONSULTAR", "", Constantes.activo));
+            parametros.add(new Parametro("PAR83", "OPERACION", "", "OBTENER", "", Constantes.activo));
+            parametros.add(new Parametro("PAR84", "OPERACION", "", "CREAR", "", Constantes.activo));
+            parametros.add(new Parametro("PAR85", "OPERACION", "", "ACTUALIZAR", "", Constantes.activo));
+            parametros.add(new Parametro("PAR86", "OPERACION", "", "ACTIVAR", "", Constantes.activo));
+            parametros.add(new Parametro("PAR87", "OPERACION", "", "INACTIVAR", "", Constantes.activo));
             rep.saveAll(parametros);
         }
     }

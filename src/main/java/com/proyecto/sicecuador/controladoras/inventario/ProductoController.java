@@ -33,13 +33,6 @@ public class ProductoController implements GenericoController<Producto> {
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Producto> productos= servicio.consultarActivos();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
-	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -83,19 +76,19 @@ public class ProductoController implements GenericoController<Producto> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/tipo/bien", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarBien", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarBien() {
         List<Producto> productos=servicio.consultarBien();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/tipo/servicio", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarServicio", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarServicio() {
         List<Producto> productos=servicio.consultarServicio();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/tipo/activoFijo", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarActivoFijo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarActivoFijo() {
         List<Producto> productos=servicio.consultarActivoFijo();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);

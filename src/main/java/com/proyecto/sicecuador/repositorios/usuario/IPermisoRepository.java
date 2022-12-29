@@ -11,6 +11,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IPermisoRepository extends JpaRepository<Permiso, Long>, JpaSpecificationExecutor<Permiso> {
-	@Query(value = "select p from Permiso p where p.estado=:estado")
-    List<Permiso> consultarPorEstado(String estado);
 }
