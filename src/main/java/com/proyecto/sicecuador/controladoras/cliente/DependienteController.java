@@ -34,13 +34,6 @@ public class DependienteController implements GenericoController<Dependiente> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, dependientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Dependiente> dependientes=servicio.consultarActivos();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, dependientes);
-	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -67,20 +60,6 @@ public class DependienteController implements GenericoController<Dependiente> {
     public ResponseEntity<?> actualizar(@RequestBody Dependiente _dependiente) {
         Dependiente dependiente=servicio.actualizar(_dependiente);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, dependiente);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    
-    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> activar(@RequestBody Dependiente _dependiente) {
-    	Dependiente dependiente=servicio.activar(_dependiente);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, dependiente);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-   
-    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> inactivar(@RequestBody Dependiente _dependiente) {
-    	Dependiente dependiente=servicio.inactivar(_dependiente);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

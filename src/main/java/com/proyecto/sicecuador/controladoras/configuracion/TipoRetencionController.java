@@ -82,25 +82,25 @@ public class TipoRetencionController implements GenericoController<TipoRetencion
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/ivaBien", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarIvaBien", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarIvaBien() {
         List<TipoRetencion> tiposRetenciones=servicio.consultarIvaBien();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tiposRetenciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/ivaServicio", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarIvaServicio", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarIvaServicio() {
         List<TipoRetencion> tiposRetenciones=servicio.consultarIvaServicio();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tiposRetenciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/rentaBien", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarRentaBien", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarRentaBien() {
         List<TipoRetencion> tiposRetenciones=servicio.consultarRentaBien();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tiposRetenciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/rentaServicio", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarRentaServicio", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarRentaServicio() {
         List<TipoRetencion> tiposRetenciones=servicio.consultarRentaServicio();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, tiposRetenciones);

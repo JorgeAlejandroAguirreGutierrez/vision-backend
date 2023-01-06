@@ -117,7 +117,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoTributaria.setEstab(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
     	infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getEstacion().getCodigoSRI());
     	infoTributaria.setSecuencial(factura.getSecuencia());
-    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion().getDireccion());
+    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
     	
     	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
     	String fechaEmision = dateFormat.format(factura.getFecha());
@@ -126,7 +126,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSRI());
     	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
     	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
-    	infoFactura.setDireccionComprador(factura.getCliente().getDireccion().getDireccion());
+    	infoFactura.setDireccionComprador(factura.getCliente().getDireccion());
     	infoFactura.setTotalSinImpuestos(factura.getSubtotalSinDescuento());
     	infoFactura.setTotalDescuento(factura.getDescuentoTotal());
     	infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
@@ -383,7 +383,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             documento.add( new Paragraph("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n"+
                     "IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion()+"\n"+
                     "FECHA EMISIÓN: " + factura.getFecha().toString()+"\n"+
-                    "DIRECCIÓN: " + factura.getCliente().getDireccion().getDireccion() + "\n" + 
+                    "DIRECCIÓN: " + factura.getCliente().getDireccion() + "\n" + 
                     "TELÉFONO: " + telefonoCliente + "\n" +
                     "CORREO: " + correoCliente).setBorder(new SolidBorder(1)));
             documento.add( new Paragraph("\n"));
@@ -402,7 +402,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
                 tablaFacturaDetalle.addCell(factura.getFacturaDetalles().get(i).getCantidad()+"");
                 tablaFacturaDetalle.addCell(factura.getFacturaDetalles().get(i).getProducto().getNombre());
                 String series="";
-                if (!factura.getFacturaDetalles().get(i).getProducto().isSerieAutogenerado()){
+                if (factura.getFacturaDetalles().get(i).getProducto().getSerieAutogenerado().equals(Constantes.no)){
                     for (int j = 0; j <factura.getFacturaDetalles().get(i).getCaracteristicas().size(); j++){
                         series=series+" "+factura.getFacturaDetalles().get(i).getCaracteristicas().get(j).getSerie();
                     }

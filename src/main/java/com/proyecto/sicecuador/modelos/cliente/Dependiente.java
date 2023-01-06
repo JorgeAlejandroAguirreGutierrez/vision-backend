@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,12 +16,11 @@ public class Dependiente extends Entidad {
     @NotBlank
     @Column(name = "razon_social", nullable = true)
     private String razonSocial;
-    @NotNull
-    @Column(name = "estado")
-    private String estado;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "direccion_id", nullable = true)
-    private Direccion direccion;
+    @Column(name = "direccion", nullable = true)
+    private String direccion;
+    @ManyToOne
+    @JoinColumn(name = "ubicacion_id", nullable = true)
+    private Ubicacion ubicacion;
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
@@ -42,51 +42,48 @@ public class Dependiente extends Entidad {
         super(id);
     }
 
-    public Dependiente(String codigo, String razonSocial, String estado, Cliente cliente, Direccion direccion){
+    public Dependiente(String codigo, String razonSocial, String estado, String direccion, Ubicacion ubicacion, Cliente cliente){
         super(codigo);
         this.razonSocial=razonSocial;
-        this.estado=estado;
         this.direccion=direccion;
+        this.ubicacion=ubicacion;
         this.cliente=cliente;
 
     }
 
     public Dependiente(String razonSocial){
-        super("");
+        super();
         this.razonSocial=razonSocial;
     }
 
     public Dependiente(Cliente cliente){
-        super("");
+        super();
         this.cliente=cliente;
     }
 
     public Dependiente(List<String>datos){
         this.razonSocial=datos.get(0)== null? null : datos.get(0);
-        this.estado=datos.get(1)== null ? null: datos.get(1);
-        this.direccion=datos.get(3)==null? null: new Direccion((long) Double.parseDouble(datos.get(3)));
-        this.cliente=datos.get(4)== null ? null: new Cliente((long) Double.parseDouble(datos.get(4)));
+        this.direccion=datos.get(1)==null? null: datos.get(1);
+        this.ubicacion=datos.get(3)== null ? null: new Ubicacion(Long.parseLong(datos.get(3)));
+        this.cliente=datos.get(4)== null ? null: new Cliente(Long.parseLong(datos.get(4)));
     }
 
     public String getRazonSocial() {
 		return razonSocial;
 	}
+    
+    public String getDireccion() {
+		return direccion;
+	}
+    
+    public Ubicacion getUbicacion() {
+		return ubicacion;
+	}
 
-    public String isEstado() {
-        return estado;
-    }
     @JsonBackReference
     public Cliente getCliente() {
         return cliente;
     }
-
-    public Direccion getDireccion() {
-        return direccion;
-    }
-    
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
     
     @JsonManagedReference
     public List<TelefonoDependiente> getTelefonosAuxiliar() {
@@ -99,5 +96,9 @@ public class Dependiente extends Entidad {
     @JsonManagedReference
     public List<CorreoDependiente> getCorreosDependiente() {
 		return correosDependiente;
+	}
+    
+    public void setUbicacion(Ubicacion ubicacion) {
+		this.ubicacion = ubicacion;
 	}
 }

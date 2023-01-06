@@ -1,8 +1,8 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +16,8 @@ public class Entrega extends Entidad {
     private String numero;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+    @Column(name = "direccion", nullable = true)
+    private String direccion;
     @Column(name = "referencia", nullable = true)
     private String referencia;
     @Column(name = "longitudgeo", nullable = true)
@@ -30,9 +32,10 @@ public class Entrega extends Entidad {
     private String correo;
     @Column(name = "inhabilitar", nullable = true)
     private String inhabilitar;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
-    @JoinColumn(name = "direccion_id", nullable= true)
-    private Direccion direccion;
+    
+    @ManyToOne
+    @JoinColumn(name = "ubicacion_id", nullable = true)
+    private Ubicacion ubicacion;
     @NotNull
     @ManyToOne
     @JoinColumn(name = "factura_id", nullable = true)
@@ -56,10 +59,10 @@ public class Entrega extends Entidad {
         referencia=datos.get(2)== null ? null: datos.get(2);
         longitudgeo=datos.get(3)== null ? null: datos.get(3);
         latitudgeo=datos.get(4)== null ? null: datos.get(4);
-        inhabilitar=datos.get(6)== null ? null: datos.get(5);
-        direccion=datos.get(7)== null ? null:new Direccion((long) Double.parseDouble(datos.get(6)));
-        factura=datos.get(8)== null ? null:new Factura((long) Double.parseDouble(datos.get(7)));
-        transportista=datos.get(9)== null ? null:new Transportista((long) Double.parseDouble(datos.get(8)));
+        inhabilitar=datos.get(5)== null ? null: datos.get(5);
+        direccion=datos.get(6)== null ? null: datos.get(6);
+        factura=datos.get(7)== null ? null:new Factura((long) Double.parseDouble(datos.get(7)));
+        transportista=datos.get(8)== null ? null:new Transportista((long) Double.parseDouble(datos.get(8)));
     }
 
     public String getNumero() {
@@ -106,9 +109,13 @@ public class Entrega extends Entidad {
         return transportista;
     }
 
-    public Direccion getDireccion() {
-        return direccion;
-    }
+    public String getDireccion() {
+		return direccion;
+	}
+    
+    public Ubicacion getUbicacion() {
+		return ubicacion;
+	}
     
     public String getInhabilitar() {
 		return inhabilitar;

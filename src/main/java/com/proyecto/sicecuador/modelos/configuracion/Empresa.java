@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.modelos.configuracion;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -18,6 +17,8 @@ public class Empresa extends Entidad {
     private String logo;
     @Column(name = "obligado_contabilidad", nullable = true)
     private String obligadoContabilidad;
+    @Column(name = "direccion", nullable = true)
+    private String direccion;
     @Column(name = "estado", nullable = true)
     private String estado;
     @NotNull
@@ -25,8 +26,8 @@ public class Empresa extends Entidad {
     @JoinColumn(name = "tipo_identificacion_id", nullable = false)
     private TipoIdentificacion tipoIdentificacion;
     @ManyToOne
-    @JoinColumn(name = "direccion_id", nullable = true)
-    private Direccion direccion;
+    @JoinColumn(name = "ubicacion_id", nullable = true)
+    private Ubicacion ubicacion;
     
     public Empresa(){
 
@@ -36,7 +37,7 @@ public class Empresa extends Entidad {
         super(id);
     }
 
-    public Empresa(String codigo, String identificacion, String razonSocial, String nombreComercial, String logo, String obligadoContabilidad, String estado, TipoIdentificacion tipoIdentificacion, Direccion direccion) {
+    public Empresa(String codigo, String identificacion, String razonSocial, String nombreComercial, String logo, String obligadoContabilidad, String direccion, String estado, TipoIdentificacion tipoIdentificacion, Ubicacion ubicacion) {
         super(codigo);
         this.identificacion=identificacion;
         this.razonSocial=razonSocial;
@@ -52,7 +53,7 @@ public class Empresa extends Entidad {
         identificacion=datos.get(0)== null ? null: datos.get(0);
         razonSocial=datos.get(1)== null ? null: datos.get(1);
         nombreComercial=datos.get(2)== null ? null: datos.get(2);
-        direccion=datos.get(3)== null ? null:new Direccion(Long.parseLong(datos.get(3)));
+        direccion=datos.get(3)== null ? null: datos.get(3);
         logo=datos.get(4)== null ? null: datos.get(4);       
         estado=datos.get(5)== null ? null: datos.get(5);
 
@@ -82,8 +83,12 @@ public class Empresa extends Entidad {
 		return nombreComercial;
 	}
 	
-	public Direccion getDireccion() {
+	public String getDireccion() {
 		return direccion;
+	}
+	
+	public Ubicacion getUbicacion() {
+		return ubicacion;
 	}
 
 	public String getLogo() {

@@ -27,7 +27,6 @@ public class DependienteService implements IDependienteService {
     		throw new CodigoNoExistenteException();
     	}
     	dependiente.setCodigo(codigo.get());
-    	dependiente.setEstado(Constantes.activo);
     	return rep.save(dependiente);
     }
 
@@ -51,36 +50,18 @@ public class DependienteService implements IDependienteService {
     }
     
     @Override
-    public List<Dependiente> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
-    }
-    
-    @Override
     public Page<Dependiente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-    
-    @Override
-    public Dependiente activar(Dependiente dependiente) {
-        dependiente.setEstado(Constantes.activo);
-        return rep.save(dependiente);
-    }
-
-    @Override
-    public Dependiente inactivar(Dependiente dependiente) {
-        dependiente.setEstado(Constantes.inactivo);
-        return rep.save(dependiente);
-    }
-
 
     @Override
     public List<Dependiente> consultarPorRazonSocial(Dependiente auxiliar) {
-        return  rep.consultarPorRazonSocial(auxiliar.getRazonSocial(), Constantes.activo);
+        return  rep.consultarPorRazonSocial(auxiliar.getRazonSocial());
 
     }
     @Override
     public List<Dependiente> consultarPorCliente(Dependiente dependiente) {
-        return  rep.consultarPorCliente(dependiente.getCliente().getId(), Constantes.activo);
+        return  rep.consultarPorCliente(dependiente.getCliente().getId());
     }
 
     @Override

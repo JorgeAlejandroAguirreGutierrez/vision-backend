@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
 
@@ -21,8 +22,10 @@ public class Cliente extends Entidad {
     @NotEmpty
     @Column(name = "razon_social")
     private String razonSocial;
+    @Column(name = "obligado_contabilidad")
+    private String obligadoContabilidad;
     @Column(name = "especial")
-    private boolean especial;
+    private String especial;
     @Column(name = "estado")
     private String estado;
     @NotNull
@@ -41,12 +44,20 @@ public class Cliente extends Entidad {
     @ManyToOne
     @JoinColumn(name = "grupo_cliente_id")
     private GrupoCliente grupoCliente;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "direccion_id", nullable = true)
-    private Direccion direccion;
+    @Column(name = "direccion")
+    private String direccion;
+    @Column(name = "referencia")
+    private String referencia;
+    @Column(name = "latitudgeo", nullable = true)
+    private String latitudgeo;
+    @Column(name = "longitudgeo", nullable = true)
+    private String longitudgeo;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "financiamiento_id", nullable = true)
     private Financiamiento financiamiento;
+    @ManyToOne
+    @JoinColumn(name = "ubicacion_id")
+    private Ubicacion ubicacion;
     @ManyToOne
     @JoinColumn(name = "genero_id", nullable = true)
     private Genero genero;
@@ -97,22 +108,28 @@ public class Cliente extends Entidad {
         this.tipoContribuyente=tipoContribuyente;
     }
 
-    public Cliente(String codigo, String identificacion, String razonSocial, boolean especial, String estado, 
-    		boolean eliminado, TipoIdentificacion tipoIdentificacion, Estacion estacion, 
-    		GrupoCliente grupoCliente, TipoContribuyente tipoContribuyente, Direccion direccion, 
-    		Financiamiento financiamiento, Genero genero, EstadoCivil estadoCivil,
+    public Cliente(String codigo, String identificacion, String razonSocial, String obligadoContabilidad, String especial, String estado, 
+    		String direccion, String referencia, String latitudgeo, String longitudgeo,
+    		TipoIdentificacion tipoIdentificacion, Estacion estacion, 
+    		GrupoCliente grupoCliente, TipoContribuyente tipoContribuyente, 
+    		Ubicacion ubicacion, Financiamiento financiamiento, Genero genero, EstadoCivil estadoCivil,
             CalificacionCliente calificacionCliente, OrigenIngreso origenIngreso, Segmento segmento){
         super(codigo);
         this.tipoIdentificacion=tipoIdentificacion;
         this.identificacion=identificacion;
         this.razonSocial=razonSocial;
+        this.obligadoContabilidad=obligadoContabilidad;
         this.especial=especial;
         this.estado=estado;
         this.estacion=estacion;
         this.grupoCliente=grupoCliente;
         this.tipoContribuyente=tipoContribuyente;
         this.direccion=direccion;
-        this.financiamiento=financiamiento;
+        this.referencia = referencia;
+        this.latitudgeo = latitudgeo;
+        this.longitudgeo = longitudgeo;
+        this.financiamiento = financiamiento;
+        this.ubicacion = ubicacion;
         this.genero=genero;
         this.estadoCivil=estadoCivil;
         this.calificacionCliente=calificacionCliente;
@@ -125,12 +142,12 @@ public class Cliente extends Entidad {
         tipoIdentificacion=datos.get(0)== null ? null: new TipoIdentificacion(Long.parseLong(datos.get(0)));
         identificacion=datos.get(1)== null ? null: datos.get(1);
         razonSocial=datos.get(2)== null ? null: datos.get(2);
-        especial=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
+        especial=datos.get(3)== null ? null: datos.get(3);
         estado= datos.get(4)== null ? null: datos.get(4);
         tipoContribuyente= datos.get(6)== null ? null: new TipoContribuyente((long) Double.parseDouble(datos.get(6)));
         estacion= datos.get(7)== null ? null: new Estacion((long) Double.parseDouble(datos.get(7)));
         grupoCliente= datos.get(8)== null ? null: new GrupoCliente((long) Double.parseDouble(datos.get(8)));
-        direccion= datos.get(9)== null ? null: new Direccion((long) Double.parseDouble(datos.get(9)));
+        direccion= datos.get(9)== null ? null: datos.get(9);
         financiamiento=datos.get(10)== null ? null:new Financiamiento((long) Double.parseDouble(datos.get(10)));
         genero=datos.get(11)== null ? null:new Genero((long) Double.parseDouble(datos.get(11)));
         estadoCivil=datos.get(12)== null ? null:new EstadoCivil((long) Double.parseDouble(datos.get(12)));
@@ -154,10 +171,14 @@ public class Cliente extends Entidad {
     public String getRazonSocial() {
 		return razonSocial;
 	}
+    
+    public String getObligadoContabilidad() {
+		return obligadoContabilidad;
+	}
 
-    public boolean isEspecial() {
-        return especial;
-    }
+    public String getEspecial() {
+		return especial;
+	}
 
     public String getEstado() {
         return estado;
@@ -172,13 +193,29 @@ public class Cliente extends Entidad {
 	}
 
 
-    public Direccion getDireccion() {
-        return direccion;
-    }
+    public String getDireccion() {
+		return direccion;
+	}
+    
+    public String getReferencia() {
+		return referencia;
+	}
+    
+    public String getLongitudgeo() {
+		return longitudgeo;
+	}
+    
+    public String getLatitudgeo() {
+		return latitudgeo;
+	}
 
     public Financiamiento getFinanciamiento() {
         return financiamiento;
     }
+    
+    public Ubicacion getUbicacion() {
+		return ubicacion;
+	}
 
     public Genero getGenero() {
         return genero;
@@ -218,17 +255,21 @@ public class Cliente extends Entidad {
 		return retencionesCliente;
 	}
 
-    public void setEspecial(boolean especial) {
-        this.especial = especial;
-    }
+    public void setEspecial(String especial) {
+		this.especial = especial;
+	}
     
     public void setTipoContribuyente(TipoContribuyente tipoContribuyente) {
 		this.tipoContribuyente = tipoContribuyente;
     }
 
-    public void setDireccion(Direccion direccion) {
-        this.direccion = direccion;
-    }
+    public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+    
+    public void setReferencia(String referencia) {
+		this.referencia = referencia;
+	}
 
     public void setFinanciamiento(Financiamiento financiamiento) {
         this.financiamiento = financiamiento;
@@ -240,6 +281,10 @@ public class Cliente extends Entidad {
 
     public void setRazonSocial(String razonSocial) {
 		this.razonSocial = razonSocial;
+	}
+    
+    public void setUbicacion(Ubicacion ubicacion) {
+		this.ubicacion = ubicacion;
 	}
 
     public void setEstadoCivil(EstadoCivil estadoCivil) {
@@ -279,9 +324,6 @@ public class Cliente extends Entidad {
             if (retencionesCliente.get(i).getTipoRetencion().getId()==0){
                 retencionesCliente.get(i).setTipoRetencion(null);
             }
-        }
-        for (int i=0; i<dependientes.size(); i++){
-            if (dependientes.get(i).getDireccion().getUbicacion().getId()==0) dependientes.get(i).getDireccion().setUbicacion(null);
         }
     }
 }

@@ -10,13 +10,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IDependienteRepository extends JpaRepository<Dependiente, Long>, JpaSpecificationExecutor<Dependiente> {
-	@Query(value = "select d from Dependiente d where d.estado=:estado")
-    List<Dependiente> consultarPorEstado(String estado);
+public interface IDependienteRepository extends JpaRepository<Dependiente, Long>, JpaSpecificationExecutor<Dependiente> {	
+	@Query(value = "select d from Dependiente d where d.cliente.id = :clienteId")
+    List<Dependiente> consultarPorCliente(long clienteId);
 	
-	@Query(value = "select d from Dependiente d where d.cliente.id = :clienteId and d.estado=:estado")
-    List<Dependiente> consultarPorCliente(long clienteId, String estado);
-	
-	@Query(value = "select d from Dependiente d where d.razonSocial = :razonSocial and d.cliente.id = :clienteId and d.estado=:estado")
-    List<Dependiente> consultarPorRazonSocial(String razonSocial, String estado);
+	@Query(value = "select d from Dependiente d where d.razonSocial = :razonSocial")
+    List<Dependiente> consultarPorRazonSocial(String razonSocial);
 }
