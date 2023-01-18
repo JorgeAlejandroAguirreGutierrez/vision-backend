@@ -344,6 +344,10 @@ public class ClienteService implements IClienteService {
     
     @Override
     public Cliente actualizar(Cliente cliente) {
+    	Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(cliente.getUbicacion().getProvincia(),cliente.getUbicacion().getCanton(), cliente.getUbicacion().getParroquia(), Constantes.activo);
+    	if(ubicacion.isEmpty()) {
+    		throw new EntidadNoExistenteException(Constantes.ubicacion);
+    	}
         return rep.save(cliente);
     }
 

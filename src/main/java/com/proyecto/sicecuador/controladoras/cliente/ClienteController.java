@@ -64,7 +64,6 @@ public class ClienteController implements GenericoController<Cliente> {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Cliente _cliente) {
-        _cliente.normalizar();
         Cliente cliente=servicio.actualizar(_cliente);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);

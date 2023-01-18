@@ -310,8 +310,7 @@ public class Cliente extends Entidad {
     public void setEstado(String estado) {
 		this.estado = estado;
 	}
-    
-    
+      
     public void normalizar(){
         if (this.financiamiento.getFormaPago().getId()==0) this.financiamiento.setFormaPago(null);
         if (this.financiamiento.getPlazoCredito().getId()==0) this.financiamiento.setPlazoCredito(null);
