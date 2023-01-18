@@ -3,10 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Pedido;
 import com.proyecto.sicecuador.repositorios.comprobante.IPedidoRepository;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +27,7 @@ public class PedidoService implements IPedidoService {
     		throw new CodigoNoExistenteException();
     	}
     	pedido.setCodigo(codigo.get());
+    	pedido.setEstado(Constantes.activo);
     	return rep.save(pedido);
     }
 
@@ -37,19 +37,34 @@ public class PedidoService implements IPedidoService {
     }
 
     @Override
-    public Pedido eliminar(Pedido pedido) {
-        rep.deleteById(pedido.getId());
-        return pedido;
+    public Pedido activar(Pedido pedido) {
+        pedido.setEstado(Constantes.activo);
+        return rep.save(pedido);
     }
 
     @Override
-    public Optional<Pedido> obtener(Pedido pedido) {
-        return rep.findById(pedido.getId());
+    public Pedido inactivar(Pedido pedido) {
+        pedido.setEstado(Constantes.inactivo);
+        return rep.save(pedido);
+    }
+
+    @Override
+    public Pedido obtener(long id) {
+        Optional<Pedido> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.pedido);
     }
 
     @Override
     public List<Pedido> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Pedido> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -58,7 +73,6 @@ public class PedidoService implements IPedidoService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public void importar(MultipartFile file) {
     }
 }

@@ -43,7 +43,7 @@ public class AmortizacionController implements GenericoController<Amortizacion> 
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Amortizacion amortizacion=servicio.obtener(new Amortizacion(id)).get();
+        Amortizacion amortizacion=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, amortizacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -59,13 +59,6 @@ public class AmortizacionController implements GenericoController<Amortizacion> 
     public ResponseEntity<?> actualizar(@RequestBody Amortizacion _amortizacion) {
         Amortizacion amortizacion=servicio.actualizar(_amortizacion);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, amortizacion);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Amortizacion amortizacion=servicio.eliminar(new Amortizacion(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, amortizacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

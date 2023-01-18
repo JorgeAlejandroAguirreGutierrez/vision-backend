@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathCategoriaProducto)
@@ -34,6 +33,13 @@ public class CategoriaProductoController implements GenericoController<Categoria
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, categorias_productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<CategoriaProducto> categoriasProductos= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, categoriasProductos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -44,15 +50,15 @@ public class CategoriaProductoController implements GenericoController<Categoria
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<CategoriaProducto> categoria_producto=servicio.obtener(new CategoriaProducto(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, categoria_producto);
+        CategoriaProducto categoriaProducto=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, categoriaProducto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid CategoriaProducto _categoria_producto) {
-        CategoriaProducto categoria_producto=servicio.crear(_categoria_producto);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, categoria_producto);
+        CategoriaProducto categoriaProducto=servicio.crear(_categoria_producto);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, categoriaProducto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -62,11 +68,18 @@ public class CategoriaProductoController implements GenericoController<Categoria
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, categoria_producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        CategoriaProducto categoria_producto=servicio.eliminar(new CategoriaProducto(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, categoria_producto);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody CategoriaProducto _categoriaProducto) {
+    	CategoriaProducto categoriaProducto = servicio.activar(_categoriaProducto);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, categoriaProducto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody CategoriaProducto _categoriaProducto) {
+    	CategoriaProducto categoriaProducto=servicio.inactivar(_categoriaProducto);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, categoriaProducto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

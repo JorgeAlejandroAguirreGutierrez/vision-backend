@@ -8,6 +8,5 @@ public interface GenericoController<T> {
     ResponseEntity<?> obtener(long id);
     ResponseEntity<?> crear(T t);
     ResponseEntity<?> actualizar(T t);
-    ResponseEntity<?> eliminar(long id);
     ResponseEntity<?> importar(MultipartFile archivo);
 }

@@ -3,10 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Proforma;
 import com.proyecto.sicecuador.repositorios.comprobante.IProformaRepository;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IProformaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +27,7 @@ public class ProformaService implements IProformaService {
     		throw new CodigoNoExistenteException();
     	}
     	proforma.setCodigo(codigo.get());
+    	proforma.setEstado(Constantes.activo);
     	return rep.save(proforma);
     }
 
@@ -37,19 +37,34 @@ public class ProformaService implements IProformaService {
     }
 
     @Override
-    public Proforma eliminar(Proforma proforma) {
-        rep.deleteById(proforma.getId());
-        return proforma;
+    public Proforma activar(Proforma proforma) {
+        proforma.setEstado(Constantes.activo);
+        return rep.save(proforma);
     }
 
     @Override
-    public Optional<Proforma> obtener(Proforma proforma) {
-        return rep.findById(proforma.getId());
+    public Proforma inactivar(Proforma proforma) {
+        proforma.setEstado(Constantes.inactivo);
+        return rep.save(proforma);
+    }
+
+    @Override
+    public Proforma obtener(long id) {
+        Optional<Proforma> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.proforma);
     }
 
     @Override
     public List<Proforma> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Proforma> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -58,7 +73,6 @@ public class ProformaService implements IProformaService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public void importar(MultipartFile file) {
     }
 }

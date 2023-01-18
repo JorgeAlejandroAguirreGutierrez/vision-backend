@@ -1,17 +1,16 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.repositorios.inventario.IProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +36,7 @@ public class ProductoService implements IProductoService {
     		throw new CodigoNoExistenteException();
     	}
     	producto.setCodigo(codigo.get());
+    	producto.setEstado(Constantes.activo);
     	return rep.save(producto);
     }
 
@@ -47,19 +47,36 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public Producto eliminar(Producto producto) {
-        rep.deleteById(producto.getId());
+    public Producto activar(Producto producto) {
+        producto.setEstado(Constantes.activo);
+        producto=rep.save(producto);
         return producto;
     }
 
     @Override
-    public Optional<Producto> obtener(Producto producto) {
-        return rep.findById(producto.getId());
+    public Producto inactivar(Producto producto) {
+        producto.setEstado(Constantes.inactivo);
+        producto=rep.save(producto);
+        return producto;
+    }
+
+    @Override
+    public Producto obtener(long id) {
+        Optional<Producto> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.producto);
     }
 
     @Override
     public List<Producto> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Producto> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -115,7 +132,7 @@ public class ProductoService implements IProductoService {
     }
     
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Producto> productos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,7);
@@ -123,13 +140,9 @@ public class ProductoService implements IProductoService {
                 Producto producto = new Producto(datos);
                 productos.add(producto);
             }
-            if(productos.isEmpty()){
-                return false;
-            }
             rep.saveAll(productos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 

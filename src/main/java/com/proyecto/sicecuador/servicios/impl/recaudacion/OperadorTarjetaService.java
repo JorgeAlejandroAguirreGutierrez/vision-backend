@@ -3,21 +3,15 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
 import com.proyecto.sicecuador.repositorios.recaudacion.IOperadorTarjetaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IOperadorTarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,29 +22,40 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     private IOperadorTarjetaRepository rep;
     
     @Override
-    public OperadorTarjeta crear(OperadorTarjeta operador_tarjeta) {
+    public OperadorTarjeta crear(OperadorTarjeta operadorTarjeta) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_operador_tarjeta);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	operador_tarjeta.setCodigo(codigo.get());
-    	return rep.save(operador_tarjeta);
+    	operadorTarjeta.setCodigo(codigo.get());
+    	operadorTarjeta.setEstado(Constantes.activo);
+    	return rep.save(operadorTarjeta);
     }
 
     @Override
-    public OperadorTarjeta actualizar(OperadorTarjeta operador_tarjeta) {
-        return rep.save(operador_tarjeta);
+    public OperadorTarjeta actualizar(OperadorTarjeta operadorTarjeta) {
+        return rep.save(operadorTarjeta);
     }
 
     @Override
-    public OperadorTarjeta eliminar(OperadorTarjeta operador_tarjeta) {
-        rep.deleteById(operador_tarjeta.getId());
-        return operador_tarjeta;
+    public OperadorTarjeta activar(OperadorTarjeta operadorTarjeta) {
+        operadorTarjeta.setEstado(Constantes.activo);
+        return rep.save(operadorTarjeta);
     }
 
     @Override
-    public Optional<OperadorTarjeta> obtener(OperadorTarjeta operador_tarjeta) {
-        return rep.findById(operador_tarjeta.getId());
+    public OperadorTarjeta inactivar(OperadorTarjeta operadorTarjeta) {
+        operadorTarjeta.setEstado(Constantes.inactivo);
+        return rep.save(operadorTarjeta);
+    }
+
+    @Override
+    public OperadorTarjeta obtener(long id) {
+        Optional<OperadorTarjeta> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.operador_tarjeta);
     }
 
     @Override
@@ -59,39 +64,32 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     }
     
     @Override
+    public List<OperadorTarjeta> consultarActivos() {
+        return rep.consultarPorEstado(Constantes.activo);
+    }
+    
+    @Override
     public Page<OperadorTarjeta> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
 
     @Override
-    public List<OperadorTarjeta> consultarTipo(OperadorTarjeta operador_tarjeta) {
-        return  rep.findAll(new Specification<OperadorTarjeta>() {
-            @Override
-            public Predicate toPredicate(Root<OperadorTarjeta> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (operador_tarjeta.getTipo()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipo"), operador_tarjeta.getTipo())));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+    public List<OperadorTarjeta> consultarPorTipo(OperadorTarjeta operadorTarjeta) {
+        return rep.consultarPorTipo(operadorTarjeta.getTipo(), Constantes.activo);
     }
+    
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
-            List<OperadorTarjeta> operadores_tarjetas=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,5);
+            List<OperadorTarjeta> operadoresTarjetas=new ArrayList<>();
+            List<List<String>>info= Util.leerImportar(archivoTemporal,5);
             for (List<String> datos: info) {
-                OperadorTarjeta operador_tarjeta = new OperadorTarjeta(datos);
-                operadores_tarjetas.add(operador_tarjeta);
+                OperadorTarjeta operadorTarjeta = new OperadorTarjeta(datos);
+                operadoresTarjetas.add(operadorTarjeta);
             }
-            if(operadores_tarjetas.isEmpty()){
-                return false;
-            }
-            rep.saveAll(operadores_tarjetas);
-            return true;
+            rep.saveAll(operadoresTarjetas);
         }catch (Exception e){
-            return false;
+        	System.err.println(e.getMessage());
         }
     }
 }

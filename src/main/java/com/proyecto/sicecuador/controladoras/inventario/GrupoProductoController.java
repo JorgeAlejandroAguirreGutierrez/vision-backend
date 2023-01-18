@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathGrupoProducto)
@@ -34,6 +33,13 @@ public class GrupoProductoController implements GenericoController<GrupoProducto
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, grupos_productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<GrupoProducto> gruposProductos= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, gruposProductos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -44,8 +50,8 @@ public class GrupoProductoController implements GenericoController<GrupoProducto
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<GrupoProducto> grupo_producto=servicio.obtener(new GrupoProducto(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, grupo_producto);
+        GrupoProducto grupoProducto=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, grupoProducto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
@@ -91,7 +97,7 @@ public class GrupoProductoController implements GenericoController<GrupoProducto
     
     @GetMapping(value = "/obteneGrupo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerGrupoProducto(@RequestParam("grupo") String grupo, @RequestParam("subgrupo") String subgrupo, @RequestParam("seccion") String seccion, @RequestParam("linea") String linea, @RequestParam("sublinea") String sublinea, @RequestParam("presentacion") String presentacion) {
-    	Optional<GrupoProducto> grupoProducto=servicio.obtenerGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion);
+    	GrupoProducto grupoProducto=servicio.obtenerGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, grupoProducto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -116,11 +122,18 @@ public class GrupoProductoController implements GenericoController<GrupoProducto
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, grupo_producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        GrupoProducto grupo_producto=servicio.eliminar(new GrupoProducto(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, grupo_producto);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody GrupoProducto _grupoProducto) {
+    	GrupoProducto grupoProducto = servicio.activar(_grupoProducto);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_activar_exitoso, grupoProducto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody GrupoProducto _grupoProducto) {
+    	GrupoProducto grupoProducto = servicio.inactivar(_grupoProducto);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, grupoProducto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

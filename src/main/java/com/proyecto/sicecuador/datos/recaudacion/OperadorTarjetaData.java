@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.recaudacion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
 import com.proyecto.sicecuador.repositorios.recaudacion.IOperadorTarjetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,10 @@ public class OperadorTarjetaData implements ApplicationRunner {
         Optional<OperadorTarjeta> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<OperadorTarjeta> operadores_tarjetas = new ArrayList<>();
-            operadores_tarjetas.add(new OperadorTarjeta("OTA000001", "CREDITO", "DATAFAST", "DF"));
-            operadores_tarjetas.add(new OperadorTarjeta("OTA000002", "DEBITO", "DATAFAST", "DF"));
-            operadores_tarjetas.add(new OperadorTarjeta("OTA000003", "CREDITO", "MEGADATOS", "MD"));
-            operadores_tarjetas.add(new OperadorTarjeta("OTA000004", "DEBITO", "MEGADATOS", "MD"));
+            operadores_tarjetas.add(new OperadorTarjeta("OTA000001", "CREDITO", "DATAFAST", "DF", Constantes.activo));
+            operadores_tarjetas.add(new OperadorTarjeta("OTA000002", "DEBITO", "DATAFAST", "DF", Constantes.activo));
+            operadores_tarjetas.add(new OperadorTarjeta("OTA000003", "CREDITO", "MEGADATOS", "MD", Constantes.activo));
+            operadores_tarjetas.add(new OperadorTarjeta("OTA000004", "DEBITO", "MEGADATOS", "MD", Constantes.activo));
             rep.saveAll(operadores_tarjetas);
         }
     }

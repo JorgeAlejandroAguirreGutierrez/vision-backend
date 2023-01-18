@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
 import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITipoContribuyenteService;
@@ -21,29 +21,27 @@ public class TipoContribuyenteService implements ITipoContribuyenteService {
     @Autowired
     private ITipoContribuyenteRepository rep;
     @Override
-    public TipoContribuyente crear(TipoContribuyente tipo_contribuyente) {
+    public TipoContribuyente crear(TipoContribuyente tipoContribuyente) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_contribuyente);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	tipo_contribuyente.setCodigo(codigo.get());
-    	return rep.save(tipo_contribuyente);
+    	tipoContribuyente.setCodigo(codigo.get());
+    	return rep.save(tipoContribuyente);
     }
 
     @Override
-    public TipoContribuyente actualizar(TipoContribuyente tipo_contribuyente) {
-        return rep.save(tipo_contribuyente);
+    public TipoContribuyente actualizar(TipoContribuyente tipoContribuyente) {
+        return rep.save(tipoContribuyente);
     }
 
     @Override
-    public TipoContribuyente eliminar(TipoContribuyente tipo_contribuyente) {
-        rep.deleteById(tipo_contribuyente.getId());
-        return tipo_contribuyente;
-    }
-
-    @Override
-    public Optional<TipoContribuyente> obtener(TipoContribuyente tipo_contribuyente) {
-        return rep.findById(tipo_contribuyente.getId());
+    public TipoContribuyente obtener(long id) {
+        Optional<TipoContribuyente> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.tipo_contribuyente);
     }
 
     @Override
@@ -57,7 +55,7 @@ public class TipoContribuyenteService implements ITipoContribuyenteService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<TipoContribuyente> tipos_contribuyentes=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal, 18);
@@ -65,13 +63,9 @@ public class TipoContribuyenteService implements ITipoContribuyenteService {
                 TipoContribuyente tipo_contribuyente = new TipoContribuyente(datos);
                 tipos_contribuyentes.add(tipo_contribuyente);
             }
-            if(tipos_contribuyentes.isEmpty()){
-                return false;
-            }
             rep.saveAll(tipos_contribuyentes);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

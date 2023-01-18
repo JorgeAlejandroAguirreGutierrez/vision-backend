@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
 import com.proyecto.sicecuador.repositorios.cliente.IEstadoCivilRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,11 @@ public class EstadoCivilData implements ApplicationRunner {
         Optional<EstadoCivil> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<EstadoCivil> estados_civiles = new ArrayList<>();
-            estados_civiles.add(new EstadoCivil("ECV011907000001", "SOLTERO", "S"));
-            estados_civiles.add(new EstadoCivil("ECV011907000002", "CASADO", "C"));
-            estados_civiles.add(new EstadoCivil("ECV011908000003", "VIUDO", "V"));
-            estados_civiles.add(new EstadoCivil("ECV011908000004", "DIVORCIADO", "D"));
-            estados_civiles.add(new EstadoCivil("ECV01190900005", "UNION LIBRE", "U"));
+            estados_civiles.add(new EstadoCivil("ECV011907000001", "SOLTERO", "S", Constantes.activo));
+            estados_civiles.add(new EstadoCivil("ECV011907000002", "CASADO", "C", Constantes.activo));
+            estados_civiles.add(new EstadoCivil("ECV011908000003", "VIUDO", "V", Constantes.activo));
+            estados_civiles.add(new EstadoCivil("ECV011908000004", "DIVORCIADO", "D", Constantes.activo));
+            estados_civiles.add(new EstadoCivil("ECV01190900005", "UNION LIBRE", "U", Constantes.activo));
             rep.saveAll(estados_civiles);
         }
     }

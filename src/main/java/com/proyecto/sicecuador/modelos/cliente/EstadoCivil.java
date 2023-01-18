@@ -12,6 +12,8 @@ public class EstadoCivil extends Entidad {
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public EstadoCivil(){
 
@@ -21,10 +23,11 @@ public class EstadoCivil extends Entidad {
         super(id);
     }
 
-    public EstadoCivil(String codigo, String descripcion, String abreviatura){
+    public EstadoCivil(String codigo, String descripcion, String abreviatura, String estado){
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
+        this.estado=estado;
     }
 
     public EstadoCivil(List<String> datos){
@@ -39,4 +42,12 @@ public class EstadoCivil extends Entidad {
     public String getAbreviatura() {
         return abreviatura;
     }
+    
+    public String getEstado() {
+		return estado;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

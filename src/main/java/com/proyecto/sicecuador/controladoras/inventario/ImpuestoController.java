@@ -34,6 +34,13 @@ public class ImpuestoController implements GenericoController<Impuesto> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, impuestos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Impuesto> impuestos = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, impuestos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -44,7 +51,7 @@ public class ImpuestoController implements GenericoController<Impuesto> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Impuesto impuesto=servicio.obtener(new Impuesto(id)).get();
+        Impuesto impuesto=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, impuesto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -62,11 +69,18 @@ public class ImpuestoController implements GenericoController<Impuesto> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, impuesto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Impuesto impuesto=servicio.eliminar(new Impuesto(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, impuesto);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Impuesto _impuesto) {
+    	Impuesto impuesto = servicio.activar(_impuesto);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, impuesto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Impuesto _impuesto) {
+    	Impuesto impuesto = servicio.inactivar(_impuesto);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, impuesto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

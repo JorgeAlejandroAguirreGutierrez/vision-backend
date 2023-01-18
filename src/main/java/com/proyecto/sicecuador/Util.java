@@ -32,7 +32,7 @@ import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 @Component
 public class Util {
 	
-	private static IParametroRepository parametroRep;
+private static IParametroRepository parametroRep;
 	
 	@Autowired
 	private IParametroRepository autowiredParametroRep;
@@ -47,8 +47,6 @@ public class Util {
 		parametroRep = this.autowiredParametroRep;
 		em=this.autowiredEm;
 	}
-	
-	
 	
 	public static File archivoConvertir(MultipartFile archivo ) throws IOException
     {
@@ -141,7 +139,7 @@ public class Util {
     
     public static Optional<String> generarCodigo(String tabla){
     	try {
-    		Optional<Parametro> parametro = parametroRep.findByTablaAndTipo(tabla, Constantes.tipo);
+    		Optional<Parametro> parametro = parametroRep.findByTablaAndTipo(tabla, Constantes.tipo, Constantes.activo);
         	Optional<String> conteo= conteo(tabla);
         	if (parametro.isPresent() && conteo.isPresent()) {
             	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);

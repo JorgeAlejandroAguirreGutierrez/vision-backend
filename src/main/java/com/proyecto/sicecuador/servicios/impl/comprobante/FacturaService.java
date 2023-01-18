@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.ClaveAccesoNoExistenteException;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.CodigoNumericoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
@@ -24,7 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 public class FacturaService implements IFacturaService {
@@ -72,9 +72,9 @@ public class FacturaService implements IFacturaService {
     	DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");  
     	String fechaEmision = dateFormat.format(factura.getFecha());
     	String tipoComprobante=Constantes.factura_sri;
-    	String numeroRuc=factura.getSesion().getUsuario().getEmpresa().getIdentificacion();
+    	String numeroRuc=factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
     	String tipoAmbiente=Constantes.pruebas_sri;
-    	String serie=factura.getSesion().getUsuario().getPuntoVenta().getEstablecimiento().getCodigoSri() + factura.getSesion().getUsuario().getPuntoVenta().getCodigoSri();
+    	String serie=factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + factura.getSesion().getUsuario().getEstacion().getCodigoSRI();
     	String numeroComprobante=factura.getSecuencia();
     	String codigoNumerico=factura.getCodigoNumerico();
     	String tipoEmision=Constantes.emision_normal_sri;
@@ -110,19 +110,34 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public Factura eliminar(Factura factura) {
-        rep.deleteById(factura.getId());
-        return factura;
+    public Factura activar(Factura factura) {
+        factura.setEstado(Constantes.activo);
+        return rep.save(factura);
     }
 
     @Override
-    public Optional<Factura> obtener(Factura factura) {
-        return rep.findById(factura.getId());
+    public Factura inactivar(Factura factura) {
+        factura.setEstado(Constantes.inactivo);
+        return rep.save(factura);
+    }
+
+    @Override
+    public Factura obtener(long id) {
+        Optional<Factura> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.factura);
     }
 
     @Override
     public List<Factura> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Factura> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -131,8 +146,7 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public void importar(MultipartFile file) {
     }
 
     @Override
@@ -149,7 +163,7 @@ public class FacturaService implements IFacturaService {
 		});
     }
     
-    public Optional<Factura> calcular(Factura factura) {
+    public Factura calcular(Factura factura) {
     	this.recalcular(factura);
     	if(factura.getValorDescuentoSubtotal()==0 && factura.getPorcentajeDescuentoSubtotal()==0 && factura.getValorDescuentoTotal()==0 && factura.getPorcentajeDescuentoTotal()==0) {
     		this.calcularSubtotalSinDescuentoLinea(factura);
@@ -230,7 +244,7 @@ public class FacturaService implements IFacturaService {
             this.calcularTotalConDescuento(factura);
     	}
     	
-        return Optional.of(factura);
+        return factura;
     }
     
     private void recalcular(Factura factura){

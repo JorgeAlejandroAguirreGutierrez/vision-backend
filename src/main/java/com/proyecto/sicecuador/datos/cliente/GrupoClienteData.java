@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.datos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
+import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import com.proyecto.sicecuador.repositorios.cliente.IGrupoClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -23,13 +25,13 @@ public class GrupoClienteData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<GrupoCliente> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<GrupoCliente> grupos_clientes = new ArrayList<>();
-            grupos_clientes.add(new GrupoCliente("GCL011907000001", "CLIENTES NACIONALES", "NAC", "ACTIVO"));
-            grupos_clientes.add(new GrupoCliente("GCL011908000002", "CLIENTES INTERNACIONALES", "INTER", "ACTIVO"));
-            grupos_clientes.add(new GrupoCliente("GCL011909000003", "HONORARIOS", "HON", "ACTIVO"));
-            grupos_clientes.add(new GrupoCliente("GCL011909000004", "ASESORIAS", "ASES", "ACTIVO"));
-            grupos_clientes.add(new GrupoCliente("GCL011909000005", "SERVICIOS", "SRV", "ACTIVO"));
-            rep.saveAll(grupos_clientes);
+            List<GrupoCliente> gruposClientes = new ArrayList<>();
+            gruposClientes.add(new GrupoCliente("GCL011907000001", "CLIENTES NACIONALES", "NAC", Constantes.activo, new CuentaContable(1)));
+            gruposClientes.add(new GrupoCliente("GCL011908000002", "CLIENTES INTERNACIONALES", "INTER", Constantes.activo, new CuentaContable(2)));
+            gruposClientes.add(new GrupoCliente("GCL011909000003", "HONORARIOS", "HON", Constantes.activo, new CuentaContable(3)));
+            gruposClientes.add(new GrupoCliente("GCL011909000004", "ASESORIAS", "ASES", Constantes.activo, new CuentaContable(4)));
+            gruposClientes.add(new GrupoCliente("GCL011909000005", "SERVICIOS", "SRV", Constantes.activo, new CuentaContable(5)));
+            rep.saveAll(gruposClientes);
         }
     }
 }

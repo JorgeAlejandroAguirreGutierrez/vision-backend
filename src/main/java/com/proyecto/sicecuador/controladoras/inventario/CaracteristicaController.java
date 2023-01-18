@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+
 @RestController
 @RequestMapping(contexto+pathCaracteristica)
 public class CaracteristicaController implements GenericoController<Caracteristica> {
@@ -45,7 +45,7 @@ public class CaracteristicaController implements GenericoController<Caracteristi
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<Caracteristica> caracteristica=servicio.obtener(new Caracteristica(id));
+        Caracteristica caracteristica=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, caracteristica);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -61,13 +61,6 @@ public class CaracteristicaController implements GenericoController<Caracteristi
     public ResponseEntity<?> actualizar(@RequestBody Caracteristica _caracteristica) {
         Caracteristica caracteristica=servicio.actualizar(_caracteristica);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, caracteristica);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Caracteristica caracteristica=servicio.eliminar(new Caracteristica(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, caracteristica);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathTipoGasto)
@@ -30,43 +29,57 @@ public class TipoGastoController implements GenericoController<TipoGasto> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<TipoGasto> tipos_gastos=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_gastos);
+        List<TipoGasto> tiposGastos=servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposGastos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<TipoGasto> tiposGastos= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposGastos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<TipoGasto> tipos_gastos = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_gastos);
+    	Page<TipoGasto> tiposGastos = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, tiposGastos);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<TipoGasto> tipo_gasto=servicio.obtener(new TipoGasto(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_gasto);
+        TipoGasto tipoGasto=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipoGasto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid TipoGasto _tipo_gasto) {
-        TipoGasto tipo_gasto=servicio.crear(_tipo_gasto);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_gasto);
+        TipoGasto tipoGasto=servicio.crear(_tipo_gasto);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipoGasto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody TipoGasto _tipo_gasto) {
-        TipoGasto tipo_gasto=servicio.actualizar(_tipo_gasto);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_gasto);
+        TipoGasto tipoGasto=servicio.actualizar(_tipo_gasto);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipoGasto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        TipoGasto tipo_gasto=servicio.eliminar(new TipoGasto(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_gasto);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody TipoGasto _tipoGasto) {
+    	TipoGasto tipoGasto = servicio.activar(_tipoGasto);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, tipoGasto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody TipoGasto _tipoGasto) {
+    	TipoGasto tipoGasto = servicio.inactivar(_tipoGasto);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, tipoGasto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

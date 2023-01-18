@@ -1,99 +1,69 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-
-import java.util.List;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "estacion")
 public class Estacion extends Entidad {
-    
-	@Column(name = "descripcion", nullable = true)
-    private String descripcion;
-	@Column(name = "nompre_pc", nullable = true)
-    private String nombrePc;
-	@Column(name = "ip", nullable = true)
-    private String ip;
-	@Column(name = "abreviatura", nullable = true)
-    private String abreviatura;
+	@NotNull
+	@Column(name ="codigo_sri", nullable = true)
+	private String codigoSRI;
+	@Column(name = "nombre", nullable = true)
+    private String nombre;
+	@Column(name = "dispositivo", nullable = true)
+    private String dispositivo;
 	@Column(name = "estado", nullable = true)
-	private String estado;
-    @ManyToOne
+    private String estado;
+	@ManyToOne
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private Establecimiento establecimiento;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "estacion_id")
-    private List<EstacionUsuario> estacionesUsuarios;    
-    
-    
-	public Estacion() {
-		super();
-	}
-	public Estacion(long id) {
-		super(id);
-	}
-	
-	public Estacion(String codigo, String descripcion, String nombrePc, String ip, String abreviatura, String estado, Establecimiento establecimiento) {
-		super(codigo);
-		this.descripcion=descripcion;
-		this.nombrePc=nombrePc;
-		this.ip=ip;
-		this.abreviatura=abreviatura;		
-		this.estado=estado;
-		this.establecimiento=establecimiento;
-	}
-    public Estacion(List<String>datos) {
-        descripcion=datos.get(0)== null ? null: datos.get(0);
-        nombrePc=datos.get(1)== null ? null: datos.get(1);
-        ip=datos.get(2)== null ? null: datos.get(2);
-        abreviatura=datos.get(3)== null ? null: datos.get(3);
-        estado=datos.get(4)== null ? null: datos.get(4);
-        establecimiento=datos.get(5)== null ? null:new Establecimiento((long) Double.parseDouble(datos.get(5)));
-    }	
+    public Estacion(){
+        super();
+    }
 
+    public Estacion(long id) {
+        super(id);
+    }
+    public Estacion(String codigo, String codigoSRI, String nombre, String dispositivo, String estado, Establecimiento establecimiento){
+        super(codigo);
+        this.codigoSRI = codigoSRI;
+        this.nombre = nombre;
+        this.dispositivo = dispositivo;
+        this.establecimiento=establecimiento;
+        this.estado = estado;
+    }
+    public Estacion(List<String> datos){
+    	codigoSRI=datos.get(0)==null ? null: datos.get(0);
+        nombre=datos.get(1)== null ? null: datos.get(1);
+        dispositivo=datos.get(2)== null ? null: datos.get(2);
+        estado=datos.get(3)== null ? null: datos.get(3);
+    }
+
+    public String getCodigoSRI() {
+		return codigoSRI;
+	}
     
-	public String getDescripcion() {
-		return descripcion;
+    public String getNombre() {
+		return nombre;
 	}
-	public String getNombrePc() {
-		return nombrePc;
+    
+    public String getDispositivo() {
+		return dispositivo;
 	}
-	public String getIp() {
-		return ip;
-	}
-	public String getAbreviatura() {
-		return abreviatura;
-	}
-	public String getEstado() {
+    
+    public String getEstado() {
 		return estado;
 	}
-	@JsonBackReference
-	public Establecimiento getEstablecimiento() {
+    
+    public Establecimiento getEstablecimiento() {
 		return establecimiento;
 	}
-	
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	public void setNombrePc(String nombrePc) {
-		this.nombrePc = nombrePc;
-	}
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-	public void setAbreviatura(String abreviatura) {
-		this.abreviatura = abreviatura;
-	}
-	public void setEstado(String estado) {
+    
+    public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public void setEstablecimiento(Establecimiento establecimiento) {
-		this.establecimiento = establecimiento;
-	}
-	
-	
 }

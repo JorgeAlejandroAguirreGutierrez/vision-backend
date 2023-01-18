@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.Amortizacion;
 import com.proyecto.sicecuador.repositorios.recaudacion.IAmortizacionRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IAmortizacionService;
@@ -37,14 +37,13 @@ public class AmortizacionService implements IAmortizacionService {
     }
 
     @Override
-    public Amortizacion eliminar(Amortizacion amortizacion) {
-        rep.deleteById(amortizacion.getId());
-        return amortizacion;
-    }
-
-    @Override
-    public Optional<Amortizacion> obtener(Amortizacion banco) {
-        return rep.findById(banco.getId());
+    public Amortizacion obtener(long id) {
+        Optional<Amortizacion> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.amortizacion);
+        
     }
 
     @Override
@@ -59,7 +58,7 @@ public class AmortizacionService implements IAmortizacionService {
 
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Amortizacion> amortizaciones=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,0);
@@ -67,13 +66,9 @@ public class AmortizacionService implements IAmortizacionService {
                 Amortizacion amortizacion = new Amortizacion(datos);
                 amortizaciones.add(amortizacion);
             }
-            if(amortizaciones.isEmpty()){
-                return false;
-            }
             rep.saveAll(amortizaciones);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

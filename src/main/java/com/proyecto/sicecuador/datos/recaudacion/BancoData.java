@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.recaudacion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.repositorios.recaudacion.IBancoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,10 @@ public class BancoData implements ApplicationRunner {
         Optional<Banco> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Banco> bancos = new ArrayList<>();
-            bancos.add(new Banco("BA1", "BANCO", "BANCO PRODUBANCO", "PB"));
-            bancos.add(new Banco("BA2", "BANCO", "BANCO PICHINCHA", "BPI"));
-            bancos.add(new Banco("BA3", "BANCO", "BANCO PACIFICO", "BP"));
-            bancos.add(new Banco("BA4", "COOPERATIVA", "COOPROGRESO", "CP"));
+            bancos.add(new Banco("BA1", "BANCO", "BANCO PRODUBANCO", "PB", Constantes.activo));
+            bancos.add(new Banco("BA2", "BANCO", "BANCO PICHINCHA", "BPI", Constantes.activo));
+            bancos.add(new Banco("BA3", "BANCO", "BANCO PACIFICO", "BP", Constantes.activo));
+            bancos.add(new Banco("BA4", "COOPERATIVA", "COOPROGRESO", "CP", Constantes.activo));
             rep.saveAll(bancos);
         }
     }

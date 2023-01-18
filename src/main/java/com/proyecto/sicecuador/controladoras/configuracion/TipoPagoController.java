@@ -32,6 +32,14 @@ public class TipoPagoController implements GenericoController<TipoPago> {
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_pagos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<TipoPago> tiposPagos = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposPagos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +50,7 @@ public class TipoPagoController implements GenericoController<TipoPago> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        TipoPago tipo_pago=servicio.obtener(new TipoPago(id)).get();
+        TipoPago tipo_pago=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_pago);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,18 +68,25 @@ public class TipoPagoController implements GenericoController<TipoPago> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_pago);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        TipoPago tipo_pago=servicio.eliminar(new TipoPago(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, tipo_pago);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody TipoPago _tipoPago) {
+    	TipoPago tipoPago=servicio.activar(_tipoPago);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, tipoPago);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody TipoPago _tipoPago) {
+    	TipoPago tipoPago=servicio.inactivar(_tipoPago);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, tipoPago);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

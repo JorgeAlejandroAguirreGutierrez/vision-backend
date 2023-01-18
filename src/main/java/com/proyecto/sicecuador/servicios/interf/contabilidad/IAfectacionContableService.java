@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IAfectacionContableService extends IGenericoService<AfectacionContable> {
-    //List<Proveedor> consultarProducto();
+	AfectacionContable activar(AfectacionContable afectacionContable);
+	AfectacionContable inactivar(AfectacionContable afectacionContable);
+	List<AfectacionContable> consultarActivos();
     List<AfectacionContable> buscar(AfectacionContable afectacionContable);
 }

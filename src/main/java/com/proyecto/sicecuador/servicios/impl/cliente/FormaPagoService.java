@@ -1,17 +1,15 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.Financiamiento;
 import com.proyecto.sicecuador.modelos.cliente.FormaPago;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.repositorios.cliente.IFormaPagoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IFormaPagoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,41 +17,56 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.criteria.Predicate;
 @Service
 public class FormaPagoService implements IFormaPagoService {
     @Autowired
     private IFormaPagoRepository rep;
     
     @Override
-    public FormaPago crear(FormaPago forma_pago) {
+    public FormaPago crear(FormaPago formaPago) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_forma_pago);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	forma_pago.setCodigo(codigo.get());
-    	return rep.save(forma_pago);
+    	formaPago.setCodigo(codigo.get());
+    	formaPago.setEstado(Constantes.activo);
+    	return rep.save(formaPago);
     }
 
     @Override
-    public FormaPago actualizar(FormaPago forma_pago) {
-        return rep.save(forma_pago);
+    public FormaPago actualizar(FormaPago formaPago) {
+        return rep.save(formaPago);
     }
 
     @Override
-    public FormaPago eliminar(FormaPago forma_pago) {
-        rep.deleteById(forma_pago.getId());
-        return forma_pago;
+    public FormaPago activar(FormaPago formaPago) {
+        formaPago.setEstado(Constantes.activo);
+        return rep.save(formaPago);
     }
 
     @Override
-    public Optional<FormaPago> obtener(FormaPago forma_pago) {
-        return rep.findById(forma_pago.getId());
+    public FormaPago inactivar(FormaPago formaPago) {
+        formaPago.setEstado(Constantes.inactivo);
+        return rep.save(formaPago);
+    }
+
+    @Override
+    public FormaPago obtener(long id) {
+        Optional<FormaPago> resp= rep.findById(id);
+        if(resp.isPresent()) {
+        	return resp.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.forma_pago);
     }
 
     @Override
     public List<FormaPago> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<FormaPago> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -62,38 +75,22 @@ public class FormaPagoService implements IFormaPagoService {
     }
 
     @Override
-    public List<FormaPago> buscar(FormaPago forma_pago) {
-        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
-		    List<Predicate> predicates = new ArrayList<>();
-		    if (!forma_pago.getCodigo().equals(Constantes.vacio)) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+forma_pago.getCodigo()+"%")));
-		    }
-		    if (!forma_pago.getDescripcion().equals(Constantes.vacio)) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("descripcion"), "%"+forma_pago.getDescripcion()+"%")));
-		    }
-		    if (!forma_pago.getAbreviatura().equals(Constantes.vacio)) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("abreviatura"), "%"+forma_pago.getAbreviatura()+"%")));
-		    }
-		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-		});
+    public List<FormaPago> buscar(FormaPago formaPago) {
+        return  rep.buscar(formaPago.getCodigo(), formaPago.getDescripcion(), formaPago.getAbreviatura());
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
-            List<FormaPago> formas_pagos=new ArrayList<>();
+            List<FormaPago> formasPagos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal, 10);
             for (List<String> datos: info) {
-                FormaPago forma_pago = new FormaPago(datos);
-                formas_pagos.add(forma_pago);
+                FormaPago formaPago = new FormaPago(datos);
+                formasPagos.add(formaPago);
             }
-            if(formas_pagos.isEmpty()){
-                return false;
-            }
-            rep.saveAll(formas_pagos);
-            return true;
+            rep.saveAll(formasPagos);
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

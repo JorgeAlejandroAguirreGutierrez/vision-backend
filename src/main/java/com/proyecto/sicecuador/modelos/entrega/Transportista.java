@@ -14,6 +14,8 @@ public class Transportista extends Entidad {
     private String identificacion;
     @Column(name = "vehiculo_propio")
     private String vehiculoPropio;
+    @Column(name = "estado")
+    private String estado;
     @OneToOne
     @JoinColumn(name = "vehiculo_transporte_id")
     private VehiculoTransporte vehiculoTransporte;
@@ -26,12 +28,13 @@ public class Transportista extends Entidad {
         super(id);
     }
 
-    public Transportista(String codigo, String nombre, String identificacion, String vehiculoPropio, VehiculoTransporte vehiculoTransporte){
+    public Transportista(String codigo, String nombre, String identificacion, String vehiculoPropio, String estado, VehiculoTransporte vehiculoTransporte){
         super(codigo);
         this.nombre=nombre;
         this.identificacion=identificacion;
         this.vehiculoPropio=vehiculoPropio;
         this.vehiculoTransporte=vehiculoTransporte;
+        this.estado=estado;
     }
 
     public Transportista(List<String>datos){
@@ -58,5 +61,13 @@ public class Transportista extends Entidad {
     
     public VehiculoTransporte getVehiculoTransporte() {
 		return vehiculoTransporte;
+	}
+    
+    public String getEstado() {
+		return estado;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
 	}
 }

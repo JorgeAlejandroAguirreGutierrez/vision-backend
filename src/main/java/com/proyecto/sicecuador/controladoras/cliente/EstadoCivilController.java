@@ -32,6 +32,13 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estados_civiles);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<EstadoCivil> estadosCiviles = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estadosCiviles);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +49,7 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        EstadoCivil estado_civil=servicio.obtener(new EstadoCivil(id)).get();
+        EstadoCivil estado_civil=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, estado_civil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,11 +67,18 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, estado_civil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        EstadoCivil estado_civil=servicio.eliminar(new EstadoCivil(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, estado_civil);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody EstadoCivil _estadoCivil) {
+    	EstadoCivil estadoCivil=servicio.activar(_estadoCivil);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, estadoCivil);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody EstadoCivil _estadoCivil) {
+    	EstadoCivil estadoCivil=servicio.inactivar(_estadoCivil);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, estadoCivil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
@@ -77,8 +91,8 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

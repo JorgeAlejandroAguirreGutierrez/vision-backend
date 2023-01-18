@@ -3,12 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
-import com.proyecto.sicecuador.repositorios.configuracion.IEmpresaRepository;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoIdentificacionRepository;
-import com.proyecto.sicecuador.servicios.interf.configuracion.IEmpresaService;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoIdentificacionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,14 +39,12 @@ public class TipoIdentificacionService implements ITipoIdentificacionService {
     }
 
     @Override
-    public TipoIdentificacion eliminar(TipoIdentificacion tipoIdentificacion) {
-        rep.deleteById(tipoIdentificacion.getId());
-        return tipoIdentificacion;
-    }
-
-    @Override
-    public Optional<TipoIdentificacion> obtener(TipoIdentificacion tipoIdentificacion) {
-        return rep.findById(tipoIdentificacion.getId());
+    public TipoIdentificacion obtener(long id) {
+        Optional<TipoIdentificacion> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.tipo_identificacion);
     }
 
     @Override
@@ -61,23 +56,19 @@ public class TipoIdentificacionService implements ITipoIdentificacionService {
     public Page<TipoIdentificacion> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
+    
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
             List<TipoIdentificacion> tiposIdentificaciones=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
+            List<List<String>>info= Util.leerImportar(archivoTemporal,0);
             for (List<String> datos: info) {
             	TipoIdentificacion tipoIdentificacion = new TipoIdentificacion(datos);
                 tiposIdentificaciones.add(tipoIdentificacion);
             }
-            if(tiposIdentificaciones.isEmpty()){
-                return false;
-            }
             rep.saveAll(tiposIdentificaciones);
-            return true;
         }catch (Exception e){
-            return false;
+        	System.out.println(e.getMessage());
         }
     }
 }

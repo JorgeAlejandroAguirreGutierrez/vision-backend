@@ -13,11 +13,6 @@ public class Permiso extends Entidad {
     private String modulo;
     @Column(name = "operacion", nullable = true)
     private String operacion;
-    @Column(name = "habilitado", nullable = true)
-    private boolean habilitado;
-    @Column(name = "opcion", nullable = true)
-    private String opcion;
-
     @ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
@@ -28,21 +23,18 @@ public class Permiso extends Entidad {
     public Permiso(long id){
         super(id);
     }
-    public Permiso(String codigo, String modulo, String operacion, boolean habilitado, String opcion, Perfil perfil) {
+    
+    public Permiso(String codigo, String modulo, String operacion, String habilitado, String estado, Perfil perfil) {
         super(codigo);
         this.modulo = modulo;
         this.operacion = operacion;
-        this.habilitado = habilitado;
-        this.opcion = opcion;
         this.perfil = perfil;
     }
 
     public Permiso(List<String> datos){
         modulo=datos.get(0)== null ? null: datos.get(0);
         operacion=datos.get(1)== null ? null: datos.get(1);
-        habilitado=datos.get(2)== null ? null: datos.get(2).equals("S") ? true : false;
-        opcion=datos.get(3)== null ? null: datos.get(3);
-        perfil=datos.get(4)== null ? null:new Perfil((long) Double.parseDouble(datos.get(4)));
+        perfil=datos.get(2)== null ? null:new Perfil((long) Double.parseDouble(datos.get(2)));
     }
 
     public String getModulo() {
@@ -53,30 +45,18 @@ public class Permiso extends Entidad {
         return operacion;
     }
 
-    public boolean isHabilitado() {
-        return habilitado;
-    }
-    public String getOpcion() {
-        return opcion;
-    }    
     @JsonBackReference
     public Perfil getPerfil() {
         return perfil;
     }
+
 	public void setModulo(String modulo) {
 		this.modulo = modulo;
 	}
 	public void setOperacion(String operacion) {
 		this.operacion = operacion;
 	}
-	public void setHabilitado(boolean habilitado) {
-		this.habilitado = habilitado;
-	}
-	public void setOpcion(String opcion) {
-		this.opcion = opcion;
-	}
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
-    
 }

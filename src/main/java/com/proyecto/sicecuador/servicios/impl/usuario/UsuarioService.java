@@ -2,6 +2,8 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.ParametroInvalidoException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IUsuarioService;
@@ -26,7 +28,22 @@ public class UsuarioService implements IUsuarioService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
+    	if (!usuario.getContrasena().equals(usuario.getConfirmarContrasena())) {
+    		throw new ParametroInvalidoException(Constantes.parametro_contrasena);
+    	}
+    	String digito = usuario.getTelefono().substring(0, 1);
+    	if(usuario.getTelefono().length() != 11 || !digito.equals("0")) {
+    		throw new ParametroInvalidoException(Constantes.parametro_telefono);
+    	}
+    	String digito2 = usuario.getCelular().substring(0, 2);
+    	if(usuario.getCelular().length() != 12 || !digito2.equals("09")) {
+    		throw new ParametroInvalidoException(Constantes.parametro_celular);
+    	}
+    	if(!usuario.getCorreo().contains("@")) {
+    		throw new ParametroInvalidoException(Constantes.parametro_correo);
+    	}
     	usuario.setCodigo(codigo.get());
+    	usuario.setEstado(Constantes.activo);
     	return rep.save(usuario);
     }
 
@@ -36,18 +53,34 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public Usuario eliminar(Usuario usuario) {
-        return null;
+    public Usuario activar(Usuario usuario) {
+        usuario.setEstado(Constantes.activo);
+        return rep.save(usuario);
     }
 
     @Override
-    public Optional<Usuario> obtener(Usuario usuario) {
-        return rep.findById(usuario.getId());
+    public Usuario inactivar(Usuario usuario) {
+        usuario.setEstado(Constantes.inactivo);
+        return rep.save(usuario);
+    }
+
+    @Override
+    public Usuario obtener(long id) {
+        Optional<Usuario> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.usuario);
     }
 
     @Override
     public List<Usuario> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Usuario> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -64,17 +97,17 @@ public class UsuarioService implements IUsuarioService {
     public List<Usuario> consultarCajeros() {
         return null;
     }
-
-    @Override
-    public Optional<Usuario> activar(Usuario usuario) {
-        Usuario _usuario=rep.findById(usuario.getId()).get();
-        usuario.setActivo(Constantes.activo);
-        _usuario=rep.save(_usuario);
-        return Optional.of(usuario);
+    
+    public Usuario obtenerPorApodo(String apodo) {
+    	Optional<Usuario> res= rep.obtenerPorApodo(apodo, Constantes.activo);
+    	if(res.isPresent()) {
+    		return res.get();
+    	}
+    	throw new EntidadNoExistenteException(Constantes.usuario);
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Usuario> usuarios=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,5);
@@ -82,13 +115,9 @@ public class UsuarioService implements IUsuarioService {
                 Usuario usuario = new Usuario(datos);
                 usuarios.add(usuario);
             }
-            if(usuarios.isEmpty()){
-                return false;
-            }
             rep.saveAll(usuarios);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

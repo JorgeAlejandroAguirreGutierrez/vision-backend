@@ -15,7 +15,7 @@ public class CuentaContable extends Entidad {
     @Column(name = "nivel", nullable = true)
     private int nivel;
     @Column(name = "fe", nullable = true)
-    private boolean fe;
+    private String fe;
     @Column(name = "casillero", nullable = true)
     private String casillero;
     @Column(name = "mapeo", nullable = true)
@@ -31,7 +31,7 @@ public class CuentaContable extends Entidad {
         super(id);
     }
 
-    public CuentaContable(String codigo, String cuenta, String descripcion, String clasificacion, int nivel, boolean fe, 
+    public CuentaContable(String codigo, String cuenta, String descripcion, String clasificacion, int nivel, String fe, 
     					  String casillero, String mapeo, String estado){
         super(codigo);
         this.cuenta=cuenta;
@@ -49,7 +49,7 @@ public class CuentaContable extends Entidad {
     	descripcion=datos.get(1)== null ? null: datos.get(1);
     	clasificacion=datos.get(2)== null ? null: datos.get(2);
     	nivel=datos.get(3)== null ? null: Integer.parseInt(datos.get(3));
-    	fe=datos.get(4)== null ? null: datos.get(4).equals("S") ? true : false;
+    	fe=datos.get(4)== null ? null: datos.get(4);
     	casillero=datos.get(5)== null ? null: datos.get(5);
     	mapeo=datos.get(6)== null ? null: datos.get(6);
     	estado=datos.get(7)== null ? null: datos.get(7);
@@ -71,7 +71,7 @@ public class CuentaContable extends Entidad {
 		return nivel;
 	}
 
-	public boolean isFe() {
+	public String getFe() {
 		return fe;
 	}
 
@@ -103,7 +103,7 @@ public class CuentaContable extends Entidad {
 		this.nivel = nivel;
 	}
 
-	public void setFe(boolean fe) {
+	public void setFe(String fe) {
 		this.fe = fe;
 	}
 

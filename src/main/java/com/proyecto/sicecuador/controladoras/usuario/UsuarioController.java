@@ -33,6 +33,13 @@ public class UsuarioController implements GenericoController<Usuario> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, usuarios);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Usuario> usuarios= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, usuarios);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -43,13 +50,20 @@ public class UsuarioController implements GenericoController<Usuario> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Usuario usuario=servicio.obtener(new Usuario(id)).get();
+        Usuario usuario=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, usuario);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/obtenerPorApodo/{apodo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo) {
+        Usuario usuario=servicio.obtenerPorApodo(apodo);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, usuario);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Usuario _usuario) {
+    public ResponseEntity<?> crear(@RequestBody Usuario _usuario) {
         Usuario usuario=servicio.crear(_usuario);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, usuario);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
@@ -61,18 +75,25 @@ public class UsuarioController implements GenericoController<Usuario> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, usuario);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Usuario usuario=servicio.eliminar(new Usuario(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, usuario);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Usuario _usuario) {
+    	Usuario usuario = servicio.activar(_usuario);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_activar_exitoso, usuario);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Usuario _usuario) {
+    	Usuario usuario = servicio.inactivar(_usuario);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, usuario);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

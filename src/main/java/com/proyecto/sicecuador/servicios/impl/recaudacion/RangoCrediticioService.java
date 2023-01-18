@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.RangoCrediticio;
 import com.proyecto.sicecuador.repositorios.recaudacion.IRangoCrediticioRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRangoCrediticioService;
@@ -22,29 +22,27 @@ public class RangoCrediticioService implements IRangoCrediticioService {
     private IRangoCrediticioRepository rep;
     
     @Override
-    public RangoCrediticio crear(RangoCrediticio rango_crediticio) {
+    public RangoCrediticio crear(RangoCrediticio rangoCrediticio) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_rango_crediticio);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	rango_crediticio.setCodigo(codigo.get());
-    	return rep.save(rango_crediticio);
+    	rangoCrediticio.setCodigo(codigo.get());
+    	return rep.save(rangoCrediticio);
     }
 
     @Override
-    public RangoCrediticio actualizar(RangoCrediticio rango_crediticio) {
-        return rep.save(rango_crediticio);
+    public RangoCrediticio actualizar(RangoCrediticio rangoCrediticio) {
+        return rep.save(rangoCrediticio);
     }
 
     @Override
-    public RangoCrediticio eliminar(RangoCrediticio rango_crediticio) {
-        rep.deleteById(rango_crediticio.getId());
-        return rango_crediticio;
-    }
-
-    @Override
-    public Optional<RangoCrediticio> obtener(RangoCrediticio rango_crediticio) {
-        return rep.findById(rango_crediticio.getId());
+    public RangoCrediticio obtener(long id) {
+        Optional<RangoCrediticio> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.rango_crediticio);
     }
 
     @Override
@@ -58,7 +56,7 @@ public class RangoCrediticioService implements IRangoCrediticioService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<RangoCrediticio> rangos_crediticios=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,6);
@@ -66,13 +64,9 @@ public class RangoCrediticioService implements IRangoCrediticioService {
                 RangoCrediticio rango_crediticio = new RangoCrediticio(datos);
                 rangos_crediticios.add(rango_crediticio);
             }
-            if(rangos_crediticios.isEmpty()){
-                return false;
-            }
             rep.saveAll(rangos_crediticios);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 

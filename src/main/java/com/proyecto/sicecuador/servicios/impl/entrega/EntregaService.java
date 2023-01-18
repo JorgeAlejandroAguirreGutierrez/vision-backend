@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.entrega;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.entrega.Entrega;
 import com.proyecto.sicecuador.repositorios.entrega.IEntregaRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.IEntregaService;
@@ -22,14 +23,11 @@ public class EntregaService implements IEntregaService {
     
     @Override
     public Entrega crear(Entrega entrega) {
-    	if(!entrega.isInhabilitar()) {
-    		Optional<String>codigo=Util.generarCodigo(Constantes.tabla_entrega);
-        	if (codigo.isEmpty()) {
-        		throw new CodigoNoExistenteException();
-        	}
-        	entrega.setCodigo(codigo.get());
+		Optional<String>codigo=Util.generarCodigo(Constantes.tabla_entrega);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
     	}
-    	
+    	entrega.setCodigo(codigo.get());
     	return rep.save(entrega);
     }
 
@@ -39,19 +37,21 @@ public class EntregaService implements IEntregaService {
     }
 
     @Override
-    public Entrega eliminar(Entrega entrega) {
-        rep.deleteById(entrega.getId());
-        return entrega;
-    }
-
-    @Override
-    public Optional<Entrega> obtener(Entrega entrega) {
-        return rep.findById(entrega.getId());
+    public Entrega obtener(long id) {
+        Optional<Entrega> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.entrega);
     }
     
     @Override
-    public Optional<Entrega> obtenerPorFactura(long facturaId){
-    	return rep.obtenerPorFactura(facturaId);
+    public Entrega obtenerPorFactura(long facturaId){
+    	Optional<Entrega> res = rep.obtenerPorFactura(facturaId);
+    	if(res.isPresent()) {
+    		return res.get();
+    	}
+    	throw new EntidadNoExistenteException(Constantes.entrega);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class EntregaService implements IEntregaService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Entrega> guias_remisiones=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,0);
@@ -73,13 +73,9 @@ public class EntregaService implements IEntregaService {
                 Entrega guia_remision = new Entrega(datos);
                 guias_remisiones.add(guia_remision);
             }
-            if (guias_remisiones.isEmpty()){
-                return false;
-            }
             rep.saveAll(guias_remisiones);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

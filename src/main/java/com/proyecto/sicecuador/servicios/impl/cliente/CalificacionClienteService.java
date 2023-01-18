@@ -10,59 +10,52 @@ import com.proyecto.sicecuador.servicios.interf.cliente.ICalificacionClienteServ
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 @Service
 public class CalificacionClienteService implements ICalificacionClienteService {
 	@Autowired
     private ICalificacionClienteRepository rep;
     
     @Override
-    public CalificacionCliente crear(CalificacionCliente calificacion_cliente) {
+    public CalificacionCliente crear(CalificacionCliente calificacionCliente) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_calificacion_cliente);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	calificacion_cliente.setCodigo(codigo.get());
-    	return rep.save(calificacion_cliente);
+    	calificacionCliente.setCodigo(codigo.get());
+    	calificacionCliente.setEstado(Constantes.activo);
+    	return rep.save(calificacionCliente);
     }
 
     @Override
-    public CalificacionCliente actualizar(CalificacionCliente calificacion_cliente) {
-        return rep.save(calificacion_cliente);
+    public CalificacionCliente actualizar(CalificacionCliente calificacionCliente) {
+        return rep.save(calificacionCliente);
     }
 
     @Override
-    public CalificacionCliente eliminar(CalificacionCliente calificacion_cliente) {
-        rep.deleteById(calificacion_cliente.getId());
-        return calificacion_cliente;
+    public CalificacionCliente activar(CalificacionCliente calificacionCliente) {
+        calificacionCliente.setEstado(Constantes.activo);
+        return rep.save(calificacionCliente);
     }
-    
+
     @Override
-    public Optional<CalificacionCliente> eliminarPersonalizado(long id) {
-        if(id!=0) {
-        	Optional<CalificacionCliente> calificacionCliente=rep.findById(id);
-        	if(calificacionCliente.isPresent()) {
-        		calificacionCliente.get().setEstado(Constantes.inactivo);
-            	return Optional.of(rep.save(calificacionCliente.get()));
-        	}
+    public CalificacionCliente inactivar(CalificacionCliente calificacionCliente) {
+        calificacionCliente.setEstado(Constantes.inactivo);
+        return rep.save(calificacionCliente);
+    }
+
+    @Override
+    public CalificacionCliente obtener(long id) {
+        Optional<CalificacionCliente> resp= rep.findById(id);
+        if(resp.isPresent()) {
+        	return resp.get();
         }
         throw new EntidadNoExistenteException(Constantes.calificacion_cliente);
-    }
-
-    @Override
-    public Optional<CalificacionCliente> obtener(CalificacionCliente calificacion_cliente) {
-        return rep.findById(calificacion_cliente.getId());
     }
 
     @Override
@@ -71,46 +64,32 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     }
     
     @Override
+    public List<CalificacionCliente> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
+    }
+    
+    @Override
     public Page<CalificacionCliente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
 
     @Override
-    public List<CalificacionCliente> buscar(CalificacionCliente calificacion_cliente) {
-        return  rep.findAll(new Specification<CalificacionCliente>() {
-            @Override
-            public Predicate toPredicate(Root<CalificacionCliente> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (!calificacion_cliente.getCodigo().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+calificacion_cliente.getCodigo()+"%")));
-                }
-                if (!calificacion_cliente.getDescripcion().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("descripcion"), "%"+calificacion_cliente.getDescripcion()+"%")));
-                }
-                if (!calificacion_cliente.getAbreviatura().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("abreviatura"), "%"+calificacion_cliente.getAbreviatura()+"%")));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+    public List<CalificacionCliente> buscar(CalificacionCliente calificacionCliente) {
+        return rep.buscar(calificacionCliente.getCodigo(), calificacionCliente.getDescripcion(), calificacionCliente.getAbreviatura());
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
-            List<CalificacionCliente> calificaciones_clientes=new ArrayList<>();
+            List<CalificacionCliente> calificacionesClientes=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,1);
             for (List<String> datos: info) {
-                CalificacionCliente calificacion_cliente = new CalificacionCliente(datos);
-                calificaciones_clientes.add(calificacion_cliente);
+                CalificacionCliente calificacionCliente = new CalificacionCliente(datos);
+                calificacionesClientes.add(calificacionCliente);
             }
-            if(calificaciones_clientes.isEmpty()){
-                return false;
-            }
-            rep.saveAll(calificaciones_clientes);
-            return true;
+            rep.saveAll(calificacionesClientes);
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

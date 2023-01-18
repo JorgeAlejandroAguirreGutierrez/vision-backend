@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IRecaudacionRepository extends JpaRepository<Recaudacion, Long>, JpaSpecificationExecutor<Recaudacion> {
-	
-	@Query(value = "select r from Recaudacion r "
-            + "WHERE r.factura.id=:facturaId")
+	@Query(value = "select r from Recaudacion r where r.factura.id=:facturaId")
     public Optional<Recaudacion> obtenerPorFactura(long facturaId);
 }

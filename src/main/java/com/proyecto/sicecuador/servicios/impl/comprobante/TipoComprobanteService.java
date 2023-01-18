@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.repositorios.comprobante.ITipoComprobanteRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
@@ -22,29 +22,27 @@ public class TipoComprobanteService implements ITipoComprobanteService {
     private ITipoComprobanteRepository rep;
     
     @Override
-    public TipoComprobante crear(TipoComprobante tipo_comprobante) {
+    public TipoComprobante crear(TipoComprobante tipoComprobante) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_comprobante);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	tipo_comprobante.setCodigo(codigo.get());
-    	return rep.save(tipo_comprobante);
+    	tipoComprobante.setCodigo(codigo.get());
+    	return rep.save(tipoComprobante);
     }
 
     @Override
-    public TipoComprobante actualizar(TipoComprobante tipo_comprobante) {
-        return rep.save(tipo_comprobante);
+    public TipoComprobante actualizar(TipoComprobante tipoComprobante) {
+        return rep.save(tipoComprobante);
     }
 
     @Override
-    public TipoComprobante eliminar(TipoComprobante tipo_comprobante) {
-        rep.deleteById(tipo_comprobante.getId());
-        return tipo_comprobante;
-    }
-
-    @Override
-    public Optional<TipoComprobante> obtener(TipoComprobante tipo_comprobante) {
-        return rep.findById(tipo_comprobante.getId());
+    public TipoComprobante obtener(long id) {
+        Optional<TipoComprobante> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.tipo_comprobante);
     }
 
     @Override
@@ -58,8 +56,7 @@ public class TipoComprobanteService implements ITipoComprobanteService {
     }
 
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public void importar(MultipartFile file) {
     }
 
 }

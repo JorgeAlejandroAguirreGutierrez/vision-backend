@@ -13,8 +13,8 @@ import java.util.List;
 @Table(name = "establecimiento")
 public class Establecimiento extends Entidad {
 	@NotNull
-    @Column(name = "codigoSri", nullable = true)
-    private String codigoSri;
+    @Column(name = "codigoSRI", nullable = true)
+    private String codigoSRI;
 	@NotNull
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
@@ -40,16 +40,13 @@ public class Establecimiento extends Entidad {
     private Ubicacion ubicacion;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id")
-    private List<TelefonoEstablecimiento> telefonosEstablecimiento;    
+    private List<TelefonoEstablecimiento> telefonos;    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id")
-    private List<CelularEstablecimiento> celularesEstablecimiento;    
+    private List<CelularEstablecimiento> celulares;    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id")
-    private List<CorreoEstablecimiento> correosEstablecimiento;    
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "establecimiento_id")
-    private List<Estacion> estaciones;    
+    private List<CorreoEstablecimiento> correos;
 
     public Establecimiento(){
         super();
@@ -58,9 +55,9 @@ public class Establecimiento extends Entidad {
         super(id);
     }
 
-    public Establecimiento(String codigo, String codigoSri, String descripcion, String direccion, int latitud, int longitud, String estado,  Empresa empresa, Ubicacion ubicacion){
+    public Establecimiento(String codigo, String codigoSRI, String descripcion, String direccion, int latitud, int longitud, String estado,  Empresa empresa, Ubicacion ubicacion){
         super(codigo);
-        this.codigoSri=codigoSri;
+        this.codigoSRI=codigoSRI;
         this.descripcion=descripcion;
         this.direccion=direccion;
         this.latitud=latitud;
@@ -70,7 +67,7 @@ public class Establecimiento extends Entidad {
         this.ubicacion=ubicacion;
     }
     public Establecimiento(List<String> datos){
-        codigoSri=datos.get(0)== null ? null: datos.get(0);
+        codigoSRI=datos.get(0)== null ? null: datos.get(0);
     	descripcion=datos.get(1)== null ? null: datos.get(1);
     	direccion=datos.get(2)== null ? null: datos.get(2);
     	latitud=datos.get(3)== null ? null: Integer.parseInt(datos.get(3));
@@ -79,20 +76,22 @@ public class Establecimiento extends Entidad {
         ubicacion=datos.get(6)== null ? null:new Ubicacion((long) Double.parseDouble(datos.get(6)));
     }
     
-    public String getCodigoSri() {
-        return codigoSri;
-    }
-
+    public String getCodigoSRI() {
+		return codigoSRI;
+	}
     
     public String getDescripcion() {
 		return descripcion;
 	}
+    
 	public int getLatitud() {
 		return latitud;
 	}
+	
 	public int getLongitud() {
 		return longitud;
 	}
+	
 	public String getDireccion() {
         return direccion;
     }
@@ -109,24 +108,18 @@ public class Establecimiento extends Entidad {
         return ubicacion;
     }
     @JsonManagedReference
-    public List<TelefonoEstablecimiento> getTelefonosEstablecimiento() {
-		return telefonosEstablecimiento;
+    public List<TelefonoEstablecimiento> getTelefonos() {
+		return telefonos;
 	}    
     @JsonManagedReference
-    public List<CelularEstablecimiento> getCelularesEstablecimiento() {
-		return celularesEstablecimiento;
+    public List<CelularEstablecimiento> getCelulares() {
+		return celulares;
 	}    
     @JsonManagedReference
-    public List<CorreoEstablecimiento> getCorreosEstablecimiento() {
-		return correosEstablecimiento;
-	}    
-    @JsonManagedReference
-    public List<Estacion> getEstaciones() {
-		return estaciones;
+    public List<CorreoEstablecimiento> getCorreos() {
+		return correos;
 	}
-	public void setCodigoSri(String codigoSri) {
-		this.codigoSri = codigoSri;
-	}
+    
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
@@ -148,18 +141,13 @@ public class Establecimiento extends Entidad {
 	public void setUbicacion(Ubicacion ubicacion) {
 		this.ubicacion = ubicacion;
 	}
-	public void setTelefonosEstablecimiento(List<TelefonoEstablecimiento> telefonosEstablecimiento) {
-		this.telefonosEstablecimiento = telefonosEstablecimiento;
+	public void setTelefonos(List<TelefonoEstablecimiento> telefonos) {
+		this.telefonos = telefonos;
 	}
-	public void setCelularesEstablecimiento(List<CelularEstablecimiento> celularesEstablecimiento) {
-		this.celularesEstablecimiento = celularesEstablecimiento;
+	public void setCelulares(List<CelularEstablecimiento> celulares) {
+		this.celulares = celulares;
 	}
-	public void setCorreosEstablecimiento(List<CorreoEstablecimiento> correosEstablecimiento) {
-		this.correosEstablecimiento = correosEstablecimiento;
+	public void setCorreos(List<CorreoEstablecimiento> correos) {
+		this.correos = correos;
 	}
-	public void setEstaciones(List<Estacion> estaciones) {
-		this.estaciones = estaciones;
-	}    
-
-    
 }

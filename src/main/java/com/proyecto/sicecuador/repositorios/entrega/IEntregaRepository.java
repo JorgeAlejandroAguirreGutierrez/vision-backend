@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IEntregaRepository  extends JpaRepository<Entrega, Long>, JpaSpecificationExecutor<Entrega> {
-	@Query(value = "select e from Entrega e "
-            + "WHERE e.factura.id=:facturaId")
-    public Optional<Entrega> obtenerPorFactura(long facturaId);
+	@Query(value = "select e from Entrega e where e.factura.id=:facturaId")
+    Optional<Entrega> obtenerPorFactura(long facturaId);
 }

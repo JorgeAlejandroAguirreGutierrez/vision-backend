@@ -49,7 +49,7 @@ public class CreditoController implements GenericoController<Credito> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Credito credito=servicio.obtener(new Credito(id)).get();
+        Credito credito=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, credito);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -65,13 +65,6 @@ public class CreditoController implements GenericoController<Credito> {
     public ResponseEntity<?> actualizar(@RequestBody Credito _credito) {
         Credito credito=servicio.actualizar(_credito);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, credito);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Credito credito=servicio.eliminar(new Credito(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, credito);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

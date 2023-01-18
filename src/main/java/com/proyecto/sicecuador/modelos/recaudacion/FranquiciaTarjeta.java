@@ -14,6 +14,8 @@ public class FranquiciaTarjeta extends Entidad {
     private String nombre;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public FranquiciaTarjeta(){
         super();
@@ -23,11 +25,12 @@ public class FranquiciaTarjeta extends Entidad {
         super(id);
     }
 
-    public FranquiciaTarjeta(String codigo, String tipo, String nombre, String abreviatura){
+    public FranquiciaTarjeta(String codigo, String tipo, String nombre, String abreviatura, String estado){
         super(codigo);
         this.tipo=tipo;
         this.nombre=nombre;
         this.abreviatura=abreviatura;
+        this.estado=estado;
     }
     public FranquiciaTarjeta(List<String> datos){
         tipo=datos.get(0)== null ? null: datos.get(0);
@@ -45,4 +48,12 @@ public class FranquiciaTarjeta extends Entidad {
     public String getAbreviatura() {
         return abreviatura;
     }
+    
+    public String getEstado() {
+		return estado;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

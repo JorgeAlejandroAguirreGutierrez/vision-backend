@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathProducto)
@@ -44,7 +43,7 @@ public class ProductoController implements GenericoController<Producto> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<Producto> producto=servicio.obtener(new Producto(id));
+        Producto producto=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -62,27 +61,34 @@ public class ProductoController implements GenericoController<Producto> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Producto producto=servicio.eliminar(new Producto(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, producto);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Producto _producto) {
+    	Producto producto = servicio.activar(_producto);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @GetMapping(value = "/tipo/bien", produces = MediaType.APPLICATION_JSON_VALUE)
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Producto _producto) {
+    	Producto producto = servicio.inactivar(_producto);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, producto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/consultarBien", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarBien() {
         List<Producto> productos=servicio.consultarBien();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/tipo/servicio", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarServicio", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarServicio() {
         List<Producto> productos=servicio.consultarServicio();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/tipo/activoFijo", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarActivoFijo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarActivoFijo() {
         List<Producto> productos=servicio.consultarActivoFijo();
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);

@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.Genero;
 import com.proyecto.sicecuador.repositorios.cliente.IGeneroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class GeneroData implements ApplicationRunner {
         Optional<Genero> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Genero> generos = new ArrayList<>();
-            generos.add(new Genero("GEN011907000001", "MASCULINO", "M"));
-            generos.add(new Genero("GEN011908000002", "FEMENINO", "F"));
+            generos.add(new Genero("GEN011907000001", "MASCULINO", "M", Constantes.activo));
+            generos.add(new Genero("GEN011908000002", "FEMENINO", "F", Constantes.activo));
             rep.saveAll(generos);
         }
     }

@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.CelularEstablecimiento;
 import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
@@ -41,14 +42,12 @@ public class CelularEstablecimientoService implements ICelularEstablecimientoSer
 	}
 
 	@Override
-	public CelularEstablecimiento eliminar(CelularEstablecimiento celularEstablecimiento) {
-		rep.deleteById(celularEstablecimiento.getId()); 
-		return celularEstablecimiento;
-	}
-
-	@Override
-	public Optional<CelularEstablecimiento> obtener(CelularEstablecimiento celularEstablecimiento) {
-		return rep.findById(celularEstablecimiento.getId());
+	public CelularEstablecimiento obtener(long id) {
+		Optional<CelularEstablecimiento> res= rep.findById(id);
+		if(res.isPresent()) {
+			return res.get();
+		}
+		throw new EntidadNoExistenteException(Constantes.tabla_celular_establecimiento);
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class CelularEstablecimientoService implements ICelularEstablecimientoSer
 	}
 
 	@Override
-	public boolean importar(MultipartFile archivo_temporal) {
+	public void importar(MultipartFile archivo_temporal) {
 		try {
             List<CelularEstablecimiento> celulares=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal, 16);
@@ -73,13 +72,9 @@ public class CelularEstablecimientoService implements ICelularEstablecimientoSer
                     celulares.add(celularEstablecimiento);
                 }
             }
-            if(celulares.isEmpty()){
-                return false;
-            }
             rep.saveAll(celulares);
-            return true;
-        }catch (Exception e){
-            return false;
+        } catch (Exception e){
+            System.err.println(e.getMessage());
         }
 	}
 

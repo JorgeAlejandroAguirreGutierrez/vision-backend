@@ -6,5 +6,8 @@ import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface ISegmentoService extends IGenericoService<Segmento> {
+	Segmento activar(Segmento segmento);
+	Segmento inactivar(Segmento segmento);
+	List<Segmento> consultarActivos();
 	List<Segmento> buscar(Segmento segmento);
 }

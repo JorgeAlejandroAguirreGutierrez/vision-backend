@@ -88,7 +88,6 @@ public class Endpoints {
     public static final String pathEstacionUsuario="estacionUsuario";
     public static final String pathPerfil="perfil";
     public static final String pathPermiso="permiso";
-    public static final String pathPuntoVenta="puntoVenta";
     public static final String pathSesion="sesion";
     public static final String pathUsuario="usuario";
     public static final String pathTelefonoEstablecimiento="telefonoEstablecimiento";

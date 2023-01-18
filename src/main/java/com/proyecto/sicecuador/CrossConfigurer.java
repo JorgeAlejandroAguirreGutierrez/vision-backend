@@ -9,6 +9,6 @@ public class CrossConfigurer implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").allowedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Headers", "Authorization", "Content-Type", "X-Requested-With", "Accept", "responseType");
+                .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS").allowedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Headers", "Authorization", "Content-Type", "X-Requested-With", "Accept", "responseType");
     }
 }

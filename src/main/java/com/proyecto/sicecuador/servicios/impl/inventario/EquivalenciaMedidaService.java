@@ -2,17 +2,14 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.EntidadExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.inventario.EquivalenciaMedida;
 import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.repositorios.inventario.ITablaEquivalenciaMedidaRepository;
-import com.proyecto.sicecuador.servicios.interf.inventario.ITablaEquivalenciaMedidaService;
+import com.proyecto.sicecuador.repositorios.inventario.IEquivalenciaMedidaRepository;
+import com.proyecto.sicecuador.servicios.interf.inventario.IEquivalenciaMedidaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,49 +20,58 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaService {
+public class EquivalenciaMedidaService implements IEquivalenciaMedidaService {
     @Autowired
-    private ITablaEquivalenciaMedidaRepository rep;
+    private IEquivalenciaMedidaRepository rep;
     
     @Override
-    public EquivalenciaMedida crear(EquivalenciaMedida tabla) {
+    public EquivalenciaMedida crear(EquivalenciaMedida _equivalenciaMedida) {
+    	EquivalenciaMedida equivalenciaMedida= this.obtenerMedida1Medida2(_equivalenciaMedida);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_equivalencia_medida);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	tabla.setCodigo(codigo.get());
-    	Optional<EquivalenciaMedida> tem= this.obtenerMedida1Medida2(tabla);
-    	if(tem.isPresent()) {
-    		throw new EntidadExistenteException(Constantes.equivalencia_medida);
-    	}
-        return rep.save(tabla);
+    	equivalenciaMedida.setCodigo(codigo.get());
+    	equivalenciaMedida.setEstado(Constantes.activo);
+        return rep.save(equivalenciaMedida);
     }
 
     @Override
     public EquivalenciaMedida actualizar(EquivalenciaMedida tabla) {
-    	Optional<EquivalenciaMedida> optionalTem= this.obtenerMedida1Medida2(tabla);
-    	if(optionalTem.isPresent()) {
-    		EquivalenciaMedida tem=optionalTem.get();
-    		tem.setEquivalencia(tabla.getEquivalencia());
-    		return rep.save(tem);
-    	}
-    	throw new EntidadNoExistenteException(Constantes.equivalencia_medida);
+    	EquivalenciaMedida tem= this.obtenerMedida1Medida2(tabla);
+		tem.setEquivalencia(tabla.getEquivalencia());
+		return rep.save(tem);
     }
 
     @Override
-    public EquivalenciaMedida eliminar(EquivalenciaMedida tabla) {
-        rep.deleteById(tabla.getId());
-        return tabla;
+    public EquivalenciaMedida activar(EquivalenciaMedida equivalenciaMedida) {
+        equivalenciaMedida.setEstado(Constantes.activo);
+        return rep.save(equivalenciaMedida);
     }
 
     @Override
-    public Optional<EquivalenciaMedida> obtener(EquivalenciaMedida tabla) {
-        return rep.findById(tabla.getId());
+    public EquivalenciaMedida inactivar(EquivalenciaMedida equivalenciaMedida) {
+        equivalenciaMedida.setEstado(Constantes.inactivo);
+        return rep.save(equivalenciaMedida);
+    }
+
+    @Override
+    public EquivalenciaMedida obtener(long id) {
+        Optional<EquivalenciaMedida> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.equivalencia_medida);
     }
 
     @Override
     public List<EquivalenciaMedida> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<EquivalenciaMedida> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -74,14 +80,18 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     }
 
     @Override
-    public Optional<EquivalenciaMedida> obtenerMedida1Medida2(EquivalenciaMedida _tabla){
-        Optional<EquivalenciaMedida> tabla =  rep.findOne((root, criteriaQuery, criteriaBuilder) -> {
+    public EquivalenciaMedida obtenerMedida1Medida2(EquivalenciaMedida _equivalenciaMedida){
+        Optional<EquivalenciaMedida> equivalenciaMedida =  rep.findOne((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();
-		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medidaIni").get("descripcion"), _tabla.getMedidaIni().getDescripcion())));
-		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medidaEqui").get("descripcion"), _tabla.getMedidaEqui().getDescripcion())));
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medidaIni").get("descripcion"), _equivalenciaMedida.getMedidaIni().getDescripcion())));
+		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("medidaEqui").get("descripcion"), _equivalenciaMedida.getMedidaEqui().getDescripcion())));
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));                
 		});
-        return tabla;
+        if(equivalenciaMedida.isEmpty()) {
+        	return equivalenciaMedida.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.equivalencia_medida);
+        
     }
 
     @Override
@@ -116,21 +126,17 @@ public class TablaEquivalenciaMedidaService implements ITablaEquivalenciaMedidaS
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
             List<EquivalenciaMedida> tablas=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
+            List<List<String>>info= Util.leerImportar(archivoTemporal,0);
             for (List<String> datos: info) {
                 EquivalenciaMedida tabla = new EquivalenciaMedida(datos);
                 tablas.add(tabla);
             }
-            if(tablas.isEmpty()){
-                return false;
-            }
             rep.saveAll(tablas);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

@@ -7,15 +7,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "producto_bodega")
 public class ProductoBodega extends Entidad {
-    
 	@Column(name = "cantidad", nullable = true)
     private double cantidad;
-	
 	@JsonBackReference
 	@ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
-    
     @ManyToOne
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;

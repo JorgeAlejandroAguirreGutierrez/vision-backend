@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.repositorios.recaudacion.IBancoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IBancoService;
@@ -28,6 +27,7 @@ public class BancoService implements IBancoService {
     		throw new CodigoNoExistenteException();
     	}
     	banco.setCodigo(codigo.get());
+    	banco.setEstado(Constantes.activo);
     	return rep.save(banco);
     }
 
@@ -37,19 +37,31 @@ public class BancoService implements IBancoService {
     }
 
     @Override
-    public Banco eliminar(Banco banco) {
-        rep.deleteById(banco.getId());
-        return banco;
+    public Banco activar(Banco banco) {
+        banco.setEstado(Constantes.activo);
+        return rep.save(banco);
     }
 
     @Override
-    public Optional<Banco> obtener(Banco banco) {
-        return rep.findById(banco.getId());
+    public Banco inactivar(Banco banco) {
+        banco.setEstado(Constantes.inactivo);
+        return rep.save(banco);
+    }
+
+    @Override
+    public Banco obtener(long id) {
+        Optional<Banco> res=rep.findById(id);
+        return res.get();
     }
 
     @Override
     public List<Banco> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Banco> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
     
     @Override
@@ -59,7 +71,7 @@ public class BancoService implements IBancoService {
 
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Banco> bancos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,1);
@@ -67,13 +79,9 @@ public class BancoService implements IBancoService {
                 Banco banco = new Banco(datos);
                 bancos.add(banco);
             }
-            if(bancos.isEmpty()){
-                return false;
-            }
             rep.saveAll(bancos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

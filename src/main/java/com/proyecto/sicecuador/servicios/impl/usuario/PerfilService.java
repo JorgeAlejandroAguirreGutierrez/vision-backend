@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.repositorios.usuario.IPerfilRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPerfilService;
@@ -28,6 +28,7 @@ public class PerfilService implements IPerfilService {
     		throw new CodigoNoExistenteException();
     	}
     	perfil.setCodigo(codigo.get());
+    	perfil.setEstado(Constantes.activo);
     	return rep.save(perfil);
     }
 
@@ -37,19 +38,34 @@ public class PerfilService implements IPerfilService {
     }
 
     @Override
-    public Perfil eliminar(Perfil perfil) {
-        rep.deleteById(perfil.getId());
-        return perfil;
+    public Perfil activar(Perfil perfil) {
+        perfil.setEstado(Constantes.activo);
+        return rep.save(perfil);
     }
 
     @Override
-    public Optional<Perfil> obtener(Perfil perfil) {
-        return rep.findById(perfil.getId());
+    public Perfil inactivar(Perfil perfil) {
+        perfil.setEstado(Constantes.inactivo);
+        return rep.save(perfil);
+    }
+
+    @Override
+    public Perfil obtener(long id) {
+        Optional<Perfil> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.perfil);
     }
 
     @Override
     public List<Perfil> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Perfil> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -58,7 +74,7 @@ public class PerfilService implements IPerfilService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Perfil> perfiles=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,1);
@@ -66,13 +82,9 @@ public class PerfilService implements IPerfilService {
                 Perfil perfil = new Perfil(datos);
                 perfiles.add(perfil);
             }
-            if(perfiles.isEmpty()){
-                return false;
-            }
             rep.saveAll(perfiles);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Direccion;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,14 +16,14 @@ public class Entrega extends Entidad {
     private String numero;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+    @Column(name = "direccion", nullable = true)
+    private String direccion;
     @Column(name = "referencia", nullable = true)
     private String referencia;
     @Column(name = "longitudgeo", nullable = true)
     private String longitudgeo;
     @Column(name = "latitudgeo", nullable = true)
     private String latitudgeo;
-    @Column(name = "estado", nullable = true)
-    private String estado;
     @Column(name = "telefono", nullable = true)
     private String telefono;
     @Column(name = "celular", nullable = true)
@@ -31,10 +31,11 @@ public class Entrega extends Entidad {
     @Column(name = "correo", nullable = true)
     private String correo;
     @Column(name = "inhabilitar", nullable = true)
-    private boolean inhabilitar;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, optional = true)
-    @JoinColumn(name = "direccion_id", nullable= true)
-    private Direccion direccion;
+    private String inhabilitar;
+    
+    @ManyToOne
+    @JoinColumn(name = "ubicacion_id", nullable = true)
+    private Ubicacion ubicacion;
     @NotNull
     @ManyToOne
     @JoinColumn(name = "factura_id", nullable = true)
@@ -58,11 +59,10 @@ public class Entrega extends Entidad {
         referencia=datos.get(2)== null ? null: datos.get(2);
         longitudgeo=datos.get(3)== null ? null: datos.get(3);
         latitudgeo=datos.get(4)== null ? null: datos.get(4);
-        estado=datos.get(5)== null ? null: datos.get(5);
-        inhabilitar=datos.get(6)== null ? null: datos.get(6).equals("S") ? true : false;
-        direccion=datos.get(7)== null ? null:new Direccion((long) Double.parseDouble(datos.get(7)));
-        factura=datos.get(8)== null ? null:new Factura((long) Double.parseDouble(datos.get(8)));
-        transportista=datos.get(9)== null ? null:new Transportista((long) Double.parseDouble(datos.get(9)));
+        inhabilitar=datos.get(5)== null ? null: datos.get(5);
+        direccion=datos.get(6)== null ? null: datos.get(6);
+        factura=datos.get(7)== null ? null:new Factura((long) Double.parseDouble(datos.get(7)));
+        transportista=datos.get(8)== null ? null:new Transportista((long) Double.parseDouble(datos.get(8)));
     }
 
     public String getNumero() {
@@ -101,10 +101,6 @@ public class Entrega extends Entidad {
 		return correo;
 	}
 
-    public String getEstado() {
-		return estado;
-	}
-
     public Factura getFactura() {
         return factura;
     }
@@ -113,11 +109,15 @@ public class Entrega extends Entidad {
         return transportista;
     }
 
-    public Direccion getDireccion() {
-        return direccion;
-    }
-
-    public boolean isInhabilitar() {
-        return inhabilitar;
-    }
+    public String getDireccion() {
+		return direccion;
+	}
+    
+    public Ubicacion getUbicacion() {
+		return ubicacion;
+	}
+    
+    public String getInhabilitar() {
+		return inhabilitar;
+	}
 }

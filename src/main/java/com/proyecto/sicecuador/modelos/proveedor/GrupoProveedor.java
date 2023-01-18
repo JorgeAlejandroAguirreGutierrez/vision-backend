@@ -3,8 +3,6 @@ package com.proyecto.sicecuador.modelos.proveedor;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -16,8 +14,6 @@ public class GrupoProveedor extends Entidad {
 	private String descripcion;
 	@Column(name = "abreviatura", nullable = true)
 	private String abreviatura;
-	@NotNull
-	@NotEmpty
 	@Column(name = "estado")
 	private String estado;
 	

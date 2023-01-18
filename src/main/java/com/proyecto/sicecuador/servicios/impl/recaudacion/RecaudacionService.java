@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.Cheque;
 import com.proyecto.sicecuador.modelos.recaudacion.Compensacion;
 import com.proyecto.sicecuador.modelos.recaudacion.Deposito;
@@ -72,14 +73,12 @@ public class RecaudacionService implements IRecaudacionService {
     }
 
     @Override
-    public Recaudacion eliminar(Recaudacion recaudacion) {
-        rep.deleteById(recaudacion.getId());
-        return recaudacion;
-    }
-
-    @Override
-    public Optional<Recaudacion> obtener(Recaudacion recaudacion) {
-        return rep.findById(recaudacion.getId());
+    public Recaudacion obtener(long id) {
+        Optional<Recaudacion> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.recaudacion);
     }
 
     @Override
@@ -162,15 +161,14 @@ public class RecaudacionService implements IRecaudacionService {
         recaudacion.getCredito().setSaldo(pagar);
         if(recaudacion.getTotal()>=recaudacion.getFactura().getTotalConDescuento()) {
         	recaudacion.setCambio(recaudacion.getTotal()-recaudacion.getFactura().getTotalConDescuento());
-        	recaudacion.setEstado(Constantes.recaudado);
+        	recaudacion.setEtapa(Constantes.recaudado);
         } else {
-        	recaudacion.setEstado(Constantes.norecaudado);
+        	recaudacion.setEtapa(Constantes.norecaudado);
         }
 		return Optional.of(recaudacion);
     }
     
     @Override
-    public boolean importar(MultipartFile file) {
-        return false;
+    public void importar(MultipartFile file) {
     }
 }

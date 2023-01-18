@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
 import com.proyecto.sicecuador.repositorios.inventario.IGrupoProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IGrupoProductoService;
@@ -24,34 +25,49 @@ public class GrupoProductoService implements IGrupoProductoService {
     private IGrupoProductoRepository rep;
     
     @Override
-    public GrupoProducto crear(GrupoProducto grupo_producto) {
+    public GrupoProducto crear(GrupoProducto grupoProducto) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_grupo_producto);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	grupo_producto.setCodigo(codigo.get());
-    	return rep.save(grupo_producto);
+    	grupoProducto.setCodigo(codigo.get());
+    	grupoProducto.setEstado(Constantes.activo);
+    	return rep.save(grupoProducto);
     }
 
     @Override
-    public GrupoProducto actualizar(GrupoProducto grupo_producto) {
-        return rep.save(grupo_producto);
+    public GrupoProducto actualizar(GrupoProducto grupoProducto) {
+        return rep.save(grupoProducto);
     }
 
     @Override
-    public GrupoProducto eliminar(GrupoProducto grupo_producto) {
-        rep.deleteById(grupo_producto.getId());
-        return grupo_producto;
+    public GrupoProducto activar(GrupoProducto grupoProducto) {
+        grupoProducto.setEstado(Constantes.activo);
+        return rep.save(grupoProducto);
     }
 
     @Override
-    public Optional<GrupoProducto> obtener(GrupoProducto grupo_producto) {
-        return rep.findById(grupo_producto.getId());
+    public GrupoProducto inactivar(GrupoProducto grupoProducto) {
+        grupoProducto.setEstado(Constantes.inactivo);
+        return rep.save(grupoProducto);
+    }
+    @Override
+    public GrupoProducto obtener(long id) {
+        Optional<GrupoProducto> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.grupo_producto);
     }
 
     @Override
     public List<GrupoProducto> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<GrupoProducto> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
     
     @Override
@@ -90,49 +106,52 @@ public class GrupoProductoService implements IGrupoProductoService {
     
     @Override
     public List<String> consultarGrupos() {
-        List<String> grupos=rep.findGrupos();
+        List<String> grupos=rep.findGrupos(Constantes.activo);
         return grupos;
     }
     
     @Override
     public List<String> consultarSubgrupos(String grupo) {
-        List<String> subgrupos=rep.findSubgrupos(grupo);
+        List<String> subgrupos=rep.findSubgrupos(grupo, Constantes.activo);
         return subgrupos;
     }
     
     @Override
     public List<String> consultarSecciones(String grupo, String subgrupo) {
-        List<String> secciones=rep.findSecciones(grupo, subgrupo);
+        List<String> secciones=rep.findSecciones(grupo, subgrupo, Constantes.activo);
         return secciones;
     }
     
     @Override
     public List<String> consultarLineas(String grupo, String subgrupo, String seccion) {
-        List<String> lineas=rep.findLineas(grupo, subgrupo, seccion);
+        List<String> lineas=rep.findLineas(grupo, subgrupo, seccion, Constantes.activo);
         return lineas;
     }
     
     @Override
     public List<String> consultarSublineas(String grupo, String subgrupo, String seccion, String linea) {
-        List<String> sublineas=rep.findSublineas(grupo, subgrupo, seccion, linea);
+        List<String> sublineas=rep.findSublineas(grupo, subgrupo, seccion, linea, Constantes.activo);
         return sublineas;
     }
     
     @Override
     public List<String> consultarPresentaciones(String grupo, String subgrupo, String seccion, String linea, String sublinea) {
-        List<String> presentaciones=rep.findPresentaciones(grupo, subgrupo, seccion, linea, sublinea);
+        List<String> presentaciones=rep.findPresentaciones(grupo, subgrupo, seccion, linea, sublinea, Constantes.activo);
         return presentaciones;
     }
     
     @Override
-    public Optional<GrupoProducto> obtenerGrupoProducto(String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion) {
-        Optional<GrupoProducto> grupoProducto=rep.findGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion);
-        return grupoProducto;
+    public GrupoProducto obtenerGrupoProducto(String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion) {
+        Optional<GrupoProducto> res=rep.findGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion, Constantes.activo);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.grupo_producto);
     }
 
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<GrupoProducto> grupos_productos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,2);
@@ -140,13 +159,9 @@ public class GrupoProductoService implements IGrupoProductoService {
                 GrupoProducto caracteristica = new GrupoProducto(datos);
                 grupos_productos.add(caracteristica);
             }
-            if(grupos_productos.isEmpty()){
-                return false;
-            }
             rep.saveAll(grupos_productos);
-            return true;
-        }catch (Exception e){
-            return false;
+        } catch (Exception e){
+            System.err.println(e.getMessage());
         }
     }
 }

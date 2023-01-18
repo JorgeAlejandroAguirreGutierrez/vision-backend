@@ -3,11 +3,11 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Correo;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.cliente.ICorreoRepository;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICorreoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,14 +41,12 @@ public class CorreoService implements ICorreoService {
     }
 
     @Override
-    public Correo eliminar(Correo correo) {
-        rep.deleteById(correo.getId());
-        return correo;
-    }
-
-    @Override
-    public Optional<Correo> obtener(Correo correo) {
-        return rep.findById(correo.getId());
+    public Correo obtener(long id) {
+        Optional<Correo> resp= rep.findById(id);
+        if(resp.isPresent()) {
+        	return resp.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.correo);
     }
 
     @Override
@@ -63,7 +61,7 @@ public class CorreoService implements ICorreoService {
 
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Correo> correos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,5);
@@ -74,13 +72,9 @@ public class CorreoService implements ICorreoService {
                     correos.add(correo);
                 }
             }
-            if(correos.isEmpty()){
-                return false;
-            }
             rep.saveAll(correos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

@@ -33,6 +33,13 @@ public class BancoController implements GenericoController<Banco> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bancos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Banco> bancos= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bancos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -43,7 +50,7 @@ public class BancoController implements GenericoController<Banco> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Banco banco=servicio.obtener(new Banco(id)).get();
+        Banco banco=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, banco);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -61,11 +68,18 @@ public class BancoController implements GenericoController<Banco> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, banco);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Banco banco=servicio.eliminar(new Banco(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, banco);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Banco _banco) {
+    	Banco banco = servicio.activar(_banco);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, banco);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Banco _banco) {
+    	Banco banco = servicio.inactivar(_banco);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, banco);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

@@ -3,8 +3,10 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
+import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEstablecimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +22,22 @@ import java.util.Optional;
 public class EstablecimientoService implements IEstablecimientoService {
     @Autowired
     private IEstablecimientoRepository rep;
+    @Autowired
+    private IUbicacionRepository repUbicacion;
     
     @Override
     public Establecimiento crear(Establecimiento establecimiento) {
+    	Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(establecimiento.getUbicacion().getProvincia(),establecimiento.getUbicacion().getCanton(), establecimiento.getUbicacion().getParroquia(), Constantes.activo);
+    	if(ubicacion.isEmpty()) {
+    		throw new EntidadNoExistenteException(Constantes.ubicacion);
+    	}
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_establecimiento);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	establecimiento.setCodigo(codigo.get());
+    	establecimiento.setUbicacion(ubicacion.get());
+    	establecimiento.setEstado(Constantes.activo);
     	return rep.save(establecimiento);
     }
 
@@ -37,19 +47,39 @@ public class EstablecimientoService implements IEstablecimientoService {
     }
 
     @Override
-    public Establecimiento eliminar(Establecimiento establecimiento) {
-        rep.deleteById(establecimiento.getId());
-        return establecimiento;
+    public Establecimiento activar(Establecimiento establecimiento) {
+        establecimiento.setEstado(Constantes.activo);
+        return rep.save(establecimiento);
     }
 
     @Override
-    public Optional<Establecimiento> obtener(Establecimiento establecimiento) {
-        return rep.findById(establecimiento.getId());
+    public Establecimiento inactivar(Establecimiento establecimiento) {
+        establecimiento.setEstado(Constantes.inactivo);
+        return rep.save(establecimiento);
+    }
+
+    @Override
+    public Establecimiento obtener(long id) {
+        Optional<Establecimiento> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.establecimiento);
     }
 
     @Override
     public List<Establecimiento> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Establecimiento> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
+    }
+    
+    @Override
+    public List<Establecimiento> consultarPorEmpresa(long empresaId){
+    	return rep.consultarPorEmpresa(empresaId, Constantes.activo);
     }
 
     @Override
@@ -58,7 +88,7 @@ public class EstablecimientoService implements IEstablecimientoService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Establecimiento> establecimientos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,0);
@@ -66,13 +96,9 @@ public class EstablecimientoService implements IEstablecimientoService {
                 Establecimiento establecimiento = new Establecimiento(datos);
                 establecimientos.add(establecimiento);
             }
-            if(establecimientos.isEmpty()){
-                return false;
-            }
             rep.saveAll(establecimientos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

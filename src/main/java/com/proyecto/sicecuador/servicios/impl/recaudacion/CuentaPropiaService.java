@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
 import com.proyecto.sicecuador.repositorios.recaudacion.ICuentaPropiaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICuentaPropiaService;
@@ -22,34 +22,50 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     private ICuentaPropiaRepository rep;
     
     @Override
-    public CuentaPropia crear(CuentaPropia cuenta_propia) {
+    public CuentaPropia crear(CuentaPropia cuentaPropia) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cuenta_propia);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	cuenta_propia.setCodigo(codigo.get());
-    	return rep.save(cuenta_propia);
+    	cuentaPropia.setCodigo(codigo.get());
+    	cuentaPropia.setEstado(Constantes.activo);
+    	return rep.save(cuentaPropia);
     }
 
     @Override
-    public CuentaPropia actualizar(CuentaPropia cuenta_propia) {
-        return rep.save(cuenta_propia);
+    public CuentaPropia actualizar(CuentaPropia cuentaPropia) {
+        return rep.save(cuentaPropia);
     }
 
     @Override
-    public CuentaPropia eliminar(CuentaPropia cuenta_propia) {
-        rep.deleteById(cuenta_propia.getId());
-        return cuenta_propia;
+    public CuentaPropia activar(CuentaPropia cuentaPropia) {
+        cuentaPropia.setEstado(Constantes.activo);
+        return rep.save(cuentaPropia);
     }
 
     @Override
-    public Optional<CuentaPropia> obtener(CuentaPropia cuenta_propia) {
-        return rep.findById(cuenta_propia.getId());
+    public CuentaPropia inactivar(CuentaPropia cuentaPropia) {
+        cuentaPropia.setEstado(Constantes.inactivo);
+        return rep.save(cuentaPropia);
+    }
+
+    @Override
+    public CuentaPropia obtener(long id) {
+        Optional<CuentaPropia> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.cuenta_propia);
     }
 
     @Override
     public List<CuentaPropia> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<CuentaPropia> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -58,7 +74,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<CuentaPropia> cuentas_propias=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,3);
@@ -66,13 +82,9 @@ public class CuentaPropiaService implements ICuentaPropiaService {
                 CuentaPropia cuenta_propia = new CuentaPropia(datos);
                 cuentas_propias.add(cuenta_propia);
             }
-            if(cuentas_propias.isEmpty()){
-                return false;
-            }
             rep.saveAll(cuentas_propias);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

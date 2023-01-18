@@ -3,21 +3,15 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IUbicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +27,7 @@ public class UbicacionService implements IUbicacionService {
     		throw new CodigoNoExistenteException();
     	}
     	ubicacion.setCodigo(codigo.get());
+    	ubicacion.setEstado(Constantes.activo);
     	return rep.save(ubicacion);
     }
 
@@ -42,19 +37,35 @@ public class UbicacionService implements IUbicacionService {
     }
 
     @Override
-    public Ubicacion eliminar(Ubicacion ubicacion) {
-        rep.deleteById(ubicacion.getId());
-        return ubicacion;
+    public Ubicacion activar(Ubicacion ubicacion) {
+        ubicacion.setEstado(Constantes.activo);
+        return rep.save(ubicacion);
     }
 
     @Override
-    public Optional<Ubicacion> obtener(Ubicacion ubicacion) {
-        return rep.findById(ubicacion.getId());
+    public Ubicacion inactivar(Ubicacion ubicacion) {
+        ubicacion.setEstado(Constantes.inactivo);
+        return rep.save(ubicacion);
+    }
+
+    @Override
+    public Ubicacion obtener(long id) {
+        Optional<Ubicacion> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.ubicacion);
+        
     }
 
     @Override
     public List<Ubicacion> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Ubicacion> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -63,7 +74,7 @@ public class UbicacionService implements IUbicacionService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Ubicacion> ubicaciones=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal, 3);
@@ -71,19 +82,15 @@ public class UbicacionService implements IUbicacionService {
                 Ubicacion ubicacion = new Ubicacion(datos);
                 ubicaciones.add(ubicacion);
             }
-            if(ubicaciones.isEmpty()){
-                return false;
-            }
             rep.saveAll(ubicaciones);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 
     @Override
     public List<Ubicacion> consultarProvincias() {
-        List<String> provincias=rep.findProvincias();
+        List<String> provincias=rep.findProvincias(Constantes.activo);
         List<Ubicacion> ubicaciones=new ArrayList<>();
         for (String provincia: provincias) {
             Ubicacion ubicacion=new Ubicacion();
@@ -95,7 +102,7 @@ public class UbicacionService implements IUbicacionService {
 
     @Override
     public List<Ubicacion> consultarCantones(Ubicacion ubicacion) {
-        List<String> cantones=rep.findCantones(ubicacion.getProvincia());
+        List<String> cantones=rep.findCantones(ubicacion.getProvincia(), Constantes.activo);
         List<Ubicacion> ubicaciones=new ArrayList<>();
         for (String canton: cantones) {
             Ubicacion _ubicacion=new Ubicacion();
@@ -106,35 +113,21 @@ public class UbicacionService implements IUbicacionService {
     }
 
     @Override
-    public List<Ubicacion> consultarParroquias(Ubicacion ubicacion) {
-        return rep.findParroquias(ubicacion.getCanton());
+    public List<Ubicacion> consultarParroquias(String canton) {
+        return rep.findParroquias(canton, Constantes.activo);
     }
     @Override
-    public Optional<Ubicacion> obtenerUbicacionID(Ubicacion ubicacion) {
-        return rep.findByProvinciaAndCantonAndParroquia(ubicacion.getProvincia(),
-                ubicacion.getCanton(), ubicacion.getParroquia());
-    }
+    public Ubicacion obtenerUbicacionId(Ubicacion ubicacion) {
+        Optional<Ubicacion> resp=rep.findByProvinciaAndCantonAndParroquia(ubicacion.getProvincia(), ubicacion.getCanton(), ubicacion.getParroquia(), Constantes.activo);
+        if(resp.isEmpty()) {
+        	throw new EntidadNoExistenteException(Constantes.ubicacion);
+        }
+        return resp.get();
+        
+    } 
 
     @Override
     public List<Ubicacion> buscar(Ubicacion ubicacion) {
-        return  rep.findAll(new Specification<Ubicacion>() {
-            @Override
-            public Predicate toPredicate(Root<Ubicacion> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (ubicacion.getCodigoNorma()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigoNorma"), "%"+ubicacion.getCodigoNorma()+"%")));
-                }
-                if (ubicacion.getProvincia()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("provincia"), "%"+ubicacion.getProvincia()+"%")));
-                }
-                if (ubicacion.getCanton()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("canton"), "%"+ubicacion.getCanton()+"%")));
-                }
-                if (ubicacion.getParroquia()!=null) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("parroquia"), "%"+ubicacion.getParroquia()+"%")));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        return  rep.buscar(ubicacion.getCodigoNorma(), ubicacion.getProvincia(), ubicacion.getCanton(), ubicacion.getParroquia());
     }
 }

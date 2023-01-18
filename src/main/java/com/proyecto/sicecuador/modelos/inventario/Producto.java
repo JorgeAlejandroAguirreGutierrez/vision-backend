@@ -12,13 +12,13 @@ public class Producto extends Entidad {
     @Column(name = "nombre", nullable = true)
     private String nombre;
     @Column(name = "consignacion", nullable = true)
-    private boolean consignacion;
+    private String consignacion;
     @Column(name = "estado", nullable = true)
     private String estado;
     @Column(name = "stock_total", nullable = true)
     private double stockTotal;
     @Column(name = "serie_autogenerado", nullable = true)
-    private boolean serieAutogenerado;
+    private String serieAutogenerado;
     @ManyToOne
     @JoinColumn(name = "categoria_producto_id", nullable = true)
     private CategoriaProducto categoriaProducto;
@@ -75,8 +75,8 @@ public class Producto extends Entidad {
         this.nombre=nombre;
     }
 
-    public Producto(String codigo, String nombre, boolean consignacion, String estado,
-                    boolean serieAutogenerado, TipoGasto tipoGasto,
+    public Producto(String codigo, String nombre, String consignacion, String estado,
+                    String serieAutogenerado, TipoGasto tipoGasto,
                     CategoriaProducto categoriaProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex) {
         super(codigo);
         this.nombre = nombre;
@@ -91,9 +91,9 @@ public class Producto extends Entidad {
     }
     public Producto(List<String>datos){
         nombre=datos.get(0)== null ? null: datos.get(0);
-        consignacion=datos.get(1)== null ? null: datos.get(1).equals("S") ? true : false;
+        consignacion=datos.get(1)== null ? null: datos.get(1);
         estado=datos.get(2)== null ? null: datos.get(2);
-        serieAutogenerado=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
+        serieAutogenerado=datos.get(3)== null ? null: datos.get(3);
         tipoGasto=datos.get(4)== null ? null: new TipoGasto((long) Double.parseDouble(datos.get(4)));
         categoriaProducto=datos.get(5)== null ? null: new CategoriaProducto((long) Double.parseDouble(datos.get(5)));
         impuesto=datos.get(6)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(6)));
@@ -106,9 +106,9 @@ public class Producto extends Entidad {
         return nombre;
     }
 
-    public boolean isConsignacion() {
-        return consignacion;
-    }
+    public String getConsignacion() {
+		return consignacion;
+	}
 
     public String getEstado() {
         return estado;
@@ -118,7 +118,7 @@ public class Producto extends Entidad {
 		return tipoGasto;
 	}
 
-    public boolean isSerieAutogenerado() {
+    public String getSerieAutogenerado() {
 		return serieAutogenerado;
 	}
 
@@ -159,8 +159,11 @@ public class Producto extends Entidad {
 		return productosBodegas;
 	}
 
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
     
-    public void setSerieAutogenerado(boolean serieAutogenerado) {
+    public void setSerieAutogenerado(String serieAutogenerado) {
 		this.serieAutogenerado = serieAutogenerado;
 	}
 

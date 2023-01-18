@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.usuario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathPuntoVenta;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathEstacion;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -52,13 +52,13 @@ public class PuntoVentaTest {
     public void testA1WhenCreatePuntoVentaSuccess() throws Exception {
     	String filename = PuntoVentaTest.class.getResource("/testdata/usuario/PuntoVenta.json").getPath();
     	String puntoVenta=readFileAsString(filename);
-    	this.mockMvc.perform(post(contexto+pathPuntoVenta).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+    	this.mockMvc.perform(post(contexto+pathEstacion).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
                 .content(puntoVenta))
                 .andExpect(status().isOk());
     }
     @Test
     public void testA2WhenFindAllPuntoVentaSuccess() throws Exception {
-        this.mockMvc.perform(get(contexto+pathPuntoVenta).header("Authorization", "Basic " + token)
+        this.mockMvc.perform(get(contexto+pathEstacion).header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
@@ -66,7 +66,7 @@ public class PuntoVentaTest {
     
     @Test
     public void testA3WhenFindByIdPuntoVentaSuccess() throws Exception {
-    	this.mockMvc.perform(get(contexto+pathPuntoVenta+"/"+"1").header("Authorization", "Basic " + token)
+    	this.mockMvc.perform(get(contexto+pathEstacion+"/"+"1").header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
@@ -76,7 +76,7 @@ public class PuntoVentaTest {
     public void testA4WhenUpdatePuntoVentaSuccess() throws Exception {
     	String filename = PuntoVentaTest.class.getResource("/testdata/usuario/PuntoVentaUpdate.json").getPath();
     	String puntoVenta=readFileAsString(filename);
-    	this.mockMvc.perform(put(contexto+pathPuntoVenta).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+    	this.mockMvc.perform(put(contexto+pathEstacion).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
                 .content(puntoVenta))
                 .andExpect(status().isOk());
     }

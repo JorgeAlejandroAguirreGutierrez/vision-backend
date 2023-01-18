@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathSegmento)
@@ -34,6 +33,13 @@ public class SegmentoController implements GenericoController<Segmento> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Segmento> segmentos= servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -44,8 +50,8 @@ public class SegmentoController implements GenericoController<Segmento> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<Segmento> tipo_gasto=servicio.obtener(new Segmento(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_gasto);
+        Segmento tipoGasto=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipoGasto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -62,11 +68,18 @@ public class SegmentoController implements GenericoController<Segmento> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, segmento);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Segmento segmento=servicio.eliminar(new Segmento(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, segmento);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Segmento _segmento) {
+    	Segmento segmento = servicio.activar(_segmento);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, segmento);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Segmento _segmento) {
+    	Segmento segmento = servicio.inactivar(_segmento);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, segmento);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

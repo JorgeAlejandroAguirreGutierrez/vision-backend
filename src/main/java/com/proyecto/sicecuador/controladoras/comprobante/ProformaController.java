@@ -32,6 +32,13 @@ public class ProformaController implements GenericoController<Proforma> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, proformas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Proforma> proformas = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, proformas);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +49,7 @@ public class ProformaController implements GenericoController<Proforma> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Proforma proforma=servicio.obtener(new Proforma(id)).get();
+        Proforma proforma=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, proforma);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,11 +67,18 @@ public class ProformaController implements GenericoController<Proforma> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, proforma);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Proforma proforma=servicio.eliminar(new Proforma(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, proforma);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Proforma _proforma) {
+    	Proforma proforma=servicio.activar(_proforma);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, proforma);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Proforma _proforma) {
+    	Proforma proforma=servicio.inactivar(_proforma);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, proforma);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

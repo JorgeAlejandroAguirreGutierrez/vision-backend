@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IProductoBodegaRepository extends JpaRepository<ProductoBodega, Long>, JpaSpecificationExecutor<ProductoBodega> {
-
-	@Query(value = "select p from ProductoBodega p "
-            + "WHERE p.cantidad=:cantidad")
-    public Optional<ProductoBodega> obtenerPorNombre(String cantidad);
+	@Query(value = "select p from ProductoBodega p where p.cantidad=:cantidad")
+    Optional<ProductoBodega> obtenerPorNombre(String cantidad);
 }

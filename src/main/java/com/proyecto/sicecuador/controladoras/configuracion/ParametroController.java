@@ -32,6 +32,13 @@ public class ParametroController implements GenericoController<Parametro> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, parametros);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<Parametro> parametros = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, parametros);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,7 +49,7 @@ public class ParametroController implements GenericoController<Parametro> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Parametro parametro=servicio.obtener(new Parametro(id)).get();
+        Parametro parametro=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,29 +67,37 @@ public class ParametroController implements GenericoController<Parametro> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, parametro);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Parametro parametro=servicio.eliminar(new Parametro(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, parametro);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Parametro _parametro) {
+    	Parametro parametro=servicio.activar(_parametro);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, parametro);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Parametro _parametro) {
+    	Parametro parametro=servicio.inactivar(_parametro);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, parametro);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/obtenerPorTipo/{tipo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerTipo(@PathVariable("tipo") String tipo) {
+        Parametro parametro=servicio.obtenerPorTipo(new Parametro(tipo));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/consultarPorTipo/{tipo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarTipo(@PathVariable("tipo") String tipo) {
+        List<Parametro> parametro=servicio.consultarPorTipo(new Parametro(tipo));
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
     @Override
     public ResponseEntity<?> importar(MultipartFile file) {
         return null;
-    }
-
-    @GetMapping(value = "/tipo/{tipo}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerTipo(@PathVariable("tipo") String tipo) {
-        Parametro parametro=servicio.obtenerTipo(new Parametro(tipo)).get();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    @GetMapping(value = "/consultarTipo/{tipo}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarTipo(@PathVariable("tipo") String tipo) {
-        List<Parametro> parametro=servicio.consultarTipo(new Parametro(tipo));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, parametro);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

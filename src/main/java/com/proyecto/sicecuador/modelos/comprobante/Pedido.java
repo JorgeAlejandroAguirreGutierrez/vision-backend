@@ -131,4 +131,8 @@ public class Pedido extends Entidad {
     public Usuario getVendedor() {
         return vendedor;
     }
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }

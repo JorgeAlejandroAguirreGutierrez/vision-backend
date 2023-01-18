@@ -3,8 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.repositorios.inventario.ISegmentoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ISegmentoService;
@@ -32,6 +31,7 @@ public class SegmentoService implements ISegmentoService {
     		throw new CodigoNoExistenteException();
     	}
     	segmento.setCodigo(codigo.get());
+    	segmento.setEstado(Constantes.activo);
     	return rep.save(segmento);
     }
 
@@ -41,19 +41,36 @@ public class SegmentoService implements ISegmentoService {
     }
 
     @Override
-    public Segmento eliminar(Segmento segmento) {
-        rep.deleteById(segmento.getId());
+    public Segmento activar(Segmento segmento) {
+        segmento.setEstado(Constantes.activo);
+        segmento=rep.save(segmento);
         return segmento;
     }
 
     @Override
-    public Optional<Segmento> obtener(Segmento segmento) {
-        return rep.findById(segmento.getId());
+    public Segmento inactivar(Segmento segmento) {
+        segmento.setEstado(Constantes.inactivo);
+        segmento=rep.save(segmento);
+        return segmento;
+    }
+
+    @Override
+    public Segmento obtener(long id) {
+        Optional<Segmento> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.segmento);
     }
 
     @Override
     public List<Segmento> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Segmento> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -74,7 +91,7 @@ public class SegmentoService implements ISegmentoService {
     
     
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Segmento> segmentos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,8);
@@ -82,13 +99,9 @@ public class SegmentoService implements ISegmentoService {
                 Segmento segmento = new Segmento(datos);
                 segmentos.add(segmento);
             }
-            if(segmentos.isEmpty()){
-                return false;
-            }
             rep.saveAll(segmentos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

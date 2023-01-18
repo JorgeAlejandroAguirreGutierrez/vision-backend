@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.repositorios.inventario.IBodegaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IBodegaService;
@@ -27,6 +28,7 @@ public class BodegaService implements IBodegaService {
     		throw new CodigoNoExistenteException();
     	}
     	bodega.setCodigo(codigo.get());
+    	bodega.setEstado(Constantes.activo);
     	return rep.save(bodega);
     }
 
@@ -36,19 +38,34 @@ public class BodegaService implements IBodegaService {
     }
 
     @Override
-    public Bodega eliminar(Bodega bodega) {
-        rep.deleteById(bodega.getId());
-        return bodega;
+    public Bodega activar(Bodega bodega) {
+        bodega.setEstado(Constantes.activo);
+        return rep.save(bodega);
     }
 
     @Override
-    public Optional<Bodega> obtener(Bodega bodega) {
-        return rep.findById(bodega.getId());
+    public Bodega inactivar(Bodega bodega) {
+        bodega.setEstado(Constantes.inactivo);
+        return rep.save(bodega);
+    }
+
+    @Override
+    public Bodega obtener(long id) {
+        Optional<Bodega> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.bodega);
     }
 
     @Override
     public List<Bodega> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<Bodega> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -57,21 +74,17 @@ public class BodegaService implements IBodegaService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
             List<Bodega> bodegas=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
+            List<List<String>>info= Util.leerImportar(archivoTemporal,0);
             for (List<String> datos: info) {
                 Bodega bodega = new Bodega(datos);
                 bodegas.add(bodega);
             }
-            if(bodegas.isEmpty()){
-                return false;
-            }
             rep.saveAll(bodegas);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

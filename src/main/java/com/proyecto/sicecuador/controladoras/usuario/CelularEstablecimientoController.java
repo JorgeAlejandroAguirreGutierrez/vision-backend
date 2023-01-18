@@ -43,7 +43,7 @@ public class CelularEstablecimientoController implements GenericoController<Celu
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        CelularEstablecimiento celular=servicio.obtener(new CelularEstablecimiento(id)).get();
+        CelularEstablecimiento celular=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, celular);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -62,17 +62,10 @@ public class CelularEstablecimientoController implements GenericoController<Celu
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        CelularEstablecimiento celular=servicio.eliminar(new CelularEstablecimiento(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, celular);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-	    boolean bandera=servicio.importar(archivo);
-	    Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+	    servicio.importar(archivo);
+	    Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }	
 

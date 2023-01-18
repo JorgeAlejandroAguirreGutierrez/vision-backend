@@ -1,22 +1,25 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Celular;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.repositorios.cliente.ICelularRepository;
-import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
-import com.proyecto.sicecuador.servicios.interf.cliente.ICelularService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Celular;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.repositorios.cliente.ICelularRepository;
+import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
+import com.proyecto.sicecuador.servicios.interf.cliente.ICelularService;
+
 @Service
 public class CelularService implements ICelularService {
     @Autowired
@@ -40,14 +43,12 @@ public class CelularService implements ICelularService {
     }
 
     @Override
-    public Celular eliminar(Celular celular) {
-        rep.deleteById(celular.getId());
-        return celular;
-    }
-
-    @Override
-    public Optional<Celular> obtener(Celular celular) {
-        return rep.findById(celular.getId());
+    public Celular obtener(long id) {
+        Optional<Celular> resp= rep.findById(id);
+        if(resp.isPresent()) {
+        	return resp.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.celular);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class CelularService implements ICelularService {
 
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Celular> celulares=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,2);
@@ -73,13 +74,9 @@ public class CelularService implements ICelularService {
                     celulares.add(celular);
                 }
             }
-            if(celulares.isEmpty()){
-                return false;
-            }
             rep.saveAll(celulares);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

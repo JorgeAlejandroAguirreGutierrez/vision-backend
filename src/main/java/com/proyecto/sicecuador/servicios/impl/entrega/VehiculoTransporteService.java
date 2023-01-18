@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.entrega;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.entrega.VehiculoTransporte;
 import com.proyecto.sicecuador.repositorios.entrega.IVehiculoTransporteRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.IVehiculoTransporteService;
@@ -21,34 +22,51 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
     private IVehiculoTransporteRepository rep;
     
     @Override
-    public VehiculoTransporte crear(VehiculoTransporte vehiculo_transporte) {
+    public VehiculoTransporte
+    crear(VehiculoTransporte vehiculoTransporte) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_vehiculo_transporte);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	vehiculo_transporte.setCodigo(codigo.get());
-    	return rep.save(vehiculo_transporte);
+    	vehiculoTransporte.setCodigo(codigo.get());
+    	vehiculoTransporte.setEstado(Constantes.activo);
+    	return rep.save(vehiculoTransporte);
     }
 
     @Override
-    public VehiculoTransporte actualizar(VehiculoTransporte vehiculo_transporte) {
-        return rep.save(vehiculo_transporte);
+    public VehiculoTransporte actualizar(VehiculoTransporte vehiculoTransporte) {
+        return rep.save(vehiculoTransporte);
     }
 
     @Override
-    public VehiculoTransporte eliminar(VehiculoTransporte vehiculo_transporte) {
-        rep.deleteById(vehiculo_transporte.getId());
-        return vehiculo_transporte;
+    public VehiculoTransporte activar(VehiculoTransporte vehiculoTransporte) {
+        vehiculoTransporte.setEstado(Constantes.activo);
+        return rep.save(vehiculoTransporte);
     }
 
     @Override
-    public Optional<VehiculoTransporte> obtener(VehiculoTransporte vehiculo_transporte) {
-        return rep.findById(vehiculo_transporte.getId());
+    public VehiculoTransporte inactivar(VehiculoTransporte vehiculoTransporte) {
+        vehiculoTransporte.setEstado(Constantes.inactivo);
+        return rep.save(vehiculoTransporte);
+    }
+
+    @Override
+    public VehiculoTransporte obtener(long id) {
+        Optional<VehiculoTransporte> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.vehiculo_transporte);   
     }
 
     @Override
     public List<VehiculoTransporte> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<VehiculoTransporte> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -57,7 +75,7 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<VehiculoTransporte> vehiculos_transportes=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,2);
@@ -65,13 +83,9 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
                 VehiculoTransporte vehculo_transporte = new VehiculoTransporte(datos);
                 vehiculos_transportes.add(vehculo_transporte);
             }
-            if (vehiculos_transportes.isEmpty()){
-                return false;
-            }
             rep.saveAll(vehiculos_transportes);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

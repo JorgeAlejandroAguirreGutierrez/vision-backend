@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
 import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,11 @@ public class TipoContribuyenteData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<TipoContribuyente> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<TipoContribuyente> tipos_contribuyentes = new ArrayList<>();
-            tipos_contribuyentes.add(new TipoContribuyente("TCO011907000001", "NATURAL", "NATURAL", false));
-            tipos_contribuyentes.add(new TipoContribuyente("TCO011908000002", "JURIDICA", "PUBLICA", true));
-            tipos_contribuyentes.add(new TipoContribuyente("TCO011909000003", "JURIDICA", "PRIVADA", true));
-            rep.saveAll(tipos_contribuyentes);
+            List<TipoContribuyente> tiposContribuyentes = new ArrayList<>();
+            tiposContribuyentes.add(new TipoContribuyente("TCO011907000001", "NATURAL", "NATURAL", Constantes.no));
+            tiposContribuyentes.add(new TipoContribuyente("TCO011908000002", "JURIDICA", "PUBLICA", Constantes.si));
+            tiposContribuyentes.add(new TipoContribuyente("TCO011909000003", "JURIDICA", "PRIVADA", Constantes.si));
+            rep.saveAll(tiposContribuyentes);
         }
     }
 }

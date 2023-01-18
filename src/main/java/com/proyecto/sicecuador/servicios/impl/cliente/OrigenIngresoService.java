@@ -1,57 +1,61 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.repositorios.cliente.IOrigenIngresoRepository;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IOrigenIngresoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 @Service
 public class OrigenIngresoService implements IOrigenIngresoService {
     @Autowired
     private IOrigenIngresoRepository rep;
     
     @Override
-    public OrigenIngreso crear(OrigenIngreso origen_ingreso) {
+    public OrigenIngreso crear(OrigenIngreso origenIngreso) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_origen_ingreso);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	origen_ingreso.setCodigo(codigo.get());
-    	return rep.save(origen_ingreso);
+    	origenIngreso.setCodigo(codigo.get());
+    	origenIngreso.setEstado(Constantes.activo);
+    	return rep.save(origenIngreso);
     }
 
     @Override
-    public OrigenIngreso actualizar(OrigenIngreso origen_ingreso) {
-        return rep.save(origen_ingreso);
+    public OrigenIngreso actualizar(OrigenIngreso origenIngreso) {
+        return rep.save(origenIngreso);
     }
 
     @Override
-    public OrigenIngreso eliminar(OrigenIngreso origen_ingreso) {
-        rep.deleteById(origen_ingreso.getId());
-        return origen_ingreso;
+    public OrigenIngreso activar(OrigenIngreso origenIngreso) {
+        origenIngreso.setEstado(Constantes.activo);
+        return rep.save(origenIngreso);
     }
 
     @Override
-    public Optional<OrigenIngreso> obtener(OrigenIngreso origen_ingreso) {
-        return rep.findById(origen_ingreso.getId());
+    public OrigenIngreso inactivar(OrigenIngreso origenIngreso) {
+        origenIngreso.setEstado(Constantes.inactivo);
+        return rep.save(origenIngreso);
+    }
+
+    @Override
+    public OrigenIngreso obtener(long id) {
+        Optional<OrigenIngreso> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.origen_ingreso);
     }
 
     @Override
@@ -60,46 +64,32 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     }
     
     @Override
+    public List<OrigenIngreso> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
+    }
+    
+    @Override
     public Page<OrigenIngreso> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
 
     @Override
-    public List<OrigenIngreso> buscar(OrigenIngreso origen_ingreso) {
-        return  rep.findAll(new Specification<OrigenIngreso>() {
-            @Override
-            public Predicate toPredicate(Root<OrigenIngreso> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (!origen_ingreso.getCodigo().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+origen_ingreso.getCodigo()+"%")));
-                }
-                if (!origen_ingreso.getDescripcion().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("descripcion"), "%"+origen_ingreso.getDescripcion()+"%")));
-                }
-                if (!origen_ingreso.getAbreviatura().equals(Constantes.vacio)) {
-                    predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("abreviatura"), "%"+origen_ingreso.getAbreviatura()+"%")));
-                }
-                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+    public List<OrigenIngreso> buscar(OrigenIngreso origenIngreso) {
+        return  rep.buscar(origenIngreso.getCodigo(), origenIngreso.getDescripcion(), origenIngreso.getAbreviatura());
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
-            List<OrigenIngreso> origenes_ingresos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal, 13);
+            List<OrigenIngreso> origenesIngresos=new ArrayList<>();
+            List<List<String>>info= Util.leerImportar(archivoTemporal, 13);
             for (List<String> datos: info) {
-                OrigenIngreso origen_ingreso = new OrigenIngreso(datos);
-                origenes_ingresos.add(origen_ingreso);
+                OrigenIngreso origenIngreso = new OrigenIngreso(datos);
+                origenesIngresos.add(origenIngreso);
             }
-            if(origenes_ingresos.isEmpty()){
-                return false;
-            }
-            rep.saveAll(origenes_ingresos);
-            return true;
+            rep.saveAll(origenesIngresos);
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

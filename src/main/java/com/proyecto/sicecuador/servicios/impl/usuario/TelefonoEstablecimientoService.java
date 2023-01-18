@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.TelefonoEstablecimiento;
 import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
@@ -41,14 +42,12 @@ public class TelefonoEstablecimientoService implements ITelefonoEstablecimientoS
 	}
 
 	@Override
-	public TelefonoEstablecimiento eliminar(TelefonoEstablecimiento telefonoEstablecimiento) {
-		rep.deleteById(telefonoEstablecimiento.getId()); 
-		return telefonoEstablecimiento;
-	}
-
-	@Override
-	public Optional<TelefonoEstablecimiento> obtener(TelefonoEstablecimiento telefonoEstablecimiento) {
-		return rep.findById(telefonoEstablecimiento.getId());
+	public TelefonoEstablecimiento obtener(long id) {
+		Optional<TelefonoEstablecimiento> res= rep.findById(id);
+		if(res.isPresent()) {
+			return res.get();
+		}
+		throw new EntidadNoExistenteException(Constantes.tabla_telefono_establecimiento);
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class TelefonoEstablecimientoService implements ITelefonoEstablecimientoS
 	}
 
 	@Override
-	public boolean importar(MultipartFile archivo_temporal) {
+	public void importar(MultipartFile archivo_temporal) {
 		try {
             List<TelefonoEstablecimiento> telefonos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal, 16);
@@ -73,13 +72,9 @@ public class TelefonoEstablecimientoService implements ITelefonoEstablecimientoS
                     telefonos.add(telefonoEstablecimiento);
                 }
             }
-            if(telefonos.isEmpty()){
-                return false;
-            }
             rep.saveAll(telefonos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
 	}
 

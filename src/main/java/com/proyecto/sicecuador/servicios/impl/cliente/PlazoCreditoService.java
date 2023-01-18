@@ -1,12 +1,11 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.repositorios.cliente.IPlazoCreditoRepository;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.IPlazoCreditoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,34 +22,50 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     private IPlazoCreditoRepository rep;
     
     @Override
-    public PlazoCredito crear(PlazoCredito plazo_credito) {
+    public PlazoCredito crear(PlazoCredito plazoCredito) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_plazo_credito);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	plazo_credito.setCodigo(codigo.get());
-    	return rep.save(plazo_credito);
+    	plazoCredito.setCodigo(codigo.get());
+    	plazoCredito.setEstado(Constantes.activo);
+    	return rep.save(plazoCredito);
     }
 
     @Override
-    public PlazoCredito actualizar(PlazoCredito plazo_credito) {
-        return rep.save(plazo_credito);
+    public PlazoCredito actualizar(PlazoCredito plazoCredito) {
+        return rep.save(plazoCredito);
     }
 
     @Override
-    public PlazoCredito eliminar(PlazoCredito plazo_credito) {
-        rep.deleteById(plazo_credito.getId());
-        return plazo_credito;
+    public PlazoCredito activar(PlazoCredito plazoCredito) {
+        plazoCredito.setEstado(Constantes.activo);
+        return rep.save(plazoCredito);
     }
 
     @Override
-    public Optional<PlazoCredito> obtener(PlazoCredito plazo_credito) {
-        return rep.findById(plazo_credito.getId());
+    public PlazoCredito inactivar(PlazoCredito plazoCredito) {
+        plazoCredito.setEstado(Constantes.inactivo);
+        return rep.save(plazoCredito);
+    }
+
+    @Override
+    public PlazoCredito obtener(long id) {
+        Optional<PlazoCredito> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.plazo_credito);
     }
 
     @Override
     public List<PlazoCredito> consultar() {
         return rep.findAll();
+    }
+    
+    @Override
+    public List<PlazoCredito> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
@@ -59,21 +74,17 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
-            List<PlazoCredito> plazos_creditos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal, 14);
+            List<PlazoCredito> plazosCreditos=new ArrayList<>();
+            List<List<String>>info= Util.leerImportar(archivoTemporal, 14);
             for (List<String> datos: info) {
-                PlazoCredito plazo_credito = new PlazoCredito(datos);
-                plazos_creditos.add(plazo_credito);
+                PlazoCredito plazoCredito = new PlazoCredito(datos);
+                plazosCreditos.add(plazoCredito);
             }
-            if(plazos_creditos.isEmpty()){
-                return false;
-            }
-            rep.saveAll(plazos_creditos);
-            return true;
+            rep.saveAll(plazosCreditos);
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

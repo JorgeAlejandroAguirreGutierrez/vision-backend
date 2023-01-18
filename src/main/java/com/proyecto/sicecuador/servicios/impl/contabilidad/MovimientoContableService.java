@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.contabilidad;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
 import com.proyecto.sicecuador.repositorios.contabilidad.IMovimientoContableRepository;
 import com.proyecto.sicecuador.servicios.interf.contabilidad.IMovimientoContableService;
@@ -24,34 +25,39 @@ public class MovimientoContableService implements IMovimientoContableService {
     
     @Override
     public MovimientoContable crear(MovimientoContable movimientoContable) {
-    	//proveedor.normalizar();
-/*    	Optional<Proveedor> getProveedor=rep.obtenerPorRazonSocial(proveedor.getRazonSocial());
-    	if(getProveedor.isPresent()) {
-    		throw new ModeloExistenteException();
-    	}*/
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_movimiento_contable);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	movimientoContable.setCodigo(codigo.get());
+    	movimientoContable.setEstado(Constantes.activo);
     	return rep.save(movimientoContable);
     }
 
     @Override
     public MovimientoContable actualizar(MovimientoContable movimientoContable) {
-    	//proveedor.normalizar();
     	return rep.save(movimientoContable);
     }
 
     @Override
-    public MovimientoContable eliminar(MovimientoContable movimientoContable) {
-        rep.deleteById(movimientoContable.getId());
-        return movimientoContable;
+    public MovimientoContable activar(MovimientoContable movimientoContable) {
+        movimientoContable.setEstado(Constantes.activo);
+        return rep.save(movimientoContable);
     }
 
     @Override
-    public Optional<MovimientoContable> obtener(MovimientoContable movimientoContable) {
-        return rep.findById(movimientoContable.getId());
+    public MovimientoContable inactivar(MovimientoContable movimientoContable) {
+        movimientoContable.setEstado(Constantes.inactivo);
+        return rep.save(movimientoContable);
+    }
+
+    @Override
+    public MovimientoContable obtener(long id) {
+        Optional<MovimientoContable> res = rep.findById(id);
+        if(res.isEmpty()) {
+        	return res.get();	
+        }
+        throw new EntidadNoExistenteException(Constantes.movimiento_contable);
     }
 
     @Override
@@ -77,21 +83,17 @@ public class MovimientoContableService implements IMovimientoContableService {
     }
     
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivoTemporal) {
         try {
-            List<MovimientoContable> movimientos_contables=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,7);
+            List<MovimientoContable> movimientosContables=new ArrayList<>();
+            List<List<String>>info= Util.leerImportar(archivoTemporal,7);
             for (List<String> datos: info) {
                 MovimientoContable movimientoContable = new MovimientoContable(datos);
-                movimientos_contables.add(movimientoContable);
+                movimientosContables.add(movimientoContable);
             }
-            if(movimientos_contables.isEmpty()){
-                return false;
-            }
-            rep.saveAll(movimientos_contables);
-            return true;
+            rep.saveAll(movimientosContables);
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 

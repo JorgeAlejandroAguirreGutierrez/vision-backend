@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.CorreoEstablecimiento;
 import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
@@ -41,14 +42,12 @@ public class CorreoEstablecimientoService implements ICorreoEstablecimientoServi
 	}
 
 	@Override
-	public CorreoEstablecimiento eliminar(CorreoEstablecimiento correoEstablecimiento) {
-		rep.deleteById(correoEstablecimiento.getId()); 
-		return correoEstablecimiento;
-	}
-
-	@Override
-	public Optional<CorreoEstablecimiento> obtener(CorreoEstablecimiento correoEstablecimiento) {
-		return rep.findById(correoEstablecimiento.getId());
+	public CorreoEstablecimiento obtener(long id) {
+		Optional<CorreoEstablecimiento> res= rep.findById(id);
+		if(res.isPresent()) {
+			return res.get();
+		}
+		throw new EntidadNoExistenteException(Constantes.correo_establecimiento);
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class CorreoEstablecimientoService implements ICorreoEstablecimientoServi
 	}
 
 	@Override
-	public boolean importar(MultipartFile archivo_temporal) {
+	public void importar(MultipartFile archivo_temporal) {
 		try {
             List<CorreoEstablecimiento> correos=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal, 16);
@@ -73,13 +72,9 @@ public class CorreoEstablecimientoService implements ICorreoEstablecimientoServi
                     correos.add(correoEstablecimiento);
                 }
             }
-            if(correos.isEmpty()){
-                return false;
-            }
             rep.saveAll(correos);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
 	}
 

@@ -1,8 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
-import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
+import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 
 import javax.persistence.*;
 
@@ -23,17 +22,14 @@ public class GrupoProducto extends Entidad {
     private String sublinea;
     @Column(name = "presentacion", nullable = true)
     private String presentacion;
-
     @Column(name = "estado", nullable = true)
     private String estado;
-
     @ManyToOne
     @JoinColumn(name = "categoria_producto_id")
     private CategoriaProducto categoriaProducto;
-     
     @ManyToOne
-    @JoinColumn(name = "movimiento_contable_id", nullable = true)
-    private MovimientoContable movimientoContable;
+    @JoinColumn(name = "cuenta_contable_id", nullable = true)
+    private CuentaContable cuentaContable;
     
     public GrupoProducto(){
     	super();
@@ -43,7 +39,7 @@ public class GrupoProducto extends Entidad {
         super(id);
     }
 
-    public GrupoProducto(String codigo, String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion, String estado, CategoriaProducto categoriaProducto, MovimientoContable movimientoContable){
+    public GrupoProducto(String codigo, String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion, String estado, CategoriaProducto categoriaProducto, CuentaContable cuentaContable){
         super(codigo);
         this.grupo=grupo;
         this.subgrupo=subgrupo;
@@ -53,7 +49,7 @@ public class GrupoProducto extends Entidad {
         this.presentacion=presentacion;
         this.estado=estado;
         this.categoriaProducto=categoriaProducto;
-        this.movimientoContable=movimientoContable;
+        this.cuentaContable=cuentaContable;
         
     }
 
@@ -66,7 +62,7 @@ public class GrupoProducto extends Entidad {
     	presentacion=datos.get(1)== null ? null: datos.get(1);
     	estado=datos.get(1)== null ? null: datos.get(1);
     	categoriaProducto=datos.get(0)==null ? null: new CategoriaProducto((long) Double.parseDouble(datos.get(0)));
-    	movimientoContable=datos.get(0)==null ? null: new MovimientoContable((long) Double.parseDouble(datos.get(0)));
+    	cuentaContable=datos.get(0)==null ? null: new CuentaContable((long) Double.parseDouble(datos.get(0)));
 
     }
 
@@ -101,12 +97,20 @@ public class GrupoProducto extends Entidad {
     public CategoriaProducto getCategoriaProducto() {
     	return categoriaProducto;
     }
-
-	public MovimientoContable getMovimientoContable() {
-		return movimientoContable;
+    
+    public CuentaContable getCuentaContable() {
+		return cuentaContable;
 	}
-
-	public void setMovimientoContable(MovimientoContable movimientoContable) {
-		this.movimientoContable = movimientoContable;
+    
+    public void setCategoriaProducto(CategoriaProducto categoriaProducto) {
+		this.categoriaProducto = categoriaProducto;
+	}
+    
+    public void setCuentaContable(CuentaContable cuentaContable) {
+		this.cuentaContable = cuentaContable;
+	}
+	
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 }

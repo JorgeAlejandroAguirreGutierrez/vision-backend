@@ -15,9 +15,8 @@ public class Perfil extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
     @Column(name = "multiempresa", nullable = true)
-    private boolean multiempresa;
+    private String multiempresa;
     
-
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "perfil_id")
     private List<Permiso> permisos;
@@ -29,7 +28,7 @@ public class Perfil extends Entidad {
         super(id);
     }
 
-    public Perfil (String codigo, String descripcion, String abreviatura, String estado, boolean multiempresa){
+    public Perfil (String codigo, String descripcion, String abreviatura, String estado, String multiempresa){
         super(codigo);
         this.descripcion=descripcion;
         this.abreviatura=abreviatura;
@@ -41,7 +40,7 @@ public class Perfil extends Entidad {
         descripcion=datos.get(0)== null ? null: datos.get(0);
         abreviatura=datos.get(1)== null ? null: datos.get(1);
         estado=datos.get(2)== null ? null: datos.get(2);
-        multiempresa=datos.get(3)== null ? null: datos.get(3).equals("S") ? true : false;
+        multiempresa=datos.get(3)== null ? null: datos.get(3);
     }
 
     public String getDescripcion() {
@@ -55,10 +54,14 @@ public class Perfil extends Entidad {
     public String getEstado() {
 		return estado;
 	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
-    public boolean isMultiempresa() {
-    	return multiempresa;
-    }
+    public String getMultiempresa() {
+		return multiempresa;
+	}
     
 	@JsonManagedReference
     public List<Permiso> getPermisos() {
@@ -73,15 +76,12 @@ public class Perfil extends Entidad {
 		this.abreviatura = abreviatura;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
 	public void setPermisos(List<Permiso> permisos) {
 		this.permisos = permisos;
 	}
-	public void setMultiempresa(boolean multiempresa) {
-        this.multiempresa = multiempresa;
-    }
+	
+	public void setMultiempresa(String multiempresa) {
+		this.multiempresa = multiempresa;
+	}
 	
 }

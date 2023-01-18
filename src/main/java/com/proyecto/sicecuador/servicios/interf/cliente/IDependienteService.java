@@ -6,7 +6,6 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IDependienteService extends IGenericoService<Dependiente> {
-
-    List<Dependiente> consultarRazonSocial(Dependiente dependiente);
-    List<Dependiente>consultarClienteID(Dependiente dependiente);
+    List<Dependiente> consultarPorRazonSocial(Dependiente dependiente);
+    List<Dependiente> consultarPorCliente(Dependiente dependiente);
 }

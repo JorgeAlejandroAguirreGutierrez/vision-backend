@@ -32,6 +32,13 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, origenes_ingresos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+	    List<OrigenIngreso> origenesIngresos = servicio.consultarActivos();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, origenesIngresos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -42,43 +49,50 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        OrigenIngreso origen_ingreso=servicio.obtener(new OrigenIngreso(id)).get();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, origen_ingreso);
+        OrigenIngreso origenIngreso=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, origenIngreso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid OrigenIngreso _origenIngreso) {
-        OrigenIngreso origen_ingreso=servicio.crear(_origenIngreso);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, origen_ingreso);
+        OrigenIngreso origenIngreso=servicio.crear(_origenIngreso);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, origenIngreso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody OrigenIngreso _OrigenIngreso) {
-        OrigenIngreso origen_ingreso=servicio.actualizar(_OrigenIngreso);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, origen_ingreso);
+        OrigenIngreso origenIngreso=servicio.actualizar(_OrigenIngreso);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, origenIngreso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        OrigenIngreso origen_ingreso=servicio.eliminar(new OrigenIngreso(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, origen_ingreso);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody OrigenIngreso _origenIngreso) {
+    	OrigenIngreso origenIngreso=servicio.activar(_origenIngreso);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, origenIngreso);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody OrigenIngreso _origenIngreso) {
+    	OrigenIngreso origenIngreso=servicio.inactivar(_origenIngreso);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, origenIngreso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
     @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody OrigenIngreso origen_ingreso) {
-    	List<OrigenIngreso> origenes_ingresos=servicio.buscar(origen_ingreso);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, origenes_ingresos);
+    public ResponseEntity<?> buscar(@RequestBody OrigenIngreso origenIngreso) {
+    	List<OrigenIngreso> origenesIngresos=servicio.buscar(origenIngreso);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, origenesIngresos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        boolean bandera=servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, bandera);
+        servicio.importar(archivo);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

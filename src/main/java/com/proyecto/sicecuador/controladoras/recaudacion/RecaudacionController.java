@@ -44,7 +44,7 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Recaudacion recaudacion=servicio.obtener(new Recaudacion(id)).get();
+        Recaudacion recaudacion=servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, recaudacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -60,13 +60,6 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
     public ResponseEntity<?> actualizar(@RequestBody Recaudacion _recaudacion) {
         Recaudacion recaudacion=servicio.actualizar(_recaudacion);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, recaudacion);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        Recaudacion recaudacion=servicio.eliminar(new Recaudacion(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, recaudacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     

@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.inventario.Precio;
 import com.proyecto.sicecuador.repositorios.inventario.IPrecioRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IPrecioService;
@@ -29,6 +29,7 @@ public class PrecioService implements IPrecioService {
     		throw new CodigoNoExistenteException();
     	}
     	precio.setCodigo(codigo.get());
+    	precio.setEstado(Constantes.activo);
     	return rep.save(precio);
     }
 
@@ -38,14 +39,12 @@ public class PrecioService implements IPrecioService {
     }
 
     @Override
-    public Precio eliminar(Precio precio) {
-        rep.deleteById(precio.getId());
-        return precio;
-    }
-
-    @Override
-    public Optional<Precio> obtener(Precio bodega) {
-        return rep.findById(bodega.getId());
+    public Precio obtener(long id) {
+        Optional<Precio> res= rep.findById(id);
+        if(res.isPresent()) {
+        	return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.precio);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class PrecioService implements IPrecioService {
     }
 
     @Override
-    public boolean importar(MultipartFile archivo_temporal) {
+    public void importar(MultipartFile archivo_temporal) {
         try {
             List<Precio> precios=new ArrayList<>();
             List<List<String>>info= Util.leerImportar(archivo_temporal,6);
@@ -67,13 +66,9 @@ public class PrecioService implements IPrecioService {
                 Precio precio = new Precio(datos);
                 precios.add(precio);
             }
-            if(precios.isEmpty()){
-                return false;
-            }
             rep.saveAll(precios);
-            return true;
         }catch (Exception e){
-            return false;
+            System.err.println(e.getMessage());
         }
     }
 }

@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface ICuentaContableService extends IGenericoService<CuentaContable> {
-    //List<Proveedor> consultarProducto();
+	CuentaContable activar(CuentaContable cuentacontable);
+	CuentaContable inactivar(CuentaContable cuentacontable);
+	List<CuentaContable> consultarActivos();
     List<CuentaContable> buscar(CuentaContable cuentaContable);
 }

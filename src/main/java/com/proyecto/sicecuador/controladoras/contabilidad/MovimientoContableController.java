@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathMovimientoContable;
@@ -30,8 +29,8 @@ public class MovimientoContableController implements GenericoController<Movimien
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-	    List<MovimientoContable> movimientos_contables=servicio.consultar();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, movimientos_contables);
+	    List<MovimientoContable> movimientosContables=servicio.consultar();
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, movimientosContables);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -44,8 +43,8 @@ public class MovimientoContableController implements GenericoController<Movimien
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Optional<MovimientoContable> movimientos_contables=servicio.obtener(new MovimientoContable(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, movimientos_contables);
+        MovimientoContable movimientosContable=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, movimientosContable);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -62,11 +61,18 @@ public class MovimientoContableController implements GenericoController<Movimien
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, movimientoContable);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> eliminar(@PathVariable("id") long id)  {
-        MovimientoContable movimientoContable=servicio.eliminar(new MovimientoContable(id));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_eliminar_exitoso, movimientoContable);
+    
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody MovimientoContable _movimientoContable) {
+    	MovimientoContable movimientoContable=servicio.activar(_movimientoContable);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, movimientoContable);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+   
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody MovimientoContable _movimientoContable) {
+    	MovimientoContable movimientoContable=servicio.inactivar(_movimientoContable);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, movimientoContable);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
