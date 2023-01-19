@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,14 +20,11 @@ public class Caracteristica extends Entidad {
     @Column(name = "serie", nullable = true)
     private String serie;
     @ManyToOne
-    @JoinColumn(name = "producto_id", nullable = true)
-    private Producto producto;
-    @ManyToOne
-    @JoinColumn(name = "detalle_factura_id", nullable = true)
-    private FacturaDetalle detalleFactura;
-    @ManyToOne
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
+    @ManyToOne
+    @JoinColumn(name = "producto_id", nullable = true)
+    private Producto producto;
 
     public Caracteristica(){
 
@@ -47,7 +43,6 @@ public class Caracteristica extends Entidad {
         this.serie = serie;
         this.producto=producto;
         this.bodega=bodega;
-        this.detalleFactura=null;
     }
     public Caracteristica(List<String> datos){
         descripcion=datos.get(0)== null ? null: datos.get(0);
@@ -55,9 +50,8 @@ public class Caracteristica extends Entidad {
         marca=datos.get(2)== null ? null: datos.get(2);
         modelo=datos.get(3)== null ? null: datos.get(3);
         serie=datos.get(4)== null ? null: datos.get(4);
-        producto=datos.get(5)== null ? null: new Producto((long) Double.parseDouble(datos.get(5)));
-        detalleFactura=datos.get(6)== null ? null: new FacturaDetalle((long) Double.parseDouble(datos.get(6)));
-        bodega=datos.get(7)== null ? null: new Bodega((long) Double.parseDouble(datos.get(7)));
+        producto=datos.get(5)== null ? null: new Producto(Long.parseLong(datos.get(5)));
+        bodega=datos.get(6)== null ? null: new Bodega(Long.parseLong(datos.get(6)));
     }
 
     public String getDescripcion() {
@@ -80,22 +74,9 @@ public class Caracteristica extends Entidad {
         return serie;
     }
 
-    @JsonBackReference(value="detalle-factura-caracteristica")
-    public void setDetalleFactura(FacturaDetalle detalleFactura) {
-		this.detalleFactura = detalleFactura;
-	}
-
-    public FacturaDetalle getDetalleFactura() {
-		return detalleFactura;
-	}
-
     @JsonBackReference
     public Producto getProducto() {
         return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
     }
 
     public Bodega getBodega() {

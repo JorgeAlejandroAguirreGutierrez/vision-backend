@@ -124,6 +124,7 @@ public class Kardex extends Entidad {
 		return costoTotal;
 	}
 
+    @JsonBackReference
     public Producto getProducto() {
         return producto;
     }

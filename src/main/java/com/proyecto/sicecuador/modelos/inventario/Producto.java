@@ -13,12 +13,12 @@ public class Producto extends Entidad {
     private String nombre;
     @Column(name = "consignacion", nullable = true)
     private String consignacion;
-    @Column(name = "estado", nullable = true)
-    private String estado;
     @Column(name = "stock_total", nullable = true)
     private double stockTotal;
     @Column(name = "serie_autogenerado", nullable = true)
     private String serieAutogenerado;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @ManyToOne
     @JoinColumn(name = "categoria_producto_id", nullable = true)
     private CategoriaProducto categoriaProducto;
@@ -32,31 +32,25 @@ public class Producto extends Entidad {
     @JoinColumn(name = "grupo_producto_id", nullable = true)
     private GrupoProducto grupoProducto; 
     @ManyToOne
-    @JoinColumn(name = "medida_kardex_id", nullable = true)
-    private Medida medidaKardex;
+    @JoinColumn(name = "medida_id", nullable = true)
+    private Medida medida;
     
-    
-    //corregir agregar jsonbackreference
-    @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Kardex> kardexs;
-    @JsonManagedReference
+    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Caracteristica> caracteristicas;
-    //crear precios a partir de productos
-    @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true)
+    
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<Precio> precios;
-    @JsonManagedReference    
+    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoProveedor> productosProveedores;
-    //esto esta aplicado en la versión de george
-    //no olvidar
-    @JsonManagedReference    
+    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id", nullable = true)
     private List<ProductoBodega> productosBodegas;
@@ -77,7 +71,7 @@ public class Producto extends Entidad {
 
     public Producto(String codigo, String nombre, String consignacion, String estado,
                     String serieAutogenerado, TipoGasto tipoGasto,
-                    CategoriaProducto categoriaProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medidaKardex) {
+                    CategoriaProducto categoriaProducto, Impuesto impuesto, GrupoProducto grupoProducto, Medida medida) {
         super(codigo);
         this.nombre = nombre;
         this.consignacion = consignacion;
@@ -87,7 +81,7 @@ public class Producto extends Entidad {
         this.categoriaProducto = categoriaProducto;
         this.impuesto = impuesto;
         this.grupoProducto = grupoProducto;
-        this.medidaKardex = medidaKardex;
+        this.medida = medida;
     }
     public Producto(List<String>datos){
         nombre=datos.get(0)== null ? null: datos.get(0);
@@ -98,7 +92,7 @@ public class Producto extends Entidad {
         categoriaProducto=datos.get(5)== null ? null: new CategoriaProducto((long) Double.parseDouble(datos.get(5)));
         impuesto=datos.get(6)== null ? null: new Impuesto((long) Double.parseDouble(datos.get(6)));
         grupoProducto=datos.get(7)== null ? null: new GrupoProducto((long) Double.parseDouble(datos.get(7)));
-        medidaKardex=datos.get(8)== null ? null: new Medida((long) Double.parseDouble(datos.get(8)));
+        medida=datos.get(8)== null ? null: new Medida((long) Double.parseDouble(datos.get(8)));
         
     }
 
@@ -134,27 +128,31 @@ public class Producto extends Entidad {
 		return grupoProducto;
 	}
     
-    public Medida getMedidaKardex() {
-    	return medidaKardex;
-    }
+    public Medida getMedida() {
+		return medida;
+	}
     
     public List<Kardex> getKardexs() {
         return kardexs;
     }
 
+    @JsonManagedReference
     public List<Caracteristica> getCaracteristicas() {
         return caracteristicas;
     }
     
+    @JsonManagedReference
     public List<Precio> getPrecios() {
 		return precios;
 	}
     
+    @JsonManagedReference
     public List<ProductoProveedor> getProductosProveedores(){
     	return productosProveedores;
     	
     }
 
+    @JsonManagedReference
     public List<ProductoBodega> getProductosBodegas() {
 		return productosBodegas;
 	}
@@ -167,15 +165,9 @@ public class Producto extends Entidad {
 		this.serieAutogenerado = serieAutogenerado;
 	}
 
-    public void setMedidaKardex(Medida medidaKardex) {
-    	this.medidaKardex = medidaKardex;
-    }
-    
-
-    public void setProductosProveedores(List<ProductoProveedor> productosProveedores) {
-    	this.productosProveedores = productosProveedores;
-    }
-    
+    public void setMedida(Medida medida) {
+		this.medida = medida;
+	}    
     
     public void normalizar(){
         for(int i=0; i<kardexs.size(); i++){
