@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.modelos.comprobante;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.inventario.*;
 
@@ -66,9 +65,6 @@ public class FacturaDetalle extends Entidad {
     @ManyToOne
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
-    @OneToMany(cascade =CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "factura_detalle_id")
-    private List<Caracteristica> caracteristicas;
 
 
     public FacturaDetalle(){
@@ -239,14 +235,10 @@ public class FacturaDetalle extends Entidad {
     public void setPrecio(Precio precio) {
         this.precio = precio;
     }
-    @JsonBackReference(value="factura-detalle-factura")
+    
+    @JsonBackReference
     public void setFactura(Factura factura) {
         this.factura = factura;
     }
-    @JsonManagedReference(value="detalle-factura-caracteristica")
-    public List<Caracteristica> getCaracteristicas() {
-        return caracteristicas;
-    }
-
 }
 

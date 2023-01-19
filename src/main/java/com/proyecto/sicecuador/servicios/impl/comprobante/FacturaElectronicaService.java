@@ -392,7 +392,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             tablaFacturaDetalle.addCell("CÓDIGO");
             tablaFacturaDetalle.addCell("CANT");
             tablaFacturaDetalle.addCell("DESCRIPCION");
-            tablaFacturaDetalle.addCell("SERIES");
             tablaFacturaDetalle.addCell("PRECIO U");
             tablaFacturaDetalle.addCell("DSCTO");
             tablaFacturaDetalle.addCell("TOTAL");
@@ -401,13 +400,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
                 tablaFacturaDetalle.addCell(factura.getFacturaDetalles().get(i).getProducto().getCodigo());
                 tablaFacturaDetalle.addCell(factura.getFacturaDetalles().get(i).getCantidad()+"");
                 tablaFacturaDetalle.addCell(factura.getFacturaDetalles().get(i).getProducto().getNombre());
-                String series="";
-                if (factura.getFacturaDetalles().get(i).getProducto().getSerieAutogenerado().equals(Constantes.no)){
-                    for (int j = 0; j <factura.getFacturaDetalles().get(i).getCaracteristicas().size(); j++){
-                        series=series+" "+factura.getFacturaDetalles().get(i).getCaracteristicas().get(j).getSerie();
-                    }
-                }
-                tablaFacturaDetalle.addCell(series);
                 tablaFacturaDetalle.addCell("$"+factura.getFacturaDetalles().get(i).getPrecio().getPrecioSinIva());
                 tablaFacturaDetalle.addCell("$"+factura.getFacturaDetalles().get(i).getValorDescuentoLinea());
                 tablaFacturaDetalle.addCell("$"+factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
