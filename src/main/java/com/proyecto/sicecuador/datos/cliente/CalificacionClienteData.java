@@ -25,11 +25,11 @@ public class CalificacionClienteData implements ApplicationRunner {
         Optional<CalificacionCliente> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<CalificacionCliente> calificacion_clientes = new ArrayList<>();
-            calificacion_clientes.add(new CalificacionCliente("CCL011909000001", "EXELENTE", "E", "ACTIVO"));
-            calificacion_clientes.add(new CalificacionCliente("CCL011909000002", "MUY BUENO", "M", "ACTIVO"));
-            calificacion_clientes.add(new CalificacionCliente("CCL011909000003", "BUENO", "B", "ACTIVO"));
-            calificacion_clientes.add(new CalificacionCliente("CCL011909000004", "REGULAR", "R", "ACTIVO"));
-            calificacion_clientes.add(new CalificacionCliente("CCL011909000005", "MALO", "MA", "ACTIVO"));
+            calificacion_clientes.add(new CalificacionCliente("CCL202301000001", "EXELENTE", "EX", "ACTIVO"));
+            calificacion_clientes.add(new CalificacionCliente("CCL202301000002", "MUY BUENO", "MB", "ACTIVO"));
+            calificacion_clientes.add(new CalificacionCliente("CCL202301000003", "BUENO", "BU", "ACTIVO"));
+            calificacion_clientes.add(new CalificacionCliente("CCL202301000004", "REGULAR", "RE", "ACTIVO"));
+            calificacion_clientes.add(new CalificacionCliente("CCL202301000005", "MALO", "MA", "ACTIVO"));
             rep.saveAll(calificacion_clientes);
         }
     }

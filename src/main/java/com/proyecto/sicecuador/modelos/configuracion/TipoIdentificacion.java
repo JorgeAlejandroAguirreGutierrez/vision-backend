@@ -25,7 +25,7 @@ public class TipoIdentificacion extends Entidad {
         super(id);
     }
 
-    public TipoIdentificacion(String codigo, String codigoSri, String descripcion, String abreviatura, String estado) {
+    public TipoIdentificacion(String codigo, String codigoSRI, String descripcion, String abreviatura, String estado) {
 
         super(codigo);
         this.codigoSRI=codigoSRI;

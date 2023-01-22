@@ -24,16 +24,18 @@ public class FormaPagoData implements ApplicationRunner {
         Optional<FormaPago> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<FormaPago> formas_pagos = new ArrayList<>();
-            formas_pagos.add(new FormaPago("FPA011907000001", "01", "SIN UTILIZACION DEL SISTEMA FINANCIERO", "SSF", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA011908000002", "15", "COMPENSACIÓN DE DEUDAS", "CDD", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA011907000001", "16", "TARJETA DE DÉBITO", "TDD", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA011908000002", "17", "DINERO ELECTRÓNICO", "DEL", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA011907000001", "18", "TARJETA PREPAGO", "TPR", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA011908000002", "19", "TARJETA DE CRÉDITO", "TCR", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA011907000001", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "CSF", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA011908000002", "21", "ENDOSO DE TÍTULOS", "EDT", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA011907000001", "NA", "PREPAGO", "PRE", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA011908000002", "NA","POSTPAGO", "POS", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000001", "01", "SIN UTILIZACION DEL SISTEMA FINANCIERO", "EFECTIVO", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000002", "15", "COMPENSACIÓN DE DEUDAS", "COMPENSACIÓN", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000003", "16", "TARJETA DE DÉBITO", "TAR. DÉBITO", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000004", "17", "DINERO ELECTRÓNICO", "E-COMMERCE", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000005", "18", "TARJETA PREPAGO", "PREPAGO", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000006", "19", "TARJETA DE CRÉDITO", "TAR. CRÉDITO", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000007", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "CHEQUE", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000008", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "DEPÓSITO", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000009", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "TRANSFERENCIA", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000010", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "RETENCIÓN", "ACTIVO"));
+            formas_pagos.add(new FormaPago("FPA202301000011", "21", "ENDOSO DE TÍTULOS", "ENDOSO", "ACTIVO"));
+
             rep.saveAll(formas_pagos);
         }
     }
