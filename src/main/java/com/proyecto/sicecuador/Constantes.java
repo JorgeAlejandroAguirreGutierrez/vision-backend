@@ -20,6 +20,7 @@ public class Constantes {
 	
 	public static final String pendiente="PENDIENTE";
 	public static final String entregado="ENTREGADO";
+	public static final String sinGuia="SIN GUIA";
 	
 	public static final String activo="ACTIVO";
 	public static final String inactivo="INACTIVO";
@@ -243,6 +244,9 @@ public class Constantes {
     public static final String entrega="ENTREGA";
     public static final String transportista="TRANSPORTISTA";
     public static final String vehiculo_transporte="VEHICULO TRANSPORTE";
+    public static final String cliente_direccion = "CLIENTE DIRECCION";
+    public static final String nueva_direccion = "NUEVA DIRECCION";
+    public static final String sin_guia = "SIN GUIA";
     
     //INVENTARIO
     public static final String bodega="BODEGA";

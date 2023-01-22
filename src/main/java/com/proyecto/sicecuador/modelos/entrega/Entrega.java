@@ -12,8 +12,8 @@ import java.util.List;
 @Entity
 @Table(name = "entrega")
 public class Entrega extends Entidad {
-    @Column(name = "numero", nullable = true)
-    private String numero;
+    @Column(name = "guia_numero", nullable = true)
+    private String guiaNumero;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
     @Column(name = "direccion", nullable = true)
@@ -30,8 +30,10 @@ public class Entrega extends Entidad {
     private String celular;
     @Column(name = "correo", nullable = true)
     private String correo;
-    @Column(name = "inhabilitar", nullable = true)
-    private String inhabilitar;
+    @Column(name = "opcion_guia", nullable = true)
+    private String opcionGuia;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     
     @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
@@ -54,24 +56,24 @@ public class Entrega extends Entidad {
     }
 
     public Entrega(List<String> datos){
-        numero=datos.get(0)== null ? null: datos.get(0);
+        guiaNumero=datos.get(0)== null ? null: datos.get(0);
         fecha=datos.get(1)== null ? null: new Date(datos.get(1));
         referencia=datos.get(2)== null ? null: datos.get(2);
         longitudgeo=datos.get(3)== null ? null: datos.get(3);
         latitudgeo=datos.get(4)== null ? null: datos.get(4);
-        inhabilitar=datos.get(5)== null ? null: datos.get(5);
+        estado=datos.get(5)== null ? null: datos.get(5);
         direccion=datos.get(6)== null ? null: datos.get(6);
         factura=datos.get(7)== null ? null:new Factura((long) Double.parseDouble(datos.get(7)));
         transportista=datos.get(8)== null ? null:new Transportista((long) Double.parseDouble(datos.get(8)));
     }
 
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
+    public String getGuiaNumero() {
+		return guiaNumero;
+	}
+    
+    public void setGuiaNumero(String guiaNumero) {
+		this.guiaNumero = guiaNumero;
+	}
 
     public Date getFecha() {
         return fecha;
@@ -117,7 +119,47 @@ public class Entrega extends Entidad {
 		return ubicacion;
 	}
     
-    public String getInhabilitar() {
-		return inhabilitar;
+    public String getOpcionGuia() {
+		return opcionGuia;
+	}
+    
+    public String getEstado() {
+		return estado;
+	}
+    
+    public void setCelular(String celular) {
+		this.celular = celular;
+	}
+    
+    public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+    
+    public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+    
+    public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+    
+    public void setReferencia(String referencia) {
+		this.referencia = referencia;
+	}
+    
+    public void setOpcionGuia(String opcionGuia) {
+		this.opcionGuia = opcionGuia;
+	}
+    
+    public void setEstado(String estado) {
+		this.estado = estado;
+	}
+    
+    public void setTransportista(Transportista transportista) {
+		this.transportista = transportista;
+	}
+    
+    public void setUbicacion(Ubicacion ubicacion) {
+		this.ubicacion = ubicacion;
 	}
 }

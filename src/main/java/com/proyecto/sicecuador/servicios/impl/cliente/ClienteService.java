@@ -348,6 +348,7 @@ public class ClienteService implements IClienteService {
     	if(ubicacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
+    	cliente.setUbicacion(ubicacion.get());
         return rep.save(cliente);
     }
 
