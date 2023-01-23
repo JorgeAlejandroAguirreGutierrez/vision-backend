@@ -13,6 +13,10 @@ public class Permiso extends Entidad {
     private String modulo;
     @Column(name = "operacion", nullable = true)
     private String operacion;
+    @Column(name = "habilitado", nullable = true)
+    private String habilitado;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
@@ -28,6 +32,8 @@ public class Permiso extends Entidad {
         super(codigo);
         this.modulo = modulo;
         this.operacion = operacion;
+        this.habilitado = habilitado;
+        this.estado = estado;
         this.perfil = perfil;
     }
 
@@ -44,6 +50,14 @@ public class Permiso extends Entidad {
     public String getOperacion() {
         return operacion;
     }
+    
+    public String getHabilitado() {
+		return habilitado;
+	}
+    
+    public String getEstado() {
+		return estado;
+	}
 
     @JsonBackReference
     public Perfil getPerfil() {

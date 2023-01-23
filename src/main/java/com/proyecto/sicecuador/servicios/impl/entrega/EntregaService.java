@@ -60,10 +60,10 @@ public class EntregaService implements IEntregaService {
     	if (guiaNumero.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	if(!entrega.getEstado().equals(Constantes.sinGuia)) {
+    	if(!entrega.getOpcionGuia().equals(Constantes.sinGuia)) {
     		entrega.setGuiaNumero(guiaNumero.get());
-    		entrega.setEstado(Constantes.entregado);
     	}
+        entrega.setEstado(Constantes.entregado);
     	entrega.setCodigo(codigo.get());
     	return rep.save(entrega);
     }

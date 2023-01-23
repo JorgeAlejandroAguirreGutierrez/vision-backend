@@ -3,9 +3,6 @@ package com.proyecto.sicecuador.modelos.cliente;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -13,13 +10,9 @@ import java.util.List;
 public class CalificacionCliente extends Entidad {
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
-    @NotNull
-    @NotBlank
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
-	@NotNull
-	@NotEmpty
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = true)
     private String estado;
 	
     public CalificacionCliente(){
@@ -42,6 +35,7 @@ public class CalificacionCliente extends Entidad {
         this.abreviatura=datos.get(1)== null? null : datos.get(1);
         this.estado=datos.get(2)== null? null : datos.get(2);
     }
+    
     public String getDescripcion() {
         return descripcion;
     }
