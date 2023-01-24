@@ -64,6 +64,7 @@ public class RecaudacionService implements IRecaudacionService {
         recaudacion.setTarjetaDebitoCodigoSri(Constantes.tarjeta_de_debito);
         recaudacion.setCompensacionCodigoSri(Constantes.compensacion_de_deudas);
         recaudacion.setRetencionVentaCodigoSri(Constantes.sin_utilizacion_del_sistema_financiero);
+        recaudacion.setEstado(Constantes.recaudado);
     	return rep.save(recaudacion);
     }
 
@@ -161,9 +162,9 @@ public class RecaudacionService implements IRecaudacionService {
         recaudacion.getCredito().setSaldo(pagar);
         if(recaudacion.getTotal()>=recaudacion.getFactura().getTotalConDescuento()) {
         	recaudacion.setCambio(recaudacion.getTotal()-recaudacion.getFactura().getTotalConDescuento());
-        	recaudacion.setEtapa(Constantes.recaudado);
+        	recaudacion.setEstado(Constantes.recaudado);
         } else {
-        	recaudacion.setEtapa(Constantes.norecaudado);
+        	recaudacion.setEstado(Constantes.norecaudado);
         }
 		return Optional.of(recaudacion);
     }

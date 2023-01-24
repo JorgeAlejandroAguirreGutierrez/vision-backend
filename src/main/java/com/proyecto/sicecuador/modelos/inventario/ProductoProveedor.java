@@ -10,7 +10,6 @@ import javax.persistence.*;
 public class ProductoProveedor extends Entidad {
 	@Column(name = "codigoEquivalente", nullable = true)
     private String codigoEquivalente;
-	@JsonBackReference
 	@ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
@@ -40,4 +39,8 @@ public class ProductoProveedor extends Entidad {
     public Proveedor getProveedor() {
         return proveedor;
     }
+    @JsonBackReference
+    public Producto getProducto() {
+		return producto;
+	}
 }

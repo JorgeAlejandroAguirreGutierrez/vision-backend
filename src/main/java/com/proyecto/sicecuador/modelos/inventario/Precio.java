@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -101,6 +102,7 @@ public class Precio extends Entidad {
 		return estado;
 	}
     
+    @JsonBackReference
     public Producto getProducto() {
 		return producto;
 	}

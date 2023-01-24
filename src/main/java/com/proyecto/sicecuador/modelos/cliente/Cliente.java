@@ -52,9 +52,14 @@ public class Cliente extends Entidad {
     private String latitudgeo;
     @Column(name = "longitudgeo", nullable = true)
     private String longitudgeo;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "financiamiento_id", nullable = true)
-    private Financiamiento financiamiento;
+    @Column(name = "monto_financiamiento", nullable = true)
+    private double montoFinanciamiento;
+    @ManyToOne
+    @JoinColumn(name = "forma_pago_id", nullable = true)
+    private FormaPago formaPago;
+    @ManyToOne
+    @JoinColumn(name = "plazo_credito_id", nullable = true)
+    private PlazoCredito plazoCredito;
     @ManyToOne
     @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
@@ -74,19 +79,19 @@ public class Cliente extends Entidad {
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
 
-    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Dependiente> dependientes;
-    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Telefono> telefonos;
-    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Celular> celulares;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<Correo> correos;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private List<RetencionCliente> retencionesCliente;
 
@@ -112,7 +117,7 @@ public class Cliente extends Entidad {
     		String direccion, String referencia, String latitudgeo, String longitudgeo,
     		TipoIdentificacion tipoIdentificacion, Estacion estacion, 
     		GrupoCliente grupoCliente, TipoContribuyente tipoContribuyente, 
-    		Ubicacion ubicacion, Financiamiento financiamiento, Genero genero, EstadoCivil estadoCivil,
+    		Ubicacion ubicacion, double montoFinanciamiento, FormaPago formaPago, PlazoCredito plazoCredito, Genero genero, EstadoCivil estadoCivil,
             CalificacionCliente calificacionCliente, OrigenIngreso origenIngreso, Segmento segmento){
         super(codigo);
         this.tipoIdentificacion=tipoIdentificacion;
@@ -128,7 +133,9 @@ public class Cliente extends Entidad {
         this.referencia = referencia;
         this.latitudgeo = latitudgeo;
         this.longitudgeo = longitudgeo;
-        this.financiamiento = financiamiento;
+        this.montoFinanciamiento = montoFinanciamiento;
+        this.formaPago = formaPago;
+        this.plazoCredito = plazoCredito;
         this.ubicacion = ubicacion;
         this.genero=genero;
         this.estadoCivil=estadoCivil;
@@ -148,7 +155,6 @@ public class Cliente extends Entidad {
         estacion= datos.get(7)== null ? null: new Estacion((long) Double.parseDouble(datos.get(7)));
         grupoCliente= datos.get(8)== null ? null: new GrupoCliente((long) Double.parseDouble(datos.get(8)));
         direccion= datos.get(9)== null ? null: datos.get(9);
-        financiamiento=datos.get(10)== null ? null:new Financiamiento((long) Double.parseDouble(datos.get(10)));
         genero=datos.get(11)== null ? null:new Genero((long) Double.parseDouble(datos.get(11)));
         estadoCivil=datos.get(12)== null ? null:new EstadoCivil((long) Double.parseDouble(datos.get(12)));
         calificacionCliente=datos.get(13)== null ? null:new CalificacionCliente((long) Double.parseDouble(datos.get(13)));
@@ -209,10 +215,16 @@ public class Cliente extends Entidad {
 		return latitudgeo;
 	}
 
-    public Financiamiento getFinanciamiento() {
-        return financiamiento;
+    public double getMontoFinanciamiento() {
+        return montoFinanciamiento;
     }
-    
+    public FormaPago getFormaPago() {
+        return formaPago;
+    }
+    public PlazoCredito getPlazoCredito() {
+        return plazoCredito;
+    }
+
     public Ubicacion getUbicacion() {
 		return ubicacion;
 	}
@@ -271,8 +283,8 @@ public class Cliente extends Entidad {
 		this.referencia = referencia;
 	}
 
-    public void setFinanciamiento(Financiamiento financiamiento) {
-        this.financiamiento = financiamiento;
+    public void setMontoFinanciamiento(double montoFinanciamiento) {
+        this.montoFinanciamiento = montoFinanciamiento;
     }
 
     public void setIdentificacion(String identificacion) {
@@ -312,8 +324,8 @@ public class Cliente extends Entidad {
 	}
       
     public void normalizar(){
-        if (this.financiamiento.getFormaPago().getId()==0) this.financiamiento.setFormaPago(null);
-        if (this.financiamiento.getPlazoCredito().getId()==0) this.financiamiento.setPlazoCredito(null);
+        if (this.formaPago.getId()==0) this.formaPago = null;
+        if (this.plazoCredito.getId()==0) this.plazoCredito = null;
         if (this.calificacionCliente.getId()==0) this.calificacionCliente=null;
         if (this.genero.getId()==0) this.genero=null;
         if (this.estadoCivil.getId()==0) this.estadoCivil=null;

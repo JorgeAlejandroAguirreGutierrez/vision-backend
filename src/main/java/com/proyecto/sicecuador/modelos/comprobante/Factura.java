@@ -329,7 +329,7 @@ public class Factura extends Entidad {
 		this.cliente = cliente;
 	}
 	
-	@JsonManagedReference(value = "factura-detalle-factura")
+	@JsonManagedReference
 	public List<FacturaDetalle> getFacturaDetalles() {
 		return facturaDetalles;
 	}

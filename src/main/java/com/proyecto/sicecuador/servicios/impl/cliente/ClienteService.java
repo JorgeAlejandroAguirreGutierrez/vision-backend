@@ -32,7 +32,6 @@ import java.util.Optional;
 
 @Service
 public class ClienteService implements IClienteService {
-
     @Autowired
     private IClienteRepository rep;
     @Autowired
@@ -348,6 +347,7 @@ public class ClienteService implements IClienteService {
     	if(ubicacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
+    	cliente.setUbicacion(ubicacion.get());
         return rep.save(cliente);
     }
 
@@ -398,8 +398,6 @@ public class ClienteService implements IClienteService {
             List<List<String>>info= Util.leerImportar(archivo_temporal,4);
             for (List<String> datos: info){
                 Cliente cliente=new Cliente(datos);
-                Financiamiento financiamiento=cliente.getFinanciamiento()!=null?adm.merge(cliente.getFinanciamiento()): null;
-                cliente.setFinanciamiento(financiamiento);
                 Cliente _cliente=validarIdentificacion(cliente.getIdentificacion());
                 clientes.add(_cliente);
             }

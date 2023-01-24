@@ -17,8 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -49,7 +47,7 @@ public class ProductoController implements GenericoController<Producto> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Producto _producto) {
+    public ResponseEntity<?> crear(@RequestBody Producto _producto) {
         Producto producto=servicio.crear(_producto);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
@@ -79,7 +77,7 @@ public class ProductoController implements GenericoController<Producto> {
     @GetMapping(value = "/consultarBien", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarBien() {
         List<Producto> productos=servicio.consultarBien();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/consultarServicio", produces = MediaType.APPLICATION_JSON_VALUE)

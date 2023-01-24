@@ -45,7 +45,6 @@ public class Celular extends Entidad {
     public Cliente getCliente() {
         return cliente;
     }
-    
     public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}

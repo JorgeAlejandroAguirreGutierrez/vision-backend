@@ -186,6 +186,20 @@ private static IParametroRepository parametroRep;
     	}
     }
     
+    public static Optional<String> generarGuiaNumero(String tabla){
+    	try {
+        	Optional<String> conteo= conteo(tabla);
+        	if (conteo.isPresent()) {
+            	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);
+            	String guiaNumero="GUIA"+rellenoConteo;
+                return Optional.of(guiaNumero);
+            }
+        	return Optional.ofNullable(null);
+    	}catch(Exception e) {
+    		return Optional.ofNullable(null);
+    	}
+    }
+    
     public static Optional<String> soapFacturacionEletronica(String request){
     	String soap="<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ec=\"http://ec.gob.sri.ws.recepcion\">\r\n"
     			+ "    <soapenv:Header />\r\n"

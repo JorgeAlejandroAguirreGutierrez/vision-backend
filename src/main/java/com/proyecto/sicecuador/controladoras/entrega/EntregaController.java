@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 @RestController
 @RequestMapping(contexto+pathEntrega)
 public class EntregaController implements GenericoController<Entrega> {
@@ -63,7 +64,7 @@ public class EntregaController implements GenericoController<Entrega> {
     
     @GetMapping(value = "/factura/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerPorFactura(@PathVariable("id") long id) {
-        Entrega entrega=servicio.obtenerPorFactura(id);
+        Optional<Entrega> entrega=servicio.obtenerPorFactura(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, entrega);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

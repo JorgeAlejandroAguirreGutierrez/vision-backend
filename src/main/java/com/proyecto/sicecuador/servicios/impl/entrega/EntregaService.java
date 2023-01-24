@@ -4,7 +4,9 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.entrega.Entrega;
+import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.repositorios.entrega.IEntregaRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.IEntregaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +23,47 @@ public class EntregaService implements IEntregaService {
     @Autowired
     private IEntregaRepository rep;
     
+    @Autowired
+    private IUbicacionRepository repUbicacion;
+    
     @Override
     public Entrega crear(Entrega entrega) {
+    	if(entrega.getOpcionGuia().equals(Constantes.cliente_direccion)) {
+    		if(entrega.getTransportista().getId() == Constantes.cero) {
+        		throw new EntidadNoExistenteException(Constantes.transportista);
+        	}
+    	}
+    	if(entrega.getOpcionGuia().equals(Constantes.nueva_direccion)) {
+    		if(entrega.getTransportista().getId() == Constantes.cero) {
+        		throw new EntidadNoExistenteException(Constantes.transportista);
+        	}
+    		Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(entrega.getUbicacion().getProvincia(), entrega.getUbicacion().getCanton(), entrega.getUbicacion().getParroquia(), Constantes.activo);
+    		if(ubicacion.isEmpty()) {
+    			throw new EntidadNoExistenteException(Constantes.ubicacion);
+    		}
+    		entrega.setUbicacion(ubicacion.get());
+    	}
+    	if(entrega.getOpcionGuia().equals(Constantes.sin_guia)) {
+    		entrega.setDireccion(Constantes.vacio);
+    		entrega.setTelefono(Constantes.vacio);
+    		entrega.setCelular(Constantes.vacio);
+    		entrega.setCorreo(Constantes.vacio);
+    		entrega.setReferencia(Constantes.vacio);
+    		entrega.setTransportista(null);
+    		entrega.setUbicacion(null);
+    	}
 		Optional<String>codigo=Util.generarCodigo(Constantes.tabla_entrega);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
+    	Optional<String>guiaNumero=Util.generarGuiaNumero(Constantes.tabla_entrega);
+    	if (guiaNumero.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	if(!entrega.getOpcionGuia().equals(Constantes.sinGuia)) {
+    		entrega.setGuiaNumero(guiaNumero.get());
+    	}
+        entrega.setEstado(Constantes.entregado);
     	entrega.setCodigo(codigo.get());
     	return rep.save(entrega);
     }
@@ -46,12 +83,8 @@ public class EntregaService implements IEntregaService {
     }
     
     @Override
-    public Entrega obtenerPorFactura(long facturaId){
-    	Optional<Entrega> res = rep.obtenerPorFactura(facturaId);
-    	if(res.isPresent()) {
-    		return res.get();
-    	}
-    	throw new EntidadNoExistenteException(Constantes.entrega);
+    public Optional<Entrega> obtenerPorFactura(long facturaId){
+    	return rep.obtenerPorFactura(facturaId);
     }
 
     @Override
