@@ -16,7 +16,7 @@ public class Constantes {
 	public static final String tipo_producto_bien="BIEN";
 	
 	public static final String recaudado="RECAUDADO";
-	public static final String norecaudado="NORECAUDADO";
+	public static final String norecaudado="NO RECAUDADO";
 	
 	public static final String pendiente="PENDIENTE";
 	public static final String entregado="ENTREGADO";

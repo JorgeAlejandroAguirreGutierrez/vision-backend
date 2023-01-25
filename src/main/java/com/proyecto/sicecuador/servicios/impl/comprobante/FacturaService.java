@@ -37,6 +37,12 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura crear(Factura factura) {
         //ACTUALIZACION DE KARDEX
+        if(factura.getCliente().getId()==Constantes.cero){
+            throw new EntidadNoExistenteException(Constantes.cliente);
+        }
+        if(factura.getFacturaDetalles().isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.factura_detalle);
+        }
     	for(int i=0; i<factura.getFacturaDetalles().size(); i++){
             int cantidad=factura.getFacturaDetalles().get(i).getProducto().getKardexs().size();
             Kardex kardex_actualizar=factura.getFacturaDetalles().get(i).getProducto().getKardexs().get(cantidad-1);

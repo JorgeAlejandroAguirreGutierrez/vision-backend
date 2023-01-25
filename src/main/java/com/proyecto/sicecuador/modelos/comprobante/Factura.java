@@ -2,13 +2,10 @@ package com.proyecto.sicecuador.modelos.comprobante;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Dependiente;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
-import com.proyecto.sicecuador.modelos.usuario.Usuario;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -45,13 +42,10 @@ public class Factura extends Entidad {
 	private double ivaSinDescuento;
 	@Column(name = "iva_con_descuento", nullable = true)
 	private double ivaConDescuento;
-	@Column(name = "iva0", nullable = true)
-	private double iva0;
 	@Column(name = "total_sin_descuento", nullable = true)
 	private double totalSinDescuento;
 	@Column(name = "total_con_descuento", nullable = true)
 	private double totalConDescuento;
-
 	// GENERAL
 	@Column(name = "valor_descuento_subtotal", nullable = true)
 	private double valorDescuentoSubtotal;
@@ -63,33 +57,20 @@ public class Factura extends Entidad {
 	private double porcentajeDescuentoTotal;
 	@Column(name = "valor_porcentaje_descuento_total", nullable = true)
 	private double valorPorcentajeDescuentoTotal;
-
 	@Column(name = "comentario", nullable = true)
 	private String comentario;
-	
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	@ManyToOne
-	@JoinColumn(name = "cliente_factura_id", nullable = true)
-	private Cliente clienteFactura;
-	@ManyToOne
-	@JoinColumn(name = "auxiliar_id", nullable = true)
-	private Dependiente auxiliar;
-	@NotNull
-	@ManyToOne
 	@JoinColumn(name = "sesion_id", nullable = true)
 	private Sesion sesion;
-
+	@ManyToOne
+	@JoinColumn(name = "tipo_comprobante_id", nullable = true)
+	private TipoComprobante tipoComprobante;
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
 	@JoinColumn(name = "factura_id")
 	private List<FacturaDetalle> facturaDetalles;
-    
-    @ManyToOne
-    @JoinColumn(name = "tipo_comprobante_id", nullable = true)
-    private TipoComprobante tipoComprobante;
-
     
 	public Factura() {
 
@@ -99,27 +80,36 @@ public class Factura extends Entidad {
 		super(id);
 	}
 
-	public Factura(String secuencia) {
-		super(0);
-		this.secuencia = secuencia;
-	}
-
-	public Factura(String codigo, String secuencia, Date fecha, String estado, String claveAcceso, String moneda, double subtotal,
-			double valorDescuentoSubtotal, double porcentajeDescuentoSubtotal, double valorPorcentajeDescuentoSubtotal,
-			double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal,
-			double descuento, double base12, double base0, double importeIva, double total, String comentario, String claveAutorizacionSri,
-			String estadoSri, Cliente cliente, Cliente clienteFactura, Dependiente auxiliar, Usuario vendedor, Sesion sesion,
-			TipoComprobante tipoComprobante) {
+	public Factura(String codigo, String secuencia, Date fecha, String estado, String claveAcceso, String moneda, double subtotalSinDescuento,
+			double subtotalConDescuento, double descuentoTotal, double subtotalBase12SinDescuento, double subtotalBase0SinDescuento,
+		    double subtotalBase12ConDescuento, double subtotalBase0ConDescuento, double ivaSinDescuento, double ivaConDescuento,
+		    double totalSinDescuento, double totalConDescuento, double valorDescuentoSubtotal, double porcentajeDescuentoSubtotal,
+		    double valorDescuentoTotal, double porcentajeDescuentoTotal, double valorPorcentajeDescuentoTotal, String comentario,
+			Cliente cliente, Sesion sesion, TipoComprobante tipoComprobante) {
 		super(codigo);
 		this.secuencia = secuencia;
 		this.fecha = fecha;
 		this.estado = estado;
 		this.claveAcceso = claveAcceso;
 		this.moneda = moneda;
+		this.subtotalSinDescuento = subtotalSinDescuento;
+		this.subtotalConDescuento = subtotalConDescuento;
+		this.descuentoTotal = descuentoTotal;
+		this.subtotalBase12SinDescuento = subtotalBase12SinDescuento;
+		this.subtotalBase0SinDescuento = subtotalBase0SinDescuento;
+		this.subtotalBase12ConDescuento = subtotalBase12ConDescuento;
+		this.subtotalBase0ConDescuento = subtotalBase0ConDescuento;
+		this.ivaSinDescuento = ivaSinDescuento;
+		this.ivaConDescuento = ivaConDescuento;
+		this.totalSinDescuento = totalSinDescuento;
+		this.totalConDescuento = totalConDescuento;
+		this.valorDescuentoSubtotal = valorDescuentoSubtotal;
+		this.porcentajeDescuentoSubtotal = porcentajeDescuentoSubtotal;
+		this.valorDescuentoTotal = valorDescuentoTotal;
+		this.porcentajeDescuentoTotal = porcentajeDescuentoTotal;
+		this.valorPorcentajeDescuentoTotal = valorPorcentajeDescuentoTotal;
 		this.comentario = comentario;
 		this.cliente = cliente;
-		this.clienteFactura = clienteFactura;
-		this.auxiliar = auxiliar;
 		this.sesion = sesion;
 		this.tipoComprobante = tipoComprobante;
 	}
@@ -220,20 +210,8 @@ public class Factura extends Entidad {
 		return cliente;
 	}
 
-	public Cliente getClienteFactura() {
-		return clienteFactura;
-	}
-
-	public Dependiente getAuxiliar() {
-		return auxiliar;
-	}
-
 	public Sesion getSesion() {
 		return sesion;
-	}
-
-	public double getIva0() {
-		return iva0;
 	}
 	
 	public TipoComprobante getTipoComprobante() {
@@ -283,7 +261,6 @@ public class Factura extends Entidad {
 	public void setIvaConDescuento(double ivaConDescuento) {
 		this.ivaConDescuento = ivaConDescuento;
 	}
-	
 
 	public void setTotalConDescuento(double totalConDescuento) {
 		this.totalConDescuento = totalConDescuento;
@@ -332,11 +309,5 @@ public class Factura extends Entidad {
 	@JsonManagedReference
 	public List<FacturaDetalle> getFacturaDetalles() {
 		return facturaDetalles;
-	}
-
-	public void normalizar() {
-		if (this.clienteFactura!=null && this.clienteFactura.getId() == 0) {
-			this.clienteFactura = null;
-		}
 	}
 }
