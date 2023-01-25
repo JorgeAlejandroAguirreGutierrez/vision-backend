@@ -50,7 +50,7 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Recaudacion _recaudacion) {
+    public ResponseEntity<?> crear(@RequestBody Recaudacion _recaudacion) {
         Recaudacion recaudacion=servicio.crear(_recaudacion);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, recaudacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);

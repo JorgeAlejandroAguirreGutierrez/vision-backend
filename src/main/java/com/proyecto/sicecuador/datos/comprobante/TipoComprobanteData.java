@@ -35,9 +35,6 @@ public class TipoComprobanteData implements ApplicationRunner {
             tipos_comprobantes.add(new TipoComprobante("TCO000010","NA", "FACTURA DE COMPRA", "FACTURA DE COMPRA", "facturas_compras", "ACTIVO"));
             tipos_comprobantes.add(new TipoComprobante("TCO000011","NA", "ANICIPO", "ANTICIPO", "recaudaciones", "ACTIVO"));
             tipos_comprobantes.add(new TipoComprobante("TCO000012","NA", "RETENCIONES EN COMPRAS", "RETENCIONES EN COMPRA", "retenciones_compras", "ACTIVO"));
-
-//            tipos_comprobantes.add(new TipoComprobante("TCO000005", "NOTA DE CREDITO", "NOTA DE CREDITO", "notas_creditos"));
-//            tipos_comprobantes.add(new TipoComprobante("TCO000008", "RETENCIONES EN VENTA", "RETENCIONES EN VENTAS", "retenciones_ventas"));
             rep.saveAll(tipos_comprobantes);
         }
     }

@@ -33,10 +33,8 @@ import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factur
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.TotalConImpuestos;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.TotalImpuesto;
 import com.proyecto.sicecuador.modelos.recaudacion.Cheque;
-import com.proyecto.sicecuador.modelos.recaudacion.Compensacion;
 import com.proyecto.sicecuador.modelos.recaudacion.Deposito;
 import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
-import com.proyecto.sicecuador.modelos.recaudacion.RetencionVenta;
 import com.proyecto.sicecuador.modelos.recaudacion.TarjetaCredito;
 import com.proyecto.sicecuador.modelos.recaudacion.TarjetaDebito;
 import com.proyecto.sicecuador.modelos.recaudacion.Transferencia;
@@ -231,26 +229,12 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
         	pago.setTotal(tarjetaCredito.getValor());
         	pagosLista.add(pago);
         }
-        
-        for(Compensacion compensacion: recaudacion.getCompensaciones()) {
-        	Pago pago = new Pago();
-        	pago.setFormaPago(recaudacion.getCompensacionCodigoSri());
-        	pago.setTotal(compensacion.getValorCompensado());
-        	pagosLista.add(pago);
-        }
-        
-        for(RetencionVenta retencionVenta: recaudacion.getRetencionesVentas()) {
-        	Pago pago = new Pago();
-        	pago.setFormaPago(recaudacion.getRetencionVentaCodigoSri());
-        	pago.setTotal(retencionVenta.getValor());
-        	pagosLista.add(pago);
-        }
         if(recaudacion.getCredito()!= null) {
         	Pago pago = new Pago();
         	pago.setFormaPago(recaudacion.getCreditoCodigoSri());
         	pago.setTotal(recaudacion.getCredito().getSaldo());
-        	pago.setUnidadTiempo(recaudacion.getCredito().getPeriodicidad());
-        	pago.setPlazo(recaudacion.getCredito().getPeriodicidadNumero());
+        	pago.setUnidadTiempo(recaudacion.getCredito().getUnidadTiempo());
+        	pago.setPlazo(recaudacion.getCredito().getPlazo());
         	pagosLista.add(pago);
         }
     	pagos.setPago(pagosLista);

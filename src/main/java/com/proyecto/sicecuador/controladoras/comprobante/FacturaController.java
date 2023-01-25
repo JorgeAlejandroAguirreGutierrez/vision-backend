@@ -56,8 +56,7 @@ public class FacturaController implements GenericoController<Factura> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid Factura _factura) {
-        _factura.normalizar();
+    public ResponseEntity<?> crear(@RequestBody Factura _factura) {
         Factura factura=servicio.crear(_factura);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
@@ -72,7 +71,6 @@ public class FacturaController implements GenericoController<Factura> {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Factura _factura) {
-        _factura.normalizar();
         Factura factura=servicio.actualizar(_factura);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);

@@ -7,7 +7,6 @@ import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
 
@@ -35,15 +34,8 @@ public class Recaudacion extends Entidad {
     private double totalTarjetasDebitos;
     @Column(name = "total_tarjetas_creditos", nullable = true)
     private double totalTarjetasCreditos;
-    @Column(name = "total_compensaciones", nullable = true)
-    private double totalCompensaciones;
-    @Column(name = "total_retenciones_ventas", nullable = true)
-    private double totalRetencionesVentas;
     @Column(name = "total_credito", nullable = true)
     private double totalCredito;
-    @Column(name = "estado", nullable = true)
-    private String estado;
-    
     @Column(name = "efectivo_codigo_sri", nullable = true)
     private String efectivoCodigoSri;
     @Column(name = "cheque_codigo_sri", nullable = true)
@@ -56,21 +48,13 @@ public class Recaudacion extends Entidad {
     private String tarjetaCreditoCodigoSri;
     @Column(name = "tarjeta_debito_codigo_sri", nullable = true)
     private String tarjetaDebitoCodigoSri;
-    @Column(name = "compensacion_codigo_sri", nullable = true)
-    private String compensacionCodigoSri;
-    @Column(name = "retencion_venta_codigo_sri", nullable = true)
-    private String retencionVentaCodigoSri;
     @Column(name = "credito_codigo_sri", nullable = true)
     private String creditoCodigoSri;
-    
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "credito_id", nullable = true)
-    private Credito credito;
-    @NotNull
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @ManyToOne
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "sesion_id", nullable = true)
     private Sesion sesion;
@@ -89,12 +73,9 @@ public class Recaudacion extends Entidad {
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "tarjeta_debito_id")
     private List<TarjetaDebito> tarjetasDebitos;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "compensacion_id")
-    private List<Compensacion> compensaciones;
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "retencion_venta_id")
-    private List<RetencionVenta> retencionesVentas;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "credito_id", nullable = true)
+    private Credito credito;
     
     public Recaudacion(){
     }
@@ -105,14 +86,11 @@ public class Recaudacion extends Entidad {
 
     public Recaudacion(String codigo, Date fecha, double total, String comentario, double efectivo, double cambio,
                        double totalCheques, double totalDepositos, double totalTransferencias,
-                       double totalTarjetasDebitos, double totalTarjetasCreditos, double totalCredito,
-                       double totalCompensaciones, double totalRetencionesVentas, String estado,
+                       double totalTarjetasDebitos, double totalTarjetasCreditos, double totalCredito, String estado,
                        String efectivoCodigoSri, String chequeCodigoSri, String depositoCodigoSri, String transferenciaCodigoSri,
-                       String tarjetaCreditoCodigoSri, String tarjetaDebitoCodigoSri, String compensacionCodigoSri, String retencionVentaCodigoSri, String creditoCodigoSri,
-                       List<Cheque> cheques, List<Deposito>depositos, List<Transferencia> transferencias, 
-                       List<Compensacion> compensaciones, List<RetencionVenta> retencionesVentas,
-                       List<TarjetaCredito> tarjetasCreditos, List<TarjetaDebito> tarjetasDebitos, Credito credito,
-                       Factura factura, Sesion sesion){
+                       String tarjetaCreditoCodigoSri, String tarjetaDebitoCodigoSri, String creditoCodigoSri, Factura factura, Sesion sesion,
+                       List<Cheque> cheques, List<Deposito>depositos, List<Transferencia> transferencias,
+                       List<TarjetaCredito> tarjetasCreditos, List<TarjetaDebito> tarjetasDebitos, Credito credito){
         super(codigo);
         this.fecha=fecha;
         this.total=total;
@@ -124,8 +102,6 @@ public class Recaudacion extends Entidad {
         this.totalTransferencias=totalTransferencias;
         this.totalTarjetasDebitos=totalTarjetasDebitos;
         this.totalTarjetasCreditos=totalTarjetasCreditos;
-        this.totalCompensaciones=totalCompensaciones;
-        this.totalRetencionesVentas=totalRetencionesVentas;
         this.totalCredito=totalCredito;
         this.estado=estado;
         
@@ -135,20 +111,17 @@ public class Recaudacion extends Entidad {
         this.transferenciaCodigoSri = transferenciaCodigoSri;
         this.tarjetaCreditoCodigoSri = tarjetaCreditoCodigoSri;
         this.tarjetaDebitoCodigoSri = tarjetaDebitoCodigoSri;
-        this.compensacionCodigoSri = compensacionCodigoSri;
-        this.retencionVentaCodigoSri = retencionVentaCodigoSri;
         this.creditoCodigoSri = creditoCodigoSri;
+
+        this.factura=factura;
+        this.sesion=sesion;
 
         this.cheques=cheques;
         this.depositos=depositos;
         this.transferencias=transferencias;
         this.tarjetasCreditos=tarjetasCreditos;
         this.tarjetasDebitos=tarjetasDebitos;
-        this.compensaciones=compensaciones;
-        this.retencionesVentas=retencionesVentas;
-        this.credito=credito;
-        this.factura=factura;
-        this.sesion=sesion;
+        this.credito = credito;
     }
     public Date getFecha() {
         return fecha;
@@ -190,14 +163,6 @@ public class Recaudacion extends Entidad {
 		return totalTarjetasDebitos;
 	}
 
-    public double getTotalCompensaciones() {
-		return totalCompensaciones;
-	}
-
-    public double getTotalRetencionesVentas() {
-		return totalRetencionesVentas;
-	}
-
     public double getTotalCredito() {
 		return totalCredito;
 	}
@@ -230,14 +195,6 @@ public class Recaudacion extends Entidad {
 		return tarjetaDebitoCodigoSri;
 	}
     
-    public String getCompensacionCodigoSri() {
-		return compensacionCodigoSri;
-	}
-    
-    public String getRetencionVentaCodigoSri() {
-		return retencionVentaCodigoSri;
-	}
-    
     public String getCreditoCodigoSri() {
 		return creditoCodigoSri;
 	}
@@ -262,14 +219,6 @@ public class Recaudacion extends Entidad {
     public List<TarjetaCredito> getTarjetasCreditos() {
 		return tarjetasCreditos;
 	}
-    @JsonManagedReference
-    public List<Compensacion> getCompensaciones() {
-        return compensaciones;
-    }
-    @JsonManagedReference
-    public List<RetencionVenta> getRetencionesVentas() {
-		return retencionesVentas;
-	}
 
     public Credito getCredito() {
         return credito;
@@ -282,12 +231,6 @@ public class Recaudacion extends Entidad {
     public Sesion getSesion() {
         return sesion;
     }
-
-    public void normalizar(){
-        if (this.credito.getSaldo()==0){
-            this.credito=null;
-        }
-    }
     
     public void setEfectivo(double efectivo) {
 		this.efectivo = efectivo;
@@ -296,10 +239,6 @@ public class Recaudacion extends Entidad {
     public void setCambio(double cambio) {
 		this.cambio = cambio;
 	}
-
-    public void setCredito(Credito credito) {
-        this.credito = credito;
-    }
 
     public void setTotal(double total) {
         this.total = total;
@@ -333,14 +272,6 @@ public class Recaudacion extends Entidad {
 		this.totalTarjetasCreditos = totalTarjetasCreditos;
 	}
     
-    public void setTotalCompensaciones(double totalCompensaciones) {
-		this.totalCompensaciones = totalCompensaciones;
-	}
-    
-    public void setTotalRetencionesVentas(double totalRetencionesVentas) {
-		this.totalRetencionesVentas = totalRetencionesVentas;
-	}
-    
     public void setEfectivoCodigoSri(String efectivoCodigoSri) {
 		this.efectivoCodigoSri = efectivoCodigoSri;
 	}
@@ -365,16 +296,11 @@ public class Recaudacion extends Entidad {
 		this.tarjetaDebitoCodigoSri = tarjetaDebitoCodigoSri;
 	}
     
-    public void setCompensacionCodigoSri(String compensacionCodigoSri) {
-		this.compensacionCodigoSri = compensacionCodigoSri;
-	}
-    
-    public void setRetencionVentaCodigoSri(String retencionVentaCodigoSri) {
-		this.retencionVentaCodigoSri = retencionVentaCodigoSri;
-	}
-    
     public void setCreditoCodigoSri(String creditoCodigoSri) {
 		this.creditoCodigoSri = creditoCodigoSri;
 	}
-    
+
+    public void setCredito(Credito credito) {
+        this.credito = credito;
+    }
 }
