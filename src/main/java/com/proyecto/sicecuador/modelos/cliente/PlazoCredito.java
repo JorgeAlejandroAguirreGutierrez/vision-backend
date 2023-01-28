@@ -13,6 +13,8 @@ import java.util.List;
 public class PlazoCredito extends Entidad {
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
+    @Column(name = "abreviatura", nullable = true)
+    private String abreviatura;
     @Column(name = "plazo", nullable = true)
     private double plazo;
 	@NotNull
@@ -28,23 +30,28 @@ public class PlazoCredito extends Entidad {
         super(id);
     }
 
-    public PlazoCredito(String codigo, String descripcion, double plazo, String estado){
+    public PlazoCredito(String codigo, String descripcion, String abreviatura, double plazo, String estado){
         super(codigo);
         this.descripcion=descripcion;
+        this.abreviatura=abreviatura;
         this.plazo=plazo;
         this.estado=estado;
     }
 
     public PlazoCredito(List<String> datos) {
-        descripcion=datos.get(0)== null? null : datos.get(0);;
-        plazo=datos.get(1)== null? null : Double.parseDouble(datos.get(1));
-        estado=datos.get(2)== null? null : datos.get(2);;
+        descripcion=datos.get(0)== null? null : datos.get(0);
+        abreviatura=datos.get(1)== null? null : datos.get(1);
+        plazo=datos.get(2)== null? null : Double.parseDouble(datos.get(2));
+        estado=datos.get(3)== null? null : datos.get(3);;
     }
 
     public String getDescripcion() {
         return descripcion;
     }
 
+    public String getAbreviatura() {
+        return abreviatura;
+    }
     public double getPlazo() {
         return plazo;
     }

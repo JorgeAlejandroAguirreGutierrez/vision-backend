@@ -28,12 +28,14 @@ public class DependienteData implements ApplicationRunner {
         Optional<Dependiente> ant=rep.findById((long) 1);
         if (!ant.isPresent()){
             List<Dependiente> dependientes=new ArrayList<>();
-            dependientes.add(new Dependiente("AUX011907000001", "AUXILIAR 1 DE CLIENTE A", Constantes.activo, "CARRERA 4 # 4-4", new Ubicacion(1), new Cliente(1)));
-            dependientes.add(new Dependiente("AUX011908000002", "AUXILIAR 2 DE CLIENTE A", Constantes.activo, "CARRERA 5 # 5-5", new Ubicacion(1), new Cliente(1)));
-            dependientes.add(new Dependiente("AUX011908000003", "AUXILIAR 1 DE CLIENTE B", Constantes.activo, "CARRERA 6 # 6-6", new Ubicacion(1), new Cliente(2)));
-            dependientes.add(new Dependiente("AUX011908000004", "AUXILIAR 2 DE CLIENTE B", Constantes.activo, "CARRERA 7 # 7-7", new Ubicacion(1), new Cliente(2)));
-            dependientes.add(new Dependiente("AUX011908000005", "AUXILIAR 2 DE CLIENTE B", Constantes.activo, "CARRERA 8 # 8-8", new Ubicacion(1), new Cliente(2)));
-            dependientes.add(new Dependiente("AUX011908000006", "AUXILIAR 2 DE CLIENTE B", Constantes.activo, "CARRERA 9 # 9-9", new Ubicacion(1), new Cliente(2)));
+
+            dependientes.add(new Dependiente("DEP011907000001", "DEPENDIENTE 1 DE CLIENTE A", Constantes.activo, "CARRERA 4 # 4-4", new Ubicacion(1), new Cliente(1)));
+            dependientes.add(new Dependiente("DEP011908000002", "DEPENDIENTE 2 DE CLIENTE A", Constantes.activo, "CARRERA 5 # 5-5", new Ubicacion(1), new Cliente(1)));
+            dependientes.add(new Dependiente("DEP011908000003", "DEPENDIENTE 1 DE CLIENTE B", Constantes.activo, "CARRERA 6 # 6-6", new Ubicacion(1), new Cliente(2)));
+            dependientes.add(new Dependiente("DEP011908000004", "DEPENDIENTE 2 DE CLIENTE B", Constantes.activo, "CARRERA 7 # 7-7", new Ubicacion(1), new Cliente(2)));
+            dependientes.add(new Dependiente("DEP011908000005", "DEPENDIENTE 2 DE CLIENTE B", Constantes.activo, "CARRERA 8 # 8-8", new Ubicacion(1), new Cliente(2)));
+            dependientes.add(new Dependiente("DEP011908000006", "DEPENDIENTE 2 DE CLIENTE B", Constantes.activo, "CARRERA 9 # 9-9", new Ubicacion(1), new Cliente(2)));
+
             rep.saveAll(dependientes);
         }
     }
