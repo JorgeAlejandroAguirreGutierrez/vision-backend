@@ -16,7 +16,7 @@ public interface IGrupoProductoRepository extends JpaRepository<GrupoProducto, L
 	@Query(value = "select gp from GrupoProducto gp where gp.estado=:estado")
     List<GrupoProducto> consultarPorEstado(String estado);
 	
-	@Query(value = "select distinct gp.grupo FROM grupo_producto gp and gp.estado=:estado", nativeQuery = true)
+	@Query(value = "select distinct gp.grupo FROM grupo_producto gp where gp.estado=:estado", nativeQuery = true)
     List<String> findGrupos(String estado);
 
     @Query(value = "select distinct gp.subgrupo FROM grupo_producto gp where gp.grupo=:grupo and gp.estado=:estado" ,nativeQuery = true)
