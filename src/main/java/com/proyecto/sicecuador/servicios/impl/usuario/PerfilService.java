@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.usuario.Estacion;
 import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.repositorios.usuario.IPerfilRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPerfilService;
@@ -20,40 +22,62 @@ import java.util.Optional;
 public class PerfilService implements IPerfilService {
     @Autowired
     private IPerfilRepository rep;
+
+    @Override
+    public void validar(Perfil perfil) {
+        if(perfil.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(perfil.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+        if(perfil.getMultiempresa().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.multiempresa);
+        if(perfil.getPermisos().isEmpty()) throw new DatoInvalidoException(Constantes.permiso);
+    }
     
     @Override
     public Perfil crear(Perfil perfil) {
+        validar(perfil);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_perfil);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	perfil.setCodigo(codigo.get());
     	perfil.setEstado(Constantes.activo);
-    	return rep.save(perfil);
+    	Perfil res = rep.save(perfil);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Perfil actualizar(Perfil perfil) {
-        return rep.save(perfil);
+        validar(perfil);
+        Perfil res = rep.save(perfil);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Perfil activar(Perfil perfil) {
+        validar(perfil);
         perfil.setEstado(Constantes.activo);
-        return rep.save(perfil);
+        Perfil res = rep.save(perfil);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Perfil inactivar(Perfil perfil) {
+        validar(perfil);
         perfil.setEstado(Constantes.inactivo);
-        return rep.save(perfil);
+        Perfil res = rep.save(perfil);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Perfil obtener(long id) {
-        Optional<Perfil> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<Perfil> perfil= rep.findById(id);
+        if(perfil.isPresent()) {
+        	Perfil res = perfil.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.perfil);
     }

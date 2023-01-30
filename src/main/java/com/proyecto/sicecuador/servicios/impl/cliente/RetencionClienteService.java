@@ -3,8 +3,10 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.cliente.IRetencionClienteRepository;
@@ -24,27 +26,40 @@ public class RetencionClienteService implements IRetencionClienteService {
     private IRetencionClienteRepository rep;
     @Autowired
     private IClienteRepository rep_cliente;
+
+    @Override
+    public void validar(RetencionCliente retencionCliente) {
+        if(retencionCliente.getTipoRetencion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipoRetencion);
+    }
     
     @Override
     public RetencionCliente crear(RetencionCliente retencionCliente) {
+        validar(retencionCliente);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_retencion_cliente);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	retencionCliente.setCodigo(codigo.get());
-    	return rep.save(retencionCliente);
+    	RetencionCliente res = rep.save(retencionCliente);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public RetencionCliente actualizar(RetencionCliente retencionCliente) {
-        return rep.save(retencionCliente);
+        validar(retencionCliente);
+        RetencionCliente res = rep.save(retencionCliente);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public RetencionCliente obtener(long id) {
-        Optional<RetencionCliente> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<RetencionCliente> retencionCliente= rep.findById(id);
+        if(retencionCliente.isPresent()) {
+        	RetencionCliente res = retencionCliente.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.retencion_cliente);
     }

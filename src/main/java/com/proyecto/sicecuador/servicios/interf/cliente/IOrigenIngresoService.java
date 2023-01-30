@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface IOrigenIngresoService extends IGenericoService<OrigenIngreso> {
+	void validar(OrigenIngreso origenIngreso);
 	OrigenIngreso activar(OrigenIngreso origenIngreso);
 	OrigenIngreso inactivar(OrigenIngreso origenIngreso);
 	List<OrigenIngreso> consultarActivos();

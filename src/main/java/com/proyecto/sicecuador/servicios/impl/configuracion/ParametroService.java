@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IParametroService;
@@ -19,9 +21,18 @@ import java.util.Optional;
 public class ParametroService implements IParametroService {
     @Autowired
     private IParametroRepository rep;
+
+    @Override
+    public void validar(Parametro parametro) {
+        if(parametro.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo);
+        if(parametro.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
+        if(parametro.getTabla().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tabla);
+        if(parametro.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public Parametro crear(Parametro parametro) {
+        validar(parametro);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_parametro);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -33,17 +44,20 @@ public class ParametroService implements IParametroService {
 
     @Override
     public Parametro actualizar(Parametro parametro) {
+        validar(parametro);
         return rep.save(parametro);
     }
 
     @Override
     public Parametro activar(Parametro parametro) {
+        validar(parametro);
         parametro.setEstado(Constantes.activo);
         return rep.save(parametro);
     }
 
     @Override
     public Parametro inactivar(Parametro parametro) {
+        validar(parametro);
         parametro.setEstado(Constantes.inactivo);
         return rep.save(parametro);
     }

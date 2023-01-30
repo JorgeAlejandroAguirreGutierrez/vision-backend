@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.contabilidad;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -22,9 +24,16 @@ import java.util.Optional;
 public class AfectacionContableService implements IAfectacionContableService {
     @Autowired
     private IAfectacionContableRepository rep;
+
+    @Override
+    public void validar(AfectacionContable afectacionContable) {
+        if(afectacionContable.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(afectacionContable.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public AfectacionContable crear(AfectacionContable afectacionContable) {
+        validar(afectacionContable);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_afectacion_contable);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -36,17 +45,20 @@ public class AfectacionContableService implements IAfectacionContableService {
 
     @Override
     public AfectacionContable actualizar(AfectacionContable afectacionContable) {
-    	return rep.save(afectacionContable);
+    	validar(afectacionContable);
+        return rep.save(afectacionContable);
     }
 
     @Override
     public AfectacionContable activar(AfectacionContable afectacionContable) {
+        validar(afectacionContable);
         afectacionContable.setEstado(Constantes.activo);
         return rep.save(afectacionContable);
     }
 
     @Override
     public AfectacionContable inactivar(AfectacionContable afectacionContable) {
+        validar(afectacionContable);
         afectacionContable.setEstado(Constantes.inactivo);
         return rep.save(afectacionContable);
     }

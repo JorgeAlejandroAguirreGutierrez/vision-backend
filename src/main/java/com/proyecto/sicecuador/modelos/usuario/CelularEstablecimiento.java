@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import java.util.List;
@@ -10,7 +11,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "celular_establecimiento")
 public class CelularEstablecimiento extends Entidad {
-    
 	@Column(name = "numero", nullable = true)
     private String numero;
     @ManyToOne
@@ -19,6 +19,7 @@ public class CelularEstablecimiento extends Entidad {
 	
 	public CelularEstablecimiento() {
 		super();
+		this.numero = Constantes.vacio;
 	}
 	public CelularEstablecimiento(long id) {
 		super(id);

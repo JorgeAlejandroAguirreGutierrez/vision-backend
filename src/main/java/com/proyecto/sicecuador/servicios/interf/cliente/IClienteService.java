@@ -6,13 +6,13 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IClienteService extends IGenericoService<Cliente> {
-
-	List<Cliente> consultarActivos();
+    void validar(Cliente cliente);
+    List<Cliente> consultarActivos();
 	Cliente activar(Cliente cliente);
 	Cliente inactivar(Cliente cliente);
     String existe(Cliente cliente);
-    Cliente obtenerPorIdentificacion(Cliente cliente);
-    Cliente obtenerPorRazonSocial(Cliente cliente);
+    Cliente obtenerPorIdentificacion(String identificacion);
+    Cliente obtenerPorRazonSocial(String razonSocial);
     List<Cliente> buscar(Cliente cliente);
     Cliente validarIdentificacion(String identificacion);
     boolean verificarPersonaNatural(String identificacion);

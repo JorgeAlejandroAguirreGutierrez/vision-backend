@@ -3,6 +3,8 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
 import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.repositorios.recaudacion.IBancoRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IBancoService;
@@ -19,9 +21,17 @@ import java.util.Optional;
 public class BancoService implements IBancoService {
     @Autowired
     private IBancoRepository rep;
+
+    @Override
+    public void validar(Banco banco) {
+        if(banco.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo);
+        if(banco.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
+        if(banco.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public Banco crear(Banco banco) {
+        validar(banco);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_banco);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -33,17 +43,20 @@ public class BancoService implements IBancoService {
 
     @Override
     public Banco actualizar(Banco banco) {
+        validar(banco);
         return rep.save(banco);
     }
 
     @Override
     public Banco activar(Banco banco) {
+        validar(banco);
         banco.setEstado(Constantes.activo);
         return rep.save(banco);
     }
 
     @Override
     public Banco inactivar(Banco banco) {
+        validar(banco);
         banco.setEstado(Constantes.inactivo);
         return rep.save(banco);
     }

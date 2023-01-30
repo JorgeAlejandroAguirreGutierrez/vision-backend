@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.TipoPago;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoRetencionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoRetencionService;
@@ -20,9 +22,19 @@ import java.util.Optional;
 public class TipoRetencionService implements ITipoRetencionService {
     @Autowired
     private ITipoRetencionRepository rep;
+
+    @Override
+    public void validar(TipoRetencion tipoRetencion) {
+        if(tipoRetencion.getImpuestoRetencion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(tipoRetencion.getTipoRetencion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipoRetencion);
+        if(tipoRetencion.getCodigoSRI().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.codigoSRI);
+        if(tipoRetencion.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(tipoRetencion.getPorcentaje() == Constantes.cero) throw new DatoInvalidoException(Constantes.porcentaje);
+    }
     
     @Override
     public TipoRetencion crear(TipoRetencion tipoRetencion) {
+        validar(tipoRetencion);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_retencion);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -34,17 +46,20 @@ public class TipoRetencionService implements ITipoRetencionService {
 
     @Override
     public TipoRetencion actualizar(TipoRetencion tipoRetencion) {
+        validar(tipoRetencion);
         return rep.save(tipoRetencion);
     }
 
     @Override
     public TipoRetencion activar(TipoRetencion tipoRetencion) {
+        validar(tipoRetencion);
         tipoRetencion.setEstado(Constantes.activo);
         return rep.save(tipoRetencion);
     }
 
     @Override
     public TipoRetencion inactivar(TipoRetencion tipoRetencion) {
+        validar(tipoRetencion);
         tipoRetencion.setEstado(Constantes.inactivo);
         return rep.save(tipoRetencion);
     }

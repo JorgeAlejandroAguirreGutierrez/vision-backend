@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 
@@ -22,7 +23,7 @@ public class Kardex extends Entidad {
     @Column(name = "entrada", nullable = true)
     private double entrada;
     @Column(name = "salida", nullable = true)
-    private long salida;
+    private double salida;
     @Column(name = "debe", nullable = true)
     private double debe;
     @Column(name = "haber", nullable = true)
@@ -36,20 +37,31 @@ public class Kardex extends Entidad {
     @ManyToOne
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
 
     public Kardex(){
         super();
+        this.fecha = new Date();
+        this.documento = Constantes.vacio;
+        this.numero = Constantes.vacio;
+        this.operacion = Constantes.vacio;
+        this.entrada = Constantes.cero;
+        this.salida = Constantes.cero;
+        this.debe = Constantes.cero;
+        this.haber = Constantes.cero;
+        this.cantidad = Constantes.ceroId;
+        this.costoPromedio = Constantes.cero;
+        this.costoTotal = Constantes.cero;
+        this.proveedor = new Proveedor();
     }
 
     public Kardex(long id){
         super(id);
     }
 
-    public Kardex(String codigo, Date fecha, String documento, String numero, String operacion, double entrada, long salida,
+    public Kardex(String codigo, Date fecha, String documento, String numero, String operacion, double entrada, double salida,
                   double debe, double haber, long cantidad, double costoPromedio,
                   double costoTotal, Proveedor proveedor,Producto producto){
         super(codigo);
@@ -92,7 +104,7 @@ public class Kardex extends Entidad {
         return entrada;
     }
 
-    public long getSalida() {
+    public double getSalida() {
         return salida;
     }
 
@@ -129,13 +141,11 @@ public class Kardex extends Entidad {
         return producto;
     }
 
-    public void setSalida(long salida) {
+    public void setSalida(double salida) {
         this.salida = salida;
     }
 
     public void normalizar(){
-        if (proveedor.getId()==0){
-            proveedor=null;
-        }
+        if(this.proveedor == null) this.proveedor = new Proveedor();
     }
 }

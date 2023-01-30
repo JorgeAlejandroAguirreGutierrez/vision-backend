@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -16,7 +17,10 @@ public class EstadoCivil extends Entidad {
     private String estado;
 
     public EstadoCivil(){
-
+        super();
+        this.descripcion = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public EstadoCivil(long id) {

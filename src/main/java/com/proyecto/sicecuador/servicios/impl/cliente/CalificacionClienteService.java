@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -20,9 +21,16 @@ import java.util.Optional;
 public class CalificacionClienteService implements ICalificacionClienteService {
 	@Autowired
     private ICalificacionClienteRepository rep;
+
+    @Override
+    public void validar(CalificacionCliente calificacionCliente) {
+        if(calificacionCliente.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(calificacionCliente.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public CalificacionCliente crear(CalificacionCliente calificacionCliente) {
+        validar(calificacionCliente);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_calificacion_cliente);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -34,17 +42,20 @@ public class CalificacionClienteService implements ICalificacionClienteService {
 
     @Override
     public CalificacionCliente actualizar(CalificacionCliente calificacionCliente) {
+        validar(calificacionCliente);
         return rep.save(calificacionCliente);
     }
 
     @Override
     public CalificacionCliente activar(CalificacionCliente calificacionCliente) {
+        validar(calificacionCliente);
         calificacionCliente.setEstado(Constantes.activo);
         return rep.save(calificacionCliente);
     }
 
     @Override
     public CalificacionCliente inactivar(CalificacionCliente calificacionCliente) {
+        validar(calificacionCliente);
         calificacionCliente.setEstado(Constantes.inactivo);
         return rep.save(calificacionCliente);
     }
@@ -62,7 +73,11 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     public List<CalificacionCliente> consultar() {
         return rep.findAll();
     }
-    
+
+    public CalificacionCliente normalizar() {
+        return null;
+    }
+
     @Override
     public List<CalificacionCliente> consultarActivos(){
     	return rep.consultarPorEstado(Constantes.activo);

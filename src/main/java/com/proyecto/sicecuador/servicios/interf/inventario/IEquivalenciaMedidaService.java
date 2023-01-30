@@ -6,10 +6,8 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IEquivalenciaMedidaService extends IGenericoService<EquivalenciaMedida> {
+	void validar(EquivalenciaMedida equivalenciaMedida);
 	EquivalenciaMedida activar(EquivalenciaMedida equivalenciaMedida);
 	EquivalenciaMedida inactivar(EquivalenciaMedida equivalenciaMedida);
 	List<EquivalenciaMedida> consultarActivos();
-	EquivalenciaMedida obtenerMedida1Medida2(EquivalenciaMedida tabla);
-    List<EquivalenciaMedida> buscar(EquivalenciaMedida tem);
-    List<EquivalenciaMedida> buscarMedidasEquivalentes(EquivalenciaMedida equivalencias);
 }

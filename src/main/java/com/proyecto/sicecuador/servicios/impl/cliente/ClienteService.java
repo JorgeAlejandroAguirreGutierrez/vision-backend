@@ -2,10 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.IdentificacionInvalidaException;
-import com.proyecto.sicecuador.exception.EntidadExistenteException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.cliente.*;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
@@ -44,11 +41,33 @@ public class ClienteService implements IClienteService {
     @PersistenceContext
     private EntityManager adm;
 
-    /**
-     *Busca los clientes por razon social e identificacion
-     * @param cliente
-     * @return
-     */
+    @Override
+    public void validar(Cliente cliente) {
+        if(cliente.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
+        if(cliente.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.razonSocial);
+        if(cliente.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.obligadoContabilidad);
+        if(cliente.getEspecial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.especial);
+        if(cliente.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
+        if(cliente.getReferencia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.referencia);
+        if(cliente.getMontoFinanciamiento() == Constantes.cero) throw new DatoInvalidoException(Constantes.montoFinanciamiento);
+        if(cliente.getTipoIdentificacion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
+        if(cliente.getTipoContribuyente().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.tipo_contribuyente);
+        if(cliente.getEstacion().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.estacion);
+        if(cliente.getGrupoCliente().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.grupo_cliente);
+        if(cliente.getFormaPago().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.forma_pago);
+        if(cliente.getPlazoCredito().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.plazo_credito);
+        if(cliente.getUbicacion().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.ubicacion);
+        if(cliente.getGenero().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.genero);
+        if(cliente.getEstadoCivil().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.estado_civil);
+        if(cliente.getCalificacionCliente().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.calificacion_cliente);
+        if(cliente.getOrigenIngreso().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.origen_ingreso);
+        if(cliente.getSegmento().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.segmento);
+        if(cliente.getDependientes().isEmpty()) throw new DatoInvalidoException(Constantes.dependiente);
+        if(cliente.getTelefonos().isEmpty()) throw new DatoInvalidoException(Constantes.telefono);
+        if(cliente.getCelulares().isEmpty()) throw new DatoInvalidoException(Constantes.celular);
+        if(cliente.getCorreos().isEmpty()) throw new DatoInvalidoException(Constantes.correo);
+        if(cliente.getRetencionesCliente().isEmpty()) throw new DatoInvalidoException(Constantes.retencion_cliente);
+    }
     @Override
     public List<Cliente> buscar(Cliente cliente) {
         return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
@@ -73,18 +92,22 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public Cliente obtenerPorRazonSocial(Cliente cliente) {
-        Optional<Cliente> resp= rep.obtenerPorRazonSocial(cliente.getRazonSocial(), Constantes.activo);
-        if(resp.isPresent()){
-        	return resp.get();
+    public Cliente obtenerPorRazonSocial(String razonSocial) {
+        Optional<Cliente> cliente = rep.obtenerPorRazonSocial(razonSocial, Constantes.activo);
+        if(cliente.isPresent()){
+        	Cliente res = cliente.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.cliente);
     }
     @Override
-    public Cliente obtenerPorIdentificacion(Cliente cliente) {
-        Optional<Cliente> resp= rep.obtenerPorRazonSocial(cliente.getRazonSocial(), Constantes.activo);
-        if(resp.isPresent()){
-        	return resp.get();
+    public Cliente obtenerPorIdentificacion(String identificacion) {
+        Optional<Cliente> cliente = rep.obtenerPorRazonSocial(identificacion, Constantes.activo);
+        if(cliente.isPresent()){
+        	Cliente res = cliente.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.cliente);
     }
@@ -313,7 +336,7 @@ public class ClienteService implements IClienteService {
 
     @Override
     public Cliente crear(Cliente cliente) {
-    	cliente.normalizar();
+    	validar(cliente);
     	Optional<Cliente>buscarCliente=rep.obtenerPorIdentificacion(cliente.getIdentificacion(), Constantes.activo);
     	if(buscarCliente.isPresent()) {
     		throw new EntidadExistenteException(Constantes.cliente);
@@ -327,49 +350,61 @@ public class ClienteService implements IClienteService {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
     	for(Dependiente dependiente: cliente.getDependientes()) {
-    		Optional<Ubicacion> ubicacionAuxiliar= repUbicacion.findByProvinciaAndCantonAndParroquia(dependiente.getUbicacion().getProvincia(),dependiente.getUbicacion().getCanton(), dependiente.getUbicacion().getParroquia(), Constantes.activo);
-        	if(ubicacionAuxiliar.isEmpty()) {
+    		Optional<Ubicacion> ubicacionDependiente= repUbicacion.findByProvinciaAndCantonAndParroquia(dependiente.getUbicacion().getProvincia(),dependiente.getUbicacion().getCanton(), dependiente.getUbicacion().getParroquia(), Constantes.activo);
+        	if(ubicacionDependiente.isEmpty()) {
         		throw new EntidadNoExistenteException(Constantes.dependiente);
         	}
-        	dependiente.setUbicacion(ubicacionAuxiliar.get());
+        	dependiente.setUbicacion(ubicacionDependiente.get());
     	}
     	cliente.setUbicacion(ubicacion.get());
     	cliente.setCodigo(codigo.get());
     	cliente.setEstado(Constantes.activo);
-        return rep.save(cliente);
+        Cliente res = rep.save(cliente);
+        res.normalizar();
+        return res;
     }
 
     
     
     @Override
     public Cliente actualizar(Cliente cliente) {
-    	Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(cliente.getUbicacion().getProvincia(),cliente.getUbicacion().getCanton(), cliente.getUbicacion().getParroquia(), Constantes.activo);
+    	validar(cliente);
+        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(cliente.getUbicacion().getProvincia(),cliente.getUbicacion().getCanton(), cliente.getUbicacion().getParroquia(), Constantes.activo);
     	if(ubicacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
     	cliente.setUbicacion(ubicacion.get());
-        return rep.save(cliente);
+        Cliente res = rep.save(cliente);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Cliente activar(Cliente cliente) {
+        validar(cliente);
         cliente.setEstado(Constantes.activo);
-        cliente=rep.save(cliente);
-        return cliente;
+        Cliente res = rep.save(cliente);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Cliente inactivar(Cliente cliente) {
+        validar(cliente);
         cliente.setEstado(Constantes.inactivo);
-        return rep.save(cliente);
+        Cliente res = rep.save(cliente);
+        res.normalizar();
+        return res;
     }
 
     
     @Override
     public Cliente obtener(long id) {
-        Optional<Cliente> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<Cliente> cliente= rep.findById(id);
+        if(cliente.isPresent()) {
+        	Cliente res = cliente.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.cliente);
         

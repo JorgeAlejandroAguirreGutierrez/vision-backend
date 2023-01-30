@@ -1,11 +1,11 @@
 package com.proyecto.sicecuador.modelos.comprobante;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.inventario.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "factura_detalle")
@@ -15,15 +15,9 @@ public class FacturaDetalle extends Entidad {
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @Column(name = "entregado", nullable = true)
-    private boolean entregado;
-    @Column(name = "consignacion", nullable = true)
-    private boolean consignacion;
+    private String entregado;
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
-    @Column(name = "subsidio", nullable = true)
-    private double subsidio;
-    @Column(name = "sin_subsidio", nullable = true)
-    private double sinSubsidio;
     //LINEA
     @Column(name = "valor_descuento_linea", nullable = true)
     private double valorDescuentoLinea;
@@ -49,7 +43,6 @@ public class FacturaDetalle extends Entidad {
     private double ivaConDescuentoLinea;
     @Column(name = "total_con_descuento_linea", nullable = true)
     private double totalConDescuentoLinea;
-
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
@@ -68,7 +61,27 @@ public class FacturaDetalle extends Entidad {
 
 
     public FacturaDetalle(){
-
+        super();
+        this.posicion = Constantes.ceroId;
+        this.comentario = Constantes.vacio;
+        this.entregado = Constantes.no;
+        this.cantidad = Constantes.ceroId;
+        this.valorDescuentoLinea = Constantes.cero;
+        this.porcentajeDescuentoLinea = Constantes.cero;
+        this.valorPorcentajeDescuentoLinea = Constantes.cero;
+        this.valorDescuentoTotalLinea = Constantes.cero;
+        this.porcentajeDescuentoTotalLinea = Constantes.cero;
+        this.valorPorcentajeDescuentoTotalLinea = Constantes.cero;
+        this.totalDescuentoLinea = Constantes.cero;
+        this.subtotalSinDescuentoLinea = Constantes.cero;
+        this.ivaSinDescuentoLinea = Constantes.cero;
+        this.subtotalConDescuentoLinea = Constantes.cero;
+        this.ivaConDescuentoLinea = Constantes.cero;
+        this.totalConDescuentoLinea = Constantes.cero;
+        this.producto = new Producto();
+        this.impuesto = new Impuesto();
+        this.precio = new Precio();
+        this.bodega = new Bodega();
     }
 
     public FacturaDetalle(long id){
@@ -92,25 +105,13 @@ public class FacturaDetalle extends Entidad {
 		return comentario;
 	}
 
-    public boolean isEntregado() {
+    public String getEntregado() {
         return entregado;
-    }
-
-    public boolean isConsignacion() {
-        return consignacion;
     }
 
     public long getCantidad() {
         return cantidad;
     }
-
-    public double getSubsidio() {
-        return subsidio;
-    }
-
-    public double getSinSubsidio() {
-		return sinSubsidio;
-	}
     
     public double getValorDescuentoLinea() {
 		return valorDescuentoLinea;
@@ -239,6 +240,13 @@ public class FacturaDetalle extends Entidad {
     @JsonBackReference
     public void setFactura(Factura factura) {
         this.factura = factura;
+    }
+
+    public void normalizar(){
+        if(this.producto == null) this.producto = new Producto();
+        if(this.impuesto == null) this.impuesto = new Impuesto();
+        if(this.precio == null) this.precio = new Precio();
+        if(this.bodega == null) this.bodega = new Bodega();
     }
 }
 

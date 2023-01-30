@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.administracion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.Column;
@@ -18,7 +19,11 @@ public class Modelo extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
     public Modelo(){
-
+        super();
+        this.nombre = Constantes.vacio;
+        this.nombreTecnico = Constantes.vacio;
+        this.endpoint = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public Modelo(long id) {

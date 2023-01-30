@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.contabilidad;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +16,9 @@ public class AfectacionContable extends Entidad {
 
     public AfectacionContable(){
         super();
+        this.descripcion = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public AfectacionContable(long id){

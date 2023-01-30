@@ -1,31 +1,30 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
 @Entity
 @Table(name = "forma_pago")
 public class FormaPago extends Entidad {
-	@NotNull
-	@NotEmpty
-    @Column(name = "codigo_sri")
+    @Column(name = "codigo_sri", nullable = true)
     private String codigoSRI;    
 	@Column(name = "descripcion", nullable = true)
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
-	@NotNull
-	@NotEmpty
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = true)
     private String estado;
 	
     public FormaPago(){
         super();
+        this.codigoSRI = Constantes.vacio;
+        this.descripcion = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public FormaPago(long id) {

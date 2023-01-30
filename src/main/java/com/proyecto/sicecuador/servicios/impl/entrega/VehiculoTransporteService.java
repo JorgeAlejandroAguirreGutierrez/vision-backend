@@ -22,8 +22,7 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
     private IVehiculoTransporteRepository rep;
     
     @Override
-    public VehiculoTransporte
-    crear(VehiculoTransporte vehiculoTransporte) {
+    public VehiculoTransporte crear(VehiculoTransporte vehiculoTransporte) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_vehiculo_transporte);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();

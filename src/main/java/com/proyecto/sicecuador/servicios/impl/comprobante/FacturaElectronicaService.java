@@ -19,6 +19,7 @@ import com.itextpdf.layout.property.VerticalAlignment;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.exception.EstadoInvalidoException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalle;
@@ -148,15 +149,18 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	}
     	Factura factura = opcional.get().getFactura();
     	Recaudacion recaudacion = opcional.get();
-    	if(factura.getEstado().equals(Constantes.estadoEmitida) || factura.getEstado().equals(Constantes.estadoNoFacturada)) {
+		if(!factura.getEstado().equals(Constantes.estadoEmitida)){
+			throw new EstadoInvalidoException(Constantes.factura);
+		}
+		if(!recaudacion.getEstado().equals(Constantes.norecaudado)){
+			throw new EstadoInvalidoException(Constantes.recaudacion);
+		}
+    	if(factura.getEstado().equals(Constantes.estadoEmitida) && recaudacion.getEstado().equals(Constantes.recaudado)) {
         	FacturaElectronica facturaElectronica = crear(recaudacion, factura);
     		String estado= enviar(facturaElectronica);
         	if(estado.equals(Constantes.recibidaSri)) {
         		factura.setEstado(Constantes.estadoFacturada);
         		enviarCorreo(factura);
-        		repFactura.save(factura);
-        	} else {
-        		factura.setEstado(Constantes.estadoNoFacturada);
         		repFactura.save(factura);
         	}
         	String respuesta=Constantes.mensajeSri+estado+Constantes.mensajeClaveAccesoSri+factura.getClaveAcceso();

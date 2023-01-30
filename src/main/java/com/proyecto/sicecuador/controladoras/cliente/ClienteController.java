@@ -85,18 +85,14 @@ public class ClienteController implements GenericoController<Cliente> {
 
     @GetMapping(value = "/identificacion/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerIdentificacion(@PathVariable("identificacion") String identificacion) {
-        Cliente cliente=new Cliente();
-        cliente.setIdentificacion(identificacion);
-        Cliente _cliente=servicio.obtenerPorIdentificacion(cliente);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
+        Cliente cliente=servicio.obtenerPorIdentificacion(identificacion);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/razonSocial/{razonSocial}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerRazonSocial(@PathVariable("razonSocial") String razonSocial) {
-        Cliente cliente=new Cliente();
-        cliente.setRazonSocial(razonSocial);
-        Cliente _cliente=servicio.obtenerPorRazonSocial(cliente);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
+        Cliente cliente=servicio.obtenerPorRazonSocial(razonSocial);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @PostMapping(value = "/buscar",produces = MediaType.APPLICATION_JSON_VALUE)

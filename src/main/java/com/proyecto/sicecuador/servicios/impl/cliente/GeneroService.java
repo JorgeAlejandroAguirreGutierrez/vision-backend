@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
 import com.proyecto.sicecuador.modelos.cliente.Genero;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -21,9 +23,16 @@ import java.util.Optional;
 public class GeneroService implements IGeneroService {
     @Autowired
     private IGeneroRepository rep;
+
+    @Override
+    public void validar(Genero genero) {
+        if(genero.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(genero.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public Genero crear(Genero genero) {
+        validar(genero);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_genero);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -35,17 +44,20 @@ public class GeneroService implements IGeneroService {
 
     @Override
     public Genero actualizar(Genero genero) {
+        validar(genero);
         return rep.save(genero);
     }
 
     @Override
     public Genero activar(Genero genero) {
+        validar(genero);
         genero.setEstado(Constantes.activo);
         return rep.save(genero);
     }
 
     @Override
     public Genero inactivar(Genero genero) {
+        validar(genero);
         genero.setEstado(Constantes.inactivo);
         return rep.save(genero);
     }

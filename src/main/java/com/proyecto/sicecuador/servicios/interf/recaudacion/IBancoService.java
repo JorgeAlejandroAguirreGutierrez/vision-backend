@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface IBancoService extends IGenericoService<Banco> {
+	void validar(Banco banco);
 	Banco activar(Banco banco);
 	Banco inactivar(Banco banco);
 	List<Banco> consultarActivos();

@@ -9,7 +9,7 @@ public class Pago {
 
 	private String formaPago;
 	private double total;
-	private int plazo;
+	private long plazo;
 	private String unidadTiempo;
 	
 	public Pago() {
@@ -24,7 +24,7 @@ public class Pago {
 		return total;
 	}
 
-	public int getPlazo() {
+	public long getPlazo() {
 		return plazo;
 	}
 
@@ -40,7 +40,7 @@ public class Pago {
 		this.total = total;
 	}
 
-	public void setPlazo(int plazo) {
+	public void setPlazo(long plazo) {
 		this.plazo = plazo;
 	}
 

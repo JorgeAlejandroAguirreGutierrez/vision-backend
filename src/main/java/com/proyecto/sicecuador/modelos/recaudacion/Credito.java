@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -12,9 +13,13 @@ public class Credito extends Entidad {
     @Column(name = "unidad_tiempo", nullable = true)
     private String unidadTiempo;
     @Column(name = "plazo", nullable = true)
-    private int plazo;
+    private long plazo;
 
     public Credito(){
+        super();
+        this.saldo = Constantes.cero;
+        this.unidadTiempo = Constantes.vacio;
+        this.plazo = Constantes.ceroId;
     }
 
     public Credito(long id){
@@ -37,7 +42,8 @@ public class Credito extends Entidad {
     public String getUnidadTiempo() {
         return unidadTiempo;
     }
-    public int getPlazo() {
+
+    public long getPlazo() {
         return plazo;
     }
 

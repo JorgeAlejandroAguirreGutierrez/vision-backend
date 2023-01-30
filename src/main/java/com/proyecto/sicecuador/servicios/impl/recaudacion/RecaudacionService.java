@@ -3,13 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.recaudacion.Cheque;
-import com.proyecto.sicecuador.modelos.recaudacion.Deposito;
-import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
-import com.proyecto.sicecuador.modelos.recaudacion.TarjetaCredito;
-import com.proyecto.sicecuador.modelos.recaudacion.TarjetaDebito;
-import com.proyecto.sicecuador.modelos.recaudacion.Transferencia;
+import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.repositorios.recaudacion.IRecaudacionRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICreditoService;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IRecaudacionService;
@@ -28,6 +24,14 @@ public class RecaudacionService implements IRecaudacionService {
     
     @Autowired
     private ICreditoService servicioCredito;
+
+    @Override
+    public void validar(Recaudacion recaudacion) {
+        if(recaudacion.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
+        if(recaudacion.getTotal() == Constantes.cero) throw new DatoInvalidoException(Constantes.total);
+        if(recaudacion.getFactura().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.factura);
+        if(recaudacion.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+    }
     
     @Override
     public Recaudacion crear(Recaudacion recaudacion) {
@@ -39,8 +43,8 @@ public class RecaudacionService implements IRecaudacionService {
     	double diferencia= recaudacion.getFactura().getTotalConDescuento()-recaudacion.getTotal();
         if (diferencia>0){
         	recaudacion.setTotalCredito(diferencia);
-        	recaudacion.setTotal(recaudacion.getTotal()+diferencia);
             recaudacion.getCredito().setSaldo(diferencia);
+            recaudacion.setTotal(recaudacion.getTotal()+diferencia);
         }
         recaudacion.setEfectivoCodigoSri(Constantes.sin_utilizacion_del_sistema_financiero);
         recaudacion.setChequeCodigoSri(Constantes.otros_con_utilizacion_sistema_financiero);
@@ -49,19 +53,26 @@ public class RecaudacionService implements IRecaudacionService {
         recaudacion.setTarjetaCreditoCodigoSri(Constantes.tarjeta_de_credito);
         recaudacion.setTarjetaDebitoCodigoSri(Constantes.tarjeta_de_debito);
         recaudacion.setEstado(Constantes.recaudado);
-    	return rep.save(recaudacion);
+    	Recaudacion res = rep.save(recaudacion);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Recaudacion actualizar(Recaudacion recaudacion) {
-        return rep.save(recaudacion);
+        validar(recaudacion);
+        Recaudacion res = rep.save(recaudacion);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Recaudacion obtener(long id) {
-        Optional<Recaudacion> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<Recaudacion> recaudacion = rep.findById(id);
+        if(recaudacion.isPresent()) {
+        	Recaudacion res = recaudacion.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.recaudacion);
     }
@@ -77,12 +88,18 @@ public class RecaudacionService implements IRecaudacionService {
     }
     
     @Override
-    public Optional<Recaudacion> obtenerPorFactura(long facturaId){
-    	return rep.obtenerPorFactura(facturaId);
+    public Recaudacion obtenerPorFactura(long facturaId){
+        Optional<Recaudacion> recaudacion = rep.obtenerPorFactura(facturaId);
+        if(recaudacion.isPresent()) {
+            Recaudacion res = recaudacion.get();
+            res.normalizar();
+            return res;
+        }
+        return null;
     }
     
     @Override
-    public Optional<Recaudacion> calcular(Recaudacion recaudacion){
+    public Recaudacion calcular(Recaudacion recaudacion){
     	double total=0;
     	total=total+recaudacion.getEfectivo();
     	double totalCheques=0;
@@ -110,14 +127,9 @@ public class RecaudacionService implements IRecaudacionService {
         	totalTarjetasCreditos=totalTarjetasCreditos+tarjetaCredito.getValor();
         	total=total+totalTarjetasCreditos;
         }
-        double pagar=recaudacion.getFactura().getTotalConDescuento()-total;
-        pagar=Math.round(pagar*100.0)/100.0;
-        if(pagar<0) {
-            pagar=0;
-        }
-        total = total + pagar;
-        recaudacion.getCredito().setSaldo(pagar);
-        recaudacion.setTotalCredito(pagar);
+
+        total = total + recaudacion.getCredito().getSaldo();
+        recaudacion.setTotalCredito(recaudacion.getCredito().getSaldo());
         recaudacion.setTotalCheques(totalCheques);
         recaudacion.setTotalDepositos(totalDepositos);
         recaudacion.setTotalTransferencias(totalTransferencias);
@@ -129,9 +141,19 @@ public class RecaudacionService implements IRecaudacionService {
         if(total >= recaudacion.getFactura().getTotalConDescuento()){
             total = recaudacion.getFactura().getTotalConDescuento();
         }
+        double porPagar=recaudacion.getFactura().getTotalConDescuento()-total;
+        porPagar=Math.round(porPagar*100.0)/100.0;
+        if(porPagar<0) {
+            porPagar=0;
+        }
+        recaudacion.setPorPagar(porPagar);
         recaudacion.setTotal(total);
-        recaudacion.setEstado(Constantes.recaudado);
-		return Optional.of(recaudacion);
+        if(porPagar > 0){
+            recaudacion.setEstado(Constantes.norecaudado);
+        } else{
+            recaudacion.setEstado(Constantes.recaudado);
+        }
+		return recaudacion;
     }
     
     @Override

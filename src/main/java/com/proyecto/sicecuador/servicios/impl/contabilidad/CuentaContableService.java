@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.contabilidad;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import com.proyecto.sicecuador.repositorios.contabilidad.ICuentaContableRepository;
 import com.proyecto.sicecuador.servicios.interf.contabilidad.ICuentaContableService;
@@ -22,9 +24,21 @@ import java.util.Optional;
 public class CuentaContableService implements ICuentaContableService {
     @Autowired
     private ICuentaContableRepository rep;
+
+    @Override
+    public void validar(CuentaContable cuentaContable) {
+        if(cuentaContable.getCuenta().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.cuenta);
+        if(cuentaContable.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(cuentaContable.getClasificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.clasificacion);
+        if(cuentaContable.getNivel() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.nivel);
+        if(cuentaContable.getFe().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.fe);
+        if(cuentaContable.getCasillero().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.casillero);
+        if(cuentaContable.getMapeo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.mapeo);
+    }
     
     @Override
     public CuentaContable crear(CuentaContable cuentaContable) {
+        validar(cuentaContable);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cuenta_contable);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -36,17 +50,20 @@ public class CuentaContableService implements ICuentaContableService {
 
     @Override
     public CuentaContable actualizar(CuentaContable cuentaContable) {
-    	return rep.save(cuentaContable);
+    	validar(cuentaContable);
+        return rep.save(cuentaContable);
     }
 
     @Override
     public CuentaContable activar(CuentaContable cuentaContable) {
+        validar(cuentaContable);
         cuentaContable.setEstado(Constantes.activo);
         return rep.save(cuentaContable);
     }
 
     @Override
     public CuentaContable inactivar(CuentaContable cuentaContable) {
+        validar(cuentaContable);
         cuentaContable.setEstado(Constantes.inactivo);
         return rep.save(cuentaContable);
     }

@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.inventario.Impuesto;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.repositorios.inventario.ISegmentoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ISegmentoService;
@@ -23,9 +25,17 @@ import javax.persistence.criteria.Predicate;
 public class SegmentoService implements ISegmentoService {
     @Autowired
     private ISegmentoRepository rep;
+
+    @Override
+    public void validar(Segmento segmento) {
+        if(segmento.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(segmento.getMargenGanancia() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.margenGanancia);
+        if(segmento.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public Segmento crear(Segmento segmento) {
+        validar(segmento);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_segmento);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -37,21 +47,22 @@ public class SegmentoService implements ISegmentoService {
 
     @Override
     public Segmento actualizar(Segmento segmento) {
+        validar(segmento);
         return rep.save(segmento);
     }
 
     @Override
     public Segmento activar(Segmento segmento) {
+        validar(segmento);
         segmento.setEstado(Constantes.activo);
-        segmento=rep.save(segmento);
-        return segmento;
+        return rep.save(segmento);
     }
 
     @Override
     public Segmento inactivar(Segmento segmento) {
+        validar(segmento);
         segmento.setEstado(Constantes.inactivo);
-        segmento=rep.save(segmento);
-        return segmento;
+        return rep.save(segmento);
     }
 
     @Override

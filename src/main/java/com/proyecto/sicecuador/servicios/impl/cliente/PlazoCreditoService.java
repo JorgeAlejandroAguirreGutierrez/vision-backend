@@ -1,5 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
@@ -20,9 +22,16 @@ import java.util.Optional;
 public class PlazoCreditoService implements IPlazoCreditoService {
     @Autowired
     private IPlazoCreditoRepository rep;
+
+    @Override
+    public void validar(PlazoCredito plazoCredito) {
+        if(plazoCredito.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(plazoCredito.getPlazo() == Constantes.cero) throw new DatoInvalidoException(Constantes.plazo);
+    }
     
     @Override
     public PlazoCredito crear(PlazoCredito plazoCredito) {
+        validar(plazoCredito);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_plazo_credito);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -34,17 +43,20 @@ public class PlazoCreditoService implements IPlazoCreditoService {
 
     @Override
     public PlazoCredito actualizar(PlazoCredito plazoCredito) {
+        validar(plazoCredito);
         return rep.save(plazoCredito);
     }
 
     @Override
     public PlazoCredito activar(PlazoCredito plazoCredito) {
+        validar(plazoCredito);
         plazoCredito.setEstado(Constantes.activo);
         return rep.save(plazoCredito);
     }
 
     @Override
     public PlazoCredito inactivar(PlazoCredito plazoCredito) {
+        validar(plazoCredito);
         plazoCredito.setEstado(Constantes.inactivo);
         return rep.save(plazoCredito);
     }

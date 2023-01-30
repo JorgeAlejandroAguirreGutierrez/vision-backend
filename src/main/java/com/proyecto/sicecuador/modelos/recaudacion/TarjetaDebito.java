@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -30,6 +31,14 @@ public class TarjetaDebito extends Entidad {
     private Recaudacion recaudacion;
 
     public TarjetaDebito(){
+        super();
+        this.identificacion = Constantes.vacio;
+        this.nombreTitular = Constantes.vacio;
+        this.lote = Constantes.vacio;
+        this.valor = Constantes.cero;
+        this.banco = new Banco();
+        this.operadorTarjeta = new OperadorTarjeta();
+        this.franquiciaTarjeta = new FranquiciaTarjeta();
     }
 
     public TarjetaDebito(long id){
@@ -45,7 +54,6 @@ public class TarjetaDebito extends Entidad {
         this.banco=banco;
         this.operadorTarjeta=operadorTarjeta;
         this.franquiciaTarjeta=franquiciaTarjeta;
-        this.recaudacion= recaudacion;
     }
     
     public String getIdentificacion() {
@@ -79,5 +87,11 @@ public class TarjetaDebito extends Entidad {
 
     public Banco getBanco() {
         return banco;
+    }
+
+    public void normalizar(){
+        if(this.banco == null) this.banco = new Banco();
+        if(this.operadorTarjeta == null) this.operadorTarjeta = new OperadorTarjeta();
+        if(this.franquiciaTarjeta == null) this.franquiciaTarjeta = new FranquiciaTarjeta();
     }
 }

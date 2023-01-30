@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import java.util.List;
@@ -17,6 +18,10 @@ public class Banco extends Entidad {
 
     public Banco(){
         super();
+        this.tipo = Constantes.vacio;
+        this.nombre = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public Banco(long id){

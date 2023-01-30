@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.contabilidad;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -8,6 +9,8 @@ import java.util.List;
 @Entity
 @Table(name = "movimiento_contable")
 public class MovimientoContable extends Entidad {
+	@Column(name = "estado", nullable = true)
+	private String estado;
 	@ManyToOne
     @JoinColumn(name = "afectacion_contable_id", nullable = true)
     private AfectacionContable afectacionContable;
@@ -35,11 +38,20 @@ public class MovimientoContable extends Entidad {
     @ManyToOne
 	@JoinColumn(name = "devolucion_costo_venta_id", nullable = true)
 	private CuentaContable devolucionCostoVenta;
-    @Column(name = "estado", nullable = true)
-    private String estado;
    
     public MovimientoContable(){
         super();
+		this.estado = Constantes.activo;
+		this.afectacionContable = new AfectacionContable();
+		this.inventario = new CuentaContable();
+		this.costoVenta = new CuentaContable();
+		this.devolucionCompra = new CuentaContable();
+		this.descuentoCompra = new CuentaContable();
+		this.venta = new CuentaContable();
+		this.devolucionVenta = new CuentaContable();
+		this.descuentoVenta = new CuentaContable();
+		this.devolucionCostoVenta = new CuentaContable();
+
     }
 
     public MovimientoContable(long id){
@@ -155,6 +167,18 @@ public class MovimientoContable extends Entidad {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public void normalizar(){
+		if(this.afectacionContable == null) this.afectacionContable = new AfectacionContable();
+		if(this.inventario == null) this.inventario = new CuentaContable();
+		if(this.costoVenta == null) this.costoVenta = new CuentaContable();
+		if(this.devolucionCompra == null) this.devolucionCompra = new CuentaContable();
+		if(descuentoCompra == null) this.descuentoCompra = new CuentaContable();
+		if(this.venta == null) this.venta = new CuentaContable();
+		if(this.devolucionVenta == null) this.devolucionVenta = new CuentaContable();
+		if(this.descuentoVenta == null) this.descuentoVenta = new CuentaContable();
+		if(this.devolucionCostoVenta == null) this.devolucionCostoVenta = new CuentaContable();
 	}
 
 

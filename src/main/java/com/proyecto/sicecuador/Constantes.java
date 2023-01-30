@@ -72,6 +72,9 @@ public class Constantes {
     public static String error_codigo_secuencia_no_existente="4007";
     public static String error_codigo_cliente_no_existente="4008";
     public static String error_codigo_parametro_invalido="4009";
+
+    public static String error_codigo_estado_invalido="4010";
+    public static String error_codigo_dato_invalido="4011";
     
     public static String error_generico="ERROR INTERNO DE SERVIDOR";
     public static String error_entidad_existente="ERROR ENTIDAD YA EXISTE";
@@ -83,15 +86,11 @@ public class Constantes {
     public static String error_secuencia_no_existente="ERROR SECUENCIA NO EXISTENTE";
     public static String error_cliente_no_existente="ERROR CLIENTE NO EXISTENTE";
     public static String error_parametro_invalido="ERROR PARAMETRO INVALIDO";
+    public static String error_estado_invalido="ERROR ESTADO INVALIDO";
+    public static String error_dato_invalido="ERROR DATO INVALIDO";
     
     //CODIGO PARA CREAR
     public static final String tipo="CREAR";
-    
-    //PARAMETROS
-    public static final String parametro_contrasena = "CONTRASEÑA";
-    public static final String parametro_telefono = "TELEFONO";
-    public static final String parametro_celular = "CELULAR";
-    public static final String parametro_correo = "CORREO";
     
     //TABLAS
     //CLIENTE
@@ -103,7 +102,6 @@ public class Constantes {
     public static final String tabla_cliente="cliente";
     public static final String tabla_correo="correo";
     public static final String tabla_correo_auxiliar="correo_auxiliar";
-    public static final String tabla_direccion="direccion";
     public static final String tabla_estado_civil="estado_civil";
     public static final String tabla_financiamiento="financiamiento";
     public static final String tabla_forma_pago="forma_pago";
@@ -207,7 +205,6 @@ public class Constantes {
     public static final String tipo_identificacion="TIPO IDENTIFICACION";
     public static final String correo="CORREO";
     public static final String correo_auxiliar="CORREO AUXILIAR";
-    public static final String direccion="DIRECCION";
     public static final String estado_civil="ESTADO CIVIL";
     public static final String financiamiento="FINANCIAMIENTO";
     public static final String forma_pago="FORMA PAGO";
@@ -267,6 +264,8 @@ public class Constantes {
     public static final String sub_linea_producto="SUB LINEA PRODUCTO";
     public static final String equivalencia_medida="TABLA EQUIVALENCIA MEDIDA";
     public static final String tipo_gasto="TIPO GASTO";
+    public static final String producto_proveedor="PRODUCTO Y PROVEEDOR";
+    public static final String producto_bodega="PRODUCTO Y BODEGA";
     
     //RECAUDACION
     public static final String amortizacion="AMORTIZACION";
@@ -302,6 +301,77 @@ public class Constantes {
     public static final String afectacion_contable="AFECTACION CONTABLE";
     public static final String movimiento_contable="MOVIMIENTO CONTABLE";
     public static final String cuenta_contable="CUENTA CONTABLE";
+
+    //CAMPOS DE TABLAS
+    public static final String descripcion="DESCRIPCION";
+    public static final String abreviatura="ABREVIATURA";
+    public static final String numero="NUMERO";
+    public static final String equivalencia="EQUIVALENCIA";
+
+    public static final String grupo="GRUPO";
+    public static final String subgrupo="SUBGRUPO";
+    public static final String seccion="SECCION";
+    public static final String linea="LINEA";
+    public static final String sublinea="SUBLINEA";
+    public static final String presentacion="PRESENTACION";
+    public static final String identificacion="IDENTIFICACION";
+    public static final String razonSocial="RAZON SOCIAL";
+    public static final String especial="ESPECIAL";
+
+    public static final String estado="ESTADO";
+    public static final String obligadoContabilidad="OBLIGADO A CONTABILIDAD";
+    public static final String direccion="DIRECCION";
+    public static final String referencia="REFERENCIA";
+    public static final String montoFinanciamiento = "MONTO DE FINANCIAMIENTO";
+    public static final String email="EMAIL";
+    public static final String monto="MONTO";
+    public static final String codigoSRI="Codigo SRI";
+    public static final String subtipo="SUBTIPO";
+    public static final String nombreComercial="NOMBRE COMERCIAL";
+    public static final String secuencia="SECUENCIA";
+
+    public static final String codigoNumerico="CODIGO NUMERICO";
+    public static final String fecha="FECHA";
+    public static final String moneda="MONEDA";
+    public static final String logo="LOGO";
+    public static final String nombreTabla="NOMBRE DE LA TABLA";
+    public static final String tabla="TABLA";
+    public static final String impuestoRetencion="IMPUESTO DE RETENCION";
+    public static final String tipoRetencion="TIPO DE RETENCION";
+    public static final String porcentaje="PORCENTAJE";
+    public static final String plazo="PLAZO";
+    public static final String codigoNorma="CODIGO DE LA NORMA";
+    public static final String provincia="PROVINCIA";
+    public static final String canton="CANTON";
+    public static final String parroquia="PARROQUIA";
+    public static final String cuenta = "CUENTA";
+    public static final String clasificacion="CLASIFICACION";
+    public static final String nivel="NIVEL";
+    public static final String fe="FACTURACION ELECTRONICA";
+    public static final String casillero="CASILLERO";
+    public static final String mapeo="MAPEO";
+    public static final String inventario="INVENTARIO";
+    public static final String costoVenta="COSTO DE VENTA";
+    public static final String devolucionCompra="DEVOLUCION COMPRA";
+    public static final String descuentoCompra="DESCUENTO COMPRA";
+    public static final String venta="VENTA";
+    public static final String devolucionVenta="DEVOLUCION DE VENTA";
+    public static final String descuentoVenta="DESCUENTO DE VENTA";
+    public static final String devolucionCostoVenta="DEVOLUCION COSTO DE VENTA";
+    public static final String nombre="NOMBRE";
+    public static final String contrasena="CONTRASEÑA";
+    public static final String confirmarContrasena="CONFIRMAR CONTRASEÑA";
+    public static final String cambiarContrasena="CAMBIAR CONTRASEÑA";
+    public static final String pregunta="PREGUNTA";
+    public static final String respuesta="RESPUESTA";
+    public static final String consignacion="CONSIGNACION";
+    public static final String stockTotal="STOCK TOTAL";
+    public static final String margenGanancia="MARGEN DE GANANCIA";
+    public static final String total="TOTAL";
+    public static final String multiempresa="MULTI EMPRESA";
+    public static final String apodo="APODO";
+
+
     
     //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
     public static final int size=20;
@@ -311,6 +381,7 @@ public class Constantes {
     
     public static final String serie_sri="001001";
     public static final double cero=0;
+    public static final long ceroId = 0;
     
     //TABLA 2
     public static final String emision_normal_sri="1";
@@ -344,6 +415,9 @@ public class Constantes {
     public static final String renta= "RENTA";
     public static final String bien= "BIEN";
     public static final String servicio = "SERVICIO";
+    public static final String inicioTelefono = "0";
+    public static final String inicioCelular = "09";
+    public static final String arroba = "@";
     
     //NUMEROS
     public static final int uno = 1;

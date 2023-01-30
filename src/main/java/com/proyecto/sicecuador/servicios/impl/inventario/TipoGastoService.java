@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
 import com.proyecto.sicecuador.repositorios.inventario.ITipoGastoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ITipoGastoService;
@@ -21,9 +23,16 @@ import java.util.Optional;
 public class TipoGastoService implements ITipoGastoService {
     @Autowired
     private ITipoGastoRepository rep;
+
+    @Override
+    public void validar(TipoGasto tipoGasto) {
+        if(tipoGasto.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(tipoGasto.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public TipoGasto crear(TipoGasto tipoGasto) {
+        validar(tipoGasto);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_gasto);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -35,21 +44,22 @@ public class TipoGastoService implements ITipoGastoService {
 
     @Override
     public TipoGasto actualizar(TipoGasto tipoGasto) {
+        validar(tipoGasto);
         return rep.save(tipoGasto);
     }
 
     @Override
     public TipoGasto activar(TipoGasto tipoGasto) {
+        validar(tipoGasto);
         tipoGasto.setEstado(Constantes.activo);
-        tipoGasto=rep.save(tipoGasto);
-        return tipoGasto;
+        return rep.save(tipoGasto);
     }
 
     @Override
     public TipoGasto inactivar(TipoGasto tipoGasto) {
+        validar(tipoGasto);
         tipoGasto.setEstado(Constantes.inactivo);
-        tipoGasto=rep.save(tipoGasto);
-        return tipoGasto;
+        return rep.save(tipoGasto);
     }
 
     @Override

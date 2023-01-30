@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.configuracion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -20,7 +21,12 @@ public class Ubicacion extends Entidad {
     private String estado;
 
     public Ubicacion(){
-
+        super();
+        this.codigoNorma = Constantes.vacio;
+        this.provincia = Constantes.vacio;
+        this.canton = Constantes.vacio;
+        this.parroquia = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public Ubicacion(long id){

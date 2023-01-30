@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -17,6 +18,9 @@ public class TipoContribuyente extends Entidad {
 
     public TipoContribuyente(){
         super();
+        this.tipo = Constantes.vacio;
+        this.subtipo = Constantes.vacio;
+        this.obligadoContabilidad = Constantes.no;
     }
 
     public TipoContribuyente(long id) {

@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
 import com.proyecto.sicecuador.repositorios.inventario.ICategoriaProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.ICategoriaProductoService;
@@ -21,9 +23,16 @@ import java.util.Optional;
 public class CategoriaProductoService implements ICategoriaProductoService {
     @Autowired
     private ICategoriaProductoRepository rep;
+
+    @Override
+    public void validar(CategoriaProducto categoriaProducto) {
+        if(categoriaProducto.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(categoriaProducto.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public CategoriaProducto crear(CategoriaProducto categoriaProducto) {
+        validar(categoriaProducto);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_categoria_producto);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -35,17 +44,20 @@ public class CategoriaProductoService implements ICategoriaProductoService {
 
     @Override
     public CategoriaProducto actualizar(CategoriaProducto categoriaProducto) {
+        validar(categoriaProducto);
         return rep.save(categoriaProducto);
     }
 
     @Override
     public CategoriaProducto activar(CategoriaProducto categoriaProducto) {
+        validar(categoriaProducto);
         categoriaProducto.setEstado(Constantes.activo);
         return rep.save(categoriaProducto);
     }
 
     @Override
     public CategoriaProducto inactivar(CategoriaProducto categoriaProducto) {
+        validar(categoriaProducto);
         categoriaProducto.setEstado(Constantes.inactivo);
         return rep.save(categoriaProducto);
     }

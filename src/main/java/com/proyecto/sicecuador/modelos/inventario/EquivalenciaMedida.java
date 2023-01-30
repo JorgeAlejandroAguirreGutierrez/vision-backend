@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.inventario;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import java.util.List;
@@ -6,18 +7,23 @@ import java.util.List;
 @Entity
 @Table(name = "equivalencia_medida")
 public class EquivalenciaMedida extends Entidad {
+    @Column(name = "equivalencia", nullable = true)
+    private double equivalencia;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @ManyToOne
     @JoinColumn(name = "medidaIni_id", nullable = true)
     private Medida medidaIni;
     @ManyToOne
     @JoinColumn(name = "medidaEqui_id", nullable = true)
     private Medida medidaEqui;
-    @Column(name = "equivalencia", nullable = true)
-    private double equivalencia;
-    @Column(name = "estado", nullable = true)
-    private String estado;
 
     public EquivalenciaMedida(){
+        super();
+        this.equivalencia = Constantes.cero;
+        this.estado = Constantes.activo;
+        this.medidaIni = new Medida();
+        this.medidaEqui = new Medida();
     }
     public EquivalenciaMedida(long id){
         super(id);
@@ -72,5 +78,10 @@ public class EquivalenciaMedida extends Entidad {
     public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+    public void normalizar(){
+        if(this.medidaIni == null) this.medidaIni = new Medida();
+        if(this.medidaEqui == null) this.medidaEqui = new Medida();
+    }
     
 }

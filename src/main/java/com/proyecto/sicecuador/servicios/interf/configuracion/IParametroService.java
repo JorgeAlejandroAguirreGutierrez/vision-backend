@@ -6,7 +6,8 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IParametroService extends IGenericoService<Parametro> {
-	Parametro activar(Parametro parametro);
+	void validar(Parametro parametro);
+    Parametro activar(Parametro parametro);
 	Parametro inactivar(Parametro parametro);
 	List<Parametro> consultarActivos();
     Parametro obtenerPorTipo(Parametro parametro);

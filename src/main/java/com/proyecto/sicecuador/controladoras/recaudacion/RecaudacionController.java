@@ -65,14 +65,14 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
     
     @GetMapping(value = "/factura/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerPorFactura(@PathVariable("id") long id) {
-        Optional<Recaudacion> recaudacion=servicio.obtenerPorFactura(id);
+        Recaudacion recaudacion=servicio.obtenerPorFactura(id);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_obtener_exitoso, recaudacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
     @PostMapping(value = "/calcular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> calcular(@RequestBody @Valid Recaudacion _recaudacion) {
-        Optional<Recaudacion> recaudacion=servicio.calcular(_recaudacion);
+        Recaudacion recaudacion=servicio.calcular(_recaudacion);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, recaudacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

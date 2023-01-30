@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.inventario.Impuesto;
 import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.repositorios.inventario.IMedidaRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IMedidaService;
@@ -20,9 +22,17 @@ import java.util.Optional;
 public class MedidaService implements IMedidaService {
     @Autowired
     private IMedidaRepository rep;
+
+    @Override
+    public void validar(Medida medida) {
+        if(medida.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo);
+        if(medida.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(medida.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public Medida crear(Medida medida) {
+        validar(medida);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_medida);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -34,21 +44,22 @@ public class MedidaService implements IMedidaService {
 
     @Override
     public Medida actualizar(Medida medida) {
+        validar(medida);
         return rep.save(medida);
     }
 
     @Override
     public Medida activar(Medida medida) {
+        validar(medida);
         medida.setEstado(Constantes.activo);
-        medida=rep.save(medida);
-        return medida;
+        return rep.save(medida);
     }
 
     @Override
     public Medida inactivar(Medida medida) {
+        validar(medida);
         medida.setEstado(Constantes.inactivo);
-        medida=rep.save(medida);
-        return medida;
+        return rep.save(medida);
     }
 
     @Override

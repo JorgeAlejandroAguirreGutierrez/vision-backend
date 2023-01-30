@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -23,6 +24,10 @@ public class Permiso extends Entidad {
 
     public Permiso(){
         super();
+        this.modulo = Constantes.vacio;
+        this.operacion = Constantes.vacio;
+        this.habilitado = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
     public Permiso(long id){
         super(id);

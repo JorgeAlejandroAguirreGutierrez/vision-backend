@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.configuracion;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -11,9 +12,10 @@ public class TipoIdentificacion extends Entidad {
     private String codigoSRI;
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
-
     public TipoIdentificacion(){
-
+        super();
+        this.codigoSRI = Constantes.vacio;
+        this.descripcion = Constantes.vacio;
     }
 
     public TipoIdentificacion(long id){

@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.proveedor;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -14,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.Predicate;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,40 +23,66 @@ import java.util.Optional;
 public class ProveedorService implements IProveedorService {
     @Autowired
     private IProveedorRepository rep;
+
+    @Override
+    public void validar(Proveedor proveedor) {
+        if(proveedor.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
+        if(proveedor.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.razonSocial);
+        if(proveedor.getNombreComercial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombreComercial);
+        if(proveedor.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
+        if(proveedor.getTelefono().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.telefono);
+        if(proveedor.getCelular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.celular);
+        if(proveedor.getCorreo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.correo);
+        if(proveedor.getTipoIdentificacion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
+    }
     
     @Override
     public Proveedor crear(Proveedor proveedor) {
+        validar(proveedor);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_proveedor);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	proveedor.setCodigo(codigo.get());
     	proveedor.setEstado(Constantes.activo);
-    	return rep.save(proveedor);
+    	Proveedor res = rep.save(proveedor);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Proveedor actualizar(Proveedor proveedor) {
-    	return rep.save(proveedor);
+    	validar(proveedor);
+        Proveedor res = rep.save(proveedor);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Proveedor activar(Proveedor proveedor) {
+        validar(proveedor);
         proveedor.setEstado(Constantes.activo);
-        return rep.save(proveedor);
+        Proveedor res = rep.save(proveedor);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Proveedor inactivar(Proveedor proveedor) {
+        validar(proveedor);
         proveedor.setEstado(Constantes.inactivo);
-        return rep.save(proveedor);
+        Proveedor res = rep.save(proveedor);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Proveedor obtener(long id) {
-        Optional<Proveedor> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<Proveedor> proveedor= rep.findById(id);
+        if(proveedor.isPresent()) {
+        	Proveedor res = proveedor.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.proveedor);
     }
@@ -80,13 +105,7 @@ public class ProveedorService implements IProveedorService {
 
     @Override
     public List<Proveedor> buscar(Proveedor proveedor) {
-        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
-		    List<Predicate> predicates = new ArrayList<>();
-		    if (!proveedor.getRazonSocial().equals(Constantes.vacio)) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("razon_social"), "%"+proveedor.getRazonSocial()+"%")));
-		    }
-		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-		});
+        return  rep.consultarPorRazonSocial(proveedor.getRazonSocial(), Constantes.activo);
     }
     
     @Override

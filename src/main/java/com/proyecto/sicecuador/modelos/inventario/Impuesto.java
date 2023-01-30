@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.inventario;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 
@@ -7,12 +8,12 @@ import java.util.List;
 @Entity
 @Table(name = "impuesto")
 public class Impuesto extends Entidad {
-    @Column(name="codigo_sri",nullable = true)
+    @Column(name="codigo_sri", nullable = true)
     private String codigoSRI;
+    @Column(name = "descripcion", nullable = true)
+    private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
-	@Column(name = "descripcion", nullable = true)
-    private String descripcion;	
     @Column(name = "porcentaje", nullable = true)
     private double porcentaje;
     @Column(name = "estado", nullable = true)
@@ -21,6 +22,11 @@ public class Impuesto extends Entidad {
     
     public Impuesto(){
         super();
+        this.codigoSRI = Constantes.vacio;
+        this.descripcion = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.porcentaje = Constantes.cero;
+        this.estado = Constantes.activo;
     }
 
     public Impuesto(long id){
@@ -56,8 +62,12 @@ public class Impuesto extends Entidad {
 	public String getDescripcion() {
         return descripcion;
 	}
-    
-	public String getEstado() {
+
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    public String getEstado() {
 		return estado;
 	}
 

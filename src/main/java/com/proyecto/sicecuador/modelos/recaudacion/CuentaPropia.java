@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import java.util.List;
@@ -15,10 +16,15 @@ public class CuentaPropia extends Entidad {
     private Banco banco;
 
     public CuentaPropia(){
+        super();
+        this.numero = Constantes.vacio;
+        this.estado = Constantes.activo;
+        this.banco = new Banco();
     }
     public CuentaPropia(String codigo, String numero, String estado, Banco banco){
         super(codigo);
         this.numero=numero;
+        this.estado = estado;
         this.banco=banco;
     }
 
@@ -52,5 +58,9 @@ public class CuentaPropia extends Entidad {
 
     public void setBanco(Banco banco) {
         this.banco = banco;
+    }
+
+    public void normalizar(){
+        if(this.banco == null) this.banco = new Banco();
     }
 }

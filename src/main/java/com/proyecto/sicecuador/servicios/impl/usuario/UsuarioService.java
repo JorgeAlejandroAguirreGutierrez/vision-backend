@@ -2,8 +2,11 @@ package com.proyecto.sicecuador.servicios.impl.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.ParametroInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.usuario.Estacion;
+import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IUsuarioService;
@@ -21,54 +24,77 @@ import java.util.Optional;
 public class UsuarioService implements IUsuarioService {
     @Autowired
     private IUsuarioRepository rep;
+
+    @Override
+    public void validar(Usuario usuario) {
+        if(usuario.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
+        if(usuario.getApodo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.apodo);
+        if(usuario.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
+        if(usuario.getTelefono().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.telefono);
+        if(usuario.getCelular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.celular);
+        if(usuario.getCorreo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.correo);
+        if(usuario.getContrasena().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.contrasena);
+        if(usuario.getConfirmarContrasena().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.confirmarContrasena);
+        if(usuario.getCambiarContrasena().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.cambiarContrasena);
+        if(usuario.getPregunta().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.pregunta);
+        if(usuario.getEstacion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.estacion);
+        if(usuario.getPerfil().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.perfil);
+        if (!usuario.getContrasena().equals(usuario.getConfirmarContrasena())) throw new DatoInvalidoException(Constantes.contrasena);
+        String digito = usuario.getTelefono().substring(0, 1);
+        if(usuario.getTelefono().length() != 11 || !digito.equals(Constantes.inicioTelefono)) throw new DatoInvalidoException(Constantes.telefono);
+        String digito2 = usuario.getCelular().substring(0, 2);
+        if(usuario.getCelular().length() != 12 || !digito2.equals(Constantes.inicioCelular)) throw new DatoInvalidoException(Constantes.celular);
+        if(!usuario.getCorreo().contains(Constantes.arroba)) throw new DatoInvalidoException(Constantes.correo);
+    }
+
     
     @Override
     public Usuario crear(Usuario usuario) {
+        validar(usuario);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_usuario);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	if (!usuario.getContrasena().equals(usuario.getConfirmarContrasena())) {
-    		throw new ParametroInvalidoException(Constantes.parametro_contrasena);
-    	}
-    	String digito = usuario.getTelefono().substring(0, 1);
-    	if(usuario.getTelefono().length() != 11 || !digito.equals("0")) {
-    		throw new ParametroInvalidoException(Constantes.parametro_telefono);
-    	}
-    	String digito2 = usuario.getCelular().substring(0, 2);
-    	if(usuario.getCelular().length() != 12 || !digito2.equals("09")) {
-    		throw new ParametroInvalidoException(Constantes.parametro_celular);
-    	}
-    	if(!usuario.getCorreo().contains("@")) {
-    		throw new ParametroInvalidoException(Constantes.parametro_correo);
-    	}
     	usuario.setCodigo(codigo.get());
     	usuario.setEstado(Constantes.activo);
-    	return rep.save(usuario);
+    	Usuario res = rep.save(usuario);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Usuario actualizar(Usuario usuario) {
-        return rep.save(usuario);
+        validar(usuario);
+        Usuario res = rep.save(usuario);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Usuario activar(Usuario usuario) {
+        validar(usuario);
         usuario.setEstado(Constantes.activo);
-        return rep.save(usuario);
+        Usuario res = rep.save(usuario);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Usuario inactivar(Usuario usuario) {
+        validar(usuario);
         usuario.setEstado(Constantes.inactivo);
-        return rep.save(usuario);
+        Usuario res = rep.save(usuario);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Usuario obtener(long id) {
-        Optional<Usuario> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<Usuario> usuario = rep.findById(id);
+        if(usuario.isPresent()) {
+        	Usuario res = usuario.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.usuario);
     }
@@ -87,21 +113,13 @@ public class UsuarioService implements IUsuarioService {
     public Page<Usuario> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public List<Usuario> consultarVendedores() {
-        return null;
-    }
-
-    @Override
-    public List<Usuario> consultarCajeros() {
-        return null;
-    }
     
     public Usuario obtenerPorApodo(String apodo) {
-    	Optional<Usuario> res= rep.obtenerPorApodo(apodo, Constantes.activo);
-    	if(res.isPresent()) {
-    		return res.get();
+    	Optional<Usuario> usuario = rep.obtenerPorApodo(apodo, Constantes.activo);
+    	if(usuario.isPresent()) {
+    		Usuario res = usuario.get();
+            res.normalizar();
+            return res;
     	}
     	throw new EntidadNoExistenteException(Constantes.usuario);
     }

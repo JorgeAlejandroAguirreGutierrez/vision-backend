@@ -1,14 +1,13 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "estacion")
 public class Estacion extends Entidad {
-	@NotNull
 	@Column(name ="codigo_sri", nullable = true)
 	private String codigoSRI;
 	@Column(name = "nombre", nullable = true)
@@ -23,6 +22,11 @@ public class Estacion extends Entidad {
 
     public Estacion(){
         super();
+        this.codigoSRI = Constantes.vacio;
+        this.nombre = Constantes.vacio;
+        this.dispositivo = Constantes.vacio;
+        this.estado = Constantes.activo;
+        this.establecimiento = new Establecimiento();
     }
 
     public Estacion(long id) {
@@ -66,4 +70,8 @@ public class Estacion extends Entidad {
     public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+    public void normalizar(){
+        if(this.establecimiento == null) this.establecimiento = new Establecimiento();
+    }
 }

@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 
@@ -18,6 +19,8 @@ public class ProductoBodega extends Entidad {
 
     public ProductoBodega(){
         super();
+        this.cantidad = Constantes.cero;
+        this.bodega = new Bodega();
     }
 
     public ProductoBodega(long id){
@@ -43,5 +46,9 @@ public class ProductoBodega extends Entidad {
 	@JsonBackReference
     public Producto getProducto() {
         return producto;
+    }
+
+    public void normalizar(){
+        if(this.bodega == null) this.bodega = new Bodega();
     }
 }

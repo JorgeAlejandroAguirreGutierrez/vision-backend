@@ -1,11 +1,13 @@
 package com.proyecto.sicecuador.modelos.comprobante;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -18,12 +20,12 @@ public class Factura extends Entidad {
 	private String codigoNumerico;
 	@Column(name = "fecha", nullable = true)
 	private Date fecha;
+	@Column(name = "clave_acceso", nullable = true)
+	private String claveAcceso;
+	@Column(name = "moneda", nullable = true)
+	private String moneda;
 	@Column(name = "estado", nullable = true)
 	private String estado;
-	@Column(name = "clave_acceso")
-	private String claveAcceso;
-	@Column(name = "moneda")
-	private String moneda;	
 	@Column(name = "subtotal_sin_descuento", nullable = true)
 	private double subtotalSinDescuento;
 	@Column(name = "subtotal_con_descuento", nullable = true)
@@ -60,7 +62,7 @@ public class Factura extends Entidad {
 	@Column(name = "comentario", nullable = true)
 	private String comentario;
 	@ManyToOne
-	@JoinColumn(name = "cliente_id")
+	@JoinColumn(name = "cliente_id", nullable = true)
 	private Cliente cliente;
 	@ManyToOne
 	@JoinColumn(name = "sesion_id", nullable = true)
@@ -68,12 +70,39 @@ public class Factura extends Entidad {
 	@ManyToOne
 	@JoinColumn(name = "tipo_comprobante_id", nullable = true)
 	private TipoComprobante tipoComprobante;
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
-	@JoinColumn(name = "factura_id")
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "factura_id", nullable = true)
 	private List<FacturaDetalle> facturaDetalles;
     
 	public Factura() {
-
+		super();
+		this.secuencia = Constantes.vacio;
+		this.codigoNumerico = Constantes.vacio;
+		this.fecha = new Date();
+		this.claveAcceso = Constantes.vacio;
+		this.moneda = Constantes.vacio;
+		this.estado = Constantes.activo;
+		this.subtotalSinDescuento = Constantes.cero;
+		this.subtotalConDescuento = Constantes.cero;
+		this.descuentoTotal = Constantes.cero;
+		this.subtotalBase12SinDescuento = Constantes.cero;
+		this.subtotalBase0SinDescuento = Constantes.cero;
+		this.subtotalBase12ConDescuento = Constantes.cero;
+		this.subtotalBase0ConDescuento = Constantes.cero;
+		this.ivaSinDescuento = Constantes.cero;
+		this.ivaConDescuento = Constantes.cero;
+		this.totalSinDescuento = Constantes.cero;
+		this.totalConDescuento = Constantes.cero;
+		this.valorDescuentoSubtotal = Constantes.cero;
+		this.porcentajeDescuentoSubtotal = Constantes.cero;
+		this.valorDescuentoTotal = Constantes.cero;
+		this.porcentajeDescuentoTotal = Constantes.cero;
+		this.valorPorcentajeDescuentoTotal = Constantes.cero;
+		this.comentario = Constantes.vacio;
+		this.cliente = new Cliente();
+		this.sesion = new Sesion();
+		this.tipoComprobante = new TipoComprobante();
+		this.facturaDetalles = Collections.emptyList();
 	}
 
 	public Factura(long id) {
@@ -309,5 +338,13 @@ public class Factura extends Entidad {
 	@JsonManagedReference
 	public List<FacturaDetalle> getFacturaDetalles() {
 		return facturaDetalles;
+	}
+
+	public void normalizar(){
+		if(this.fecha == null) this.fecha = new Date();
+		this.cliente = new Cliente();
+		this.sesion = new Sesion();
+		this.tipoComprobante = new TipoComprobante();
+		this.facturaDetalles = Collections.emptyList();
 	}
 }
