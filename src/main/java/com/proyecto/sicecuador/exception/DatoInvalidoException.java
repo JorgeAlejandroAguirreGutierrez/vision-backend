@@ -5,7 +5,7 @@ public class DatoInvalidoException extends RuntimeException  {
 
 	private String dato;
 
-	public DatoInvalidoException(String parametro) {
+	public DatoInvalidoException(String dato) {
 		this.dato=dato;
 	}
 

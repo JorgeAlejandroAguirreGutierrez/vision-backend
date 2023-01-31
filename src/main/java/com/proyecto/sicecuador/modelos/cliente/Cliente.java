@@ -343,6 +343,10 @@ public class Cliente extends Entidad {
 		this.segmento = segmento;
 	}
 
+    public void setPlazoCredito(PlazoCredito plazoCredito) {
+        this.plazoCredito = plazoCredito;
+    }
+
     public void setEstado(String estado) {
 		this.estado = estado;
 	}

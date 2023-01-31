@@ -22,8 +22,6 @@ public class Factura extends Entidad {
 	private Date fecha;
 	@Column(name = "clave_acceso", nullable = true)
 	private String claveAcceso;
-	@Column(name = "moneda", nullable = true)
-	private String moneda;
 	@Column(name = "estado", nullable = true)
 	private String estado;
 	@Column(name = "subtotal_sin_descuento", nullable = true)
@@ -80,7 +78,6 @@ public class Factura extends Entidad {
 		this.codigoNumerico = Constantes.vacio;
 		this.fecha = new Date();
 		this.claveAcceso = Constantes.vacio;
-		this.moneda = Constantes.vacio;
 		this.estado = Constantes.activo;
 		this.subtotalSinDescuento = Constantes.cero;
 		this.subtotalConDescuento = Constantes.cero;
@@ -109,7 +106,7 @@ public class Factura extends Entidad {
 		super(id);
 	}
 
-	public Factura(String codigo, String secuencia, Date fecha, String estado, String claveAcceso, String moneda, double subtotalSinDescuento,
+	public Factura(String codigo, String secuencia, Date fecha, String estado, String claveAcceso, double subtotalSinDescuento,
 			double subtotalConDescuento, double descuentoTotal, double subtotalBase12SinDescuento, double subtotalBase0SinDescuento,
 		    double subtotalBase12ConDescuento, double subtotalBase0ConDescuento, double ivaSinDescuento, double ivaConDescuento,
 		    double totalSinDescuento, double totalConDescuento, double valorDescuentoSubtotal, double porcentajeDescuentoSubtotal,
@@ -120,7 +117,6 @@ public class Factura extends Entidad {
 		this.fecha = fecha;
 		this.estado = estado;
 		this.claveAcceso = claveAcceso;
-		this.moneda = moneda;
 		this.subtotalSinDescuento = subtotalSinDescuento;
 		this.subtotalConDescuento = subtotalConDescuento;
 		this.descuentoTotal = descuentoTotal;
@@ -161,10 +157,6 @@ public class Factura extends Entidad {
 
 	public String getClaveAcceso() {
 		return claveAcceso;
-	}
-
-	public String getMoneda() {
-		return moneda;
 	}
 	
 	public double getSubtotalSinDescuento() {
@@ -327,6 +319,10 @@ public class Factura extends Entidad {
 		this.secuencia = secuencia;
 	}
 
+	public void setTipoComprobante(TipoComprobante tipoComprobante) {
+		this.tipoComprobante = tipoComprobante;
+	}
+
 	public void setSesion(Sesion sesion) {
 		this.sesion = sesion;
 	}
@@ -342,9 +338,9 @@ public class Factura extends Entidad {
 
 	public void normalizar(){
 		if(this.fecha == null) this.fecha = new Date();
-		this.cliente = new Cliente();
-		this.sesion = new Sesion();
-		this.tipoComprobante = new TipoComprobante();
-		this.facturaDetalles = Collections.emptyList();
+		if(this.cliente == null) this.cliente = new Cliente();
+		if(this.sesion == null) this.sesion = new Sesion();
+		if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
+		if(this.facturaDetalles.isEmpty()) this.facturaDetalles = Collections.emptyList();
 	}
 }

@@ -3,12 +3,13 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
-import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
+import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
+import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,16 +30,14 @@ public class FacturaService implements IFacturaService {
     private IFacturaRepository rep;
     @Autowired
     private IKardexService kardexService;
+    @Autowired
+    private ITipoComprobanteService tipoComprobanteService;
 
     @Override
     public void validar(Factura factura) {
-        if(factura.getSecuencia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.secuencia);
-        if(factura.getCodigoNumerico().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.codigoNumerico);
         if(factura.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
-        if(factura.getMoneda().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.moneda);
         if(factura.getCliente().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cliente);
         if(factura.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
-        if(factura.getTipoComprobante().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_comprobante);
         if(factura.getFacturaDetalles().isEmpty()) throw new DatoInvalidoException(Constantes.factura_detalle);
     }
 
@@ -54,6 +53,8 @@ public class FacturaService implements IFacturaService {
             kardex_actualizar.setSalida(salida_actual+factura.getFacturaDetalles().get(i).getCantidad());
             kardexService.actualizar(kardex_actualizar);
         }
+        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
+        factura.setTipoComprobante(tipoComprobante);
         Optional<String>codigo=Util.generarCodigo(Constantes.tabla_factura);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();

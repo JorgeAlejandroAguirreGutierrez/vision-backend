@@ -49,24 +49,28 @@ public class ClienteService implements IClienteService {
         if(cliente.getEspecial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.especial);
         if(cliente.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
         if(cliente.getReferencia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.referencia);
-        if(cliente.getMontoFinanciamiento() == Constantes.cero) throw new DatoInvalidoException(Constantes.montoFinanciamiento);
         if(cliente.getTipoIdentificacion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
         if(cliente.getTipoContribuyente().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.tipo_contribuyente);
         if(cliente.getEstacion().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.estacion);
         if(cliente.getGrupoCliente().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.grupo_cliente);
         if(cliente.getFormaPago().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.forma_pago);
-        if(cliente.getPlazoCredito().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.plazo_credito);
-        if(cliente.getUbicacion().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.ubicacion);
+        if(cliente.getUbicacion().getProvincia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.provincia);
+        if(cliente.getUbicacion().getCanton().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.canton);
+        if(cliente.getUbicacion().getParroquia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.parroquia);
         if(cliente.getGenero().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.genero);
         if(cliente.getEstadoCivil().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.estado_civil);
         if(cliente.getCalificacionCliente().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.calificacion_cliente);
         if(cliente.getOrigenIngreso().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.origen_ingreso);
         if(cliente.getSegmento().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.segmento);
-        if(cliente.getDependientes().isEmpty()) throw new DatoInvalidoException(Constantes.dependiente);
         if(cliente.getTelefonos().isEmpty()) throw new DatoInvalidoException(Constantes.telefono);
         if(cliente.getCelulares().isEmpty()) throw new DatoInvalidoException(Constantes.celular);
         if(cliente.getCorreos().isEmpty()) throw new DatoInvalidoException(Constantes.correo);
         if(cliente.getRetencionesCliente().isEmpty()) throw new DatoInvalidoException(Constantes.retencion_cliente);
+
+        if(cliente.getPlazoCredito().getId() == 0 ) cliente.setPlazoCredito(null);
+        for (RetencionCliente retencionCliente : cliente.getRetencionesCliente()){
+            if(retencionCliente.getTipoRetencion().getId() == Constantes.ceroId) retencionCliente.setTipoRetencion(null);
+        }
     }
     @Override
     public List<Cliente> buscar(Cliente cliente) {

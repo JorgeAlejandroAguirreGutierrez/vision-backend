@@ -46,6 +46,15 @@ public class TipoComprobanteService implements ITipoComprobanteService {
     }
 
     @Override
+    public TipoComprobante obtenerPorNombreTabla(String nombreTabla) {
+        Optional<TipoComprobante> res = rep.obtenerPorNombreTabla(nombreTabla);
+        if(res.isPresent()) {
+            return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.tipo_comprobante);
+    }
+
+    @Override
     public List<TipoComprobante> consultar() {
         return rep.findAll();
     }

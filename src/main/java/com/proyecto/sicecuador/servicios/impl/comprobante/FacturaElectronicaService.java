@@ -131,7 +131,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
     	infoFactura.setPropina(Constantes.cero);
     	infoFactura.setImporteTotal(factura.getTotalConDescuento());
-    	infoFactura.setMoneda(factura.getMoneda());
+    	infoFactura.setMoneda(Constantes.moneda);
     	infoFactura.setPagos(crearPagos(recaudacion));
     	
     	Detalles detalles=crearDetalles(factura);

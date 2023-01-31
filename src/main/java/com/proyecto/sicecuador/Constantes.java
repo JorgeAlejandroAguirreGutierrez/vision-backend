@@ -332,7 +332,6 @@ public class Constantes {
 
     public static final String codigoNumerico="CODIGO NUMERICO";
     public static final String fecha="FECHA";
-    public static final String moneda="MONEDA";
     public static final String logo="LOGO";
     public static final String nombreTabla="NOMBRE DE LA TABLA";
     public static final String tabla="TABLA";
@@ -436,6 +435,7 @@ public class Constantes {
     public static final String urlConsultaFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline";
     public static final String utf8 = "utf-8";
     public static final String contentType = "Content-Type";
+    public static final String moneda = "USD";
     public static final String contenTypeValor = "text/xml;charset=UTF-8";
     public static final String mensajeSri = "LA RESPUESTA DEL SRI A LA FACTURA ES: ";
     public static final String mensajeNoSri = "LA FACTURA YA FUE PROCESADO CON CLAVE DE ACCESO: ";
