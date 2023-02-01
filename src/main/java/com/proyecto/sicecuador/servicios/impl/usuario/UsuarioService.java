@@ -13,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +44,10 @@ public class UsuarioService implements IUsuarioService {
     	if(!usuario.getCorreo().contains("@")) {
     		throw new ParametroInvalidoException(Constantes.parametro_correo);
     	}
-    	usuario.setCodigo(codigo.get());
+
+        byte[] avatarBytes = usuario.getAvatar64().getBytes(StandardCharsets.UTF_8);
+    	//byte[] avatar = Base64.getDecoder().decode(usuario.getAvatar64());
+        usuario.setAvatar(avatarBytes);
     	usuario.setEstado(Constantes.activo);
     	return rep.save(usuario);
     }

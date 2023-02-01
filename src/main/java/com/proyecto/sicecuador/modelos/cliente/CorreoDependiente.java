@@ -6,13 +6,13 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "correo_auxiliar")
+@Table(name = "correo_dependiente")
 public class CorreoDependiente extends Entidad {
     @Column(name = "email", nullable = true)
     private String email;
     @ManyToOne
-    @JoinColumn(name = "auxiliar_id", nullable = true)
-    private Dependiente auxiliar;
+    @JoinColumn(name = "dependiente_id", nullable = true)
+    private Dependiente dependiente;
 
     public CorreoDependiente(){
         super();
@@ -23,10 +23,10 @@ public class CorreoDependiente extends Entidad {
         super(id);
     }
 
-    public CorreoDependiente(String codigo, String email, Dependiente auxiliar) {
+    public CorreoDependiente(String codigo, String email, Dependiente dependiente) {
         super(codigo);
         this.email=email;
-        this.auxiliar=auxiliar;
+        this.dependiente=dependiente;
     }
 
     public String getEmail() {
@@ -34,7 +34,7 @@ public class CorreoDependiente extends Entidad {
     }
 
     @JsonBackReference
-    public Dependiente getAuxiliar() {
-        return auxiliar;
+    public Dependiente getDependiente() {
+        return dependiente;
     }
 }

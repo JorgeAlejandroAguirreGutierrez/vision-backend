@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ICelularAuxiliarRepository extends JpaRepository<CelularDependiente, Long>, JpaSpecificationExecutor<CelularDependiente> {
+public interface ICelularDependienteRepository extends JpaRepository<CelularDependiente, Long>, JpaSpecificationExecutor<CelularDependiente> {
 }

@@ -6,13 +6,13 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "telefono_auxiliar")
+@Table(name = "telefono_dependiente")
 public class TelefonoDependiente extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;
     @ManyToOne
-    @JoinColumn(name = "auxiliar_id", nullable = true)
-    private Dependiente auxiliar;
+    @JoinColumn(name = "dependiente_id", nullable = true)
+    private Dependiente dependiente;
 
     public TelefonoDependiente(){
         super();
@@ -23,17 +23,17 @@ public class TelefonoDependiente extends Entidad {
         super(id);
     }
 
-    public TelefonoDependiente(String codigo, String numero, Dependiente auxiliar) {
+    public TelefonoDependiente(String codigo, String numero, Dependiente dependiente) {
         super(codigo);
         this.numero=numero;
-        this.auxiliar=auxiliar;
+        this.dependiente=dependiente;
     }
 
     public String getNumero() {
         return numero;
     }
     @JsonBackReference
-    public Dependiente getAuxiliar() {
-        return auxiliar;
+    public Dependiente getDependiente() {
+        return dependiente;
     }
 }

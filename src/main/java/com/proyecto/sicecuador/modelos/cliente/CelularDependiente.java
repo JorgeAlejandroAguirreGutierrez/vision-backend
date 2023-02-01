@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "celular_auxiliar")
+@Table(name = "celular_dependiente")
 public class CelularDependiente extends Entidad {
     @NotNull
     @NotBlank
@@ -16,8 +16,8 @@ public class CelularDependiente extends Entidad {
     private String numero;
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "auxiliar_id")
-    private Dependiente auxiliar;
+    @JoinColumn(name = "dependiente_id")
+    private Dependiente dependiente;
 
     public CelularDependiente(){
         super();
@@ -28,17 +28,17 @@ public class CelularDependiente extends Entidad {
         super(id);
     }
 
-    public CelularDependiente(String codigo, String numero, Dependiente auxiliar) {
+    public CelularDependiente(String codigo, String numero, Dependiente dependiente) {
         super(codigo);
         this.numero=numero;
-        this.auxiliar=auxiliar;
+        this.dependiente=dependiente;
     }
 
     public String getNumero() {
         return numero;
     }
     @JsonBackReference
-    public Dependiente getAuxiliar() {
-        return auxiliar;
+    public Dependiente getDependiente() {
+        return dependiente;
     }
 }

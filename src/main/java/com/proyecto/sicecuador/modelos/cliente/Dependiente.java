@@ -18,6 +18,12 @@ public class Dependiente extends Entidad {
     private String razonSocial;
     @Column(name = "direccion", nullable = true)
     private String direccion;
+    @Column(name = "latitudgeo", nullable = true)
+    private double latitudgeo;
+    @Column(name = "longitudgeo", nullable = true)
+    private double longitudgeo;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
@@ -42,10 +48,13 @@ public class Dependiente extends Entidad {
         super(id);
     }
 
-    public Dependiente(String codigo, String razonSocial, String estado, String direccion, Ubicacion ubicacion, Cliente cliente){
+    public Dependiente(String codigo, String razonSocial, String direccion, double latitudgeo, double longitudgeo, String estado, Ubicacion ubicacion, Cliente cliente){
         super(codigo);
         this.razonSocial=razonSocial;
         this.direccion=direccion;
+        this.latitudgeo = latitudgeo;
+        this.longitudgeo = longitudgeo;
+        this.estado=estado;
         this.ubicacion=ubicacion;
         this.cliente=cliente;
 
@@ -64,6 +73,7 @@ public class Dependiente extends Entidad {
     public Dependiente(List<String>datos){
         this.razonSocial=datos.get(0)== null? null : datos.get(0);
         this.direccion=datos.get(1)==null? null: datos.get(1);
+        this.estado=datos.get(2)==null? null: datos.get(2);
         this.ubicacion=datos.get(3)== null ? null: new Ubicacion(Long.parseLong(datos.get(3)));
         this.cliente=datos.get(4)== null ? null: new Cliente(Long.parseLong(datos.get(4)));
     }
@@ -75,6 +85,18 @@ public class Dependiente extends Entidad {
     public String getDireccion() {
 		return direccion;
 	}
+
+    public double getLongitudgeo() {
+        return longitudgeo;
+    }
+
+    public double getLatitudgeo() {
+        return latitudgeo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
     
     public Ubicacion getUbicacion() {
 		return ubicacion;
@@ -97,7 +119,10 @@ public class Dependiente extends Entidad {
     public List<CorreoDependiente> getCorreosDependiente() {
 		return correosDependiente;
 	}
-    
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
     public void setUbicacion(Ubicacion ubicacion) {
 		this.ubicacion = ubicacion;
 	}

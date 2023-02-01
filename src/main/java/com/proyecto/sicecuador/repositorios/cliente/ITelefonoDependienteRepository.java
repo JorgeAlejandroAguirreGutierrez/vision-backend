@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ITelefonoAuxiliarRepository extends JpaRepository<TelefonoDependiente, Long>, JpaSpecificationExecutor<TelefonoDependiente> {
+public interface ITelefonoDependienteRepository extends JpaRepository<TelefonoDependiente, Long>, JpaSpecificationExecutor<TelefonoDependiente> {
 }

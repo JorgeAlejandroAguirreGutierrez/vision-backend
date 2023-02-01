@@ -46,12 +46,14 @@ public class Cliente extends Entidad {
     private GrupoCliente grupoCliente;
     @Column(name = "direccion")
     private String direccion;
+    @Column(name = "etiqueta")
+    private String etiqueta;
     @Column(name = "referencia")
     private String referencia;
     @Column(name = "latitudgeo", nullable = true)
-    private String latitudgeo;
+    private double latitudgeo;
     @Column(name = "longitudgeo", nullable = true)
-    private String longitudgeo;
+    private double longitudgeo;
     @Column(name = "monto_financiamiento", nullable = true)
     private double montoFinanciamiento;
     @ManyToOne
@@ -114,7 +116,7 @@ public class Cliente extends Entidad {
     }
 
     public Cliente(String codigo, String identificacion, String razonSocial, String obligadoContabilidad, String especial, String estado, 
-    		String direccion, String referencia, String latitudgeo, String longitudgeo,
+    		String direccion, String etiqueta, String referencia, double latitudgeo, double longitudgeo,
     		TipoIdentificacion tipoIdentificacion, Estacion estacion, 
     		GrupoCliente grupoCliente, TipoContribuyente tipoContribuyente, 
     		Ubicacion ubicacion, double montoFinanciamiento, FormaPago formaPago, PlazoCredito plazoCredito, Genero genero, EstadoCivil estadoCivil,
@@ -130,6 +132,7 @@ public class Cliente extends Entidad {
         this.grupoCliente=grupoCliente;
         this.tipoContribuyente=tipoContribuyente;
         this.direccion=direccion;
+        this.etiqueta=etiqueta;
         this.referencia = referencia;
         this.latitudgeo = latitudgeo;
         this.longitudgeo = longitudgeo;
@@ -155,6 +158,7 @@ public class Cliente extends Entidad {
         estacion= datos.get(7)== null ? null: new Estacion((long) Double.parseDouble(datos.get(7)));
         grupoCliente= datos.get(8)== null ? null: new GrupoCliente((long) Double.parseDouble(datos.get(8)));
         direccion= datos.get(9)== null ? null: datos.get(9);
+        etiqueta= datos.get(10)== null ? null: datos.get(10);
         genero=datos.get(11)== null ? null:new Genero((long) Double.parseDouble(datos.get(11)));
         estadoCivil=datos.get(12)== null ? null:new EstadoCivil((long) Double.parseDouble(datos.get(12)));
         calificacionCliente=datos.get(13)== null ? null:new CalificacionCliente((long) Double.parseDouble(datos.get(13)));
@@ -202,16 +206,20 @@ public class Cliente extends Entidad {
     public String getDireccion() {
 		return direccion;
 	}
+
+    public String getEtiqueta() {
+        return etiqueta;
+    }
     
     public String getReferencia() {
 		return referencia;
 	}
     
-    public String getLongitudgeo() {
+    public double getLongitudgeo() {
 		return longitudgeo;
 	}
     
-    public String getLatitudgeo() {
+    public double getLatitudgeo() {
 		return latitudgeo;
 	}
 
