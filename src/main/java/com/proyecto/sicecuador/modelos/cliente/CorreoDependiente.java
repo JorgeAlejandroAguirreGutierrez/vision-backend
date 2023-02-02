@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -16,8 +17,8 @@ public class CorreoDependiente extends Entidad {
 
     public CorreoDependiente(){
         super();
+        this.email = Constantes.vacio;
     }
-
 
     public CorreoDependiente(long id) {
         super(id);

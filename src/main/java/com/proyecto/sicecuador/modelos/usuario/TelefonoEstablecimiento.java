@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class TelefonoEstablecimiento extends Entidad {
 	
 	public TelefonoEstablecimiento() {
 		super();
+		this.numero = Constantes.vacio;
 	}
 	public TelefonoEstablecimiento(long id) {
 		super(id);

@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.configuracion;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import java.util.List;
@@ -20,7 +21,13 @@ public class TipoRetencion extends Entidad {
     private String estado;
 
     public TipoRetencion(){
-
+        super();
+        this.impuestoRetencion = Constantes.vacio;
+        this.tipoRetencion = Constantes.vacio;
+        this.codigoSRI = Constantes.vacio;
+        this.descripcion = Constantes.vacio;
+        this.porcentaje = Constantes.cero;
+        this.estado = Constantes.activo;
     }
 
     public TipoRetencion(long id){

@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface ITipoRetencionService extends IGenericoService<TipoRetencion> {
+	void validar(TipoRetencion tipoRetencion);
 	TipoRetencion activar(TipoRetencion tipoRetencion);
 	TipoRetencion inactivar(TipoRetencion tipoRetencion);
 	List<TipoRetencion> consultarActivos();

@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
 import com.proyecto.sicecuador.modelos.inventario.Impuesto;
 import com.proyecto.sicecuador.repositorios.inventario.IImpuestoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IImpuestoService;
@@ -20,9 +22,18 @@ import java.util.Optional;
 public class ImpuestoService implements IImpuestoService {
     @Autowired
     private IImpuestoRepository rep;
+
+    @Override
+    public void validar(Impuesto impuesto) {
+        if(impuesto.getCodigoSRI().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.codigoSRI);
+        if(impuesto.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(impuesto.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+        if(impuesto.getPorcentaje() == Constantes.cero) throw new DatoInvalidoException(Constantes.porcentaje);
+    }
     
     @Override
     public Impuesto crear(Impuesto impuesto) {
+        validar(impuesto);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_impuesto);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -34,17 +45,20 @@ public class ImpuestoService implements IImpuestoService {
 
     @Override
     public Impuesto actualizar(Impuesto impuesto) {
+        validar(impuesto);
         return rep.save(impuesto);
     }
 
     @Override
     public Impuesto activar(Impuesto impuesto) {
+        validar(impuesto);
         impuesto.setEstado(Constantes.activo);
         return rep.save(impuesto);
     }
 
     @Override
     public Impuesto inactivar(Impuesto impuesto) {
+        validar(impuesto);
         impuesto.setEstado(Constantes.inactivo);
         return rep.save(impuesto);
     }

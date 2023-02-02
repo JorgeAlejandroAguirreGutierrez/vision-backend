@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class RetencionVenta extends Entidad {
     @Column(name = "autorizacion", nullable = true)
     private String autorizacion;
     @Column(name = "compensado", nullable = true)
-    private boolean compensado;
+    private String compensado;
     @Column(name = "base_imponible", nullable = true)
     private double baseImponible;
     @Column(name = "valor", nullable = true)
@@ -32,13 +33,23 @@ public class RetencionVenta extends Entidad {
     private Recaudacion recaudacion;
 
     public RetencionVenta(){
+        super();
+        this.codigoSRI = Constantes.vacio;
+        this.numero = Constantes.vacio;
+        this.fecha = new Date();
+        this.agente = Constantes.vacio;
+        this.autorizacion = Constantes.vacio;
+        this.compensado = Constantes.vacio;
+        this.baseImponible = Constantes.cero;
+        this.valor = Constantes.cero;
+        this.tipoRetencion = new TipoRetencion();
     }
 
     public RetencionVenta(long id){
         super(id);
     }
 
-    public RetencionVenta(String codigo, String codigoSRI, String numero, Date fecha, String agente, String autorizacion, boolean compensado, double baseImponible, double valor, TipoRetencion tipoRetencion, Recaudacion recaudacion ){
+    public RetencionVenta(String codigo, String codigoSRI, String numero, Date fecha, String agente, String autorizacion, String compensado, double baseImponible, double valor, TipoRetencion tipoRetencion, Recaudacion recaudacion ){
         super(codigo);
         this.codigoSRI=codigoSRI;
         this.numero=numero;
@@ -72,7 +83,7 @@ public class RetencionVenta extends Entidad {
         return autorizacion;
     }
 
-    public boolean isCompensado() {
+    public String getCompensado() {
         return compensado;
     }
 
@@ -91,5 +102,10 @@ public class RetencionVenta extends Entidad {
     @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;
+    }
+
+    public void normalizar(){
+        if(this.fecha == null) this.fecha = new Date();
+        if(this.tipoRetencion == null) this.tipoRetencion = new TipoRetencion();
     }
 }

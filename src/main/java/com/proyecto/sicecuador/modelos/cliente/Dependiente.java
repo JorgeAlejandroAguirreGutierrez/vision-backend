@@ -1,19 +1,17 @@
 package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
 @Table(name = "dependiente")
 public class Dependiente extends Entidad {
-    @NotNull
-    @NotBlank
     @Column(name = "razon_social", nullable = true)
     private String razonSocial;
     @Column(name = "direccion", nullable = true)
@@ -30,17 +28,24 @@ public class Dependiente extends Entidad {
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "dependiente_id")
     private List<TelefonoDependiente> telefonosDependiente;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true,  fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "dependiente_id")
     private List<CelularDependiente> celularesDependiente;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "dependiente_id")
     private List<CorreoDependiente> correosDependiente;
 
     public Dependiente(){
+        super();
+        this.razonSocial = Constantes.vacio;
+        this.direccion = Constantes.vacio;
+        this.ubicacion = new Ubicacion();
+        this.telefonosDependiente = Collections.emptyList();
+        this.celularesDependiente = Collections.emptyList();
+        this.correosDependiente = Collections.emptyList();
 
     }
 
@@ -57,7 +62,6 @@ public class Dependiente extends Entidad {
         this.estado=estado;
         this.ubicacion=ubicacion;
         this.cliente=cliente;
-
     }
 
     public Dependiente(String razonSocial){
@@ -126,4 +130,11 @@ public class Dependiente extends Entidad {
     public void setUbicacion(Ubicacion ubicacion) {
 		this.ubicacion = ubicacion;
 	}
+
+    public void normalizar(){
+        if(this.ubicacion == null) this.ubicacion = new Ubicacion();
+        if(this.telefonosDependiente == null) this.telefonosDependiente = Collections.emptyList();
+        if(this.celularesDependiente == null) this.celularesDependiente = Collections.emptyList();
+        if(this.correosDependiente == null) this.correosDependiente = Collections.emptyList();
+    }
 }

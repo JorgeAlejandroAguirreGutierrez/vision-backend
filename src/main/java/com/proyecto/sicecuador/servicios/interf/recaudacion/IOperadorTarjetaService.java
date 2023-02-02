@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IOperadorTarjetaService extends IGenericoService<OperadorTarjeta> {
+	void validar(OperadorTarjeta operadorTarjeta);
 	List<OperadorTarjeta> consultarActivos();
 	List<OperadorTarjeta> consultarPorTipo(OperadorTarjeta operadorTarjeta);
 	OperadorTarjeta activar(OperadorTarjeta operadorTarjeta);

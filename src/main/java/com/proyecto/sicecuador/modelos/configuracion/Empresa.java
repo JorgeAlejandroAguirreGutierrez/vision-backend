@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.modelos.configuracion;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -21,16 +21,24 @@ public class Empresa extends Entidad {
     private String direccion;
     @Column(name = "estado", nullable = true)
     private String estado;
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "tipo_identificacion_id", nullable = false)
+    @JoinColumn(name = "tipo_identificacion_id", nullable = true)
     private TipoIdentificacion tipoIdentificacion;
     @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
     
     public Empresa(){
-
+        super();
+        this.identificacion = Constantes.vacio;
+        this.razonSocial = Constantes.vacio;
+        this.nombreComercial = Constantes.vacio;
+        this.logo = Constantes.vacio;
+        this.obligadoContabilidad = Constantes.no;
+        this.direccion = Constantes.vacio;
+        this.estado = Constantes.activo;
+        this.tipoIdentificacion = new TipoIdentificacion();
+        this.ubicacion = new Ubicacion();
     }
 
     public Empresa(long id){
@@ -98,4 +106,9 @@ public class Empresa extends Entidad {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+    public void normalizar(){
+        if(this.tipoIdentificacion == null) this.tipoIdentificacion = new TipoIdentificacion();
+        if(this.ubicacion == null) this.ubicacion = new Ubicacion();
+    }
 }

@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 
@@ -7,9 +8,9 @@ import javax.persistence.*;
 @Table(name = "tarjeta_credito")
 public class TarjetaCredito extends Entidad {
     @Column(name = "diferido", nullable = true)
-    private boolean diferido;
+    private String diferido;
     @Column(name = "titular", nullable = true)
-    private boolean titular;
+    private String titular;
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
     @Column(name = "nombre_titular", nullable = true)
@@ -29,13 +30,22 @@ public class TarjetaCredito extends Entidad {
     private Recaudacion recaudacion;
 
     public TarjetaCredito(){
+        super();
+        this.diferido = Constantes.no;
+        this.titular = Constantes.no;
+        this.identificacion = Constantes.vacio;
+        this.nombreTitular = Constantes.vacio;
+        this.lote = Constantes.vacio;
+        this.valor = Constantes.cero;
+        this.operadorTarjeta = new OperadorTarjeta();
+        this.franquiciaTarjeta = new FranquiciaTarjeta();
     }
 
     public TarjetaCredito(long id){
         super(id);
     }
 
-    public TarjetaCredito(String codigo, boolean diferido, boolean titular, String identificacion, String nombreTitular, String lote, double valor, OperadorTarjeta operadorTarjeta, FranquiciaTarjeta franquiciaTarjeta, Recaudacion recaudacion){
+    public TarjetaCredito(String codigo, String diferido, String titular, String identificacion, String nombreTitular, String lote, double valor, OperadorTarjeta operadorTarjeta, FranquiciaTarjeta franquiciaTarjeta, Recaudacion recaudacion){
         super(codigo);
         this.diferido=diferido;
         this.titular=titular;
@@ -47,12 +57,12 @@ public class TarjetaCredito extends Entidad {
         this.franquiciaTarjeta=franquiciaTarjeta;
         this.recaudacion=recaudacion;
     }
-    
-    public boolean isDiferido() {
+
+    public String getDiferido() {
         return diferido;
     }
 
-    public boolean isTitular() {
+    public String getTitular() {
         return titular;
     }
 
@@ -83,5 +93,10 @@ public class TarjetaCredito extends Entidad {
     @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;
+    }
+
+    public void normalizar(){
+        if(this.operadorTarjeta == null) this.operadorTarjeta = new OperadorTarjeta();
+        if(this.franquiciaTarjeta == null) this.franquiciaTarjeta = new FranquiciaTarjeta();
     }
 }

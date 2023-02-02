@@ -1,11 +1,11 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -34,11 +34,9 @@ public class Entrega extends Entidad {
     private String opcionGuia;
     @Column(name = "estado", nullable = true)
     private String estado;
-    
     @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
@@ -46,9 +44,22 @@ public class Entrega extends Entidad {
     @JoinColumn(name = "transportista_id", nullable = true)
     private Transportista transportista;
 
-
     public Entrega(){
-
+        super();
+        this.guiaNumero = Constantes.vacio;
+        this.fecha = new Date();
+        this.direccion = Constantes.vacio;
+        this.referencia = Constantes.vacio;
+        this.longitudgeo = Constantes.vacio;
+        this.latitudgeo = Constantes.vacio;
+        this.telefono = Constantes.vacio;
+        this.celular = Constantes.vacio;
+        this.correo = Constantes.vacio;
+        this.opcionGuia = Constantes.vacio;
+        this.estado = Constantes.activo;
+        this.ubicacion = new Ubicacion();
+        this.factura = new Factura();
+        this.transportista = new Transportista();
     }
 
     public Entrega(long id){
@@ -162,4 +173,11 @@ public class Entrega extends Entidad {
     public void setUbicacion(Ubicacion ubicacion) {
 		this.ubicacion = ubicacion;
 	}
+
+    public void normalizar(){
+        if(this.fecha == null) this.fecha = new Date();
+        if(this.ubicacion == null) this.ubicacion = new Ubicacion();
+        if(this.factura == null) this.factura = new Factura();
+        if(this.transportista == null) this.transportista = new Transportista();
+    }
 }

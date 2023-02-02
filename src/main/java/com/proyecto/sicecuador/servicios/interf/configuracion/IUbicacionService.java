@@ -6,7 +6,8 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IUbicacionService extends IGenericoService<Ubicacion> {
-	Ubicacion activar(Ubicacion ubicacion);
+	void validar(Ubicacion ubicacion);
+    Ubicacion activar(Ubicacion ubicacion);
 	Ubicacion inactivar(Ubicacion ubicacion);
 	List<Ubicacion> consultarActivos();
     List<Ubicacion> consultarProvincias();

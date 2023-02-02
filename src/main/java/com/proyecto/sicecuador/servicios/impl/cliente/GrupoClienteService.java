@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.cliente.Genero;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -19,40 +21,61 @@ import java.util.Optional;
 public class GrupoClienteService implements IGrupoClienteService {
     @Autowired
     private IGrupoClienteRepository rep;
+
+    @Override
+    public void validar(GrupoCliente grupoCliente) {
+        if(grupoCliente.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(grupoCliente.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+        if(grupoCliente.getCuentaContable().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cuenta_contable);
+    }
     
     @Override
     public GrupoCliente crear(GrupoCliente grupoCliente) {
+        validar(grupoCliente);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_grupo_cliente);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	grupoCliente.setCodigo(codigo.get());
     	grupoCliente.setEstado(Constantes.activo);
-    	return rep.save(grupoCliente);
+    	GrupoCliente res = rep.save(grupoCliente);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public GrupoCliente actualizar(GrupoCliente grupoCliente) {
-        return rep.save(grupoCliente);
+        validar(grupoCliente);
+        GrupoCliente res = rep.save(grupoCliente);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public GrupoCliente activar(GrupoCliente grupoCliente) {
+        validar(grupoCliente);
         grupoCliente.setEstado(Constantes.activo);
-        return rep.save(grupoCliente);   
+        GrupoCliente res = rep.save(grupoCliente);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public GrupoCliente inactivar(GrupoCliente grupoCliente) {
+        validar(grupoCliente);
         grupoCliente.setEstado(Constantes.inactivo);
-        return rep.save(grupoCliente);
+        GrupoCliente res = rep.save(grupoCliente);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public GrupoCliente obtener(long id) {
-        Optional<GrupoCliente> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<GrupoCliente> grupoCliente = rep.findById(id);
+        if(grupoCliente.isPresent()) {
+        	GrupoCliente res = grupoCliente.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.grupo_cliente);
     }
@@ -74,7 +97,7 @@ public class GrupoClienteService implements IGrupoClienteService {
 
     @Override
     public List<GrupoCliente> buscar(GrupoCliente grupoCliente) {
-        return  rep.buscar(grupoCliente.getCodigo(), grupoCliente.getDescripcion(), grupoCliente.getDescripcion());
+        return rep.buscar(grupoCliente.getCodigo(), grupoCliente.getDescripcion(), grupoCliente.getDescripcion());
     }
 
     @Override

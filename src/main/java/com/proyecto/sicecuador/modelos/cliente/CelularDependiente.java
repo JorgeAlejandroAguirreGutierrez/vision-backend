@@ -1,28 +1,24 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "celular_dependiente")
 public class CelularDependiente extends Entidad {
-    @NotNull
-    @NotBlank
-    @Column(name = "numero")
+    @Column(name = "numero", nullable = true)
     private String numero;
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "dependiente_id")
+    @JoinColumn(name = "dependiente_id", nullable = true)
     private Dependiente dependiente;
 
     public CelularDependiente(){
         super();
+        this.numero = Constantes.vacio;
     }
-
 
     public CelularDependiente(long id) {
         super(id);

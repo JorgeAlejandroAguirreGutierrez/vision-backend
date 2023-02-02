@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 import javax.persistence.*;
@@ -19,6 +20,8 @@ public class ProductoProveedor extends Entidad {
 
     public ProductoProveedor(){
         super();
+        this.codigoEquivalente = Constantes.vacio;
+        this.proveedor = new Proveedor();
     }
 
     public ProductoProveedor(long id){
@@ -43,4 +46,8 @@ public class ProductoProveedor extends Entidad {
     public Producto getProducto() {
 		return producto;
 	}
+
+    public void normalizar(){
+        if(this.proveedor == null) this.proveedor = new Proveedor();
+    }
 }

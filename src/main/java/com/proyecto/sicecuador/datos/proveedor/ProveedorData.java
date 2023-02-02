@@ -1,5 +1,8 @@
 package com.proyecto.sicecuador.datos.proveedor;
 
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
+import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.proveedor.*;
 import com.proyecto.sicecuador.repositorios.proveedor.IProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +27,8 @@ public class ProveedorData implements ApplicationRunner {
             Optional<Proveedor> ant=rep.findById((long) 1);
             if (!ant.isPresent()) {
                 List<Proveedor> proveedores = new ArrayList<>();
-                proveedores.add(new Proveedor("PRV110721000001", "C", "0101010101", "CORAL CENTRO", "NOMBRE COMERCIAL CORAL", "ACTIVO", "CALLE SUCRE Y VEGA MUÑOZ", "072865654", "coralcentro@coral.com.ec"));
-                proveedores.add(new Proveedor("PRV110721000002", "C", "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", "ACTIVO", "AV HURTADO DE MENDOZA", "072995654", "supermaxi@supermaxi.com.ec"));
+                proveedores.add(new Proveedor("PRV110721000001", new TipoIdentificacion(1), "0101010101", "CORAL CENTRO", "NOMBRE COMERCIAL CORAL", Constantes.activo, "CALLE SUCRE Y VEGA MUÑOZ", "072865654", "0987654325","coralcentro@coral.com.ec"));
+                proveedores.add(new Proveedor("PRV110721000002", new TipoIdentificacion(1), "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", Constantes.activo, "AV HURTADO DE MENDOZA", "072995654", "0987654326","supermaxi@supermaxi.com.ec"));
                 rep.saveAll(proveedores);
             }
     }

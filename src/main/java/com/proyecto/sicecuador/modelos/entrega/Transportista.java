@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -12,16 +13,21 @@ public class Transportista extends Entidad {
     private String nombre;
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
-    @Column(name = "vehiculo_propio")
+    @Column(name = "vehiculo_propio", nullable = true)
     private String vehiculoPropio;
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = true)
     private String estado;
-    @OneToOne
-    @JoinColumn(name = "vehiculo_transporte_id")
+    @ManyToOne
+    @JoinColumn(name = "vehiculo_transporte_id", nullable = true)
     private VehiculoTransporte vehiculoTransporte;
 
     public Transportista(){
-
+        super();
+        this.nombre = Constantes.vacio;
+        this.identificacion = Constantes.vacio;
+        this.vehiculoPropio = Constantes.si;
+        this.estado = Constantes.activo;
+        this.vehiculoTransporte = new VehiculoTransporte();
     }
 
     public Transportista(long id){
@@ -70,4 +76,8 @@ public class Transportista extends Entidad {
     public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+    public void normalizar(){
+        if(this.vehiculoTransporte == null) this.vehiculoTransporte = new VehiculoTransporte();
+    }
 }

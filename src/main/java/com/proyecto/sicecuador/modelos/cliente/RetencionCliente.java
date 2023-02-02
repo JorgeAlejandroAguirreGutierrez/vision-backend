@@ -19,6 +19,7 @@ public class RetencionCliente extends Entidad {
 
     public RetencionCliente(){
         super();
+        this.tipoRetencion = new TipoRetencion();
     }
 
     public RetencionCliente(long id) {
@@ -47,5 +48,9 @@ public class RetencionCliente extends Entidad {
     @JsonBackReference
     public Cliente getCliente() {
         return cliente;
+    }
+
+    public void normalizar(){
+        if(this.tipoRetencion == null) this.tipoRetencion = new TipoRetencion();
     }
 }

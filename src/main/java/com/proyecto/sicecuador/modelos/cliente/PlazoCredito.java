@@ -1,10 +1,9 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -17,13 +16,14 @@ public class PlazoCredito extends Entidad {
     private String abreviatura;
     @Column(name = "plazo", nullable = true)
     private double plazo;
-	@NotNull
-	@NotEmpty
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = true)
     private String estado;
 	
     public PlazoCredito(){
         super();
+        this.descripcion = Constantes.vacio;
+        this.plazo = Constantes.cero;
+        this.estado = Constantes.activo;
     }
 
     public PlazoCredito(long id) {

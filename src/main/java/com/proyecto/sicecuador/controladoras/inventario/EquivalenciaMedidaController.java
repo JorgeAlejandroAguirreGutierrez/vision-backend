@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathTablaEquivalen
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.EquivalenciaMedida;
 import com.proyecto.sicecuador.servicios.interf.inventario.IEquivalenciaMedidaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,29 +82,6 @@ public class EquivalenciaMedidaController implements GenericoController<Equivale
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, equivalenciaMedida);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody EquivalenciaMedida tem) {
-    	List<EquivalenciaMedida> tems=servicio.buscar(tem);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, tems);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/{medidaIniId}/{medidaEquiId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerMedidaIniMedidaEqui(@PathVariable("medidaIniId") long medidaIniId, @PathVariable("medidaEquiId") long medidaEquiId) {
-        EquivalenciaMedida tabla=servicio.obtenerMedida1Medida2(new EquivalenciaMedida(new Medida(medidaIniId), new Medida(medidaEquiId)));
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tabla);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/buscarMedidasEquivalentes/{medidaIniId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscarMedidasEquivalentes(@PathVariable("medidaIniId") long medidaIniId) {
-    	EquivalenciaMedida parametro = new EquivalenciaMedida();
-    	parametro.setMedidaIni(new Medida(medidaIniId));
-        List<EquivalenciaMedida> tablas=servicio.buscarMedidasEquivalentes(parametro);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tablas);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }    
     @Override
     public ResponseEntity<?> importar(MultipartFile file) {
         return null;

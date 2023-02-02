@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface IGrupoProductoService extends IGenericoService<GrupoProducto> {
+	void validar(GrupoProducto grupoProducto);
 	GrupoProducto activar(GrupoProducto grupoProducto);
 	GrupoProducto inactivar(GrupoProducto grupoProducto);
 	List<GrupoProducto> consultarActivos();

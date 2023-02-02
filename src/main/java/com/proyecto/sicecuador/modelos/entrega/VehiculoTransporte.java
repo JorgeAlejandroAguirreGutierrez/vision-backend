@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import java.util.List;
@@ -27,11 +28,19 @@ public class VehiculoTransporte extends Entidad {
     private String fabricacion;
     @Column(name = "estado", nullable = true)
     private String estado;
-	@OneToOne
-    private Transportista transportista;
 
     public VehiculoTransporte(){
-
+        super();
+        this.placa = Constantes.vacio;
+        this.numero = Constantes.vacio;
+        this.marca = Constantes.vacio;
+        this.modelo = Constantes.vacio;
+        this.anio = Constantes.vacio;
+        this.cilindraje = Constantes.vacio;
+        this.clase = Constantes.vacio;
+        this.color = Constantes.vacio;
+        this.fabricacion = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public VehiculoTransporte(long id){

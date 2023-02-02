@@ -1,27 +1,25 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
 @Entity
 @Table(name = "correo")
 public class Correo extends Entidad {
-	@NotNull
-    @NotEmpty
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = true)
     private String email;
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 
     public Correo(){
-
+        super();
+        this.email = Constantes.vacio;
     }
 
     public Correo(long id) {
@@ -49,5 +47,4 @@ public class Correo extends Entidad {
     public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-
 }

@@ -3,8 +3,10 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.TipoPago;
+import com.proyecto.sicecuador.modelos.configuracion.Parametro;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoPagoRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ITipoPagoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,16 @@ import java.util.Optional;
 public class TipoPagoService implements ITipoPagoService {
     @Autowired
     private ITipoPagoRepository rep;
+
+    @Override
+    public void validar(TipoPago tipoPago) {
+        if(tipoPago.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(tipoPago.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public TipoPago crear(TipoPago tipoPago) {
+        validar(tipoPago);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_pago);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -34,17 +43,20 @@ public class TipoPagoService implements ITipoPagoService {
 
     @Override
     public TipoPago actualizar(TipoPago tipoPago) {
+        validar(tipoPago);
         return rep.save(tipoPago);
     }
 
     @Override
     public TipoPago activar(TipoPago tipoPago) {
+        validar(tipoPago);
         tipoPago.setEstado(Constantes.activo);
         return rep.save(tipoPago);
     }
 
     @Override
     public TipoPago inactivar(TipoPago tipoPago) {
+        validar(tipoPago);
         tipoPago.setEstado(Constantes.inactivo);
         return rep.save(tipoPago);
     }

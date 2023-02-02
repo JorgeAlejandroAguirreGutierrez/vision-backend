@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface IEstablecimientoService extends IGenericoService<Establecimiento> {
+	void validar(Establecimiento establecimiento);
 	Establecimiento activar(Establecimiento establecimiento);
 	Establecimiento inactivar(Establecimiento establecimiento);
 	List<Establecimiento> consultarActivos();

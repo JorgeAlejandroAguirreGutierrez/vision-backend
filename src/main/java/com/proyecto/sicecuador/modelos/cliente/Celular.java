@@ -1,19 +1,16 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Table(name = "celular")
 public class Celular extends Entidad {
-    @NotNull
-    @NotEmpty
-    @Column(name = "numero")
+    @Column(name = "numero", nullable = true)
     private String numero;
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
@@ -21,8 +18,8 @@ public class Celular extends Entidad {
 
     public Celular(){
         super();
+        this.numero = Constantes.vacio;
     }
-
 
     public Celular(long id) {
         super(id);

@@ -6,7 +6,8 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IProductoService extends IGenericoService<Producto> {
-	Producto activar(Producto producto);
+	void validar(Producto producto);
+    Producto activar(Producto producto);
 	Producto inactivar(Producto producto);
 	List<Producto> consultarActivos();
     List<Producto> consultarBien();

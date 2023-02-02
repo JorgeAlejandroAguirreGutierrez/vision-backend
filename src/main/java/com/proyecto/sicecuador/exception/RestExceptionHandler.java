@@ -82,10 +82,29 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	public final ResponseEntity<RestExceptionMessage> handleParametroInvalidaException(
 			ParametroInvalidoException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_parametro_invalido,
-	        Constantes.error_identificacion_invalida+Constantes.espacio+ex.getParametro(),
+	        Constantes.error_parametro_invalido+Constantes.espacio+ex.getParametro(),
 	        null
 	    );
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	@ExceptionHandler(EstadoInvalidoException.class)
+	public final ResponseEntity<RestExceptionMessage> handleEstadoInvalidoException(
+			EstadoInvalidoException ex, WebRequest req) {
+		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_estado_invalido,
+				Constantes.error_estado_invalido+Constantes.espacio+ex.getEntidad(),
+				null
+		);
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(DatoInvalidoException.class)
+	public final ResponseEntity<RestExceptionMessage> handleDatoInvalidoException(
+			DatoInvalidoException ex, WebRequest req) {
+		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_dato_invalido,
+				Constantes.error_dato_invalido+Constantes.espacio+ex.getDato(),
+				null
+		);
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@Override

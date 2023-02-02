@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +17,11 @@ public class OperadorTarjeta extends Entidad {
     private String estado;
 
     public OperadorTarjeta(){
+        super();
+        this.tipo = Constantes.vacio;
+        this.nombre = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public OperadorTarjeta(long id){
@@ -56,4 +62,11 @@ public class OperadorTarjeta extends Entidad {
     public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+    public void normalizar(){
+        this.tipo = Constantes.vacio;
+        this.nombre = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
+    }
 }

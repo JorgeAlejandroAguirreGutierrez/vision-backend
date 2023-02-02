@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -39,6 +40,17 @@ public class Precio extends Entidad {
 
     public Precio(){
         super();
+        this.costo = Constantes.cero;
+        this.margenGanancia = Constantes.cero;
+        this.precioVentaPublico = Constantes.cero;
+        this.precioVentaPublicoIva = Constantes.cero;
+        this.precioSinIva = Constantes.cero;
+        this.precioVentaPublicoManual = Constantes.cero;
+        this.utilidad = Constantes.cero;
+        this.utilidadPorcentaje = Constantes.cero;
+        this.estado = Constantes.activo;
+        this.medida = new Medida();
+        this.segmento = new Segmento();
     }
 
     public Precio(long id){
@@ -117,5 +129,10 @@ public class Precio extends Entidad {
     public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+    public void normalizar(){
+        if(this.medida == null) this.medida = new Medida();
+        if(this.segmento == null) this.segmento = new Segmento();
+    }
 
 }

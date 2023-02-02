@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import java.util.Date;
@@ -23,6 +24,12 @@ public class Transferencia extends Entidad {
     private Recaudacion recaudacion;
 
     public Transferencia(){
+        super();
+        this.tipoTransaccion = Constantes.vacio;
+        this.numeroTransaccion = Constantes.vacio;
+        this.fechaTransaccion = new Date();
+        this.valor = Constantes.cero;
+        this.banco = new Banco();
     }
 
     public Transferencia(long id){
@@ -62,5 +69,10 @@ public class Transferencia extends Entidad {
     @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;
+    }
+
+    public void normalizar(){
+        if(this.fechaTransaccion == null) this.fechaTransaccion = new Date();
+        if(this.banco == null) this.banco = new Banco();
     }
 }

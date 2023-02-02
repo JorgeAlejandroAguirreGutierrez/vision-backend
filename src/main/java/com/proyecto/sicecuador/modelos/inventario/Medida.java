@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.inventario;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 
@@ -16,9 +17,12 @@ public class Medida extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
 
-	
 	public Medida(){
         super();
+        this.tipo = Constantes.vacio;
+        this.descripcion = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public Medida(long id){

@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
 import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
 import com.proyecto.sicecuador.repositorios.recaudacion.IFranquiciaTarjetaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.IFranquiciaTarjetaService;
@@ -20,9 +22,17 @@ import java.util.Optional;
 public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     @Autowired
     private IFranquiciaTarjetaRepository rep;
+
+    @Override
+    public void validar(FranquiciaTarjeta franquiciaTarjeta) {
+        if(franquiciaTarjeta.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo);
+        if(franquiciaTarjeta.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
+        if(franquiciaTarjeta.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public FranquiciaTarjeta crear(FranquiciaTarjeta franquiciaTarjeta) {
+        validar(franquiciaTarjeta);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_franquicia_tarjeta);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -34,17 +44,20 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
 
     @Override
     public FranquiciaTarjeta actualizar(FranquiciaTarjeta franquiciaTarjeta) {
+        validar(franquiciaTarjeta);
         return rep.save(franquiciaTarjeta);
     }
 
     @Override
     public FranquiciaTarjeta activar(FranquiciaTarjeta franquiciaTarjeta) {
+        validar(franquiciaTarjeta);
         franquiciaTarjeta.setEstado(Constantes.activo);
         return rep.save(franquiciaTarjeta);
     }
 
     @Override
     public FranquiciaTarjeta inactivar(FranquiciaTarjeta franquiciaTarjeta) {
+        validar(franquiciaTarjeta);
         franquiciaTarjeta.setEstado(Constantes.inactivo);
         return rep.save(franquiciaTarjeta);
     }

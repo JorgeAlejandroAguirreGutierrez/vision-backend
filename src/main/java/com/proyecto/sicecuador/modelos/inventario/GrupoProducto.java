@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 
@@ -25,7 +26,7 @@ public class GrupoProducto extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
-    @JoinColumn(name = "categoria_producto_id")
+    @JoinColumn(name = "categoria_producto_id", nullable = true)
     private CategoriaProducto categoriaProducto;
     @ManyToOne
     @JoinColumn(name = "cuenta_contable_id", nullable = true)
@@ -33,6 +34,15 @@ public class GrupoProducto extends Entidad {
     
     public GrupoProducto(){
     	super();
+        this.grupo = Constantes.vacio;
+        this.subgrupo = Constantes.vacio;
+        this.seccion = Constantes.vacio;
+        this.linea = Constantes.vacio;
+        this.sublinea = Constantes.vacio;
+        this.presentacion = Constantes.vacio;
+        this.estado = Constantes.activo;
+        this.categoriaProducto = new CategoriaProducto();
+        this.cuentaContable = new CuentaContable();
     }
 
     public GrupoProducto(long id){
@@ -113,4 +123,9 @@ public class GrupoProducto extends Entidad {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+    public void normalizar(){
+        if(this.categoriaProducto == null) this.categoriaProducto = new CategoriaProducto();
+        if(this.cuentaContable == null) this.cuentaContable = new CuentaContable();
+    }
 }

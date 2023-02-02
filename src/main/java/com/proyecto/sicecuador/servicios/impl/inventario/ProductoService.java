@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.inventario.Medida;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -23,10 +25,26 @@ import java.util.Optional;
 public class ProductoService implements IProductoService {
     @Autowired
     private IProductoRepository rep;
+
+    @Override
+    public void validar(Producto producto) {
+        if(producto.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
+        if(producto.getConsignacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.consignacion);
+        if(producto.getStockTotal() == Constantes.cero) throw new DatoInvalidoException(Constantes.stockTotal);
+        if(producto.getCategoriaProducto().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.categoria_producto);
+        if(producto.getGrupoProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.grupo_producto);
+        if(producto.getTipoGasto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_gasto);
+        if(producto.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
+        if(producto.getMedida().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.medida);
+        if(producto.getKardexs().isEmpty()) throw new DatoInvalidoException(Constantes.kardex);
+        if(producto.getPrecios().isEmpty()) throw new DatoInvalidoException(Constantes.precio);
+        if(producto.getProductosProveedores().isEmpty()) throw new DatoInvalidoException(Constantes.producto_proveedor);
+        if(producto.getProductosBodegas().isEmpty()) throw new DatoInvalidoException(Constantes.producto_bodega);
+    }
     
     @Override
     public Producto crear(Producto producto) {
-    	producto.normalizar();
+        validar(producto);
     	Optional<Producto> getProducto=rep.obtenerPorNombre(producto.getNombre());
     	if(getProducto.isPresent()) {
     		throw new EntidadExistenteException(Constantes.producto);
@@ -37,34 +55,44 @@ public class ProductoService implements IProductoService {
     	}
     	producto.setCodigo(codigo.get());
     	producto.setEstado(Constantes.activo);
-    	return rep.save(producto);
+    	Producto res = rep.save(producto);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Producto actualizar(Producto producto) {
-    	producto.normalizar();
-    	return rep.save(producto);
+    	validar(producto);
+        Producto res = rep.save(producto);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Producto activar(Producto producto) {
+        validar(producto);
         producto.setEstado(Constantes.activo);
-        producto=rep.save(producto);
-        return producto;
+        Producto res = rep.save(producto);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Producto inactivar(Producto producto) {
+        validar(producto);
         producto.setEstado(Constantes.inactivo);
-        producto=rep.save(producto);
-        return producto;
+        Producto res = rep.save(producto);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Producto obtener(long id) {
-        Optional<Producto> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<Producto> producto= rep.findById(id);
+        if(producto.isPresent()) {
+        	Producto res = producto.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.producto);
     }
@@ -86,12 +114,11 @@ public class ProductoService implements IProductoService {
 
     @Override
     public List<Producto> consultarBien() {
-        List<Producto> productos=  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
+        return rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();
 		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("categoriaProducto").get("descripcion"), Constantes.tipo_producto_bien)));
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 		});
-        return productos;
     }
 
     @Override

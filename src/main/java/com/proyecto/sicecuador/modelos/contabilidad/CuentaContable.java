@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.contabilidad;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +14,7 @@ public class CuentaContable extends Entidad {
     @Column(name = "clasificacion", nullable = true)
     private String clasificacion;
     @Column(name = "nivel", nullable = true)
-    private int nivel;
+    private long nivel;
     @Column(name = "fe", nullable = true)
     private String fe;
     @Column(name = "casillero", nullable = true)
@@ -25,6 +26,14 @@ public class CuentaContable extends Entidad {
        
     public CuentaContable(){
         super();
+		this.cuenta = Constantes.vacio;
+		this.descripcion = Constantes.vacio;
+		this.clasificacion = Constantes.vacio;
+		this.nivel = Constantes.ceroId;
+		this.fe = Constantes.vacio;
+		this.casillero = Constantes.vacio;
+		this.mapeo = Constantes.vacio;
+		this.estado = Constantes.activo;
     }
 
     public CuentaContable(long id){
@@ -67,7 +76,7 @@ public class CuentaContable extends Entidad {
 		return clasificacion;
 	}
 
-	public int getNivel() {
+	public long getNivel() {
 		return nivel;
 	}
 

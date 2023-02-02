@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface ICalificacionClienteService extends IGenericoService<CalificacionCliente> {
+	void validar(CalificacionCliente calificacionCliente);
 	List<CalificacionCliente> consultarActivos();
 	CalificacionCliente activar(CalificacionCliente calificacionCliente);
 	CalificacionCliente inactivar(CalificacionCliente calificacionCliente);

@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -22,7 +23,12 @@ public class Sesion extends Entidad {
     private Usuario usuario;
     
     public Sesion(){
-
+        super();
+        this.fechaApertura = new Date();
+        this.fechaCierre = new Date();
+        this.ip = Constantes.vacio;
+        this.estado = Constantes.activo;
+        this.usuario = new Usuario();
     }
 
     public Sesion(long id){
@@ -83,5 +89,11 @@ public class Sesion extends Entidad {
 
 	public void setIp(String ip) {
 		this.ip = ip;
-	}   
+	}
+
+    public void normalizar(){
+        if(this.fechaApertura == null) this.fechaApertura = new Date();
+        if(this.fechaCierre == null) this.fechaCierre = new Date();
+        if(this.usuario == null) this.usuario = new Usuario();
+    }
 }

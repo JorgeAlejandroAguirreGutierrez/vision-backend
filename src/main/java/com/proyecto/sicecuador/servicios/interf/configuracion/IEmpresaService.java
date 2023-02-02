@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface IEmpresaService extends IGenericoService<Empresa> {
+	void validar(Empresa empresa);
 	Empresa activar(Empresa empresa);
 	Empresa inactivar(Empresa empresa);
 	List<Empresa> consultarActivos();

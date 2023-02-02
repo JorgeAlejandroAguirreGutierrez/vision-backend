@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
 import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
 import com.proyecto.sicecuador.repositorios.inventario.IGrupoProductoRepository;
 import com.proyecto.sicecuador.servicios.interf.inventario.IGrupoProductoService;
@@ -23,39 +25,65 @@ import javax.persistence.criteria.Predicate;
 public class GrupoProductoService implements IGrupoProductoService {
     @Autowired
     private IGrupoProductoRepository rep;
+
+    @Override
+    public void validar(GrupoProducto grupoProducto) {
+        if(grupoProducto.getGrupo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.grupo);
+        if(grupoProducto.getSubgrupo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.subgrupo);
+        if(grupoProducto.getSeccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.seccion);
+        if(grupoProducto.getLinea().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.linea);
+        if(grupoProducto.getSublinea().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.sublinea);
+        if(grupoProducto.getPresentacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.sublinea);
+        if(grupoProducto.getCategoriaProducto().equals(Constantes.ceroId)) throw new DatoInvalidoException(Constantes.categoria_producto);
+        if(grupoProducto.getCuentaContable().equals(Constantes.ceroId)) throw new DatoInvalidoException(Constantes.cuenta_contable);
+    }
     
     @Override
     public GrupoProducto crear(GrupoProducto grupoProducto) {
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_grupo_producto);
+    	validar(grupoProducto);
+        Optional<String>codigo=Util.generarCodigo(Constantes.tabla_grupo_producto);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	grupoProducto.setCodigo(codigo.get());
     	grupoProducto.setEstado(Constantes.activo);
-    	return rep.save(grupoProducto);
+    	GrupoProducto res = rep.save(grupoProducto);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public GrupoProducto actualizar(GrupoProducto grupoProducto) {
-        return rep.save(grupoProducto);
+        validar(grupoProducto);
+        GrupoProducto res = rep.save(grupoProducto);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public GrupoProducto activar(GrupoProducto grupoProducto) {
+        validar(grupoProducto);
         grupoProducto.setEstado(Constantes.activo);
-        return rep.save(grupoProducto);
+        GrupoProducto res = rep.save(grupoProducto);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public GrupoProducto inactivar(GrupoProducto grupoProducto) {
+        validar(grupoProducto);
         grupoProducto.setEstado(Constantes.inactivo);
-        return rep.save(grupoProducto);
+        GrupoProducto res = rep.save(grupoProducto);
+        res.normalizar();
+        return res;
     }
     @Override
     public GrupoProducto obtener(long id) {
-        Optional<GrupoProducto> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<GrupoProducto> grupoProducto= rep.findById(id);
+        if(grupoProducto.isPresent()) {
+        	GrupoProducto res = grupoProducto.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.grupo_producto);
     }
@@ -106,45 +134,41 @@ public class GrupoProductoService implements IGrupoProductoService {
     
     @Override
     public List<String> consultarGrupos() {
-        List<String> grupos=rep.findGrupos(Constantes.activo);
-        return grupos;
+        return rep.findGrupos(Constantes.activo);
     }
     
     @Override
     public List<String> consultarSubgrupos(String grupo) {
-        List<String> subgrupos=rep.findSubgrupos(grupo, Constantes.activo);
-        return subgrupos;
+        return rep.findSubgrupos(grupo, Constantes.activo);
     }
     
     @Override
     public List<String> consultarSecciones(String grupo, String subgrupo) {
-        List<String> secciones=rep.findSecciones(grupo, subgrupo, Constantes.activo);
-        return secciones;
+        return rep.findSecciones(grupo, subgrupo, Constantes.activo);
     }
     
     @Override
     public List<String> consultarLineas(String grupo, String subgrupo, String seccion) {
-        List<String> lineas=rep.findLineas(grupo, subgrupo, seccion, Constantes.activo);
-        return lineas;
+        return rep.findLineas(grupo, subgrupo, seccion, Constantes.activo);
     }
     
     @Override
     public List<String> consultarSublineas(String grupo, String subgrupo, String seccion, String linea) {
-        List<String> sublineas=rep.findSublineas(grupo, subgrupo, seccion, linea, Constantes.activo);
-        return sublineas;
+        return rep.findSublineas(grupo, subgrupo, seccion, linea, Constantes.activo);
     }
     
     @Override
     public List<String> consultarPresentaciones(String grupo, String subgrupo, String seccion, String linea, String sublinea) {
-        List<String> presentaciones=rep.findPresentaciones(grupo, subgrupo, seccion, linea, sublinea, Constantes.activo);
-        return presentaciones;
+        return rep.findPresentaciones(grupo, subgrupo, seccion, linea, sublinea, Constantes.activo);
     }
     
     @Override
     public GrupoProducto obtenerGrupoProducto(String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion) {
-        Optional<GrupoProducto> res=rep.findGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion, Constantes.activo);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<GrupoProducto> grupoProducto = rep.findGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion, Constantes.activo);
+        if(grupoProducto.isPresent()) {
+        	GrupoProducto res = grupoProducto.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.grupo_producto);
     }

@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.contabilidad;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
 import com.proyecto.sicecuador.repositorios.contabilidad.IMovimientoContableRepository;
 import com.proyecto.sicecuador.servicios.interf.contabilidad.IMovimientoContableService;
@@ -22,40 +24,67 @@ import java.util.Optional;
 public class MovimientoContableService implements IMovimientoContableService {
     @Autowired
     private IMovimientoContableRepository rep;
+
+    @Override
+    public void validar(MovimientoContable movimientoContable) {
+        if(movimientoContable.getAfectacionContable().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.afectacion_contable);
+        if(movimientoContable.getInventario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.inventario);
+        if(movimientoContable.getCostoVenta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.costoVenta);
+        if(movimientoContable.getDevolucionCompra().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.devolucionCompra);
+        if(movimientoContable.getDescuentoCompra().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.descuentoCompra);
+        if(movimientoContable.getVenta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.venta);
+        if(movimientoContable.getDevolucionVenta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.devolucionVenta);
+        if(movimientoContable.getDescuentoVenta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.descuentoVenta);
+        if(movimientoContable.getDevolucionCostoVenta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.devolucionCostoVenta);
+    }
     
     @Override
     public MovimientoContable crear(MovimientoContable movimientoContable) {
+        validar(movimientoContable);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_movimiento_contable);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	movimientoContable.setCodigo(codigo.get());
     	movimientoContable.setEstado(Constantes.activo);
-    	return rep.save(movimientoContable);
+    	MovimientoContable res = rep.save(movimientoContable);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public MovimientoContable actualizar(MovimientoContable movimientoContable) {
-    	return rep.save(movimientoContable);
+    	validar(movimientoContable);
+        MovimientoContable res = rep.save(movimientoContable);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public MovimientoContable activar(MovimientoContable movimientoContable) {
+        validar(movimientoContable);
         movimientoContable.setEstado(Constantes.activo);
-        return rep.save(movimientoContable);
+        MovimientoContable res = rep.save(movimientoContable);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public MovimientoContable inactivar(MovimientoContable movimientoContable) {
+        validar(movimientoContable);
         movimientoContable.setEstado(Constantes.inactivo);
-        return rep.save(movimientoContable);
+        MovimientoContable res = rep.save(movimientoContable);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public MovimientoContable obtener(long id) {
-        Optional<MovimientoContable> res = rep.findById(id);
-        if(res.isEmpty()) {
-        	return res.get();	
+        Optional<MovimientoContable> movimientoContable = rep.findById(id);
+        if(movimientoContable.isEmpty()) {
+        	MovimientoContable res = movimientoContable.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.movimiento_contable);
     }

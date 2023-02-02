@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.comprobante;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 
@@ -6,7 +7,7 @@ import javax.persistence.*;
 @Table(name = "tipo_comprobante")
 public class TipoComprobante extends Entidad {
     @Column(name = "codigo_sri", nullable = true)
-    private String codigoSri;
+    private String codigoSRI;
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
     @Column(name = "nombre", nullable = true)
@@ -15,24 +16,28 @@ public class TipoComprobante extends Entidad {
     private String nombreTabla;
 
     public TipoComprobante(){
-
+        super();
+        this.codigoSRI = Constantes.vacio;
+        this.descripcion = Constantes.vacio;
+        this.nombre = Constantes.vacio;
+        this.nombreTabla = Constantes.vacio;
     }
 
     public TipoComprobante(long id){
         super(id);
     }
-    public TipoComprobante(String codigo, String codigoSri, String nombre, String descripcion, String nombreTabla, String estado){
+    public TipoComprobante(String codigo, String codigoSRI, String nombre, String descripcion, String nombreTabla){
         super(codigo);
-        this.codigoSri=codigoSri;
+        this.codigoSRI=codigoSRI;
         this.nombre=nombre;
         this.descripcion=descripcion;
         this.nombreTabla=nombreTabla;
     }
-    
-    public String getCodigoSri() {
-        return codigoSri;
+
+    public String getCodigoSRI() {
+        return codigoSRI;
     }
-    
+
     public String getDescripcion() {
         return descripcion;
     }

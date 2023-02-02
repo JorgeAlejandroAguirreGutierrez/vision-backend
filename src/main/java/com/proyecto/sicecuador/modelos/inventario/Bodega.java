@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -13,6 +14,9 @@ public class Bodega extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
     public Bodega(){
+        super();
+        this.nombre = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
     public Bodega(long id){
         super(id);
@@ -43,6 +47,4 @@ public class Bodega extends Entidad {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-    
-    
 }

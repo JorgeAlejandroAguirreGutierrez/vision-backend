@@ -13,4 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface IProveedorRepository extends JpaRepository<Proveedor, Long>, JpaSpecificationExecutor<Proveedor> {
 	@Query(value = "select p from Proveedor p where p.estado=:estado")
     List<Proveedor> consultarPorEstado(String estado);
+
+    @Query(value = "select p from Proveedor p where p.razonSocial like '%'||:razonSocial||'%' and p.estado=:estado")
+    List<Proveedor> consultarPorRazonSocial(String razonSocial, String estado);
 }

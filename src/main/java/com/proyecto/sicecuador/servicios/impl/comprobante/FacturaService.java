@@ -2,16 +2,14 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.ClaveAccesoNoExistenteException;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.CodigoNumericoNoExistenteException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
+import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
+import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
+import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,24 +30,31 @@ public class FacturaService implements IFacturaService {
     private IFacturaRepository rep;
     @Autowired
     private IKardexService kardexService;
+    @Autowired
+    private ITipoComprobanteService tipoComprobanteService;
+
+    @Override
+    public void validar(Factura factura) {
+        if(factura.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
+        if(factura.getCliente().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cliente);
+        if(factura.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if(factura.getFacturaDetalles().isEmpty()) throw new DatoInvalidoException(Constantes.factura_detalle);
+    }
 
     @Transactional
     @Override
     public Factura crear(Factura factura) {
+        validar(factura);
         //ACTUALIZACION DE KARDEX
-        if(factura.getCliente().getId()==Constantes.cero){
-            throw new EntidadNoExistenteException(Constantes.cliente);
-        }
-        if(factura.getFacturaDetalles().isEmpty()){
-            throw new EntidadNoExistenteException(Constantes.factura_detalle);
-        }
     	for(int i=0; i<factura.getFacturaDetalles().size(); i++){
             int cantidad=factura.getFacturaDetalles().get(i).getProducto().getKardexs().size();
             Kardex kardex_actualizar=factura.getFacturaDetalles().get(i).getProducto().getKardexs().get(cantidad-1);
-            long salida_actual=kardex_actualizar.getSalida();
+            double salida_actual=kardex_actualizar.getSalida();
             kardex_actualizar.setSalida(salida_actual+factura.getFacturaDetalles().get(i).getCantidad());
             kardexService.actualizar(kardex_actualizar);
         }
+        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
+        factura.setTipoComprobante(tipoComprobante);
         Optional<String>codigo=Util.generarCodigo(Constantes.tabla_factura);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -71,7 +76,9 @@ public class FacturaService implements IFacturaService {
     	}
     	factura.setClaveAcceso(claveAcceso.get());
     	factura.setEstado(Constantes.estadoEmitida);
-        return rep.save(factura);
+        Factura res = rep.save(factura);
+        res.normalizar();
+        return res;
     }
     
     private Optional<String> crearClaveAcceso(Factura factura) {
@@ -112,26 +119,37 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public Factura actualizar(Factura factura) {
-        return rep.save(factura);
+        validar(factura);
+        Factura res = rep.save(factura);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Factura activar(Factura factura) {
+        validar(factura);
         factura.setEstado(Constantes.activo);
-        return rep.save(factura);
+        Factura res = rep.save(factura);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Factura inactivar(Factura factura) {
+        validar(factura);
         factura.setEstado(Constantes.inactivo);
-        return rep.save(factura);
+        Factura res = rep.save(factura);
+        res.normalizar();
+        return res;
     }
 
     @Override
     public Factura obtener(long id) {
-        Optional<Factura> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<Factura> factura = rep.findById(id);
+        if(factura.isPresent()) {
+        	Factura res = factura.get();
+            res.normalizar();
+            return res;
         }
         throw new EntidadNoExistenteException(Constantes.factura);
     }
@@ -249,7 +267,6 @@ public class FacturaService implements IFacturaService {
             this.calcularTotalSinDescuento(factura);
             this.calcularTotalConDescuento(factura);
     	}
-    	
         return factura;
     }
     

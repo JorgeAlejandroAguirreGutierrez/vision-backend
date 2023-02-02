@@ -1,10 +1,9 @@
 package com.proyecto.sicecuador.modelos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -15,13 +14,14 @@ public class OrigenIngreso extends Entidad {
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
-	@NotNull
-	@NotEmpty
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = true)
     private String estado;
 	
     public OrigenIngreso(){
         super();
+        this.descripcion = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public OrigenIngreso(long id) {

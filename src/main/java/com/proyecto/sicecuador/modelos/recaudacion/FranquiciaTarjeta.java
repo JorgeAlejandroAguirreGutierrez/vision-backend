@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,10 @@ public class FranquiciaTarjeta extends Entidad {
 
     public FranquiciaTarjeta(){
         super();
+        this.tipo = Constantes.vacio;
+        this.nombre = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public FranquiciaTarjeta(long id){

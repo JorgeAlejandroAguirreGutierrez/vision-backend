@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -27,7 +28,13 @@ public class Cheque extends Entidad {
     private Recaudacion recaudacion;
 
     public Cheque(){
-
+        super();
+        this.numero = Constantes.vacio;
+        this.tipo = Constantes.vacio;
+        this.fecha = new Date();
+        this.fechaEfectivizacion = new Date();
+        this.valor = Constantes.cero;
+        this.banco = new Banco();
     }
 
     public Cheque(long id){
@@ -71,6 +78,12 @@ public class Cheque extends Entidad {
     @JsonBackReference
     public Recaudacion getRecaudacion() {
         return recaudacion;
+    }
+
+    public void normalizar(){
+        if(this.fecha == null) this.fecha = new Date();
+        if(this.fechaEfectivizacion == null) this.fechaEfectivizacion = new Date();
+        if(this.banco == null) this.banco = new Banco();
     }
 
 }

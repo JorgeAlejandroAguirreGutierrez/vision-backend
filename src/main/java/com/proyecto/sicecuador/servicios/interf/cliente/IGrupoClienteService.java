@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IGrupoClienteService extends IGenericoService<GrupoCliente> {
+	void validar(GrupoCliente grupoCliente);
 	GrupoCliente activar(GrupoCliente grupoCliente);
 	GrupoCliente inactivar(GrupoCliente grupoCliente);
 	List<GrupoCliente> consultarActivos();

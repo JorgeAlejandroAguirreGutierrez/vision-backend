@@ -1,6 +1,6 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 
@@ -9,25 +9,26 @@ import javax.persistence.*;
 @Entity
 @Table(name = "retencion_venta_detalle")
 public class RetencionVentaDetalle extends Entidad {
-	@JsonProperty("posicion")
     @Column(name = "posicion", nullable = true)
     private long posicion;
-	@JsonProperty("base_imponible")
     @Column(name = "base_imponible", nullable = true)
     private double baseImponible;
-	@JsonProperty("valor")
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
-    @JsonProperty("retencion_venta")
     @JoinColumn(name = "retencion_venta_id", nullable = true)
     private RetencionVenta retencionVenta;
     @ManyToOne
-    @JsonProperty("tipo_retencion")
     @JoinColumn(name = "tipo_retencion_id", nullable = true)
     private TipoRetencion tipoRetencion;
 
     public RetencionVentaDetalle(){
+        super();
+        this.posicion = Constantes.ceroId;
+        this.baseImponible = Constantes.cero;
+        this.valor = Constantes.cero;
+        this.retencionVenta = new RetencionVenta();
+        this.tipoRetencion = new TipoRetencion();
     }
 
     public RetencionVentaDetalle(long id){
@@ -56,4 +57,9 @@ public class RetencionVentaDetalle extends Entidad {
     public TipoRetencion getTipoRetencion() {
 		return tipoRetencion;
 	}
+
+    public void normalizar(){
+        if(this.retencionVenta == null) this.retencionVenta = new RetencionVenta();
+        if(this.tipoRetencion == null) this.tipoRetencion = new TipoRetencion();
+    }
 }

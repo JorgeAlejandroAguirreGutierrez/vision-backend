@@ -1,4 +1,5 @@
 package com.proyecto.sicecuador.modelos.configuracion;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 
 import javax.persistence.*;
@@ -19,7 +20,12 @@ public class Parametro extends Entidad {
     private String estado;
 
     public Parametro(){
-
+        super();
+        this.tipo = Constantes.vacio;
+        this.nombre = Constantes.vacio;
+        this.tabla = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
 
     public Parametro(long id){

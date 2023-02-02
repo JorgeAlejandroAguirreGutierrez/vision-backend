@@ -1,8 +1,10 @@
 package com.proyecto.sicecuador.modelos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -16,12 +18,17 @@ public class Perfil extends Entidad {
     private String estado;
     @Column(name = "multiempresa", nullable = true)
     private String multiempresa;
-    
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "perfil_id")
+    @JoinColumn(name = "perfil_id", nullable = true)
     private List<Permiso> permisos;
 
     public Perfil(){
+        super();
+        this.descripcion = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
+        this.multiempresa = Constantes.no;
+        this.estado = Constantes.activo;
+        this.permisos = Collections.emptyList();
     }
 
     public Perfil(long id) {
@@ -83,5 +90,9 @@ public class Perfil extends Entidad {
 	public void setMultiempresa(String multiempresa) {
 		this.multiempresa = multiempresa;
 	}
+
+    public void normalizar(){
+        if(this.permisos == null) this.permisos = Collections.emptyList();
+    }
 	
 }

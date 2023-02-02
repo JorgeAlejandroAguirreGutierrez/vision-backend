@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -20,9 +22,16 @@ import java.util.Optional;
 public class OrigenIngresoService implements IOrigenIngresoService {
     @Autowired
     private IOrigenIngresoRepository rep;
+
+    @Override
+    public void validar(OrigenIngreso origenIngreso) {
+        if(origenIngreso.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
+        if(origenIngreso.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+    }
     
     @Override
     public OrigenIngreso crear(OrigenIngreso origenIngreso) {
+        validar(origenIngreso);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_origen_ingreso);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -34,17 +43,20 @@ public class OrigenIngresoService implements IOrigenIngresoService {
 
     @Override
     public OrigenIngreso actualizar(OrigenIngreso origenIngreso) {
+        validar(origenIngreso);
         return rep.save(origenIngreso);
     }
 
     @Override
     public OrigenIngreso activar(OrigenIngreso origenIngreso) {
+        validar(origenIngreso);
         origenIngreso.setEstado(Constantes.activo);
         return rep.save(origenIngreso);
     }
 
     @Override
     public OrigenIngreso inactivar(OrigenIngreso origenIngreso) {
+        validar(origenIngreso);
         origenIngreso.setEstado(Constantes.inactivo);
         return rep.save(origenIngreso);
     }

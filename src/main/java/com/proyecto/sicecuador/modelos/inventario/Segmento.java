@@ -1,26 +1,29 @@
 package com.proyecto.sicecuador.modelos.inventario;
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
 @Table(name = "segmento")
 public class Segmento extends Entidad {
-	@NotEmpty
-    @Column(name = "descripcion")
+    @Column(name = "descripcion", nullable = true)
     private String descripcion;
     @Column(name = "margen_ganancia", nullable = true)
     private double margenGanancia;
-	@Column(name = "abreviatura")
+	@Column(name = "abreviatura", nullable = true)
     private String abreviatura;
-	@Column(name = "estado")
+	@Column(name = "estado", nullable = true)
     private String estado;
 	
     public Segmento(){
     	super();
+        this.descripcion = Constantes.vacio;
+        this.margenGanancia = Constantes.cero;
+        this.abreviatura = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
     public Segmento(long id){
         super(id);

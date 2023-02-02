@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.servicios.impl.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IUbicacionService;
@@ -19,9 +21,18 @@ import java.util.Optional;
 public class UbicacionService implements IUbicacionService {
     @Autowired
     private IUbicacionRepository rep;
+
+    @Override
+    public void validar(Ubicacion ubicacion) {
+        if(ubicacion.getCodigoNorma().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.codigoNorma);
+        if(ubicacion.getProvincia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.provincia);
+        if(ubicacion.getCanton().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.canton);
+        if(ubicacion.getParroquia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.parroquia);
+    }
     
     @Override
     public Ubicacion crear(Ubicacion ubicacion) {
+        validar(ubicacion);
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_ubicacion);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -33,17 +44,20 @@ public class UbicacionService implements IUbicacionService {
 
     @Override
     public Ubicacion actualizar(Ubicacion ubicacion) {
+        validar(ubicacion);
         return rep.save(ubicacion);
     }
 
     @Override
     public Ubicacion activar(Ubicacion ubicacion) {
+        validar(ubicacion);
         ubicacion.setEstado(Constantes.activo);
         return rep.save(ubicacion);
     }
 
     @Override
     public Ubicacion inactivar(Ubicacion ubicacion) {
+        validar(ubicacion);
         ubicacion.setEstado(Constantes.inactivo);
         return rep.save(ubicacion);
     }

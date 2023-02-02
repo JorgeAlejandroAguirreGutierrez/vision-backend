@@ -1,10 +1,12 @@
 package com.proyecto.sicecuador.modelos;
 
+import com.proyecto.sicecuador.Constantes;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @MappedSuperclass
 public class Entidad {
@@ -23,7 +25,8 @@ public class Entidad {
     private Timestamp fechaActualizacion;
 
     public Entidad(){
-
+        this.id = Constantes.ceroId;
+        this.codigo = Constantes.vacio;
     }
 
     public Entidad(long id){
@@ -66,5 +69,5 @@ public class Entidad {
     
     public void setFechaActualizacion(Timestamp fechaActualizacion) {
 		this.fechaActualizacion = fechaActualizacion;
-	}    
+	}
 }
