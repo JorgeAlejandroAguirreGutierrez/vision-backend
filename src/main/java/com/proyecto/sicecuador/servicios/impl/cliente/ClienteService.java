@@ -377,6 +377,13 @@ public class ClienteService implements IClienteService {
     	if(ubicacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
+        for(Dependiente dependiente: cliente.getDependientes()) {
+            Optional<Ubicacion> ubicacionDependiente= repUbicacion.findByProvinciaAndCantonAndParroquia(dependiente.getUbicacion().getProvincia(),dependiente.getUbicacion().getCanton(), dependiente.getUbicacion().getParroquia(), Constantes.activo);
+            if(ubicacionDependiente.isEmpty()) {
+                throw new EntidadNoExistenteException(Constantes.dependiente);
+            }
+            dependiente.setUbicacion(ubicacionDependiente.get());
+        }
     	cliente.setUbicacion(ubicacion.get());
         Cliente res = rep.save(cliente);
         res.normalizar();

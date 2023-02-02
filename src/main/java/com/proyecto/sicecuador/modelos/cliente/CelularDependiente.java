@@ -7,7 +7,7 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "celular_auxiliar")
+@Table(name = "celular_dependiente")
 public class CelularDependiente extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;

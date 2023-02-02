@@ -98,10 +98,11 @@ public class Constantes {
     public static final String tabla_auxiliar="auxiliar";
     public static final String tabla_calificacion_cliente="calificacion_cliente";
     public static final String tabla_celular="celular";
-    public static final String tabla_celular_auxiliar="celular_auxiliar";
+    public static final String tabla_celular_dependiente="celular_dependiente";
     public static final String tabla_cliente="cliente";
     public static final String tabla_correo="correo";
-    public static final String tabla_correo_auxiliar="correo_auxiliar";
+    public static final String tabla_correo_dependiente="correo_dependiente";
+    public static final String tabla_direccion="direccion";
     public static final String tabla_estado_civil="estado_civil";
     public static final String tabla_financiamiento="financiamiento";
     public static final String tabla_forma_pago="forma_pago";
@@ -111,7 +112,7 @@ public class Constantes {
     public static final String tabla_plazo_credito="plazo_credito";
     public static final String tabla_retencion_cliente="retencion_cliente";
     public static final String tabla_telefono="telefono";
-    public static final String tabla_telefono_auxiliar="telefono_auxiliar";
+    public static final String tabla_telefono_dependiente="telefono_dependiente";
     public static final String tabla_tipo_contribuyente="tipo_contribuyente";
     public static final String tabla_tipo_pago="tipo_pago";
     
@@ -200,11 +201,12 @@ public class Constantes {
     public static final String dependiente="DEPENDIENTE";
     public static final String calificacion_cliente="CALIFICACION CLIENTE";
     public static final String celular="CELULAR";
-    public static final String celular_auxiliar="CELULAR AUXILIAR";
+    public static final String celular_dependiente="CELULAR DEPENDIENTE";
     public static final String cliente="CLIENTE";
     public static final String tipo_identificacion="TIPO IDENTIFICACION";
     public static final String correo="CORREO";
-    public static final String correo_auxiliar="CORREO AUXILIAR";
+    public static final String correo_dependiente="CORREO DEPENDIENTE";
+    public static final String direccion="DIRECCION";
     public static final String estado_civil="ESTADO CIVIL";
     public static final String financiamiento="FINANCIAMIENTO";
     public static final String forma_pago="FORMA PAGO";
@@ -214,7 +216,7 @@ public class Constantes {
     public static final String plazo_credito="PLAZO CREDITO";
     public static final String retencion_cliente="RETENCION CLIENTE";
     public static final String telefono="TELEFONO";
-    public static final String telefono_auxiliar="TELEFONO AUXILIAR";
+    public static final String telefono_dependiente="TELEFONO DEPENDIENTE";
     public static final String tipo_contribuyente="TIPO CONTRIBUYENTE";
     public static final String tipo_pago="TIPO PAGO";
     

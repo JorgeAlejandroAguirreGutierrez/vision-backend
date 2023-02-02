@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.modelos.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -23,6 +25,15 @@ public class Usuario extends Entidad {
     private String contrasena;
 	@Column(name = "confirmar_contrasena", nullable = true)
     private String confirmarContrasena;
+    @Column(name = "identificacion", nullable = true)
+    private String identificacion;
+    @Transient
+    private String avatar64;
+    @Lob
+    @Column(name = "avatar",nullable = true)
+    private byte[] avatar;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @Column(name = "cambiarContrasena", nullable = true)
     private String cambiarContrasena;
     @Column(name = "avatar", nullable = true)
@@ -62,7 +73,7 @@ public class Usuario extends Entidad {
     public Usuario(long id){
         super(id);
     }
-    public Usuario(String codigo, String nombre, String telefono, String celular, String correo, String contrasena, String confirmarContrasena, String identificacion, String avatar,
+    public Usuario(String codigo, String nombre, String telefono, String celular, String correo, String contrasena, String confirmarContrasena, String identificacion, byte[] avatar,
     		String apodo, String cambiarContrasena, String pregunta, String respuesta, String estado, Perfil perfil, Estacion estacion){
         super(codigo);
         this.apodo=apodo;
@@ -87,7 +98,7 @@ public class Usuario extends Entidad {
         correo=datos.get(1)== null ? null: datos.get(1);
         contrasena=datos.get(2)== null ? null: datos.get(2);
         identificacion=datos.get(3)== null ? null: datos.get(3);
-        avatar=datos.get(4)== null ? null: datos.get(4);
+        //avatar=datos.get(4)== null ? null: datos.get(4);
         estado=datos.get(5)== null ? null: datos.get(5);
         perfil=datos.get(7)== null ? null:new Perfil((long) Double.parseDouble(datos.get(7)));
         apodo=datos.get(8)== null ? null: datos.get(8);
@@ -130,7 +141,9 @@ public class Usuario extends Entidad {
 		return confirmarContrasena;
 	}
 
-    public String getAvatar() {
+    public String getAvatar64() { return avatar64; }
+
+    public byte[] getAvatar() {
         return avatar;
     }
 
@@ -178,7 +191,7 @@ public class Usuario extends Entidad {
 		this.identificacion = identificacion;
 	}
 
-	public void setAvatar(String avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 	
