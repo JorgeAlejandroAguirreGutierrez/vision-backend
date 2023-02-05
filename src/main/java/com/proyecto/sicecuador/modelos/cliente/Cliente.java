@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
+import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
@@ -99,8 +100,8 @@ public class Cliente extends Entidad {
         this.estado = Constantes.activo;
         this.direccion = Constantes.vacio;
         this.referencia = Constantes.vacio;
-        this.latitudgeo = Constantes.vacio;
-        this.longitudgeo = Constantes.vacio;
+        this.latitudgeo = Constantes.cero;
+        this.longitudgeo = Constantes.cero;
         this.montoFinanciamiento = Constantes.cero;
         this.tipoIdentificacion = new TipoIdentificacion();
         this.tipoContribuyente = new TipoContribuyente();
@@ -364,7 +365,7 @@ public class Cliente extends Entidad {
         if(this.tipoContribuyente == null) this.tipoContribuyente = new TipoContribuyente();
         if(this.estacion == null) this.estacion = new Estacion();
         if(this.grupoCliente == null) this.grupoCliente = new GrupoCliente();
-        if(this.grupoCliente == null) this.formaPago = new FormaPago();
+        if(this.formaPago == null) this.formaPago = new FormaPago();
         if(this.plazoCredito == null) this.plazoCredito = new PlazoCredito();
         if(this.ubicacion == null) this.ubicacion = new Ubicacion();
         if(this.genero == null) this.genero = new Genero();
@@ -382,6 +383,9 @@ public class Cliente extends Entidad {
             this.retencionesCliente.add(new RetencionCliente());
             this.retencionesCliente.add(new RetencionCliente());
             this.retencionesCliente.add(new RetencionCliente());
+        }
+        for (RetencionCliente retencionCliente : this.retencionesCliente){
+            if (retencionCliente.getTipoRetencion() == null) retencionCliente.setTipoRetencion(new TipoRetencion());
         }
     }
 }

@@ -62,10 +62,7 @@ public class ClienteService implements IClienteService {
         if(cliente.getCalificacionCliente().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.calificacion_cliente);
         if(cliente.getOrigenIngreso().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.origen_ingreso);
         if(cliente.getSegmento().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.segmento);
-        if(cliente.getTelefonos().isEmpty()) throw new DatoInvalidoException(Constantes.telefono);
-        if(cliente.getCelulares().isEmpty()) throw new DatoInvalidoException(Constantes.celular);
         if(cliente.getCorreos().isEmpty()) throw new DatoInvalidoException(Constantes.correo);
-        if(cliente.getRetencionesCliente().isEmpty()) throw new DatoInvalidoException(Constantes.retencion_cliente);
 
         if(cliente.getPlazoCredito().getId() == 0 ) cliente.setPlazoCredito(null);
         for (RetencionCliente retencionCliente : cliente.getRetencionesCliente()){

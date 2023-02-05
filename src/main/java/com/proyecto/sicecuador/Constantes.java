@@ -322,7 +322,6 @@ public class Constantes {
 
     public static final String estado="ESTADO";
     public static final String obligadoContabilidad="OBLIGADO A CONTABILIDAD";
-    public static final String direccion="DIRECCION";
     public static final String referencia="REFERENCIA";
     public static final String montoFinanciamiento = "MONTO DE FINANCIAMIENTO";
     public static final String email="EMAIL";
