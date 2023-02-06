@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.controladoras.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathTablaEquivalenciaMedida;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathEquivalenciaMedida;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(contexto+pathTablaEquivalenciaMedida)
+@RequestMapping(contexto+pathEquivalenciaMedida)
 public class EquivalenciaMedidaController implements GenericoController<EquivalenciaMedida> {
     @Autowired
     private IEquivalenciaMedidaService servicio;
@@ -55,6 +55,13 @@ public class EquivalenciaMedidaController implements GenericoController<Equivale
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/obtenerMedidasEquivalentes/{medidaIni_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerMedidasEquivalentes(@PathVariable("medidaIni_id") long medidaIni_id) {
+        List<EquivalenciaMedida> medidasEquivalencias=servicio.obtenerMedidasEquivalentes(medidaIni_id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, medidasEquivalencias);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid EquivalenciaMedida _tabla) {
         EquivalenciaMedida tabla=servicio.crear(_tabla);
@@ -82,6 +89,7 @@ public class EquivalenciaMedidaController implements GenericoController<Equivale
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, equivalenciaMedida);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
     @Override
     public ResponseEntity<?> importar(MultipartFile file) {
         return null;

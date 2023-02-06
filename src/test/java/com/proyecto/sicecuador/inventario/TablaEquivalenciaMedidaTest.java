@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.inventario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathTablaEquivalenciaMedida;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathEquivalenciaMedida;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -52,13 +52,13 @@ public class TablaEquivalenciaMedidaTest {
     public void testA1WhenCreateTEMSuccess() throws Exception {
     	String filename = TablaEquivalenciaMedidaTest.class.getResource("/testdata/inventario/TEM.json").getPath();
     	String tem=readFileAsString(filename);
-    	this.mockMvc.perform(post(contexto+pathTablaEquivalenciaMedida).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+    	this.mockMvc.perform(post(contexto+pathEquivalenciaMedida).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
                 .content(tem))
                 .andExpect(status().isOk());
     }
     @Test
     public void testA2WhenFindAllTEMSuccess() throws Exception {
-        this.mockMvc.perform(get(contexto+pathTablaEquivalenciaMedida).header("Authorization", "Basic " + token)
+        this.mockMvc.perform(get(contexto+pathEquivalenciaMedida).header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
@@ -66,7 +66,7 @@ public class TablaEquivalenciaMedidaTest {
     
     @Test
     public void testA3WhenFindByIdITEMSuccess() throws Exception {
-    	this.mockMvc.perform(get(contexto+pathTablaEquivalenciaMedida+"/"+"1").header("Authorization", "Basic " + token)
+    	this.mockMvc.perform(get(contexto+pathEquivalenciaMedida+"/"+"1").header("Authorization", "Basic " + token)
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(not(empty()))));
@@ -76,7 +76,7 @@ public class TablaEquivalenciaMedidaTest {
     public void testA4WhenUpdateTEMSuccess() throws Exception {
     	String filename = TablaEquivalenciaMedidaTest.class.getResource("/testdata/inventario/TEMUpdate.json").getPath();
     	String tem=readFileAsString(filename);
-    	this.mockMvc.perform(put(contexto+pathTablaEquivalenciaMedida).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
+    	this.mockMvc.perform(put(contexto+pathEquivalenciaMedida).contentType(MediaType.APPLICATION_JSON).header("Authorization", "Basic " + token)
                 .content(tem))
                 .andExpect(status().isOk());
     }
