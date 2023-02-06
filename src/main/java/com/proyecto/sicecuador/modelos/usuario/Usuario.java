@@ -25,19 +25,13 @@ public class Usuario extends Entidad {
     private String contrasena;
 	@Column(name = "confirmar_contrasena", nullable = true)
     private String confirmarContrasena;
-    @Column(name = "identificacion", nullable = true)
-    private String identificacion;
     @Transient
     private String avatar64;
     @Lob
     @Column(name = "avatar",nullable = true)
     private byte[] avatar;
-    @Column(name = "estado", nullable = true)
-    private String estado;
     @Column(name = "cambiarContrasena", nullable = true)
     private String cambiarContrasena;
-    @Column(name = "avatar", nullable = true)
-    private String avatar;
     @Column(name = "pregunta", nullable = true)
     private String pregunta;
     @Column(name = "respuesta", nullable = true)
@@ -61,7 +55,7 @@ public class Usuario extends Entidad {
         this.contrasena = Constantes.vacio;
         this.confirmarContrasena = Constantes.vacio;
         this.identificacion = Constantes.vacio;
-        this.avatar = Constantes.vacio;
+        this.avatar = null;
         this.cambiarContrasena = Constantes.no;
         this.pregunta = Constantes.vacio;
         this.respuesta = Constantes.vacio;

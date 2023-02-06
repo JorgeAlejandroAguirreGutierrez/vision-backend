@@ -37,4 +37,7 @@ public class CelularDependiente extends Entidad {
     public Dependiente getDependiente() {
         return dependiente;
     }
+    public void setCliente(Dependiente dependiente) {
+        this.dependiente = dependiente;
+    }
 }
