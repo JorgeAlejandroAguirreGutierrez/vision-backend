@@ -36,15 +36,15 @@ public class ProductoService implements IProductoService {
         if(producto.getTipoGasto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_gasto);
         if(producto.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
         if(producto.getMedida().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.medida);
-        if(producto.getKardexs().isEmpty()) throw new DatoInvalidoException(Constantes.kardex);
-        if(producto.getPrecios().isEmpty()) throw new DatoInvalidoException(Constantes.precio);
-        if(producto.getProductosProveedores().isEmpty()) throw new DatoInvalidoException(Constantes.producto_proveedor);
-        if(producto.getProductosBodegas().isEmpty()) throw new DatoInvalidoException(Constantes.producto_bodega);
+        //if(producto.getKardexs().isEmpty()) throw new DatoInvalidoException(Constantes.kardex);
+        //if(producto.getPrecios().isEmpty()) throw new DatoInvalidoException(Constantes.precio);
+        //if(producto.getProductosProveedores().isEmpty()) throw new DatoInvalidoException(Constantes.producto_proveedor);
+        //if(producto.getProductosBodegas().isEmpty()) throw new DatoInvalidoException(Constantes.producto_bodega);
     }
     
     @Override
     public Producto crear(Producto producto) {
-        validar(producto);
+        //validar(producto);
     	Optional<Producto> getProducto=rep.obtenerPorNombre(producto.getNombre());
     	if(getProducto.isPresent()) {
     		throw new EntidadExistenteException(Constantes.producto);

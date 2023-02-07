@@ -34,9 +34,9 @@ public class Kardex extends Entidad {
     private double costoPromedio;
     @Column(name = "costo_total", nullable = true)
     private double costoTotal;
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "proveedor_id", nullable = true)
-    private Proveedor proveedor;
+    private Proveedor proveedor;*/
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
@@ -54,7 +54,6 @@ public class Kardex extends Entidad {
         this.cantidad = Constantes.ceroId;
         this.costoPromedio = Constantes.cero;
         this.costoTotal = Constantes.cero;
-        this.proveedor = new Proveedor();
     }
 
     public Kardex(long id){
@@ -63,7 +62,7 @@ public class Kardex extends Entidad {
 
     public Kardex(String codigo, Date fecha, String documento, String numero, String operacion, double entrada, double salida,
                   double debe, double haber, long cantidad, double costoPromedio,
-                  double costoTotal, Proveedor proveedor,Producto producto){
+                  double costoTotal, Producto producto){
         super(codigo);
         this.fecha=fecha;
         this.documento=documento;
@@ -76,7 +75,7 @@ public class Kardex extends Entidad {
         this.cantidad=cantidad;
         this.costoPromedio=costoPromedio;
         this.costoTotal=costoTotal;
-        this.proveedor=proveedor;
+        //this.proveedor=proveedor;
         this.producto=producto;
     }
 
@@ -120,13 +119,13 @@ public class Kardex extends Entidad {
 		return costoPromedio;
 	}
     
-    public Proveedor getProveedor() {
+    /*public Proveedor getProveedor() {
         return proveedor;
-    }
+    }*/
 
-    public void setProveedor(Proveedor proveedor) {
+    /*public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
-    }
+    }*/
 
     public long getCantidad() {
         return cantidad;
@@ -146,6 +145,6 @@ public class Kardex extends Entidad {
     }
 
     public void normalizar(){
-        if(this.proveedor == null) this.proveedor = new Proveedor();
+        //if(this.proveedor == null) this.proveedor = new Proveedor();
     }
 }

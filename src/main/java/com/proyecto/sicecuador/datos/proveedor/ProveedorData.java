@@ -1,8 +1,12 @@
 package com.proyecto.sicecuador.datos.proveedor;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.FormaPago;
+import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
+import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.proveedor.*;
 import com.proyecto.sicecuador.repositorios.proveedor.IProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +31,8 @@ public class ProveedorData implements ApplicationRunner {
             Optional<Proveedor> ant=rep.findById((long) 1);
             if (!ant.isPresent()) {
                 List<Proveedor> proveedores = new ArrayList<>();
-                proveedores.add(new Proveedor("PRV110721000001", new TipoIdentificacion(1), "0101010101", "CORAL CENTRO", "NOMBRE COMERCIAL CORAL", Constantes.activo, "CALLE SUCRE Y VEGA MUÑOZ", "072865654", "0987654325","coralcentro@coral.com.ec"));
-                proveedores.add(new Proveedor("PRV110721000002", new TipoIdentificacion(1), "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", Constantes.activo, "AV HURTADO DE MENDOZA", "072995654", "0987654326","supermaxi@supermaxi.com.ec"));
+                proveedores.add(new Proveedor("PRV110721000001", "0101010101", "CORAL CENTRO", "NOMBRE COMERCIAL CORAL","CALLE SUCRE Y VEGA MUÑOZ", "TRAS LA IGLESIA", 0, 0, 0,"NO", "NO","NO", Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(1)));
+                proveedores.add(new Proveedor("PRV110721000002",  "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", "AV HURTADO DE MENDOZA", "TRAS EL MERCADO", 0, 0, 0, "SI", "NO","NO", Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(1)));
                 rep.saveAll(proveedores);
             }
     }

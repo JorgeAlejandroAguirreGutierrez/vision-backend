@@ -30,9 +30,9 @@ public class ProveedorService implements IProveedorService {
         if(proveedor.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.razonSocial);
         if(proveedor.getNombreComercial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombreComercial);
         if(proveedor.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
-        if(proveedor.getTelefono().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.telefono);
-        if(proveedor.getCelular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.celular);
-        if(proveedor.getCorreo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.correo);
+        if(proveedor.getEspecial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.telefono);
+        if(proveedor.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.celular);
+        if(proveedor.getFantasma().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.correo);
         if(proveedor.getTipoIdentificacion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
     }
     
