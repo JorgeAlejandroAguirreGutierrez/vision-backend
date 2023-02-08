@@ -9,6 +9,7 @@ import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
 
 import javax.persistence.*;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -142,8 +143,7 @@ public class Cliente extends Entidad {
 
     public Cliente(String codigo, String identificacion, String razonSocial, String obligadoContabilidad, String especial, String estado, 
     		String direccion, String etiqueta, String referencia, double latitudgeo, double longitudgeo,
-    		TipoIdentificacion tipoIdentificacion, Estacion estacion, 
-    		GrupoCliente grupoCliente, TipoContribuyente tipoContribuyente, 
+    		TipoIdentificacion tipoIdentificacion, Estacion estacion, GrupoCliente grupoCliente, TipoContribuyente tipoContribuyente,
     		Ubicacion ubicacion, double montoFinanciamiento, FormaPago formaPago, PlazoCredito plazoCredito, Genero genero, EstadoCivil estadoCivil,
             CalificacionCliente calificacionCliente, OrigenIngreso origenIngreso, Segmento segmento){
         super(codigo);
@@ -352,7 +352,11 @@ public class Cliente extends Entidad {
 		this.segmento = segmento;
 	}
 
-    public void setPlazoCredito(PlazoCredito plazoCredito) {
+    public void setFormaPago(FormaPago formaPago) {
+        this.formaPago = formaPago;
+    }
+
+	public void setPlazoCredito(PlazoCredito plazoCredito) {
         this.plazoCredito = plazoCredito;
     }
 

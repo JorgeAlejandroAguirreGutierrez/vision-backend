@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.criteria.Predicate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -82,6 +84,11 @@ public class EquivalenciaMedidaService implements IEquivalenciaMedidaService {
     }
 
     @Override
+    public List<EquivalenciaMedida> obtenerMedidasEquivalentes(long medidaIni_id){
+        return rep.obtenerMedidasEquivalentes(medidaIni_id, Constantes.activo);
+    }
+
+    @Override
     public List<EquivalenciaMedida> consultar() {
         return rep.findAll();
     }
@@ -110,4 +117,6 @@ public class EquivalenciaMedidaService implements IEquivalenciaMedidaService {
             System.err.println(e.getMessage());
         }
     }
+
+
 }

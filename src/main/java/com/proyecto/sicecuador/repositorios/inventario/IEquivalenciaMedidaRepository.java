@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface IEquivalenciaMedidaRepository extends JpaRepository<EquivalenciaMedida, Long>, JpaSpecificationExecutor<EquivalenciaMedida> {	
 	@Query(value = "select em from EquivalenciaMedida em where em.estado=:estado")
     List<EquivalenciaMedida> consultarPorEstado(String estado);
+    @Query(value = "select em from EquivalenciaMedida em where em.medidaIni.id=:id and em.estado=:estado")
+    List<EquivalenciaMedida> obtenerMedidasEquivalentes(long id, String estado);
 }
