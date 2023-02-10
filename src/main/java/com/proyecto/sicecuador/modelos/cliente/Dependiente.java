@@ -22,6 +22,10 @@ public class Dependiente extends Entidad {
     private String razonSocial;
     @Column(name = "direccion", nullable = true)
     private String direccion;
+    @Column(name = "latitudgeo", nullable = true)
+    private double latitudgeo;
+    @Column(name = "longitudgeo", nullable = true)
+    private double longitudgeo;
     @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;

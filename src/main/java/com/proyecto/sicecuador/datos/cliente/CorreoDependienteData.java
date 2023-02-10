@@ -2,7 +2,7 @@ package com.proyecto.sicecuador.datos.cliente;
 
 import com.proyecto.sicecuador.modelos.cliente.Dependiente;
 import com.proyecto.sicecuador.modelos.cliente.CorreoDependiente;
-import com.proyecto.sicecuador.repositorios.cliente.ICorreoAuxiliarRepository;
+import com.proyecto.sicecuador.repositorios.cliente.ICorreoDependienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @Profile({"dev","prod"})
 public class CorreoDependienteData implements ApplicationRunner {
     @Autowired
-    private ICorreoAuxiliarRepository rep;
+    private ICorreoDependienteRepository rep;
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Optional<CorreoDependiente> ant=rep.findById((long) 1);

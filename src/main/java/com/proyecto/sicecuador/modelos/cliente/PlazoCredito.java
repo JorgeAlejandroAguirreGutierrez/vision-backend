@@ -32,6 +32,7 @@ public class PlazoCredito extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.descripcion = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
         this.plazo = Constantes.cero;
         this.estado = Constantes.activo;
     }

@@ -30,6 +30,7 @@ public class Endpoints {
     //COMPRA
     public static final String pathFacturaCompra="facturaCompra";
     public static final String pathRetencionCompra="retencionCompra";
+    public static final String pathGrupoProveedor="grupoProveedor";
     
     //COMPROBANTE
     public static final String pathEgreso="egreso";
@@ -66,7 +67,7 @@ public class Endpoints {
     public static final String pathProducto="producto";
     public static final String pathProveedor="proveedor";
     public static final String pathSegmento="segmento";
-    public static final String pathTablaEquivalenciaMedida="tablaEquivalenciaMedida";
+    public static final String pathEquivalenciaMedida="equivalenciaMedida";
     public static final String pathTipoGasto="tipoGasto";
     public static final String pathCategoriaProducto="categoriaProducto";
     

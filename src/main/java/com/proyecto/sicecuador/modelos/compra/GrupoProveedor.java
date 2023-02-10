@@ -1,13 +1,11 @@
-package com.proyecto.sicecuador.modelos.proveedor;
+package com.proyecto.sicecuador.modelos.compra;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
+import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import javax.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "grupo_proveedor")
@@ -22,15 +20,22 @@ public class GrupoProveedor extends Entidad {
 	private String abreviatura;
 	@Column(name = "estado", nullable = true)
 	private String estado;
-
-	public GrupoProveedor(long id){
-		super(id);
-	}
+	@ManyToOne
+	@JoinColumn(name = "cuenta_contable_id", nullable = true)
+	private CuentaContable cuentaContable;
 	public GrupoProveedor() {
 		super();
 		this.codigo = Constantes.vacio;
 		this.descripcion = Constantes.vacio;
 		this.abreviatura = Constantes.vacio;
 		this.estado = Constantes.vacio;
+		this.cuentaContable = new CuentaContable();
+	}
+	
+	public GrupoProveedor(long id) {
+		super(id);
+	}
+	public void normalizar(){
+		if(this.cuentaContable == null) this.cuentaContable = new CuentaContable();
 	}
 }

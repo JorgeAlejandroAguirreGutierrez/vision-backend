@@ -2,7 +2,7 @@ package com.proyecto.sicecuador.datos.cliente;
 
 import com.proyecto.sicecuador.modelos.cliente.Dependiente;
 import com.proyecto.sicecuador.modelos.cliente.CelularDependiente;
-import com.proyecto.sicecuador.repositorios.cliente.ICelularAuxiliarRepository;
+import com.proyecto.sicecuador.repositorios.cliente.ICelularDependienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @Profile({"dev","prod"})
 public class CelularDependienteData implements ApplicationRunner {
     @Autowired
-    private ICelularAuxiliarRepository rep;
+    private ICelularDependienteRepository rep;
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Optional<CelularDependiente> ant=rep.findById((long) 1);

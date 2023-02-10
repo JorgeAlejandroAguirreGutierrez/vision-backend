@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,9 @@ public class UsuarioService implements IUsuarioService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
+      byte[] avatarBytes = usuario.getAvatar64().getBytes(StandardCharsets.UTF_8);
+    	//byte[] avatar = Base64.getDecoder().decode(usuario.getAvatar64());
+      usuario.setAvatar(avatarBytes);
     	usuario.setCodigo(codigo.get());
     	usuario.setEstado(Constantes.activo);
     	Usuario res = rep.save(usuario);

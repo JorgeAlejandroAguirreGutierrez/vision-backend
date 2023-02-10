@@ -1,13 +1,13 @@
-package com.proyecto.sicecuador.servicios.impl.proveedor;
+package com.proyecto.sicecuador.servicios.impl.compra;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
+import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.repositorios.proveedor.IProveedorRepository;
-import com.proyecto.sicecuador.servicios.interf.proveedor.IProveedorService;
+import com.proyecto.sicecuador.repositorios.compra.IProveedorRepository;
+import com.proyecto.sicecuador.servicios.interf.compra.IProveedorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,9 +30,9 @@ public class ProveedorService implements IProveedorService {
         if(proveedor.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.razonSocial);
         if(proveedor.getNombreComercial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombreComercial);
         if(proveedor.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
-        if(proveedor.getTelefono().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.telefono);
-        if(proveedor.getCelular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.celular);
-        if(proveedor.getCorreo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.correo);
+        if(proveedor.getEspecial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.telefono);
+        if(proveedor.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.celular);
+        if(proveedor.getFantasma().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.correo);
         if(proveedor.getTipoIdentificacion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
     }
     

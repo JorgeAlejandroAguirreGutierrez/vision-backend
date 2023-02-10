@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 @Repository
-public interface ICorreoAuxiliarRepository extends JpaRepository<CorreoDependiente, Long>, JpaSpecificationExecutor<CorreoDependiente> {
+public interface ICorreoDependienteRepository extends JpaRepository<CorreoDependiente, Long>, JpaSpecificationExecutor<CorreoDependiente> {
 }

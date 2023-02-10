@@ -27,7 +27,6 @@ public class MovimientoContableData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<MovimientoContable> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-
             List<MovimientoContable> movimientosContables = new ArrayList<>();
             movimientosContables.add(new MovimientoContable("MVC011907000001", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(2),new CuentaContable(3),new CuentaContable(5), new CuentaContable(6), new CuentaContable(4), new CuentaContable(5), new CuentaContable(1)));
             movimientosContables.add(new MovimientoContable("MVC011907000002", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(2),new CuentaContable(3),new CuentaContable(5), new CuentaContable(6), new CuentaContable(4), new CuentaContable(5), new CuentaContable(2)));

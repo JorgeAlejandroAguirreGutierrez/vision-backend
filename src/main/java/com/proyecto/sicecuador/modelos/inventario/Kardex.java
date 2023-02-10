@@ -8,7 +8,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "kardex")
@@ -43,9 +42,6 @@ public class Kardex extends Entidad {
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
-    @ManyToOne
-    @JoinColumn(name = "bodega_id", nullable = true)
-    private Bodega bodega;
 
     public Kardex(long id){
         super(id);
@@ -64,6 +60,5 @@ public class Kardex extends Entidad {
         this.cantidad = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
         this.costoTotal = Constantes.cero;
-        this.bodega = new Bodega();
     }
 }

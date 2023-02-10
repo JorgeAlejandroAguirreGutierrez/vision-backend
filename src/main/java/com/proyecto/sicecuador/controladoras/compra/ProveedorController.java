@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.controladoras.proveedor;
+package com.proyecto.sicecuador.controladoras.compra;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathProveedor;
@@ -6,8 +6,9 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathProveedor;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
-import com.proyecto.sicecuador.servicios.interf.proveedor.IProveedorService;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.modelos.compra.Proveedor;
+import com.proyecto.sicecuador.servicios.interf.compra.IProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -68,7 +69,7 @@ public class ProveedorController implements GenericoController<Proveedor> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, proveedor);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
+
     @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> activar(@RequestBody Proveedor _proveedor) {
     	Proveedor proveedor = servicio.activar(_proveedor);

@@ -1,8 +1,8 @@
 package com.proyecto.sicecuador.datos.inventario;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.modelos.inventario.*;
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 import com.proyecto.sicecuador.repositorios.inventario.IProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
