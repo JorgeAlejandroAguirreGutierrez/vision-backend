@@ -107,20 +107,4 @@ public class ProveedorService implements IProveedorService {
     public List<Proveedor> buscar(Proveedor proveedor) {
         return  rep.consultarPorRazonSocial(proveedor.getRazonSocial(), Constantes.activo);
     }
-    
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Proveedor> proveedores=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,7);
-            for (List<String> datos: info) {
-                Proveedor proveedor = new Proveedor(datos);
-                proveedores.add(proveedor);
-            }
-            rep.saveAll(proveedores);
-        }catch (Exception e){
-        	System.err.println(e.getMessage());
-        }
-    }
-
 }

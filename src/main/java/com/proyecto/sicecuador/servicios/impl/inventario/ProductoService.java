@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.modelos.inventario.Medida;
+import com.proyecto.sicecuador.modelos.inventario.Kardex;
+import com.proyecto.sicecuador.modelos.inventario.Precio;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -30,25 +31,40 @@ public class ProductoService implements IProductoService {
     public void validar(Producto producto) {
         if(producto.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
         if(producto.getConsignacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.consignacion);
-        if(producto.getStockTotal() == Constantes.cero) throw new DatoInvalidoException(Constantes.stockTotal);
         if(producto.getCategoriaProducto().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.categoria_producto);
         if(producto.getGrupoProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.grupo_producto);
         if(producto.getTipoGasto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_gasto);
         if(producto.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
-        if(producto.getMedida().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.medida);
-        //if(producto.getKardexs().isEmpty()) throw new DatoInvalidoException(Constantes.kardex);
-        //if(producto.getPrecios().isEmpty()) throw new DatoInvalidoException(Constantes.precio);
-        //if(producto.getProductosProveedores().isEmpty()) throw new DatoInvalidoException(Constantes.producto_proveedor);
-        //if(producto.getProductosBodegas().isEmpty()) throw new DatoInvalidoException(Constantes.producto_bodega);
+        if(producto.getKardexs().isEmpty()) throw new DatoInvalidoException(Constantes.kardex);
+        if(producto.getPrecios().isEmpty()) throw new DatoInvalidoException(Constantes.precio);
+        for (Kardex kardex : producto.getKardexs()) {
+            if(kardex.getCostoUnitario() <= Constantes.cero){
+                throw new DatoInvalidoException(Constantes.costoUnitario);
+            }
+            if(kardex.getNumero().equals(Constantes.vacio)){
+                throw new DatoInvalidoException(Constantes.numero);
+            }
+            if(kardex.getCantidad() <= Constantes.cero){
+                throw new DatoInvalidoException(Constantes.numero);
+            }
+        }
+        for (Precio precio : producto.getPrecios()) {
+            if(precio.getPrecioVentaPublicoManual() < precio.getPrecioVentaPublico()){
+                throw new DatoInvalidoException(Constantes.precio_venta_publico_manual);
+            }
+        }
     }
     
     @Override
     public Producto crear(Producto producto) {
-        //validar(producto);
-    	Optional<Producto> getProducto=rep.obtenerPorNombre(producto.getNombre());
-    	if(getProducto.isPresent()) {
-    		throw new EntidadExistenteException(Constantes.producto);
-    	}
+        validar(producto);
+        Optional<Producto> getProducto=rep.obtenerPorNombre(producto.getNombre());
+        if(getProducto.isPresent()) {
+            throw new EntidadExistenteException(Constantes.producto);
+        }
+    	producto.getKardexs().get(0).setDocumento(Constantes.factura_compra);
+        producto.getKardexs().get(0).setOperacion(Constantes.operacion_compra);
+        producto.getKardexs().get(0).setEntrada(producto.getKardexs().get(0).getCantidad());
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_producto);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
@@ -157,20 +173,4 @@ public class ProductoService implements IProductoService {
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 		});
     }
-    
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Producto> productos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,7);
-            for (List<String> datos: info) {
-                Producto producto = new Producto(datos);
-                productos.add(producto);
-            }
-            rep.saveAll(productos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
-
 }

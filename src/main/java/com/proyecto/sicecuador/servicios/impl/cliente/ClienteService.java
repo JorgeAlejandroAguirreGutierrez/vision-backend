@@ -63,7 +63,7 @@ public class ClienteService implements IClienteService {
         if(cliente.getOrigenIngreso().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.origen_ingreso);
         if(cliente.getSegmento().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.segmento);
         if(cliente.getCorreos().isEmpty()) throw new DatoInvalidoException(Constantes.correo);
-
+        if(cliente.getRetencionesCliente().isEmpty()) throw new DatoInvalidoException(Constantes.retencion_cliente);
         if(cliente.getPlazoCredito().getId() == 0 ) cliente.setPlazoCredito(null);
         for (RetencionCliente retencionCliente : cliente.getRetencionesCliente()){
             if(retencionCliente.getTipoRetencion().getId() == Constantes.ceroId) retencionCliente.setTipoRetencion(null);
@@ -127,21 +127,27 @@ public class ClienteService implements IClienteService {
                 if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("05");
                 	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
-                    Cliente cliente=new Cliente(tipoIdentificacion,tipoContribuyente);
+                    Cliente cliente=new Cliente();
+                    cliente.setTipoIdentificacion(tipoIdentificacion);
+                    cliente.setTipoContribuyente(tipoContribuyente);
                     return cliente;
                 }
                 throw new IdentificacionInvalidaException();
             } else if (identificacion.equals(Constantes.identificacion_consumidor_final)) {
             	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("07");
             	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
-                Cliente cliente=new Cliente(tipoIdentificacion,tipoContribuyente);
+                Cliente cliente=new Cliente();
+                cliente.setTipoIdentificacion(tipoIdentificacion);
+                cliente.setTipoContribuyente(tipoContribuyente);
                 return cliente;
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
                 boolean bandera = verificarSociedadesPublicas(identificacion);
                 if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
-                    Cliente cliente=new Cliente(tipoIdentificacion,tipoContribuyente);
+                    Cliente cliente=new Cliente();
+                    cliente.setTipoIdentificacion(tipoIdentificacion);
+                    cliente.setTipoContribuyente(tipoContribuyente);
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -151,7 +157,9 @@ public class ClienteService implements IClienteService {
                 if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PRIVADA");
-                    Cliente cliente=new Cliente(tipoIdentificacion,tipoContribuyente);
+                    Cliente cliente=new Cliente();
+                    cliente.setTipoIdentificacion(tipoIdentificacion);
+                    cliente.setTipoContribuyente(tipoContribuyente);
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -161,7 +169,9 @@ public class ClienteService implements IClienteService {
                 if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
-                    Cliente cliente=new Cliente(tipoIdentificacion,tipoContribuyente);
+                    Cliente cliente=new Cliente();
+                    cliente.setTipoIdentificacion(tipoIdentificacion);
+                    cliente.setTipoContribuyente(tipoContribuyente);
                     return cliente;
                 }
             	throw new IdentificacionInvalidaException();
@@ -171,7 +181,9 @@ public class ClienteService implements IClienteService {
                 if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                 	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PUBLICA");
-                    Cliente cliente=new Cliente(tipoIdentificacion, tipoContribuyente);
+                    Cliente cliente=new Cliente();
+                    cliente.setTipoIdentificacion(tipoIdentificacion);
+                    cliente.setTipoContribuyente(tipoContribuyente);
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -180,7 +192,9 @@ public class ClienteService implements IClienteService {
                 boolean bandera = verificarPlaca(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("07");
-                    Cliente cliente=new Cliente(tipoIdentificacion,null);
+                    Cliente cliente=new Cliente();
+                    cliente.setTipoIdentificacion(tipoIdentificacion);
+                    cliente.setTipoContribuyente(null);
                     return cliente;
                 }
             	throw new IdentificacionInvalidaException();
@@ -189,7 +203,9 @@ public class ClienteService implements IClienteService {
                 boolean bandera = verificarPlacaMoto(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("07");
-                    Cliente cliente=new Cliente(tipoIdentificacion,null);
+                    Cliente cliente=new Cliente();
+                    cliente.setTipoIdentificacion(tipoIdentificacion);
+                    cliente.setTipoContribuyente(null);
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -198,7 +214,9 @@ public class ClienteService implements IClienteService {
                 boolean bandera = verificarPasaporte(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("06");
-                    Cliente cliente=new Cliente(tipoIdentificacion,null);
+                    Cliente cliente=new Cliente();
+                    cliente.setTipoIdentificacion(tipoIdentificacion);
+                    cliente.setTipoContribuyente(null);
                     return cliente;
                 }
             	throw new IdentificacionInvalidaException();
@@ -431,24 +449,5 @@ public class ClienteService implements IClienteService {
     @Override
     public Page<Cliente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
-    }
-
-    @Override
-    @Transactional
-    public void importar(MultipartFile archivo_temporal) {
-        List<Cliente> clientes=new ArrayList<>();
-        try {
-            List<List<String>>info= Util.leerImportar(archivo_temporal,4);
-            for (List<String> datos: info){
-                Cliente cliente=new Cliente(datos);
-                Cliente _cliente=validarIdentificacion(cliente.getIdentificacion());
-                clientes.add(_cliente);
-            }
-            for(int i=0; i<clientes.size(); i++){
-                adm.persist(clientes.get(i));
-            }
-        }catch (Exception e){
-           System.err.println(e.getMessage());
-        }
     }
 }

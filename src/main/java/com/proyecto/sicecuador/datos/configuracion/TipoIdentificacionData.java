@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.configuracion;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoIdentificacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,11 @@ public class TipoIdentificacionData implements ApplicationRunner {
         Optional<TipoIdentificacion> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<TipoIdentificacion> tiposidentificaciones = new ArrayList<>();
-            tiposidentificaciones.add(new TipoIdentificacion("TID011912001", "04", "RUC", "R", "ACTIVO"));
-            tiposidentificaciones.add(new TipoIdentificacion("TID011912002", "05", "CÉDULA", "C","ACTIVO"));
-            tiposidentificaciones.add(new TipoIdentificacion("TID011912003", "06", "PASAPORTE", "P","ACTIVO"));
-            tiposidentificaciones.add(new TipoIdentificacion("TID011912004", "07", "CONSUMIDOR FINAL", "CF","ACTIVO"));
-            tiposidentificaciones.add(new TipoIdentificacion("TID011912005", "08", "IDENTIFICACIÓN DEL EXTERIOR", "E","ACTIVO"));
+            tiposidentificaciones.add(new TipoIdentificacion("TID011912001", "04", "RUC", "R", Constantes.activo));
+            tiposidentificaciones.add(new TipoIdentificacion("TID011912002", "05", "CÉDULA", "C",Constantes.activo));
+            tiposidentificaciones.add(new TipoIdentificacion("TID011912003", "06", "PASAPORTE", "P",Constantes.activo));
+            tiposidentificaciones.add(new TipoIdentificacion("TID011912004", "07", "CONSUMIDOR FINAL", "CF",Constantes.activo));
+            tiposidentificaciones.add(new TipoIdentificacion("TID011912005", "08", "IDENTIFICACIÓN DEL EXTERIOR", "E",Constantes.activo));
             
             rep.saveAll(tiposidentificaciones);
         }

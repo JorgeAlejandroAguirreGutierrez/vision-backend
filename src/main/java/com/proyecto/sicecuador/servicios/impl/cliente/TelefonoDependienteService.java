@@ -58,22 +58,4 @@ public class TelefonoDependienteService implements ITelefonoDependienteService {
     public Page<TelefonoDependiente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<TelefonoDependiente> telefonosDependientes=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal, 16);
-            for (List<String> datos: info) {
-                TelefonoDependiente telefonoDependiente = new TelefonoDependiente();
-                //Optional<Dependiente> dependiente=rep_dependiente.findById(telefonoDependiente.getDependiente().getId());
-                //if(dependiente.isPresent()){
-                    telefonosDependientes.add(telefonoDependiente);
-                //}
-            }
-            rep.saveAll(telefonosDependientes);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

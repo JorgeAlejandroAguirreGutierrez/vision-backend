@@ -5,5 +5,5 @@ import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import java.util.Optional;
 
 public interface IFacturaElectronicaService {
-	Optional<String> enviar(Factura factura);
+	Factura enviar(Factura factura);
 }

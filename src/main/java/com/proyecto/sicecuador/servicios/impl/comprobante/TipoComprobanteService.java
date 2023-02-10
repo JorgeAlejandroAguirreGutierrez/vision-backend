@@ -64,8 +64,4 @@ public class TipoComprobanteService implements ITipoComprobanteService {
     	return rep.findAll(pageable);
     }
 
-    @Override
-    public void importar(MultipartFile file) {
-    }
-
 }

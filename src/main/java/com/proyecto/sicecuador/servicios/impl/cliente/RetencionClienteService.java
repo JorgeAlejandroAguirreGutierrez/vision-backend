@@ -73,22 +73,4 @@ public class RetencionClienteService implements IRetencionClienteService {
     public Page<RetencionCliente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<RetencionCliente> retencionesClientes=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal, 15);
-            for (List<String> datos: info) {
-                RetencionCliente retencionCliente = new RetencionCliente(datos);
-                Optional<Cliente> cliente=rep_cliente.findById(retencionCliente.getCliente().getId());
-                if(cliente.isPresent()){
-                	retencionesClientes.add(retencionCliente);
-                }
-            }
-            rep.saveAll(retencionesClientes);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

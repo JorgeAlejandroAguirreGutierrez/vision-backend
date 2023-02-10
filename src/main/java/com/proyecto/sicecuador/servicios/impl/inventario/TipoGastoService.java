@@ -85,19 +85,4 @@ public class TipoGastoService implements ITipoGastoService {
     public Page<TipoGasto> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<TipoGasto> tipos_gastos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,9);
-            for (List<String> datos: info) {
-                TipoGasto tipo_gasto = new TipoGasto(datos);
-                tipos_gastos.add(tipo_gasto);
-            }
-            rep.saveAll(tipos_gastos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

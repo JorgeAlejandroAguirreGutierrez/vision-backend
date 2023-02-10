@@ -82,10 +82,4 @@ public class SegmentoController implements GenericoController<Segmento> {
         Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, segmento);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
-
 }

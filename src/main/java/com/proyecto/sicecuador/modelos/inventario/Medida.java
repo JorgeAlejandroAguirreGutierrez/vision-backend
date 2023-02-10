@@ -1,13 +1,18 @@
 package com.proyecto.sicecuador.modelos.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "medida")
+@Data
+@AllArgsConstructor
 public class Medida extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "tipo", nullable = true)
     private String tipo;
     @Column(name = "descripcion", nullable = true)
@@ -17,54 +22,15 @@ public class Medida extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
 
-	public Medida(){
+    public Medida(long id){
+        super(id);
+    }
+    public Medida(){
         super();
+        this.codigo = Constantes.vacio;
         this.tipo = Constantes.vacio;
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
         this.estado = Constantes.activo;
     }
-
-    public Medida(long id){
-        super(id);
-    }
-
-    public Medida(String codigo, String tipo, String descripcion, String abreviatura, String estado){
-        super(codigo);
-        this.tipo=tipo;
-        this.descripcion=descripcion;
-        this.abreviatura=abreviatura;
-        this.estado=estado;
-    }
-    public Medida(List<String> datos){
-        tipo=datos.get(0)== null ? null: datos.get(0);
-        descripcion=datos.get(1)== null ? null: datos.get(1);
-        abreviatura=datos.get(2)== null ? null: datos.get(2);
-        estado=datos.get(3)== null ? null: datos.get(3);
-    }
-    
-    public String getTipo() {
-        return tipo;
-    }
-    public String getDescripcion() {
-        return descripcion;
-    }
-    public String getAbreviatura() {
-        return abreviatura;
-    }
-    public String getEstado() {
-        return estado;
-    }
-     public void setTipo(String tipo) {
-        this.tipo=tipo;
-    }
-    public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-    public void setAbreviatura(String abreviatura) {
-		this.abreviatura = abreviatura;
-	}
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
  }

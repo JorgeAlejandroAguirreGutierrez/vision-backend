@@ -3,39 +3,31 @@ package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "correo_dependiente")
+@Data
+@AllArgsConstructor
 public class CorreoDependiente extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "email", nullable = true)
     private String email;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "dependiente_id", nullable = true)
     private Dependiente dependiente;
 
-    public CorreoDependiente(){
-        super();
-        this.email = Constantes.vacio;
-    }
-
-    public CorreoDependiente(long id) {
+    public CorreoDependiente(long id){
         super(id);
     }
-
-    public CorreoDependiente(String codigo, String email, Dependiente dependiente) {
-        super(codigo);
-        this.email=email;
-        this.dependiente=dependiente;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    @JsonBackReference
-    public Dependiente getDependiente() {
-        return dependiente;
+    public CorreoDependiente(){
+        super();
+        this.codigo = Constantes.vacio;
+        this.email = Constantes.vacio;
     }
 }

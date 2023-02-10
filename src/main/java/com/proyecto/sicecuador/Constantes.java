@@ -12,15 +12,17 @@ public class Constantes {
 	public static final String ruc_abreviatura="R";
 	public static final String placa_abreviatura="PL";
 	public static final String pasaporte_abreviatura="E";
-	
 	public static final String tipo_producto_bien="BIEN";
-	
 	public static final String recaudado="RECAUDADO";
 	public static final String norecaudado="NO RECAUDADO";
 	
 	public static final String pendiente="PENDIENTE";
 	public static final String entregado="ENTREGADO";
 	public static final String sinGuia="SIN GUIA";
+    public static final String factura_compra = "FACTURA DE COMPRA";
+    public static final String operacion_compra = "COMPRA";
+    public static final String factura_venta = "FACTURA DE VENTA";
+    public static final String operacion_venta = "VENTA";
 	
 	public static final String activo="ACTIVO";
 	public static final String inactivo="INACTIVO";
@@ -30,6 +32,7 @@ public class Constantes {
     public static final String mensaje_crear_exitoso="Exito al procesar";
     public static final String mensaje_actualizar_exitoso="Exito al actualizar";
     public static final String mensaje_eliminar_exitoso="Exito al eliminar";
+    public static final String mensaje_crear_factura_electronica_exitosa="Exito factura electronica con clave de acceso";
     public static final String mensaje_importacion_exitoso="Exito al importar";
     public static final String mensaje_exportacion_exitoso="Exito al exportar";
     public static final String mensaje_calcular_exitoso="Exito al calcular";
@@ -75,6 +78,7 @@ public class Constantes {
 
     public static String error_codigo_estado_invalido="4010";
     public static String error_codigo_dato_invalido="4011";
+    public static String error_codigo_factura_electronica_invalida="4012";
     
     public static String error_generico="ERROR INTERNO DE SERVIDOR";
     public static String error_entidad_existente="ERROR ENTIDAD YA EXISTE";
@@ -88,6 +92,7 @@ public class Constantes {
     public static String error_parametro_invalido="ERROR PARAMETRO INVALIDO";
     public static String error_estado_invalido="ERROR ESTADO INVALIDO";
     public static String error_dato_invalido="ERROR DATO INVALIDO";
+    public static String error_factura_electronica_invalida="ERROR FACTURA ELECTRONICA INVALIDA CON ESTADO";
     
     //CODIGO PARA CREAR
     public static final String tipo="CREAR";
@@ -221,10 +226,6 @@ public class Constantes {
     public static final String tipo_contribuyente="TIPO CONTRIBUYENTE";
     public static final String tipo_pago="TIPO PAGO";
     
-    //COMPRA
-    public static final String factura_compra="FACTURA COMPRA";
-    public static final String retencion_compra="RETENCION COMPRA";
-    
     //COMPROBANTE
     public static final String factura_detalle="DETALLE FACTURA";
     public static final String egreso="EGRESO";
@@ -259,6 +260,7 @@ public class Constantes {
     public static final String medida="MEDIDA";
     public static final String medida_precio="MEDIDA PRECIO";
     public static final String precio="PRECIO";
+    public static final String precio_venta_publico_manual="PRECIO VENTA AL PUBLICO MANUAL";
     public static final String presentacion_producto="PRESENTACION PRODUCTO";
     public static final String producto="PRODUCTO";
     public static final String proveedor="PROVEEDOR";
@@ -358,6 +360,7 @@ public class Constantes {
     public static final String venta="VENTA";
     public static final String devolucionVenta="DEVOLUCION DE VENTA";
     public static final String descuentoVenta="DESCUENTO DE VENTA";
+    public static final String costoUnitario="COSTO UNITARIO";
     public static final String devolucionCostoVenta="DEVOLUCION COSTO DE VENTA";
     public static final String nombre="NOMBRE";
     public static final String contrasena="CONTRASEÑA";
@@ -383,6 +386,8 @@ public class Constantes {
     public static final String serie_sri="001001";
     public static final double cero=0;
     public static final long ceroId = 0;
+    public static final double iva0 = 0;
+    public static final double iva12 = 12;
     
     //TABLA 2
     public static final String emision_normal_sri="1";
@@ -442,9 +447,10 @@ public class Constantes {
     public static final String mensajeSri = "LA RESPUESTA DEL SRI A LA FACTURA ES: ";
     public static final String mensajeNoSri = "LA FACTURA YA FUE PROCESADO CON CLAVE DE ACCESO: ";
     public static final String mensajeClaveAccesoSri = " CON CLAVE DE ACCESO: ";
-    public static final String certificadoSri = "C:\\Users\\joaaguir\\OneDrive - Grupo Bancolombia\\Documentos\\Desarrollo\\sic-ecuador-backend\\mario_ruben_delgado_daquilema.p12";
+    public static final String certificadoSri = "certificado.p12";
     public static final String contrasenaCertificadoSri = "mPrimero1981";
     public static final String recibidaSri = "RECIBIDA";
+    public static final String autorizadoSri = "AUTORIZADO";
     
     //ESTADOS FACTURA
     public static final String estadoEmitida="EMITIDA";

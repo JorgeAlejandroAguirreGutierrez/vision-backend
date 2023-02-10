@@ -87,8 +87,8 @@ public class ParametroService implements IParametroService {
     }
 
     @Override
-    public Parametro obtenerPorTipo(Parametro parametro) {
-        Optional<Parametro> res= rep.findByTipo(parametro.getTipo(), Constantes.activo);
+    public Parametro obtenerPorTipo(String tipo) {
+        Optional<Parametro> res= rep.findByTipo(tipo, Constantes.activo);
         if(res.isPresent()) {
         	return res.get();
         }
@@ -105,22 +105,7 @@ public class ParametroService implements IParametroService {
     }
     
     @Override
-    public List<Parametro> consultarPorTipo(Parametro parametro) {
-        return rep.AllByTipo(parametro.getTipo(), Constantes.activo);
-    }
-    
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<Parametro> parametros=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal,1);
-            for (List<String> datos: info) {
-                Parametro parametro = new Parametro(datos);
-                parametros.add(parametro);
-            }
-            rep.saveAll(parametros);
-        }catch (Exception e){
-        	System.out.println(e.getMessage());
-        }
+    public List<Parametro> consultarPorTipo(String tipo) {
+        return rep.AllByTipo(tipo, Constantes.activo);
     }
 }

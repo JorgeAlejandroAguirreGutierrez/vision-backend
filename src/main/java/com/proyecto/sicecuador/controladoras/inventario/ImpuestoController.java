@@ -84,14 +84,9 @@ public class ImpuestoController implements GenericoController<Impuesto> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
-
     @GetMapping(value = "/porcentaje/{porcentaje}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerPorcentaje(@PathVariable("porcentaje") double porcentaje) {
-        Optional<Impuesto> impuesto=servicio.obtenerImpuestoPorcentaje(new Impuesto(porcentaje));
+        Optional<Impuesto> impuesto=servicio.obtenerImpuestoPorcentaje(porcentaje);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, impuesto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

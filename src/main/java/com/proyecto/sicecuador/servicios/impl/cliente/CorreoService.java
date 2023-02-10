@@ -58,23 +58,4 @@ public class CorreoService implements ICorreoService {
     public Page<Correo> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Correo> correos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,5);
-            for (List<String> datos: info) {
-                Correo correo = new Correo(datos);
-                Optional<Cliente> cliente=rep_cliente.findById(correo.getCliente().getId());
-                if(cliente.isPresent()){
-                    correos.add(correo);
-                }
-            }
-            rep.saveAll(correos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

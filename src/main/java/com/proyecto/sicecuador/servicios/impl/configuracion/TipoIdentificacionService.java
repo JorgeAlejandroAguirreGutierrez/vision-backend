@@ -56,19 +56,4 @@ public class TipoIdentificacionService implements ITipoIdentificacionService {
     public Page<TipoIdentificacion> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-    
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<TipoIdentificacion> tiposIdentificaciones=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal,0);
-            for (List<String> datos: info) {
-            	TipoIdentificacion tipoIdentificacion = new TipoIdentificacion(datos);
-                tiposIdentificaciones.add(tipoIdentificacion);
-            }
-            rep.saveAll(tiposIdentificaciones);
-        }catch (Exception e){
-        	System.out.println(e.getMessage());
-        }
-    }
 }

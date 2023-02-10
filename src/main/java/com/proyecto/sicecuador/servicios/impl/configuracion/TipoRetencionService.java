@@ -89,21 +89,6 @@ public class TipoRetencionService implements ITipoRetencionService {
     }
 
     @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<TipoRetencion> tiposRetenciones=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal, 2);
-            for (List<String> datos: info) {
-                TipoRetencion tipoRetencion = new TipoRetencion(datos);
-                tiposRetenciones.add(tipoRetencion);
-            }
-            rep.saveAll(tiposRetenciones);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
-
-    @Override
     public List<TipoRetencion> consultarIvaBien() {
         return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.bien, Constantes.activo);
     }

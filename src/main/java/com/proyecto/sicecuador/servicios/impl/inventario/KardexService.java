@@ -55,19 +55,4 @@ public class KardexService implements IKardexService {
     public Page<Kardex> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Kardex> kardexs=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,8);
-            for (List<String> datos: info) {
-                Kardex kardex = new Kardex(datos);
-                kardexs.add(kardex);
-            }
-            rep.saveAll(kardexs);
-        }catch (Exception e){
-        	System.err.println(e.getMessage());
-        }
-    }
 }

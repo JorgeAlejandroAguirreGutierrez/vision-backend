@@ -99,19 +99,4 @@ public class GrupoClienteService implements IGrupoClienteService {
     public List<GrupoCliente> buscar(GrupoCliente grupoCliente) {
         return rep.buscar(grupoCliente.getCodigo(), grupoCliente.getDescripcion(), grupoCliente.getDescripcion());
     }
-
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<GrupoCliente> gruposClientes=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal, 12);
-            for (List<String> datos: info) {
-                GrupoCliente grupoCliente = new GrupoCliente(datos);
-                gruposClientes.add(grupoCliente);
-            }
-            rep.saveAll(gruposClientes);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

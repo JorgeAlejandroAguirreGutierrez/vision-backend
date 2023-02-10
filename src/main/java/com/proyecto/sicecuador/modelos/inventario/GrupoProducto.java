@@ -3,6 +3,8 @@ package com.proyecto.sicecuador.modelos.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 
@@ -10,7 +12,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "grupo_producto")
+@Data
+@AllArgsConstructor
 public class GrupoProducto extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "grupo", nullable = true)
     private String grupo;
     @Column(name = "subgrupo", nullable = true)
@@ -31,9 +37,13 @@ public class GrupoProducto extends Entidad {
     @ManyToOne
     @JoinColumn(name = "cuenta_contable_id", nullable = true)
     private CuentaContable cuentaContable;
-    
+
+    public GrupoProducto(long id){
+        super(id);
+    }
     public GrupoProducto(){
     	super();
+        this.codigo = Constantes.vacio;
         this.grupo = Constantes.vacio;
         this.subgrupo = Constantes.vacio;
         this.seccion = Constantes.vacio;
@@ -44,85 +54,6 @@ public class GrupoProducto extends Entidad {
         this.categoriaProducto = new CategoriaProducto();
         this.cuentaContable = new CuentaContable();
     }
-
-    public GrupoProducto(long id){
-        super(id);
-    }
-
-    public GrupoProducto(String codigo, String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion, String estado, CategoriaProducto categoriaProducto, CuentaContable cuentaContable){
-        super(codigo);
-        this.grupo=grupo;
-        this.subgrupo=subgrupo;
-        this.seccion=seccion;
-        this.linea=linea;
-        this.sublinea=sublinea;
-        this.presentacion=presentacion;
-        this.estado=estado;
-        this.categoriaProducto=categoriaProducto;
-        this.cuentaContable=cuentaContable;
-        
-    }
-
-    public GrupoProducto(List<String>datos){
-    	grupo=datos.get(0)== null ? null: datos.get(0);
-    	subgrupo=datos.get(1)== null ? null: datos.get(1);
-    	seccion=datos.get(1)== null ? null: datos.get(1);
-    	linea=datos.get(1)== null ? null: datos.get(1);
-    	sublinea=datos.get(1)== null ? null: datos.get(1);
-    	presentacion=datos.get(1)== null ? null: datos.get(1);
-    	estado=datos.get(1)== null ? null: datos.get(1);
-    	categoriaProducto=datos.get(0)==null ? null: new CategoriaProducto((long) Double.parseDouble(datos.get(0)));
-    	cuentaContable=datos.get(0)==null ? null: new CuentaContable((long) Double.parseDouble(datos.get(0)));
-
-    }
-
-    public String getGrupo() {
-		return grupo;
-	}
-    
-    public String getSubgrupo() {
-		return subgrupo;
-	}
-    
-    public String getSeccion() {
-		return seccion;
-	}
-    
-    public String getLinea() {
-		return linea;
-	}
-    
-    public String getSublinea() {
-		return sublinea;
-	}
-    
-    public String getPresentacion() {
-		return presentacion;
-	}
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public CategoriaProducto getCategoriaProducto() {
-    	return categoriaProducto;
-    }
-    
-    public CuentaContable getCuentaContable() {
-		return cuentaContable;
-	}
-    
-    public void setCategoriaProducto(CategoriaProducto categoriaProducto) {
-		this.categoriaProducto = categoriaProducto;
-	}
-    
-    public void setCuentaContable(CuentaContable cuentaContable) {
-		this.cuentaContable = cuentaContable;
-	}
-	
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
 
     public void normalizar(){
         if(this.categoriaProducto == null) this.categoriaProducto = new CategoriaProducto();

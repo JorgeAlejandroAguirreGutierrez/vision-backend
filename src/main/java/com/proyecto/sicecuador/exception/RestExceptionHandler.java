@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.exception;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaElectronica;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -91,7 +92,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	public final ResponseEntity<RestExceptionMessage> handleEstadoInvalidoException(
 			EstadoInvalidoException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_estado_invalido,
-				Constantes.error_estado_invalido+Constantes.espacio+ex.getEntidad(),
+				Constantes.error_estado_invalido+Constantes.espacio+ex.getEstado(),
 				null
 		);
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -102,6 +103,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 			DatoInvalidoException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_dato_invalido,
 				Constantes.error_dato_invalido+Constantes.espacio+ex.getDato(),
+				null
+		);
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(FacturaElectronicaInvalidaException.class)
+	public final ResponseEntity<RestExceptionMessage> handleFacturaElectronicaInvalidaException(
+			FacturaElectronicaInvalidaException ex, WebRequest req) {
+		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_factura_electronica_invalida,
+				Constantes.error_factura_electronica_invalida+Constantes.espacio+ex.getEstado(),
 				null
 		);
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);

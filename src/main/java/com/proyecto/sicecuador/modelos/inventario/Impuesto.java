@@ -1,13 +1,18 @@
 package com.proyecto.sicecuador.modelos.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "impuesto")
+@Data
+@AllArgsConstructor
 public class Impuesto extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name="codigo_sri", nullable = true)
     private String codigoSRI;
     @Column(name = "descripcion", nullable = true)
@@ -19,67 +24,16 @@ public class Impuesto extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
 
-    
+    public Impuesto(long id){
+        super(id);
+    }
     public Impuesto(){
         super();
+        this.codigo = Constantes.vacio;
         this.codigoSRI = Constantes.vacio;
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
         this.porcentaje = Constantes.cero;
         this.estado = Constantes.activo;
-    }
-
-    public Impuesto(long id){
-        super(id);
-    }
-    public Impuesto(double porcentaje){
-        super();
-        this.porcentaje=porcentaje;
-    }
-
-    public Impuesto(String codigo, String codigoSri, String abreviatura, String descripcion, double porcentaje, String estado){
-        super(codigo);
-        this.codigoSRI=codigoSri;
-        this.abreviatura=abreviatura;
-        this.descripcion=descripcion;
-        this.porcentaje=porcentaje;
-        this.estado=estado;
-    }
-
-    public Impuesto(List<String> datos){
-        codigoSRI=datos.get(0)== null? null: datos.get(0);
-    	abreviatura=datos.get(1)== null ? null: datos.get(1);
-    	descripcion=datos.get(2)== null ? null: datos.get(2);	    	
-        porcentaje=datos.get(5)== null ? null: Double.parseDouble(datos.get(5));
-        estado=datos.get(6)== null ? null: datos.get(6);
-    }
-
-    
-    public String getCodigoSRI() {
-		return codigoSRI;
-	}
-    
-	public String getDescripcion() {
-        return descripcion;
-	}
-
-    public String getAbreviatura() {
-        return abreviatura;
-    }
-
-    public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public double getPorcentaje() {
-        return porcentaje;
-    }
-
-    public void setPorcentaje(double porcentaje) {
-        this.porcentaje = porcentaje;
     }
 }

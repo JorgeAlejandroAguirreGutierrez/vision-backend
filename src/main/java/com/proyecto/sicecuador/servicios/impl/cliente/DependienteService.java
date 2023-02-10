@@ -55,27 +55,12 @@ public class DependienteService implements IDependienteService {
     }
 
     @Override
-    public List<Dependiente> consultarPorRazonSocial(Dependiente auxiliar) {
-        return  rep.consultarPorRazonSocial(auxiliar.getRazonSocial());
+    public List<Dependiente> consultarPorRazonSocial(String razonSocial) {
+        return  rep.consultarPorRazonSocial(razonSocial);
 
     }
     @Override
-    public List<Dependiente> consultarPorCliente(Dependiente dependiente) {
-        return  rep.consultarPorCliente(dependiente.getCliente().getId());
-    }
-
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<Dependiente> dependientes=new ArrayList<>();
-            List<List<String>>info=Util.leerImportar(archivoTemporal,0);
-            for (List<String> datos: info){
-                Dependiente dependiente = new Dependiente(datos);
-                dependientes.add(dependiente);
-            }
-            rep.saveAll(dependientes);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
+    public List<Dependiente> consultarPorCliente(long clienteId) {
+        return  rep.consultarPorCliente(clienteId);
     }
 }

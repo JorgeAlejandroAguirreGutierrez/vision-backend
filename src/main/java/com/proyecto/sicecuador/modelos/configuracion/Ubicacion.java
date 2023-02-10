@@ -2,13 +2,19 @@ package com.proyecto.sicecuador.modelos.configuracion;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "ubicacion")
+@Data
+@AllArgsConstructor
 public class Ubicacion extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "codigo_norma", nullable = true)
     private String codigoNorma;
     @Column(name = "provincia", nullable = true)
@@ -20,81 +26,16 @@ public class Ubicacion extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
 
+    public Ubicacion(long id){
+        super(id);
+    }
     public Ubicacion(){
         super();
+        this.codigo = Constantes.vacio;
         this.codigoNorma = Constantes.vacio;
         this.provincia = Constantes.vacio;
         this.canton = Constantes.vacio;
         this.parroquia = Constantes.vacio;
         this.estado = Constantes.activo;
     }
-
-    public Ubicacion(long id){
-        super(id);
-    }
-
-    public Ubicacion(String codigo, String codigoNorma, String provincia, String canton, String parroquia, String estado){
-        super(codigo);
-        this.codigoNorma=codigoNorma;
-        this.provincia=provincia;
-        this.canton=canton;
-        this.parroquia=parroquia;
-        this.estado=estado;
-    }
-
-    public Ubicacion(String codigoNorma, String provincia, String canton, String parroquia){
-        this.codigoNorma=codigoNorma;
-        this.provincia=provincia;
-        this.canton=canton;
-        this.parroquia=parroquia;
-    }
-
-    public Ubicacion(String provincia, String canton, String parroquia){
-        this.provincia=provincia;
-        this.canton=canton;
-        this.parroquia=parroquia;
-    }
-
-    public Ubicacion(List<String> datos){
-        codigoNorma=datos.get(0)== null ? null: datos.get(0);
-        provincia=datos.get(1)== null ? null: datos.get(1);
-        canton=datos.get(2)== null ? null: datos.get(2);
-        parroquia=datos.get(3)== null ? null: datos.get(3);
-    }
-    
-    public String getCodigoNorma() {
-		return codigoNorma;
-	}
-
-    public String getProvincia() {
-        return provincia;
-    }
-
-    public String getCanton() {
-        return canton;
-    }
-
-    public String getParroquia() {
-        return parroquia;
-    }
-    
-    public String getEstado() {
-		return estado;
-	}
-
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
-    }
-
-    public void setCanton(String canton) {
-        this.canton = canton;
-    }
-
-    public void setParroquia(String parroquia) {
-        this.parroquia = parroquia;
-    }
-    
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
 }

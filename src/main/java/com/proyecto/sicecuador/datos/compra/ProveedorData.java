@@ -16,6 +16,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +31,8 @@ public class ProveedorData implements ApplicationRunner {
             Optional<Proveedor> ant=rep.findById((long) 1);
             if (!ant.isPresent()) {
                 List<Proveedor> proveedores = new ArrayList<>();
-                proveedores.add(new Proveedor("PRV110721000001", "0101010101", "CORAL CENTRO", "NOMBRE COMERCIAL CORAL","CALLE SUCRE Y VEGA MUÑOZ", "TRAS LA IGLESIA", 0, 0, 0,"NO", "NO","NO", "NO", Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(1)));
-                proveedores.add(new Proveedor("PRV110721000002",  "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", "AV HURTADO DE MENDOZA", "TRAS EL MERCADO", 0, 0, 0, "SI", "NO","NO", "NO", Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(1)));
+                proveedores.add(new Proveedor("PRV110721000001", "0101010101", "CORAL CENTRO", "NOMBRE COMERCIAL CORAL", "CALLE SUCRE Y VEGA MUÑOZ", "TRAS LA IGLESIA", 0, 0, 0, Constantes.si, Constantes.no, Constantes.no, Constantes.no, Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+                proveedores.add(new Proveedor("PRV110721000002", "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", "AV HURTADO DE MENDOZA", "TRAS EL MERCADO", 0, 0, 0, Constantes.si, Constantes.no, Constantes.no, Constantes.no, Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
                 rep.saveAll(proveedores);
             }
     }

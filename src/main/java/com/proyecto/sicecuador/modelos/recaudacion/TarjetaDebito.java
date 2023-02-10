@@ -3,12 +3,18 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tarjeta_debito")
+@Data
+@AllArgsConstructor
 public class TarjetaDebito extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
 	@Column(name = "identificacion", nullable = true)
     private String identificacion;
     @Column(name = "nombre_titular", nullable = true)
@@ -26,12 +32,17 @@ public class TarjetaDebito extends Entidad {
     @ManyToOne
     @JoinColumn(name = "franquicia_tarjeta_id", nullable = true)
     private FranquiciaTarjeta franquiciaTarjeta;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 
+    public TarjetaDebito(long id){
+        super(id);
+    }
     public TarjetaDebito(){
         super();
+        this.codigo = Constantes.vacio;
         this.identificacion = Constantes.vacio;
         this.nombreTitular = Constantes.vacio;
         this.lote = Constantes.vacio;
@@ -40,55 +51,6 @@ public class TarjetaDebito extends Entidad {
         this.operadorTarjeta = new OperadorTarjeta();
         this.franquiciaTarjeta = new FranquiciaTarjeta();
     }
-
-    public TarjetaDebito(long id){
-        super(id);
-    }
-
-    public TarjetaDebito(String codigo, String identificacion, String nombreTitular, String lote, double valor, Banco banco, OperadorTarjeta operadorTarjeta, FranquiciaTarjeta franquiciaTarjeta, Recaudacion recaudacion){
-        super(codigo);
-        this.identificacion=identificacion;
-        this.nombreTitular=nombreTitular;
-        this.lote=lote;
-        this.valor=valor;
-        this.banco=banco;
-        this.operadorTarjeta=operadorTarjeta;
-        this.franquiciaTarjeta=franquiciaTarjeta;
-    }
-    
-    public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public String getNombreTitular() {
-		return nombreTitular;
-	}
-
-    public String getLote() {
-        return lote;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public OperadorTarjeta getOperadorTarjeta() {
-		return operadorTarjeta;
-	}
-    
-    @JsonBackReference
-    public Recaudacion getRecaudacion() {
-        return recaudacion;
-    }
-
-    public FranquiciaTarjeta getFranquiciaTarjeta() {
-		return franquiciaTarjeta;
-	}
-
-    public Banco getBanco() {
-        return banco;
-    }
-
     public void normalizar(){
         if(this.banco == null) this.banco = new Banco();
         if(this.operadorTarjeta == null) this.operadorTarjeta = new OperadorTarjeta();

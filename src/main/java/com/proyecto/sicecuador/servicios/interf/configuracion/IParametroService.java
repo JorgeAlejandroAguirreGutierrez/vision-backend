@@ -10,7 +10,7 @@ public interface IParametroService extends IGenericoService<Parametro> {
     Parametro activar(Parametro parametro);
 	Parametro inactivar(Parametro parametro);
 	List<Parametro> consultarActivos();
-    Parametro obtenerPorTipo(Parametro parametro);
+    Parametro obtenerPorTipo(String tipo);
     Parametro obtenerPorTipoTabla(Parametro parametro);
-    List<Parametro> consultarPorTipo(Parametro parametro);
+    List<Parametro> consultarPorTipo(String tipo);
 }

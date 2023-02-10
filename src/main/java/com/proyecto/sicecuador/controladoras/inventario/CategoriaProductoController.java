@@ -54,6 +54,12 @@ public class CategoriaProductoController implements GenericoController<Categoria
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, categoriaProducto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    @GetMapping(value = "obtenerPorAbreviatura/{abreviatura}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("abreviatura") String abreviatura) {
+        CategoriaProducto categoriaProducto=servicio.obtenerPorAbreviatura(abreviatura);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, categoriaProducto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid CategoriaProducto _categoria_producto) {
@@ -82,10 +88,4 @@ public class CategoriaProductoController implements GenericoController<Categoria
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, categoriaProducto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
-
 }

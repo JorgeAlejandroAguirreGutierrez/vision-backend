@@ -14,9 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -97,20 +94,5 @@ public class SesionService implements ISesionService {
         sesion.setEstado(Constantes.activo);
         _sesion=rep.save(_sesion);
         return Optional.of(_sesion);
-    }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Sesion> sesiones=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,4);
-            for (List<String> datos: info) {
-                Sesion sesion = new Sesion(datos);
-                sesiones.add(sesion);
-            }
-            rep.saveAll(sesiones);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
     }
 }

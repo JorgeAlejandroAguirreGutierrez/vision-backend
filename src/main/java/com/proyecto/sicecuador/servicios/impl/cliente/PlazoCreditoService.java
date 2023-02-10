@@ -84,19 +84,4 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     public Page<PlazoCredito> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<PlazoCredito> plazosCreditos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal, 14);
-            for (List<String> datos: info) {
-                PlazoCredito plazoCredito = new PlazoCredito(datos);
-                plazosCreditos.add(plazoCredito);
-            }
-            rep.saveAll(plazosCreditos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

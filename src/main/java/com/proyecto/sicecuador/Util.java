@@ -200,8 +200,8 @@ private static IParametroRepository parametroRep;
     	}
     }
     
-    public static Optional<String> soapFacturacionEletronica(String request){
-    	String soap="<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ec=\"http://ec.gob.sri.ws.recepcion\">\r\n"
+    public static String soapFacturacionEletronica(String request){
+    	return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ec=\"http://ec.gob.sri.ws.recepcion\">\r\n"
     			+ "    <soapenv:Header />\r\n"
     			+ "    <soapenv:Body>\r\n"
     			+ "        <ec:validarComprobante>\r\n"
@@ -211,11 +211,10 @@ private static IParametroRepository parametroRep;
     			+ "        </ec:validarComprobante>\r\n"
     			+ "    </soapenv:Body>\r\n"
     			+ "</soapenv:Envelope>";
-    	return Optional.of(soap);
     }
     
-    public static Optional<String> soapConsultaFacturacionEletronica(String request){
-    	String soap="<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ec=\"http://ec.gob.sri.ws.autorizacion\">\r\n"
+    public static String soapConsultaFacturacionEletronica(String request){
+    	return "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ec=\"http://ec.gob.sri.ws.autorizacion\">\r\n"
     			+ "   <soapenv:Header/>\r\n"
     			+ "   <soapenv:Body>\r\n"
     			+ "      <ec:autorizacionComprobante>\r\n"
@@ -223,7 +222,6 @@ private static IParametroRepository parametroRep;
     			+ "      </ec:autorizacionComprobante>\r\n"
     			+ "   </soapenv:Body>\r\n"
     			+ "</soapenv:Envelope>";
-    	return Optional.of(soap);
     }
     
     public static JSONObject convertirXmlJson(String xml) {

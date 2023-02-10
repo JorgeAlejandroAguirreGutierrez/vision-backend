@@ -3,51 +3,31 @@ package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "telefono")
+@Data
+@AllArgsConstructor
 public class Telefono extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "numero", nullable = true)
     private String numero;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 
-    public Telefono(){
-        super();
-        this.numero = Constantes.vacio;
-    }
-
-    public Telefono(long id) {
+    public Telefono(long id){
         super(id);
     }
-
-    public Telefono(String codigo, String numero, Cliente cliente){
-        super(codigo);
-        this.numero=numero;
-        this.cliente=cliente;
-    }
-
-    public Telefono(List<String>datos) {
-        numero=datos.get(0)== null ? null: datos.get(0);
-        cliente=datos.get(1)== null ? null:new Cliente((long) Double.parseDouble(datos.get(1)));
-    }
-    public String getNumero() {
-        return numero;
-    }
-    @JsonBackReference
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-    
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public Telefono(){
+        super();
+        this.codigo = Constantes.vacio;
+        this.numero = Constantes.vacio;
     }
 }

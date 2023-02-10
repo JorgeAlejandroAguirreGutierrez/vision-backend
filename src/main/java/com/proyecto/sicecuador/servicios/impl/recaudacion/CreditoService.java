@@ -53,19 +53,4 @@ public class CreditoService implements ICreditoService {
     public Page<Credito> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Credito> creditos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,2);
-            for (List<String> datos: info) {
-                Credito credito = new Credito(datos);
-                creditos.add(credito);
-            }
-            rep.saveAll(creditos);
-        }catch (Exception e){
-        	System.err.println(e.getMessage());
-        }
-    }
 }

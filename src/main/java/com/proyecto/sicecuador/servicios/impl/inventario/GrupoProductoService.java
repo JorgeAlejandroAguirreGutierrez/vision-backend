@@ -172,20 +172,4 @@ public class GrupoProductoService implements IGrupoProductoService {
         }
         throw new EntidadNoExistenteException(Constantes.grupo_producto);
     }
-
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<GrupoProducto> grupos_productos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,2);
-            for (List<String> datos: info) {
-                GrupoProducto caracteristica = new GrupoProducto(datos);
-                grupos_productos.add(caracteristica);
-            }
-            rep.saveAll(grupos_productos);
-        } catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

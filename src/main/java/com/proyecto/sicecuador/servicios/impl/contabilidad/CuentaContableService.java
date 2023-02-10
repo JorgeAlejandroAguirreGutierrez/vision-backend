@@ -103,20 +103,4 @@ public class CuentaContableService implements ICuentaContableService {
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 		});
     }
-    
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<CuentaContable> cuentasContables=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,7);
-            for (List<String> datos: info) {
-                CuentaContable cuentaContable = new CuentaContable(datos);
-                cuentasContables.add(cuentaContable);
-            }
-            rep.saveAll(cuentasContables);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
-
 }

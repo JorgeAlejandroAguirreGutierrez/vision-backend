@@ -85,19 +85,4 @@ public class MedidaService implements IMedidaService {
     public Page<Medida> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Medida> medidas=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,5);
-            for (List<String> datos: info) {
-                Medida medida = new Medida(datos);
-                medidas.add(medida);
-            }
-            rep.saveAll(medidas);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

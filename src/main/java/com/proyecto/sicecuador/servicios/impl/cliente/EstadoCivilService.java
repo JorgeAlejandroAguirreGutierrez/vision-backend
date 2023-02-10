@@ -90,19 +90,4 @@ public class EstadoCivilService implements IEstadoCivilService {
     public List<EstadoCivil> buscar(EstadoCivil estadoCivil) {
         return rep.buscar(estadoCivil.getCodigo(), estadoCivil.getDescripcion(), estadoCivil.getAbreviatura());
     }
-
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<EstadoCivil> estadosCiviles=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal,8);
-            for (List<String> datos: info) {
-                EstadoCivil estadoCivil = new EstadoCivil(datos);
-                estadosCiviles.add(estadoCivil);
-            }
-            rep.saveAll(estadosCiviles);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

@@ -109,8 +109,4 @@ public class FacturaDetalleService implements IFacturaDetalleService {
     	totalConDescuentoLinea = Math.round(totalConDescuentoLinea*100.0)/100.0;
         facturaDetalle.setTotalConDescuentoLinea(totalConDescuentoLinea);
     }
-
-    @Override
-    public void importar(MultipartFile file) {
-    }    
 }

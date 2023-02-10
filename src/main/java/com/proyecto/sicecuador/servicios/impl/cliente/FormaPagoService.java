@@ -91,19 +91,4 @@ public class FormaPagoService implements IFormaPagoService {
     public List<FormaPago> buscar(FormaPago formaPago) {
         return  rep.buscar(formaPago.getCodigo(), formaPago.getDescripcion(), formaPago.getAbreviatura());
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<FormaPago> formasPagos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal, 10);
-            for (List<String> datos: info) {
-                FormaPago formaPago = new FormaPago(datos);
-                formasPagos.add(formaPago);
-            }
-            rep.saveAll(formasPagos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }
