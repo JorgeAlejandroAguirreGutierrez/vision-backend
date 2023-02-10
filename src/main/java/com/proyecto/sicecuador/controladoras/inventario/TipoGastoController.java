@@ -82,10 +82,4 @@ public class TipoGastoController implements GenericoController<TipoGasto> {
         Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, tipoGasto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
-
 }

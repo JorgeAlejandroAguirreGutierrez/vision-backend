@@ -53,19 +53,4 @@ public class TipoContribuyenteService implements ITipoContribuyenteService {
     public Page<TipoContribuyente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<TipoContribuyente> tipos_contribuyentes=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal, 18);
-            for (List<String> datos: info) {
-                TipoContribuyente tipo_contribuyente = new TipoContribuyente(datos);
-                tipos_contribuyentes.add(tipo_contribuyente);
-            }
-            rep.saveAll(tipos_contribuyentes);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

@@ -99,20 +99,4 @@ public class SegmentoService implements ISegmentoService {
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 		});
     }
-    
-    
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Segmento> segmentos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,8);
-            for (List<String> datos: info) {
-                Segmento segmento = new Segmento(datos);
-                segmentos.add(segmento);
-            }
-            rep.saveAll(segmentos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

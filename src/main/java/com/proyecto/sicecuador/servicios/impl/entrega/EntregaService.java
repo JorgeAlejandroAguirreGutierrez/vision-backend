@@ -96,19 +96,4 @@ public class EntregaService implements IEntregaService {
     public Page<Entrega> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Entrega> guias_remisiones=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
-            for (List<String> datos: info) {
-                Entrega guia_remision = new Entrega(datos);
-                guias_remisiones.add(guia_remision);
-            }
-            rep.saveAll(guias_remisiones);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

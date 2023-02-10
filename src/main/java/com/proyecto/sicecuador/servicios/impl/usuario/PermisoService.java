@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -53,20 +50,5 @@ public class PermisoService implements IPermisoService {
     @Override
     public Page<Permiso> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
-    }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Permiso> permisos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,2);
-            for (List<String> datos: info) {
-                Permiso permiso = new Permiso(datos);
-                permisos.add(permiso);
-            }
-            rep.saveAll(permisos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
     }
 }

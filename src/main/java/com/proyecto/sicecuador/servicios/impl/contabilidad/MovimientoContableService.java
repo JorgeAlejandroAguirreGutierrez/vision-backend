@@ -110,20 +110,4 @@ public class MovimientoContableService implements IMovimientoContableService {
 		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 		});
     }
-    
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<MovimientoContable> movimientosContables=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal,7);
-            for (List<String> datos: info) {
-                MovimientoContable movimientoContable = new MovimientoContable(datos);
-                movimientosContables.add(movimientoContable);
-            }
-            rep.saveAll(movimientosContables);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
-
 }

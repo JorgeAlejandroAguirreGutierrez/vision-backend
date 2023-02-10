@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.repositorios.inventario.ISegmentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,10 @@ public class SegmentoData implements ApplicationRunner {
         Optional<Segmento> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Segmento> segmentos = new ArrayList<>();
-            segmentos.add(new Segmento("SEG202301000001", "CLIENTE FINAL", 6, "ACTIVO", "CF"));
-            segmentos.add(new Segmento("SEG202301000002", "MAYORISTA", 2, "ACTIVO","MAY"));
-            segmentos.add(new Segmento("SEG202301000003", "DISTRIBUIDOR", 3, "ACTIVO","DIST"));
-            segmentos.add(new Segmento("SEG202301000004", "TARJETA DE CREDITO", 10, "ACTIVO","TCR"));
+            segmentos.add(new Segmento("SEG202301000001", 6, "CLIENTE FINAL", "CF", Constantes.activo));
+            segmentos.add(new Segmento("SEG202301000002", 2, "MAYORISTA" ,"MAY", Constantes.activo));
+            segmentos.add(new Segmento("SEG202301000003", 3, "DISTRIBUIDOR", "DIST", Constantes.activo));
+            segmentos.add(new Segmento("SEG202301000004", 10, "TARJETA DE CREDITO", "TCR", Constantes.activo));
             rep.saveAll(segmentos);
         }
     }

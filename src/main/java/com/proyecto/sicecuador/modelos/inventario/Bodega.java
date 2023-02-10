@@ -2,49 +2,31 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "bodega")
+@Data
+@AllArgsConstructor
 public class Bodega extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "nombre", nullable = true)
     private String nombre;
     @Column(name = "estado", nullable = true)
     private String estado;
-    public Bodega(){
-        super();
-        this.nombre = Constantes.vacio;
-        this.estado = Constantes.activo;
-    }
+
     public Bodega(long id){
         super(id);
     }
-    public Bodega(String codigo){
-        super(codigo);
-    }
-    public Bodega(String codigo, String nombre, String estado){
-        super(codigo);
-        this.nombre=nombre;
-        this.estado=estado;
-    }
 
-    public Bodega(List<String>datos){
-        nombre=datos.get(0)== null ? null: datos.get(0);
-        nombre=datos.get(1)== null ? null: datos.get(1);
+    public Bodega(){
+        super();
+        this.codigo = Constantes.vacio;
+        this.nombre = Constantes.vacio;
+        this.estado = Constantes.activo;
     }
-
-    public String getNombre() {
-		return nombre;
-	}
-    public void setNombre(String nombre) {
-    	this.nombre=nombre;
-    }
-	public String getEstado() {
-		return estado;
-	}
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
 }

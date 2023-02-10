@@ -3,12 +3,19 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "retencion_venta")
+@Data
+@AllArgsConstructor
 public class RetencionVenta extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
 	@Column(name = "codigo_sri", nullable = true)
     private String codigoSRI;
     @Column(name = "numero", nullable = true)
@@ -28,12 +35,17 @@ public class RetencionVenta extends Entidad {
     @ManyToOne
     @JoinColumn(name = "tipo_retencion_id", nullable = true)
     private TipoRetencion tipoRetencion;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "recaudacion_id", nullable = true)
     private Recaudacion recaudacion;
 
+    public RetencionVenta(long id){
+        super(id);
+    }
     public RetencionVenta(){
         super();
+        this.codigo = Constantes.vacio;
         this.codigoSRI = Constantes.vacio;
         this.numero = Constantes.vacio;
         this.fecha = new Date();
@@ -44,66 +56,6 @@ public class RetencionVenta extends Entidad {
         this.valor = Constantes.cero;
         this.tipoRetencion = new TipoRetencion();
     }
-
-    public RetencionVenta(long id){
-        super(id);
-    }
-
-    public RetencionVenta(String codigo, String codigoSRI, String numero, Date fecha, String agente, String autorizacion, String compensado, double baseImponible, double valor, TipoRetencion tipoRetencion, Recaudacion recaudacion ){
-        super(codigo);
-        this.codigoSRI=codigoSRI;
-        this.numero=numero;
-        this.fecha=fecha;
-        this.agente=agente;
-        this.autorizacion=autorizacion;
-        this.compensado=compensado;
-        this.baseImponible=baseImponible;
-        this.valor=valor;
-        this.tipoRetencion=tipoRetencion;
-        this.recaudacion=recaudacion;
-    }
-    
-    public String getCodigoSRI() {
-		return codigoSRI;
-	}
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public String getAgente() {
-        return agente;
-    }
-
-    public String getAutorizacion() {
-        return autorizacion;
-    }
-
-    public String getCompensado() {
-        return compensado;
-    }
-
-    public double getBaseImponible() {
-		return baseImponible;
-	}
-
-    public double getValor() {
-        return valor;
-    }
-
-    public TipoRetencion getTipoRetencion() {
-		return tipoRetencion;
-	}
-    
-    @JsonBackReference
-    public Recaudacion getRecaudacion() {
-        return recaudacion;
-    }
-
     public void normalizar(){
         if(this.fecha == null) this.fecha = new Date();
         if(this.tipoRetencion == null) this.tipoRetencion = new TipoRetencion();

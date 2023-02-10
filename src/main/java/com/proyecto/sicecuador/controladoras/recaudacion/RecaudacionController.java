@@ -76,9 +76,4 @@ public class RecaudacionController implements GenericoController<Recaudacion> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, recaudacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
 }

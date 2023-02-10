@@ -1,13 +1,19 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "credito")
+@Data
+@AllArgsConstructor
 public class Credito extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "saldo", nullable = true)
     private double saldo;
     @Column(name = "unidad_tiempo", nullable = true)
@@ -15,47 +21,14 @@ public class Credito extends Entidad {
     @Column(name = "plazo", nullable = true)
     private long plazo;
 
-    public Credito(){
-        super();
-        this.saldo = Constantes.cero;
-        this.unidadTiempo = Constantes.vacio;
-        this.plazo = Constantes.ceroId;
-    }
-
     public Credito(long id){
         super(id);
     }
-
-    public Credito(String codigo, double saldo, String unidadTiempo, int plazo){
-        super(codigo);
-        this.saldo=saldo;
-        this.unidadTiempo = unidadTiempo;
-        this.plazo = plazo;
-    }
-
-    public Credito(List<String> datos){
-    }
-    public double getSaldo() {
-        return saldo;
-    }
-
-    public String getUnidadTiempo() {
-        return unidadTiempo;
-    }
-
-    public long getPlazo() {
-        return plazo;
-    }
-
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
-    }
-
-    public void setUnidadTiempo(String unidadTiempo) {
-        this.unidadTiempo = unidadTiempo;
-    }
-
-    public void setPlazo(int plazo) {
-        this.plazo = plazo;
+    public Credito(){
+        super();
+        this.codigo = Constantes.vacio;
+        this.saldo = Constantes.cero;
+        this.unidadTiempo = Constantes.vacio;
+        this.plazo = Constantes.ceroId;
     }
 }

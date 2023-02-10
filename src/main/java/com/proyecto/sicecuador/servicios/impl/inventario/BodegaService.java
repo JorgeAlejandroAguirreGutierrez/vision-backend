@@ -83,19 +83,4 @@ public class BodegaService implements IBodegaService {
     public Page<Bodega> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<Bodega> bodegas=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal,0);
-            for (List<String> datos: info) {
-                Bodega bodega = new Bodega(datos);
-                bodegas.add(bodega);
-            }
-            rep.saveAll(bodegas);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

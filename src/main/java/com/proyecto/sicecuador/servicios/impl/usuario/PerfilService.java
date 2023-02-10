@@ -5,7 +5,6 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.usuario.Estacion;
 import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.repositorios.usuario.IPerfilRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IPerfilService;
@@ -13,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -95,20 +91,5 @@ public class PerfilService implements IPerfilService {
     @Override
     public Page<Perfil> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
-    }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Perfil> perfiles=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,1);
-            for (List<String> datos: info) {
-                Perfil perfil = new Perfil(datos);
-                perfiles.add(perfil);
-            }
-            rep.saveAll(perfiles);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
     }
 }

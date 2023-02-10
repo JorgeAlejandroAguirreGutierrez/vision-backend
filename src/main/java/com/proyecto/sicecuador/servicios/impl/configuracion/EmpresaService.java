@@ -101,19 +101,4 @@ public class EmpresaService implements IEmpresaService {
     public Page<Empresa> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<Empresa> empresas=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal, 0);
-            for (List<String> datos: info) {
-                Empresa empresa = new Empresa(datos);
-                empresas.add(empresa);
-            }
-            rep.saveAll(empresas);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

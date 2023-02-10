@@ -81,9 +81,4 @@ public class FranquiciaTarjetaController implements GenericoController<Franquici
         Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, franquiciaTarjeta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
 }

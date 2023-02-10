@@ -1,15 +1,23 @@
 package com.proyecto.sicecuador.modelos.administracion;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "modelo")
+@Data
+@AllArgsConstructor
 public class Modelo extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "nombre", nullable = true)
     private String nombre;
     @Column(name = "nombre_tecnico", nullable = true)
@@ -18,38 +26,15 @@ public class Modelo extends Entidad {
     private String endpoint;
     @Column(name = "estado", nullable = true)
     private String estado;
+    public Modelo(long id){
+        super(id);
+    }
     public Modelo(){
         super();
+        this.codigo = Constantes.vacio;
         this.nombre = Constantes.vacio;
         this.nombreTecnico = Constantes.vacio;
         this.endpoint = Constantes.vacio;
         this.estado = Constantes.activo;
     }
-
-    public Modelo(long id) {
-        super(id);
-    }
-
-    public Modelo(String nombre, String nombreTecnico, String endpoint, String estado) {
-        this.nombre = nombre;
-        this.endpoint= endpoint;
-        this.nombreTecnico=nombreTecnico;
-        this.estado=estado;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getEndpoint() {
-        return endpoint;
-    }
-    
-    public String getEstado() {
-		return estado;
-	}
-    
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
 }

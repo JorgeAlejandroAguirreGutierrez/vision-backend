@@ -4,12 +4,18 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.inventario.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "factura_detalle")
+@Data
+@AllArgsConstructor
 public class FacturaDetalle extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "posicion", nullable = true)
     private long posicion;
     @Column(name = "comentario", nullable = true)
@@ -52,6 +58,7 @@ public class FacturaDetalle extends Entidad {
     @ManyToOne
     @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
@@ -59,9 +66,12 @@ public class FacturaDetalle extends Entidad {
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
 
-
+    public FacturaDetalle(long id){
+        super(id);
+    }
     public FacturaDetalle(){
         super();
+        this.codigo = Constantes.vacio;
         this.posicion = Constantes.ceroId;
         this.comentario = Constantes.vacio;
         this.entregado = Constantes.no;
@@ -82,164 +92,6 @@ public class FacturaDetalle extends Entidad {
         this.impuesto = new Impuesto();
         this.precio = new Precio();
         this.bodega = new Bodega();
-    }
-
-    public FacturaDetalle(long id){
-        super(id);
-    }
-
-    public FacturaDetalle(String codigo, long posicion, boolean entregado, boolean consignacion, String medida, long cantidad,
-                          double subsidio, double valorSubsidiado, double valorDescuentoIndividual, double porcentajeDescuentoIndividual,
-                          double valorPorcentajeDescuentoIndividual, double valorDescuentoTotal, double porcentajeDescuentoTotal,
-                          double valorPorcentajeDescuentoTotal, double totalDescuento, double subtotal, double porcentajeIva, double valorIva,
-                          Producto producto, Precio precio, Factura factura){
-        super(codigo);
-
-    }
-
-    public long getPosicion() {
-        return posicion;
-    }
-
-    public String getComentario() {
-		return comentario;
-	}
-
-    public String getEntregado() {
-        return entregado;
-    }
-
-    public long getCantidad() {
-        return cantidad;
-    }
-    
-    public double getValorDescuentoLinea() {
-		return valorDescuentoLinea;
-	}
-    
-    public double getPorcentajeDescuentoLinea() {
-		return porcentajeDescuentoLinea;
-	}
-    
-    public double getValorPorcentajeDescuentoLinea() {
-		return valorPorcentajeDescuentoLinea;
-	}
-    
-    public double getValorDescuentoTotalLinea() {
-		return valorDescuentoTotalLinea;
-	}
-    
-    public double getPorcentajeDescuentoTotalLinea() {
-		return porcentajeDescuentoTotalLinea;
-	}
-    
-    public double getValorPorcentajeDescuentoTotalLinea() {
-		return valorPorcentajeDescuentoTotalLinea;
-	}
-    
-    public double getTotalDescuentoLinea() {
-		return totalDescuentoLinea;
-	}
-    
-    public double getSubtotalSinDescuentoLinea() {
-		return subtotalSinDescuentoLinea;
-	}
-    
-    public double getIvaSinDescuentoLinea() {
-		return ivaSinDescuentoLinea;
-	}
-    
-    public double getSubtotalConDescuentoLinea() {
-		return subtotalConDescuentoLinea;
-	}
-    
-    public double getIvaConDescuentoLinea() {
-		return ivaConDescuentoLinea;
-	}
-    
-    public double getTotalConDescuentoLinea() {
-		return totalConDescuentoLinea;
-	}
-
-    public Impuesto getImpuesto() {
-        return impuesto;
-    }
-
-    public void setImpuesto(Impuesto impuesto) {
-        this.impuesto = impuesto;
-    }
-    
-    public Bodega getBodega() {
-		return bodega;
-	}
-    
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    public Precio getPrecio() {
-        return precio;
-    }
-    
-    public void setValorDescuentoLinea(double valorDescuentoLinea) {
-		this.valorDescuentoLinea = valorDescuentoLinea;
-	}
-    
-    public void setPorcentajeDescuentoLinea(double porcentajeDescuentoLinea) {
-		this.porcentajeDescuentoLinea = porcentajeDescuentoLinea;
-	}
-    
-    public void setValorPorcentajeDescuentoLinea(double valorPorcentajeDescuentoLinea) {
-		this.valorPorcentajeDescuentoLinea = valorPorcentajeDescuentoLinea;
-	}
-    
-    public void setValorDescuentoTotalLinea(double valorDescuentoTotalLinea) {
-		this.valorDescuentoTotalLinea = valorDescuentoTotalLinea;
-	}
-    
-    public void setPorcentajeDescuentoTotalLinea(double porcentajeDescuentoTotalLinea) {
-		this.porcentajeDescuentoTotalLinea = porcentajeDescuentoTotalLinea;
-	}
-    
-    public void setValorPorcentajeDescuentoTotalLinea(double valorPorcentajeDescuentoTotalLinea) {
-		this.valorPorcentajeDescuentoTotalLinea = valorPorcentajeDescuentoTotalLinea;
-	}
-    
-    public void setTotalDescuentoLinea(double totalDescuentoLinea) {
-		this.totalDescuentoLinea = totalDescuentoLinea;
-	}
-    
-    public void setSubtotalSinDescuentoLinea(double subtotalSinDescuentoLinea) {
-		this.subtotalSinDescuentoLinea = subtotalSinDescuentoLinea;
-	}
-    
-    public void setIvaSinDescuentoLinea(double ivaSinDescuentoLinea) {
-		this.ivaSinDescuentoLinea = ivaSinDescuentoLinea;
-	}
-    
-    public void setSubtotalConDescuentoLinea(double subtotalConDescuentoLinea) {
-		this.subtotalConDescuentoLinea = subtotalConDescuentoLinea;
-	}
-    
-    public void setIvaConDescuentoLinea(double ivaConDescuentoLinea) {
-		this.ivaConDescuentoLinea = ivaConDescuentoLinea;
-	}
-    
-    public void setTotalConDescuentoLinea(double totalConDescuentoLinea) {
-		this.totalConDescuentoLinea = totalConDescuentoLinea;
-	}
-    
-    public void setPrecio(Precio precio) {
-        this.precio = precio;
-    }
-    
-    @JsonBackReference
-    public void setFactura(Factura factura) {
-        this.factura = factura;
     }
 
     public void normalizar(){

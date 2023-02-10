@@ -88,22 +88,7 @@ public class ImpuestoService implements IImpuestoService {
     }
 
     @Override
-    public Optional<Impuesto> obtenerImpuestoPorcentaje(Impuesto impuesto) {
-        return rep.findByPorcentaje(impuesto.getPorcentaje(), Constantes.activo);
+    public Optional<Impuesto> obtenerImpuestoPorcentaje(double porcentaje) {
+        return rep.findByPorcentaje(porcentaje, Constantes.activo);
     }
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Impuesto> impuestos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,3);
-            for (List<String> datos: info) {
-                Impuesto impuesto = new Impuesto(datos);
-                impuestos.add(impuesto);
-            }
-            rep.saveAll(impuestos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
-
 }

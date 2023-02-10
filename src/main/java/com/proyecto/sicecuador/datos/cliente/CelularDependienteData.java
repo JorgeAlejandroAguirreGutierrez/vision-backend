@@ -16,7 +16,7 @@ import java.util.Optional;
 @Component
 @Order(22)
 @Profile({"dev","prod"})
-public class CelularAuxiliarData implements ApplicationRunner {
+public class CelularDependienteData implements ApplicationRunner {
     @Autowired
     private ICelularAuxiliarRepository rep;
     @Override

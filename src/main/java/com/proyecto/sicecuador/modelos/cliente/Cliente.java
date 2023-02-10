@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.inventario.Segmento;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +16,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "cliente")
+@Data
+@AllArgsConstructor
 public class Cliente extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
     @Column(name = "razon_social", nullable = true)
@@ -71,25 +77,34 @@ public class Cliente extends Entidad {
     @ManyToOne
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
-
+    @JsonManagedReference
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = true)
     private List<Dependiente> dependientes;
+    @JsonManagedReference
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = true)
     private List<Telefono> telefonos;
+    @JsonManagedReference
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = true)
     private List<Celular> celulares;
+    @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = true)
     private List<Correo> correos;
+    @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = true)
     private List<RetencionCliente> retencionesCliente;
 
+    public Cliente(long id){
+        super(id);
+    }
+
     public Cliente(){
         super();
+        this.codigo = Constantes.vacio;
         this.identificacion = Constantes.vacio;
         this.razonSocial = Constantes.vacio;
         this.obligadoContabilidad = Constantes.no;
@@ -122,234 +137,6 @@ public class Cliente extends Entidad {
         this.retencionesCliente.add(new RetencionCliente());
         this.retencionesCliente.add(new RetencionCliente());
     }
-
-    public Cliente(long id){
-        super(id);
-    }
-    public Cliente(String razon_social){
-        super(0);
-        this.razonSocial=razon_social;
-    }
-    
-    public Cliente(TipoIdentificacion tipoIdentificacion, TipoContribuyente tipoContribuyente){
-        super(0);
-        this.tipoIdentificacion=tipoIdentificacion;
-        this.tipoContribuyente=tipoContribuyente;
-    }
-
-    public Cliente(String codigo, String identificacion, String razonSocial, String obligadoContabilidad, String especial, String estado, 
-    		String direccion, String referencia, String latitudgeo, String longitudgeo,
-    		TipoIdentificacion tipoIdentificacion, Estacion estacion, 
-    		GrupoCliente grupoCliente, TipoContribuyente tipoContribuyente, 
-    		Ubicacion ubicacion, double montoFinanciamiento, FormaPago formaPago, PlazoCredito plazoCredito, Genero genero, EstadoCivil estadoCivil,
-            CalificacionCliente calificacionCliente, OrigenIngreso origenIngreso, Segmento segmento){
-        super(codigo);
-        this.tipoIdentificacion=tipoIdentificacion;
-        this.identificacion=identificacion;
-        this.razonSocial=razonSocial;
-        this.obligadoContabilidad=obligadoContabilidad;
-        this.especial=especial;
-        this.estado=estado;
-        this.estacion=estacion;
-        this.grupoCliente=grupoCliente;
-        this.tipoContribuyente=tipoContribuyente;
-        this.direccion=direccion;
-        this.referencia = referencia;
-        this.latitudgeo = latitudgeo;
-        this.longitudgeo = longitudgeo;
-        this.montoFinanciamiento = montoFinanciamiento;
-        this.formaPago = formaPago;
-        this.plazoCredito = plazoCredito;
-        this.ubicacion = ubicacion;
-        this.genero=genero;
-        this.estadoCivil=estadoCivil;
-        this.calificacionCliente=calificacionCliente;
-        this.origenIngreso=origenIngreso;
-        this.segmento=segmento;
-    }
-
-    public Cliente(List<String> datos){
-        super(null);
-        tipoIdentificacion=datos.get(0)== null ? null: new TipoIdentificacion(Long.parseLong(datos.get(0)));
-        identificacion=datos.get(1)== null ? null: datos.get(1);
-        razonSocial=datos.get(2)== null ? null: datos.get(2);
-        especial=datos.get(3)== null ? null: datos.get(3);
-        estado= datos.get(4)== null ? null: datos.get(4);
-        tipoContribuyente= datos.get(6)== null ? null: new TipoContribuyente((long) Double.parseDouble(datos.get(6)));
-        estacion= datos.get(7)== null ? null: new Estacion((long) Double.parseDouble(datos.get(7)));
-        grupoCliente= datos.get(8)== null ? null: new GrupoCliente((long) Double.parseDouble(datos.get(8)));
-        direccion= datos.get(9)== null ? null: datos.get(9);
-        genero=datos.get(11)== null ? null:new Genero((long) Double.parseDouble(datos.get(11)));
-        estadoCivil=datos.get(12)== null ? null:new EstadoCivil((long) Double.parseDouble(datos.get(12)));
-        calificacionCliente=datos.get(13)== null ? null:new CalificacionCliente((long) Double.parseDouble(datos.get(13)));
-        origenIngreso=datos.get(14)== null ? null:new OrigenIngreso((long) Double.parseDouble(datos.get(14)));
-        segmento=datos.get(15)== null ? null:new Segmento((long) Double.parseDouble(datos.get(15)));
-    }
-    
-    public TipoContribuyente getTipoContribuyente() {
-		return tipoContribuyente;
-	}
-    
-    public TipoIdentificacion getTipoIdentificacion() {
-		return tipoIdentificacion;
-	}
-
-    public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public String getRazonSocial() {
-		return razonSocial;
-	}
-    
-    public String getObligadoContabilidad() {
-		return obligadoContabilidad;
-	}
-
-    public String getEspecial() {
-		return especial;
-	}
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public Estacion getEstacion() {
-		return estacion;
-	}
-
-    public GrupoCliente getGrupoCliente() {
-		return grupoCliente;
-	}
-
-
-    public String getDireccion() {
-		return direccion;
-	}
-    
-    public String getReferencia() {
-		return referencia;
-	}
-    
-    public String getLongitudgeo() {
-		return longitudgeo;
-	}
-    
-    public String getLatitudgeo() {
-		return latitudgeo;
-	}
-
-    public double getMontoFinanciamiento() {
-        return montoFinanciamiento;
-    }
-    public FormaPago getFormaPago() {
-        return formaPago;
-    }
-    public PlazoCredito getPlazoCredito() {
-        return plazoCredito;
-    }
-
-    public Ubicacion getUbicacion() {
-		return ubicacion;
-	}
-
-    public Genero getGenero() {
-        return genero;
-    }
-
-    public EstadoCivil getEstadoCivil() {
-		return estadoCivil;
-	}
-
-    public CalificacionCliente getCalificacionCliente() {
-		return calificacionCliente;
-	}
-
-    public OrigenIngreso getOrigenIngreso() {
-		return origenIngreso;
-	}
-    
-    public Segmento getSegmento() {
-		return segmento;
-	}
-
-    @JsonManagedReference
-    public List<Dependiente> getDependientes() {return dependientes;}
-    
-    @JsonManagedReference
-    public List<Celular> getCelulares() {
-        return celulares;
-    }
-    @JsonManagedReference
-    public List<Telefono> getTelefonos() { return telefonos; }
-    @JsonManagedReference
-    public List<Correo> getCorreos() {
-        return correos;
-    }
-    @JsonManagedReference
-    public List<RetencionCliente> getRetencionesCliente() {
-		return retencionesCliente;
-	}
-
-    public void setEspecial(String especial) {
-		this.especial = especial;
-	}
-    
-    public void setTipoContribuyente(TipoContribuyente tipoContribuyente) {
-		this.tipoContribuyente = tipoContribuyente;
-    }
-
-    public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-    
-    public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
-
-    public void setMontoFinanciamiento(double montoFinanciamiento) {
-        this.montoFinanciamiento = montoFinanciamiento;
-    }
-
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
-    }
-
-    public void setRazonSocial(String razonSocial) {
-		this.razonSocial = razonSocial;
-	}
-    
-    public void setUbicacion(Ubicacion ubicacion) {
-		this.ubicacion = ubicacion;
-	}
-
-    public void setEstadoCivil(EstadoCivil estadoCivil) {
-		this.estadoCivil = estadoCivil;
-	}
-
-    public void setGenero(Genero genero) {
-        this.genero = genero;
-    }
-
-    public void setGrupoCliente(GrupoCliente grupoCliente) {
-		this.grupoCliente = grupoCliente;
-	}
-
-    public void setOrigenIngreso(OrigenIngreso origenIngreso) {
-		this.origenIngreso = origenIngreso;
-	}
-    
-    public void setSegmento(Segmento segmento) {
-		this.segmento = segmento;
-	}
-
-    public void setPlazoCredito(PlazoCredito plazoCredito) {
-        this.plazoCredito = plazoCredito;
-    }
-
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
       
     public void normalizar(){
         if(this.tipoIdentificacion == null) this.tipoIdentificacion = new TipoIdentificacion();

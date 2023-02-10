@@ -24,14 +24,13 @@ public class PermisoData implements ApplicationRunner {
         Optional<Permiso> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Permiso> permisos = new ArrayList<>();
-
             permisos.add(new Permiso("PER202301000001", "CLIENTES", "CLIENTES", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000002", "CLIENTES", "SEGMENTOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000003", "CLIENTES", "GRUPOS DE CLIENTES", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000004", "CLIENTES", "FORMAS DE PAGO", Constantes.si, Constantes.activo,  new Perfil(1)));
-            permisos.add(new Permiso("PER202301000005", "CLIENTES", "ORIGEN DE INGRESOS", Constantes.si, Constantes.inactivo, new Perfil(1)));
-            permisos.add(new Permiso("PER202301000006", "CLIENTES", "PLAZOS DE CRÉDITO", Constantes.si, Constantes.inactivo, new Perfil(1)));
-            permisos.add(new Permiso("PER202301000007", "CLIENTES", "CALIFICACIÓN DE CLIENTES", Constantes.si, Constantes.inactivo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000005", "CLIENTES", "ORIGEN DE INGRESOS", Constantes.si, Constantes.activo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000006", "CLIENTES", "PLAZOS DE CRÉDITO", Constantes.si, Constantes.activo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000007", "CLIENTES", "CALIFICACIÓN DE CLIENTES", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000008", "COMPRAS", "PROVEEDORES", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000009", "COMPRAS", "FACTURAS DE COMPRA", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000010", "COMPRAS", "GRUPOS PROVEEDORES", Constantes.si, Constantes.activo, new Perfil(1)));

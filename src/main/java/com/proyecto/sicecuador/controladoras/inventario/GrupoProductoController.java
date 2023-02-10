@@ -136,10 +136,4 @@ public class GrupoProductoController implements GenericoController<GrupoProducto
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, grupoProducto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
-
 }

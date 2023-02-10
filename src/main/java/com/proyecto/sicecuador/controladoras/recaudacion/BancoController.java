@@ -82,9 +82,4 @@ public class BancoController implements GenericoController<Banco> {
         Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, banco);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
 }

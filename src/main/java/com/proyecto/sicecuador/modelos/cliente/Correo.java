@@ -3,48 +3,31 @@ package com.proyecto.sicecuador.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "correo")
+@Data
+@AllArgsConstructor
 public class Correo extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "email", nullable = true)
     private String email;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 
-    public Correo(){
-        super();
-        this.email = Constantes.vacio;
-    }
-
-    public Correo(long id) {
+    public Correo(long id){
         super(id);
     }
-
-    public Correo(String codigo, String email, Cliente cliente){
-        super(codigo);
-        this.email=email;
-        this.cliente=cliente;
+    public Correo(){
+        super();
+        this.codigo = Constantes.vacio;
+        this.email = Constantes.vacio;
     }
-
-    public Correo(List<String> datos){
-        this.email=datos.get(0)== null? null : datos.get(0);
-        this.cliente=datos.get(1)== null ? null: new Cliente((long) Double.parseDouble(datos.get(1)));
-    }
-    public String getEmail() {
-        return email;
-    }
-    @JsonBackReference
-    public Cliente getCliente() {
-        return cliente;
-    }
-    
-    public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
 }

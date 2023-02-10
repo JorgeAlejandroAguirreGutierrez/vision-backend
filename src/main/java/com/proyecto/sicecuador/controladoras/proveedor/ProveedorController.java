@@ -89,9 +89,4 @@ public class ProveedorController implements GenericoController<Proveedor> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, proveedores);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
 }

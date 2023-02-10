@@ -12,5 +12,4 @@ public interface IGenericoService<T> {
     T obtener(long id);
     List<T> consultar();
     Page<T> consultarPagina(Pageable pageable);
-    void importar(MultipartFile file);
 }

@@ -16,7 +16,7 @@ import java.util.Optional;
 @Component
 @Order(22)
 @Profile({"dev","prod"})
-public class CorreoAuxiliarData implements ApplicationRunner {
+public class CorreoDependienteData implements ApplicationRunner {
     @Autowired
     private ICorreoAuxiliarRepository rep;
     @Override

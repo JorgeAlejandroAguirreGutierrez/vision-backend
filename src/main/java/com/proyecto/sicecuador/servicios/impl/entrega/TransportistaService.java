@@ -73,19 +73,4 @@ public class TransportistaService implements ITransportistaService {
     public Page<Transportista> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Transportista> transportistas=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,1);
-            for (List<String> datos: info) {
-                Transportista transportista = new Transportista(datos);
-                transportistas.add(transportista);
-            }
-            rep.saveAll(transportistas);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

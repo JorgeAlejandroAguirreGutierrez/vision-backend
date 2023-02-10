@@ -4,7 +4,6 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.CorreoEstablecimiento;
 import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
 import com.proyecto.sicecuador.repositorios.usuario.ICorreoEstablecimientoRepository;
@@ -13,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,23 +55,4 @@ public class CorreoEstablecimientoService implements ICorreoEstablecimientoServi
 	public Page<CorreoEstablecimiento> consultarPagina(Pageable pageable) {
 		return rep.findAll(pageable);
 	}
-
-	@Override
-	public void importar(MultipartFile archivo_temporal) {
-		try {
-            List<CorreoEstablecimiento> correos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal, 16);
-            for (List<String> datos: info) {
-                CorreoEstablecimiento correoEstablecimiento = new CorreoEstablecimiento(datos);
-                Optional<Establecimiento> establecimiento=rep_establecimiento.findById(correoEstablecimiento.getEstablecimiento().getId());
-                if(establecimiento.isPresent()){
-                    correos.add(correoEstablecimiento);
-                }
-            }
-            rep.saveAll(correos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-	}
-
 }

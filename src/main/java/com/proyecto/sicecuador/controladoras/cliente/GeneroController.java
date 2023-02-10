@@ -88,11 +88,4 @@ public class GeneroController implements GenericoController<Genero> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, generos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 }

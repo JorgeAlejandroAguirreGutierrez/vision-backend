@@ -107,23 +107,15 @@ public class UbicacionController implements GenericoController<Ubicacion> {
     public ResponseEntity<?> obtenerUbicacionID(@PathVariable("provincia") String provincia,
                                                 @PathVariable("canton") String canton,
                                                 @PathVariable("parroquia") String parroquia) {
-        Ubicacion ubicacion=new Ubicacion(provincia, canton, parroquia);
-        Ubicacion _ubicacion=servicio.obtenerUbicacionId(ubicacion);
+        Ubicacion _ubicacion=servicio.obtenerUbicacionId(provincia, canton, parroquia);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, _ubicacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/buscar/{codigoNorma}/{provincia}/{canton}/{parroquia}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> buscar(@PathVariable("codigoNorma") String codigoNorma, @PathVariable("provincia") String provincia,
                                           @PathVariable("canton") String canton, @PathVariable("parroquia") String parroquia) {
-        List<Ubicacion> ubicaciones=servicio.buscar(new Ubicacion(codigoNorma, provincia, canton, parroquia));
+        List<Ubicacion> ubicaciones=servicio.buscar(codigoNorma, provincia, canton, parroquia);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, ubicaciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
 }

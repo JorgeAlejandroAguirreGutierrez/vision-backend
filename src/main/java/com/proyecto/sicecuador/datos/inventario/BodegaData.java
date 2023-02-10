@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.repositorios.inventario.IBodegaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class BodegaData implements ApplicationRunner {
         Optional<Bodega> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Bodega> bodegas = new ArrayList<>();
-            bodegas.add(new Bodega("BODEGA 001","BODEGA MATRIZ", "ACTIVO"));
-            bodegas.add(new Bodega("BODEGA 002","BODEGA LOCAL 1", "ACTIVO"));
-            bodegas.add(new Bodega("BODEGA 003","BODEGA LOCAL 2", "ACTIVO"));
+            bodegas.add(new Bodega("BOD012001000001","BODEGA MATRIZ", Constantes.activo));
+            bodegas.add(new Bodega("BOD012001000002","BODEGA LOCAL 1", Constantes.activo));
+            bodegas.add(new Bodega("BOD012001000003","BODEGA LOCAL 2", Constantes.activo));
             rep.saveAll(bodegas);
         }
     }

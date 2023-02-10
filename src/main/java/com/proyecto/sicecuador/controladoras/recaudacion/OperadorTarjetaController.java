@@ -51,7 +51,7 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
 
     @GetMapping(value = "/consultarPorTipo/{tipo}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar(@PathVariable("tipo") String tipo) {
-        List<OperadorTarjeta> operadoresTarjetas=servicio.consultarPorTipo(new OperadorTarjeta(tipo));
+        List<OperadorTarjeta> operadoresTarjetas=servicio.consultarPorTipo(tipo);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, operadoresTarjetas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -89,10 +89,5 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
     	OperadorTarjeta operadorTarjeta = servicio.inactivar(_operadorTarjeta);
         Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, operadorTarjeta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
     }
 }

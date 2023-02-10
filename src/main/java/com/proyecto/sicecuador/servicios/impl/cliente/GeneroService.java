@@ -90,20 +90,4 @@ public class GeneroService implements IGeneroService {
     public List<Genero> buscar(Genero genero) {
         return  rep.buscar(genero.getCodigo(), genero.getDescripcion(), genero.getAbreviatura());
     }
-    
-
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<Genero> generos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal, 11);
-            for (List<String> datos: info) {
-                Genero genero = new Genero(datos);
-                generos.add(genero);
-            }
-            rep.saveAll(generos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

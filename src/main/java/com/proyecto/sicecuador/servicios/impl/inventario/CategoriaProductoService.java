@@ -63,10 +63,18 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     }
 
     @Override
+    public CategoriaProducto obtenerPorAbreviatura(String abreviatura) {
+        Optional<CategoriaProducto> resp= rep.obtenerPorAbreviatura(abreviatura, Constantes.activo);
+        if(resp.isPresent()) {
+        	return resp.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.categoria_producto);
+    }
+    @Override
     public CategoriaProducto obtener(long id) {
         Optional<CategoriaProducto> resp= rep.findById(id);
         if(resp.isPresent()) {
-        	return resp.get();
+            return resp.get();
         }
         throw new EntidadNoExistenteException(Constantes.categoria_producto);
     }
@@ -84,21 +92,5 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     @Override
     public Page<CategoriaProducto> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
-    }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<CategoriaProducto> categoriasProductos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,10);
-            for (List<String> datos: info) {
-                CategoriaProducto categoria_producto = new CategoriaProducto(datos);
-                categoriasProductos.add(categoria_producto);
-
-            }
-            rep.saveAll(categoriasProductos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
     }
 }

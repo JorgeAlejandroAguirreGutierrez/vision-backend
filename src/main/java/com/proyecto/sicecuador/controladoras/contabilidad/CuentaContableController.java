@@ -89,9 +89,4 @@ public class CuentaContableController implements GenericoController<CuentaContab
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, cuentasContables);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
 }

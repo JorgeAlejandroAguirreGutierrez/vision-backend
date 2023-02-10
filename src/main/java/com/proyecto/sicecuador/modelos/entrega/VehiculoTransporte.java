@@ -2,12 +2,19 @@ package com.proyecto.sicecuador.modelos.entrega;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "vehiculo_transporte")
+@Data
+@AllArgsConstructor
 public class VehiculoTransporte extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "placa", nullable = true)
     private String placa;
     @Column(name = "numero", nullable = true)
@@ -29,8 +36,12 @@ public class VehiculoTransporte extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
 
+    public VehiculoTransporte(long id){
+        super(id);
+    }
     public VehiculoTransporte(){
         super();
+        this.codigo = Constantes.vacio;
         this.placa = Constantes.vacio;
         this.numero = Constantes.vacio;
         this.marca = Constantes.vacio;
@@ -42,80 +53,4 @@ public class VehiculoTransporte extends Entidad {
         this.fabricacion = Constantes.vacio;
         this.estado = Constantes.activo;
     }
-
-    public VehiculoTransporte(long id){
-        super(id);
-    }
-
-    public VehiculoTransporte(String codigo, String placa, String numero, String marca, String modelo,
-                              String anio, String cilindraje, String clase, String color, String fabricacion,
-                              String estado){
-        super(codigo);
-        this.placa=placa;
-        this.numero=numero;
-        this.marca=marca;
-        this.modelo=modelo;
-        this.anio=anio;
-        this.cilindraje=cilindraje;
-        this.clase=clase;
-        this.color=color;
-        this.fabricacion=fabricacion;
-        this.estado=estado;
-    }
-    public VehiculoTransporte(List<String> datos) {
-        placa=datos.get(0)== null ? null: datos.get(0);
-        numero=datos.get(1)== null ? null: datos.get(1);
-        marca=datos.get(2)== null ? null: datos.get(2);
-        modelo=datos.get(3)== null ? null: datos.get(3);
-        anio=datos.get(4)== null ? null: datos.get(4);
-        cilindraje=datos.get(5)== null ? null: datos.get(5);
-        clase=datos.get(6)== null ? null: datos.get(6);
-        color=datos.get(7)== null ? null: datos.get(7);
-        fabricacion=datos.get(8)== null ? null: datos.get(8);
-        estado=datos.get(9)== null ? null: datos.get(9);
-    }
-
-    public String getPlaca() {
-        return placa;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public String getAnio() {
-        return anio;
-    }
-
-    public String getCilindraje() {
-        return cilindraje;
-    }
-
-    public String getClase() {
-        return clase;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public String getFabricacion() {
-        return fabricacion;
-    }
-
-    public String getEstado() {
-		return estado;
-	}
-    
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
 }

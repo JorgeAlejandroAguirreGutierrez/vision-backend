@@ -81,20 +81,4 @@ public class BancoService implements IBancoService {
     public Page<Banco> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Banco> bancos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,1);
-            for (List<String> datos: info) {
-                Banco banco = new Banco(datos);
-                bancos.add(banco);
-            }
-            rep.saveAll(bancos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }
