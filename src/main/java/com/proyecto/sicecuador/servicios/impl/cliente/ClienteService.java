@@ -364,8 +364,6 @@ public class ClienteService implements IClienteService {
         res.normalizar();
         return res;
     }
-
-    
     
     @Override
     public Cliente actualizar(Cliente cliente) {

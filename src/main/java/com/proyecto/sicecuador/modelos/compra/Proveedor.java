@@ -286,7 +286,7 @@ public class Proveedor extends Entidad {
         this.montoFinanciamiento = montoFinanciamiento;
     }
 
-    public void setEspecial(String telefono) {
+    public void setEspecial(String especial) {
         this.especial = especial;
     }
     

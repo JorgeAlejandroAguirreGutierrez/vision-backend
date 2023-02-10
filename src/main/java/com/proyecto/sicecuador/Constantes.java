@@ -224,6 +224,8 @@ public class Constantes {
     //COMPRA
     public static final String factura_compra="FACTURA COMPRA";
     public static final String retencion_compra="RETENCION COMPRA";
+    public static final String grupo_proveedor="GRUPO PROVEEDOR";
+    public static final String fantasma="EMPRESA FANTASMA";
     
     //COMPROBANTE
     public static final String factura_detalle="DETALLE FACTURA";
