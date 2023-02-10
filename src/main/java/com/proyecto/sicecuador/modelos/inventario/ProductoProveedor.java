@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.modelos.inventario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
+import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import javax.persistence.*;
 
 @Entity

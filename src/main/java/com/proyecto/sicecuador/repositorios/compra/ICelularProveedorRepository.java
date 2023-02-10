@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.proveedor;
+package com.proyecto.sicecuador.repositorios.compra;
 
-import com.proyecto.sicecuador.modelos.proveedor.CelularProveedor;
+import com.proyecto.sicecuador.modelos.compra.CelularProveedor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

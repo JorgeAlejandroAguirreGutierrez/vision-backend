@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.datos.inventario;
 
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
 import com.proyecto.sicecuador.repositorios.inventario.IKardexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

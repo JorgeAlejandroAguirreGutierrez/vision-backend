@@ -1,7 +1,8 @@
-package com.proyecto.sicecuador.modelos.proveedor;
+package com.proyecto.sicecuador.modelos.compra;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 
 import javax.persistence.*;
 
@@ -16,23 +17,28 @@ public class GrupoProveedor extends Entidad {
 	private String abreviatura;
 	@Column(name = "estado", nullable = true)
 	private String estado;
+	@ManyToOne
+	@JoinColumn(name = "cuenta_contable_id", nullable = true)
+	private CuentaContable cuentaContable;
 	
 	public GrupoProveedor() {
 		super();
 		this.descripcion = Constantes.vacio;
 		this.abreviatura = Constantes.vacio;
 		this.estado = Constantes.vacio;
+		this.cuentaContable = new CuentaContable();
 	}
 	
 	public GrupoProveedor(long id) {
 		super(id);
 	}
 	
-	public GrupoProveedor(String codigo, String descripcion, String abreviatura, String estado) {
+	public GrupoProveedor(String codigo, String descripcion, String abreviatura, String estado, CuentaContable cuentaContable) {
 		super(codigo);
 		this.descripcion=descripcion;
 		this.abreviatura=abreviatura;
 		this.estado=estado;
+		this.cuentaContable=cuentaContable;
 	}
 	
 	public GrupoProveedor(List<String> datos) {
@@ -56,6 +62,12 @@ public class GrupoProveedor extends Entidad {
     public void setEstado(String estado) {
 		this.estado = estado;
 	}
+	public CuentaContable getCuentaContable() {
+		return cuentaContable;
+	}
 
+	public void normalizar(){
+		if(this.cuentaContable == null) this.cuentaContable = new CuentaContable();
+	}
 	
 }

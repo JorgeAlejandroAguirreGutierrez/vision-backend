@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.servicios.interf.proveedor;
+package com.proyecto.sicecuador.servicios.interf.compra;
 
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
+import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 import java.util.List;

@@ -1,16 +1,13 @@
-package com.proyecto.sicecuador.modelos.proveedor;
+package com.proyecto.sicecuador.modelos.compra;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.*;
-import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.proveedor.GrupoProveedor;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,6 +36,8 @@ public class Proveedor extends Entidad {
     private String obligadoContabilidad;
     @Column(name = "fantasma", nullable = true)
     private String fantasma;
+    @Column(name = "relacionado", nullable = true)
+    private String relacionado;
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
@@ -119,7 +118,7 @@ public class Proveedor extends Entidad {
 
     public Proveedor(String codigo, String identificacion, String razonSocial, String nombreComercial,
                      String direccion, String referencia, double latitudgeo, double longitudgeo, double montoFinanciamiento,
-                     String especial, String obligadoContabilidad, String fantasma, String estado,
+                     String especial, String obligadoContabilidad, String fantasma, String relacionado, String estado,
                      TipoIdentificacion tipoIdentificacion, TipoContribuyente tipoContribuyente,
                      GrupoProveedor grupoProveedor, FormaPago formaPago, PlazoCredito plazoCredito,
                      Ubicacion ubicacion){
@@ -138,6 +137,7 @@ public class Proveedor extends Entidad {
     	this.especial = especial;
         this.obligadoContabilidad = obligadoContabilidad;
     	this.fantasma = fantasma;
+        this.relacionado = relacionado;
         this.grupoProveedor=grupoProveedor;
         this.formaPago = formaPago;
         this.plazoCredito = plazoCredito;
@@ -155,6 +155,7 @@ public class Proveedor extends Entidad {
         especial= datos.get(7)== null ? null: datos.get(7);
         obligadoContabilidad = datos.get(8)== null ? null: datos.get(8);
         fantasma = datos.get(9)== null ? null: datos.get(9);
+        relacionado = datos.get(10)== null ? null: datos.get(10);
         
     }
 
@@ -212,6 +213,10 @@ public class Proveedor extends Entidad {
 
     public String getFantasma() {
         return fantasma;
+    }
+
+    public String getRelacionado() {
+        return relacionado;
     }
 
     public GrupoProveedor getGrupoProveedor() {
@@ -291,6 +296,10 @@ public class Proveedor extends Entidad {
 
     public void setFantasma(String fantasma) {
         this.fantasma = fantasma;
+    }
+
+    public void setRelacionado(String relacionado) {
+        this.relacionado = relacionado;
     }
 
     public void setGrupoProveedor(GrupoProveedor grupoProveedor) {
