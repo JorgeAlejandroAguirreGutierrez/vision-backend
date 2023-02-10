@@ -1,9 +1,8 @@
-package com.proyecto.sicecuador.modelos.proveedor;
+package com.proyecto.sicecuador.modelos.compra;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Dependiente;
 
 import javax.persistence.*;
 

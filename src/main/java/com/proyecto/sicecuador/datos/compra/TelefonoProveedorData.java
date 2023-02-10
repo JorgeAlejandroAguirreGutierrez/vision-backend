@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.datos.proveedor;
+package com.proyecto.sicecuador.datos.compra;
 
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
-import com.proyecto.sicecuador.modelos.proveedor.TelefonoProveedor;
-import com.proyecto.sicecuador.repositorios.proveedor.ITelefonoProveedorRepository;
+import com.proyecto.sicecuador.modelos.compra.Proveedor;
+import com.proyecto.sicecuador.modelos.compra.TelefonoProveedor;
+import com.proyecto.sicecuador.repositorios.compra.ITelefonoProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

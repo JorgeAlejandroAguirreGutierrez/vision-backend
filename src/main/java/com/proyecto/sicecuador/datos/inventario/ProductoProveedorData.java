@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.datos.inventario;
 
 import com.proyecto.sicecuador.modelos.inventario.Producto;
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
+import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.modelos.inventario.ProductoProveedor;
 import com.proyecto.sicecuador.repositorios.inventario.IProductoProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;

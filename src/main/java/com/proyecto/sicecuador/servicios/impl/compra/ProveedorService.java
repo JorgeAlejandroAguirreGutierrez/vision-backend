@@ -1,13 +1,13 @@
-package com.proyecto.sicecuador.servicios.impl.proveedor;
+package com.proyecto.sicecuador.servicios.impl.compra;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.modelos.proveedor.Proveedor;
+import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.repositorios.proveedor.IProveedorRepository;
-import com.proyecto.sicecuador.servicios.interf.proveedor.IProveedorService;
+import com.proyecto.sicecuador.repositorios.compra.IProveedorRepository;
+import com.proyecto.sicecuador.servicios.interf.compra.IProveedorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

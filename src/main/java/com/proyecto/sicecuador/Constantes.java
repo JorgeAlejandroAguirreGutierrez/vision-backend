@@ -119,6 +119,7 @@ public class Constantes {
     //COMPRA
     public static final String tabla_factura_compra="factura_compra";
     public static final String tabla_retencion_compra="retencion_compra";
+    public static final String tabla_grupo_proveedor="grupo_proveedor";
     
     //COMPROBANTE
     public static final String tabla_factura_detalle="detalle_factura";

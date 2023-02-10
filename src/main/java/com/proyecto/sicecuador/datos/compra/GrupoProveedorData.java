@@ -1,7 +1,8 @@
-package com.proyecto.sicecuador.datos.proveedor;
+package com.proyecto.sicecuador.datos.compra;
 
-import com.proyecto.sicecuador.modelos.proveedor.GrupoProveedor;
-import com.proyecto.sicecuador.repositorios.proveedor.IGrupoProveedorRepository;
+import com.proyecto.sicecuador.modelos.compra.GrupoProveedor;
+import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
+import com.proyecto.sicecuador.repositorios.compra.IGrupoProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -25,8 +26,8 @@ public class GrupoProveedorData implements ApplicationRunner {
 		Optional<GrupoProveedor> ant = rep.findById((long) 1);
 		if(!ant.isPresent()) {
 			List<GrupoProveedor> grupos_proveedores = new ArrayList<>();
-			grupos_proveedores.add(new GrupoProveedor("GPR011907000001", "PROVEEDORES NACIONALES", "NAC", "ACTIVO"));
-			grupos_proveedores.add(new GrupoProveedor("GPR011907000002", "PROVEEDORES INTERNACIONALES", "INTER", "ACTIVO"));
+			grupos_proveedores.add(new GrupoProveedor("GPR011907000001", "PROVEEDORES NACIONALES", "NAC", "ACTIVO", new CuentaContable(4)));
+			grupos_proveedores.add(new GrupoProveedor("GPR011907000002", "PROVEEDORES INTERNACIONALES", "INTER", "ACTIVO", new CuentaContable(5)));
 			rep.saveAll(grupos_proveedores);
 		}
 	}
