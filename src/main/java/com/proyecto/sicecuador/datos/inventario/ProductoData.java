@@ -27,12 +27,12 @@ public class ProductoData implements ApplicationRunner {
             Optional<Producto> ant=rep.findById((long) 1);
             if (!ant.isPresent()) {
                 List<Producto> productos = new ArrayList<>();
-                productos.add(new Producto("PRO011907000001", "CELULARES", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), Collections.emptyList(), Collections.emptyList()));
-                productos.add(new Producto("PRO011907000002", "REFRIGERADOR", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), Collections.emptyList(), Collections.emptyList()));
-                productos.add(new Producto("PRO011907000003", "TELEVISOR", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), Collections.emptyList(), Collections.emptyList()));
-                productos.add(new Producto("PRO011907000004", "CAMAS", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), Collections.emptyList(), Collections.emptyList()));
-                productos.add(new Producto("PRO011907000005", "LADRILLOS", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), Collections.emptyList(), Collections.emptyList()));
-                productos.add(new Producto("PRO011907000006", "AVIONES", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO011907000001", "CELULARES", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), new Bodega(1), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO011907000002", "REFRIGERADOR", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), new Bodega(1), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO011907000003", "TELEVISOR", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), new Bodega(2), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO011907000004", "CAMAS", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), new Bodega(2), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO011907000005", "LADRILLOS", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), new Bodega(3), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO011907000006", "AVIONES", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), new Bodega(3), Collections.emptyList(), Collections.emptyList()));
                 rep.saveAll(productos);
             }
     }

@@ -42,6 +42,9 @@ public class Producto extends Entidad {
     @ManyToOne
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
+    @ManyToOne
+    @JoinColumn(name = "bodega_id", nullable = true)
+    private Bodega bodega;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id")
@@ -66,6 +69,7 @@ public class Producto extends Entidad {
         this.impuesto = new Impuesto();
         this.medida = new Medida();
         this.proveedor = new Proveedor();
+        this.bodega = new Bodega();
         this.kardexs = Collections.emptyList();
         this.precios = Collections.emptyList();
     }
@@ -76,6 +80,8 @@ public class Producto extends Entidad {
         if(this.tipoGasto == null) this.tipoGasto = new TipoGasto();
         if(this.impuesto == null) this.impuesto = new Impuesto();
         if(this.medida == null) this.medida = new Medida();
+        if(this.proveedor == null) this.proveedor = new Proveedor();
+        if(this.bodega == null) this.bodega = new Bodega();
         if(this.kardexs == null) this.kardexs = Collections.emptyList();
         if(this.precios == null) this.precios = Collections.emptyList();
     }

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.criteria.Predicate;
 
@@ -130,11 +129,7 @@ public class ProductoService implements IProductoService {
 
     @Override
     public List<Producto> consultarBien() {
-        return rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
-		    List<Predicate> predicates = new ArrayList<>();
-		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("categoriaProducto").get("descripcion"), Constantes.tipo_producto_bien)));
-		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-		});
+        return rep.consultarPorBien(Constantes.tipo_producto_bien, Constantes.activo);
     }
 
     @Override
@@ -155,12 +150,8 @@ public class ProductoService implements IProductoService {
 		});
     }
     @Override
-    public List<Producto> consultarBodega() {
-        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
-		    List<Predicate> predicates = new ArrayList<>();
-		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "ACTIVOFIJO")));
-		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-		});
+    public List<Producto> consultarPorProveedor(long proveedorId) {
+        return  rep.consultarPorProveedor(proveedorId, Constantes.activo);
     }
 
     @Override

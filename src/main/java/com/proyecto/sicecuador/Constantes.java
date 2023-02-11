@@ -20,6 +20,7 @@ public class Constantes {
 	public static final String entregado="ENTREGADO";
 	public static final String sinGuia="SIN GUIA";
     public static final String factura_compra = "FACTURA DE COMPRA";
+    public static final String factura_compra_linea = "FACTURA DE COMPRA LINEA";
     public static final String operacion_compra = "COMPRA";
     public static final String factura_venta = "FACTURA DE VENTA";
     public static final String operacion_venta = "VENTA";
@@ -123,6 +124,7 @@ public class Constantes {
     
     //COMPRA
     public static final String tabla_factura_compra="factura_compra";
+    public static final String tabla_factura_compra_linea="factura_compra_linea";
     public static final String tabla_retencion_compra="retencion_compra";
     public static final String tabla_grupo_proveedor="grupo_proveedor";
     
@@ -360,6 +362,7 @@ public class Constantes {
     public static final String venta="VENTA";
     public static final String devolucionVenta="DEVOLUCION DE VENTA";
     public static final String descuentoVenta="DESCUENTO DE VENTA";
+    public static final String cantidad="CANTIDAD";
     public static final String costoUnitario="COSTO UNITARIO";
     public static final String devolucionCostoVenta="DEVOLUCION COSTO DE VENTA";
     public static final String nombre="NOMBRE";

@@ -4,30 +4,17 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
-import com.proyecto.sicecuador.modelos.compra.FacturaCompraDetalle;
-import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
+import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
-import com.proyecto.sicecuador.modelos.inventario.Kardex;
-import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
 import com.proyecto.sicecuador.repositorios.compra.IFacturaCompraRepository;
-import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
-import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
-import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
-import com.proyecto.sicecuador.servicios.interf.recaudacion.IRecaudacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +30,7 @@ public class FacturaCompraService implements IFacturaCompraService {
         if(facturaCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(facturaCompra.getProveedor().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.proveedor);
         if(facturaCompra.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
-        if(facturaCompra.getFacturaCompraDetalles().isEmpty()) throw new DatoInvalidoException(Constantes.factura_detalle);
+        if(facturaCompra.getFacturaCompraLineas().isEmpty()) throw new DatoInvalidoException(Constantes.factura_compra_linea);
     }
 
     @Transactional
@@ -119,8 +106,10 @@ public class FacturaCompraService implements IFacturaCompraService {
     public Page<FacturaCompra> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-    
+
+    @Override
     public FacturaCompra calcular(FacturaCompra facturaCompra) {
+
     		this.calcularTotalSinDescuentoLinea(facturaCompra);
             this.calcularDescuentoTotal(facturaCompra);
     		this.calcularSubtotalSinDescuento(facturaCompra);
@@ -135,10 +124,10 @@ public class FacturaCompraService implements IFacturaCompraService {
      * CALCULOS CON FACTURA COMPRA DETALLES
      */
     private void calcularTotalSinDescuentoLinea(FacturaCompra facturaCompra) {
-    	for(FacturaCompraDetalle facturaCompraDetalle: facturaCompra.getFacturaCompraDetalles()) {
-    		double totalSinDescuentoLinea=facturaCompraDetalle.getCantidad()*facturaCompraDetalle.getCostoUnitario();
+    	for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()) {
+    		double totalSinDescuentoLinea=facturaCompraLinea.getCantidad()*facturaCompraLinea.getCostoUnitario();
         	totalSinDescuentoLinea=Math.round(totalSinDescuentoLinea*100.0)/100.0;
-        	facturaCompraDetalle.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
+            facturaCompraLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
     	}
     }
     /*
@@ -150,7 +139,7 @@ public class FacturaCompraService implements IFacturaCompraService {
      */
     private void calcularDescuentoTotal(FacturaCompra facturaCompra) {
         double totalValorDescuentoLinea = Constantes.cero;
-        for(FacturaCompraDetalle facturaCompraDetalle: facturaCompra.getFacturaCompraDetalles()) {
+        for(FacturaCompraLinea facturaCompraDetalle: facturaCompra.getFacturaCompraLineas()) {
             double valorDescuentoPorcentajeLinea = (facturaCompraDetalle.getTotalSinDescuentoLinea() * facturaCompraDetalle.getPorcentajeDescuentoLinea()) / 100;
             totalValorDescuentoLinea = facturaCompraDetalle.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
         }
@@ -168,7 +157,7 @@ public class FacturaCompraService implements IFacturaCompraService {
      */
     private void calcularSubtotalSinDescuento(FacturaCompra facturaCompra) {
     	double subtotalSinDescuento = Constantes.cero;
-        for(FacturaCompraDetalle facturaCompraDetalle: facturaCompra.getFacturaCompraDetalles()){
+        for(FacturaCompraLinea facturaCompraDetalle: facturaCompra.getFacturaCompraLineas()){
           subtotalSinDescuento+=facturaCompraDetalle.getTotalSinDescuentoLinea();
         }
         subtotalSinDescuento=Math.round(subtotalSinDescuento*100.0)/100.0;
@@ -177,7 +166,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     
     private void calcularSubtotalBase12SinDescuento(FacturaCompra facturaCompra) {
     	double subtotalBase12SinDescuento = Constantes.cero;
-    	for(FacturaCompraDetalle facturaCompraDetalle: facturaCompra.getFacturaCompraDetalles()){
+    	for(FacturaCompraLinea facturaCompraDetalle: facturaCompra.getFacturaCompraLineas()){
           if (facturaCompraDetalle.getImpuesto().getPorcentaje() == Constantes.iva12){
             subtotalBase12SinDescuento+=facturaCompraDetalle.getTotalSinDescuentoLinea();
           }
@@ -188,7 +177,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     
     private void calcularSubtotalBase0SinDescuento(FacturaCompra facturaCompra) {
     	double subtotalBase0SinDescuento = Constantes.cero;
-    	for(FacturaCompraDetalle facturaCompraDetalle: facturaCompra.getFacturaCompraDetalles()){
+    	for(FacturaCompraLinea facturaCompraDetalle: facturaCompra.getFacturaCompraLineas()){
           if (facturaCompraDetalle.getImpuesto().getPorcentaje() == Constantes.iva0){
             subtotalBase0SinDescuento += facturaCompraDetalle.getTotalSinDescuentoLinea();
           }

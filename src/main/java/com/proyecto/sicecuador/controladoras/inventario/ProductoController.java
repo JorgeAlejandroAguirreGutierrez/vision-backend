@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
@@ -89,6 +88,13 @@ public class ProductoController implements GenericoController<Producto> {
     @GetMapping(value = "/consultarActivoFijo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarActivoFijo() {
         List<Producto> productos=servicio.consultarActivoFijo();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorProveedor/{proveedorId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorProveedor(@PathVariable("proveedorId") long proveedorId) {
+        List<Producto> productos=servicio.consultarPorProveedor(proveedorId);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

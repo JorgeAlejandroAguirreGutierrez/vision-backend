@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -49,9 +48,6 @@ public class FacturaCompra extends Entidad {
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
     @ManyToOne
-    @JoinColumn(name = "bodega_id", nullable = true)
-    private Bodega bodega;
-    @ManyToOne
     @JoinColumn(name = "sesion_id", nullable = true)
     private Sesion sesion;
     @ManyToOne
@@ -60,7 +56,7 @@ public class FacturaCompra extends Entidad {
     @JsonManagedReference
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_compra_id", nullable = true)
-    private List<FacturaCompraDetalle> facturaCompraDetalles;
+    private List<FacturaCompraLinea> facturaCompraLineas;
 
     public FacturaCompra(long id){
         super(id);
@@ -81,10 +77,9 @@ public class FacturaCompra extends Entidad {
         this.totalSinDescuento = Constantes.cero;
         this.comentario = Constantes.vacio;
         this.proveedor = new Proveedor();
-        this.bodega = new Bodega();
         this.sesion = new Sesion();
         this.tipoComprobante = new TipoComprobante();
-        this.facturaCompraDetalles = Collections.emptyList();
+        this.facturaCompraLineas = Collections.emptyList();
     }
 
     public void normalizar(){
@@ -92,6 +87,6 @@ public class FacturaCompra extends Entidad {
         if(this.proveedor == null) this.proveedor = new Proveedor();
         if(this.sesion == null) this.sesion = new Sesion();
         if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
-        if(this.facturaCompraDetalles.isEmpty()) this.facturaCompraDetalles = Collections.emptyList();
+        if(this.facturaCompraLineas.isEmpty()) this.facturaCompraLineas = Collections.emptyList();
     }
 }

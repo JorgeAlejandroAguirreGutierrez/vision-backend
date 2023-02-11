@@ -18,6 +18,7 @@ public class CorreoProveedor extends Entidad {
     private String codigo;
     @Column(name = "email", nullable = true)
     private String email;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
