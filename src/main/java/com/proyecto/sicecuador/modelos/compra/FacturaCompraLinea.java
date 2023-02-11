@@ -11,10 +11,10 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "factura_compra_detalle")
+@Table(name = "factura_compra_linea")
 @Data
 @AllArgsConstructor
-public class FacturaCompraDetalle extends Entidad {
+public class FacturaCompraLinea extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @Column(name = "comentario", nullable = true)
@@ -27,7 +27,7 @@ public class FacturaCompraDetalle extends Entidad {
     private double valorDescuentoLinea;
     @Column(name = "porcentaje_descuento_linea", nullable = true)
     private double porcentajeDescuentoLinea;
-    @Column(name = "total_con_descuento", nullable = true)
+    @Column(name = "total_sin_descuento", nullable = true)
     private double totalSinDescuentoLinea;
     @ManyToOne
     @JoinColumn(name = "impuesto_id", nullable = true)
@@ -40,10 +40,10 @@ public class FacturaCompraDetalle extends Entidad {
     @JoinColumn(name = "factura_compra_id", nullable = true)
     private FacturaCompra facturaCompra;
 
-    public FacturaCompraDetalle(long id){
+    public FacturaCompraLinea(long id){
         super(id);
     }
-    public FacturaCompraDetalle() {
+    public FacturaCompraLinea() {
         super();
         this.codigo = Constantes.vacio;
         this.comentario = Constantes.vacio;
@@ -54,5 +54,9 @@ public class FacturaCompraDetalle extends Entidad {
         this.totalSinDescuentoLinea = Constantes.cero;
         this.impuesto = new Impuesto();
         this.producto = new Producto();
+    }
+
+    public void normalizar(){
+        if(this.impuesto == null) this.impuesto = new Impuesto();
     }
 }

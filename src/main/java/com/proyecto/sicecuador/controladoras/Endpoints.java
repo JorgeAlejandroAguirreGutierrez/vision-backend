@@ -29,6 +29,7 @@ public class Endpoints {
     
     //COMPRA
     public static final String pathFacturaCompra="facturaCompra";
+    public static final String pathFacturaCompraLinea="facturaCompraLinea";
     public static final String pathRetencionCompra="retencionCompra";
     public static final String pathGrupoProveedor="grupoProveedor";
     
