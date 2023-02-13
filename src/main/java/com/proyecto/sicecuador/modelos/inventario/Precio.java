@@ -3,13 +3,18 @@ package com.proyecto.sicecuador.modelos.inventario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "precio")
+@Data
+@AllArgsConstructor
 public class Precio extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "costo", nullable = true)
     private double costo;
     @Column(name = "margen_ganancia", nullable = true)
@@ -28,18 +33,20 @@ public class Precio extends Entidad {
     private double utilidadPorcentaje;
     @Column(name = "estado", nullable = true)
     private String estado;
-	@ManyToOne
-    @JoinColumn(name = "producto_id", nullable = true)
-    private Producto producto;
-	@ManyToOne
-    @JoinColumn(name = "medida_id", nullable = true)
-    private Medida medida;
     @ManyToOne
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "producto_id", nullable = true)
+    private Producto producto;
 
+    public Precio(long id){
+        super(id);
+    }
     public Precio(){
         super();
+        this.codigo = Constantes.vacio;
         this.costo = Constantes.cero;
         this.margenGanancia = Constantes.cero;
         this.precioVentaPublico = Constantes.cero;
@@ -49,89 +56,10 @@ public class Precio extends Entidad {
         this.utilidad = Constantes.cero;
         this.utilidadPorcentaje = Constantes.cero;
         this.estado = Constantes.activo;
-        this.medida = new Medida();
         this.segmento = new Segmento();
     }
 
-    public Precio(long id){
-        super(id);
-    }
-
-    public Precio(List<String> datos){
-
-    }
-
-    public Precio(String codigo, double costo, double margen_ganancia,
-                  double precioVentaPublico, double precioSinIva, double precioVentaPublicoManual,
-                  double utilidad, double utilidadPocentaje, String estado, Producto producto, Medida medida, Segmento segmento){
-        super(codigo);
-        this.costo=costo;
-        this.margenGanancia=margen_ganancia;
-        this.precioVentaPublico=precioVentaPublico;
-        this.precioSinIva=precioSinIva;
-        this.precioVentaPublicoManual=precioVentaPublicoManual;
-        this.utilidad=utilidad;
-        this.utilidadPorcentaje=utilidadPocentaje;
-        this.estado = estado;
-        this.producto=producto;
-        this.medida=medida;
-        this.segmento=segmento;
-    }
-
-    public double getCosto() {
-        return costo;
-    }
-
-    public double getMargenGanancia() {
-		return margenGanancia;
-	}
-
-    public double getPrecioVentaPublico() {
-		return precioVentaPublico;
-	}
-
-    public double getPrecioSinIva() {
-		return precioSinIva;
-	}
-    
-    public double getPrecioVentaPublicoIva() {
-		return precioVentaPublicoIva;
-	}
-
-    public double getPrecioVentaPublicoManual() {
-		return precioVentaPublicoManual;
-	}
-
-    public double getUtilidad() {
-        return utilidad;
-    }
-
-    public double getUtilidadPorcentaje() {
-		return utilidadPorcentaje;
-	}
-    
-    public String getEstado() {
-		return estado;
-	}
-    
-    @JsonBackReference
-    public Producto getProducto() {
-		return producto;
-	}
-    public Medida getMedida() {
-		return medida;
-	}
-    
-    public Segmento getSegmento() {
-        return segmento;
-    }
-    
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
     public void normalizar(){
-        if(this.medida == null) this.medida = new Medida();
         if(this.segmento == null) this.segmento = new Segmento();
     }
 

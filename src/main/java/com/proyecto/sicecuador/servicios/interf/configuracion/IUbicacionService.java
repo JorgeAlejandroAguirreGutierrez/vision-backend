@@ -13,6 +13,6 @@ public interface IUbicacionService extends IGenericoService<Ubicacion> {
     List<Ubicacion> consultarProvincias();
     List<Ubicacion> consultarCantones(Ubicacion ubicacion);
     List<Ubicacion> consultarParroquias(String canton);
-    Ubicacion obtenerUbicacionId(Ubicacion ubicacion);
-    List<Ubicacion> buscar(Ubicacion ubicacion);
+    Ubicacion obtenerUbicacionId(String provincia, String canton, String parroquia);
+    List<Ubicacion> buscar(String codigoNorma, String provincia, String canton, String parroquia);
 }

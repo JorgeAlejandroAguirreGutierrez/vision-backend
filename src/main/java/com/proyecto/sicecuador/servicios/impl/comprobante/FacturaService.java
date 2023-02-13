@@ -7,10 +7,12 @@ import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
+import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
+import com.proyecto.sicecuador.servicios.interf.recaudacion.IRecaudacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +34,9 @@ public class FacturaService implements IFacturaService {
     private IKardexService kardexService;
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
+
+    @Autowired
+    private IRecaudacionService recaudacionService;
 
     @Override
     public void validar(Factura factura) {
@@ -120,6 +125,10 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura actualizar(Factura factura) {
         validar(factura);
+        Recaudacion recaudacion = recaudacionService.obtenerPorFactura(factura.getId());
+        if(recaudacion != null && recaudacion.getEstado().equals(Constantes.recaudado)) {
+            throw new EstadoInvalidoException(Constantes.recaudacion);
+        }
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -167,10 +176,6 @@ public class FacturaService implements IFacturaService {
     @Override
     public Page<Factura> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
-    }
-
-    @Override
-    public void importar(MultipartFile file) {
     }
 
     @Override

@@ -61,12 +61,4 @@ public class TelefonoEstablecimientoController implements GenericoController<Tel
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, telefono);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-	    servicio.importar(archivo);
-	    Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
-	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }	
-
 }

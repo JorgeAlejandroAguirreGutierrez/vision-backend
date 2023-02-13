@@ -2,12 +2,19 @@ package com.proyecto.sicecuador.modelos.inventario;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "categoria_producto")
+@Data
+@AllArgsConstructor
 public class CategoriaProducto extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
@@ -15,40 +22,14 @@ public class CategoriaProducto extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
 
+    public CategoriaProducto(long id){
+        super(id);
+    }
     public CategoriaProducto(){
         super();
+        this.codigo = Constantes.vacio;
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
         this.estado = Constantes.activo;
     }
-
-    public CategoriaProducto(long id){
-        super(id);
-    }
-
-    public CategoriaProducto(List<String> datos){
-
-    }
-    public CategoriaProducto(String codigo, String descripcion, String abreviatura, String estado){
-        super(codigo);
-        this.descripcion=descripcion;
-        this.abreviatura=abreviatura;
-        this.estado=estado;
-    }
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public String getAbreviatura() {
-        return abreviatura;
-    }
-
-    public String getEstado() {
-        return abreviatura;
-    }
-    
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
-    
 }

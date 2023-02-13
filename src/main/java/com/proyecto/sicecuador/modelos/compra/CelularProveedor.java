@@ -3,14 +3,21 @@ package com.proyecto.sicecuador.modelos.compra;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "celular_proveedor")
+@Data
+@AllArgsConstructor
 public class CelularProveedor extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "numero", nullable = true)
     private String numero;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
@@ -22,22 +29,5 @@ public class CelularProveedor extends Entidad {
 
     public CelularProveedor(long id) {
         super(id);
-    }
-
-    public CelularProveedor(String codigo, String numero, Proveedor proveedor) {
-        super(codigo);
-        this.numero=numero;
-        this.proveedor=proveedor;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-    @JsonBackReference
-    public Proveedor getProveedor() {
-        return proveedor;
-    }
-    public void setProveedor(Proveedor proveedor) {
-        this.proveedor = proveedor;
     }
 }

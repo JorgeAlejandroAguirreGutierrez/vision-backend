@@ -85,20 +85,4 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     public Page<FranquiciaTarjeta> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<FranquiciaTarjeta> franquicias_tarjetas=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,4);
-            for (List<String> datos: info) {
-                FranquiciaTarjeta franquicia_tarjeta = new FranquiciaTarjeta(datos);
-                franquicias_tarjetas.add(franquicia_tarjeta);
-            }
-            rep.saveAll(franquicias_tarjetas);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
-
 }

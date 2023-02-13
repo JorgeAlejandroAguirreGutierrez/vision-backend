@@ -27,8 +27,8 @@ public class FacturaEletronicaController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> enviarSri(@RequestBody @Valid Factura _factura) {
-        Optional<String> facturaElectronicaRespuesta=servicio.enviar(_factura);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, facturaElectronicaRespuesta);
+        Factura factura=servicio.enviar(_factura);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_factura_electronica_exitosa+Constantes.espacio+factura.getClaveAcceso(), factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

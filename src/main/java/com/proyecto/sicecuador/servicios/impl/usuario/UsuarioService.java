@@ -3,10 +3,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.exception.ParametroInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.usuario.Estacion;
-import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IUsuarioService;
@@ -14,11 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -127,20 +120,5 @@ public class UsuarioService implements IUsuarioService {
             return res;
     	}
     	throw new EntidadNoExistenteException(Constantes.usuario);
-    }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Usuario> usuarios=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,5);
-            for (List<String> datos: info) {
-                Usuario usuario = new Usuario(datos);
-                usuarios.add(usuario);
-            }
-            rep.saveAll(usuarios);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
     }
 }

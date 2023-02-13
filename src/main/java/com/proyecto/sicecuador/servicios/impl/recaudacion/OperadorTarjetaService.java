@@ -87,22 +87,7 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     }
 
     @Override
-    public List<OperadorTarjeta> consultarPorTipo(OperadorTarjeta operadorTarjeta) {
-        return rep.consultarPorTipo(operadorTarjeta.getTipo(), Constantes.activo);
-    }
-    
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<OperadorTarjeta> operadoresTarjetas=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal,5);
-            for (List<String> datos: info) {
-                OperadorTarjeta operadorTarjeta = new OperadorTarjeta(datos);
-                operadoresTarjetas.add(operadorTarjeta);
-            }
-            rep.saveAll(operadoresTarjetas);
-        }catch (Exception e){
-        	System.err.println(e.getMessage());
-        }
+    public List<OperadorTarjeta> consultarPorTipo(String tipo) {
+        return rep.consultarPorTipo(tipo, Constantes.activo);
     }
 }

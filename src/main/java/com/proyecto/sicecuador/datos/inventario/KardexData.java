@@ -31,30 +31,6 @@ public class KardexData implements ApplicationRunner {
             kardexs.add(new Kardex("KAR012001000003", Date.valueOf("2021-01-29"), "FACTURA DE COMPRA", "001-001-000003", "COMPRA",200, 0, 0, 50, 3, 200, 400.0, new Producto(3)));
             kardexs.add(new Kardex("KAR012001000004", Date.valueOf("2021-01-29"), "FACTURA DE COMPRA", "001-001-000004", "COMPRA",200, 0, 0, 50, 3, 200, 400.0, new Producto(4)));
             kardexs.add(new Kardex("KAR012001000005", Date.valueOf("2021-01-29"), "FACTURA DE COMPRA", "001-001-000005", "COMPRA",200, 0, 0, 50, 3, 200, 400.0, new Producto(5)));
-            //kardexs.add(new Kardex("KAR012001000006", Date.valueOf("2021-01-29"), "FACTURA DE COMPRA", "001-001-000006", "COMPRA",200, 0, 0, 50, 3, 200, 400.0, new Proveedor(1), new Producto(6)));
-            /*kardexs.add(new Kardex("KAR012001000004", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000004", "COMPRA", 1, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000005", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000005", "COMPRA", 3, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000006", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000006", "COMPRA", 2, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000007", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000007", "COMPRA", 3, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54,null, null, null));
-            kardexs.add(new Kardex("KAR012001000008", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000008", "COMPRA", 4, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000009", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000009", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000010", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000010", "COMPRA", 200, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000011", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000011", "COMPRA", 500, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000012", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000012", "COMPRA", 150, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000013", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000013", "COMPRA", 20, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000014", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000014", "COMPRA", 10, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000015", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000015", "COMPRA", 20, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000016", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000016", "COMPRA", 20, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000017", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 20, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54,null, null, null));
-            kardexs.add(new Kardex("KAR012001000018", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000019", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000020", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000021", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000022", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000023", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000024", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            kardexs.add(new Kardex("KAR012001000025", Date.valueOf("2020-01-29"), "FACTURA DE COMPRA", "001-001-000017", "COMPRA", 100, 0, 75, 0, 106.1538, 106.1538,80.0,  7961.54, null, null, null));
-            */
             rep.saveAll(kardexs);
         }
     }

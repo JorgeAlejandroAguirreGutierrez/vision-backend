@@ -3,13 +3,13 @@ package com.proyecto.sicecuador.exception;
 public class EstadoInvalidoException extends RuntimeException  {
 	private static final long serialVersionUID = 1L;
 
-	private String entidad;
+	private String estado;
 
-	public EstadoInvalidoException(String parametro) {
-		this.entidad=entidad;
+	public EstadoInvalidoException(String estado) {
+		this.estado=estado;
 	}
 
-	public String getEntidad() {
-		return entidad;
+	public String getEstado() {
+		return estado;
 	}
 }

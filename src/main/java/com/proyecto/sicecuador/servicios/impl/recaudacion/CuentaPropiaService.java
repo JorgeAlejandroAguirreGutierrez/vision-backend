@@ -94,19 +94,4 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     public Page<CuentaPropia> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<CuentaPropia> cuentas_propias=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,3);
-            for (List<String> datos: info) {
-                CuentaPropia cuenta_propia = new CuentaPropia(datos);
-                cuentas_propias.add(cuenta_propia);
-            }
-            rep.saveAll(cuentas_propias);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

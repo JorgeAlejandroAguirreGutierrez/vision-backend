@@ -10,6 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,10 +24,10 @@ public class PerfilData implements ApplicationRunner {
         Optional<Perfil> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Perfil> perfiles = new ArrayList<>();
-            perfiles.add(new Perfil("PE1", "ADMINISTRADOR", "ADM", Constantes.activo, Constantes.si));
-            perfiles.add(new Perfil("PE2", "RECAUDADOR", "REC", Constantes.activo, Constantes.no));
-            perfiles.add(new Perfil("PE3", "DESPACHADOR", "DES", Constantes.activo, Constantes.no));
-            perfiles.add(new Perfil("PE4", "CONTADOR", "CTD", Constantes.activo, Constantes.no));
+            perfiles.add(new Perfil("PE1", "ADMINISTRADOR", "ADM", Constantes.activo, Constantes.si, Collections.emptyList()));
+            perfiles.add(new Perfil("PE2", "RECAUDADOR", "REC", Constantes.activo, Constantes.no, Collections.emptyList()));
+            perfiles.add(new Perfil("PE3", "DESPACHADOR", "DES", Constantes.activo, Constantes.no, Collections.emptyList()));
+            perfiles.add(new Perfil("PE4", "CONTADOR", "CTD", Constantes.activo, Constantes.no, Collections.emptyList()));
             rep.saveAll(perfiles);
         }
     }

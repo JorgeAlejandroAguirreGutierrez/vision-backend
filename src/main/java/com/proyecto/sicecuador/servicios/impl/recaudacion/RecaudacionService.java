@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,11 +30,13 @@ public class RecaudacionService implements IRecaudacionService {
         if(recaudacion.getTotal() == Constantes.cero) throw new DatoInvalidoException(Constantes.total);
         if(recaudacion.getFactura().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.factura);
         if(recaudacion.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if(recaudacion.getCredito().getSaldo() == Constantes.cero) recaudacion.setCredito(null);
     }
     
     @Override
     public Recaudacion crear(Recaudacion recaudacion) {
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_recaudacion);
+    	validar(recaudacion);
+        Optional<String>codigo=Util.generarCodigo(Constantes.tabla_recaudacion);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
@@ -154,9 +155,5 @@ public class RecaudacionService implements IRecaudacionService {
             recaudacion.setEstado(Constantes.recaudado);
         }
 		return recaudacion;
-    }
-    
-    @Override
-    public void importar(MultipartFile file) {
     }
 }

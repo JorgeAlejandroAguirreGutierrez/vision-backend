@@ -24,7 +24,6 @@ public class PermisoData implements ApplicationRunner {
         Optional<Permiso> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Permiso> permisos = new ArrayList<>();
-
             permisos.add(new Permiso("PER202301000001", "CLIENTES", "CLIENTES", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000002", "CLIENTES", "SEGMENTOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000003", "CLIENTES", "GRUPOS DE CLIENTES", Constantes.si, Constantes.activo, new Perfil(1)));

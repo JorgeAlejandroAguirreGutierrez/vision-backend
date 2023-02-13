@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
 import com.proyecto.sicecuador.repositorios.cliente.ICalificacionClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,11 @@ public class CalificacionClienteData implements ApplicationRunner {
         Optional<CalificacionCliente> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<CalificacionCliente> calificacion_clientes = new ArrayList<>();
-            calificacion_clientes.add(new CalificacionCliente("CCL202301000001", "EXELENTE", "EX", "ACTIVO"));
-            calificacion_clientes.add(new CalificacionCliente("CCL202301000002", "MUY BUENO", "MB", "ACTIVO"));
-            calificacion_clientes.add(new CalificacionCliente("CCL202301000003", "BUENO", "BU", "ACTIVO"));
-            calificacion_clientes.add(new CalificacionCliente("CCL202301000004", "REGULAR", "RE", "ACTIVO"));
-            calificacion_clientes.add(new CalificacionCliente("CCL202301000005", "MALO", "MA", "ACTIVO"));
+            calificacion_clientes.add(new CalificacionCliente("CCL202301000001", "EXELENTE", "EX", Constantes.activo));
+            calificacion_clientes.add(new CalificacionCliente("CCL202301000002", "MUY BUENO", "MB", Constantes.activo));
+            calificacion_clientes.add(new CalificacionCliente("CCL202301000003", "BUENO", "BU", Constantes.activo));
+            calificacion_clientes.add(new CalificacionCliente("CCL202301000004", "REGULAR", "RE", Constantes.activo));
+            calificacion_clientes.add(new CalificacionCliente("CCL202301000005", "MALO", "MA", Constantes.activo));
             rep.saveAll(calificacion_clientes);
         }
     }

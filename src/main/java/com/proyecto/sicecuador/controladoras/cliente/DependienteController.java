@@ -65,22 +65,14 @@ public class DependienteController implements GenericoController<Dependiente> {
 
     @GetMapping(value = "/consultarPorRazonSocial/{razonSocial}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("razonSocial") String razonSocial) {
-        List<Dependiente> dependiente=servicio.consultarPorRazonSocial(new Dependiente(razonSocial));
+        List<Dependiente> dependiente=servicio.consultarPorRazonSocial(razonSocial);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     @GetMapping(value = "/cliente/{clienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarClienteID(@PathVariable("clienteId") long clienteId) {
-        List<Dependiente> dependiente=servicio.consultarPorCliente(new Dependiente(new Cliente(clienteId)));
+        List<Dependiente> dependiente=servicio.consultarPorCliente(clienteId);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, dependiente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-        servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
 }

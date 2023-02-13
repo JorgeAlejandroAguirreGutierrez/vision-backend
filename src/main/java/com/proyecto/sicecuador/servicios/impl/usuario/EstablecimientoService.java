@@ -6,7 +6,6 @@ import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
@@ -15,9 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -115,20 +111,5 @@ public class EstablecimientoService implements IEstablecimientoService {
     @Override
     public Page<Establecimiento> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
-    }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Establecimiento> establecimientos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,0);
-            for (List<String> datos: info) {
-                Establecimiento establecimiento = new Establecimiento(datos);
-                establecimientos.add(establecimiento);
-            }
-            rep.saveAll(establecimientos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
     }
 }

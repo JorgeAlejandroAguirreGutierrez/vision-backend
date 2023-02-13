@@ -92,19 +92,4 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     public List<CalificacionCliente> buscar(CalificacionCliente calificacionCliente) {
         return rep.buscar(calificacionCliente.getCodigo(), calificacionCliente.getDescripcion(), calificacionCliente.getAbreviatura());
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<CalificacionCliente> calificacionesClientes=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,1);
-            for (List<String> datos: info) {
-                CalificacionCliente calificacionCliente = new CalificacionCliente(datos);
-                calificacionesClientes.add(calificacionCliente);
-            }
-            rep.saveAll(calificacionesClientes);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

@@ -88,21 +88,6 @@ public class UbicacionService implements IUbicacionService {
     }
 
     @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Ubicacion> ubicaciones=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal, 3);
-            for (List<String> datos: info) {
-                Ubicacion ubicacion = new Ubicacion(datos);
-                ubicaciones.add(ubicacion);
-            }
-            rep.saveAll(ubicaciones);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
-
-    @Override
     public List<Ubicacion> consultarProvincias() {
         List<String> provincias=rep.findProvincias(Constantes.activo);
         List<Ubicacion> ubicaciones=new ArrayList<>();
@@ -131,8 +116,8 @@ public class UbicacionService implements IUbicacionService {
         return rep.findParroquias(canton, Constantes.activo);
     }
     @Override
-    public Ubicacion obtenerUbicacionId(Ubicacion ubicacion) {
-        Optional<Ubicacion> resp=rep.findByProvinciaAndCantonAndParroquia(ubicacion.getProvincia(), ubicacion.getCanton(), ubicacion.getParroquia(), Constantes.activo);
+    public Ubicacion obtenerUbicacionId(String provincia, String canton, String parroquia) {
+        Optional<Ubicacion> resp=rep.findByProvinciaAndCantonAndParroquia(provincia, provincia, parroquia, Constantes.activo);
         if(resp.isEmpty()) {
         	throw new EntidadNoExistenteException(Constantes.ubicacion);
         }
@@ -141,7 +126,7 @@ public class UbicacionService implements IUbicacionService {
     } 
 
     @Override
-    public List<Ubicacion> buscar(Ubicacion ubicacion) {
-        return  rep.buscar(ubicacion.getCodigoNorma(), ubicacion.getProvincia(), ubicacion.getCanton(), ubicacion.getParroquia());
+    public List<Ubicacion> buscar(String codigoNorma, String provincia, String canton, String parroquia) {
+        return  rep.buscar(codigoNorma, provincia, provincia, parroquia);
     }
 }

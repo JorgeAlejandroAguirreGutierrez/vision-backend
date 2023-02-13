@@ -2,14 +2,18 @@ package com.proyecto.sicecuador.modelos.cliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "forma_pago")
+@Data
+@AllArgsConstructor
 public class FormaPago extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "codigo_sri", nullable = true)
     private String codigoSRI;    
 	@Column(name = "descripcion", nullable = true)
@@ -18,51 +22,16 @@ public class FormaPago extends Entidad {
     private String abreviatura;
     @Column(name = "estado", nullable = true)
     private String estado;
-	
+
+    public FormaPago(long id){
+        super(id);
+    }
     public FormaPago(){
         super();
+        this.codigo = Constantes.vacio;
         this.codigoSRI = Constantes.vacio;
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
         this.estado = Constantes.activo;
     }
-
-    public FormaPago(long id) {
-        super(id);
-    }
-
-    public FormaPago(String codigo, String codigoSRI, String descripcion, String abreviatura, String estado){
-        super(codigo);
-        this.codigoSRI=codigoSRI;
-        this.descripcion=descripcion;
-        this.abreviatura=abreviatura;
-        this.estado=estado;
-    }
-
-    public FormaPago(List<String> datos) {
-    	codigoSRI=datos.get(0)== null? null : datos.get(0);
-        descripcion=datos.get(1)== null? null : datos.get(1);
-        abreviatura=datos.get(2)== null? null : datos.get(2);
-        estado=datos.get(3)== null? null : datos.get(3);
-    }
-
-    public String getCodigoSRI() {
-		return codigoSRI;
-	}
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public String getAbreviatura() {
-        return abreviatura;
-    }
-    
-    public String getEstado() {
-        return estado;
-    }
-    
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
 }

@@ -1,8 +1,5 @@
 package com.proyecto.sicecuador.controladoras.comprobante;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathFactura;
-
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
@@ -16,10 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
+import static com.proyecto.sicecuador.controladoras.Endpoints.pathFactura;
 
 @RestController
 @RequestMapping(contexto+pathFactura)
@@ -95,10 +94,5 @@ public class FacturaController implements GenericoController<Factura> {
         Factura factura=servicio.calcular(_factura);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
     }
 }

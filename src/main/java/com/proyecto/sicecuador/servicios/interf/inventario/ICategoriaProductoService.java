@@ -9,4 +9,5 @@ public interface ICategoriaProductoService extends IGenericoService<CategoriaPro
 	CategoriaProducto activar(CategoriaProducto categoriaProducto);
 	CategoriaProducto inactivar(CategoriaProducto categoriaProducto);
 	List<CategoriaProducto> consultarActivos();
+	CategoriaProducto obtenerPorAbreviatura(String descripcion);
 }

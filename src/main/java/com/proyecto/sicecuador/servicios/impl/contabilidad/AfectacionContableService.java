@@ -92,20 +92,4 @@ public class AfectacionContableService implements IAfectacionContableService {
     public List<AfectacionContable> buscar(AfectacionContable afectacionContable) {
         return  rep.buscar(afectacionContable.getDescripcion(), Constantes.activo);
     }
-    
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<AfectacionContable> afectacionesContables=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,7);
-            for (List<String> datos: info) {
-                AfectacionContable afectacionContable = new AfectacionContable(datos);
-                afectacionesContables.add(afectacionContable);
-            }
-            rep.saveAll(afectacionesContables);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
-
 }

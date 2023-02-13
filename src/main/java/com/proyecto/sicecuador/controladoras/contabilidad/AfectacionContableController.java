@@ -89,9 +89,4 @@ public class AfectacionContableController implements GenericoController<Afectaci
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, afectacionesContables);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
 }

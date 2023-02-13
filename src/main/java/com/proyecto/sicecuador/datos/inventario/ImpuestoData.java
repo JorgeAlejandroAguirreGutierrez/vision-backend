@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.inventario;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.inventario.Impuesto;
 import com.proyecto.sicecuador.repositorios.inventario.IImpuestoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class ImpuestoData implements ApplicationRunner {
         Optional<Impuesto> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Impuesto> impuestos = new ArrayList<>();
-            impuestos.add(new Impuesto("IVA1", "2", "IVA", "0 %", 0, "ACTIVO"));
-            impuestos.add(new Impuesto("IVA2", "2", "IVA", "12 %", 12, "ACTIVO"));
-            impuestos.add(new Impuesto("IVA3", "2", "IVA", "14 %", 14, "ACTIVO"));
+            impuestos.add(new Impuesto("IMP012001000001", "2", "IVA", "0 %", 0, Constantes.activo));
+            impuestos.add(new Impuesto("IMP012001000002", "2", "IVA", "12 %", 12, Constantes.activo));
+            impuestos.add(new Impuesto("IMP012001000003", "2", "IVA", "14 %", 14, Constantes.activo));
             rep.saveAll(impuestos);
         }
     }

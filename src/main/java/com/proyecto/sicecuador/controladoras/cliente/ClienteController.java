@@ -107,12 +107,5 @@ public class ClienteController implements GenericoController<Cliente> {
         Cliente _cliente=servicio.validarIdentificacion(identificacion);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }  
-    
-    @PostMapping(value = "/importar", headers = "content-type=multipart/*", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> importar(@RequestPart("archivo") MultipartFile archivo) {
-	    servicio.importar(archivo);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_importacion_exitoso, null);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

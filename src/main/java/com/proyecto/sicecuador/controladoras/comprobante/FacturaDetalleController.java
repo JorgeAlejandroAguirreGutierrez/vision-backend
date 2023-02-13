@@ -69,10 +69,4 @@ public class FacturaDetalleController implements GenericoController<FacturaDetal
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, facturaDetalle);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
-
 }

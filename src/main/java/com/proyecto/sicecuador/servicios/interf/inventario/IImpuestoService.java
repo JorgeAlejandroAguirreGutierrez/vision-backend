@@ -11,5 +11,5 @@ public interface IImpuestoService extends IGenericoService<Impuesto> {
 	Impuesto activar(Impuesto impuesto);
 	Impuesto inactivar(Impuesto impuesto);
 	List<Impuesto> consultarActivos();
-    Optional<Impuesto> obtenerImpuestoPorcentaje(Impuesto impuesto);
+    Optional<Impuesto> obtenerImpuestoPorcentaje(double porcentaje);
 }

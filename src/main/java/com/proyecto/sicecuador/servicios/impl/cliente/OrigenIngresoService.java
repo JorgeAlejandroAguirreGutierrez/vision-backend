@@ -89,19 +89,4 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     public List<OrigenIngreso> buscar(OrigenIngreso origenIngreso) {
         return  rep.buscar(origenIngreso.getCodigo(), origenIngreso.getDescripcion(), origenIngreso.getAbreviatura());
     }
-
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<OrigenIngreso> origenesIngresos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal, 13);
-            for (List<String> datos: info) {
-                OrigenIngreso origenIngreso = new OrigenIngreso(datos);
-                origenesIngresos.add(origenIngreso);
-            }
-            rep.saveAll(origenesIngresos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

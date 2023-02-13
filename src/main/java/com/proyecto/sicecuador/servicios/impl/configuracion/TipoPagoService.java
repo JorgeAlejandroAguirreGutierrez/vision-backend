@@ -84,19 +84,4 @@ public class TipoPagoService implements ITipoPagoService {
     public Page<TipoPago> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivoTemporal) {
-        try {
-            List<TipoPago> tipos_pagos=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivoTemporal, 19);
-            for (List<String> datos: info) {
-                TipoPago tipo_pago = new TipoPago(datos);
-                tipos_pagos.add(tipo_pago);
-            }
-            rep.saveAll(tipos_pagos);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

@@ -56,19 +56,4 @@ public class PrecioService implements IPrecioService {
     public Page<Precio> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public void importar(MultipartFile archivo_temporal) {
-        try {
-            List<Precio> precios=new ArrayList<>();
-            List<List<String>>info= Util.leerImportar(archivo_temporal,6);
-            for (List<String> datos: info) {
-                Precio precio = new Precio(datos);
-                precios.add(precio);
-            }
-            rep.saveAll(precios);
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
 }

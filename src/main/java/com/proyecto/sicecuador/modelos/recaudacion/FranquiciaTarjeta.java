@@ -1,14 +1,20 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table(name = "franquicia_tarjeta")
+@Data
+@AllArgsConstructor
 public class FranquiciaTarjeta extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "tipo", nullable = true)
     private String tipo;
     @Column(name = "nombre", nullable = true)
@@ -18,47 +24,15 @@ public class FranquiciaTarjeta extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
 
+    public FranquiciaTarjeta(long id){
+        super(id);
+    }
     public FranquiciaTarjeta(){
         super();
+        this.codigo = Constantes.vacio;
         this.tipo = Constantes.vacio;
         this.nombre = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
         this.estado = Constantes.activo;
     }
-
-    public FranquiciaTarjeta(long id){
-        super(id);
-    }
-
-    public FranquiciaTarjeta(String codigo, String tipo, String nombre, String abreviatura, String estado){
-        super(codigo);
-        this.tipo=tipo;
-        this.nombre=nombre;
-        this.abreviatura=abreviatura;
-        this.estado=estado;
-    }
-    public FranquiciaTarjeta(List<String> datos){
-        tipo=datos.get(0)== null ? null: datos.get(0);
-        nombre=datos.get(1)== null ? null: datos.get(1);
-        abreviatura=datos.get(2)== null ? null: datos.get(2);
-    }
-    public String getTipo() {
-        return tipo;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getAbreviatura() {
-        return abreviatura;
-    }
-    
-    public String getEstado() {
-		return estado;
-	}
-    
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
 }

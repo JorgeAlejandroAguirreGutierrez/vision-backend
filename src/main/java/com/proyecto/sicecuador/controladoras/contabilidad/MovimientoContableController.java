@@ -82,9 +82,4 @@ public class MovimientoContableController implements GenericoController<Movimien
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, movimientosContables);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
 }

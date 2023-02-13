@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.datos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.FormaPago;
 import com.proyecto.sicecuador.repositorios.cliente.IFormaPagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +25,17 @@ public class FormaPagoData implements ApplicationRunner {
         Optional<FormaPago> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<FormaPago> formas_pagos = new ArrayList<>();
-            formas_pagos.add(new FormaPago("FPA202301000001", "01", "SIN UTILIZACION DEL SISTEMA FINANCIERO", "EFECTIVO", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA202301000002", "15", "COMPENSACIÓN DE DEUDAS", "COMPENSACIÓN", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA202301000003", "16", "TARJETA DE DÉBITO", "TAR. DÉBITO", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA202301000004", "17", "DINERO ELECTRÓNICO", "E-COMMERCE", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA202301000005", "18", "TARJETA PREPAGO", "PREPAGO", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA202301000006", "19", "TARJETA DE CRÉDITO", "TAR. CRÉDITO", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA202301000007", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "CHEQUE", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA202301000008", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "DEPÓSITO", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA202301000009", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "TRANSFERENCIA", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA202301000010", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "RETENCIÓN", "ACTIVO"));
-            formas_pagos.add(new FormaPago("FPA202301000011", "21", "ENDOSO DE TÍTULOS", "ENDOSO", "ACTIVO"));
-
+            formas_pagos.add(new FormaPago("FPA202301000001", "01", "SIN UTILIZACION DEL SISTEMA FINANCIERO", "EFECTIVO", Constantes.activo));
+            formas_pagos.add(new FormaPago("FPA202301000002", "15", "COMPENSACIÓN DE DEUDAS", "COMPENSACIÓN", Constantes.activo));
+            formas_pagos.add(new FormaPago("FPA202301000003", "16", "TARJETA DE DÉBITO", "TAR. DÉBITO", Constantes.activo));
+            formas_pagos.add(new FormaPago("FPA202301000004", "17", "DINERO ELECTRÓNICO", "E-COMMERCE", Constantes.activo));
+            formas_pagos.add(new FormaPago("FPA202301000005", "18", "TARJETA PREPAGO", "PREPAGO", Constantes.activo));
+            formas_pagos.add(new FormaPago("FPA202301000006", "19", "TARJETA DE CRÉDITO", "TAR. CRÉDITO", Constantes.activo));
+            formas_pagos.add(new FormaPago("FPA202301000007", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "CHEQUE", Constantes.activo));
+            formas_pagos.add(new FormaPago("FPA202301000008", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "DEPÓSITO", Constantes.activo));
+            formas_pagos.add(new FormaPago("FPA202301000009", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "TRANSFERENCIA", Constantes.activo));
+            formas_pagos.add(new FormaPago("FPA202301000010", "20", "OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO", "RETENCIÓN", Constantes.activo));
+            formas_pagos.add(new FormaPago("FPA202301000011", "21", "ENDOSO DE TÍTULOS", "ENDOSO", Constantes.activo));
             rep.saveAll(formas_pagos);
         }
     }

@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.*;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -13,7 +15,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "proveedor")
+@Data
+@AllArgsConstructor
 public class Proveedor extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
     @Column(name = "razon_social", nullable = true)
@@ -58,19 +64,18 @@ public class Proveedor extends Entidad {
     @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
-
+    @JsonManagedReference
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "proveedor_id", nullable = true)
     private List<TelefonoProveedor> telefonosProveedor;
+    @JsonManagedReference
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "proveedor_id", nullable = true)
     private List<CelularProveedor> celularesProveedor;
+    @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "proveedor_id", nullable = true)
     private List<CorreoProveedor> correosProveedor;
-    //@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    //@JoinColumn(name = "proveedor_id", nullable = true)
-    //private List<RetencionCliente> retencionesProveedor;
 
     public Proveedor(){
         super();
@@ -95,16 +100,12 @@ public class Proveedor extends Entidad {
         this.telefonosProveedor = Collections.emptyList();
         this.celularesProveedor = Collections.emptyList();
         this.correosProveedor = Collections.emptyList();
-        //this.retencionesProveedor = new ArrayList<>();
-        //this.retencionesProveedor.add(new RetencionCliente());
-        //this.retencionesProveedor.add(new RetencionCliente());
-        //this.retencionesProveedor.add(new RetencionCliente());
-        //this.retencionesProveedor.add(new RetencionCliente());
     }
 
 	public Proveedor(long id){
         super(id);
     }
+
     public Proveedor(String razon_social){
         super(0);
         this.razonSocial=razon_social;
@@ -122,7 +123,8 @@ public class Proveedor extends Entidad {
                      TipoIdentificacion tipoIdentificacion, TipoContribuyente tipoContribuyente,
                      GrupoProveedor grupoProveedor, FormaPago formaPago, PlazoCredito plazoCredito,
                      Ubicacion ubicacion){
-        super(codigo);
+        super();
+        this.codigo = Constantes.vacio;
     	this.tipoIdentificacion = tipoIdentificacion;
         this.tipoContribuyente=tipoContribuyente;
     	this.identificacion = identificacion;
@@ -145,7 +147,7 @@ public class Proveedor extends Entidad {
     }
     
     public Proveedor(List<String> datos) {
-    	super(null);
+    	super();
         tipoIdentificacion=datos.get(0)== null ? null: new TipoIdentificacion(Long.parseLong(datos.get(0)));
         identificacion=datos.get(1)== null ? null: datos.get(1);
         razonSocial=datos.get(2)== null ? null: datos.get(2);
@@ -328,16 +330,5 @@ public class Proveedor extends Entidad {
         if(this.telefonosProveedor == null) this.telefonosProveedor = Collections.emptyList();
         if(this.celularesProveedor == null) this.celularesProveedor = Collections.emptyList();
         if(this.correosProveedor == null) this.correosProveedor = Collections.emptyList();
-        /*if(this.retencionesProveedor == null){
-            this.retencionesProveedor = new ArrayList<>();
-            this.retencionesProveedor.add(new RetencionCliente());
-            this.retencionesProveedor.add(new RetencionCliente());
-            this.retencionesProveedor.add(new RetencionCliente());
-            this.retencionesProveedor.add(new RetencionCliente());
-        }
-        for (RetencionCliente retencionProveedor : this.retencionesProveedor){
-            if (retencionProveedor.getTipoRetencion() == null) retencionProveedor.setTipoRetencion(new TipoRetencion());
-        }*/
     }
-    
 }

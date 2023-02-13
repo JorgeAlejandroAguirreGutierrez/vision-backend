@@ -20,6 +20,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.exception.EstadoInvalidoException;
+import com.proyecto.sicecuador.exception.FacturaElectronicaInvalidaException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalle;
@@ -52,7 +53,6 @@ import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -71,6 +71,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.net.http.HttpResponse;
@@ -140,36 +142,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	facturaElectronica.setInfoFactura(infoFactura);
     	facturaElectronica.setDetalles(detalles);
     	return facturaElectronica;
-    }
-    
-    public Optional<String> enviar(Factura _factura) {
-    	Optional<Recaudacion> opcional= rep.obtenerPorFactura(_factura.getId());
-    	if(opcional.isEmpty()) {
-    		throw new EntidadNoExistenteException(Constantes.recaudacion);
-    	}
-    	Factura factura = opcional.get().getFactura();
-    	Recaudacion recaudacion = opcional.get();
-		if(!factura.getEstado().equals(Constantes.estadoEmitida)){
-			throw new EstadoInvalidoException(Constantes.factura);
-		}
-		if(!recaudacion.getEstado().equals(Constantes.norecaudado)){
-			throw new EstadoInvalidoException(Constantes.recaudacion);
-		}
-    	if(factura.getEstado().equals(Constantes.estadoEmitida) && recaudacion.getEstado().equals(Constantes.recaudado)) {
-        	FacturaElectronica facturaElectronica = crear(recaudacion, factura);
-    		String estado= enviar(facturaElectronica);
-        	if(estado.equals(Constantes.recibidaSri)) {
-        		factura.setEstado(Constantes.estadoFacturada);
-        		enviarCorreo(factura);
-        		repFactura.save(factura);
-        	}
-        	String respuesta=Constantes.mensajeSri+estado+Constantes.mensajeClaveAccesoSri+factura.getClaveAcceso();
-        	return Optional.of(respuesta);
-    	} else {
-    		String respuesta=Constantes.mensajeNoSri+factura.getClaveAcceso();
-        	return Optional.of(respuesta);
-    	}
-    	
     }
 
     private TotalConImpuestos crearTotalConImpuestos(Factura factura){
@@ -276,8 +248,39 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	impuestos.setImpuesto(impuestoLista);
     	return impuestos;
     }
+
+	@Override
+	public Factura enviar(Factura _factura) {
+		Optional<Recaudacion> opcional= rep.obtenerPorFactura(_factura.getId());
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.recaudacion);
+		}
+		Factura factura = opcional.get().getFactura();
+		Recaudacion recaudacion = opcional.get();
+		if(!factura.getEstado().equals(Constantes.estadoEmitida)){
+			throw new EstadoInvalidoException(Constantes.factura);
+		}
+		if(!recaudacion.getEstado().equals(Constantes.recaudado)){
+			throw new EstadoInvalidoException(Constantes.recaudacion);
+		}
+		if(factura.getEstado().equals(Constantes.estadoEmitida) && recaudacion.getEstado().equals(Constantes.recaudado)) {
+			FacturaElectronica facturaElectronica = crear(recaudacion, factura);
+			String estadoRecepcion = recepcion(facturaElectronica);
+			String estadoAutorizacion = autorizacion(facturaElectronica);
+			if(estadoRecepcion.equals(Constantes.recibidaSri) && estadoAutorizacion.equals(Constantes.autorizadoSri)) {
+				factura.setEstado(Constantes.estadoFacturada);
+				enviarCorreo(factura, facturaElectronica);
+				Factura facturada = repFactura.save(factura);
+				facturada.normalizar();
+				return facturada;
+			}
+			throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
+		}
+		throw new FacturaElectronicaInvalidaException(Constantes.norecaudado);
+
+	}
     
-    private String enviar(FacturaElectronica facturaElectronica) {
+    private String recepcion(FacturaElectronica facturaElectronica) {
     	try {
     		JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);            
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -287,10 +290,12 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             StringWriter sw = new StringWriter();
             jaxbMarshaller.marshal(facturaElectronica, sw);
             String xml=sw.toString();
-			byte[] cert = ConvertFile.readBytesFromFile(Constantes.certificadoSri);
+			Path path = Paths.get(Constantes.certificadoSri);
+			String ruta = path.toAbsolutePath().toString();
+			byte[] cert = ConvertFile.readBytesFromFile(ruta);
             byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasenaCertificadoSri);
             String encode=Base64.getEncoder().encodeToString(firmado);
-            String body=Util.soapFacturacionEletronica(encode).get();
+            String body=Util.soapFacturacionEletronica(encode);
             System.out.println(body);
             HttpClient httpClient = HttpClient.newBuilder()
                     .version(HttpClient.Version.HTTP_1_1)
@@ -310,8 +315,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             // print response body
             System.out.println(response.body());
             JSONObject json=Util.convertirXmlJson(response.body());
-            String estado=json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
-            return estado;
+            return json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
         } catch (JAXBException ex) {
             System.err.println(ex.getMessage());                        
         } catch (IOException ex) {
@@ -324,8 +328,35 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	throw new EntidadNoExistenteException(Constantes.factura_electronica);
+		throw new EntidadNoExistenteException(Constantes.factura_electronica);
     }
+
+	public String autorizacion(FacturaElectronica facturaElectronica){
+		try {
+			String body=Util.soapConsultaFacturacionEletronica(facturaElectronica.getInfoTributaria().getClaveAcceso());
+			HttpClient httpClient = HttpClient.newBuilder()
+					.version(HttpClient.Version.HTTP_1_1)
+					.connectTimeout(Duration.ofSeconds(10))
+					.build();
+			HttpRequest request = HttpRequest.newBuilder()
+					.POST(BodyPublishers.ofString(body))
+					.uri(URI.create(Constantes.urlConsultaFacturacionEletronicaSri))
+					.setHeader(Constantes.contentType, Constantes.contenTypeValor)
+					.build();
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+			// print status code
+			System.out.println(response.statusCode());
+			// print response body
+			System.out.println(response.body());
+			JSONObject json=Util.convertirXmlJson(response.body());
+			return json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+					.getJSONObject("autorizaciones").getJSONObject("autorizacion").getString("estado");
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
     
     public ByteArrayInputStream crearPDF(Factura factura) {
     	try {
@@ -423,39 +454,26 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
         }
     }
     
-    private ByteArrayInputStream crearXML(Factura factura) {
+    private ByteArrayInputStream crearXML(FacturaElectronica facturaElectronica) {
     	try {
-    		String body=Util.soapConsultaFacturacionEletronica(factura.getClaveAcceso()).get();
-            HttpClient httpClient = HttpClient.newBuilder()
-                    .version(HttpClient.Version.HTTP_1_1)
-                    .connectTimeout(Duration.ofSeconds(10))
-                    .build();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .POST(BodyPublishers.ofString(body))
-                    .uri(URI.create(Constantes.urlConsultaFacturacionEletronicaSri))
-                    .setHeader(Constantes.contentType, Constantes.contenTypeValor)
-                    .build();
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            // print status code
-            System.out.println(response.statusCode());
-            // print response body
-            System.out.println(response.body());
-            ByteArrayInputStream xml= new ByteArrayInputStream(response.body().getBytes());
-            return xml;
+			JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
+			jaxbMarshaller.marshal(facturaElectronica, System.out);
+			StringWriter sw = new StringWriter();
+			jaxbMarshaller.marshal(facturaElectronica, sw);
+			String xml=sw.toString();
+			return new ByteArrayInputStream(xml.getBytes());
     	} catch(Exception e) {
     		return null;
     	}
     }
     
-    private void enviarCorreo(Factura _factura) {
+    private void enviarCorreo(Factura factura, FacturaElectronica facturaElectronica) {
     	try {
-	    	Optional<Factura> opcional= repFactura.findById(_factura.getId());
-	    	if(opcional.isEmpty()) {
-	    		throw new EntidadNoExistenteException(Constantes.factura);
-	    	}
-	    	Factura factura = opcional.get();
 	    	ByteArrayInputStream pdf = crearPDF(factura);
-	    	ByteArrayInputStream xml = crearXML(factura);
+	    	ByteArrayInputStream xml = crearXML(facturaElectronica);
 	    	ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf); 
 	    	ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml); 
 	        Properties props = System.getProperties();
@@ -490,8 +508,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         }
-        catch (MessagingException | IOException me) {
-            me.printStackTrace();   //Si se produce un error
+        catch (Exception e) {
+            e.printStackTrace();   //Si se produce un error
         }
     }
 }

@@ -71,8 +71,4 @@ public class ModeloService implements IModeloService {
     	return rep.findAll(pageable);
     }
 
-    @Override
-    public void importar(MultipartFile file) {
-    }
-
 }

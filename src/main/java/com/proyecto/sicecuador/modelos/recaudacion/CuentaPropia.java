@@ -1,12 +1,19 @@
 package com.proyecto.sicecuador.modelos.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "cuenta_propia")
+@Data
+@AllArgsConstructor
 public class CuentaPropia extends Entidad {
+    @Column(name = "codigo", nullable = true)
+    private String codigo;
     @Column(name = "numero", nullable = true)
     private String numero;
     @Column(name = "estado", nullable = true)
@@ -15,51 +22,16 @@ public class CuentaPropia extends Entidad {
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
 
-    public CuentaPropia(){
+    public CuentaPropia(long id){
+        super(id);
+    }
+    public CuentaPropia() {
         super();
+        this.codigo = Constantes.vacio;
         this.numero = Constantes.vacio;
         this.estado = Constantes.activo;
         this.banco = new Banco();
     }
-    public CuentaPropia(String codigo, String numero, String estado, Banco banco){
-        super(codigo);
-        this.numero=numero;
-        this.estado = estado;
-        this.banco=banco;
-    }
-
-    public CuentaPropia(long id){
-        super(id);
-    }
-    public CuentaPropia(List<String> datos){
-        numero=datos.get(0)== null ? null: datos.get(0);
-        banco=datos.get(1)== null ? null: new Banco((long) Double.parseDouble(datos.get(1)));
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-    
-    public String getEstado() {
-		return estado;
-	}
-
-    public Banco getBanco() {
-        return banco;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-    
-    public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-    public void setBanco(Banco banco) {
-        this.banco = banco;
-    }
-
     public void normalizar(){
         if(this.banco == null) this.banco = new Banco();
     }

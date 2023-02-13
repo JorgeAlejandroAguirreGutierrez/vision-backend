@@ -61,9 +61,4 @@ public class CreditoController implements GenericoController<Credito> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, credito);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> importar(MultipartFile file) {
-        return null;
-    }
 }
