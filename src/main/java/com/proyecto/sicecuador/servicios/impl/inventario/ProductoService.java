@@ -2,6 +2,8 @@ package com.proyecto.sicecuador.servicios.impl.inventario;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
+import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.modelos.inventario.Precio;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
@@ -10,6 +12,7 @@ import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.repositorios.inventario.IProductoRepository;
+import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,12 +22,15 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Service
 public class ProductoService implements IProductoService {
     @Autowired
     private IProductoRepository rep;
+    @Autowired
+    private IKardexService kardexService;
 
     @Override
     public void validar(Producto producto) {
@@ -34,19 +40,7 @@ public class ProductoService implements IProductoService {
         if(producto.getGrupoProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.grupo_producto);
         if(producto.getTipoGasto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_gasto);
         if(producto.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
-        if(producto.getKardexs().isEmpty()) throw new DatoInvalidoException(Constantes.kardex);
         if(producto.getPrecios().isEmpty()) throw new DatoInvalidoException(Constantes.precio);
-        for (Kardex kardex : producto.getKardexs()) {
-            if(kardex.getCostoUnitario() <= Constantes.cero){
-                throw new DatoInvalidoException(Constantes.costoUnitario);
-            }
-            if(kardex.getNumero().equals(Constantes.vacio)){
-                throw new DatoInvalidoException(Constantes.numero);
-            }
-            if(kardex.getCantidad() <= Constantes.cero){
-                throw new DatoInvalidoException(Constantes.numero);
-            }
-        }
         for (Precio precio : producto.getPrecios()) {
             if(precio.getPrecioVentaPublicoManual() < precio.getPrecioVentaPublico()){
                 throw new DatoInvalidoException(Constantes.precio_venta_publico_manual);
@@ -61,13 +55,10 @@ public class ProductoService implements IProductoService {
         if(getProducto.isPresent()) {
             throw new EntidadExistenteException(Constantes.producto);
         }
-    	producto.getKardexs().get(0).setDocumento(Constantes.factura_compra);
-        producto.getKardexs().get(0).setOperacion(Constantes.operacion_compra);
-        producto.getKardexs().get(0).setEntrada(producto.getKardexs().get(0).getCantidad());
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_producto);
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
+        Optional<String>codigo=Util.generarCodigo(Constantes.tabla_producto);
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
     	producto.setCodigo(codigo.get());
     	producto.setEstado(Constantes.activo);
     	Producto res = rep.save(producto);

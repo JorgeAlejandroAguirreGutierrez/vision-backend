@@ -32,7 +32,6 @@ public class FacturaCompraLineaService implements IFacturaCompraLineaService {
     public void validar(FacturaCompraLinea facturaCompraLinea) {
         if(facturaCompraLinea.getCantidad() <= Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
         if(facturaCompraLinea.getCostoUnitario() <= Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
-        if(facturaCompraLinea.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
     }
 
     @Override
@@ -71,7 +70,6 @@ public class FacturaCompraLineaService implements IFacturaCompraLineaService {
     public List<FacturaCompraLinea> consultar() {
         return rep.findAll();
     }
-
 
     @Override
     public Page<FacturaCompraLinea> consultarPagina(Pageable pageable){

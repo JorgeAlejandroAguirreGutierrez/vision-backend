@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.modelos.compra;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.inventario.Impuesto;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,11 +30,11 @@ public class FacturaCompraLinea extends Entidad {
     @Column(name = "total_sin_descuento", nullable = true)
     private double totalSinDescuentoLinea;
     @ManyToOne
-    @JoinColumn(name = "impuesto_id", nullable = true)
-    private Impuesto impuesto;
-    @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
+    @ManyToOne
+    @JoinColumn(name = "bodega_id", nullable = true)
+    private Bodega bodega;
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "factura_compra_id", nullable = true)
@@ -52,11 +52,11 @@ public class FacturaCompraLinea extends Entidad {
         this.valorDescuentoLinea = Constantes.cero;
         this.porcentajeDescuentoLinea = Constantes.cero;
         this.totalSinDescuentoLinea = Constantes.cero;
-        this.impuesto = new Impuesto();
+        this.bodega = new Bodega();
         this.producto = new Producto();
     }
 
     public void normalizar(){
-        if(this.impuesto == null) this.impuesto = new Impuesto();
+        if(this.bodega == null) this.bodega = new Bodega();
     }
 }

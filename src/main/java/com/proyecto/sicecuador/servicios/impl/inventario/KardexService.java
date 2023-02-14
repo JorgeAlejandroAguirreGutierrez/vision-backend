@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,5 +51,21 @@ public class KardexService implements IKardexService {
     @Override
     public Page<Kardex> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
+    }
+    @Override
+    public List<Kardex> consultarPorProducto(long productoId) {
+        return rep.consultarPorProducto(productoId);
+    }
+    @Override
+    public Kardex obtenerUltimoPorFecha(long bodegaId, long productoId) {
+        Optional<Kardex> res = rep.obtenerUltimoPorFecha(bodegaId, productoId);
+        if(res.isEmpty()){
+            return null;
+        }
+        return res.get();
+    }
+    @Override
+    public void eliminar(String documento, String operacion,String secuencia) {
+        rep.eliminar(documento, operacion, secuencia);
     }
 }
