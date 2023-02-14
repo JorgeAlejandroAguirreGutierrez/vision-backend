@@ -3,8 +3,6 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
-import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
-import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.text.DateFormat;
@@ -54,13 +51,16 @@ public class FacturaService implements IFacturaService {
         if(factura.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
         kardexService.eliminar(Constantes.factura, Constantes.operacion_venta, factura.getSecuencia());
         for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()){
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(facturaDetalle.getProducto().getId(), facturaDetalle.getBodega().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(facturaDetalle.getBodega().getId(), facturaDetalle.getProducto().getId());
+            if(ultimoKardex == null){
+                throw new DatoInvalidoException(Constantes.kardex);
+            }
             if(ultimoKardex.getSaldo() < facturaDetalle.getCantidad()){
                 throw new DatoInvalidoException(Constantes.kardex);
             }
             double saldo = ultimoKardex.getSaldo() - facturaDetalle.getCantidad();
-            Kardex kardex = new Kardex(null, new Date(), Constantes.factura, factura.getSecuencia(),
-                    Constantes.operacion_venta, Constantes.cero, facturaDetalle.getCantidad(), saldo,
+            Kardex kardex = new Kardex(null, new Date(), Constantes.factura, Constantes.operacion_venta,
+                    factura.getSecuencia(), Constantes.cero, facturaDetalle.getCantidad(), saldo,
                     Constantes.cero, facturaDetalle.getSubtotalSinDescuentoLinea(),
                     facturaDetalle.getCantidad(), facturaDetalle.getPrecio().getPrecioVentaPublicoManual(), facturaDetalle.getSubtotalSinDescuentoLinea(),
                     facturaDetalle.getBodega(), facturaDetalle.getProducto());
@@ -68,7 +68,6 @@ public class FacturaService implements IFacturaService {
         }
     }
 
-    @Transactional
     @Override
     public Factura crear(Factura factura) {
         validar(factura);
