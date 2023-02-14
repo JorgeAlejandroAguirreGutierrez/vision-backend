@@ -26,6 +26,8 @@ public class Dependiente extends Entidad {
     private double latitudgeo;
     @Column(name = "longitudgeo", nullable = true)
     private double longitudgeo;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
@@ -55,6 +57,7 @@ public class Dependiente extends Entidad {
         this.razonSocial = Constantes.vacio;
         this.direccion = Constantes.vacio;
         this.ubicacion = new Ubicacion();
+        this.estado = Constantes.activo;
         this.telefonosDependiente = Collections.emptyList();
         this.celularesDependiente = Collections.emptyList();
         this.correosDependiente = Collections.emptyList();
