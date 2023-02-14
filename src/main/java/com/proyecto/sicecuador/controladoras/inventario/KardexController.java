@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,7 +23,6 @@ import java.util.List;
 @RestController
 @RequestMapping(contexto+pathKardex)
 public class KardexController implements GenericoController<Kardex> {
-
     @Autowired
     private IKardexService servicio;
 
@@ -45,6 +43,20 @@ public class KardexController implements GenericoController<Kardex> {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         Kardex kardex=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorProducto/{productoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorProducto(@PathVariable("productoId") long productoId) {
+        List<Kardex> kardex=servicio.consultarPorProducto(productoId);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/obtenerUltimoPorFecha/{bodegaId}/{productoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerUltimoPorFecha(@PathVariable("bodegaId") long bodegaId, @PathVariable("productoId") long productoId) {
+        Kardex kardex=servicio.obtenerUltimoPorFecha(bodegaId, productoId);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

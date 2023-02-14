@@ -3,6 +3,8 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
+import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
+import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
@@ -23,6 +25,7 @@ import javax.transaction.Transactional;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,18 +49,29 @@ public class FacturaService implements IFacturaService {
         if(factura.getFacturaDetalles().isEmpty()) throw new DatoInvalidoException(Constantes.factura_detalle);
     }
 
+    private void facturar(Factura factura) {
+        if(factura.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
+        if(factura.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        kardexService.eliminar(Constantes.factura, Constantes.operacion_venta, factura.getSecuencia());
+        for(FacturaDetalle facturaDetalle: factura.getFacturaDetalles()){
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(facturaDetalle.getProducto().getId(), facturaDetalle.getBodega().getId());
+            if(ultimoKardex.getSaldo() < facturaDetalle.getCantidad()){
+                throw new DatoInvalidoException(Constantes.kardex);
+            }
+            double saldo = ultimoKardex.getSaldo() - facturaDetalle.getCantidad();
+            Kardex kardex = new Kardex(null, new Date(), Constantes.factura, factura.getSecuencia(),
+                    Constantes.operacion_venta, Constantes.cero, facturaDetalle.getCantidad(), saldo,
+                    Constantes.cero, facturaDetalle.getSubtotalSinDescuentoLinea(),
+                    facturaDetalle.getCantidad(), facturaDetalle.getPrecio().getPrecioVentaPublicoManual(), facturaDetalle.getSubtotalSinDescuentoLinea(),
+                    facturaDetalle.getBodega(), facturaDetalle.getProducto());
+            kardexService.crear(kardex);
+        }
+    }
+
     @Transactional
     @Override
     public Factura crear(Factura factura) {
         validar(factura);
-        //ACTUALIZACION DE KARDEX
-    	for(int i=0; i<factura.getFacturaDetalles().size(); i++){
-            int cantidad=factura.getFacturaDetalles().get(i).getProducto().getKardexs().size();
-            Kardex kardex_actualizar=factura.getFacturaDetalles().get(i).getProducto().getKardexs().get(cantidad-1);
-            double salida_actual=kardex_actualizar.getSalida();
-            kardex_actualizar.setSalida(salida_actual+factura.getFacturaDetalles().get(i).getCantidad());
-            kardexService.actualizar(kardex_actualizar);
-        }
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
         factura.setTipoComprobante(tipoComprobante);
         Optional<String>codigo=Util.generarCodigo(Constantes.tabla_factura);
@@ -81,6 +95,7 @@ public class FacturaService implements IFacturaService {
     	}
     	factura.setClaveAcceso(claveAcceso.get());
     	factura.setEstado(Constantes.estadoEmitida);
+        facturar(factura);
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -129,6 +144,7 @@ public class FacturaService implements IFacturaService {
         if(recaudacion != null && recaudacion.getEstado().equals(Constantes.recaudado)) {
             throw new EstadoInvalidoException(Constantes.recaudacion);
         }
+        facturar(factura);
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
