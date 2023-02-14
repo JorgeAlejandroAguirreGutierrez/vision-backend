@@ -6,7 +6,9 @@ import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.repositorios.compra.IProveedorRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IProveedorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ import java.util.Optional;
 public class ProveedorService implements IProveedorService {
     @Autowired
     private IProveedorRepository rep;
+    @Autowired
+    private IUbicacionRepository repUbicacion;
 
     @Override
     public void validar(Proveedor proveedor) {
@@ -30,10 +34,17 @@ public class ProveedorService implements IProveedorService {
         if(proveedor.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.razonSocial);
         if(proveedor.getNombreComercial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombreComercial);
         if(proveedor.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
-        if(proveedor.getEspecial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.telefono);
-        if(proveedor.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.celular);
-        if(proveedor.getFantasma().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.correo);
+        if(proveedor.getEspecial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.especial);
+        if(proveedor.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.obligadoContabilidad);
+        if(proveedor.getFantasma().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.fantasma);
         if(proveedor.getTipoIdentificacion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
+        if(proveedor.getGrupoProveedor().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.grupo_proveedor);
+        if(proveedor.getFormaPago().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.forma_pago);
+        if(proveedor.getUbicacion().getProvincia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.provincia);
+        if(proveedor.getUbicacion().getCanton().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.canton);
+        if(proveedor.getUbicacion().getParroquia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.parroquia);
+        if(proveedor.getCorreosProveedor().isEmpty()) throw new DatoInvalidoException(Constantes.correo);
+        if(proveedor.getPlazoCredito().getId() == 0 ) proveedor.setPlazoCredito(null);
     }
     
     @Override
@@ -43,6 +54,11 @@ public class ProveedorService implements IProveedorService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
+        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(proveedor.getUbicacion().getProvincia(),proveedor.getUbicacion().getCanton(), proveedor.getUbicacion().getParroquia(), Constantes.activo);
+        if(ubicacion.isEmpty()) {
+            throw new EntidadNoExistenteException(Constantes.ubicacion);
+        }
+        proveedor.setUbicacion(ubicacion.get());
     	proveedor.setCodigo(codigo.get());
     	proveedor.setEstado(Constantes.activo);
     	Proveedor res = rep.save(proveedor);
@@ -53,6 +69,11 @@ public class ProveedorService implements IProveedorService {
     @Override
     public Proveedor actualizar(Proveedor proveedor) {
     	validar(proveedor);
+        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(proveedor.getUbicacion().getProvincia(),proveedor.getUbicacion().getCanton(), proveedor.getUbicacion().getParroquia(), Constantes.activo);
+        if(ubicacion.isEmpty()) {
+            throw new EntidadNoExistenteException(Constantes.ubicacion);
+        }
+        proveedor.setUbicacion(ubicacion.get());
         Proveedor res = rep.save(proveedor);
         res.normalizar();
         return res;

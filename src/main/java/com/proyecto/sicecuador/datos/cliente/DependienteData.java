@@ -29,12 +29,12 @@ public class DependienteData implements ApplicationRunner {
         Optional<Dependiente> ant=rep.findById((long) 1);
         if (!ant.isPresent()){
             List<Dependiente> dependientes=new ArrayList<>();
-            dependientes.add(new Dependiente("DEP011907000001", "DEPENDIENTE 1 DE CLIENTE A", "CARRERA 4 # 4-4", -1.6719601146175827, -78.65041698970857, new Ubicacion(1), new Cliente(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
-            dependientes.add(new Dependiente("DEP011908000002", "DEPENDIENTE 2 DE CLIENTE A", "CARRERA 5 # 5-5", -1.6719601146175827, -78.65041698970857, new Ubicacion(1), new Cliente(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
-            dependientes.add(new Dependiente("DEP011908000003", "DEPENDIENTE 1 DE CLIENTE B", "CARRERA 6 # 6-6", -1.6719601146175827, -78.65041698970857, new Ubicacion(1), new Cliente(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
-            dependientes.add(new Dependiente("DEP011908000004", "DEPENDIENTE 2 DE CLIENTE B", "CARRERA 7 # 7-7", -1.6719601146175827, -78.65041698970857, new Ubicacion(1), new Cliente(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
-            dependientes.add(new Dependiente("DEP011908000005", "DEPENDIENTE 3 DE CLIENTE B", "CARRERA 8 # 8-8", -1.6719601146175827, -78.65041698970857, new Ubicacion(1), new Cliente(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
-            dependientes.add(new Dependiente("DEP011908000006", "DEPENDIENTE 4 DE CLIENTE B", "CARRERA 9 # 9-9", -1.6719601146175827, -78.65041698970857, new Ubicacion(1), new Cliente(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            dependientes.add(new Dependiente("DEP011907000001", "DEPENDIENTE 1 DE CLIENTE A", "CARRERA 4 # 4-4", -1.6719601146175827, -78.65041698970857, Constantes.activo, new Ubicacion(1), new Cliente(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            dependientes.add(new Dependiente("DEP011908000002", "DEPENDIENTE 2 DE CLIENTE A", "CARRERA 5 # 5-5", -1.6719601146175827, -78.65041698970857, Constantes.activo, new Ubicacion(1), new Cliente(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            dependientes.add(new Dependiente("DEP011908000003", "DEPENDIENTE 1 DE CLIENTE B", "CARRERA 6 # 6-6", -1.6719601146175827, -78.65041698970857, Constantes.activo, new Ubicacion(1), new Cliente(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            dependientes.add(new Dependiente("DEP011908000004", "DEPENDIENTE 2 DE CLIENTE B", "CARRERA 7 # 7-7", -1.6719601146175827, -78.65041698970857, Constantes.activo, new Ubicacion(1), new Cliente(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            dependientes.add(new Dependiente("DEP011908000005", "DEPENDIENTE 3 DE CLIENTE B", "CARRERA 8 # 8-8", -1.6719601146175827, -78.65041698970857, Constantes.activo, new Ubicacion(1), new Cliente(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            dependientes.add(new Dependiente("DEP011908000006", "DEPENDIENTE 4 DE CLIENTE B", "CARRERA 9 # 9-9", -1.6719601146175827, -78.65041698970857, Constantes.activo, new Ubicacion(1), new Cliente(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
             rep.saveAll(dependientes);
         }
     }

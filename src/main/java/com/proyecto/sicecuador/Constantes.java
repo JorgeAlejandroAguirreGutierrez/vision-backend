@@ -228,6 +228,11 @@ public class Constantes {
     public static final String tipo_contribuyente="TIPO CONTRIBUYENTE";
     public static final String tipo_pago="TIPO PAGO";
     
+    //COMPRA
+    public static final String retencion_compra="RETENCION COMPRA";
+    public static final String grupo_proveedor="GRUPO PROVEEDOR";
+    public static final String fantasma="EMPRESA FANTASMA";
+
     //COMPROBANTE
     public static final String factura_detalle="DETALLE FACTURA";
     public static final String egreso="EGRESO";
