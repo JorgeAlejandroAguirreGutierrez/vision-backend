@@ -6,15 +6,19 @@ import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
+import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.compra.IFacturaCompraRepository;
+import com.proyecto.sicecuador.repositorios.inventario.IKardexRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
 import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
+import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +28,8 @@ public class FacturaCompraService implements IFacturaCompraService {
     private IFacturaCompraRepository rep;
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
+    @Autowired
+    private IKardexService kardexService;
 
     @Override
     public void validar(FacturaCompra facturaCompra) {
@@ -31,6 +37,25 @@ public class FacturaCompraService implements IFacturaCompraService {
         if(facturaCompra.getProveedor().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.proveedor);
         if(facturaCompra.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(facturaCompra.getFacturaCompraLineas().isEmpty()) throw new DatoInvalidoException(Constantes.factura_compra_linea);
+    }
+
+    private void facturar(FacturaCompra facturaCompra) {
+        if(facturaCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
+        if(facturaCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        kardexService.eliminar(Constantes.factura_compra, Constantes.operacion_compra, facturaCompra.getSecuencia());
+        for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
+            double saldo = Constantes.cero;
+            if(ultimoKardex != null){
+                saldo = ultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
+            }
+            Kardex kardex = new Kardex(null, new Date(), Constantes.factura_compra, Constantes.operacion_compra,
+                    facturaCompra.getSecuencia(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
+                    facturaCompraLinea.getTotalSinDescuentoLinea(), Constantes.cero,
+                    facturaCompraLinea.getCantidad(), facturaCompraLinea.getCostoUnitario(), facturaCompraLinea.getTotalSinDescuentoLinea(),
+                    facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
+            kardexService.crear(kardex);
+        }
     }
 
     @Transactional
@@ -44,12 +69,13 @@ public class FacturaCompraService implements IFacturaCompraService {
     		throw new CodigoNoExistenteException();
     	}
     	facturaCompra.setCodigo(codigo.get());
-    	Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_factura);
+    	Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_factura_compra);
     	if (secuencia.isEmpty()) {
     		throw new SecuenciaNoExistenteException();
     	}
     	facturaCompra.setSecuencia(secuencia.get());
     	facturaCompra.setEstado(Constantes.estadoEmitida);
+        facturar(facturaCompra);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -58,6 +84,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     @Override
     public FacturaCompra actualizar(FacturaCompra facturaCompra) {
         validar(facturaCompra);
+        facturar(facturaCompra);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -167,7 +194,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     private void calcularSubtotalBase12SinDescuento(FacturaCompra facturaCompra) {
     	double subtotalBase12SinDescuento = Constantes.cero;
     	for(FacturaCompraLinea facturaCompraDetalle: facturaCompra.getFacturaCompraLineas()){
-          if (facturaCompraDetalle.getImpuesto().getPorcentaje() == Constantes.iva12){
+          if (facturaCompraDetalle.getProducto().getImpuesto().getPorcentaje() == Constantes.iva12){
             subtotalBase12SinDescuento+=facturaCompraDetalle.getTotalSinDescuentoLinea();
           }
     	}
@@ -178,7 +205,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     private void calcularSubtotalBase0SinDescuento(FacturaCompra facturaCompra) {
     	double subtotalBase0SinDescuento = Constantes.cero;
     	for(FacturaCompraLinea facturaCompraDetalle: facturaCompra.getFacturaCompraLineas()){
-          if (facturaCompraDetalle.getImpuesto().getPorcentaje() == Constantes.iva0){
+          if (facturaCompraDetalle.getProducto().getImpuesto().getPorcentaje() == Constantes.iva0){
             subtotalBase0SinDescuento += facturaCompraDetalle.getTotalSinDescuentoLinea();
           }
         }

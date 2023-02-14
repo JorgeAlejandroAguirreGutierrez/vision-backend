@@ -138,6 +138,8 @@ public class RecaudacionService implements IRecaudacionService {
         recaudacion.setTotalTarjetasCreditos(totalTarjetasCreditos);
         if(total >= recaudacion.getFactura().getTotalConDescuento()){
             recaudacion.setCambio(total-recaudacion.getFactura().getTotalConDescuento());
+        } else {
+            recaudacion.setCambio(Constantes.cero);
         }
         if(total >= recaudacion.getFactura().getTotalConDescuento()){
             total = recaudacion.getFactura().getTotalConDescuento();

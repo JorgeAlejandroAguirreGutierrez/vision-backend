@@ -39,7 +39,7 @@ public class PermisoData implements ApplicationRunner {
             permisos.add(new Permiso("PER202301000013", "VENTAS", "PROFORMAS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000014", "VENTAS", "EGRESOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000015", "VENTAS", "TRANSPORTISTAS", Constantes.si, Constantes.activo, new Perfil(1)));
-            permisos.add(new Permiso("PER202301000016", "VENTAS", "VEHICULO TRANSPORTE", Constantes.si, Constantes.activo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000016", "VENTAS", "VEHICULOS TRANSPORTES", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000017", "INVENTARIOS", "GRUPOS DE PRODUCTOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000018", "INVENTARIOS", "PRODUCTOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000019", "INVENTARIOS", "KARDEX", Constantes.si, Constantes.activo, new Perfil(1)));
@@ -94,7 +94,7 @@ public class PermisoData implements ApplicationRunner {
             permisos.add(new Permiso("PER202301000068", "VENTAS", "PROFORMAS", Constantes.si, Constantes.inactivo, new Perfil(2)));
             permisos.add(new Permiso("PER202301000069", "VENTAS", "EGRESOS", Constantes.si, Constantes.inactivo, new Perfil(2)));
             permisos.add(new Permiso("PER202301000070", "VENTAS", "TRANSPORTISTAS", Constantes.si, Constantes.inactivo, new Perfil(2)));
-            permisos.add(new Permiso("PER202301000071", "VENTAS", "VEHICULO TRANSPORTE", Constantes.si, Constantes.inactivo, new Perfil(2)));
+            permisos.add(new Permiso("PER202301000071", "VENTAS", "VEHICULOS TRANSPORTES", Constantes.si, Constantes.inactivo, new Perfil(2)));
             permisos.add(new Permiso("PER202301000072", "INVENTARIOS", "GRUPOS DE PRODUCTOS", Constantes.si, Constantes.activo, new Perfil(2)));
             permisos.add(new Permiso("PER202301000073", "INVENTARIOS", "PRODUCTOS", Constantes.si, Constantes.activo, new Perfil(2)));
             permisos.add(new Permiso("PER202301000074", "INVENTARIOS", "KARDEX", Constantes.si, Constantes.activo, new Perfil(2)));

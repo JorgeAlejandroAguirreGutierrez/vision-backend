@@ -88,7 +88,6 @@ public class Recaudacion extends Entidad {
     @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "tarjeta_credito_id", nullable = true)
     private List<TarjetaCredito> tarjetasCreditos;
-    @JsonManagedReference
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "credito_id", nullable = true)
     private Credito credito;

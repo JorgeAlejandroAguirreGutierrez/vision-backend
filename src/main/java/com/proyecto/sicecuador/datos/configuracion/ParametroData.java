@@ -69,6 +69,8 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR64", "CREAR", "", "correo_auxiliar", "COA", Constantes.activo));
             parametros.add(new Parametro("PAR65", "CREAR", "", "bodega_producto", "BOP", Constantes.activo));
             parametros.add(new Parametro("PAR66", "CREAR", "", "factura_detalle", "FDE", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "factura_compra", "FCO", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "factura_compra_detalle", "FCD", Constantes.activo));
             parametros.add(new Parametro("PAR67", "CREAR", "", "recaudacion", "REC", Constantes.activo));
             parametros.add(new Parametro("PAR67", "CREAR", "", "grupo_producto", "GRP", Constantes.activo));
             parametros.add(new Parametro("PAR67", "CREAR", "", "kardex", "KAR", Constantes.activo));

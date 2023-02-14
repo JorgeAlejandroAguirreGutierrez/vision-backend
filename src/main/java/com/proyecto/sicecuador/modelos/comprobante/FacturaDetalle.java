@@ -58,13 +58,13 @@ public class FacturaDetalle extends Entidad {
     @ManyToOne
     @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
+    @ManyToOne
+    @JoinColumn(name = "bodega_id", nullable = true)
+    private Bodega bodega;
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
-    @ManyToOne
-    @JoinColumn(name = "bodega_id", nullable = true)
-    private Bodega bodega;
 
     public FacturaDetalle(long id){
         super(id);
