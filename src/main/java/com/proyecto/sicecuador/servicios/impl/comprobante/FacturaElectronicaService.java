@@ -257,14 +257,11 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		}
 		Factura factura = opcional.get().getFactura();
 		Recaudacion recaudacion = opcional.get();
-		if(!factura.getEstado().equals(Constantes.estadoEmitida)){
-			throw new EstadoInvalidoException(Constantes.factura);
-		}
 		if(!recaudacion.getEstado().equals(Constantes.recaudado)){
 			throw new EstadoInvalidoException(Constantes.recaudacion);
 		}
+		FacturaElectronica facturaElectronica = crear(recaudacion, factura);
 		if(factura.getEstado().equals(Constantes.estadoEmitida) && recaudacion.getEstado().equals(Constantes.recaudado)) {
-			FacturaElectronica facturaElectronica = crear(recaudacion, factura);
 			String estadoRecepcion = recepcion(facturaElectronica);
 			String estadoAutorizacion = autorizacion(facturaElectronica);
 			if(estadoRecepcion.equals(Constantes.recibidaSri) && estadoAutorizacion.equals(Constantes.autorizadoSri)) {
@@ -275,9 +272,12 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				return facturada;
 			}
 			throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
+		} else if(factura.getEstado().equals(Constantes.estadoFacturada)){
+			enviarCorreo(factura, facturaElectronica);
+			factura.normalizar();
+			return factura;
 		}
 		throw new FacturaElectronicaInvalidaException(Constantes.norecaudado);
-
 	}
     
     private String recepcion(FacturaElectronica facturaElectronica) {
@@ -368,11 +368,11 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             documento.setMargins(20, 20, 20, 20);
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
-            ImageData imageData = ImageDataFactory.create(imagenes+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getLogo());
-            Image image = new Image(imageData);
-            image.setWidth(200);
-            image.setHeight(150);
-            documento.add(image);
+            //ImageData imageData = ImageDataFactory.create(imagenes+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getLogo());
+            //Image image = new Image(imageData);
+            //image.setWidth(200);
+            //image.setHeight(150);
+            //documento.add(image);
             documento.setFont(font);
             
             documento.add(new Paragraph(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+"\n"+
@@ -406,7 +406,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
                     "TELÉFONO: " + telefonoCliente + "\n" +
                     "CORREO: " + correoCliente).setBorder(new SolidBorder(1)));
             documento.add( new Paragraph("\n"));
-            float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F, 100F};
+            float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
             Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
             tablaFacturaDetalle.addCell("CÓDIGO");
             tablaFacturaDetalle.addCell("CANT");
