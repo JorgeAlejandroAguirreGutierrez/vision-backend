@@ -27,7 +27,8 @@ public class EmpresaData implements ApplicationRunner {
         Optional<Empresa> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Empresa> empresas = new ArrayList<>();
-            empresas.add(new Empresa("EMP011912001", "0603467226001", "RIO TOUR S.A.", "NOMBRE COMERCIAL RIO TOUR S.A", "empresa1.jpg", Constantes.no, "CARRERA 10 #10-10",Constantes.activo, new TipoIdentificacion(1), new Ubicacion(1)));
+            empresas.add(new Empresa("EMP011912001", "0603467226001", "RIO TOUR S.A.", "NOMBRE COMERCIAL RIO TOUR S.A", null, null, Constantes.no, "CARRERA 10 #10-10",Constantes.activo));
+            //empresas.add(new Empresa("EMP011912001", "0603467226001", "RIO TOUR S.A.", "NOMBRE COMERCIAL RIO TOUR S.A", null, null, Constantes.no, "CARRERA 10 #10-10",Constantes.activo, new TipoIdentificacion(1), new Ubicacion(1)));
             rep.saveAll(empresas);
         }
     }

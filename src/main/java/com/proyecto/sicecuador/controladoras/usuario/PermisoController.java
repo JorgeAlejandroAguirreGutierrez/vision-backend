@@ -34,6 +34,13 @@ public class PermisoController implements GenericoController<Permiso> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+        List<Permiso> permisos= servicio.consultarActivos();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, permisos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
     	Page<Permiso> permisos = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
@@ -59,6 +66,20 @@ public class PermisoController implements GenericoController<Permiso> {
     public ResponseEntity<?> actualizar(@RequestBody Permiso _permiso) {
         Permiso permiso=servicio.actualizar(_permiso);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, permiso);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activar(@RequestBody Permiso _permiso) {
+        Permiso permiso = servicio.activar(_permiso);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, permiso);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> inactivar(@RequestBody Permiso _permiso) {
+        Permiso permiso = servicio.inactivar(_permiso);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, permiso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

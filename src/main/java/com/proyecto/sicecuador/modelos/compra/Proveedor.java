@@ -124,7 +124,7 @@ public class Proveedor extends Entidad {
                      GrupoProveedor grupoProveedor, FormaPago formaPago, PlazoCredito plazoCredito,
                      Ubicacion ubicacion){
         super();
-        this.codigo = Constantes.vacio;
+        this.codigo = codigo;
     	this.tipoIdentificacion = tipoIdentificacion;
         this.tipoContribuyente=tipoContribuyente;
     	this.identificacion = identificacion;

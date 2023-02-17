@@ -37,7 +37,7 @@ public class Permiso extends Entidad {
         this.codigo = Constantes.vacio;
         this.modulo = Constantes.vacio;
         this.operacion = Constantes.vacio;
-        this.habilitado = Constantes.vacio;
+        this.habilitado = Constantes.si;
         this.estado = Constantes.activo;
     }
 }
