@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IUsuarioService;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
@@ -50,9 +53,7 @@ public class UsuarioService implements IUsuarioService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-      byte[] avatarBytes = usuario.getAvatar64().getBytes(StandardCharsets.UTF_8);
-    	//byte[] avatar = Base64.getDecoder().decode(usuario.getAvatar64());
-      usuario.setAvatar(avatarBytes);
+    	usuario.setAvatar(usuario.getAvatar64().getBytes(StandardCharsets.UTF_8));
     	usuario.setCodigo(codigo.get());
     	usuario.setEstado(Constantes.activo);
     	Usuario res = rep.save(usuario);
@@ -63,6 +64,7 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public Usuario actualizar(Usuario usuario) {
         validar(usuario);
+        usuario.setAvatar(usuario.getAvatar64().getBytes(StandardCharsets.UTF_8));
         Usuario res = rep.save(usuario);
         res.normalizar();
         return res;
@@ -90,7 +92,10 @@ public class UsuarioService implements IUsuarioService {
     public Usuario obtener(long id) {
         Optional<Usuario> usuario = rep.findById(id);
         if(usuario.isPresent()) {
-        	Usuario res = usuario.get();
+            Usuario res = usuario.get();
+            if(res.getAvatar() != null) {
+                res.setAvatar64(new String(res.getAvatar(), StandardCharsets.UTF_8));
+            }
             res.normalizar();
             return res;
         }
@@ -99,7 +104,16 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     public List<Usuario> consultar() {
-        return rep.findAll();
+        List<Usuario> usuarios = rep.findAll();
+        if(!usuarios.isEmpty()) {
+            for (Usuario usuario : usuarios){
+                if(usuario.getAvatar() != null) {
+                    usuario.setAvatar64(new String(usuario.getAvatar(), StandardCharsets.UTF_8));
+                }
+            }
+            return usuarios;
+        }
+        throw new EntidadNoExistenteException(Constantes.empresa);
     }
     
     @Override
@@ -111,11 +125,15 @@ public class UsuarioService implements IUsuarioService {
     public Page<Usuario> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-    
+
+    @Transactional
     public Usuario obtenerPorApodo(String apodo) {
     	Optional<Usuario> usuario = rep.obtenerPorApodo(apodo, Constantes.activo);
     	if(usuario.isPresent()) {
     		Usuario res = usuario.get();
+            if(res.getAvatar() != null) {
+                res.setAvatar64(new String(res.getAvatar(), StandardCharsets.UTF_8));
+            }
             res.normalizar();
             return res;
     	}

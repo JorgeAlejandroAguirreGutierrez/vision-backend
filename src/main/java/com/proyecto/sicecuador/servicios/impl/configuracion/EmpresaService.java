@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
+import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
 import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.repositorios.configuracion.IEmpresaRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IEmpresaService;
@@ -15,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +32,11 @@ public class EmpresaService implements IEmpresaService {
         if(empresa.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
         if(empresa.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.razonSocial);
         if(empresa.getNombreComercial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombreComercial);
-        if(empresa.getLogo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.logo);
-        if(empresa.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.obligadoContabilidad);
-        if(empresa.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
-        if(empresa.getTipoIdentificacion().getId() ==  Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
-        if(empresa.getUbicacion().getId() ==  Constantes.ceroId) throw new DatoInvalidoException(Constantes.ubicacion);
+        //if(empresa.getLogo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.logo);
+        //if(empresa.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.obligadoContabilidad);
+        //if(empresa.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
+        //if(empresa.getTipoIdentificacion().getId() ==  Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
+        //if(empresa.getUbicacion().getId() ==  Constantes.ceroId) throw new DatoInvalidoException(Constantes.ubicacion);
     }
 
     @Override
@@ -44,6 +47,8 @@ public class EmpresaService implements IEmpresaService {
     		throw new CodigoNoExistenteException();
     	}
     	empresa.setCodigo(codigo.get());
+        byte[] logoBytes = empresa.getLogo64().getBytes(StandardCharsets.UTF_8);
+        empresa.setLogo(logoBytes);
     	empresa.setEstado(Constantes.activo);
     	Empresa res = rep.save(empresa);
         res.normalizar();
@@ -53,6 +58,7 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Empresa actualizar(Empresa empresa) {
         validar(empresa);
+        empresa.setLogo(empresa.getLogo64().getBytes(StandardCharsets.UTF_8));
         Empresa res = rep.save(empresa);
         res.normalizar();
         return res;
@@ -81,6 +87,9 @@ public class EmpresaService implements IEmpresaService {
         Optional<Empresa> empresa = rep.findById(id);
         if(empresa.isPresent()) {
         	Empresa res = empresa.get();
+        	if(res.getLogo() != null) {
+        	    res.setLogo64(new String(res.getLogo(), StandardCharsets.UTF_8));
+        	}
             res.normalizar();
             return res;
         }
@@ -89,7 +98,16 @@ public class EmpresaService implements IEmpresaService {
 
     @Override
     public List<Empresa> consultar() {
-        return rep.findAll();
+        List<Empresa> empresas = rep.findAll();
+        if(!empresas.isEmpty()) {
+            for (Empresa empresa : empresas){
+                if(empresa.getLogo() != null) {
+                    empresa.setLogo64(new String(empresa.getLogo(), StandardCharsets.UTF_8));
+                }
+            }
+            return empresas;
+        }
+        throw new EntidadNoExistenteException(Constantes.empresa);
     }
     
     @Override

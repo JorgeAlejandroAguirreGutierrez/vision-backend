@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +28,7 @@ public class SesionService implements ISesionService {
     private IUsuarioRepository rep_usuario;
     
     @Override
+    @Transactional
     public Sesion crear(Sesion sesion) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_sesion);
     	if (codigo.isEmpty()) {
