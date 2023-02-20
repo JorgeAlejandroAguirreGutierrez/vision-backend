@@ -58,8 +58,7 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Empresa actualizar(Empresa empresa) {
         validar(empresa);
-        byte[] logoBytes = empresa.getLogo64().getBytes(StandardCharsets.UTF_8);
-        empresa.setLogo(logoBytes);
+        empresa.setLogo(empresa.getLogo64().getBytes(StandardCharsets.UTF_8));
         Empresa res = rep.save(empresa);
         res.normalizar();
         return res;
@@ -88,6 +87,9 @@ public class EmpresaService implements IEmpresaService {
         Optional<Empresa> empresa = rep.findById(id);
         if(empresa.isPresent()) {
         	Empresa res = empresa.get();
+        	if(res.getLogo() != null) {
+        	    res.setLogo64(new String(res.getLogo(), StandardCharsets.UTF_8));
+        	}
             res.normalizar();
             return res;
         }
@@ -98,7 +100,6 @@ public class EmpresaService implements IEmpresaService {
     public List<Empresa> consultar() {
         List<Empresa> empresas = rep.findAll();
         if(!empresas.isEmpty()) {
-            //UTF8Encoding utf8 = new UTF8Encoding(true, true);
             for (Empresa empresa : empresas){
                 if(empresa.getLogo() != null) {
                     empresa.setLogo64(new String(empresa.getLogo(), StandardCharsets.UTF_8));
