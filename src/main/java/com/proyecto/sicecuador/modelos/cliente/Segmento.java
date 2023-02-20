@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.inventario;
+package com.proyecto.sicecuador.modelos.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;

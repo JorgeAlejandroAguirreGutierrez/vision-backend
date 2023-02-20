@@ -2,9 +2,11 @@ package com.proyecto.sicecuador.datos.cliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.*;
+import com.proyecto.sicecuador.modelos.configuracion.EstadoCivil;
+import com.proyecto.sicecuador.modelos.configuracion.Genero;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.inventario.Segmento;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;

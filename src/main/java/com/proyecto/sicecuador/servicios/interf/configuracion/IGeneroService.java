@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.servicios.interf.cliente;
+package com.proyecto.sicecuador.servicios.interf.configuracion;
 
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.cliente.Genero;
+import com.proyecto.sicecuador.modelos.configuracion.Genero;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface IGeneroService extends IGenericoService<Genero> {

@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.modelos.usuario;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;

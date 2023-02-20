@@ -9,8 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.proyecto.sicecuador.modelos.cliente.Genero;
-import com.proyecto.sicecuador.servicios.interf.cliente.IGeneroService;
+import com.proyecto.sicecuador.servicios.interf.configuracion.IGeneroService;
 
 import static org.hamcrest.Matchers.*;
 

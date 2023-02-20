@@ -1,8 +1,8 @@
 package com.proyecto.sicecuador.datos.inventario;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.inventario.Segmento;
-import com.proyecto.sicecuador.repositorios.inventario.ISegmentoRepository;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
+import com.proyecto.sicecuador.repositorios.cliente.ISegmentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

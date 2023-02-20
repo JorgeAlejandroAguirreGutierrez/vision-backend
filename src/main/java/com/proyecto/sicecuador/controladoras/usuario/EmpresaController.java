@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.controladoras.configuracion;
+package com.proyecto.sicecuador.controladoras.usuario;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathEmpresa;
@@ -6,8 +6,8 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathEmpresa;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
-import com.proyecto.sicecuador.servicios.interf.configuracion.IEmpresaService;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
+import com.proyecto.sicecuador.servicios.interf.usuario.IEmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;

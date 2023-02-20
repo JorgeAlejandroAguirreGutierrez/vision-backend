@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.datos.cliente;
+package com.proyecto.sicecuador.datos.configuracion;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Genero;
-import com.proyecto.sicecuador.repositorios.cliente.IGeneroRepository;
+import com.proyecto.sicecuador.modelos.configuracion.Genero;
+import com.proyecto.sicecuador.repositorios.configuracion.IGeneroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
