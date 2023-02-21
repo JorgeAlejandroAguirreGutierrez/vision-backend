@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.cliente;
+package com.proyecto.sicecuador.modelos.configuracion;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.proyecto.sicecuador.Constantes;

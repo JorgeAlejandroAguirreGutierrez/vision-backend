@@ -1,19 +1,17 @@
-package com.proyecto.sicecuador.servicios.impl.inventario;
+package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.inventario.Impuesto;
-import com.proyecto.sicecuador.modelos.inventario.Segmento;
-import com.proyecto.sicecuador.repositorios.inventario.ISegmentoRepository;
-import com.proyecto.sicecuador.servicios.interf.inventario.ISegmentoService;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
+import com.proyecto.sicecuador.repositorios.cliente.ISegmentoRepository;
+import com.proyecto.sicecuador.servicios.interf.cliente.ISegmentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;

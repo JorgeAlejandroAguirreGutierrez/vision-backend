@@ -1,24 +1,19 @@
-package com.proyecto.sicecuador.servicios.impl.configuracion;
+package com.proyecto.sicecuador.servicios.impl.usuario;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
-import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
-import com.proyecto.sicecuador.repositorios.configuracion.IEmpresaRepository;
-import com.proyecto.sicecuador.servicios.interf.configuracion.IEmpresaService;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
+import com.proyecto.sicecuador.repositorios.usuario.IEmpresaRepository;
+import com.proyecto.sicecuador.servicios.interf.usuario.IEmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 

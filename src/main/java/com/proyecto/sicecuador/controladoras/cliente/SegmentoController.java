@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.controladoras.inventario;
+package com.proyecto.sicecuador.controladoras.cliente;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathSegmento;
@@ -6,8 +6,8 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathSegmento;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.inventario.Segmento;
-import com.proyecto.sicecuador.servicios.interf.inventario.ISegmentoService;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
+import com.proyecto.sicecuador.servicios.interf.cliente.ISegmentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;

@@ -1,10 +1,8 @@
-package com.proyecto.sicecuador.datos.configuracion;
+package com.proyecto.sicecuador.datos.usuario;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
-import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.repositorios.configuracion.IEmpresaRepository;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
+import com.proyecto.sicecuador.repositorios.usuario.IEmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

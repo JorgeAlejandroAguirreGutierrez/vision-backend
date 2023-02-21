@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.cliente;
+package com.proyecto.sicecuador.repositorios.configuracion;
 
-import com.proyecto.sicecuador.modelos.cliente.Genero;
+import com.proyecto.sicecuador.modelos.configuracion.Genero;
 
 import java.util.List;
 

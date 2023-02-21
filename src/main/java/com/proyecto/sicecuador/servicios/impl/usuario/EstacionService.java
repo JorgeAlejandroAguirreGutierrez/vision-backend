@@ -85,7 +85,6 @@ public class EstacionService implements IEstacionService {
     }
     
     @Override
-    @Transactional
     public List<Estacion> consultarActivos(){
     	return rep.consultarPorEstado(Constantes.activo);
     }

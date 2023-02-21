@@ -28,7 +28,6 @@ public class SesionService implements ISesionService {
     private IUsuarioRepository rep_usuario;
     
     @Override
-    @Transactional
     public Sesion crear(Sesion sesion) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_sesion);
     	if (codigo.isEmpty()) {

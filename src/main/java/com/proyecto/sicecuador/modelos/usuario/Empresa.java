@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.configuracion;
+package com.proyecto.sicecuador.modelos.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
