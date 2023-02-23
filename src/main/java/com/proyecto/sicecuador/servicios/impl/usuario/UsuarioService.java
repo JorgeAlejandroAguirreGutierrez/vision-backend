@@ -3,7 +3,9 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.exception.EntidadExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IUsuarioService;
@@ -26,8 +28,8 @@ public class UsuarioService implements IUsuarioService {
         if(usuario.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
         if(usuario.getApodo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.apodo);
         if(usuario.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
-        if(usuario.getTelefono().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.telefono);
-        if(usuario.getCelular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.celular);
+        //if(usuario.getTelefono().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.telefono);
+        //if(usuario.getCelular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.celular);
         if(usuario.getCorreo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.correo);
         if(usuario.getContrasena().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.contrasena);
         if(usuario.getConfirmarContrasena().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.confirmarContrasena);
@@ -36,17 +38,20 @@ public class UsuarioService implements IUsuarioService {
         if(usuario.getEstacion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.estacion);
         if(usuario.getPerfil().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.perfil);
         if (!usuario.getContrasena().equals(usuario.getConfirmarContrasena())) throw new DatoInvalidoException(Constantes.contrasena);
-        String digito = usuario.getTelefono().substring(0, 1);
-        if(usuario.getTelefono().length() != 11 || !digito.equals(Constantes.inicioTelefono)) throw new DatoInvalidoException(Constantes.telefono);
-        String digito2 = usuario.getCelular().substring(0, 2);
-        if(usuario.getCelular().length() != 12 || !digito2.equals(Constantes.inicioCelular)) throw new DatoInvalidoException(Constantes.celular);
+        //String digito = usuario.getTelefono().substring(0, 1);
+        //if(usuario.getTelefono().length() != 11 || !digito.equals(Constantes.inicioTelefono)) throw new DatoInvalidoException(Constantes.telefono);
+        //String digito2 = usuario.getCelular().substring(0, 2);
+        //if(usuario.getCelular().length() != 12 || !digito2.equals(Constantes.inicioCelular)) throw new DatoInvalidoException(Constantes.celular);
         if(!usuario.getCorreo().contains(Constantes.arroba)) throw new DatoInvalidoException(Constantes.correo);
     }
 
-    
     @Override
     public Usuario crear(Usuario usuario) {
         validar(usuario);
+        Optional<Usuario>buscarApodo=rep.obtenerPorApodo(usuario.getApodo(), Constantes.activo);
+        if(buscarApodo.isPresent()) {
+            throw new EntidadExistenteException(Constantes.usuario);
+        }
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_usuario);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();

@@ -8,8 +8,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public interface IClienteRepository extends IGenericoRepository<Cliente> {
 	
 	@Query(value = "select c from Cliente c where c.identificacion=:identificacion and c.estado=:estado")
