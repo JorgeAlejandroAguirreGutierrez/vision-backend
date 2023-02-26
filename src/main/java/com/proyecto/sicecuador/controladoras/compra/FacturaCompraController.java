@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.controladoras.compra;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
+import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -82,6 +83,19 @@ public class FacturaCompraController {
     public ResponseEntity<?> calcular(@RequestBody FacturaCompra _facturaCompra) {
         FacturaCompra facturaCompra = servicio.calcular(_facturaCompra);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, facturaCompra);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/calcularLinea", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> calcularLinea(@RequestBody FacturaCompraLinea _facturaCompraLinea) {
+        FacturaCompraLinea facturaCompraLinea = servicio.calcularLinea(_facturaCompraLinea);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, facturaCompraLinea);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    @GetMapping(value = "/consultarPorProveedor/{proveedorId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorProveedor(@PathVariable("proveedorId") long proveedorId) {
+        List<FacturaCompra> facturasCompras=servicio.consultarPorProveedor(proveedorId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

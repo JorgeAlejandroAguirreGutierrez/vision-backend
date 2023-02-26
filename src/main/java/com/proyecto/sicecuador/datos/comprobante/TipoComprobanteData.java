@@ -25,7 +25,7 @@ public class TipoComprobanteData implements ApplicationRunner {
             List<TipoComprobante> tipos_comprobantes = new ArrayList<>();
             tipos_comprobantes.add(new TipoComprobante("TCO000001","01", "FACTURA", "FACTURA", "factura"));
             tipos_comprobantes.add(new TipoComprobante("TCO000002","03", "LIQUIDACIÓN DE COMPRA DE BIENES Y PRESTACIÓN DE SERVICIOS", "LIQUIDACIÓN DE COMPRA DE BIENES Y PRESTACIÓN DE SERVICIOS", "pendiente revisar"));
-            tipos_comprobantes.add(new TipoComprobante("TCO000003","04", "NOTA DE CRÉDITO", "NOTA DE CRÉDITO", "nota_credito"));
+            tipos_comprobantes.add(new TipoComprobante("TCO000003","04", "NOTA DE CRÉDITO COMPRA", "NOTA DE CRÉDITO COMPRA", "nota_credito_compra"));
             tipos_comprobantes.add(new TipoComprobante("TCO000004","05", "NOTA DE DÉBITO", "NOTA DE DÉBITO", "nota_debito"));
             tipos_comprobantes.add(new TipoComprobante("TCO000005","06", "GUÍA DE REMISIÓN", "GUÍA DE REMISIÓN", "guia_remision"));
             tipos_comprobantes.add(new TipoComprobante("TCO000006","07", "COMPROBANTE DE RETENCIÓN", "COMPROBANTE DE RETENCIÓN", "retencion"));

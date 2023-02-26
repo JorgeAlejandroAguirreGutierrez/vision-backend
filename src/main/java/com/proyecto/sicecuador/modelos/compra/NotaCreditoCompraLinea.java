@@ -11,14 +11,16 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "factura_compra_linea")
+@Table(name = "nota_credito_compra_linea")
 @Data
 @AllArgsConstructor
-public class FacturaCompraLinea extends Entidad {
+public class NotaCreditoCompraLinea extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
+    @Column(name = "devolucion", nullable = true)
+    private long devolucion;
     @Column(name = "costo_unitario", nullable = true)
     private double costoUnitario;
     @Column(name = "valor_descuento_linea", nullable = true)
@@ -35,21 +37,20 @@ public class FacturaCompraLinea extends Entidad {
     private Bodega bodega;
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "factura_compra_id", nullable = true)
-    private FacturaCompra facturaCompra;
+    @JoinColumn(name = "nota_credito_compra_id", nullable = true)
+    private NotaCreditoCompra notaCreditoCompraLinea;
 
-    public FacturaCompraLinea(long id){
+    public NotaCreditoCompraLinea(long id){
         super(id);
     }
-    public FacturaCompraLinea() {
+    public NotaCreditoCompraLinea() {
         super();
         this.codigo = Constantes.vacio;
         this.cantidad = Constantes.ceroId;
+        this.devolucion = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
         this.valorDescuentoLinea = Constantes.cero;
         this.porcentajeDescuentoLinea = Constantes.cero;
         this.totalSinDescuentoLinea = Constantes.cero;
-        this.bodega = new Bodega();
-        this.producto = new Producto();
     }
 }
