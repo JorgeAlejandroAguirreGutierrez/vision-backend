@@ -1,7 +1,7 @@
 package com.proyecto.sicecuador.datos.usuario;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.Empresa;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;

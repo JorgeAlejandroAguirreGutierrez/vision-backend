@@ -34,7 +34,7 @@ public class Usuario extends Entidad {
     @Transient
     private String avatar64;
     @Lob
-    @Column(name = "avatar",nullable = true)
+    @Column(name = "avatar", nullable = true)
     private byte[] avatar;
     @Column(name = "cambiarContrasena", nullable = true)
     private String cambiarContrasena;

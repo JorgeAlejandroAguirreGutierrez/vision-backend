@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.datos.inventario;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
 import com.proyecto.sicecuador.modelos.inventario.*;
 import com.proyecto.sicecuador.repositorios.inventario.IPrecioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

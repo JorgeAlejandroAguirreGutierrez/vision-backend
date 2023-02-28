@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.inventario;
+package com.proyecto.sicecuador.repositorios.cliente;
 
-import com.proyecto.sicecuador.modelos.inventario.Segmento;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
 
 import java.util.List;
 

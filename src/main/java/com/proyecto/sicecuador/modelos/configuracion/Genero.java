@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.cliente;
+package com.proyecto.sicecuador.modelos.configuracion;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;

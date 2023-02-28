@@ -1,5 +1,5 @@
-package com.proyecto.sicecuador.repositorios.cliente;
-import com.proyecto.sicecuador.modelos.cliente.EstadoCivil;
+package com.proyecto.sicecuador.repositorios.configuracion;
+import com.proyecto.sicecuador.modelos.configuracion.EstadoCivil;
 
 import java.util.List;
 
