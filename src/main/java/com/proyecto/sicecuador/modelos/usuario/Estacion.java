@@ -17,8 +17,8 @@ public class Estacion extends Entidad {
     private String codigo;
 	@Column(name ="codigo_sri", nullable = true)
 	private String codigoSRI;
-	@Column(name = "nombre", nullable = true)
-    private String nombre;
+	@Column(name = "descripcion", nullable = true)
+    private String descripcion;
 	@Column(name = "dispositivo", nullable = true)
     private String dispositivo;
 	@Column(name = "estado", nullable = true)
@@ -34,7 +34,7 @@ public class Estacion extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.codigoSRI = Constantes.vacio;
-        this.nombre = Constantes.vacio;
+        this.descripcion = Constantes.vacio;
         this.dispositivo = Constantes.vacio;
         this.estado = Constantes.activo;
         this.establecimiento = new Establecimiento();

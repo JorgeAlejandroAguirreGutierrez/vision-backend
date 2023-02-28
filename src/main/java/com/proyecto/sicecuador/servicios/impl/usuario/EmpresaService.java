@@ -4,7 +4,9 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.exception.EntidadExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import com.proyecto.sicecuador.repositorios.usuario.IEmpresaRepository;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEmpresaService;
@@ -28,15 +30,19 @@ public class EmpresaService implements IEmpresaService {
         if(empresa.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.razonSocial);
         if(empresa.getNombreComercial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombreComercial);
         //if(empresa.getLogo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.logo);
-        //if(empresa.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.obligadoContabilidad);
-        //if(empresa.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
-        //if(empresa.getTipoIdentificacion().getId() ==  Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
+        if(empresa.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.obligadoContabilidad);
+        if(empresa.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
+        if(empresa.getTipoIdentificacion().getId() ==  Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
         //if(empresa.getUbicacion().getId() ==  Constantes.ceroId) throw new DatoInvalidoException(Constantes.ubicacion);
     }
 
     @Override
     public Empresa crear(Empresa empresa) {
         validar(empresa);
+      Optional<Empresa>buscarEmpresa=rep.obtenerPorIdentificacion(empresa.getIdentificacion(), Constantes.activo);
+      if(buscarEmpresa.isPresent()) {
+          throw new EntidadExistenteException(Constantes.empresa);
+      }
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_empresa);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
