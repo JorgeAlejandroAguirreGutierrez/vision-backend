@@ -39,10 +39,10 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Empresa crear(Empresa empresa) {
         validar(empresa);
-        Optional<Empresa>buscarEmpresa=rep.obtenerPorIdentificacion(empresa.getIdentificacion(), Constantes.activo);
-        if(buscarEmpresa.isPresent()) {
-            throw new EntidadExistenteException(Constantes.empresa);
-        }
+      Optional<Empresa>buscarEmpresa=rep.obtenerPorIdentificacion(empresa.getIdentificacion(), Constantes.activo);
+      if(buscarEmpresa.isPresent()) {
+          throw new EntidadExistenteException(Constantes.empresa);
+      }
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_empresa);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
