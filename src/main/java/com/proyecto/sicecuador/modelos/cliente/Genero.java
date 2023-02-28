@@ -7,8 +7,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_genero;
+
 @Entity
-@Table(name = "genero")
+@Table(name = tabla_genero)
 @Data
 @AllArgsConstructor
 public class Genero extends Entidad {

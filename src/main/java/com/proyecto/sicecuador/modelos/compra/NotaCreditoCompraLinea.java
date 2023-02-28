@@ -10,8 +10,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_nota_credito_compra_linea;
+
 @Entity
-@Table(name = "nota_credito_compra_linea")
+@Table(name = tabla_nota_credito_compra_linea)
 @Data
 @AllArgsConstructor
 public class NotaCreditoCompraLinea extends Entidad {

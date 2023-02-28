@@ -6,12 +6,12 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.List;
-
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_telefono_establecimiento;
+
 @Entity
-@Table(name = "telefono_establecimiento")
+@Table(name = tabla_telefono_establecimiento)
 @Data
 @AllArgsConstructor
 public class TelefonoEstablecimiento extends Entidad {

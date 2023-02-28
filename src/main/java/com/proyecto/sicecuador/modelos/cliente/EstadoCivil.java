@@ -8,8 +8,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_estado_civil;
+
 @Entity
-@Table(name = "estado_civil")
+@Table(name = tabla_estado_civil)
 @Data
 @AllArgsConstructor
 public class EstadoCivil extends Entidad {

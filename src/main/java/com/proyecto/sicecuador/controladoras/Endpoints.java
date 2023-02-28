@@ -43,6 +43,7 @@ public class Endpoints {
     public static final String pathPedido="pedido";
     public static final String pathProforma="proforma";
     public static final String pathTipoComprobante="tipoComprobante";
+    public static final String pathNotaCreditoVenta="notaCreditoVenta";
     
     //CONFIGURACION
     public static final String pathEmpresa="empresa";

@@ -9,8 +9,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
+import static com.proyecto.sicecuador.Constantes.tabla_cheque;
+
 @Entity
-@Table(name = "cheque")
+@Table(name = tabla_cheque)
 @Data
 @AllArgsConstructor
 public class Cheque extends Entidad {

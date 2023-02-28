@@ -10,8 +10,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_factura_compra_linea;
+
 @Entity
-@Table(name = "factura_compra_linea")
+@Table(name = tabla_factura_compra_linea)
 @Data
 @AllArgsConstructor
 public class FacturaCompraLinea extends Entidad {

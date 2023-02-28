@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_afectacion_contable;
 
 @Entity
-@Table(name = "afectacion_contable")
+@Table(name = tabla_afectacion_contable)
 @Data
 @AllArgsConstructor
 public class AfectacionContable extends Entidad {

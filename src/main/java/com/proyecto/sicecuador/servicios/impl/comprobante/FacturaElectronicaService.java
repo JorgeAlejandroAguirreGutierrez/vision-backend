@@ -1,8 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.comprobante;
 
 import com.itextpdf.io.font.constants.StandardFonts;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
@@ -10,7 +8,6 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.SolidBorder;
-import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
@@ -22,18 +19,18 @@ import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.exception.EstadoInvalidoException;
 import com.proyecto.sicecuador.exception.FacturaElectronicaInvalidaException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.comprobante.FacturaDetalle;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalle;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Detalles;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaElectronica;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Impuesto;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Impuestos;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoFactura;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.InfoTributaria;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Pago;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.Pagos;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.TotalConImpuestos;
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.TotalImpuesto;
+import com.proyecto.sicecuador.modelos.comprobante.FacturaLinea;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Detalle;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Detalles;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.FacturaElectronica;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Impuesto;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Impuestos;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.InfoFactura;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.InfoTributaria;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Pago;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Pagos;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.TotalConImpuestos;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.TotalImpuesto;
 import com.proyecto.sicecuador.modelos.recaudacion.Cheque;
 import com.proyecto.sicecuador.modelos.recaudacion.Deposito;
 import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
@@ -88,7 +85,6 @@ import java.util.Properties;
 public class FacturaElectronicaService implements IFacturaElectronicaService{
     @Autowired
     private IRecaudacionRepository rep;
-    
     @Autowired
     private IFacturaRepository repFactura;
     
@@ -100,7 +96,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     
     @Value("${correo.contrasena}")
     private String correoContrasena;
-
     
     private FacturaElectronica crear(Recaudacion recaudacion, Factura factura) {    	
     	//MAPEO A FACTURA ELECTRONICA
@@ -147,13 +142,13 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     private TotalConImpuestos crearTotalConImpuestos(Factura factura){
     	TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
     	List<TotalImpuesto> totalImpuestos = new ArrayList<>();
-    	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
+    	for(int i = 0; i<factura.getFacturaLineas().size(); i++) {
         	TotalImpuesto totalImpuesto = new TotalImpuesto();
     		totalImpuesto.setCodigo(Constantes.iva_sri);
-        	totalImpuesto.setCodigoPorcentaje(factura.getFacturaDetalles().get(i).getImpuesto().getCodigoSRI());
-        	totalImpuesto.setDescuentoAdicional(factura.getFacturaDetalles().get(i).getTotalDescuentoLinea());
-        	totalImpuesto.setBaseImponible(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
-        	totalImpuesto.setValor(factura.getFacturaDetalles().get(i).getIvaConDescuentoLinea());
+        	totalImpuesto.setCodigoPorcentaje(factura.getFacturaLineas().get(i).getImpuesto().getCodigoSRI());
+        	totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getTotalDescuentoLinea());
+        	totalImpuesto.setBaseImponible(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
+        	totalImpuesto.setValor(factura.getFacturaLineas().get(i).getIvaConDescuentoLinea());
         	totalImpuestos.add(totalImpuesto);
     	}
     	totalConImpuestos.setTotalImpuesto(totalImpuestos);
@@ -220,30 +215,30 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     private Detalles crearDetalles(Factura factura) {
     	Detalles detalles=new Detalles();
     	List<Detalle> detalleLista = new ArrayList<>();
-    	for(int i=0; i<factura.getFacturaDetalles().size(); i++) {
+    	for(int i = 0; i<factura.getFacturaLineas().size(); i++) {
     		Detalle detalle = new Detalle();
-    		detalle.setCodigoPrincipal(factura.getFacturaDetalles().get(i).getProducto().getCodigo());
-    		detalle.setDescripcion(factura.getFacturaDetalles().get(i).getProducto().getNombre());
-    		detalle.setCantidad(factura.getFacturaDetalles().get(i).getCantidad());
-    		detalle.setPrecioUnitario(factura.getFacturaDetalles().get(i).getPrecio().getPrecioVentaPublico());
-    		detalle.setDescuento(factura.getFacturaDetalles().get(i).getTotalDescuentoLinea());
-    		detalle.setPrecioTotalSinImpuesto(factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
-    		detalle.setImpuestos(crearImpuestos(factura.getFacturaDetalles().get(i)));
+    		detalle.setCodigoPrincipal(factura.getFacturaLineas().get(i).getProducto().getCodigo());
+    		detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
+    		detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
+    		detalle.setPrecioUnitario(factura.getFacturaLineas().get(i).getPrecio().getPrecioVentaPublicoManual());
+    		detalle.setDescuento(factura.getFacturaLineas().get(i).getTotalDescuentoLinea());
+    		detalle.setPrecioTotalSinImpuesto(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
+    		detalle.setImpuestos(crearImpuestos(factura.getFacturaLineas().get(i)));
     		detalleLista.add(detalle);
     	}
     	detalles.setDetalle(detalleLista);
     	return detalles;
     }
     
-    private Impuestos crearImpuestos(FacturaDetalle facturaDetalle) {
+    private Impuestos crearImpuestos(FacturaLinea facturaLinea) {
     	Impuestos impuestos=new Impuestos();
     	List<Impuesto> impuestoLista = new ArrayList<>();
     	Impuesto impuesto=new Impuesto();
     	impuesto.setCodigo(Constantes.iva_sri);
-    	impuesto.setCodigoPorcentaje(facturaDetalle.getImpuesto().getCodigoSRI());
-    	impuesto.setTarifa(facturaDetalle.getImpuesto().getPorcentaje());
-    	impuesto.setBaseImponible(facturaDetalle.getSubtotalConDescuentoLinea());
-    	impuesto.setValor(facturaDetalle.getIvaConDescuentoLinea());
+    	impuesto.setCodigoPorcentaje(facturaLinea.getImpuesto().getCodigoSRI());
+    	impuesto.setTarifa(facturaLinea.getImpuesto().getPorcentaje());
+    	impuesto.setBaseImponible(facturaLinea.getSubtotalConDescuentoLinea());
+    	impuesto.setValor(facturaLinea.getIvaConDescuentoLinea());
     	impuestoLista.add(impuesto);
     	impuestos.setImpuesto(impuestoLista);
     	return impuestos;
@@ -414,14 +409,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             tablaFacturaDetalle.addCell("PRECIO U");
             tablaFacturaDetalle.addCell("DSCTO");
             tablaFacturaDetalle.addCell("TOTAL");
-            for (int i = 0; i <factura.getFacturaDetalles().size(); i++)
+            for (int i = 0; i <factura.getFacturaLineas().size(); i++)
             {
-                tablaFacturaDetalle.addCell(factura.getFacturaDetalles().get(i).getProducto().getCodigo());
-                tablaFacturaDetalle.addCell(factura.getFacturaDetalles().get(i).getCantidad()+"");
-                tablaFacturaDetalle.addCell(factura.getFacturaDetalles().get(i).getProducto().getNombre());
-                tablaFacturaDetalle.addCell("$"+factura.getFacturaDetalles().get(i).getPrecio().getPrecioSinIva());
-                tablaFacturaDetalle.addCell("$"+factura.getFacturaDetalles().get(i).getValorDescuentoLinea());
-                tablaFacturaDetalle.addCell("$"+factura.getFacturaDetalles().get(i).getSubtotalConDescuentoLinea());
+                tablaFacturaDetalle.addCell(factura.getFacturaLineas().get(i).getProducto().getCodigo());
+                tablaFacturaDetalle.addCell(factura.getFacturaLineas().get(i).getCantidad()+"");
+                tablaFacturaDetalle.addCell(factura.getFacturaLineas().get(i).getProducto().getNombre());
+                tablaFacturaDetalle.addCell("$"+factura.getFacturaLineas().get(i).getPrecio().getPrecioSinIva());
+                tablaFacturaDetalle.addCell("$"+factura.getFacturaLineas().get(i).getValorDescuentoLinea());
+                tablaFacturaDetalle.addCell("$"+factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
             }
             documento.add(tablaFacturaDetalle);
             documento.add( new Paragraph("\n"));

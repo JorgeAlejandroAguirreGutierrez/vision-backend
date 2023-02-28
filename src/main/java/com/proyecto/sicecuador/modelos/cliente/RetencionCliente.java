@@ -9,8 +9,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_retencion_cliente;
+
 @Entity
-@Table(name = "retencion_cliente")
+@Table(name = tabla_retencion_cliente)
 @Data
 @AllArgsConstructor
 public class RetencionCliente extends Entidad {

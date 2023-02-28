@@ -73,6 +73,8 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR66", "CREAR", "", "factura_compra_linea", "FCL", Constantes.activo));
             parametros.add(new Parametro("PAR66", "CREAR", "", "nota_credito_compra", "NCC", Constantes.activo));
             parametros.add(new Parametro("PAR66", "CREAR", "", "nota_credito_compra_linea", "NCCL", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "nota_credito_venta", "NCV", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "nota_credito_venta_linea", "NCVE", Constantes.activo));
             parametros.add(new Parametro("PAR67", "CREAR", "", "recaudacion", "REC", Constantes.activo));
             parametros.add(new Parametro("PAR67", "CREAR", "", "grupo_producto", "GRP", Constantes.activo));
             parametros.add(new Parametro("PAR67", "CREAR", "", "kardex", "KAR", Constantes.activo));

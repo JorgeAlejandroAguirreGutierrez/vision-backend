@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_parametro;
 
 @Entity
-@Table(name = "parametro")
+@Table(name = tabla_parametro)
 @Data
 @AllArgsConstructor
 public class Parametro extends Entidad {

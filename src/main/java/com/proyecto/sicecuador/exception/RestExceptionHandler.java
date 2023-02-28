@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.exception;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.comprobante.facturacionelectronica.factura.FacturaElectronica;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

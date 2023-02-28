@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_grupo_cliente;
+
 @Entity
-@Table(name = "grupo_cliente")
+@Table(name = tabla_grupo_cliente)
 @Data
 @AllArgsConstructor
 public class GrupoCliente extends Entidad {

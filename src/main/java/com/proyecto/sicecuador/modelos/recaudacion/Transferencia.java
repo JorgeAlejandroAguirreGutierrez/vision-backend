@@ -8,8 +8,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
+import static com.proyecto.sicecuador.Constantes.tabla_transferencia;
+
 @Entity
-@Table(name = "transferencia")
+@Table(name = tabla_transferencia)
 @Data
 @AllArgsConstructor
 public class Transferencia extends Entidad {

@@ -13,8 +13,10 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_proveedor;
+
 @Entity
-@Table(name = "proveedor")
+@Table(name = tabla_proveedor)
 @Data
 @AllArgsConstructor
 public class Proveedor extends Entidad {

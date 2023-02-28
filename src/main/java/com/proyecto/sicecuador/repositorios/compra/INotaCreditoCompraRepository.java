@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface INotaCreditoCompraRepository extends JpaRepository<NotaCreditoCompra, Long>, JpaSpecificationExecutor<NotaCreditoCompra> {
-	@Query(value = "select ncc from FacturaCompra ncc where ncc.estado=:estado")
+	@Query(value = "select ncc from NotaCreditoCompra ncc where ncc.estado = :estado")
     List<NotaCreditoCompra> consultarPorEstado(String estado);
 
 }

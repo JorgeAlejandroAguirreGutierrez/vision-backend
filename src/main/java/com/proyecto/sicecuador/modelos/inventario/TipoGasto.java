@@ -6,8 +6,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_tipo_gasto;
+
 @Entity
-@Table(name = "tipo_gasto")
+@Table(name = tabla_tipo_gasto)
 @Data
 @AllArgsConstructor
 public class TipoGasto extends Entidad {

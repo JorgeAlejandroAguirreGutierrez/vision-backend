@@ -6,8 +6,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_cuenta_contable;
+
 @Entity
-@Table(name = "cuenta_contable")
+@Table(name = tabla_cuenta_contable)
 @Data
 @AllArgsConstructor
 public class CuentaContable extends Entidad {

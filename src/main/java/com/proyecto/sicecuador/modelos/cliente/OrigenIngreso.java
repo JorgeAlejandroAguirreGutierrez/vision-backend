@@ -7,10 +7,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-import java.util.List;
+import static com.proyecto.sicecuador.Constantes.tabla_origen_ingreso;
 
 @Entity
-@Table(name = "origen_ingreso")
+@Table(name = tabla_origen_ingreso)
 @Data
 @AllArgsConstructor
 public class OrigenIngreso extends Entidad {

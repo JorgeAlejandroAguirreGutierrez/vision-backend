@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import static com.proyecto.sicecuador.Constantes.tabla_calificacion_cliente;
+
 @Entity
-@Table(name = "calificacion_cliente")
+@Table(name = tabla_calificacion_cliente)
 @Data
 @AllArgsConstructor
 public class CalificacionCliente extends Entidad {

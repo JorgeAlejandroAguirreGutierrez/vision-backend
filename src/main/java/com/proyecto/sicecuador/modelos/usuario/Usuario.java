@@ -6,8 +6,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_usuario;
+
 @Entity
-@Table(name = "usuario")
+@Table(name = tabla_usuario)
 @Data
 @AllArgsConstructor
 public class Usuario extends Entidad {

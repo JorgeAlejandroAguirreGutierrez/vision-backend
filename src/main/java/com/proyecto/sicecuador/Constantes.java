@@ -23,6 +23,8 @@ public class Constantes {
     public static final String factura_compra_linea = "FACTURA DE COMPRA LINEA";
     public static final String nota_credito_compra = "NOTA CREDITO DE COMPRA";
     public static final String nota_credito_compra_linea = "NOTA CREDITO DE COMPRA LINEA";
+    public static final String nota_credito_venta = "NOTA CREDITO DE VENTA";
+    public static final String nota_credito_venta_linea = "NOTA CREDITO DE VENTA LINEA";
     public static final String factura_venta = "FACTURA DE VENTA";
     public static final String operacion_compra = "COMPRA";
     public static final String operacion_venta = "VENTA";
@@ -113,7 +115,9 @@ public class Constantes {
     public static final String tabla_cliente="cliente";
     public static final String tabla_correo="correo";
     public static final String tabla_correo_dependiente="correo_dependiente";
+    public static final String tabla_dependiente = "dependiente";
     public static final String tabla_direccion="direccion";
+
     public static final String tabla_estado_civil="estado_civil";
     public static final String tabla_financiamiento="financiamiento";
     public static final String tabla_forma_pago="forma_pago";
@@ -128,20 +132,25 @@ public class Constantes {
     public static final String tabla_tipo_pago="tipo_pago";
     
     //COMPRA
+    public static final String tabla_telefono_proveedor="telefono_proveedor";
+    public static final String tabla_celular_proveedor="celular_proveedor";
+    public static final String tabla_correo_proveedor="correo_proveedor";
     public static final String tabla_factura_compra="factura_compra";
     public static final String tabla_factura_compra_linea="factura_compra_linea";
     public static final String tabla_nota_credito_compra="nota_credito_compra";
-    public static final String tabla_noa_credito_compra_linea="nota_credito_compra_linea";
+    public static final String tabla_nota_credito_compra_linea="nota_credito_compra_linea";
     public static final String tabla_retencion_compra="retencion_compra";
     public static final String tabla_grupo_proveedor="grupo_proveedor";
     
     //COMPROBANTE
-    public static final String tabla_factura_detalle="detalle_factura";
+    public static final String tabla_factura_linea="factura_linea";
     public static final String tabla_egreso="egreso";
     public static final String tabla_factura="factura";
     public static final String tabla_pedido="pedido";
     public static final String tabla_proforma="proforma";
     public static final String tabla_tipo_comprobante="tipo_comprobante";
+    public static final String tabla_nota_credito_venta="nota_credito_venta";
+    public static final String tabla_nota_credito_venta_linea="nota_credito_venta_linea";
     
     //CONFIGURACION
     public static final String tabla_empresa="empresa";
@@ -151,7 +160,7 @@ public class Constantes {
     public static final String tabla_tipo_identificacion="tipo_identificacion";
     
     //ENTREGA
-    public static final String tabla_entrega="entrega";
+    public static final String tabla_guia_remision="guia_remision";
     public static final String tabla_transportista="transportista";
     public static final String tabla_vehiculo_transporte="vehiculo_transporte";
     
@@ -191,9 +200,10 @@ public class Constantes {
     public static final String tabla_retencion_venta_detalle="retencion_Venta_detalle";
     public static final String tabla_tarjeta_credito="tarjeta_credito";
     public static final String tabla_tarjeta_debito="tarjeta_debito";
-    public static final String tabla_tranferencia="transferencia";
+    public static final String tabla_transferencia="transferencia";
     
     //USUARIO
+    public static final String tabla_telefono_establecimiento="telefono_establecimiento";
     public static final String tabla_celular_establecimiento="celular_establecimiento";
     public static final String tabla_correo_establecimiento="correo_establecimiento";
     public static final String tabla_establecimiento="establecimiento";
@@ -202,7 +212,6 @@ public class Constantes {
     public static final String tabla_perfil="perfil";
     public static final String tabla_permiso="permiso";
     public static final String tabla_sesion="sesion";
-    public static final String tabla_telefono_establecimiento="telefono_establecimiento";
     public static final String tabla_usuario="usuario";
 	
     //CONTABILIDAD
@@ -244,6 +253,8 @@ public class Constantes {
     public static final String factura_detalle="DETALLE FACTURA";
     public static final String egreso="EGRESO";
     public static final String factura="FACTURA";
+    public static final String nota_credito="NOTA CREDITO";
+    public static final String nota_debito="NOTA DEBITO";
     public static final String factura_electronica="FACTURA ELECTRONICA";
     public static final String pedido="PEDIDO";
     public static final String proforma="PROFORMA";

@@ -6,8 +6,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_medida;
+
 @Entity
-@Table(name = "medida")
+@Table(name = tabla_medida)
 @Data
 @AllArgsConstructor
 public class Medida extends Entidad {

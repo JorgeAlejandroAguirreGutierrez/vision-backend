@@ -7,10 +7,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_sesion;
 
 @Entity
-@Table(name = "sesion")
+@Table(name = tabla_sesion)
 @Data
 @AllArgsConstructor
 public class Sesion extends Entidad {

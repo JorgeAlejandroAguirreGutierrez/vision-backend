@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_tipo_retencion;
 
 @Entity
-@Table(name = "tipo_retencion")
+@Table(name = tabla_tipo_retencion)
 @Data
 @AllArgsConstructor
 public class TipoRetencion extends Entidad {

@@ -6,10 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_ubicacion;
 
 @Entity
-@Table(name = "ubicacion")
+@Table(name = tabla_ubicacion)
 @Data
 @AllArgsConstructor
 public class Ubicacion extends Entidad {

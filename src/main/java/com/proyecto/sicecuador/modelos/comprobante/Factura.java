@@ -13,8 +13,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_factura;
+
 @Entity
-@Table(name = "factura")
+@Table(name = tabla_factura)
 @Data
 @AllArgsConstructor
 public class Factura extends Entidad {
@@ -77,7 +79,7 @@ public class Factura extends Entidad {
 	@JsonManagedReference
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "factura_id", nullable = true)
-	private List<FacturaDetalle> facturaDetalles;
+	private List<FacturaLinea> facturaLineas;
 
 	public Factura(long id){
 		super(id);
@@ -110,7 +112,7 @@ public class Factura extends Entidad {
 		this.cliente = new Cliente();
 		this.sesion = new Sesion();
 		this.tipoComprobante = new TipoComprobante();
-		this.facturaDetalles = Collections.emptyList();
+		this.facturaLineas = Collections.emptyList();
 	}
 
 	public void normalizar(){
@@ -118,6 +120,6 @@ public class Factura extends Entidad {
 		if(this.cliente == null) this.cliente = new Cliente();
 		if(this.sesion == null) this.sesion = new Sesion();
 		if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
-		if(this.facturaDetalles.isEmpty()) this.facturaDetalles = Collections.emptyList();
+		if(this.facturaLineas.isEmpty()) this.facturaLineas = Collections.emptyList();
 	}
 }

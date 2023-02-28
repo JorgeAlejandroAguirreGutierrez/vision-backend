@@ -6,10 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_tipo_contribuyente;
 
 @Entity
-@Table(name = "tipo_contribuyente")
+@Table(name = tabla_tipo_contribuyente)
 @Data
 @AllArgsConstructor
 public class TipoContribuyente extends Entidad {

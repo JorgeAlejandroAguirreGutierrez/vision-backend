@@ -8,8 +8,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_tarjeta_debito;
+
 @Entity
-@Table(name = "tarjeta_debito")
+@Table(name = tabla_tarjeta_debito)
 @Data
 @AllArgsConstructor
 public class TarjetaDebito extends Entidad {

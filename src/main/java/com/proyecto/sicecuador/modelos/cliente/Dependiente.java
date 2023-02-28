@@ -11,8 +11,10 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_dependiente;
+
 @Entity
-@Table(name = "dependiente")
+@Table(name = tabla_dependiente)
 @Data
 @AllArgsConstructor
 public class Dependiente extends Entidad {

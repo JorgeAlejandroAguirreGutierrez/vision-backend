@@ -6,10 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_categoria_producto;
 
 @Entity
-@Table(name = "categoria_producto")
+@Table(name = tabla_categoria_producto)
 @Data
 @AllArgsConstructor
 public class CategoriaProducto extends Entidad {

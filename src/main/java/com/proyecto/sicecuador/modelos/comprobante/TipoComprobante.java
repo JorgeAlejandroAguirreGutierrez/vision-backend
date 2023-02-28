@@ -6,8 +6,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_tipo_comprobante;
+
 @Entity
-@Table(name = "tipo_comprobante")
+@Table(name = tabla_tipo_comprobante)
 @Data
 @AllArgsConstructor
 public class TipoComprobante extends Entidad {

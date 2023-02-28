@@ -6,8 +6,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_impuesto;
+
 @Entity
-@Table(name = "impuesto")
+@Table(name = tabla_impuesto)
 @Data
 @AllArgsConstructor
 public class Impuesto extends Entidad {

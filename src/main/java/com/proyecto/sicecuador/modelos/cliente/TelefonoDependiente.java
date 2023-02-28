@@ -8,8 +8,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_telefono_dependiente;
+
 @Entity
-@Table(name = "telefono_dependiente")
+@Table(name = tabla_telefono_dependiente)
 @Data
 @AllArgsConstructor
 public class TelefonoDependiente extends Entidad {

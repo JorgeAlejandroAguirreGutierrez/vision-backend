@@ -9,8 +9,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
+import static com.proyecto.sicecuador.Constantes.tabla_deposito;
+
 @Entity
-@Table(name = "deposito")
+@Table(name = tabla_deposito)
 @Data
 @AllArgsConstructor
 public class Deposito extends Entidad {

@@ -9,8 +9,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
+import static com.proyecto.sicecuador.Constantes.tabla_kardex;
+
 @Entity
-@Table(name = "kardex")
+@Table(name = tabla_kardex)
 @Data
 @AllArgsConstructor
 public class Kardex extends Entidad {

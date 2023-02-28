@@ -12,8 +12,10 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_establecimiento;
+
 @Entity
-@Table(name = "establecimiento")
+@Table(name = tabla_establecimiento)
 @Data
 @AllArgsConstructor
 public class Establecimiento extends Entidad {

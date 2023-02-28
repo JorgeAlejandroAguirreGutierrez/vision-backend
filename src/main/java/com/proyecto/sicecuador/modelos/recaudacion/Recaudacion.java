@@ -14,8 +14,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_recaudacion;
+
 @Entity
-@Table(name = "recaudacion")
+@Table(name = tabla_recaudacion)
 @Data
 @AllArgsConstructor
 public class Recaudacion extends Entidad {

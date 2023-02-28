@@ -13,8 +13,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_nota_credito_compra;
+
 @Entity
-@Table(name = "nota_credito_compra")
+@Table(name = tabla_nota_credito_compra)
 @Data
 @AllArgsConstructor
 public class NotaCreditoCompra extends Entidad {

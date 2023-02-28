@@ -6,10 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_transportista;
 
 @Entity
-@Table(name = "transportista")
+@Table(name = tabla_transportista)
 @Data
 @AllArgsConstructor
 public class Transportista extends Entidad {

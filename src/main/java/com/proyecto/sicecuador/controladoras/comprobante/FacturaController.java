@@ -3,7 +3,9 @@ package com.proyecto.sicecuador.controladoras.comprobante;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.comprobante.FacturaLinea;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -93,6 +95,20 @@ public class FacturaController implements GenericoController<Factura> {
     public ResponseEntity<?> calcular(@RequestBody @Valid Factura _factura) {
         Factura factura=servicio.calcular(_factura);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, factura);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/calcularLinea", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> calcularLinea(@RequestBody FacturaLinea _facturaLinea) {
+        FacturaLinea facturaLinea=servicio.calcularLinea(_facturaLinea);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, facturaLinea);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorCliente/{clienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorProveedor(@PathVariable("clienteId") long clienteId) {
+        List<Factura> facturas = servicio.consultarPorCliente(clienteId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

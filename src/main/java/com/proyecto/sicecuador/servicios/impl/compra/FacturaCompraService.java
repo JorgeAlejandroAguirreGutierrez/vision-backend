@@ -135,7 +135,6 @@ public class FacturaCompraService implements IFacturaCompraService {
 
     @Override
     public FacturaCompra calcular(FacturaCompra facturaCompra) {
-
     		this.calcularTotalSinDescuentoLinea(facturaCompra);
             this.calcularDescuentoTotal(facturaCompra);
     		this.calcularSubtotalSinDescuento(facturaCompra);
@@ -238,7 +237,6 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
     @Override
     public List<FacturaCompra> consultarPorProveedor(long proveedorId) {
-        List<FacturaCompra> facturasCompras = rep.consultarPorProveedor(proveedorId, Constantes.estadoFacturada);
-        return facturasCompras;
+        return rep.consultarPorProveedor(proveedorId, Constantes.estadoFacturada);
     }
 }
