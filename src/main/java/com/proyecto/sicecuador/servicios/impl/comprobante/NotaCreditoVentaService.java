@@ -215,8 +215,8 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
      */
     private void calcularSubtotalSinDescuento(NotaCreditoVenta notaCreditoVenta) {
     	double subtotalSinDescuento = Constantes.cero;
-        for(NotaCreditoVentaLinea notaCreditoCompraLinea: notaCreditoVenta.getNotaCreditoVentaLineas()){
-          subtotalSinDescuento+=notaCreditoCompraLinea.getTotalSinDescuentoLinea();
+        for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()){
+          subtotalSinDescuento += notaCreditoVentaLinea.getTotalSinDescuentoLinea();
         }
         subtotalSinDescuento=Math.round(subtotalSinDescuento*100.0)/100.0;
         notaCreditoVenta.setSubtotalSinDescuento(subtotalSinDescuento);
@@ -224,9 +224,9 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     
     private void calcularSubtotalBase12SinDescuento(NotaCreditoVenta notaCreditoVenta) {
     	double subtotalBase12SinDescuento = Constantes.cero;
-    	for(NotaCreditoVentaLinea notaCreditoCompraLinea: notaCreditoVenta.getNotaCreditoVentaLineas()){
-          if (notaCreditoCompraLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva12){
-            subtotalBase12SinDescuento+=notaCreditoCompraLinea.getTotalSinDescuentoLinea();
+    	for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()){
+          if (notaCreditoVentaLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva12){
+            subtotalBase12SinDescuento += notaCreditoVentaLinea.getTotalSinDescuentoLinea();
           }
     	}
         subtotalBase12SinDescuento= Math.round(subtotalBase12SinDescuento*100.0)/100.0;
@@ -235,9 +235,9 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     
     private void calcularSubtotalBase0SinDescuento(NotaCreditoVenta notaCreditoVenta) {
     	double subtotalBase0SinDescuento = Constantes.cero;
-    	for(NotaCreditoVentaLinea notaCreditoCompraLinea: notaCreditoVenta.getNotaCreditoVentaLineas()){
-          if (notaCreditoCompraLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva0){
-            subtotalBase0SinDescuento += notaCreditoCompraLinea.getTotalSinDescuentoLinea();
+    	for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()){
+          if (notaCreditoVentaLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva0){
+            subtotalBase0SinDescuento += notaCreditoVentaLinea.getTotalSinDescuentoLinea();
           }
         }
         subtotalBase0SinDescuento = Math.round(subtotalBase0SinDescuento*100.0)/100.0;

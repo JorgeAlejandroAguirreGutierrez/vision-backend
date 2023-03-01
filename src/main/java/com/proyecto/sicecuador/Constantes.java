@@ -26,6 +26,8 @@ public class Constantes {
     public static final String nota_credito_venta = "NOTA CREDITO DE VENTA";
     public static final String nota_credito_venta_linea = "NOTA CREDITO DE VENTA LINEA";
     public static final String factura_venta = "FACTURA DE VENTA";
+    public static final String nota_debito_venta = "NOTA DEBITO DE VENTA";
+    public static final String nota_debito_venta_linea = "NOTA DEBITO DE VENTA LINEA";
     public static final String operacion_compra = "COMPRA";
     public static final String operacion_venta = "VENTA";
     public static final String operacion_devolucion = "DEVOLUCION";
@@ -151,6 +153,8 @@ public class Constantes {
     public static final String tabla_tipo_comprobante="tipo_comprobante";
     public static final String tabla_nota_credito_venta="nota_credito_venta";
     public static final String tabla_nota_credito_venta_linea="nota_credito_venta_linea";
+    public static final String tabla_nota_debito_venta="nota_debito_venta";
+    public static final String tabla_nota_debito_venta_linea="nota_debito_venta_linea";
     
     //CONFIGURACION
     public static final String tabla_empresa="empresa";
