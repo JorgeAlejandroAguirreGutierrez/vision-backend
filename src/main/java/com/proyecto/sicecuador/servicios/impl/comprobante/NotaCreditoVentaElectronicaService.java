@@ -175,15 +175,18 @@ public class NotaCreditoVentaElectronicaService implements INotaCreditoVentaElec
 		NotaCreditoVentaElectronica notaCreditoVentaElectronica = crear(notaCreditoVenta);
 		if(notaCreditoVenta.getEstado().equals(Constantes.estadoEmitida)) {
 			String estadoRecepcion = recepcion(notaCreditoVentaElectronica);
-			String estadoAutorizacion = autorizacion(notaCreditoVentaElectronica);
-			if(estadoRecepcion.equals(Constantes.recibidaSri) && estadoAutorizacion.equals(Constantes.autorizadoSri)) {
-				notaCreditoVenta.setEstado(Constantes.estadoFacturada);
-				enviarCorreo(notaCreditoVenta, notaCreditoVentaElectronica);
-				NotaCreditoVenta facturada = rep.save(notaCreditoVenta);
-				facturada.normalizar();
-				return facturada;
+			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
+				String estadoAutorizacion = autorizacion(notaCreditoVentaElectronica);
+				if(estadoAutorizacion.equals(Constantes.autorizadoSri)){
+					notaCreditoVenta.setEstado(Constantes.estadoFacturada);
+					enviarCorreo(notaCreditoVenta, notaCreditoVentaElectronica);
+					NotaCreditoVenta facturada = rep.save(notaCreditoVenta);
+					facturada.normalizar();
+					return facturada;
+				}
+				throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
 			}
-			throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
+			throw new FacturaElectronicaInvalidaException(estadoRecepcion);
 		} else if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)){
 			enviarCorreo(notaCreditoVenta, notaCreditoVentaElectronica);
 			notaCreditoVenta.normalizar();

@@ -169,15 +169,18 @@ public class NotaDebitoVentaElectronicaService implements INotaDebitoVentaElectr
 		NotaDebitoVentaElectronica notaDebitoVentaElectronica = crear(notaDebitoVenta);
 		if(notaDebitoVenta.getEstado().equals(Constantes.estadoEmitida)) {
 			String estadoRecepcion = recepcion(notaDebitoVentaElectronica);
-			String estadoAutorizacion = autorizacion(notaDebitoVentaElectronica);
-			if(estadoRecepcion.equals(Constantes.recibidaSri) && estadoAutorizacion.equals(Constantes.autorizadoSri)) {
-				notaDebitoVenta.setEstado(Constantes.estadoFacturada);
-				enviarCorreo(notaDebitoVenta, notaDebitoVentaElectronica);
-				NotaDebitoVenta facturada = rep.save(notaDebitoVenta);
-				facturada.normalizar();
-				return facturada;
+			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
+				String estadoAutorizacion = autorizacion(notaDebitoVentaElectronica);
+				if(estadoAutorizacion.equals(Constantes.autorizadoSri)){
+					notaDebitoVenta.setEstado(Constantes.estadoFacturada);
+					enviarCorreo(notaDebitoVenta, notaDebitoVentaElectronica);
+					NotaDebitoVenta facturada = rep.save(notaDebitoVenta);
+					facturada.normalizar();
+					return facturada;
+				}
+				throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
 			}
-			throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
+			throw new FacturaElectronicaInvalidaException(estadoRecepcion);
 		} else if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)){
 			enviarCorreo(notaDebitoVenta, notaDebitoVentaElectronica);
 			notaDebitoVenta.normalizar();

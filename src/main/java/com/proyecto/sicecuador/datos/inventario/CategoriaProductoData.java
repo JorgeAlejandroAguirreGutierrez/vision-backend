@@ -28,6 +28,7 @@ public class CategoriaProductoData implements ApplicationRunner {
             categorias_productos.add(new CategoriaProducto("TPR011907000001", "BIEN", "B", Constantes.activo));
             categorias_productos.add(new CategoriaProducto("TPR011907000002", "SERVICIO", "S", Constantes.activo));
             categorias_productos.add(new CategoriaProducto("TPR011907000003", "ACTIVO_FIJO", "AF", Constantes.activo));
+            categorias_productos.add(new CategoriaProducto("TPR011907000004", "OTRO", "OT", Constantes.activo));
             rep.saveAll(categorias_productos);
         }
     }

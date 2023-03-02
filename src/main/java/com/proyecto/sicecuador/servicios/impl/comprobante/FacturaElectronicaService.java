@@ -158,7 +158,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     private Pagos crearPagos(Recaudacion recaudacion) {
     	Pagos pagos = new Pagos();
     	List<Pago> pagosLista = new ArrayList<>();
-    	
     	if(recaudacion.getEfectivo()>0) {
     		Pago pago = new Pago();
         	pago.setFormaPago(recaudacion.getEfectivoCodigoSri());
@@ -200,7 +199,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
         	pago.setTotal(tarjetaCredito.getValor());
         	pagosLista.add(pago);
         }
-        if(recaudacion.getCredito()!= null) {
+        if(recaudacion.getCredito()!= null && recaudacion.getCredito().getSaldo() > Constantes.cero) {
         	Pago pago = new Pago();
         	pago.setFormaPago(recaudacion.getCreditoCodigoSri());
         	pago.setTotal(recaudacion.getCredito().getSaldo());
@@ -258,15 +257,18 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		FacturaElectronica facturaElectronica = crear(recaudacion, factura);
 		if(factura.getEstado().equals(Constantes.estadoEmitida) && recaudacion.getEstado().equals(Constantes.recaudado)) {
 			String estadoRecepcion = recepcion(facturaElectronica);
-			String estadoAutorizacion = autorizacion(facturaElectronica);
-			if(estadoRecepcion.equals(Constantes.recibidaSri) && estadoAutorizacion.equals(Constantes.autorizadoSri)) {
-				factura.setEstado(Constantes.estadoFacturada);
-				enviarCorreo(factura, facturaElectronica);
-				Factura facturada = repFactura.save(factura);
-				facturada.normalizar();
-				return facturada;
+			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
+				String estadoAutorizacion = autorizacion(facturaElectronica);
+				if(estadoAutorizacion.equals(Constantes.autorizadoSri)){
+					factura.setEstado(Constantes.estadoFacturada);
+					enviarCorreo(factura, facturaElectronica);
+					Factura facturada = repFactura.save(factura);
+					facturada.normalizar();
+					return facturada;
+				}
+				throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
 			}
-			throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
+			throw new FacturaElectronicaInvalidaException(estadoRecepcion);
 		} else if(factura.getEstado().equals(Constantes.estadoFacturada)){
 			enviarCorreo(factura, facturaElectronica);
 			factura.normalizar();

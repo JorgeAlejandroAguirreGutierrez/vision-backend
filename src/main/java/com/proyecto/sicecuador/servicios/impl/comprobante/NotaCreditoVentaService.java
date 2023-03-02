@@ -183,7 +183,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     private void calcularTotalSinDescuentoLinea(NotaCreditoVenta notaCreditoVenta) {
     	for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()) {
             validarLinea(notaCreditoVentaLinea);
-    		double totalSinDescuentoLinea = (notaCreditoVentaLinea.getCantidad() - notaCreditoVentaLinea.getDevolucion()) * notaCreditoVentaLinea.getCostoUnitario();
+    		double totalSinDescuentoLinea = (notaCreditoVentaLinea.getDevolucion()) * notaCreditoVentaLinea.getCostoUnitario();
         	totalSinDescuentoLinea=Math.round(totalSinDescuentoLinea*100.0)/100.0;
             notaCreditoVentaLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
     	}

@@ -1,0 +1,262 @@
+package com.proyecto.sicecuador.servicios.impl.compra;
+
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
+import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
+import com.proyecto.sicecuador.modelos.compra.*;
+import com.proyecto.sicecuador.modelos.comprobante.*;
+import com.proyecto.sicecuador.modelos.inventario.Kardex;
+import com.proyecto.sicecuador.repositorios.compra.INotaDebitoCompraRepository;
+import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
+import com.proyecto.sicecuador.servicios.interf.compra.INotaDebitoCompraService;
+import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
+import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class NotaDebitoCompraService implements INotaDebitoCompraService {
+    @Autowired
+    private INotaDebitoCompraRepository rep;
+    @Autowired
+    private ITipoComprobanteService tipoComprobanteService;
+    @Autowired
+    private IKardexService kardexService;
+    @Autowired
+    private IFacturaCompraService facturaCompraService;
+
+    @Override
+    public void validar(NotaDebitoCompra notaDebitoCompra) {
+        if(notaDebitoCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
+        if(notaDebitoCompra.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if(notaDebitoCompra.getNotaDebitoCompraLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_debito_compra_linea);
+    }
+
+    private void facturar(NotaDebitoCompra notaDebitoCompra) {
+        if(notaDebitoCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaDebitoCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+
+        for(NotaDebitoCompraLinea notaDebitoCompraLinea : notaDebitoCompra.getNotaDebitoCompraLineas()) {
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaDebitoCompraLinea.getBodega().getId(), notaDebitoCompraLinea.getProducto().getId());
+            if (ultimoKardex != null) {
+                double saldo = ultimoKardex.getSaldo() - notaDebitoCompraLinea.getCantidad();
+                Kardex kardex = new Kardex(null, new Date(), Constantes.nota_debito_compra, notaDebitoCompra.getOperacion(),
+                        notaDebitoCompra.getSecuencia(), notaDebitoCompraLinea.getCantidad(), Constantes.cero, saldo,
+                        notaDebitoCompraLinea.getTotalSinDescuentoLinea(), Constantes.cero,
+                        notaDebitoCompraLinea.getCantidad(), notaDebitoCompraLinea.getCostoUnitario(), notaDebitoCompraLinea.getTotalSinDescuentoLinea(),
+                        ultimoKardex.getBodega(), ultimoKardex.getProducto());
+                kardexService.crear(kardex);
+            }
+        }
+    }
+
+    @Transactional
+    @Override
+    public NotaDebitoCompra crear(NotaDebitoCompra notaDebitoCompra) {
+        validar(notaDebitoCompra);
+        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito_compra);
+        notaDebitoCompra.setTipoComprobante(tipoComprobante);
+        Optional<String>codigo=Util.generarCodigo(Constantes.tabla_nota_debito_compra);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+        notaDebitoCompra.setCodigo(codigo.get());
+    	Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_nota_debito_compra);
+    	if (secuencia.isEmpty()) {
+    		throw new SecuenciaNoExistenteException();
+    	}
+        notaDebitoCompra.setSecuencia(secuencia.get());
+        facturar(notaDebitoCompra);
+        notaDebitoCompra.setEstado(Constantes.estadoEmitida);
+        NotaDebitoCompra res = rep.save(notaDebitoCompra);
+        res.normalizar();
+        return res;
+    }
+
+    @Override
+    public NotaDebitoCompra actualizar(NotaDebitoCompra notaDebitoCompra) {
+        validar(notaDebitoCompra);
+        facturar(notaDebitoCompra);
+        NotaDebitoCompra res = rep.save(notaDebitoCompra);
+        res.normalizar();
+        return res;
+    }
+
+    @Override
+    public NotaDebitoCompra activar(NotaDebitoCompra notaDebitoCompra) {
+        validar(notaDebitoCompra);
+        notaDebitoCompra.setEstado(Constantes.activo);
+        NotaDebitoCompra res = rep.save(notaDebitoCompra);
+        res.normalizar();
+        return res;
+    }
+
+    @Override
+    public NotaDebitoCompra inactivar(NotaDebitoCompra notaDebitoCompra) {
+        validar(notaDebitoCompra);
+        notaDebitoCompra.setEstado(Constantes.inactivo);
+        NotaDebitoCompra res = rep.save(notaDebitoCompra);
+        res.normalizar();
+        return res;
+    }
+
+    @Override
+    public NotaDebitoCompra obtener(long id) {
+        Optional<NotaDebitoCompra> notaDebitoCompra = rep.findById(id);
+        if(notaDebitoCompra.isPresent()) {
+            NotaDebitoCompra res = notaDebitoCompra.get();
+            res.normalizar();
+            return res;
+        }
+        throw new EntidadNoExistenteException(Constantes.nota_debito_compra);
+    }
+
+    @Override
+    public List<NotaDebitoCompra> consultar() {
+        return rep.findAll();
+    }
+    
+    @Override
+    public List<NotaDebitoCompra> consultarActivos(){
+    	return rep.consultarPorEstado(Constantes.activo);
+    }
+
+    @Override
+    public Page<NotaDebitoCompra> consultarPagina(Pageable pageable){
+    	return rep.findAll(pageable);
+    }
+
+    @Override
+    public NotaDebitoCompra calcular(NotaDebitoCompra notaDebitoCompra) {
+        this.calcularTotalSinDescuentoLinea(notaDebitoCompra);
+        this.calcularDescuentoTotal(notaDebitoCompra);
+        this.calcularSubtotalSinDescuento(notaDebitoCompra);
+        this.calcularSubtotalBase12SinDescuento(notaDebitoCompra);
+        this.calcularSubtotalBase0SinDescuento(notaDebitoCompra);
+        this.calcularIvaSinDescuento(notaDebitoCompra);
+        this.calcularDescuentoTotal(notaDebitoCompra);
+        this.calcularTotalSinDescuento(notaDebitoCompra);
+        return notaDebitoCompra;
+    }
+    /*
+     * CALCULOS CON FACTURA COMPRA DETALLES
+     */
+    private void calcularTotalSinDescuentoLinea(NotaDebitoCompra notaDebitoCompra) {
+    	for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()) {
+            validarLinea(notaDebitoCompraLinea);
+    		double totalSinDescuentoLinea = (notaDebitoCompraLinea.getCantidad()) * notaDebitoCompraLinea.getCostoUnitario();
+        	totalSinDescuentoLinea=Math.round(totalSinDescuentoLinea*100.0)/100.0;
+            notaDebitoCompraLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
+    	}
+    }
+    /*
+     * FIN CALCULO FACTURA DETALLES
+     */
+    
+    /*
+     * CALCULAR DESCUENTOS
+     */
+    private void calcularDescuentoTotal(NotaDebitoCompra notaDebitoCompra) {
+        double totalValorDescuentoLinea = Constantes.cero;
+        for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()) {
+            double valorDescuentoPorcentajeLinea = (notaDebitoCompraLinea.getTotalSinDescuentoLinea() * notaDebitoCompraLinea.getPorcentajeDescuentoLinea()) / 100;
+            totalValorDescuentoLinea = notaDebitoCompraLinea.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
+        }
+        double valorDescuentoTotalPorcentaje = (notaDebitoCompra.getPorcentajeDescuentoTotal() * notaDebitoCompra.getTotalSinDescuento()) / 100;
+        double descuentoTotal = totalValorDescuentoLinea + notaDebitoCompra.getValorDescuentoTotal() + valorDescuentoTotalPorcentaje;
+        descuentoTotal = Math.round(descuentoTotal*100.0)/100.0;
+        notaDebitoCompra.setDescuentoTotal(descuentoTotal);
+    }
+    /*
+     * FIN CALCULAR DESCUENTOS
+     */
+    
+    /*
+     * CALCULOS CON FACTURA
+     */
+    private void calcularSubtotalSinDescuento(NotaDebitoCompra notaDebitoCompra) {
+    	double subtotalSinDescuento = Constantes.cero;
+        for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()){
+          subtotalSinDescuento += notaDebitoCompraLinea.getTotalSinDescuentoLinea();
+        }
+        subtotalSinDescuento=Math.round(subtotalSinDescuento*100.0)/100.0;
+        notaDebitoCompra.setSubtotalSinDescuento(subtotalSinDescuento);
+    }
+    
+    private void calcularSubtotalBase12SinDescuento(NotaDebitoCompra notaDebitoCompra) {
+    	double subtotalBase12SinDescuento = Constantes.cero;
+    	for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()){
+          if (notaDebitoCompraLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva12){
+            subtotalBase12SinDescuento += notaDebitoCompraLinea.getTotalSinDescuentoLinea();
+          }
+    	}
+        subtotalBase12SinDescuento= Math.round(subtotalBase12SinDescuento*100.0)/100.0;
+        notaDebitoCompra.setSubtotalBase12SinDescuento(subtotalBase12SinDescuento);
+    }
+    
+    private void calcularSubtotalBase0SinDescuento(NotaDebitoCompra notaDebitoCompra) {
+    	double subtotalBase0SinDescuento = Constantes.cero;
+    	for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()){
+          if (notaDebitoCompraLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva0){
+            subtotalBase0SinDescuento += notaDebitoCompraLinea.getTotalSinDescuentoLinea();
+          }
+        }
+        subtotalBase0SinDescuento = Math.round(subtotalBase0SinDescuento*100.0)/100.0;
+        notaDebitoCompra.setSubtotalBase0SinDescuento(subtotalBase0SinDescuento);
+    }
+
+    private void calcularIvaSinDescuento(NotaDebitoCompra notaDebitoCompra){
+        double ivaSinDescuento=(notaDebitoCompra.getSubtotalBase12SinDescuento() * Constantes.iva12) / 100;
+        ivaSinDescuento=Math.round(ivaSinDescuento*100.0)/100.0;
+        notaDebitoCompra.setIvaSinDescuento(ivaSinDescuento);
+    }
+
+    private void calcularTotalSinDescuento(NotaDebitoCompra notaDebitoCompra){
+        double totalSinDescuento = notaDebitoCompra.getSubtotalBase0SinDescuento() + notaDebitoCompra.getSubtotalBase12SinDescuento() + notaDebitoCompra.getIvaSinDescuento();
+        totalSinDescuento=Math.round(totalSinDescuento*100.0)/100.0;
+        notaDebitoCompra.setTotalSinDescuento(totalSinDescuento);
+    }
+
+    @Override
+    public void validarLinea(NotaDebitoCompraLinea notaDebitoCompraLinea) {
+        if(notaDebitoCompraLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
+        if(notaDebitoCompraLinea.getCostoUnitario() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
+        if(notaDebitoCompraLinea.getValorDescuentoLinea() < Constantes.cero) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
+        if(notaDebitoCompraLinea.getPorcentajeDescuentoLinea() < Constantes.cero) throw new DatoInvalidoException(Constantes.porcentajeDescuentoLinea);
+        if(notaDebitoCompraLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
+        if(notaDebitoCompraLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
+        if(notaDebitoCompraLinea.getValorDescuentoLinea() > notaDebitoCompraLinea.getCostoUnitario()) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
+        if(notaDebitoCompraLinea.getPorcentajeDescuentoLinea() > 100) throw new DatoInvalidoException(Constantes.porcentajeDescuentoLinea);
+    }
+
+    @Override
+    public NotaDebitoCompra obtenerPorFacturaCompra(long facturaId){
+        NotaDebitoCompra notaDebitoCompra = new NotaDebitoCompra();
+        FacturaCompra facturaCompra = facturaCompraService.obtener(facturaId);
+        notaDebitoCompra.setFacturaCompra(facturaCompra);
+        notaDebitoCompra.setNotaDebitoCompraLineas(new ArrayList<>());
+        for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
+            NotaDebitoCompraLinea notaDebitoCompraLinea = new NotaDebitoCompraLinea();
+            notaDebitoCompraLinea.setBodega(facturaCompraLinea.getBodega());
+            notaDebitoCompraLinea.setProducto(facturaCompraLinea.getProducto());
+            notaDebitoCompraLinea.setCostoUnitario(facturaCompraLinea.getCostoUnitario());
+            notaDebitoCompraLinea.setCantidad(facturaCompraLinea.getCantidad());
+            notaDebitoCompraLinea.setPorcentajeDescuentoLinea(facturaCompraLinea.getPorcentajeDescuentoLinea());
+            notaDebitoCompraLinea.setValorDescuentoLinea(facturaCompraLinea.getValorDescuentoLinea());
+            notaDebitoCompraLinea.setTotalSinDescuentoLinea(facturaCompraLinea.getTotalSinDescuentoLinea());
+            notaDebitoCompra.getNotaDebitoCompraLineas().add(notaDebitoCompraLinea);
+        }
+        return notaDebitoCompra;
+    }
+}

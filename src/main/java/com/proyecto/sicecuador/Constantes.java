@@ -28,6 +28,8 @@ public class Constantes {
     public static final String factura_venta = "FACTURA DE VENTA";
     public static final String nota_debito_venta = "NOTA DEBITO DE VENTA";
     public static final String nota_debito_venta_linea = "NOTA DEBITO DE VENTA LINEA";
+    public static final String nota_debito_compra = "NOTA DEBITO DE COMPRA";
+    public static final String nota_debito_compra_linea = "NOTA DEBITO DE COMPRA LINEA";
     public static final String operacion_compra = "COMPRA";
     public static final String operacion_venta = "VENTA";
     public static final String operacion_devolucion = "DEVOLUCION";
@@ -134,6 +136,7 @@ public class Constantes {
     public static final String tabla_tipo_pago="tipo_pago";
     
     //COMPRA
+    public static final String tabla_grupo_proveedor="grupo_proveedor";
     public static final String tabla_telefono_proveedor="telefono_proveedor";
     public static final String tabla_celular_proveedor="celular_proveedor";
     public static final String tabla_correo_proveedor="correo_proveedor";
@@ -141,8 +144,8 @@ public class Constantes {
     public static final String tabla_factura_compra_linea="factura_compra_linea";
     public static final String tabla_nota_credito_compra="nota_credito_compra";
     public static final String tabla_nota_credito_compra_linea="nota_credito_compra_linea";
-    public static final String tabla_retencion_compra="retencion_compra";
-    public static final String tabla_grupo_proveedor="grupo_proveedor";
+    public static final String tabla_nota_debito_compra="nota_debito_compra";
+    public static final String tabla_nota_debito_compra_linea="nota_debito_compra_linea";
     
     //COMPROBANTE
     public static final String tabla_factura_linea="factura_linea";

@@ -244,17 +244,6 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         NotaDebitoVenta notaDebitoVenta = new NotaDebitoVenta();
         Factura factura = facturaService.obtener(facturaId);
         notaDebitoVenta.setFactura(factura);
-        notaDebitoVenta.setNotaDebitoVentaLineas(new ArrayList<>());
-        for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
-            NotaDebitoVentaLinea notaDebitoVentaLinea = new NotaDebitoVentaLinea();
-            notaDebitoVentaLinea.setPrecio(facturaLinea.getPrecio());
-            notaDebitoVentaLinea.setImpuesto(facturaLinea.getImpuesto());
-            notaDebitoVentaLinea.setBodega(facturaLinea.getBodega());
-            notaDebitoVentaLinea.setProducto(facturaLinea.getProducto());
-            notaDebitoVentaLinea.setCostoUnitario(facturaLinea.getPrecio().getPrecioVentaPublicoManual());
-            notaDebitoVentaLinea.setCantidad(facturaLinea.getCantidad());
-            notaDebitoVenta.getNotaDebitoVentaLineas().add(notaDebitoVentaLinea);
-        }
         return notaDebitoVenta;
     }
 }
