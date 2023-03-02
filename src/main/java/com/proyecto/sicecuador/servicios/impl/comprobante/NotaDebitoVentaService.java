@@ -48,15 +48,19 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
 
         for(NotaDebitoVentaLinea notaDebitoVentaLinea : notaDebitoVenta.getNotaDebitoVentaLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaDebitoVentaLinea.getBodega().getId(), notaDebitoVentaLinea.getProducto().getId());
-            if (ultimoKardex != null) {
-                double saldo = ultimoKardex.getSaldo() + notaDebitoVentaLinea.getCantidad();
-                Kardex kardex = new Kardex(null, new Date(), Constantes.nota_debito_venta, notaDebitoVenta.getOperacion(),
-                        notaDebitoVenta.getSecuencia(), Constantes.cero, notaDebitoVentaLinea.getCantidad(), saldo,
-                        Constantes.cero, notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
-                        notaDebitoVentaLinea.getCantidad(), notaDebitoVentaLinea.getCostoUnitario(), notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
-                        ultimoKardex.getBodega(), ultimoKardex.getProducto());
-                kardexService.crear(kardex);
+            if(ultimoKardex == null){
+                throw new DatoInvalidoException(Constantes.kardex);
             }
+            if(ultimoKardex.getSaldo() < notaDebitoVentaLinea.getCantidad()){
+                throw new DatoInvalidoException(Constantes.kardex);
+            }
+            double saldo = ultimoKardex.getSaldo() - notaDebitoVentaLinea.getCantidad();
+            Kardex kardex = new Kardex(null, new Date(), Constantes.factura, Constantes.operacion_venta,
+                    notaDebitoVenta.getSecuencia(), Constantes.cero, notaDebitoVentaLinea.getCantidad(), saldo,
+                    Constantes.cero, notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
+                    notaDebitoVentaLinea.getCantidad(), notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual(), notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
+                    notaDebitoVentaLinea.getBodega(), notaDebitoVentaLinea.getProducto());
+            kardexService.crear(kardex);
         }
     }
 
@@ -154,7 +158,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     private void calcularTotalSinDescuentoLinea(NotaDebitoVenta notaDebitoVenta) {
     	for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
             validarLinea(notaDebitoVentaLinea);
-    		double totalSinDescuentoLinea = (notaDebitoVentaLinea.getCantidad()) * notaDebitoVentaLinea.getCostoUnitario();
+    		double totalSinDescuentoLinea = (notaDebitoVentaLinea.getCantidad()) * notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual();
         	totalSinDescuentoLinea=Math.round(totalSinDescuentoLinea*100.0)/100.0;
             notaDebitoVentaLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
     	}
@@ -230,12 +234,12 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     @Override
     public void validarLinea(NotaDebitoVentaLinea notaDebitoVentaLinea) {
         if(notaDebitoVentaLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
-        if(notaDebitoVentaLinea.getCostoUnitario() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
+        if(notaDebitoVentaLinea.getPrecio().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.precio);
+        if(notaDebitoVentaLinea.getValorDescuentoLinea() > notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual()) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
         if(notaDebitoVentaLinea.getValorDescuentoLinea() < Constantes.cero) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
         if(notaDebitoVentaLinea.getPorcentajeDescuentoLinea() < Constantes.cero) throw new DatoInvalidoException(Constantes.porcentajeDescuentoLinea);
         if(notaDebitoVentaLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
         if(notaDebitoVentaLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
-        if(notaDebitoVentaLinea.getValorDescuentoLinea() > notaDebitoVentaLinea.getCostoUnitario()) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
         if(notaDebitoVentaLinea.getPorcentajeDescuentoLinea() > 100) throw new DatoInvalidoException(Constantes.porcentajeDescuentoLinea);
     }
 
