@@ -45,6 +45,8 @@ public class Constantes {
     public static final String mensaje_actualizar_exitoso="Exito al actualizar";
     public static final String mensaje_eliminar_exitoso="Exito al eliminar";
     public static final String mensaje_crear_factura_electronica_exitosa="Exito factura electronica con clave de acceso";
+    public static final String mensaje_crear_nota_debito_electronica_exitosa="Exito nota debito electronica con clave de acceso";
+    public static final String mensaje_crear_nota_credito_electronica_exitosa="Exito nota credito electronica con clave de acceso";
     public static final String mensaje_importacion_exitoso="Exito al importar";
     public static final String mensaje_exportacion_exitoso="Exito al exportar";
     public static final String mensaje_calcular_exitoso="Exito al calcular";

@@ -13,5 +13,6 @@ public interface INotaDebitoVentaService extends IGenericoService<NotaDebitoVent
 	List<NotaDebitoVenta> consultarActivos();
 	NotaDebitoVenta calcular(NotaDebitoVenta notaDebitoVenta);
 	void validarLinea(NotaDebitoVentaLinea notaDebitoVentaLinea);
+	NotaDebitoVentaLinea calcularLinea(NotaDebitoVentaLinea notaDebitoVentaLinea);
 	NotaDebitoVenta obtenerPorFactura(long facturaId);
 }

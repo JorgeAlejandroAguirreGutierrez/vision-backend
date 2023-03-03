@@ -19,13 +19,11 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.exception.FacturaElectronicaInvalidaException;
-import com.proyecto.sicecuador.modelos.comprobante.NotaCreditoVenta;
-import com.proyecto.sicecuador.modelos.comprobante.NotaCreditoVentaLinea;
 import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVenta;
 import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVentaLinea;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.notadebitoventa.*;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.notadebito.*;
 import com.proyecto.sicecuador.repositorios.comprobante.INotaDebitoVentaRepository;
-import com.proyecto.sicecuador.servicios.interf.comprobante.INotaDebitoVentaElectronicaService;
+import com.proyecto.sicecuador.servicios.interf.comprobante.INotaDebitoElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,7 +61,7 @@ import java.time.Duration;
 import java.util.*;
 
 @Service
-public class NotaDebitoVentaElectronicaService implements INotaDebitoVentaElectronicaService {
+public class NotaDebitoElectronicaService implements INotaDebitoElectronicaService {
     @Autowired
     private INotaDebitoVentaRepository rep;
     
@@ -77,9 +75,9 @@ public class NotaDebitoVentaElectronicaService implements INotaDebitoVentaElectr
     private String correoContrasena;
 
     
-    private NotaDebitoVentaElectronica crear(NotaDebitoVenta notaDebitoVenta) {
+    private NotaDebitoElectronica crear(NotaDebitoVenta notaDebitoVenta) {
     	//MAPEO A FACTURA ELECTRONICA
-		NotaDebitoVentaElectronica notaDebitoVentaElectronica = new NotaDebitoVentaElectronica();
+		NotaDebitoElectronica notaDebitoElectronica = new NotaDebitoElectronica();
     	InfoTributaria infoTributaria = new InfoTributaria();
     	  	
     	infoTributaria.setAmbiente(Constantes.pruebas_sri);
@@ -112,12 +110,12 @@ public class NotaDebitoVentaElectronicaService implements INotaDebitoVentaElectr
 		Pagos pagos = crearPagos(notaDebitoVenta);
 		Motivos motivos = crearMotivos(notaDebitoVenta);
 
-		notaDebitoVentaElectronica.setInfoTributaria(infoTributaria);
-		notaDebitoVentaElectronica.setInfoNotaDebito(infoNotaDebito);
-		notaDebitoVentaElectronica.getInfoNotaDebito().setImpuestos(impuestos);
-		notaDebitoVentaElectronica.getInfoNotaDebito().setPagos(pagos);
-		notaDebitoVentaElectronica.setMotivos(motivos);
-    	return notaDebitoVentaElectronica;
+		notaDebitoElectronica.setInfoTributaria(infoTributaria);
+		notaDebitoElectronica.setInfoNotaDebito(infoNotaDebito);
+		notaDebitoElectronica.getInfoNotaDebito().setImpuestos(impuestos);
+		notaDebitoElectronica.getInfoNotaDebito().setPagos(pagos);
+		notaDebitoElectronica.setMotivos(motivos);
+    	return notaDebitoElectronica;
     }
 
 	private Impuestos crearImpuestos(NotaDebitoVenta notaDebitoVenta) {
@@ -166,14 +164,14 @@ public class NotaDebitoVentaElectronicaService implements INotaDebitoVentaElectr
 			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
 		}
 		NotaDebitoVenta notaDebitoVenta = opcional.get();
-		NotaDebitoVentaElectronica notaDebitoVentaElectronica = crear(notaDebitoVenta);
+		NotaDebitoElectronica notaDebitoElectronica = crear(notaDebitoVenta);
 		if(notaDebitoVenta.getEstado().equals(Constantes.estadoEmitida)) {
-			String estadoRecepcion = recepcion(notaDebitoVentaElectronica);
+			String estadoRecepcion = recepcion(notaDebitoElectronica);
 			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
-				String estadoAutorizacion = autorizacion(notaDebitoVentaElectronica);
+				String estadoAutorizacion = autorizacion(notaDebitoElectronica);
 				if(estadoAutorizacion.equals(Constantes.autorizadoSri)){
 					notaDebitoVenta.setEstado(Constantes.estadoFacturada);
-					enviarCorreo(notaDebitoVenta, notaDebitoVentaElectronica);
+					enviarCorreo(notaDebitoVenta, notaDebitoElectronica);
 					NotaDebitoVenta facturada = rep.save(notaDebitoVenta);
 					facturada.normalizar();
 					return facturada;
@@ -182,22 +180,22 @@ public class NotaDebitoVentaElectronicaService implements INotaDebitoVentaElectr
 			}
 			throw new FacturaElectronicaInvalidaException(estadoRecepcion);
 		} else if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)){
-			enviarCorreo(notaDebitoVenta, notaDebitoVentaElectronica);
+			enviarCorreo(notaDebitoVenta, notaDebitoElectronica);
 			notaDebitoVenta.normalizar();
 			return notaDebitoVenta;
 		}
 		throw new FacturaElectronicaInvalidaException(Constantes.estado);
 	}
     
-    private String recepcion(NotaDebitoVentaElectronica notaDebitoVentaElectronica) {
+    private String recepcion(NotaDebitoElectronica notaDebitoElectronica) {
     	try {
-    		JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoVentaElectronica.class);
+    		JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoElectronica.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
-            jaxbMarshaller.marshal(notaDebitoVentaElectronica, System.out);
+            jaxbMarshaller.marshal(notaDebitoElectronica, System.out);
             StringWriter sw = new StringWriter();
-            jaxbMarshaller.marshal(notaDebitoVentaElectronica, sw);
+            jaxbMarshaller.marshal(notaDebitoElectronica, sw);
             String xml=sw.toString();
 			Path path = Paths.get(Constantes.certificadoSri);
 			String ruta = path.toAbsolutePath().toString();
@@ -240,9 +238,9 @@ public class NotaDebitoVentaElectronicaService implements INotaDebitoVentaElectr
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
     }
 
-	public String autorizacion(NotaDebitoVentaElectronica notaDebitoVentaElectronica){
+	public String autorizacion(NotaDebitoElectronica notaDebitoElectronica){
 		try {
-			String body=Util.soapConsultaFacturacionEletronica(notaDebitoVentaElectronica.getInfoTributaria().getClaveAcceso());
+			String body=Util.soapConsultaFacturacionEletronica(notaDebitoElectronica.getInfoTributaria().getClaveAcceso());
 			HttpClient httpClient = HttpClient.newBuilder()
 					.version(HttpClient.Version.HTTP_1_1)
 					.connectTimeout(Duration.ofSeconds(10))
@@ -355,15 +353,15 @@ public class NotaDebitoVentaElectronicaService implements INotaDebitoVentaElectr
         }
     }
     
-    private ByteArrayInputStream crearXML(NotaDebitoVentaElectronica notaDebitoVentaElectronica) {
+    private ByteArrayInputStream crearXML(NotaDebitoElectronica notaDebitoElectronica) {
     	try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoVentaElectronica.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
-			jaxbMarshaller.marshal(notaDebitoVentaElectronica, System.out);
+			jaxbMarshaller.marshal(notaDebitoElectronica, System.out);
 			StringWriter sw = new StringWriter();
-			jaxbMarshaller.marshal(notaDebitoVentaElectronica, sw);
+			jaxbMarshaller.marshal(notaDebitoElectronica, sw);
 			String xml=sw.toString();
 			return new ByteArrayInputStream(xml.getBytes());
     	} catch(Exception e) {
@@ -371,10 +369,10 @@ public class NotaDebitoVentaElectronicaService implements INotaDebitoVentaElectr
     	}
     }
     
-    private void enviarCorreo(NotaDebitoVenta notaDebitoVenta, NotaDebitoVentaElectronica notaDebitoVentaElectronica) {
+    private void enviarCorreo(NotaDebitoVenta notaDebitoVenta, NotaDebitoElectronica notaDebitoElectronica) {
     	try {
 	    	ByteArrayInputStream pdf = crearPDF(notaDebitoVenta);
-	    	ByteArrayInputStream xml = crearXML(notaDebitoVentaElectronica);
+	    	ByteArrayInputStream xml = crearXML(notaDebitoElectronica);
 	    	ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf); 
 	    	ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml); 
 	        Properties props = System.getProperties();

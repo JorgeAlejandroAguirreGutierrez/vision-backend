@@ -143,6 +143,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     @Override
     public NotaDebitoVenta calcular(NotaDebitoVenta notaDebitoVenta) {
         this.calcularTotalSinDescuentoLinea(notaDebitoVenta);
+        this.calcularTotaConDescuentoLinea(notaDebitoVenta);
         this.calcularDescuentoTotal(notaDebitoVenta);
         this.calcularSubtotalSinDescuento(notaDebitoVenta);
         this.calcularSubtotalBase12SinDescuento(notaDebitoVenta);
@@ -152,8 +153,16 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         this.calcularTotalSinDescuento(notaDebitoVenta);
         return notaDebitoVenta;
     }
+
+    @Override
+    public NotaDebitoVentaLinea calcularLinea(NotaDebitoVentaLinea notaDebitoVentaLinea) {
+        validarLinea(notaDebitoVentaLinea);
+        double totalSinDescuentoLinea = notaDebitoVentaLinea.getCantidad() * notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual();
+        notaDebitoVentaLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
+        return notaDebitoVentaLinea;
+    }
     /*
-     * CALCULOS CON FACTURA COMPRA DETALLES
+     * CALCULOS CON NOTA DEBITO VENTA LINEA
      */
     private void calcularTotalSinDescuentoLinea(NotaDebitoVenta notaDebitoVenta) {
     	for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
@@ -163,8 +172,17 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
             notaDebitoVentaLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
     	}
     }
+    private void calcularTotaConDescuentoLinea(NotaDebitoVenta notaDebitoVenta) {
+        for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
+            validarLinea(notaDebitoVentaLinea);
+            double valorPorcentajeDescuentoLinea = notaDebitoVentaLinea.getCantidad() * notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual() * notaDebitoVentaLinea.getPorcentajeDescuentoLinea() / 100;
+            double totalConDescuentoLinea = (notaDebitoVentaLinea.getCantidad() * notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual()) -notaDebitoVentaLinea.getValorDescuentoLinea() - valorPorcentajeDescuentoLinea;
+            totalConDescuentoLinea=Math.round(totalConDescuentoLinea*100.0)/100.0;
+            notaDebitoVentaLinea.setTotalConDescuentoLinea(totalConDescuentoLinea);
+        }
+    }
     /*
-     * FIN CALCULO FACTURA DETALLES
+     * FIN CALCULO CON NOTA DEBITO VENTA LINEA
      */
     
     /*

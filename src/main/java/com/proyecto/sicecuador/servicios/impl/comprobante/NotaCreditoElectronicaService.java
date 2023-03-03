@@ -21,9 +21,9 @@ import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.exception.FacturaElectronicaInvalidaException;
 import com.proyecto.sicecuador.modelos.comprobante.NotaCreditoVenta;
 import com.proyecto.sicecuador.modelos.comprobante.NotaCreditoVentaLinea;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.notacreditoventa.*;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.notacredito.*;
 import com.proyecto.sicecuador.repositorios.comprobante.INotaCreditoVentaRepository;
-import com.proyecto.sicecuador.servicios.interf.comprobante.INotaCreditoVentaElectronicaService;
+import com.proyecto.sicecuador.servicios.interf.comprobante.INotaCreditoElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,7 +61,7 @@ import java.time.Duration;
 import java.util.*;
 
 @Service
-public class NotaCreditoVentaElectronicaService implements INotaCreditoVentaElectronicaService {
+public class NotaCreditoElectronicaService implements INotaCreditoElectronicaService {
     @Autowired
     private INotaCreditoVentaRepository rep;
     
@@ -75,9 +75,9 @@ public class NotaCreditoVentaElectronicaService implements INotaCreditoVentaElec
     private String correoContrasena;
 
     
-    private NotaCreditoVentaElectronica crear(NotaCreditoVenta notaCreditoVenta) {
+    private NotaCreditoElectronica crear(NotaCreditoVenta notaCreditoVenta) {
     	//MAPEO A FACTURA ELECTRONICA
-		NotaCreditoVentaElectronica notaCreditoVentaElectronica = new NotaCreditoVentaElectronica();
+		NotaCreditoElectronica notaCreditoElectronica = new NotaCreditoElectronica();
     	InfoTributaria infoTributaria = new InfoTributaria();
     	  	
     	infoTributaria.setAmbiente(Constantes.pruebas_sri);
@@ -112,10 +112,10 @@ public class NotaCreditoVentaElectronicaService implements INotaCreditoVentaElec
 		infoNotaCredito.setMotivo(notaCreditoVenta.getOperacion());
     	Detalles detalles=crearDetalles(notaCreditoVenta);
 
-		notaCreditoVentaElectronica.setInfoTributaria(infoTributaria);
-		notaCreditoVentaElectronica.setInfoNotaCredito(infoNotaCredito);
-		notaCreditoVentaElectronica.setDetalles(detalles);
-    	return notaCreditoVentaElectronica;
+		notaCreditoElectronica.setInfoTributaria(infoTributaria);
+		notaCreditoElectronica.setInfoNotaCredito(infoNotaCredito);
+		notaCreditoElectronica.setDetalles(detalles);
+    	return notaCreditoElectronica;
     }
 
     private TotalConImpuestos crearTotalConImpuestos(NotaCreditoVenta notaCreditoVenta){
@@ -172,14 +172,14 @@ public class NotaCreditoVentaElectronicaService implements INotaCreditoVentaElec
 			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
 		}
 		NotaCreditoVenta notaCreditoVenta = opcional.get();
-		NotaCreditoVentaElectronica notaCreditoVentaElectronica = crear(notaCreditoVenta);
+		NotaCreditoElectronica notaCreditoElectronica = crear(notaCreditoVenta);
 		if(notaCreditoVenta.getEstado().equals(Constantes.estadoEmitida)) {
-			String estadoRecepcion = recepcion(notaCreditoVentaElectronica);
+			String estadoRecepcion = recepcion(notaCreditoElectronica);
 			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
-				String estadoAutorizacion = autorizacion(notaCreditoVentaElectronica);
+				String estadoAutorizacion = autorizacion(notaCreditoElectronica);
 				if(estadoAutorizacion.equals(Constantes.autorizadoSri)){
 					notaCreditoVenta.setEstado(Constantes.estadoFacturada);
-					enviarCorreo(notaCreditoVenta, notaCreditoVentaElectronica);
+					enviarCorreo(notaCreditoVenta, notaCreditoElectronica);
 					NotaCreditoVenta facturada = rep.save(notaCreditoVenta);
 					facturada.normalizar();
 					return facturada;
@@ -188,22 +188,22 @@ public class NotaCreditoVentaElectronicaService implements INotaCreditoVentaElec
 			}
 			throw new FacturaElectronicaInvalidaException(estadoRecepcion);
 		} else if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)){
-			enviarCorreo(notaCreditoVenta, notaCreditoVentaElectronica);
+			enviarCorreo(notaCreditoVenta, notaCreditoElectronica);
 			notaCreditoVenta.normalizar();
 			return notaCreditoVenta;
 		}
 		throw new FacturaElectronicaInvalidaException(Constantes.estado);
 	}
     
-    private String recepcion(NotaCreditoVentaElectronica notaCreditoVentaElectronica) {
+    private String recepcion(NotaCreditoElectronica notaCreditoElectronica) {
     	try {
-    		JAXBContext jaxbContext = JAXBContext.newInstance(NotaCreditoVentaElectronica.class);
+    		JAXBContext jaxbContext = JAXBContext.newInstance(NotaCreditoElectronica.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
-            jaxbMarshaller.marshal(notaCreditoVentaElectronica, System.out);
+            jaxbMarshaller.marshal(notaCreditoElectronica, System.out);
             StringWriter sw = new StringWriter();
-            jaxbMarshaller.marshal(notaCreditoVentaElectronica, sw);
+            jaxbMarshaller.marshal(notaCreditoElectronica, sw);
             String xml=sw.toString();
 			Path path = Paths.get(Constantes.certificadoSri);
 			String ruta = path.toAbsolutePath().toString();
@@ -246,9 +246,9 @@ public class NotaCreditoVentaElectronicaService implements INotaCreditoVentaElec
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
     }
 
-	public String autorizacion(NotaCreditoVentaElectronica notaCreditoVentaElectronica){
+	public String autorizacion(NotaCreditoElectronica notaCreditoElectronica){
 		try {
-			String body=Util.soapConsultaFacturacionEletronica(notaCreditoVentaElectronica.getInfoTributaria().getClaveAcceso());
+			String body=Util.soapConsultaFacturacionEletronica(notaCreditoElectronica.getInfoTributaria().getClaveAcceso());
 			HttpClient httpClient = HttpClient.newBuilder()
 					.version(HttpClient.Version.HTTP_1_1)
 					.connectTimeout(Duration.ofSeconds(10))
@@ -362,15 +362,15 @@ public class NotaCreditoVentaElectronicaService implements INotaCreditoVentaElec
         }
     }
     
-    private ByteArrayInputStream crearXML(NotaCreditoVentaElectronica notaCreditoVentaElectronica) {
+    private ByteArrayInputStream crearXML(NotaCreditoElectronica notaCreditoElectronica) {
     	try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(NotaCreditoVentaElectronica.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(NotaCreditoElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
-			jaxbMarshaller.marshal(notaCreditoVentaElectronica, System.out);
+			jaxbMarshaller.marshal(notaCreditoElectronica, System.out);
 			StringWriter sw = new StringWriter();
-			jaxbMarshaller.marshal(notaCreditoVentaElectronica, sw);
+			jaxbMarshaller.marshal(notaCreditoElectronica, sw);
 			String xml=sw.toString();
 			return new ByteArrayInputStream(xml.getBytes());
     	} catch(Exception e) {
@@ -378,10 +378,10 @@ public class NotaCreditoVentaElectronicaService implements INotaCreditoVentaElec
     	}
     }
     
-    private void enviarCorreo(NotaCreditoVenta notaCreditoVenta, NotaCreditoVentaElectronica notaCreditoVentaElectronica) {
+    private void enviarCorreo(NotaCreditoVenta notaCreditoVenta, NotaCreditoElectronica notaCreditoElectronica) {
     	try {
 	    	ByteArrayInputStream pdf = crearPDF(notaCreditoVenta);
-	    	ByteArrayInputStream xml = crearXML(notaCreditoVentaElectronica);
+	    	ByteArrayInputStream xml = crearXML(notaCreditoElectronica);
 	    	ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf); 
 	    	ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml); 
 	        Properties props = System.getProperties();

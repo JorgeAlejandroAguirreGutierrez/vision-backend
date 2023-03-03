@@ -2,7 +2,9 @@ package com.proyecto.sicecuador.controladoras.comprobante;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVenta;
+import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVentaLinea;
 import com.proyecto.sicecuador.servicios.interf.comprobante.INotaDebitoVentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -86,7 +88,12 @@ public class NotaDebitoVentaController {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_calcular_exitoso, notaDebitoVenta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
+    @PostMapping(value = "/calcularLinea", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> calcularLinea(@RequestBody NotaDebitoVentaLinea _notaDebitoVentaLinea) {
+        NotaDebitoVentaLinea notaDebitoVentaLinea = servicio.calcularLinea(_notaDebitoVentaLinea);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, notaDebitoVentaLinea);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
     @GetMapping(value = "obtenerPorFactura/{facturaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerPorFactura(@PathVariable("facturaId") long facturaId) {
         NotaDebitoVenta notaDebitoVenta = servicio.obtenerPorFactura(facturaId);

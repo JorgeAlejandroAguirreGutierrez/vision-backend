@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.comprobante.electronico.notadebitoventa;
+package com.proyecto.sicecuador.modelos.comprobante.electronico.notadebito;
 import lombok.Data;
 
 import javax.xml.bind.annotation.*;
@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder={"infoTributaria", "infoNotaDebito", "motivos"})
 @Data
-public class NotaDebitoVentaElectronica {
+public class NotaDebitoElectronica {
 	//DATOS DEL SRI CAMPOS EXACTAMENTE COMO LOS TIENE
 	@XmlAttribute(name = "id")
     private String id="comprobante";

@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathFacturaElectro
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVenta;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaElectronicaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping(contexto+pathFacturaElectronica)
 public class FacturaEletronicaController {
-	
     @Autowired
     private IFacturaElectronicaService servicio;
 
-
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> enviarSri(@RequestBody @Valid Factura _factura) {
-        Factura factura=servicio.enviar(_factura);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_factura_electronica_exitosa+Constantes.espacio+factura.getClaveAcceso(), factura);
+    @GetMapping(value = "/{facturaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> enviar(@PathVariable("facturaId") long facturaId) {
+        Factura factura = servicio.enviar(facturaId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_factura_electronica_exitosa + Constantes.espacio + factura.getClaveAcceso(), factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

@@ -244,8 +244,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     }
 
 	@Override
-	public Factura enviar(Factura _factura) {
-		Optional<Recaudacion> opcional= rep.obtenerPorFactura(_factura.getId());
+	public Factura enviar(long facturaId) {
+		Optional<Recaudacion> opcional= rep.obtenerPorFactura(facturaId);
 		if(opcional.isEmpty()) {
 			throw new EntidadNoExistenteException(Constantes.recaudacion);
 		}

@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.comprobante.electronico.notadebitoventa;
+package com.proyecto.sicecuador.modelos.comprobante.electronico.notacredito;
 
 import lombok.Data;
 

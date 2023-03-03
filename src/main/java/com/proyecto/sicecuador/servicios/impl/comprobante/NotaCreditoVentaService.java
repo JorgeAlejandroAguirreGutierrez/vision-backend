@@ -178,7 +178,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         return notaCreditoVenta;
     }
     /*
-     * CALCULOS CON FACTURA COMPRA DETALLES
+     * CALCULOS CON NOTA CREDITO VENTA LINEA
      */
     private void calcularTotalSinDescuentoLinea(NotaCreditoVenta notaCreditoVenta) {
     	for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()) {
@@ -189,7 +189,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     	}
     }
     /*
-     * FIN CALCULO FACTURA DETALLES
+     * FIN CALCULO NOTA CREDITO VENTA LINEA
      */
     
     /*
