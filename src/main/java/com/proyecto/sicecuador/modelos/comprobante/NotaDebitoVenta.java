@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.modelos.comprobante;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -65,6 +66,51 @@ public class NotaDebitoVenta extends Entidad {
     @JoinColumn(name = "nota_debito_venta_id", nullable = true)
     private List<NotaDebitoVentaLinea> notaDebitoVentaLineas;
 
+    //RECAUDACION
+    @Column(name = "total_recaudacion", nullable = true)
+    private double totalRecaudacion;
+    @Column(name = "por_pagar", nullable = true)
+    private double porPagar;
+    @Column(name = "efectivo", nullable = true)
+    private double efectivo;
+    @Column(name = "cambio", nullable = true)
+    private double cambio;
+    @Column(name = "total_cheques", nullable = true)
+    private double totalCheques;
+    @Column(name = "total_depositos", nullable = true)
+    private double totalDepositos;
+    @Column(name = "total_transferencias", nullable = true)
+    private double totalTransferencias;
+    @Column(name = "total_tarjetas_debitos", nullable = true)
+    private double totalTarjetasDebitos;
+    @Column(name = "total_tarjetas_creditos", nullable = true)
+    private double totalTarjetasCreditos;
+    @Column(name = "total_credito", nullable = true)
+    private double totalCredito;
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "cheque_id", nullable = true)
+    private List<NotaDebitoVentaCheque> cheques;
+    @JsonManagedReference
+    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "deposito_id", nullable = true)
+    private List<NotaDebitoVentaDeposito> depositos;
+    @JsonManagedReference
+    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "transferencia_id", nullable = true)
+    private List<NotaDebitoVentaTransferencia> transferencias;
+    @JsonManagedReference
+    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "tarjeta_debito_id", nullable = true)
+    private List<NotaDebitoVentaTarjetaDebito> tarjetasDebitos;
+    @JsonManagedReference
+    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "tarjeta_credito_id", nullable = true)
+    private List<NotaDebitoVentaTarjetaCredito> tarjetasCreditos;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "credito_id", nullable = true)
+    private NotaDebitoVentaCredito credito;
+
     public NotaDebitoVenta(long id){
         super(id);
     }
@@ -89,6 +135,23 @@ public class NotaDebitoVenta extends Entidad {
         this.sesion = new Sesion();
         this.tipoComprobante = new TipoComprobante();
         this.notaDebitoVentaLineas = Collections.emptyList();
+
+        //RECAUDACION
+        this.porPagar = Constantes.cero;
+        this.efectivo = Constantes.cero;
+        this.cambio = Constantes.cero;
+        this.totalCheques = Constantes.cero;
+        this.totalDepositos = Constantes.cero;
+        this.totalTransferencias = Constantes.cero;
+        this.totalTarjetasDebitos = Constantes.cero;
+        this.totalTarjetasCreditos = Constantes.cero;
+        this.totalCredito = Constantes.cero;
+        this.cheques = Collections.emptyList();
+        this.depositos = Collections.emptyList();
+        this.transferencias = Collections.emptyList();
+        this.tarjetasDebitos = Collections.emptyList();
+        this.tarjetasCreditos = Collections.emptyList();
+        this.credito = new NotaDebitoVentaCredito();
     }
 
     public void normalizar(){
@@ -96,5 +159,11 @@ public class NotaDebitoVenta extends Entidad {
         if(this.sesion == null) this.sesion = new Sesion();
         if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
         if(this.notaDebitoVentaLineas.isEmpty()) this.notaDebitoVentaLineas = Collections.emptyList();
+
+        if(cheques.isEmpty()) this.cheques = Collections.emptyList();
+        if(depositos.isEmpty()) this.depositos = Collections.emptyList();
+        if(transferencias.isEmpty()) this.transferencias = Collections.emptyList();
+        if(tarjetasDebitos.isEmpty()) this.tarjetasDebitos = Collections.emptyList();
+        if(tarjetasCreditos.isEmpty()) this.tarjetasCreditos = Collections.emptyList();
     }
 }

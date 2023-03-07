@@ -23,6 +23,8 @@ public class NotaCreditoVenta extends Entidad {
     private String codigo;
     @Column(name = "secuencia", nullable = true)
     private String secuencia;
+    @Column(name = "codigo_numerico", nullable = true)
+    private String codigoNumerico;
     @Column(name = "clave_acceso", nullable = true)
     private String claveAcceso;
     @Column(name = "operacion", nullable = true)

@@ -3,20 +3,20 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVenta;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
-import static com.proyecto.sicecuador.Constantes.tabla_deposito;
+import static com.proyecto.sicecuador.Constantes.tabla_nota_debito_venta_deposito;
 
 @Entity
-@Table(name = tabla_deposito)
+@Table(name = tabla_nota_debito_venta_deposito)
 @Data
 @AllArgsConstructor
-public class Deposito extends Entidad {
+public class NotaDebitoVentaDeposito extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @Column(name = "fecha", nullable = true)
@@ -33,13 +33,13 @@ public class Deposito extends Entidad {
     private CuentaPropia cuentaPropia;
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "factura_id", nullable = true)
-    private Factura factura;
+    @JoinColumn(name = "nota_debito_venta_id", nullable = true)
+    private NotaDebitoVenta notaDebitoVenta;
 
-    public Deposito(long id){
+    public NotaDebitoVentaDeposito(long id){
         super(id);
     }
-    public Deposito(){
+    public NotaDebitoVentaDeposito(){
         super();
         this.codigo = Constantes.vacio;
         this.fecha = new Date();

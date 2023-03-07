@@ -85,6 +85,7 @@ public class Endpoints {
     public static final String pathOperadorTarjeta="operadorTarjeta";
     public static final String pathRangoCrediticio="rangoCrediticio";
     public static final String pathRecaudacion="recaudacion";
+    public static final String pathNotaDebitoVentaRecaudacion="notaDebitoVentaRecaudacion";
     
     //USUARIO
     public static final String pathCelularEstablecimiento="celularEstablecimiento";

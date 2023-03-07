@@ -8,6 +8,7 @@ import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
 import com.proyecto.sicecuador.modelos.comprobante.*;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
+import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.repositorios.comprobante.INotaDebitoVentaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.comprobante.INotaDebitoVentaService;
@@ -19,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +40,9 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         if(notaDebitoVenta.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaDebitoVenta.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaDebitoVenta.getNotaDebitoVentaLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_debito_venta_linea);
+
+        if(notaDebitoVenta.getTotalRecaudacion() == Constantes.cero) throw new DatoInvalidoException(Constantes.total_recaudacion);
+        if(notaDebitoVenta.getCredito().getSaldo() == Constantes.cero) notaDebitoVenta.setCredito(null);
     }
 
     private void facturar(NotaDebitoVenta notaDebitoVenta) {
@@ -80,6 +83,13 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     		throw new SecuenciaNoExistenteException();
     	}
         notaDebitoVenta.setSecuencia(secuencia.get());
+        double diferencia= notaDebitoVenta.getTotalConDescuento() - notaDebitoVenta.getTotalRecaudacion();
+        if (diferencia>0){
+            notaDebitoVenta.setTotalCredito(diferencia);
+            notaDebitoVenta.getCredito().setSaldo(diferencia);
+            notaDebitoVenta.setTotalRecaudacion(notaDebitoVenta.getTotalRecaudacion() + diferencia);
+        }
+        notaDebitoVenta.setEstado(Constantes.recaudada);
         facturar(notaDebitoVenta);
         notaDebitoVenta.setEstado(Constantes.estadoEmitida);
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
@@ -138,6 +148,65 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     @Override
     public Page<NotaDebitoVenta> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
+    }
+
+    @Override
+    public NotaDebitoVenta calcularRecaudacion(NotaDebitoVenta notaDebitoVenta){
+        double total = 0;
+        total = total + notaDebitoVenta.getEfectivo();
+        double totalCheques = 0;
+        for(NotaDebitoVentaCheque cheque: notaDebitoVenta.getCheques()) {
+            totalCheques=totalCheques+cheque.getValor();
+            total=total+totalCheques;
+        }
+        double totalDepositos = 0;
+        for(NotaDebitoVentaDeposito deposito: notaDebitoVenta.getDepositos()) {
+            totalDepositos = totalDepositos + deposito.getValor();
+            total = total + totalDepositos;
+        }
+        double totalTransferencias = 0;
+        for(NotaDebitoVentaTransferencia transferencia: notaDebitoVenta.getTransferencias()) {
+            totalTransferencias = totalTransferencias+transferencia.getValor();
+            total = total + totalTransferencias;
+        }
+        double totalTarjetasDebitos = 0;
+        for(NotaDebitoVentaTarjetaDebito tarjetaDebito: notaDebitoVenta.getTarjetasDebitos()) {
+            totalTarjetasDebitos=totalTarjetasDebitos+tarjetaDebito.getValor();
+            total=total+totalTarjetasDebitos;
+        }
+        double totalTarjetasCreditos = 0;
+        for(NotaDebitoVentaTarjetaCredito tarjetaCredito: notaDebitoVenta.getTarjetasCreditos()) {
+            totalTarjetasCreditos = totalTarjetasCreditos + tarjetaCredito.getValor();
+            total = total + totalTarjetasCreditos;
+        }
+        total = total + notaDebitoVenta.getCredito().getSaldo();
+        notaDebitoVenta.setTotalCredito(notaDebitoVenta.getCredito().getSaldo());
+        notaDebitoVenta.setTotalCheques(totalCheques);
+        notaDebitoVenta.setTotalDepositos(totalDepositos);
+        notaDebitoVenta.setTotalTransferencias(totalTransferencias);
+        notaDebitoVenta.setTotalTarjetasDebitos(totalTarjetasDebitos);
+        notaDebitoVenta.setTotalTarjetasCreditos(totalTarjetasCreditos);
+        if(total >= notaDebitoVenta.getTotalConDescuento()){
+            notaDebitoVenta.setCambio(total - notaDebitoVenta.getTotalConDescuento());
+        } else {
+            notaDebitoVenta.setCambio(Constantes.cero);
+        }
+        if(total >= notaDebitoVenta.getTotalConDescuento()){
+            total = notaDebitoVenta.getTotalConDescuento();
+        }
+        double porPagar = notaDebitoVenta.getTotalConDescuento() - total;
+        porPagar = Math.round(porPagar*100.0)/100.0;
+        if(porPagar<0) {
+            porPagar=0;
+        }
+        notaDebitoVenta.setPorPagar(porPagar);
+        notaDebitoVenta.setTotalRecaudacion(total);
+        if(porPagar > 0){
+            notaDebitoVenta.setEstado(Constantes.noRecaudada);
+        } else{
+            notaDebitoVenta.setEstado(Constantes.recaudada);
+        }
+        return notaDebitoVenta;
     }
 
     @Override

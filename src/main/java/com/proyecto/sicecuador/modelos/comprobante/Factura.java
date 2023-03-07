@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
+import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -81,6 +82,51 @@ public class Factura extends Entidad {
 	@JoinColumn(name = "factura_id", nullable = true)
 	private List<FacturaLinea> facturaLineas;
 
+	//RECAUDACION
+	@Column(name = "total_recaudacion", nullable = true)
+	private double totalRecaudacion;
+	@Column(name = "por_pagar", nullable = true)
+	private double porPagar;
+	@Column(name = "efectivo", nullable = true)
+	private double efectivo;
+	@Column(name = "cambio", nullable = true)
+	private double cambio;
+	@Column(name = "total_cheques", nullable = true)
+	private double totalCheques;
+	@Column(name = "total_depositos", nullable = true)
+	private double totalDepositos;
+	@Column(name = "total_transferencias", nullable = true)
+	private double totalTransferencias;
+	@Column(name = "total_tarjetas_debitos", nullable = true)
+	private double totalTarjetasDebitos;
+	@Column(name = "total_tarjetas_creditos", nullable = true)
+	private double totalTarjetasCreditos;
+	@Column(name = "total_credito", nullable = true)
+	private double totalCredito;
+	@JsonManagedReference
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@JoinColumn(name = "cheque_id", nullable = true)
+	private List<Cheque> cheques;
+	@JsonManagedReference
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@JoinColumn(name = "deposito_id", nullable = true)
+	private List<Deposito> depositos;
+	@JsonManagedReference
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@JoinColumn(name = "transferencia_id", nullable = true)
+	private List<Transferencia> transferencias;
+	@JsonManagedReference
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@JoinColumn(name = "tarjeta_debito_id", nullable = true)
+	private List<TarjetaDebito> tarjetasDebitos;
+	@JsonManagedReference
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@JoinColumn(name = "tarjeta_credito_id", nullable = true)
+	private List<TarjetaCredito> tarjetasCreditos;
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "credito_id", nullable = true)
+	private Credito credito;
+
 	public Factura(long id){
 		super(id);
 	}
@@ -113,6 +159,24 @@ public class Factura extends Entidad {
 		this.sesion = new Sesion();
 		this.tipoComprobante = new TipoComprobante();
 		this.facturaLineas = Collections.emptyList();
+
+		//RECAUDACION
+		this.totalRecaudacion = Constantes.cero;
+		this.porPagar = Constantes.cero;
+		this.efectivo = Constantes.cero;
+		this.cambio = Constantes.cero;
+		this.totalCheques = Constantes.cero;
+		this.totalDepositos = Constantes.cero;
+		this.totalTransferencias = Constantes.cero;
+		this.totalTarjetasDebitos = Constantes.cero;
+		this.totalTarjetasCreditos = Constantes.cero;
+		this.totalCredito = Constantes.cero;
+		this.cheques = Collections.emptyList();
+		this.depositos = Collections.emptyList();
+		this.transferencias = Collections.emptyList();
+		this.tarjetasDebitos = Collections.emptyList();
+		this.tarjetasCreditos = Collections.emptyList();
+		this.credito = new Credito();
 	}
 
 	public void normalizar(){
@@ -121,5 +185,13 @@ public class Factura extends Entidad {
 		if(this.sesion == null) this.sesion = new Sesion();
 		if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
 		if(this.facturaLineas.isEmpty()) this.facturaLineas = Collections.emptyList();
+
+		//RECAUDACION
+		if(this.cheques == null) this.cheques = Collections.emptyList();
+		if(this.depositos == null) this.depositos = Collections.emptyList();
+		if(this.transferencias == null) this.transferencias = Collections.emptyList();
+		if(this.tarjetasDebitos == null) this.tarjetasDebitos = Collections.emptyList();
+		if(this.tarjetasCreditos == null) this.tarjetasCreditos = Collections.emptyList();
+		if(this.credito == null) this.credito = new Credito();
 	}
 }

@@ -14,4 +14,5 @@ public interface IFacturaService extends IGenericoService<Factura> {
 	Factura calcular(Factura factura);
 	FacturaLinea calcularLinea(FacturaLinea facturaLinea);
 	List<Factura> consultarPorCliente(long clienteId);
+	Factura calcularRecaudacion(Factura factura);
 }

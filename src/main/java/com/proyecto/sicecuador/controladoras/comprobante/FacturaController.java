@@ -72,7 +72,7 @@ public class FacturaController implements GenericoController<Factura> {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Factura _factura) {
-        Factura factura=servicio.actualizar(_factura);
+        Factura factura = servicio.actualizar(_factura);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -92,7 +92,7 @@ public class FacturaController implements GenericoController<Factura> {
     }
     
     @PostMapping(value = "/calcular", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> calcular(@RequestBody @Valid Factura _factura) {
+    public ResponseEntity<?> calcular(@RequestBody Factura _factura) {
         Factura factura=servicio.calcular(_factura);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
@@ -102,6 +102,13 @@ public class FacturaController implements GenericoController<Factura> {
     public ResponseEntity<?> calcularLinea(@RequestBody FacturaLinea _facturaLinea) {
         FacturaLinea facturaLinea=servicio.calcularLinea(_facturaLinea);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, facturaLinea);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/calcularRecaudacion", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> calcularRecaudacion(@RequestBody Factura _factura) {
+        Factura factura = servicio.calcularRecaudacion(_factura);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

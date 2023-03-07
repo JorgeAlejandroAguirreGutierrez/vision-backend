@@ -2,10 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.comprobante;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
+import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.comprobante.*;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.comprobante.INotaCreditoVentaRepository;
@@ -19,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -105,11 +104,56 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     		throw new SecuenciaNoExistenteException();
     	}
         notaCreditoVenta.setSecuencia(secuencia.get());
+        Optional<String> codigoNumerico = Util.generarCodigoNumerico(Constantes.tabla_nota_credito_venta);
+        if (codigoNumerico.isEmpty()) {
+            throw new CodigoNumericoNoExistenteException();
+        }
+        notaCreditoVenta.setCodigoNumerico(codigoNumerico.get());
+        Optional<String> claveAcceso = crearClaveAcceso(notaCreditoVenta);
+        if (claveAcceso.isEmpty()) {
+            throw new ClaveAccesoNoExistenteException();
+        }
         facturar(notaCreditoVenta);
         notaCreditoVenta.setEstado(Constantes.estadoEmitida);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
         return res;
+    }
+
+    private Optional<String> crearClaveAcceso(NotaCreditoVenta notacreditoVenta) {
+        DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+        String fechaEmision = dateFormat.format(notacreditoVenta.getFecha());
+        String tipoComprobante = Constantes.factura_sri;
+        String numeroRuc = notacreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
+        String tipoAmbiente=Constantes.pruebas_sri;
+        String serie = notacreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notacreditoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI();
+        String numeroComprobante = notacreditoVenta.getSecuencia();
+        String codigoNumerico = notacreditoVenta.getCodigoNumerico();
+        String tipoEmision = Constantes.emision_normal_sri;
+        String cadenaVerificacion=fechaEmision+tipoComprobante+numeroRuc+tipoAmbiente+serie+numeroComprobante+codigoNumerico+tipoEmision;
+        int[] arreglo=new int[cadenaVerificacion.length()];
+        for(int i=0; i<cadenaVerificacion.length(); i++) {
+            arreglo[i]= Integer.parseInt(cadenaVerificacion.charAt(i)+Constantes.vacio);
+        }
+        int factor=Constantes.dos;
+        int suma=0;
+        for(int i=arreglo.length-1; i>=0; i--) {
+            suma=suma+arreglo[i]*factor;
+            if(factor==Constantes.siete) {
+                factor=Constantes.dos;
+            } else {
+                factor++;
+            }
+        }
+        int digitoVerificador = Constantes.once - (suma % Constantes.once);
+        if(digitoVerificador == Constantes.diez) {
+            digitoVerificador = 1;
+        }
+        if(digitoVerificador == Constantes.once) {
+            digitoVerificador = 0;
+        }
+        String claveAcceso=cadenaVerificacion+digitoVerificador;
+        return Optional.of(claveAcceso);
     }
 
     @Override

@@ -3,19 +3,19 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVenta;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 
-import static com.proyecto.sicecuador.Constantes.tabla_tarjeta_debito;
+import static com.proyecto.sicecuador.Constantes.tabla_nota_debito_venta_tarjeta_debito;
 
 @Entity
-@Table(name = tabla_tarjeta_debito)
+@Table(name = tabla_nota_debito_venta_tarjeta_debito)
 @Data
 @AllArgsConstructor
-public class TarjetaDebito extends Entidad {
+public class NotaDebitoVentaTarjetaDebito extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
 	@Column(name = "identificacion", nullable = true)
@@ -37,13 +37,13 @@ public class TarjetaDebito extends Entidad {
     private FranquiciaTarjeta franquiciaTarjeta;
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "factura_id", nullable = true)
-    private Factura factura;
+    @JoinColumn(name = "nota_debito_venta_id", nullable = true)
+    private NotaDebitoVenta notaDebitoVenta;
 
-    public TarjetaDebito(long id){
+    public NotaDebitoVentaTarjetaDebito(long id){
         super(id);
     }
-    public TarjetaDebito(){
+    public NotaDebitoVentaTarjetaDebito(){
         super();
         this.codigo = Constantes.vacio;
         this.identificacion = Constantes.vacio;

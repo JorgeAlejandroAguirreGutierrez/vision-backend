@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.repositorios.recaudacion;
+package com.proyecto.sicecuador.servicios.interf.comprobante.recaudacion;
 
 import com.proyecto.sicecuador.modelos.recaudacion.TarjetaDebito;
 import org.springframework.data.jpa.repository.JpaRepository;

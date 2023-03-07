@@ -7,12 +7,11 @@ import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaLinea;
 import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
-import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
+import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
-import com.proyecto.sicecuador.servicios.interf.recaudacion.IRecaudacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,9 +32,6 @@ public class FacturaService implements IFacturaService {
     private IKardexService kardexService;
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
-
-    @Autowired
-    private IRecaudacionService recaudacionService;
 
     @Override
     public void validar(Factura factura) {
@@ -87,7 +83,7 @@ public class FacturaService implements IFacturaService {
     		throw new CodigoNumericoNoExistenteException();
     	}
     	factura.setCodigoNumerico(codigoNumerico.get());
-    	Optional<String> claveAcceso= crearClaveAcceso(factura);
+    	Optional<String> claveAcceso = crearClaveAcceso(factura);
     	if (claveAcceso.isEmpty()) {
     		throw new ClaveAccesoNoExistenteException();
     	}
@@ -138,10 +134,6 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura actualizar(Factura factura) {
         validar(factura);
-        Recaudacion recaudacion = recaudacionService.obtenerPorFactura(factura.getId());
-        if(recaudacion != null && recaudacion.getEstado().equals(Constantes.recaudado)) {
-            throw new EstadoInvalidoException(Constantes.recaudacion);
-        }
         facturar(factura);
         Factura res = rep.save(factura);
         res.normalizar();
@@ -295,6 +287,66 @@ public class FacturaService implements IFacturaService {
     		facturaLinea.setValorPorcentajeDescuentoTotalLinea(0);
     	}
     	factura.setValorPorcentajeDescuentoTotal(0);
+    }
+
+    @Override
+    public Factura calcularRecaudacion(Factura factura){
+        double total = 0;
+        total = total + factura.getEfectivo();
+        double totalCheques = 0;
+        for(Cheque cheque: factura.getCheques()) {
+            totalCheques = totalCheques+cheque.getValor();
+            total = total + totalCheques;
+        }
+        double totalDepositos = 0;
+        for(Deposito deposito: factura.getDepositos()) {
+            totalDepositos = totalDepositos + deposito.getValor();
+            total = total + totalDepositos;
+        }
+        double totalTransferencias = 0;
+        for(Transferencia transferencia: factura.getTransferencias()) {
+            totalTransferencias = totalTransferencias+transferencia.getValor();
+            total = total + totalTransferencias;
+        }
+        double totalTarjetasDebitos = 0;
+        for(TarjetaDebito tarjetaDebito: factura.getTarjetasDebitos()) {
+            totalTarjetasDebitos = totalTarjetasDebitos + tarjetaDebito.getValor();
+            total = total + totalTarjetasDebitos;
+        }
+        double totalTarjetasCreditos = 0;
+        for(TarjetaCredito tarjetaCredito: factura.getTarjetasCreditos()) {
+            totalTarjetasCreditos = totalTarjetasCreditos+tarjetaCredito.getValor();
+            total = total + totalTarjetasCreditos;
+        }
+
+        total = total + factura.getCredito().getSaldo();
+        factura.setTotalCredito(factura.getCredito().getSaldo());
+        factura.setTotalCheques(totalCheques);
+        factura.setTotalDepositos(totalDepositos);
+        factura.setTotalTransferencias(totalTransferencias);
+        factura.setTotalTarjetasDebitos(totalTarjetasDebitos);
+        factura.setTotalTarjetasCreditos(totalTarjetasCreditos);
+        if(total >= factura.getTotalConDescuento()){
+            factura.setCambio(total - factura.getTotalConDescuento());
+        } else {
+            factura.setCambio(Constantes.cero);
+        }
+        if(total >= factura.getTotalConDescuento()){
+            total = factura.getTotalConDescuento();
+        }
+        double porPagar = factura.getTotalConDescuento() - total;
+        porPagar = Math.round(porPagar*100.0)/100.0;
+        if(porPagar < 0) {
+            porPagar = 0;
+        }
+        factura.setPorPagar(porPagar);
+        factura.setTotalRecaudacion(total);
+        if(porPagar > 0){
+            factura.setEstado(Constantes.noRecaudada);
+        } else{
+            factura.setEstado(Constantes.recaudada);
+        }
+        return factura;
     }
     
     /*

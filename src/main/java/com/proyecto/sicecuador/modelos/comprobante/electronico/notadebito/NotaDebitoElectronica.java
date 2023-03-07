@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.*;
 @XmlType(propOrder={"infoTributaria", "infoNotaDebito", "motivos"})
 @Data
 public class NotaDebitoElectronica {
-	//DATOS DEL SRI CAMPOS EXACTAMENTE COMO LOS TIENE
 	@XmlAttribute(name = "id")
     private String id="comprobante";
 

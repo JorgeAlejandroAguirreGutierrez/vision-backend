@@ -13,8 +13,8 @@ public class Constantes {
 	public static final String placa_abreviatura="PL";
 	public static final String pasaporte_abreviatura="E";
 	public static final String tipo_producto_bien="BIEN";
-	public static final String recaudado="RECAUDADO";
-	public static final String norecaudado="NO RECAUDADO";
+	public static final String recaudada="RECAUDADA";
+	public static final String noRecaudada="NO RECAUDADA";
 	
 	public static final String pendiente="PENDIENTE";
 	public static final String entregado="ENTREGADO";
@@ -25,7 +25,6 @@ public class Constantes {
     public static final String nota_credito_compra_linea = "NOTA CREDITO DE COMPRA LINEA";
     public static final String nota_credito_venta = "NOTA CREDITO DE VENTA";
     public static final String nota_credito_venta_linea = "NOTA CREDITO DE VENTA LINEA";
-    public static final String factura_venta = "FACTURA DE VENTA";
     public static final String nota_debito_venta = "NOTA DEBITO DE VENTA";
     public static final String nota_debito_venta_linea = "NOTA DEBITO DE VENTA LINEA";
     public static final String nota_debito_compra = "NOTA DEBITO DE COMPRA";
@@ -196,20 +195,23 @@ public class Constantes {
     //RECAUDACION
     public static final String tabla_amortizacion="amortizacion";
     public static final String tabla_banco="banco";
-    public static final String tabla_cheque="cheque";
-    public static final String tabla_compensacion="compensacion";
-    public static final String tabla_credito="credito";
     public static final String tabla_cuenta_propia="cuenta_propia";
-    public static final String tabla_deposito="deposito";
     public static final String tabla_franquicia_tarjeta="franquicia_tarjeta";
     public static final String tabla_operador_tarjeta="operador_tarjeta";
-    public static final String tabla_rango_crediticio="rango_crediticio";
     public static final String tabla_recaudacion="recaudacion";
-    public static final String tabla_retencion_venta="retencion_venta";
-    public static final String tabla_retencion_venta_detalle="retencion_Venta_detalle";
+    public static final String tabla_nota_debito_venta_recaudacion="nota_debito_venta_recaudacion";
+    public static final String tabla_cheque="cheque";
+    public static final String tabla_deposito="deposito";
     public static final String tabla_tarjeta_credito="tarjeta_credito";
     public static final String tabla_tarjeta_debito="tarjeta_debito";
     public static final String tabla_transferencia="transferencia";
+    public static final String tabla_credito="credito";
+    public static final String tabla_nota_debito_venta_cheque="nota_debito_venta_cheque";
+    public static final String tabla_nota_debito_venta_deposito="nota_debito_venta_deposito";
+    public static final String tabla_nota_debito_venta_tarjeta_credito="nota_debito_venta_tarjeta_credito";
+    public static final String tabla_nota_debito_venta_tarjeta_debito="nota_debito_venta_tarjeta_debito";
+    public static final String tabla_nota_debito_venta_transferencia="nota_debito_venta_transferencia";
+    public static final String tabla_nota_debito_venta_credito="nota_debito_venta_credito";
     
     //USUARIO
     public static final String tabla_telefono_establecimiento="telefono_establecimiento";
@@ -410,6 +412,7 @@ public class Constantes {
     public static final String stockTotal="STOCK TOTAL";
     public static final String margenGanancia="MARGEN DE GANANCIA";
     public static final String total="TOTAL";
+    public static final String total_recaudacion="TOTAL RECAUDACION";
     public static final String multiempresa="MULTI EMPRESA";
     public static final String apodo="APODO";
 

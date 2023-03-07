@@ -33,12 +33,10 @@ import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.TotalConI
 import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.TotalImpuesto;
 import com.proyecto.sicecuador.modelos.recaudacion.Cheque;
 import com.proyecto.sicecuador.modelos.recaudacion.Deposito;
-import com.proyecto.sicecuador.modelos.recaudacion.Recaudacion;
 import com.proyecto.sicecuador.modelos.recaudacion.TarjetaCredito;
 import com.proyecto.sicecuador.modelos.recaudacion.TarjetaDebito;
 import com.proyecto.sicecuador.modelos.recaudacion.Transferencia;
 import com.proyecto.sicecuador.repositorios.comprobante.IFacturaRepository;
-import com.proyecto.sicecuador.repositorios.recaudacion.IRecaudacionRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaElectronicaService;
 
 import ayungan.com.signature.ConvertFile;
@@ -84,9 +82,7 @@ import java.util.Properties;
 @Service
 public class FacturaElectronicaService implements IFacturaElectronicaService{
     @Autowired
-    private IRecaudacionRepository rep;
-    @Autowired
-    private IFacturaRepository repFactura;
+    private IFacturaRepository rep;
     
     @Value("${prefijo.url.imagenes}")
     private String imagenes;
@@ -97,7 +93,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     @Value("${correo.contrasena}")
     private String correoContrasena;
     
-    private FacturaElectronica crear(Recaudacion recaudacion, Factura factura) {    	
+    private FacturaElectronica crear(Factura factura) {
     	//MAPEO A FACTURA ELECTRONICA
     	FacturaElectronica facturaElectronica=new FacturaElectronica();
     	InfoTributaria infoTributaria = new InfoTributaria();
@@ -129,7 +125,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoFactura.setPropina(Constantes.cero);
     	infoFactura.setImporteTotal(factura.getTotalConDescuento());
     	infoFactura.setMoneda(Constantes.moneda);
-    	infoFactura.setPagos(crearPagos(recaudacion));
+    	infoFactura.setPagos(crearPagos(factura));
     	
     	Detalles detalles=crearDetalles(factura);
     	
@@ -155,56 +151,56 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	return totalConImpuestos;
     }
     
-    private Pagos crearPagos(Recaudacion recaudacion) {
+    private Pagos crearPagos(Factura factura) {
     	Pagos pagos = new Pagos();
     	List<Pago> pagosLista = new ArrayList<>();
-    	if(recaudacion.getEfectivo()>0) {
+    	if(factura.getEfectivo()>0) {
     		Pago pago = new Pago();
-        	pago.setFormaPago(recaudacion.getEfectivoCodigoSri());
-        	pago.setTotal(recaudacion.getEfectivo());
+        	pago.setFormaPago(Constantes.sin_utilizacion_del_sistema_financiero);
+        	pago.setTotal(factura.getEfectivo());
         	pagosLista.add(pago);
     	}
     	
-        for(Cheque cheque: recaudacion.getCheques()) {
+        for(Cheque cheque: factura.getCheques()) {
         	Pago pago = new Pago();
-        	pago.setFormaPago(recaudacion.getChequeCodigoSri());
+        	pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
         	pago.setTotal(cheque.getValor());
         	pagosLista.add(pago);
         }
         
-        for(Deposito deposito: recaudacion.getDepositos()) {
+        for(Deposito deposito: factura.getDepositos()) {
         	Pago pago = new Pago();
-        	pago.setFormaPago(recaudacion.getDepositoCodigoSri());
+        	pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
         	pago.setTotal(deposito.getValor());
         	pagosLista.add(pago);
         }
         
-        for(Transferencia transferencia: recaudacion.getTransferencias()) {
+        for(Transferencia transferencia: factura.getTransferencias()) {
         	Pago pago = new Pago();
-        	pago.setFormaPago(recaudacion.getTransferenciaCodigoSri());
+        	pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
         	pago.setTotal(transferencia.getValor());
         	pagosLista.add(pago);
         }
        
-        for(TarjetaDebito tarjetaDebito: recaudacion.getTarjetasDebitos()) {
+        for(TarjetaDebito tarjetaDebito: factura.getTarjetasDebitos()) {
         	Pago pago = new Pago();
-        	pago.setFormaPago(recaudacion.getTarjetaDebitoCodigoSri());
+        	pago.setFormaPago(Constantes.tarjeta_de_debito);
         	pago.setTotal(tarjetaDebito.getValor());
         	pagosLista.add(pago);
         }
         
-        for(TarjetaCredito tarjetaCredito: recaudacion.getTarjetasCreditos()) {
+        for(TarjetaCredito tarjetaCredito: factura.getTarjetasCreditos()) {
         	Pago pago = new Pago();
-        	pago.setFormaPago(recaudacion.getTarjetaCreditoCodigoSri());
+        	pago.setFormaPago(Constantes.tarjeta_de_credito);
         	pago.setTotal(tarjetaCredito.getValor());
         	pagosLista.add(pago);
         }
-        if(recaudacion.getCredito()!= null && recaudacion.getCredito().getSaldo() > Constantes.cero) {
+        if(factura.getCredito()!= null && factura.getCredito().getSaldo() > Constantes.cero) {
         	Pago pago = new Pago();
-        	pago.setFormaPago(recaudacion.getCreditoCodigoSri());
-        	pago.setTotal(recaudacion.getCredito().getSaldo());
-        	pago.setUnidadTiempo(recaudacion.getCredito().getUnidadTiempo());
-        	pago.setPlazo(recaudacion.getCredito().getPlazo());
+        	pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
+        	pago.setTotal(factura.getCredito().getSaldo());
+        	pago.setUnidadTiempo(factura.getCredito().getUnidadTiempo());
+        	pago.setPlazo(factura.getCredito().getPlazo());
         	pagosLista.add(pago);
         }
     	pagos.setPago(pagosLista);
@@ -245,24 +241,23 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 	@Override
 	public Factura enviar(long facturaId) {
-		Optional<Recaudacion> opcional= rep.obtenerPorFactura(facturaId);
+		Optional<Factura> opcional= rep.findById(facturaId);
 		if(opcional.isEmpty()) {
-			throw new EntidadNoExistenteException(Constantes.recaudacion);
+			throw new EntidadNoExistenteException(Constantes.factura);
 		}
-		Factura factura = opcional.get().getFactura();
-		Recaudacion recaudacion = opcional.get();
-		if(!recaudacion.getEstado().equals(Constantes.recaudado)){
+		Factura factura = opcional.get();
+		if(!factura.getEstado().equals(Constantes.recaudada)){
 			throw new EstadoInvalidoException(Constantes.recaudacion);
 		}
-		FacturaElectronica facturaElectronica = crear(recaudacion, factura);
-		if(factura.getEstado().equals(Constantes.estadoEmitida) && recaudacion.getEstado().equals(Constantes.recaudado)) {
+		FacturaElectronica facturaElectronica = crear(factura);
+		if(factura.getEstado().equals(Constantes.recaudada)) {
 			String estadoRecepcion = recepcion(facturaElectronica);
 			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
 				String estadoAutorizacion = autorizacion(facturaElectronica);
 				if(estadoAutorizacion.equals(Constantes.autorizadoSri)){
 					factura.setEstado(Constantes.estadoFacturada);
 					enviarCorreo(factura, facturaElectronica);
-					Factura facturada = repFactura.save(factura);
+					Factura facturada = rep.save(factura);
 					facturada.normalizar();
 					return facturada;
 				}
@@ -274,7 +269,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			factura.normalizar();
 			return factura;
 		}
-		throw new FacturaElectronicaInvalidaException(Constantes.norecaudado);
+		throw new FacturaElectronicaInvalidaException(Constantes.noRecaudada);
 	}
     
     private String recepcion(FacturaElectronica facturaElectronica) {

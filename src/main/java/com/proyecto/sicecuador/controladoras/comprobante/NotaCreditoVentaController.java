@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.controladoras.comprobante;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.compra.NotaCreditoCompra;
 import com.proyecto.sicecuador.modelos.comprobante.NotaCreditoVenta;
 import com.proyecto.sicecuador.servicios.interf.comprobante.INotaCreditoVentaService;
 import org.springframework.beans.factory.annotation.Autowired;

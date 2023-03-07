@@ -94,6 +94,13 @@ public class NotaDebitoVentaController {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, notaDebitoVentaLinea);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/calcularRecaudacion", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> calcularRecaudacion(@RequestBody NotaDebitoVenta _notaDebitoVenta) {
+        NotaDebitoVenta notaDebitoVenta = servicio.calcularRecaudacion(_notaDebitoVenta);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_calcular_exitoso, notaDebitoVenta);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
     @GetMapping(value = "obtenerPorFactura/{facturaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerPorFactura(@PathVariable("facturaId") long facturaId) {
         NotaDebitoVenta notaDebitoVenta = servicio.obtenerPorFactura(facturaId);
