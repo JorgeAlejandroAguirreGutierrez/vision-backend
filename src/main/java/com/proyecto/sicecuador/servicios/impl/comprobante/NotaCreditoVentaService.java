@@ -113,6 +113,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         if (claveAcceso.isEmpty()) {
             throw new ClaveAccesoNoExistenteException();
         }
+        notaCreditoVenta.setClaveAcceso(claveAcceso.get());
         facturar(notaCreditoVenta);
         notaCreditoVenta.setEstado(Constantes.estadoEmitida);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
@@ -120,15 +121,15 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         return res;
     }
 
-    private Optional<String> crearClaveAcceso(NotaCreditoVenta notacreditoVenta) {
+    private Optional<String> crearClaveAcceso(NotaCreditoVenta notaCreditoVenta) {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
-        String fechaEmision = dateFormat.format(notacreditoVenta.getFecha());
-        String tipoComprobante = Constantes.factura_sri;
-        String numeroRuc = notacreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
+        String fechaEmision = dateFormat.format(notaCreditoVenta.getFecha());
+        String tipoComprobante = Constantes.nota_de_credito_sri;
+        String numeroRuc = notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
         String tipoAmbiente=Constantes.pruebas_sri;
-        String serie = notacreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notacreditoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI();
-        String numeroComprobante = notacreditoVenta.getSecuencia();
-        String codigoNumerico = notacreditoVenta.getCodigoNumerico();
+        String serie = notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCreditoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI();
+        String numeroComprobante = notaCreditoVenta.getSecuencia();
+        String codigoNumerico = notaCreditoVenta.getCodigoNumerico();
         String tipoEmision = Constantes.emision_normal_sri;
         String cadenaVerificacion=fechaEmision+tipoComprobante+numeroRuc+tipoAmbiente+serie+numeroComprobante+codigoNumerico+tipoEmision;
         int[] arreglo=new int[cadenaVerificacion.length()];
@@ -159,6 +160,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     @Override
     public NotaCreditoVenta actualizar(NotaCreditoVenta notaCreditoVenta) {
         validar(notaCreditoVenta);
+        calcular(notaCreditoVenta);
         facturar(notaCreditoVenta);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
@@ -212,13 +214,14 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     @Override
     public NotaCreditoVenta calcular(NotaCreditoVenta notaCreditoVenta) {
         this.calcularTotalSinDescuentoLinea(notaCreditoVenta);
-        this.calcularDescuentoTotal(notaCreditoVenta);
+        this.calcularIvaSinDescuentoLinea(notaCreditoVenta);
         this.calcularSubtotalSinDescuento(notaCreditoVenta);
         this.calcularSubtotalBase12SinDescuento(notaCreditoVenta);
         this.calcularSubtotalBase0SinDescuento(notaCreditoVenta);
         this.calcularIvaSinDescuento(notaCreditoVenta);
-        this.calcularDescuentoTotal(notaCreditoVenta);
+        this.calcularTotalDescuento(notaCreditoVenta);
         this.calcularTotalSinDescuento(notaCreditoVenta);
+        this.calcularTotalConDescuento(notaCreditoVenta);
         return notaCreditoVenta;
     }
     /*
@@ -232,6 +235,14 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
             notaCreditoVentaLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
     	}
     }
+    private void calcularIvaSinDescuentoLinea(NotaCreditoVenta notaCreditoVenta) {
+        for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()) {
+            validarLinea(notaCreditoVentaLinea);
+            double ivaSinDescuentoLinea = notaCreditoVentaLinea.getTotalSinDescuentoLinea() * notaCreditoVentaLinea.getImpuesto().getPorcentaje()/100;
+            ivaSinDescuentoLinea = Math.round(ivaSinDescuentoLinea*100.0)/100.0;
+            notaCreditoVentaLinea.setIvaSinDescuentoLinea(ivaSinDescuentoLinea);
+        }
+    }
     /*
      * FIN CALCULO NOTA CREDITO VENTA LINEA
      */
@@ -239,16 +250,14 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     /*
      * CALCULAR DESCUENTOS
      */
-    private void calcularDescuentoTotal(NotaCreditoVenta notaCreditoVenta) {
-        double totalValorDescuentoLinea = Constantes.cero;
+    private void calcularTotalDescuento(NotaCreditoVenta notaCreditoVenta) {
+        double totalDescuento = Constantes.cero;
         for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()) {
             double valorDescuentoPorcentajeLinea = (notaCreditoVentaLinea.getTotalSinDescuentoLinea() * notaCreditoVentaLinea.getPorcentajeDescuentoLinea()) / 100;
-            totalValorDescuentoLinea = notaCreditoVentaLinea.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
+            totalDescuento = totalDescuento + notaCreditoVentaLinea.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
         }
-        double valorDescuentoTotalPorcentaje = (notaCreditoVenta.getPorcentajeDescuentoTotal() * notaCreditoVenta.getTotalSinDescuento()) / 100;
-        double descuentoTotal = totalValorDescuentoLinea + notaCreditoVenta.getValorDescuentoTotal() + valorDescuentoTotalPorcentaje;
-        descuentoTotal = Math.round(descuentoTotal*100.0)/100.0;
-        notaCreditoVenta.setDescuentoTotal(descuentoTotal);
+        totalDescuento = Math.round(totalDescuento*100.0)/100.0;
+        notaCreditoVenta.setTotalDescuento(totalDescuento);
     }
     /*
      * FIN CALCULAR DESCUENTOS
@@ -295,11 +304,15 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     }
 
     private void calcularTotalSinDescuento(NotaCreditoVenta notaCreditoVenta){
-        double totalSinDescuento = notaCreditoVenta.getSubtotalBase0SinDescuento() + notaCreditoVenta.getSubtotalBase12SinDescuento() + notaCreditoVenta.getIvaSinDescuento();
+        double totalSinDescuento = notaCreditoVenta.getSubtotalBase0SinDescuento() + notaCreditoVenta.getSubtotalBase12SinDescuento();
         totalSinDescuento=Math.round(totalSinDescuento*100.0)/100.0;
         notaCreditoVenta.setTotalSinDescuento(totalSinDescuento);
     }
-
+    private void calcularTotalConDescuento(NotaCreditoVenta notaCreditoVenta){
+        double totalConDescuento = notaCreditoVenta.getSubtotalBase0SinDescuento() + notaCreditoVenta.getSubtotalBase12SinDescuento() + notaCreditoVenta.getIvaSinDescuento() - notaCreditoVenta.getTotalDescuento();
+        totalConDescuento = Math.round(totalConDescuento*100.0)/100.0;
+        notaCreditoVenta.setTotalConDescuento(totalConDescuento);
+    }
     @Override
     public void validarLinea(NotaCreditoVentaLinea notaCreditoVentaLinea) {
         if(notaCreditoVentaLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);

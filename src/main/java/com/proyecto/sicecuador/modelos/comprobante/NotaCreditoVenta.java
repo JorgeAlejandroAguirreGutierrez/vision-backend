@@ -33,14 +33,10 @@ public class NotaCreditoVenta extends Entidad {
     private Date fecha;
     @Column(name = "estado", nullable = true)
     private String estado;
-    @Column(name = "valor_descuento_total", nullable = true)
-    private double valorDescuentoTotal;
-    @Column(name = "porcentaje_descuento_total", nullable = true)
-    private double porcentajeDescuentoTotal;
     @Column(name = "subtotal_sin_descuento", nullable = true)
     private double subtotalSinDescuento;
-    @Column(name = "descuento_total", nullable = true)
-    private double descuentoTotal;
+    @Column(name = "total_descuento", nullable = true)
+    private double totalDescuento;
     @Column(name = "subtotal_base12_sin_descuento", nullable = true)
     private double subtotalBase12SinDescuento;
     @Column(name = "subtotal_base0_sin_descuento", nullable = true)
@@ -78,10 +74,8 @@ public class NotaCreditoVenta extends Entidad {
         this.operacion = Constantes.vacio;
         this.fecha = new Date();
         this.estado = Constantes.estadoNoFacturada;
-        this.valorDescuentoTotal = Constantes.cero;
-        this.porcentajeDescuentoTotal = Constantes.cero;
         this.subtotalSinDescuento = Constantes.cero;
-        this.descuentoTotal = Constantes.cero;
+        this.totalDescuento = Constantes.cero;
         this.subtotalBase12SinDescuento = Constantes.cero;
         this.subtotalBase0SinDescuento = Constantes.cero;
         this.ivaSinDescuento = Constantes.cero;

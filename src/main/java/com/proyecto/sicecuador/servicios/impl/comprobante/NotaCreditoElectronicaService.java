@@ -86,13 +86,13 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
     	infoTributaria.setNombreComercial(notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
     	infoTributaria.setRuc(notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
     	infoTributaria.setClaveAcceso(notaCreditoVenta.getClaveAcceso());
-    	infoTributaria.setCodDoc(Constantes.factura_sri);
+    	infoTributaria.setCodDoc(Constantes.nota_de_credito_sri);
     	infoTributaria.setEstab(notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
     	infoTributaria.setPtoEmi(notaCreditoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI());
     	infoTributaria.setSecuencial(notaCreditoVenta.getSecuencia());
     	infoTributaria.setDirMatriz(notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
     	
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
+    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     	String fechaEmision = dateFormat.format(notaCreditoVenta.getFecha());
 		InfoNotaCredito infoNotaCredito = new InfoNotaCredito();
 		infoNotaCredito.setFechaEmision(fechaEmision);
@@ -105,8 +105,8 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		infoNotaCredito.setNumDocModificado(numero);
 		String fechaEmisionFactura = dateFormat.format(notaCreditoVenta.getFactura().getFecha());
 		infoNotaCredito.setFechaEmisionDocSustento(fechaEmisionFactura);
-		infoNotaCredito.setTotalSinImpuestos(notaCreditoVenta.getTotalConDescuento());
-		infoNotaCredito.setValorModificacion(notaCreditoVenta.getTotalSinDescuento());
+		infoNotaCredito.setTotalSinImpuestos(notaCreditoVenta.getTotalSinDescuento());
+		infoNotaCredito.setValorModificacion(notaCreditoVenta.getTotalConDescuento());
 		infoNotaCredito.setMoneda(Constantes.moneda);
 		infoNotaCredito.setTotalConImpuestos(crearTotalConImpuestos(notaCreditoVenta));
 		infoNotaCredito.setMotivo(notaCreditoVenta.getOperacion());
