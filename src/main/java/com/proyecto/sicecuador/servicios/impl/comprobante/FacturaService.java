@@ -39,6 +39,49 @@ public class FacturaService implements IFacturaService {
         if(factura.getCliente().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cliente);
         if(factura.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(factura.getFacturaLineas().isEmpty()) throw new DatoInvalidoException(Constantes.factura_detalle);
+
+        for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
+            validarLinea(facturaLinea);
+        }
+
+        for(Cheque cheque : factura.getCheques()){
+            if(cheque.getNumero().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero);
+            if(cheque.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.dato_tipo);
+            if(cheque.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(cheque.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
+        }
+        for(Deposito deposito : factura.getDepositos()){
+            if(deposito.getComprobante().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.comprobante);
+            if(deposito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(deposito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
+            if(deposito.getCuentaPropia().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cuenta_propia);
+        }
+        for(Transferencia transferencia : factura.getTransferencias()){
+            if(transferencia.getTipoTransaccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo_transaccion);
+            if(transferencia.getNumeroTransaccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero_transaccion);
+            if(transferencia.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(transferencia.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
+        }
+        for(TarjetaDebito tarjetaDebito : factura.getTarjetasDebitos()){
+            if(tarjetaDebito.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
+            if(tarjetaDebito.getNombreTitular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre_titular);
+            if(tarjetaDebito.getLote().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.lote);
+            if(tarjetaDebito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(tarjetaDebito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
+            if(tarjetaDebito.getOperadorTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.operador_tarjeta);
+            if(tarjetaDebito.getFranquiciaTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.franquicia_tarjeta);
+        }
+        for(TarjetaCredito tarjetaCredito : factura.getTarjetasCreditos()){
+            if(tarjetaCredito.getDiferido().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.diferido);
+            if(tarjetaCredito.getTitular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.titular);
+            if(tarjetaCredito.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
+            if(tarjetaCredito.getNombreTitular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre_titular);
+            if(tarjetaCredito.getLote().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.lote);
+            if(tarjetaCredito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(tarjetaCredito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
+            if(tarjetaCredito.getOperadorTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.operador_tarjeta);
+            if(tarjetaCredito.getFranquiciaTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.franquicia_tarjeta);
+        }
     }
 
     private void facturar(Factura factura) {
@@ -590,7 +633,20 @@ public class FacturaService implements IFacturaService {
         return rep.consultarPorCliente(facturaId, Constantes.estadoFacturada);
     }
     @Override
+    public void validarLinea(FacturaLinea facturaLinea) {
+        if(facturaLinea.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
+        if(facturaLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
+        if(facturaLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
+        if(facturaLinea.getPrecio().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.precio);
+        if(facturaLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
+        if(facturaLinea.getValorDescuentoLinea() > facturaLinea.getPrecio().getPrecioVentaPublicoManual()) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
+        if(facturaLinea.getValorDescuentoLinea() < Constantes.cero) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
+        if(facturaLinea.getPorcentajeDescuentoLinea() < Constantes.cero) throw new DatoInvalidoException(Constantes.porcentajeDescuentoLinea);
+        if(facturaLinea.getPorcentajeDescuentoLinea() > 100) throw new DatoInvalidoException(Constantes.porcentajeDescuentoLinea);
+    }
+    @Override
     public FacturaLinea calcularLinea(FacturaLinea facturaLinea) {
+        validarLinea(facturaLinea);
         this.calcularSubtotalSinDescuentoLinea(facturaLinea);
         this.calcularValorPorcentajeDescuentoLinea(facturaLinea);
         this.calcularTotalDescuentoLinea(facturaLinea);

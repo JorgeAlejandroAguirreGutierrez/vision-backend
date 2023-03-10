@@ -346,7 +346,16 @@ public class Constantes {
     //CAMPOS DE TABLAS
     public static final String descripcion="DESCRIPCION";
     public static final String abreviatura="ABREVIATURA";
-    public static final String numero="NUMERO";
+    public static final String numero = "NUMERO";
+    public static final String valor = "VALOR";
+    public static final String comprobante = "COMPROBANTE";
+    public static final String tipo_transaccion = "TIPO TRANSACCION";
+    public static final String numero_transaccion = "NUMERO TRANSACCION";
+    public static final String nombre_titular = "NOMBRE TITULAR";
+    public static final String diferido = "DIFERIDO";
+    public static final String titular = "TITULAR";
+    public static final String lote = "LOTE";
+    public static final String dato_tipo = "TIPO";
     public static final String equivalencia="EQUIVALENCIA";
 
     public static final String grupo="GRUPO";
