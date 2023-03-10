@@ -30,6 +30,9 @@ public class TarjetaCredito extends Entidad {
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
+    @JoinColumn(name = "banco_id", nullable = true)
+    private Banco banco;
+    @ManyToOne
     @JoinColumn(name = "operador_tarjeta_id", nullable = true)
     private OperadorTarjeta operadorTarjeta;
     @ManyToOne
@@ -56,6 +59,7 @@ public class TarjetaCredito extends Entidad {
         this.franquiciaTarjeta = new FranquiciaTarjeta();
     }
     public void normalizar(){
+        if(this.banco == null) this.banco = new Banco();
         if(this.operadorTarjeta == null) this.operadorTarjeta = new OperadorTarjeta();
         if(this.franquiciaTarjeta == null) this.franquiciaTarjeta = new FranquiciaTarjeta();
     }
