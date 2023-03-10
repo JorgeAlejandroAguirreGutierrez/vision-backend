@@ -10,15 +10,15 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_factura_compra_linea;
+
 @Entity
-@Table(name = "factura_compra_linea")
+@Table(name = tabla_factura_compra_linea)
 @Data
 @AllArgsConstructor
 public class FacturaCompraLinea extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "comentario", nullable = true)
-    private String comentario;
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
     @Column(name = "costo_unitario", nullable = true)
@@ -46,7 +46,6 @@ public class FacturaCompraLinea extends Entidad {
     public FacturaCompraLinea() {
         super();
         this.codigo = Constantes.vacio;
-        this.comentario = Constantes.vacio;
         this.cantidad = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
         this.valorDescuentoLinea = Constantes.cero;
@@ -54,9 +53,5 @@ public class FacturaCompraLinea extends Entidad {
         this.totalSinDescuentoLinea = Constantes.cero;
         this.bodega = new Bodega();
         this.producto = new Producto();
-    }
-
-    public void normalizar(){
-        if(this.bodega == null) this.bodega = new Bodega();
     }
 }

@@ -13,8 +13,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_factura_compra;
+
 @Entity
-@Table(name = "factura_compra")
+@Table(name = tabla_factura_compra)
 @Data
 @AllArgsConstructor
 public class FacturaCompra extends Entidad {

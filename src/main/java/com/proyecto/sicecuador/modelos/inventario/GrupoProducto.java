@@ -8,10 +8,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-import java.util.List;
+import static com.proyecto.sicecuador.Constantes.tabla_grupo_producto;
 
 @Entity
-@Table(name = "grupo_producto")
+@Table(name = tabla_grupo_producto)
 @Data
 @AllArgsConstructor
 public class GrupoProducto extends Entidad {

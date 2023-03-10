@@ -1,13 +1,18 @@
 package com.proyecto.sicecuador.modelos.usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_usuario;
+
 @Entity
-@Table(name = "usuario")
+@Table(name = tabla_usuario)
 @Data
 @AllArgsConstructor
 public class Usuario extends Entidad {
@@ -32,7 +37,7 @@ public class Usuario extends Entidad {
     @Transient
     private String avatar64;
     @Lob
-    @Column(name = "avatar", nullable = true)
+    @Column(name = "avatar", nullable = true )
     private byte[] avatar;
     @Column(name = "cambiarContrasena", nullable = true)
     private String cambiarContrasena;

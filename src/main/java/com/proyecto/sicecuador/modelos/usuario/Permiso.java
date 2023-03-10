@@ -7,10 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_permiso;
 
 @Entity
-@Table(name = "permiso")
+@Table(name = tabla_permiso)
 @Data
 @AllArgsConstructor
 public class Permiso extends Entidad {

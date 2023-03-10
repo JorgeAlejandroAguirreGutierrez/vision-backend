@@ -1,4 +1,6 @@
 package com.proyecto.sicecuador.modelos.usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
@@ -7,8 +9,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_empresa;
+
 @Entity
-@Table(name = "empresa")
+@Table(name = tabla_empresa)
 @Data
 @AllArgsConstructor
 public class Empresa extends Entidad {

@@ -11,8 +11,10 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_producto;
+
 @Entity
-@Table(name = "producto")
+@Table(name = tabla_producto)
 @Data
 @AllArgsConstructor
 public class Producto extends Entidad {

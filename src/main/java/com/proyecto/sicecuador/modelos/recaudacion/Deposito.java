@@ -3,14 +3,17 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
+import static com.proyecto.sicecuador.Constantes.tabla_deposito;
+
 @Entity
-@Table(name = "deposito")
+@Table(name = tabla_deposito)
 @Data
 @AllArgsConstructor
 public class Deposito extends Entidad {
@@ -30,8 +33,8 @@ public class Deposito extends Entidad {
     private CuentaPropia cuentaPropia;
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "recaudacion_id", nullable = true)
-    private Recaudacion recaudacion;
+    @JoinColumn(name = "factura_id", nullable = true)
+    private Factura factura;
 
     public Deposito(long id){
         super(id);

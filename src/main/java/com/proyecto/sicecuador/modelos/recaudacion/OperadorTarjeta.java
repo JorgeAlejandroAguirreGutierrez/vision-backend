@@ -6,8 +6,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_operador_tarjeta;
+
 @Entity
-@Table(name = "operador_tarjeta")
+@Table(name = tabla_operador_tarjeta)
 @Data
 @AllArgsConstructor
 public class OperadorTarjeta extends Entidad {

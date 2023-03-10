@@ -7,8 +7,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_tipo_pago;
+
 @Entity
-@Table(name = "tipo_pago")
+@Table(name = tabla_tipo_pago)
 @Data
 @AllArgsConstructor
 public class TipoPago extends Entidad {

@@ -29,8 +29,8 @@ public class Endpoints {
     
     //COMPRA
     public static final String pathFacturaCompra="facturaCompra";
-    public static final String pathFacturaCompraLinea="facturaCompraLinea";
-    public static final String pathRetencionCompra="retencionCompra";
+    public static final String pathNotaCreditoCompra="notaCreditoCompra";
+    public static final String pathNotaDebitoCompra="notaDebitoCompra";
     public static final String pathGrupoProveedor="grupoProveedor";
     
     //COMPROBANTE
@@ -42,6 +42,10 @@ public class Endpoints {
     public static final String pathPedido="pedido";
     public static final String pathProforma="proforma";
     public static final String pathTipoComprobante="tipoComprobante";
+    public static final String pathNotaCreditoVenta="notaCreditoVenta";
+    public static final String pathNotaDebitoVenta="notaDebitoVenta";
+    public static final String pathNotaDebitoElectronica="notaDebitoEletronica";
+    public static final String pathNotaCreditoElectronica="notaCreditoEletronica";
     
     //CONFIGURACION
     public static final String pathEmpresa="empresa";
@@ -81,6 +85,7 @@ public class Endpoints {
     public static final String pathOperadorTarjeta="operadorTarjeta";
     public static final String pathRangoCrediticio="rangoCrediticio";
     public static final String pathRecaudacion="recaudacion";
+    public static final String pathNotaDebitoVentaRecaudacion="notaDebitoVentaRecaudacion";
     
     //USUARIO
     public static final String pathCelularEstablecimiento="celularEstablecimiento";

@@ -5,17 +5,14 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.recaudacion.Banco;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
-import com.proyecto.sicecuador.repositorios.recaudacion.ICuentaPropiaRepository;
+import com.proyecto.sicecuador.servicios.interf.comprobante.recaudacion.ICuentaPropiaRepository;
 import com.proyecto.sicecuador.servicios.interf.recaudacion.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service

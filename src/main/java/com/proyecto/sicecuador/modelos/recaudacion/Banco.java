@@ -6,8 +6,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_banco;
+
 @Entity
-@Table(name = "banco")
+@Table(name = tabla_banco)
 @Data
 @AllArgsConstructor
 public class Banco extends Entidad {

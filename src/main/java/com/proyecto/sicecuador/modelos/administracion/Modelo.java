@@ -1,18 +1,16 @@
 package com.proyecto.sicecuador.modelos.administracion;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+
+import static com.proyecto.sicecuador.Constantes.tabla_modelo;
 
 @Entity
-@Table(name = "modelo")
+@Table(name = tabla_modelo)
 @Data
 @AllArgsConstructor
 public class Modelo extends Entidad {

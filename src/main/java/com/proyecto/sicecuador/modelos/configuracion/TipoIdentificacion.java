@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_tipo_identificacion;
 
 @Entity
-@Table(name = "tipo_identificacion")
+@Table(name = tabla_tipo_identificacion)
 @Data
 @AllArgsConstructor
 public class TipoIdentificacion extends Entidad {

@@ -8,8 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import static com.proyecto.sicecuador.Constantes.tabla_franquicia_tarjeta;
+
 @Entity
-@Table(name = "franquicia_tarjeta")
+@Table(name = tabla_franquicia_tarjeta)
 @Data
 @AllArgsConstructor
 public class FranquiciaTarjeta extends Entidad {

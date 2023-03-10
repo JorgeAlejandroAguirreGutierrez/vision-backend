@@ -44,6 +44,10 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR16", "CREAR", "", "tipo_contribuyente", "TCO", Constantes.activo));
             parametros.add(new Parametro("PAR17", "CREAR", "", "tipo_pago", "TPA", Constantes.activo));
             parametros.add(new Parametro("PAR18", "CREAR", "", "factura", "FAC", Constantes.activo));
+            parametros.add(new Parametro("PAR18", "CREAR", "", "nota_debito_venta", "NDV", Constantes.activo));
+            parametros.add(new Parametro("PAR18", "CREAR", "", "nota_debito_venta_linea", "NDVL", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "nota_credito_venta", "NCV", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "nota_credito_venta_linea", "NCVE", Constantes.activo));
             parametros.add(new Parametro("PAR19", "CREAR", "", "egreso", "EGRE", Constantes.activo));
             parametros.add(new Parametro("PAR20", "CREAR", "", "ubicacion", "UBI", Constantes.activo));
             parametros.add(new Parametro("PAR21", "CREAR", "", "entrega", "ENT", Constantes.activo));
@@ -70,7 +74,11 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR65", "CREAR", "", "bodega_producto", "BOP", Constantes.activo));
             parametros.add(new Parametro("PAR66", "CREAR", "", "factura_detalle", "FDE", Constantes.activo));
             parametros.add(new Parametro("PAR66", "CREAR", "", "factura_compra", "FCO", Constantes.activo));
-            parametros.add(new Parametro("PAR66", "CREAR", "", "factura_compra_detalle", "FCD", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "factura_compra_linea", "FCL", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "nota_credito_compra", "NCC", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "nota_credito_compra_linea", "NCCL", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "nota_debito_compra", "NDC", Constantes.activo));
+            parametros.add(new Parametro("PAR66", "CREAR", "", "nota_debito_compra_linea", "NDCL", Constantes.activo));
             parametros.add(new Parametro("PAR67", "CREAR", "", "recaudacion", "REC", Constantes.activo));
             parametros.add(new Parametro("PAR67", "CREAR", "", "grupo_producto", "GRP", Constantes.activo));
             parametros.add(new Parametro("PAR67", "CREAR", "", "kardex", "KAR", Constantes.activo));

@@ -13,8 +13,10 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_proveedor;
+
 @Entity
-@Table(name = "proveedor")
+@Table(name = tabla_proveedor)
 @Data
 @AllArgsConstructor
 public class Proveedor extends Entidad {
@@ -328,7 +330,10 @@ public class Proveedor extends Entidad {
         if(this.plazoCredito == null) this.plazoCredito = new PlazoCredito();
         if(this.ubicacion == null) this.ubicacion = new Ubicacion();
         if(this.telefonosProveedor == null) this.telefonosProveedor = Collections.emptyList();
+        if(this.telefonosProveedor.isEmpty()) this.telefonosProveedor.add(new TelefonoProveedor());
         if(this.celularesProveedor == null) this.celularesProveedor = Collections.emptyList();
+        if(this.celularesProveedor.isEmpty()) this.celularesProveedor.add(new CelularProveedor());
         if(this.correosProveedor == null) this.correosProveedor = Collections.emptyList();
+        if(this.correosProveedor.isEmpty()) this.correosProveedor.add(new CorreoProveedor());
     }
 }

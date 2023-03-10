@@ -9,8 +9,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_precio;
+
 @Entity
-@Table(name = "precio")
+@Table(name = tabla_precio)
 @Data
 @AllArgsConstructor
 public class Precio extends Entidad {

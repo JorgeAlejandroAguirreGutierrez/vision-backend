@@ -7,8 +7,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_bodega;
+
 @Entity
-@Table(name = "bodega")
+@Table(name = tabla_bodega)
 @Data
 @AllArgsConstructor
 public class Bodega extends Entidad {

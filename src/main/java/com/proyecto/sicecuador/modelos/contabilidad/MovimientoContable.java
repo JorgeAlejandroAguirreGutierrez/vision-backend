@@ -7,8 +7,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_movimiento_contable;
+
 @Entity
-@Table(name = "movimiento_contable")
+@Table(name = tabla_movimiento_contable)
 @Data
 @AllArgsConstructor
 public class MovimientoContable extends Entidad {

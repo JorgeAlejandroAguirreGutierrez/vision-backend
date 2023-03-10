@@ -7,8 +7,10 @@ import lombok.Data;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_grupo_proveedor;
+
 @Entity
-@Table(name = "grupo_proveedor")
+@Table(name = tabla_grupo_proveedor)
 @Data
 @AllArgsConstructor
 public class GrupoProveedor extends Entidad {

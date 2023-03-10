@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
+import static com.proyecto.sicecuador.Constantes.tabla_cuenta_propia;
 
 @Entity
-@Table(name = "cuenta_propia")
+@Table(name = tabla_cuenta_propia)
 @Data
 @AllArgsConstructor
 public class CuentaPropia extends Entidad {

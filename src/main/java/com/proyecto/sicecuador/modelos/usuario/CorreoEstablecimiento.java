@@ -10,8 +10,10 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_correo_establecimiento;
+
 @Entity
-@Table(name = "correo_establecimiento")
+@Table(name = tabla_correo_establecimiento)
 @Data
 @AllArgsConstructor
 public class CorreoEstablecimiento extends Entidad {

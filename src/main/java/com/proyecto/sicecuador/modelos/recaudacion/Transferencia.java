@@ -2,14 +2,17 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
+import static com.proyecto.sicecuador.Constantes.tabla_transferencia;
+
 @Entity
-@Table(name = "transferencia")
+@Table(name = tabla_transferencia)
 @Data
 @AllArgsConstructor
 public class Transferencia extends Entidad {
@@ -28,8 +31,8 @@ public class Transferencia extends Entidad {
     private Banco banco;
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "recaudacion_id", nullable = true)
-    private Recaudacion recaudacion;
+    @JoinColumn(name = "factura_id", nullable = true)
+    private Factura factura;
 
     public Transferencia(long id){
         super(id);

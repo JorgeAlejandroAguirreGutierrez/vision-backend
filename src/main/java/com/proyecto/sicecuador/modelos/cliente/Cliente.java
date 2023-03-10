@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_cliente;
+
 @Entity
-@Table(name = "cliente")
+@Table(name = tabla_cliente)
 @Data
 @AllArgsConstructor
 public class Cliente extends Entidad {

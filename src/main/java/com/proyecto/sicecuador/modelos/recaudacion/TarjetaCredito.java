@@ -2,13 +2,16 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 
+import static com.proyecto.sicecuador.Constantes.tabla_tarjeta_credito;
+
 @Entity
-@Table(name = "tarjeta_credito")
+@Table(name = tabla_tarjeta_credito)
 @Data
 @AllArgsConstructor
 public class TarjetaCredito extends Entidad {
@@ -34,8 +37,8 @@ public class TarjetaCredito extends Entidad {
     private FranquiciaTarjeta franquiciaTarjeta;
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "recaudacion_id", nullable = true)
-    private Recaudacion recaudacion;
+    @JoinColumn(name = "factura_id", nullable = true)
+    private Factura factura;
 
     public TarjetaCredito(long id){
         super(id);

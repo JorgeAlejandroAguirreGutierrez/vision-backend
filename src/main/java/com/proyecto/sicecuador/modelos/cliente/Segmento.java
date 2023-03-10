@@ -8,8 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import static com.proyecto.sicecuador.Constantes.tabla_segmento;
+
 @Entity
-@Table(name = "segmento")
+@Table(name = tabla_segmento)
 @Data
 @AllArgsConstructor
 public class Segmento extends Entidad {

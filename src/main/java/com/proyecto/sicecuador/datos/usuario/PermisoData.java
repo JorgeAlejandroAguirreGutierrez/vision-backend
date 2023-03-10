@@ -35,12 +35,13 @@ public class PermisoData implements ApplicationRunner {
             permisos.add(new Permiso("PER202301000009", "COMPRAS", "FACTURAS DE COMPRA", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000010", "COMPRAS", "GRUPOS DE PROVEEDORES", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000011", "COMPRAS", "NOTAS DE CRÉDITO COMPRA", Constantes.si, Constantes.activo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000011", "COMPRAS", "NOTAS DE DÉBITO COMPRA", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000012", "VENTAS", "FACTURAS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000013", "VENTAS", "PEDIDOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000014", "VENTAS", "PROFORMAS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000015", "VENTAS", "EGRESOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000016", "VENTAS", "NOTAS DE CRÉDITO VENTA", Constantes.si, Constantes.activo, new Perfil(1)));
-            permisos.add(new Permiso("PER202301000017", "VENTAS", "TRANSPORTISTAS", Constantes.si, Constantes.activo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000016", "VENTAS", "NOTAS DE DÉBITO VENTA", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000018", "VENTAS", "VEHICULO TRANSPORTE", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000019", "INVENTARIOS", "GRUPOS DE PRODUCTOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000020", "INVENTARIOS", "PRODUCTOS", Constantes.si, Constantes.activo, new Perfil(1)));

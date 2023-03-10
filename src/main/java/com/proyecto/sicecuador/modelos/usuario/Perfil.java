@@ -10,8 +10,10 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
+import static com.proyecto.sicecuador.Constantes.tabla_perfil;
+
 @Entity
-@Table(name = "perfil")
+@Table(name = tabla_perfil)
 @Data
 @AllArgsConstructor
 public class Perfil extends Entidad {
