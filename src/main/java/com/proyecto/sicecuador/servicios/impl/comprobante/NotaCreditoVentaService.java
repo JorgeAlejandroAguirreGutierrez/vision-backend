@@ -44,7 +44,9 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     private void facturar(NotaCreditoVenta notaCreditoVenta) {
         if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaCreditoVenta.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-
+        kardexService.eliminar(Constantes.nota_credito_venta, Constantes.operacion_conjunta, notaCreditoVenta.getSecuencia());
+        kardexService.eliminar(Constantes.nota_credito_venta, Constantes.operacion_devolucion, notaCreditoVenta.getSecuencia());
+        kardexService.eliminar(Constantes.nota_credito_venta, Constantes.operacion_descuento, notaCreditoVenta.getSecuencia());
         if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_conjunta)){
             for(NotaCreditoVentaLinea notaCreditoVentaLinea : notaCreditoVenta.getNotaCreditoVentaLineas()) {
                 Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaCreditoVentaLinea.getBodega().getId(), notaCreditoVentaLinea.getProducto().getId());
@@ -74,6 +76,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
             }
         }
         if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_descuento)){
+            kardexService.eliminar(Constantes.nota_credito_venta, Constantes.operacion_descuento, notaCreditoVenta.getSecuencia());
             for(NotaCreditoVentaLinea notaCreditoCompraLinea : notaCreditoVenta.getNotaCreditoVentaLineas()) {
                 Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaCreditoCompraLinea.getBodega().getId(), notaCreditoCompraLinea.getProducto().getId());
                 if(ultimoKardex != null){
@@ -99,7 +102,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     		throw new CodigoNoExistenteException();
     	}
         notaCreditoVenta.setCodigo(codigo.get());
-    	Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_factura_compra);
+    	Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_nota_credito_venta);
     	if (secuencia.isEmpty()) {
     		throw new SecuenciaNoExistenteException();
     	}
@@ -126,7 +129,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         String fechaEmision = dateFormat.format(notaCreditoVenta.getFecha());
         String tipoComprobante = Constantes.nota_de_credito_sri;
         String numeroRuc = notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
-        String tipoAmbiente=Constantes.pruebas_sri;
+        String tipoAmbiente = Constantes.pruebas_sri;
         String serie = notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCreditoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI();
         String numeroComprobante = notaCreditoVenta.getSecuencia();
         String codigoNumerico = notaCreditoVenta.getCodigoNumerico();
@@ -160,8 +163,13 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     @Override
     public NotaCreditoVenta actualizar(NotaCreditoVenta notaCreditoVenta) {
         validar(notaCreditoVenta);
-        calcular(notaCreditoVenta);
-        facturar(notaCreditoVenta);
+        Optional<String> claveAcceso = crearClaveAcceso(notaCreditoVenta);
+        if (claveAcceso.isEmpty()) {
+            throw new ClaveAccesoNoExistenteException();
+        }
+        notaCreditoVenta.setClaveAcceso(claveAcceso.get());
+        //calcular(notaCreditoVenta);
+        //facturar(notaCreditoVenta);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
         return res;

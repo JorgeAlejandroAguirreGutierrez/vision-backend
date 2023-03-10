@@ -18,10 +18,12 @@ import com.itextpdf.layout.property.VerticalAlignment;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.exception.EstadoInvalidoException;
 import com.proyecto.sicecuador.exception.FacturaElectronicaInvalidaException;
 import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVenta;
 import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVentaLinea;
 import com.proyecto.sicecuador.modelos.comprobante.electronico.notadebito.*;
+import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.repositorios.comprobante.INotaDebitoVentaRepository;
 import com.proyecto.sicecuador.servicios.interf.comprobante.INotaDebitoElectronicaService;
 import org.json.JSONObject;
@@ -105,8 +107,9 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		infoNotaDebito.setNumDocModificado(numero);
 		String fechaEmisionFactura = dateFormat.format(notaDebitoVenta.getFactura().getFecha());
 		infoNotaDebito.setFechaEmisionDocSustento(fechaEmisionFactura);
-		infoNotaDebito.setTotalSinImpuestos(notaDebitoVenta.getTotalConDescuento());
+		infoNotaDebito.setTotalSinImpuestos(notaDebitoVenta.getSubtotalSinDescuento());
 		Impuestos impuestos = crearImpuestos(notaDebitoVenta);
+		infoNotaDebito.setValorTotal(notaDebitoVenta.getTotalConDescuento());
 		Pagos pagos = crearPagos(notaDebitoVenta);
 		Motivos motivos = crearMotivos(notaDebitoVenta);
 
@@ -136,12 +139,57 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 
 	private Pagos crearPagos(NotaDebitoVenta notaDebitoVenta) {
 		Pagos pagos = new Pagos();
-		List<Pago> pagoLista = new ArrayList<>();
-		for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
-			Pago pago=new Pago();
-			pagoLista.add(pago);
+		List<Pago> pagosLista = new ArrayList<>();
+		if(notaDebitoVenta.getEfectivo() > 0) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.sin_utilizacion_del_sistema_financiero);
+			pago.setTotal(notaDebitoVenta.getEfectivo());
+			pagosLista.add(pago);
 		}
-		pagos.setPago(pagoLista);
+
+		for(NotaDebitoVentaCheque cheque: notaDebitoVenta.getCheques()) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
+			pago.setTotal(cheque.getValor());
+			pagosLista.add(pago);
+		}
+
+		for(NotaDebitoVentaDeposito deposito: notaDebitoVenta.getDepositos()) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
+			pago.setTotal(deposito.getValor());
+			pagosLista.add(pago);
+		}
+
+		for(NotaDebitoVentaTransferencia transferencia: notaDebitoVenta.getTransferencias()) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
+			pago.setTotal(transferencia.getValor());
+			pagosLista.add(pago);
+		}
+
+		for(NotaDebitoVentaTarjetaDebito tarjetaDebito: notaDebitoVenta.getTarjetasDebitos()) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.tarjeta_de_debito);
+			pago.setTotal(tarjetaDebito.getValor());
+			pagosLista.add(pago);
+		}
+
+		for(NotaDebitoVentaTarjetaCredito tarjetaCredito: notaDebitoVenta.getTarjetasCreditos()) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.tarjeta_de_credito);
+			pago.setTotal(tarjetaCredito.getValor());
+			pagosLista.add(pago);
+		}
+		if(notaDebitoVenta.getCredito()!= null && notaDebitoVenta.getCredito().getSaldo() > Constantes.cero) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
+			pago.setTotal(notaDebitoVenta.getCredito().getSaldo());
+			pago.setUnidadTiempo(notaDebitoVenta.getCredito().getUnidadTiempo());
+			pago.setPlazo(notaDebitoVenta.getCredito().getPlazo());
+			pagosLista.add(pago);
+		}
+		pagos.setPago(pagosLista);
 		return pagos;
 	}
 	private Motivos crearMotivos(NotaDebitoVenta notaDebitoVenta) {
@@ -161,11 +209,14 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 	public NotaDebitoVenta enviar(long notaDebitoVentaId) {
 		Optional<NotaDebitoVenta> opcional= rep.findById(notaDebitoVentaId);
 		if(opcional.isEmpty()) {
-			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
+			throw new EntidadNoExistenteException(Constantes.nota_debito_venta);
 		}
 		NotaDebitoVenta notaDebitoVenta = opcional.get();
+		if(!notaDebitoVenta.getEstado().equals(Constantes.recaudada)){
+			throw new EstadoInvalidoException(Constantes.recaudacion);
+		}
 		NotaDebitoElectronica notaDebitoElectronica = crear(notaDebitoVenta);
-		if(notaDebitoVenta.getEstado().equals(Constantes.estadoEmitida)) {
+		if(notaDebitoVenta.getEstado().equals(Constantes.recaudada)) {
 			String estadoRecepcion = recepcion(notaDebitoElectronica);
 			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
 				String estadoAutorizacion = autorizacion(notaDebitoElectronica);
@@ -184,7 +235,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			notaDebitoVenta.normalizar();
 			return notaDebitoVenta;
 		}
-		throw new FacturaElectronicaInvalidaException(Constantes.estado);
+		throw new FacturaElectronicaInvalidaException(Constantes.noRecaudada);
 	}
     
     private String recepcion(NotaDebitoElectronica notaDebitoElectronica) {
