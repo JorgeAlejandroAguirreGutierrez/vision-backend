@@ -131,7 +131,10 @@ public class ProductoService implements IProductoService {
     public List<Producto> consultarBien() {
         return rep.consultarPorBien(Constantes.tipo_producto_bien, Constantes.activo);
     }
-
+    @Override
+    public List<Producto> consultarBienPorProveedor(long proveedorId) {
+        return rep.consultarBienPorProveedor(Constantes.tipo_producto_bien, proveedorId, Constantes.activo);
+    }
     @Override
     public List<Producto> consultarServicio() {
         return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
