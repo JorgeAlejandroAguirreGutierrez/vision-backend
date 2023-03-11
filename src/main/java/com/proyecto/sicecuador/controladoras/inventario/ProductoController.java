@@ -79,6 +79,12 @@ public class ProductoController implements GenericoController<Producto> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    @GetMapping(value = "/consultarBienPorProveedor/{proveedorId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorBienPorProveedor(@PathVariable("proveedorId") long proveedorId) {
+        List<Producto> productos = servicio.consultarBienPorProveedor(proveedorId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
     @GetMapping(value = "/consultarServicio", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarServicio() {
         List<Producto> productos=servicio.consultarServicio();
