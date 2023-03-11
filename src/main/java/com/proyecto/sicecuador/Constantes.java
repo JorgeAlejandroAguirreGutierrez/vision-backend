@@ -471,6 +471,7 @@ public class Constantes {
     public static final String renta= "RENTA";
     public static final String bien= "BIEN";
     public static final String servicio = "SERVICIO";
+    public static final String activo_fijo = "ACTIVO FIJO";
     public static final String inicioTelefono = "0";
     public static final String inicioCelular = "09";
     public static final String arroba = "@";

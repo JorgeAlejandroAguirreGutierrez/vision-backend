@@ -21,10 +21,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 @Service
 public class ProductoService implements IProductoService {
     @Autowired
@@ -41,10 +39,21 @@ public class ProductoService implements IProductoService {
         if(producto.getTipoGasto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_gasto);
         if(producto.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
         if(producto.getPrecios().isEmpty()) throw new DatoInvalidoException(Constantes.precio);
+        if(producto.getCategoriaProducto().getDescripcion().equals(Constantes.servicio)){
+            producto.setKardexs(Collections.emptyList());
+        }
+        if(producto.getCategoriaProducto().getDescripcion().equals(Constantes.activo_fijo)){
+            producto.setKardexs(Collections.emptyList());
+        }
         for (Precio precio : producto.getPrecios()) {
             if(precio.getPrecioVentaPublicoManual() < precio.getPrecioVentaPublico()){
                 throw new DatoInvalidoException(Constantes.precio_venta_publico_manual);
             }
+        }
+        for(Kardex kardex: producto.getKardexs()){
+            if(kardex.getCantidad() <= Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
+            if(kardex.getCostoUnitario() <= Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
+            if(kardex.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
         }
     }
     
