@@ -181,7 +181,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         this.calcularSubtotalBase12SinDescuento(notaCreditoCompra);
         this.calcularSubtotalBase0SinDescuento(notaCreditoCompra);
         this.calcularIvaSinDescuento(notaCreditoCompra);
-        this.calcularTotalDescuento(notaCreditoCompra);
+        this.calcularDescuentoTotal(notaCreditoCompra);
         this.calcularTotalSinDescuento(notaCreditoCompra);
         this.calcularTotalConDescuento(notaCreditoCompra);
         return notaCreditoCompra;
@@ -215,14 +215,14 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     /*
      * CALCULAR DESCUENTOS
      */
-    private void calcularTotalDescuento(NotaCreditoCompra notaCreditoCompra) {
+    private void calcularDescuentoTotal(NotaCreditoCompra notaCreditoCompra) {
         double totalDescuento = Constantes.cero;
         for(NotaCreditoCompraLinea notaCreditoCompraLinea: notaCreditoCompra.getNotaCreditoCompraLineas()) {
             double valorDescuentoPorcentajeLinea = (notaCreditoCompraLinea.getTotalSinDescuentoLinea() * notaCreditoCompraLinea.getPorcentajeDescuentoLinea()) / 100;
             totalDescuento = totalDescuento + notaCreditoCompraLinea.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
         }
         totalDescuento = Math.round(totalDescuento * 100.0) / 100.0;
-        notaCreditoCompra.setTotalDescuento(totalDescuento);
+        notaCreditoCompra.setDescuentoTotal(totalDescuento);
     }
     /*
      * FIN CALCULAR DESCUENTOS
@@ -270,7 +270,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         notaCreditoCompra.setTotalSinDescuento(totalSinDescuento);
     }
     private void calcularTotalConDescuento(NotaCreditoCompra notaCreditoCompra){
-        double totalConDescuento = notaCreditoCompra.getSubtotalBase0SinDescuento() + notaCreditoCompra.getSubtotalBase12SinDescuento() + notaCreditoCompra.getIvaSinDescuento() - notaCreditoCompra.getTotalDescuento();
+        double totalConDescuento = notaCreditoCompra.getSubtotalBase0SinDescuento() + notaCreditoCompra.getSubtotalBase12SinDescuento() + notaCreditoCompra.getIvaSinDescuento() - notaCreditoCompra.getDescuentoTotal();
         totalConDescuento = Math.round(totalConDescuento*100.0)/100.0;
         notaCreditoCompra.setTotalConDescuento(totalConDescuento);
     }

@@ -147,10 +147,22 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         this.calcularSubtotalBase12SinDescuento(notaDebitoCompra);
         this.calcularSubtotalBase0SinDescuento(notaDebitoCompra);
         this.calcularIvaSinDescuento(notaDebitoCompra);
-        this.calcularTotalDescuento(notaDebitoCompra);
+        this.calcularDescuentoTotal(notaDebitoCompra);
         this.calcularTotalSinDescuento(notaDebitoCompra);
         this.calcularTotalConDescuento(notaDebitoCompra);
         return notaDebitoCompra;
+    }
+    /*
+     * CALCULOS CON NOTA DEBITO COMPRA LINEA
+     */
+    @Override
+    public NotaDebitoCompraLinea calcularLinea(NotaDebitoCompraLinea notaDebitoCompraLinea) {
+        validarLinea(notaDebitoCompraLinea);
+        double impuesto = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() * notaDebitoCompraLinea.getImpuesto().getPorcentaje() / 100;
+        double totalSinDescuentoLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() + impuesto;
+        totalSinDescuentoLinea = Math.round(totalSinDescuentoLinea*100.0)/100.0;
+        notaDebitoCompraLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
+        return notaDebitoCompraLinea;
     }
     /*
      * CALCULOS CON NOTA DEBITO COMPRA LINEA
@@ -178,14 +190,14 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     /*
      * CALCULAR DESCUENTOS
      */
-    private void calcularTotalDescuento(NotaDebitoCompra notaDebitoCompra) {
+    private void calcularDescuentoTotal(NotaDebitoCompra notaDebitoCompra) {
         double totalDescuento = Constantes.cero;
         for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()) {
             double valorDescuentoPorcentajeLinea = (notaDebitoCompraLinea.getTotalSinDescuentoLinea() * notaDebitoCompraLinea.getPorcentajeDescuentoLinea()) / 100;
             totalDescuento = totalDescuento + notaDebitoCompraLinea.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
         }
         totalDescuento = Math.round(totalDescuento*100.0)/100.0;
-        notaDebitoCompra.setTotalDescuento(totalDescuento);
+        notaDebitoCompra.setDescuentoTotal(totalDescuento);
     }
     /*
      * FIN CALCULAR DESCUENTOS
@@ -237,7 +249,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         notaDebitoCompra.setTotalSinDescuento(totalSinDescuento);
     }
     private void calcularTotalConDescuento(NotaDebitoCompra notaDebitoCompra){
-        double totalConDescuento = notaDebitoCompra.getSubtotalBase0SinDescuento() + notaDebitoCompra.getSubtotalBase12SinDescuento() + notaDebitoCompra.getIvaSinDescuento() - notaDebitoCompra.getTotalDescuento();
+        double totalConDescuento = notaDebitoCompra.getSubtotalBase0SinDescuento() + notaDebitoCompra.getSubtotalBase12SinDescuento() + notaDebitoCompra.getIvaSinDescuento() - notaDebitoCompra.getDescuentoTotal();
         totalConDescuento = Math.round(totalConDescuento*100.0)/100.0;
         notaDebitoCompra.setTotalConDescuento(totalConDescuento);
     }
@@ -255,22 +267,10 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     }
 
     @Override
-    public NotaDebitoCompra obtenerPorFacturaCompra(long facturaId){
+    public NotaDebitoCompra obtenerPorFacturaCompra(long facturaCompraId){
         NotaDebitoCompra notaDebitoCompra = new NotaDebitoCompra();
-        FacturaCompra facturaCompra = facturaCompraService.obtener(facturaId);
+        FacturaCompra facturaCompra = facturaCompraService.obtener(facturaCompraId);
         notaDebitoCompra.setFacturaCompra(facturaCompra);
-        notaDebitoCompra.setNotaDebitoCompraLineas(new ArrayList<>());
-        for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
-            NotaDebitoCompraLinea notaDebitoCompraLinea = new NotaDebitoCompraLinea();
-            notaDebitoCompraLinea.setBodega(facturaCompraLinea.getBodega());
-            notaDebitoCompraLinea.setProducto(facturaCompraLinea.getProducto());
-            notaDebitoCompraLinea.setCostoUnitario(facturaCompraLinea.getCostoUnitario());
-            notaDebitoCompraLinea.setCantidad(facturaCompraLinea.getCantidad());
-            notaDebitoCompraLinea.setPorcentajeDescuentoLinea(facturaCompraLinea.getPorcentajeDescuentoLinea());
-            notaDebitoCompraLinea.setValorDescuentoLinea(facturaCompraLinea.getValorDescuentoLinea());
-            notaDebitoCompraLinea.setTotalSinDescuentoLinea(facturaCompraLinea.getTotalSinDescuentoLinea());
-            notaDebitoCompra.getNotaDebitoCompraLineas().add(notaDebitoCompraLinea);
-        }
         return notaDebitoCompra;
     }
 }
