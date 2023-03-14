@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.controladoras.compra;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.compra.NotaDebitoCompra;
+import com.proyecto.sicecuador.modelos.compra.NotaDebitoCompraLinea;
 import com.proyecto.sicecuador.servicios.interf.compra.INotaDebitoCompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -91,6 +92,12 @@ public class NotaDebitoCompraController {
     public ResponseEntity<?> calcular(@RequestBody NotaDebitoCompra _notaDebitoCompra) {
         NotaDebitoCompra notaDebitoCompra = servicio.calcular(_notaDebitoCompra);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_calcular_exitoso, notaDebitoCompra);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    @PostMapping(value = "/calcularLinea", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> calcularLinea(@RequestBody NotaDebitoCompraLinea _notaDebitoCompraLinea) {
+        NotaDebitoCompraLinea notaDebitoCompraLinea = servicio.calcularLinea(_notaDebitoCompraLinea);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_calcular_exitoso, notaDebitoCompraLinea);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

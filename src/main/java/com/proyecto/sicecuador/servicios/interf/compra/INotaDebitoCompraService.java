@@ -13,5 +13,6 @@ public interface INotaDebitoCompraService extends IGenericoService<NotaDebitoCom
 	List<NotaDebitoCompra> consultarActivos();
 	NotaDebitoCompra calcular(NotaDebitoCompra notaDebitoCompra);
 	void validarLinea(NotaDebitoCompraLinea notaDebitoCompraLinea);
+	NotaDebitoCompraLinea calcularLinea(NotaDebitoCompraLinea notaDebitoCompraLinea);
 	NotaDebitoCompra obtenerPorFacturaCompra(long facturaCompraId);
 }

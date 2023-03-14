@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
+import com.proyecto.sicecuador.modelos.inventario.Impuesto;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,8 +30,13 @@ public class NotaCreditoCompraLinea extends Entidad {
     private double valorDescuentoLinea;
     @Column(name = "porcentaje_descuento_linea", nullable = true)
     private double porcentajeDescuentoLinea;
+    @Column(name = "iva_sin_descuento_linea", nullable = true)
+    private double ivaSinDescuentoLinea;
     @Column(name = "total_sin_descuento", nullable = true)
     private double totalSinDescuentoLinea;
+    @ManyToOne
+    @JoinColumn(name = "impuesto_id", nullable = true)
+    private Impuesto impuesto;
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
@@ -40,7 +46,7 @@ public class NotaCreditoCompraLinea extends Entidad {
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "nota_credito_compra_id", nullable = true)
-    private NotaCreditoCompra notaCreditoCompraLinea;
+    private NotaCreditoCompra notaCreditoCompra;
 
     public NotaCreditoCompraLinea(long id){
         super(id);
@@ -53,6 +59,7 @@ public class NotaCreditoCompraLinea extends Entidad {
         this.costoUnitario = Constantes.cero;
         this.valorDescuentoLinea = Constantes.cero;
         this.porcentajeDescuentoLinea = Constantes.cero;
+        this.ivaSinDescuentoLinea = Constantes.cero;
         this.totalSinDescuentoLinea = Constantes.cero;
     }
 }
