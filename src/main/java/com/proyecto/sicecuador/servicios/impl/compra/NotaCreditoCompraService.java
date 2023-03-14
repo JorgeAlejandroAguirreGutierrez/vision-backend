@@ -10,7 +10,7 @@ import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.modelos.compra.NotaCreditoCompra;
 import com.proyecto.sicecuador.modelos.compra.NotaCreditoCompraLinea;
-import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
+import com.proyecto.sicecuador.modelos.comprobante.*;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.compra.INotaCreditoCompraRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
@@ -49,7 +49,9 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     private void facturar(NotaCreditoCompra notaCreditoCompra) {
         if(notaCreditoCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaCreditoCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-
+        kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_conjunta, notaCreditoCompra.getSecuencia());
+        kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_devolucion, notaCreditoCompra.getSecuencia());
+        kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_descuento, notaCreditoCompra.getSecuencia());
         if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_conjunta)){
             for(NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
                 Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaCreditoCompraLinea.getBodega().getId(), notaCreditoCompraLinea.getProducto().getId());
@@ -67,7 +69,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_devolucion)){
             for(NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
                 Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaCreditoCompraLinea.getBodega().getId(), notaCreditoCompraLinea.getProducto().getId());
-                if (ultimoKardex != null && notaCreditoCompraLinea.getCantidad() > Constantes.cero) {
+                if (ultimoKardex != null) {
                     double saldo = ultimoKardex.getSaldo() - notaCreditoCompraLinea.getDevolucion();
                     Kardex kardex = new Kardex(null, new Date(), Constantes.nota_credito_compra, notaCreditoCompra.getOperacion(),
                             notaCreditoCompra.getSecuencia(), Constantes.cero, notaCreditoCompraLinea.getDevolucion(), saldo,
@@ -109,8 +111,9 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     		throw new SecuenciaNoExistenteException();
     	}
         notaCreditoCompra.setSecuencia(secuencia.get());
-        facturar(notaCreditoCompra);
         notaCreditoCompra.setEstado(Constantes.estadoEmitida);
+        calcular(notaCreditoCompra);
+        facturar(notaCreditoCompra);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
         return res;
@@ -119,6 +122,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     @Override
     public NotaCreditoCompra actualizar(NotaCreditoCompra notaCreditoCompra) {
         validar(notaCreditoCompra);
+        calcular(notaCreditoCompra);
         facturar(notaCreditoCompra);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
@@ -172,17 +176,18 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     @Override
     public NotaCreditoCompra calcular(NotaCreditoCompra notaCreditoCompra) {
         this.calcularTotalSinDescuentoLinea(notaCreditoCompra);
-        this.calcularDescuentoTotal(notaCreditoCompra);
+        this.calcularIvaSinDescuentoLinea(notaCreditoCompra);
         this.calcularSubtotalSinDescuento(notaCreditoCompra);
         this.calcularSubtotalBase12SinDescuento(notaCreditoCompra);
         this.calcularSubtotalBase0SinDescuento(notaCreditoCompra);
         this.calcularIvaSinDescuento(notaCreditoCompra);
-        this.calcularDescuentoTotal(notaCreditoCompra);
+        this.calcularTotalDescuento(notaCreditoCompra);
         this.calcularTotalSinDescuento(notaCreditoCompra);
+        this.calcularTotalConDescuento(notaCreditoCompra);
         return notaCreditoCompra;
     }
     /*
-     * CALCULOS CON FACTURA COMPRA DETALLES
+     * CALCULOS CON NOTA CREDITO COMPRA LINEAS
      */
     private void calcularTotalSinDescuentoLinea(NotaCreditoCompra notaCreditoCompra) {
     	for(NotaCreditoCompraLinea notaCreditoCompraLinea: notaCreditoCompra.getNotaCreditoCompraLineas()) {
@@ -192,30 +197,35 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
             notaCreditoCompraLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
     	}
     }
+    private void calcularIvaSinDescuentoLinea(NotaCreditoCompra notaCreditoCompra) {
+        for(NotaCreditoCompraLinea notaCreditoCompraLinea: notaCreditoCompra.getNotaCreditoCompraLineas()) {
+            validarLinea(notaCreditoCompraLinea);
+            double ivaSinDescuentoLinea = notaCreditoCompraLinea.getTotalSinDescuentoLinea() * notaCreditoCompraLinea.getImpuesto().getPorcentaje()/100;
+            ivaSinDescuentoLinea = Math.round(ivaSinDescuentoLinea*100.0)/100.0;
+            notaCreditoCompraLinea.setIvaSinDescuentoLinea(ivaSinDescuentoLinea);
+        }
+    }
     /*
-     * FIN CALCULO FACTURA DETALLES
+     * FIN CALCULO NOTA DE CREDITO COMPRA LINEAS
      */
     
+    /*
+     * CALCULOS CON NOTA DE CREDITO DE COMPRA
+     */
     /*
      * CALCULAR DESCUENTOS
      */
-    private void calcularDescuentoTotal(NotaCreditoCompra notaCreditoCompra) {
-        double totalValorDescuentoLinea = Constantes.cero;
+    private void calcularTotalDescuento(NotaCreditoCompra notaCreditoCompra) {
+        double totalDescuento = Constantes.cero;
         for(NotaCreditoCompraLinea notaCreditoCompraLinea: notaCreditoCompra.getNotaCreditoCompraLineas()) {
             double valorDescuentoPorcentajeLinea = (notaCreditoCompraLinea.getTotalSinDescuentoLinea() * notaCreditoCompraLinea.getPorcentajeDescuentoLinea()) / 100;
-            totalValorDescuentoLinea = notaCreditoCompraLinea.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
+            totalDescuento = totalDescuento + notaCreditoCompraLinea.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
         }
-        double valorDescuentoTotalPorcentaje = (notaCreditoCompra.getPorcentajeDescuentoTotal() * notaCreditoCompra.getTotalSinDescuento()) / 100;
-        double descuentoTotal = totalValorDescuentoLinea + notaCreditoCompra.getValorDescuentoTotal() + valorDescuentoTotalPorcentaje;
-        descuentoTotal = Math.round(descuentoTotal*100.0)/100.0;
-        notaCreditoCompra.setDescuentoTotal(descuentoTotal);
+        totalDescuento = Math.round(totalDescuento * 100.0) / 100.0;
+        notaCreditoCompra.setTotalDescuento(totalDescuento);
     }
     /*
      * FIN CALCULAR DESCUENTOS
-     */
-    
-    /*
-     * CALCULOS CON FACTURA
      */
     private void calcularSubtotalSinDescuento(NotaCreditoCompra notaCreditoCompra) {
     	double subtotalSinDescuento = Constantes.cero;
@@ -259,6 +269,11 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         totalSinDescuento=Math.round(totalSinDescuento*100.0)/100.0;
         notaCreditoCompra.setTotalSinDescuento(totalSinDescuento);
     }
+    private void calcularTotalConDescuento(NotaCreditoCompra notaCreditoCompra){
+        double totalConDescuento = notaCreditoCompra.getSubtotalBase0SinDescuento() + notaCreditoCompra.getSubtotalBase12SinDescuento() + notaCreditoCompra.getIvaSinDescuento() - notaCreditoCompra.getTotalDescuento();
+        totalConDescuento = Math.round(totalConDescuento*100.0)/100.0;
+        notaCreditoCompra.setTotalConDescuento(totalConDescuento);
+    }
 
     @Override
     public void validarLinea(NotaCreditoCompraLinea notaCreditoCompraLinea) {
@@ -279,24 +294,14 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         NotaCreditoCompra notaCreditoCompra = new NotaCreditoCompra();
         FacturaCompra facturaCompra = facturaCompraService.obtener(facturaCompraId);
         notaCreditoCompra.setFacturaCompra(facturaCompra);
-        notaCreditoCompra.setPorcentajeDescuentoTotal(facturaCompra.getPorcentajeDescuentoTotal());
-        notaCreditoCompra.setPorcentajeDescuentoTotal(facturaCompra.getValorDescuentoTotal());
-        notaCreditoCompra.setSubtotalSinDescuento(facturaCompra.getSubtotalSinDescuento());
-        notaCreditoCompra.setDescuentoTotal(facturaCompra.getDescuentoTotal());
-        notaCreditoCompra.setSubtotalBase12SinDescuento(facturaCompra.getSubtotalBase12SinDescuento());
-        notaCreditoCompra.setSubtotalBase0SinDescuento(facturaCompra.getSubtotalBase0SinDescuento());
-        notaCreditoCompra.setIvaSinDescuento(facturaCompra.getIvaSinDescuento());
-        notaCreditoCompra.setTotalSinDescuento(facturaCompra.getTotalSinDescuento());
         notaCreditoCompra.setNotaCreditoCompraLineas(new ArrayList<>());
-        for(FacturaCompraLinea  facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
+        for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
             NotaCreditoCompraLinea notaCreditoCompraLinea = new NotaCreditoCompraLinea();
+            notaCreditoCompraLinea.setImpuesto(facturaCompraLinea.getImpuesto());
             notaCreditoCompraLinea.setBodega(facturaCompraLinea.getBodega());
             notaCreditoCompraLinea.setProducto(facturaCompraLinea.getProducto());
             notaCreditoCompraLinea.setCostoUnitario(facturaCompraLinea.getCostoUnitario());
             notaCreditoCompraLinea.setCantidad(facturaCompraLinea.getCantidad());
-            notaCreditoCompraLinea.setPorcentajeDescuentoLinea(facturaCompraLinea.getPorcentajeDescuentoLinea());
-            notaCreditoCompraLinea.setValorDescuentoLinea(facturaCompraLinea.getValorDescuentoLinea());
-            notaCreditoCompraLinea.setTotalSinDescuentoLinea(facturaCompraLinea.getTotalSinDescuentoLinea());
             notaCreditoCompra.getNotaCreditoCompraLineas().add(notaCreditoCompraLinea);
         }
         return notaCreditoCompra;

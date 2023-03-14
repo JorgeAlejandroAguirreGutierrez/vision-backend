@@ -169,6 +169,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         }
         notaDebitoVenta.setClaveAcceso(claveAcceso.get());
         notaDebitoVenta.setEstado(Constantes.estadoEmitida);
+        calcular(notaDebitoVenta);
         facturar(notaDebitoVenta);
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
@@ -178,6 +179,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     @Override
     public NotaDebitoVenta actualizar(NotaDebitoVenta notaDebitoVenta) {
         validar(notaDebitoVenta);
+        calcular(notaDebitoVenta);
         facturar(notaDebitoVenta);
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
