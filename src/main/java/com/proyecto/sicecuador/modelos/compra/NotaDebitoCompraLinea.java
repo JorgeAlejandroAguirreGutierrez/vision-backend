@@ -31,6 +31,8 @@ public class NotaDebitoCompraLinea extends Entidad {
     private double ivaSinDescuentoLinea;
     @Column(name = "total_sin_descuento", nullable = true)
     private double totalSinDescuentoLinea;
+    @Column(name = "entregado", nullable = true)
+    private String entregado;
     @ManyToOne
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
@@ -56,5 +58,6 @@ public class NotaDebitoCompraLinea extends Entidad {
         this.valorDescuentoLinea = Constantes.cero;
         this.porcentajeDescuentoLinea = Constantes.cero;
         this.totalSinDescuentoLinea = Constantes.cero;
+        this.entregado = Constantes.no;
     }
 }
