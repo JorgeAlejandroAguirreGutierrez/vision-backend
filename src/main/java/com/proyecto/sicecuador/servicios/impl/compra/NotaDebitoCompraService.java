@@ -46,7 +46,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     private void facturar(NotaDebitoCompra notaDebitoCompra) {
         if(notaDebitoCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaDebitoCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-
+        kardexService.eliminar(Constantes.nota_debito_compra, notaDebitoCompra.getOperacion(), notaDebitoCompra.getSecuencia());
         for(NotaDebitoCompraLinea notaDebitoCompraLinea : notaDebitoCompra.getNotaDebitoCompraLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaDebitoCompraLinea.getBodega().getId(), notaDebitoCompraLinea.getProducto().getId());
             if (ultimoKardex != null) {
@@ -80,6 +80,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         notaDebitoCompra.setEstado(Constantes.estadoEmitida);
         calcular(notaDebitoCompra);
         facturar(notaDebitoCompra);
+        notaDebitoCompra.setEstado(Constantes.estadoFacturada);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
         res.normalizar();
         return res;
@@ -90,6 +91,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         validar(notaDebitoCompra);
         calcular(notaDebitoCompra);
         facturar(notaDebitoCompra);
+        notaDebitoCompra.setEstado(Constantes.estadoFacturada);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
         res.normalizar();
         return res;

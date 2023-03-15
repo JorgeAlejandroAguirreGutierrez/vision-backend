@@ -114,6 +114,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         notaCreditoCompra.setEstado(Constantes.estadoEmitida);
         calcular(notaCreditoCompra);
         facturar(notaCreditoCompra);
+        notaCreditoCompra.setEstado(Constantes.estadoFacturada);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
         return res;
@@ -124,6 +125,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         validar(notaCreditoCompra);
         calcular(notaCreditoCompra);
         facturar(notaCreditoCompra);
+        notaCreditoCompra.setEstado(Constantes.estadoFacturada);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
         return res;
