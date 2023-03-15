@@ -117,8 +117,10 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
             throw new ClaveAccesoNoExistenteException();
         }
         notaCreditoVenta.setClaveAcceso(claveAcceso.get());
-        facturar(notaCreditoVenta);
         notaCreditoVenta.setEstado(Constantes.estadoEmitida);
+        calcular(notaCreditoVenta);
+        facturar(notaCreditoVenta);
+        notaCreditoVenta.setEstado(Constantes.estadoFacturada);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
         return res;
@@ -163,13 +165,9 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     @Override
     public NotaCreditoVenta actualizar(NotaCreditoVenta notaCreditoVenta) {
         validar(notaCreditoVenta);
-        Optional<String> claveAcceso = crearClaveAcceso(notaCreditoVenta);
-        if (claveAcceso.isEmpty()) {
-            throw new ClaveAccesoNoExistenteException();
-        }
-        notaCreditoVenta.setClaveAcceso(claveAcceso.get());
-        //calcular(notaCreditoVenta);
-        //facturar(notaCreditoVenta);
+        calcular(notaCreditoVenta);
+        facturar(notaCreditoVenta);
+        notaCreditoVenta.setEstado(Constantes.estadoFacturada);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
         return res;
