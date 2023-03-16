@@ -6,10 +6,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "infoNotaCredito")
-@XmlType(propOrder={"fechaEmision", "tipoIdentificacionComprador", "razonSocialComprador", "identificacionComprador", "obligadoContabilidad", "codDocModificado", "numDocModificado", "fechaEmisionDocSustento","totalSinImpuestos", "valorModificacion", "moneda", "totalConImpuestos", "motivo"})
+@XmlType(propOrder={"fechaEmision", "dirEstablecimiento", "tipoIdentificacionComprador", "razonSocialComprador", "identificacionComprador", "obligadoContabilidad", "codDocModificado", "numDocModificado", "fechaEmisionDocSustento","totalSinImpuestos", "valorModificacion", "moneda", "totalConImpuestos", "motivo"})
 @Data
 public class InfoNotaCredito {
 	private String fechaEmision;
+	private String dirEstablecimiento;
 	private String tipoIdentificacionComprador;
 	private String razonSocialComprador;
 	private String identificacionComprador;

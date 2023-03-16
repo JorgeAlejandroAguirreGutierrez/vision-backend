@@ -1,11 +1,13 @@
 package com.proyecto.sicecuador.modelos.comprobante.electronico.notacredito;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.notacredito.CampoAdicional;
 import lombok.Data;
 
 import javax.xml.bind.annotation.*;
+import java.util.List;
 
 @XmlRootElement(name = "notaCredito")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder={"infoTributaria", "infoNotaCredito", "detalles"})
+@XmlType(propOrder={"infoTributaria", "infoNotaCredito", "detalles", "infoAdicional"})
 @Data
 public class NotaCreditoElectronica {
 	//DATOS DEL SRI CAMPOS EXACTAMENTE COMO LOS TIENE
@@ -20,4 +22,5 @@ public class NotaCreditoElectronica {
 	private InfoNotaCredito infoNotaCredito;
 
 	private Detalles detalles;
+	private List<CampoAdicional> infoAdicional;
 }

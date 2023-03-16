@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.comprobante.electronico.notadebito;
 import lombok.Data;
 
 import javax.xml.bind.annotation.*;
+import java.util.List;
 
 @XmlRootElement(name = "notaDebito")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -20,6 +21,6 @@ public class NotaDebitoElectronica {
 
 	private Motivos motivos;
 
-	private String infoAdicional;
+	private List<CampoAdicional> infoAdicional;
 
 }

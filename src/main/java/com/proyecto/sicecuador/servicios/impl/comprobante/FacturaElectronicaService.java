@@ -20,17 +20,7 @@ import com.proyecto.sicecuador.exception.EstadoInvalidoException;
 import com.proyecto.sicecuador.exception.FacturaElectronicaInvalidaException;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.modelos.comprobante.FacturaLinea;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Detalle;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Detalles;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.FacturaElectronica;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Impuesto;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Impuestos;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.InfoFactura;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.InfoTributaria;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Pago;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.Pagos;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.TotalConImpuestos;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.TotalImpuesto;
+import com.proyecto.sicecuador.modelos.comprobante.electronico.factura.*;
 import com.proyecto.sicecuador.modelos.recaudacion.Cheque;
 import com.proyecto.sicecuador.modelos.recaudacion.Deposito;
 import com.proyecto.sicecuador.modelos.recaudacion.TarjetaCredito;
@@ -114,6 +104,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
     	String fechaEmision = dateFormat.format(factura.getFecha());
     	infoFactura.setFechaEmision(fechaEmision);
+		infoFactura.setDirEstablecimiento(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
     	infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
     	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSRI());
     	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
@@ -128,10 +119,13 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoFactura.setPagos(crearPagos(factura));
     	
     	Detalles detalles=crearDetalles(factura);
+
+		List<CampoAdicional> infoAdicional = crearInfoAdicional(factura);
     	
     	facturaElectronica.setInfoTributaria(infoTributaria);
     	facturaElectronica.setInfoFactura(infoFactura);
     	facturaElectronica.setDetalles(detalles);
+		facturaElectronica.setInfoAdicional(infoAdicional);
     	return facturaElectronica;
     }
 
@@ -238,6 +232,31 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	impuestos.setImpuesto(impuestoLista);
     	return impuestos;
     }
+
+	private List<CampoAdicional> crearInfoAdicional(Factura factura) {
+		List<CampoAdicional> infoAdicional = new ArrayList<>();
+		CampoAdicional campoAdicional1 = new CampoAdicional();
+		campoAdicional1.setNombre(Constantes.telefono);
+		campoAdicional1.setValor(factura.getCliente().getTelefonos().get(0).getNumero());
+		CampoAdicional campoAdicional2 = new CampoAdicional();
+		campoAdicional2.setNombre(Constantes.celular);
+		campoAdicional2.setValor(factura.getCliente().getCelulares().get(0).getNumero());
+		CampoAdicional campoAdicional3 = new CampoAdicional();
+		campoAdicional3.setNombre(Constantes.correo);
+		campoAdicional3.setValor(factura.getCliente().getCorreos().get(0).getEmail());
+		CampoAdicional campoAdicional4 = new CampoAdicional();
+		campoAdicional4.setNombre(Constantes.direccion);
+		campoAdicional4.setValor(factura.getCliente().getDireccion());
+		CampoAdicional campoAdicional5 = new CampoAdicional();
+		campoAdicional5.setNombre(Constantes.valor);
+		campoAdicional5.setValor(factura.getTotalConDescuento() + Constantes.vacio);
+		infoAdicional.add(campoAdicional1);
+		infoAdicional.add(campoAdicional2);
+		infoAdicional.add(campoAdicional3);
+		infoAdicional.add(campoAdicional4);
+		infoAdicional.add(campoAdicional5);
+		return infoAdicional;
+	}
 
 	@Override
 	public Factura enviar(long facturaId) {

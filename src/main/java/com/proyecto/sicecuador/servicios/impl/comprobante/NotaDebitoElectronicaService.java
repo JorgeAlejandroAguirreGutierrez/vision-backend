@@ -20,6 +20,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.exception.EstadoInvalidoException;
 import com.proyecto.sicecuador.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.sicecuador.modelos.comprobante.NotaCreditoVenta;
 import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVenta;
 import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVentaLinea;
 import com.proyecto.sicecuador.modelos.comprobante.electronico.notadebito.*;
@@ -98,6 +99,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
     	String fechaEmision = dateFormat.format(notaDebitoVenta.getFecha());
 		InfoNotaDebito infoNotaDebito = new InfoNotaDebito();
 		infoNotaDebito.setFechaEmision(fechaEmision);
+		infoNotaDebito.setDirEstablecimiento(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
 		infoNotaDebito.setTipoIdentificacionComprador(notaDebitoVenta.getFactura().getCliente().getTipoIdentificacion().getCodigoSRI());
 		infoNotaDebito.setRazonSocialComprador(notaDebitoVenta.getFactura().getCliente().getRazonSocial());
 		infoNotaDebito.setIdentificacionComprador(notaDebitoVenta.getFactura().getCliente().getIdentificacion());
@@ -113,11 +115,14 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		Pagos pagos = crearPagos(notaDebitoVenta);
 		Motivos motivos = crearMotivos(notaDebitoVenta);
 
+		List<CampoAdicional> infoAdicional = crearInfoAdicional(notaDebitoVenta);
+
 		notaDebitoElectronica.setInfoTributaria(infoTributaria);
 		notaDebitoElectronica.setInfoNotaDebito(infoNotaDebito);
 		notaDebitoElectronica.getInfoNotaDebito().setImpuestos(impuestos);
 		notaDebitoElectronica.getInfoNotaDebito().setPagos(pagos);
 		notaDebitoElectronica.setMotivos(motivos);
+		notaDebitoElectronica.setInfoAdicional(infoAdicional);
     	return notaDebitoElectronica;
     }
 
@@ -204,6 +209,31 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
     	motivos.setMotivo(motivoLista);
     	return motivos;
     }
+
+	private List<CampoAdicional> crearInfoAdicional(NotaDebitoVenta notaDebitoVenta) {
+		List<CampoAdicional> infoAdicional = new ArrayList<>();
+		CampoAdicional campoAdicional1 = new CampoAdicional();
+		campoAdicional1.setNombre(Constantes.telefono);
+		campoAdicional1.setValor(notaDebitoVenta.getFactura().getCliente().getTelefonos().get(0).getNumero());
+		CampoAdicional campoAdicional2 = new CampoAdicional();
+		campoAdicional2.setNombre(Constantes.celular);
+		campoAdicional2.setValor(notaDebitoVenta.getFactura().getCliente().getCelulares().get(0).getNumero());
+		CampoAdicional campoAdicional3 = new CampoAdicional();
+		campoAdicional3.setNombre(Constantes.correo);
+		campoAdicional3.setValor(notaDebitoVenta.getFactura().getCliente().getCorreos().get(0).getEmail());
+		CampoAdicional campoAdicional4 = new CampoAdicional();
+		campoAdicional4.setNombre(Constantes.direccion);
+		campoAdicional4.setValor(notaDebitoVenta.getFactura().getCliente().getDireccion());
+		CampoAdicional campoAdicional5 = new CampoAdicional();
+		campoAdicional5.setNombre(Constantes.valor);
+		campoAdicional5.setValor(notaDebitoVenta.getFactura().getTotalConDescuento() + Constantes.vacio);
+		infoAdicional.add(campoAdicional1);
+		infoAdicional.add(campoAdicional2);
+		infoAdicional.add(campoAdicional3);
+		infoAdicional.add(campoAdicional4);
+		infoAdicional.add(campoAdicional5);
+		return infoAdicional;
+	}
 
 	@Override
 	public NotaDebitoVenta enviar(long notaDebitoVentaId) {

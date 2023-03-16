@@ -3,10 +3,11 @@ package com.proyecto.sicecuador.modelos.comprobante.electronico.factura;
 import lombok.Data;
 
 import javax.xml.bind.annotation.*;
+import java.util.List;
 
 @XmlRootElement(name = "factura")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder={"infoTributaria", "infoFactura", "detalles"})
+@XmlType(propOrder={"infoTributaria", "infoFactura", "detalles", "infoAdicional"})
 @Data
 public class FacturaElectronica {
 	//DATOS DEL SRI CAMPOS EXACTAMENTE COMO LOS TIENE
@@ -17,4 +18,5 @@ public class FacturaElectronica {
 	private InfoTributaria infoTributaria;
 	private InfoFactura infoFactura;
 	private Detalles detalles;
+	private List<CampoAdicional> infoAdicional;
 }
