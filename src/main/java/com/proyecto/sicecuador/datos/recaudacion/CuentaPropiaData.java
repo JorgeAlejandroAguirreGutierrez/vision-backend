@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.datos.recaudacion;
 import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.recaudacion.Banco;
-import com.proyecto.sicecuador.servicios.interf.comprobante.recaudacion.ICuentaPropiaRepository;
+import com.proyecto.sicecuador.repositorios.recaudacion.ICuentaPropiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

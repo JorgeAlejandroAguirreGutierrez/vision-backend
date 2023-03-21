@@ -42,7 +42,9 @@ public class PermisoData implements ApplicationRunner {
             permisos.add(new Permiso("PER202301000015", "VENTAS", "EGRESOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000016", "VENTAS", "NOTAS DE CRÉDITO VENTA", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000016", "VENTAS", "NOTAS DE DÉBITO VENTA", Constantes.si, Constantes.activo, new Perfil(1)));
-            permisos.add(new Permiso("PER202301000018", "VENTAS", "VEHICULO TRANSPORTE", Constantes.si, Constantes.activo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000017", "VENTAS", "GUIAS DE REMISION", Constantes.si, Constantes.activo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000018", "VENTAS", "TRANSPORTISTAS", Constantes.si, Constantes.activo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000018", "VENTAS", "VEHICULOS TRANSPORTES", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000019", "INVENTARIOS", "GRUPOS DE PRODUCTOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000020", "INVENTARIOS", "PRODUCTOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000021", "INVENTARIOS", "KARDEX", Constantes.si, Constantes.activo, new Perfil(1)));

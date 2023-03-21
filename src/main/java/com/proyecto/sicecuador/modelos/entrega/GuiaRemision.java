@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.modelos.entrega;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.comprobante.Factura;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
+import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -19,37 +19,47 @@ import static com.proyecto.sicecuador.Constantes.tabla_guia_remision;
 public class GuiaRemision extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "guia_numero", nullable = true)
-    private String guiaNumero;
+    @Column(name = "secuencia", nullable = true)
+    private String secuencia;
+    @Column(name = "codigo_numerico", nullable = true)
+    private String codigoNumerico;
+    @Column(name = "clave_acceso", nullable = true)
+    private String claveAcceso;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
-    @Column(name = "direccion", nullable = true)
-    private String direccion;
-    @Column(name = "referencia", nullable = true)
-    private String referencia;
-    @Column(name = "longitudgeo", nullable = true)
-    private String longitudgeo;
-    @Column(name = "latitudgeo", nullable = true)
-    private String latitudgeo;
-    @Column(name = "telefono", nullable = true)
-    private String telefono;
-    @Column(name = "celular", nullable = true)
-    private String celular;
-    @Column(name = "correo", nullable = true)
-    private String correo;
+    @Column(name = "fecha_inicio_transporte", nullable = true)
+    private Date fechaInicioTransporte;
+    @Column(name = "fecha_fin_transporte", nullable = true)
+    private Date fechaFinTransporte;
+    @Column(name = "motivo_traslado", nullable = true)
+    private String motivoTraslado;
+    @Column(name = "ruta", nullable = true)
+    private String ruta;
+    @Column(name = "identificacion_destinatario", nullable = true)
+    private String identificacionDestinatario;
+    @Column(name = "razon_social_destinatario", nullable = true)
+    private String razonSocialDestinatario;
+    @Column(name = "direccion_destinatario", nullable = true)
+    private String direccionDestinatario;
+    @Column(name = "telefono_destinatario", nullable = true)
+    private String telefonoDestinatario;
+    @Column(name = "celular_destinatario", nullable = true)
+    private String celularDestinatario;
+    @Column(name = "correo_destinatario", nullable = true)
+    private String correoDestinatario;
     @Column(name = "opcion_guia", nullable = true)
     private String opcionGuia;
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
-    @JoinColumn(name = "ubicacion_id", nullable = true)
-    private Ubicacion ubicacion;
-    @ManyToOne
-    @JoinColumn(name = "factura_id", nullable = true)
-    private Factura factura;
+    @JoinColumn(name = "sesion_id", nullable = true)
+    private Sesion sesion;
     @ManyToOne
     @JoinColumn(name = "transportista_id", nullable = true)
     private Transportista transportista;
+    @ManyToOne
+    @JoinColumn(name = "factura_id", nullable = true)
+    private Factura factura;
 
     public GuiaRemision(long id){
         super(id);
@@ -57,25 +67,29 @@ public class GuiaRemision extends Entidad {
     public GuiaRemision(){
         super();
         this.codigo = Constantes.vacio;
-        this.guiaNumero = Constantes.vacio;
+        this.secuencia = Constantes.vacio;
+        this.codigoNumerico = Constantes.vacio;
         this.fecha = new Date();
-        this.direccion = Constantes.vacio;
-        this.referencia = Constantes.vacio;
-        this.longitudgeo = Constantes.vacio;
-        this.latitudgeo = Constantes.vacio;
-        this.telefono = Constantes.vacio;
-        this.celular = Constantes.vacio;
-        this.correo = Constantes.vacio;
+        this.fechaInicioTransporte = new Date();
+        this.fechaFinTransporte = new Date();
+        this.motivoTraslado = Constantes.vacio;
+        this.ruta = Constantes.vacio;
+        this.identificacionDestinatario = Constantes.vacio;
+        this.razonSocialDestinatario = Constantes.vacio;
+        this.direccionDestinatario = Constantes.vacio;
+        this.telefonoDestinatario = Constantes.vacio;
+        this.celularDestinatario = Constantes.vacio;
+        this.correoDestinatario = Constantes.vacio;
         this.opcionGuia = Constantes.vacio;
         this.estado = Constantes.activo;
-        this.ubicacion = new Ubicacion();
         this.factura = new Factura();
         this.transportista = new Transportista();
     }
 
     public void normalizar(){
         if(this.fecha == null) this.fecha = new Date();
-        if(this.ubicacion == null) this.ubicacion = new Ubicacion();
+        if(this.fechaInicioTransporte == null) this.fechaInicioTransporte = new Date();
+        if(this.fechaFinTransporte == null) this.fechaFinTransporte = new Date();
         if(this.factura == null) this.factura = new Factura();
         if(this.transportista == null) this.transportista = new Transportista();
     }

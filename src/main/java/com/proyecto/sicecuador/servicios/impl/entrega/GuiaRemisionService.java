@@ -2,9 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.entrega;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
+import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
 import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.repositorios.entrega.IGuiaRemisionRepository;
@@ -14,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -23,53 +23,105 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     
     @Autowired
     private IUbicacionRepository repUbicacion;
+
+	@Override
+	public void validar(GuiaRemision guiaRemision) {
+		if(guiaRemision.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
+		if(guiaRemision.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+		if(guiaRemision.getTransportista().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.transportista);
+		if(guiaRemision.getFactura().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.factura);
+		if(guiaRemision.getMotivoTraslado().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.motivoTraslado);
+		if(guiaRemision.getRuta().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.ruta);
+		if(guiaRemision.getFechaInicioTransporte() == null) throw new DatoInvalidoException(Constantes.fechaInicioTransporte);
+		if(guiaRemision.getFechaFinTransporte() == null) throw new DatoInvalidoException(Constantes.fechaFinTransporte);
+	}
     
     @Override
     public GuiaRemision crear(GuiaRemision guiaRemision) {
-    	if(guiaRemision.getOpcionGuia().equals(Constantes.cliente_direccion)) {
-    		if(guiaRemision.getTransportista().getId() == Constantes.cero) {
-        		throw new EntidadNoExistenteException(Constantes.transportista);
-        	}
-    	}
-    	if(guiaRemision.getOpcionGuia().equals(Constantes.nueva_direccion)) {
-    		if(guiaRemision.getTransportista().getId() == Constantes.cero) {
-        		throw new EntidadNoExistenteException(Constantes.transportista);
-        	}
-    		Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(guiaRemision.getUbicacion().getProvincia(), guiaRemision.getUbicacion().getCanton(), guiaRemision.getUbicacion().getParroquia(), Constantes.activo);
-    		if(ubicacion.isEmpty()) {
-    			throw new EntidadNoExistenteException(Constantes.ubicacion);
-    		}
-    		guiaRemision.setUbicacion(ubicacion.get());
-    	}
-    	if(guiaRemision.getOpcionGuia().equals(Constantes.sin_guia)) {
-    		guiaRemision.setDireccion(Constantes.vacio);
-    		guiaRemision.setTelefono(Constantes.vacio);
-    		guiaRemision.setCelular(Constantes.vacio);
-    		guiaRemision.setCorreo(Constantes.vacio);
-    		guiaRemision.setReferencia(Constantes.vacio);
-    		guiaRemision.setTransportista(null);
-    		guiaRemision.setUbicacion(null);
-    	}
-		Optional<String>codigo=Util.generarCodigo(Constantes.tabla_guia_remision);
+		Optional<String>codigo = Util.generarCodigo(Constantes.tabla_guia_remision);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	Optional<String>guiaNumero=Util.generarGuiaNumero(Constantes.tabla_guia_remision);
-    	if (guiaNumero.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
-    	if(!guiaRemision.getOpcionGuia().equals(Constantes.sinGuia)) {
-    		guiaRemision.setGuiaNumero(guiaNumero.get());
-    	}
-        guiaRemision.setEstado(Constantes.entregado);
-    	guiaRemision.setCodigo(codigo.get());
+		guiaRemision.setCodigo(codigo.get());
+		Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_guia_remision);
+		if (secuencia.isEmpty()) {
+			throw new SecuenciaNoExistenteException();
+		}
+		guiaRemision.setSecuencia(secuencia.get());
+		Optional<String> codigoNumerico = Util.generarCodigoNumerico(Constantes.tabla_guia_remision);
+		if (codigoNumerico.isEmpty()) {
+			throw new CodigoNumericoNoExistenteException();
+		}
+		guiaRemision.setCodigoNumerico(codigoNumerico.get());
+		Optional<String> claveAcceso = crearClaveAcceso(guiaRemision);
+		if (claveAcceso.isEmpty()) {
+			throw new ClaveAccesoNoExistenteException();
+		}
+		guiaRemision.setClaveAcceso(claveAcceso.get());
+        guiaRemision.setEstado(Constantes.estadoEmitida);
+		GuiaRemision res = rep.save(guiaRemision);
+		res.normalizar();
     	return rep.save(guiaRemision);
     }
+
+	private Optional<String> crearClaveAcceso(GuiaRemision guiaRemision) {
+		DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+		String fechaEmision = dateFormat.format(guiaRemision.getFecha());
+		String tipoComprobante = Constantes.guia_de_remision_sri;
+		String numeroRuc = guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
+		String tipoAmbiente = Constantes.pruebas_sri;
+		String serie = guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + guiaRemision.getSesion().getUsuario().getEstacion().getCodigoSRI();
+		String numeroComprobante = guiaRemision.getSecuencia();
+		String codigoNumerico = guiaRemision.getCodigoNumerico();
+		String tipoEmision = Constantes.emision_normal_sri;
+		String cadenaVerificacion = fechaEmision + tipoComprobante+numeroRuc+tipoAmbiente+serie+numeroComprobante + codigoNumerico + tipoEmision;
+		int[] arreglo=new int[cadenaVerificacion.length()];
+		for(int i=0; i<cadenaVerificacion.length(); i++) {
+			arreglo[i]= Integer.parseInt(cadenaVerificacion.charAt(i)+Constantes.vacio);
+		}
+		int factor=Constantes.dos;
+		int suma=0;
+		for(int i=arreglo.length-1; i>=0; i--) {
+			suma=suma+arreglo[i]*factor;
+			if(factor==Constantes.siete) {
+				factor=Constantes.dos;
+			} else {
+				factor++;
+			}
+		}
+		int digitoVerificador = Constantes.once - (suma % Constantes.once);
+		if(digitoVerificador == Constantes.diez) {
+			digitoVerificador = 1;
+		}
+		if(digitoVerificador == Constantes.once) {
+			digitoVerificador = 0;
+		}
+		String claveAcceso=cadenaVerificacion+digitoVerificador;
+		return Optional.of(claveAcceso);
+	}
 
     @Override
     public GuiaRemision actualizar(GuiaRemision guiaRemision) {
         return rep.save(guiaRemision);
     }
+
+	@Override
+	public GuiaRemision activar(GuiaRemision guiaRemision) {
+		validar(guiaRemision);
+		guiaRemision.setEstado(Constantes.activo);
+		GuiaRemision res = rep.save(guiaRemision);
+		res.normalizar();
+		return res;
+	}
+
+	@Override
+	public GuiaRemision inactivar(GuiaRemision guiaRemision) {
+		validar(guiaRemision);
+		guiaRemision.setEstado(Constantes.inactivo);
+		GuiaRemision res = rep.save(guiaRemision);
+		res.normalizar();
+		return res;
+	}
 
     @Override
     public GuiaRemision obtener(long id) {
