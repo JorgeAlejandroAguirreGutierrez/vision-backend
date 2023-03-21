@@ -180,6 +180,11 @@ public class FacturaService implements IFacturaService {
         if(factura.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         validar(factura);
         facturar(factura);
+        if(factura.getPorPagar() > Constantes.cero){
+            factura.setEstado(Constantes.noRecaudada);
+        } else{
+            factura.setEstado(Constantes.recaudada);
+        }
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -385,11 +390,6 @@ public class FacturaService implements IFacturaService {
         }
         factura.setPorPagar(porPagar);
         factura.setTotalRecaudacion(total);
-        if(porPagar > 0){
-            factura.setEstado(Constantes.noRecaudada);
-        } else{
-            factura.setEstado(Constantes.recaudada);
-        }
         return factura;
     }
     
