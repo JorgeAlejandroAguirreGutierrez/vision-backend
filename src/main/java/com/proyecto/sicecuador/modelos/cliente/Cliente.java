@@ -43,40 +43,40 @@ public class Cliente extends Entidad {
     private double longitudgeo;
     @Column(name = "monto_financiamiento", nullable = true)
     private double montoFinanciamiento;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipo_identificacion_id", nullable = true)
     private TipoIdentificacion tipoIdentificacion;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipo_contribuyente_id", nullable = true)
     private TipoContribuyente tipoContribuyente;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estacion_id", nullable = true)
     private Estacion estacion;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grupo_cliente_id", nullable = true)
     private GrupoCliente grupoCliente;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "forma_pago_id", nullable = true)
     private FormaPago formaPago;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plazo_credito_id", nullable = true)
     private PlazoCredito plazoCredito;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "genero_id", nullable = true)
     private Genero genero;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_civil_id", nullable = true)
     private EstadoCivil estadoCivil;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calificacion_cliente_id", nullable = true)
     private CalificacionCliente calificacionCliente;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "origen_ingreso_id", nullable = true)
     private OrigenIngreso origenIngreso;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
     @JsonManagedReference
