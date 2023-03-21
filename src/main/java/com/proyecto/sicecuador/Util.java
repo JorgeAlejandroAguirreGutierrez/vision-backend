@@ -33,21 +33,16 @@ import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
 public class Util {
 	
 private static IParametroRepository parametroRep;
-	
 	@Autowired
 	private IParametroRepository autowiredParametroRep;
-	
 	private static EntityManager em;
-	
 	@Autowired
 	private EntityManager autowiredEm;
-	
 	@PostConstruct
 	private void init() {
 		parametroRep = this.autowiredParametroRep;
 		em=this.autowiredEm;
 	}
-	
 	public static File archivoConvertir(MultipartFile archivo ) throws IOException
     {
         File archivo_convertir = new File( archivo.getOriginalFilename() );
