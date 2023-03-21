@@ -264,7 +264,6 @@ public class FacturaService implements IFacturaService {
             this.calcularTotalSinDescuento(factura);
             this.calcularTotalConDescuento(factura);
     	} else {
-    		
     		this.calcularSubtotalSinDescuentoLinea(factura);
     		this.calcularSubtotalSinDescuento(factura);
             

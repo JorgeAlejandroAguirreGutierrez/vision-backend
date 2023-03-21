@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.entrega;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -25,6 +26,9 @@ public class Transportista extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
+    @JoinColumn(name = "tipo_identificacion_id", nullable = true)
+    private TipoIdentificacion tipoIdentificacion;
+    @ManyToOne
     @JoinColumn(name = "vehiculo_transporte_id", nullable = true)
     private VehiculoTransporte vehiculoTransporte;
 
@@ -38,10 +42,12 @@ public class Transportista extends Entidad {
         this.identificacion = Constantes.vacio;
         this.vehiculoPropio = Constantes.si;
         this.estado = Constantes.activo;
+        this.tipoIdentificacion = new TipoIdentificacion();
         this.vehiculoTransporte = new VehiculoTransporte();
     }
 
     public void normalizar(){
+        if(this.tipoIdentificacion == null) this.tipoIdentificacion = new TipoIdentificacion();
         if(this.vehiculoTransporte == null) this.vehiculoTransporte = new VehiculoTransporte();
     }
 }

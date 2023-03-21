@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.servicios.interf.comprobante.recaudacion;
+package com.proyecto.sicecuador.repositorios.recaudacion;
 
 import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
 

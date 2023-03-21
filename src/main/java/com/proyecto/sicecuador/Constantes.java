@@ -23,6 +23,7 @@ public class Constantes {
     public static final String factura_compra_linea = "FACTURA DE COMPRA LINEA";
     public static final String nota_credito_compra = "NOTA CREDITO DE COMPRA";
     public static final String nota_credito_compra_linea = "NOTA CREDITO DE COMPRA LINEA";
+    public static final String guia_remision = "GUIA DE REMISION";
     public static final String nota_credito_venta = "NOTA CREDITO DE VENTA";
     public static final String nota_credito_venta_linea = "NOTA CREDITO DE VENTA LINEA";
     public static final String nota_debito_venta = "NOTA DEBITO DE VENTA";
@@ -46,6 +47,7 @@ public class Constantes {
     public static final String mensaje_crear_factura_electronica_exitosa="Exito factura electronica con clave de acceso";
     public static final String mensaje_crear_nota_debito_electronica_exitosa="Exito nota debito electronica con clave de acceso";
     public static final String mensaje_crear_nota_credito_electronica_exitosa="Exito nota credito electronica con clave de acceso";
+    public static final String mensaje_crear_guia_remision_electronica_exitosa="Exito guia remision electronica con clave de acceso";
     public static final String mensaje_importacion_exitoso="Exito al importar";
     public static final String mensaje_exportacion_exitoso="Exito al exportar";
     public static final String mensaje_calcular_exitoso="Exito al calcular";
@@ -424,6 +426,10 @@ public class Constantes {
     public static final String total_recaudacion="TOTAL RECAUDACION";
     public static final String multiempresa="MULTI EMPRESA";
     public static final String apodo="APODO";
+    public static final String motivoTraslado="MOTIVO TRASLADO";
+    public static final String ruta="RUTA";
+    public static final String fechaInicioTransporte="FECHA INICIO TRANSPORTE";
+    public static final String fechaFinTransporte="FECHA FIN TRANSPORTE";
 
 
     

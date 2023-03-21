@@ -7,4 +7,7 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface IGuiaRemisionService extends IGenericoService<GuiaRemision> {
 	Optional<GuiaRemision> obtenerPorFactura(long facturaId);
+	void validar(GuiaRemision guiaRemision);
+	GuiaRemision activar(GuiaRemision guiaRemision);
+	GuiaRemision inactivar(GuiaRemision guiaRemision);
 }

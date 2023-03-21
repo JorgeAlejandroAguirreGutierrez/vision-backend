@@ -46,6 +46,7 @@ public class Endpoints {
     public static final String pathNotaDebitoVenta="notaDebitoVenta";
     public static final String pathNotaDebitoElectronica="notaDebitoEletronica";
     public static final String pathNotaCreditoElectronica="notaCreditoEletronica";
+    public static final String pathGuiaRemisionElectronica="guiaRemisionEletronica";
     
     //CONFIGURACION
     public static final String pathEmpresa="empresa";
@@ -55,7 +56,7 @@ public class Endpoints {
     public static final String pathTipoIdentificacion="tipoIdentificacion";
     
     //ENTREGA
-    public static final String pathEntrega="entrega";
+    public static final String pathGuiaRemision="guiaRemision";
     public static final String pathTransportista="transportista";
     public static final String pathVehiculoTransporte="vehiculoTransporte";
     
