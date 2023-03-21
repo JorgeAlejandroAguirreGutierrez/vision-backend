@@ -176,6 +176,8 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public Factura actualizar(Factura factura) {
+        if(factura.getEstado().equals(Constantes.recaudada)) throw new DatoInvalidoException(Constantes.estado);
+        if(factura.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         validar(factura);
         facturar(factura);
         Factura res = rep.save(factura);
