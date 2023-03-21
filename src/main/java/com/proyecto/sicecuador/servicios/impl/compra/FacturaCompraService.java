@@ -36,6 +36,10 @@ public class FacturaCompraService implements IFacturaCompraService {
         if(facturaCompra.getProveedor().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.proveedor);
         if(facturaCompra.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(facturaCompra.getFacturaCompraLineas().isEmpty()) throw new DatoInvalidoException(Constantes.factura_compra_linea);
+        for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
+            validarLinea(facturaCompraLinea);
+        }
+
     }
 
     private void facturar(FacturaCompra facturaCompra) {
@@ -227,6 +231,9 @@ public class FacturaCompraService implements IFacturaCompraService {
     public void validarLinea(FacturaCompraLinea facturaCompraLinea) {
         if(facturaCompraLinea.getCantidad() <= Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
         if(facturaCompraLinea.getCostoUnitario() <= Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
+        if(facturaCompraLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
+        if(facturaCompraLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
+        if(facturaCompraLinea.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
     }
     @Override
     public FacturaCompraLinea calcularLinea(FacturaCompraLinea facturaCompraLinea) {
