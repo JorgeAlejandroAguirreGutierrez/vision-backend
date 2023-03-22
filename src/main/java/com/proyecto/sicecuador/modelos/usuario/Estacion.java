@@ -24,7 +24,7 @@ public class Estacion extends Entidad {
     private String dispositivo;
 	@Column(name = "estado", nullable = true)
     private String estado;
-	@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private Establecimiento establecimiento;
 

@@ -46,37 +46,37 @@ public class Cliente extends Entidad {
     @ManyToOne
     @JoinColumn(name = "tipo_identificacion_id", nullable = true)
     private TipoIdentificacion tipoIdentificacion;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "tipo_contribuyente_id", nullable = true)
     private TipoContribuyente tipoContribuyente;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "estacion_id", nullable = true)
     private Estacion estacion;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "grupo_cliente_id", nullable = true)
     private GrupoCliente grupoCliente;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "forma_pago_id", nullable = true)
     private FormaPago formaPago;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "plazo_credito_id", nullable = true)
     private PlazoCredito plazoCredito;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "genero_id", nullable = true)
     private Genero genero;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "estado_civil_id", nullable = true)
     private EstadoCivil estadoCivil;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "calificacion_cliente_id", nullable = true)
     private CalificacionCliente calificacionCliente;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "origen_ingreso_id", nullable = true)
     private OrigenIngreso origenIngreso;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
     @JsonManagedReference
