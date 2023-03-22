@@ -43,7 +43,7 @@ public class Cliente extends Entidad {
     private double longitudgeo;
     @Column(name = "monto_financiamiento", nullable = true)
     private double montoFinanciamiento;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "tipo_identificacion_id", nullable = true)
     private TipoIdentificacion tipoIdentificacion;
     @ManyToOne(fetch = FetchType.LAZY)
