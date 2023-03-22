@@ -27,7 +27,6 @@ public class Estacion extends Entidad {
     @ManyToOne
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private Establecimiento establecimiento;
-
     public Estacion(long id){
         super(id);
     }
@@ -40,7 +39,6 @@ public class Estacion extends Entidad {
         this.estado = Constantes.activo;
         this.establecimiento = new Establecimiento();
     }
-
     public void normalizar(){
         if(this.establecimiento == null) this.establecimiento = new Establecimiento();
     }
