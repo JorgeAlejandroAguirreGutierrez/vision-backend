@@ -106,6 +106,42 @@ public class FacturaService implements IFacturaService {
         }
     }
 
+    private Optional<String> crearClaveAcceso(Factura factura) {
+        DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+        String fechaEmision = dateFormat.format(factura.getFecha());
+        String tipoComprobante=Constantes.factura_sri;
+        String numeroRuc=factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
+        String tipoAmbiente=Constantes.pruebas_sri;
+        String serie=factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + factura.getSesion().getUsuario().getEstacion().getCodigoSRI();
+        String numeroComprobante=factura.getSecuencia();
+        String codigoNumerico=factura.getCodigoNumerico();
+        String tipoEmision=Constantes.emision_normal_sri;
+        String cadenaVerificacion=fechaEmision+tipoComprobante+numeroRuc+tipoAmbiente+serie+numeroComprobante+codigoNumerico+tipoEmision;
+        int[] arreglo=new int[cadenaVerificacion.length()];
+        for(int i=0; i<cadenaVerificacion.length(); i++) {
+            arreglo[i]= Integer.parseInt(cadenaVerificacion.charAt(i)+Constantes.vacio);
+        }
+        int factor=Constantes.dos;
+        int suma=0;
+        for(int i=arreglo.length-1; i>=0; i--) {
+            suma=suma+arreglo[i]*factor;
+            if(factor==Constantes.siete) {
+                factor=Constantes.dos;
+            } else {
+                factor++;
+            }
+        }
+        int digitoVerificador = Constantes.once - (suma % Constantes.once);
+        if(digitoVerificador == Constantes.diez) {
+            digitoVerificador = 1;
+        }
+        if(digitoVerificador == Constantes.once) {
+            digitoVerificador = 0;
+        }
+        String claveAcceso=cadenaVerificacion+digitoVerificador;
+        return Optional.of(claveAcceso);
+    }
+
     @Override
     public Factura crear(Factura factura) {
         validar(factura);
@@ -132,46 +168,12 @@ public class FacturaService implements IFacturaService {
     	}
     	factura.setClaveAcceso(claveAcceso.get());
     	factura.setEstado(Constantes.estadoEmitida);
+        calcular(factura);
         facturar(factura);
+        calcularRecaudacion(factura);
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
-    }
-    
-    private Optional<String> crearClaveAcceso(Factura factura) {
-    	DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");  
-    	String fechaEmision = dateFormat.format(factura.getFecha());
-    	String tipoComprobante=Constantes.factura_sri;
-    	String numeroRuc=factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
-    	String tipoAmbiente=Constantes.pruebas_sri;
-    	String serie=factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + factura.getSesion().getUsuario().getEstacion().getCodigoSRI();
-    	String numeroComprobante=factura.getSecuencia();
-    	String codigoNumerico=factura.getCodigoNumerico();
-    	String tipoEmision=Constantes.emision_normal_sri;
-    	String cadenaVerificacion=fechaEmision+tipoComprobante+numeroRuc+tipoAmbiente+serie+numeroComprobante+codigoNumerico+tipoEmision;
-    	int[] arreglo=new int[cadenaVerificacion.length()];
-    	for(int i=0; i<cadenaVerificacion.length(); i++) {
-    		arreglo[i]= Integer.parseInt(cadenaVerificacion.charAt(i)+Constantes.vacio);
-    	}
-    	int factor=Constantes.dos;
-    	int suma=0;
-    	for(int i=arreglo.length-1; i>=0; i--) {
-    		suma=suma+arreglo[i]*factor;
-    		if(factor==Constantes.siete) {
-    			factor=Constantes.dos;
-    		} else {
-    			factor++;
-    		}
-    	}
-    	int digitoVerificador = Constantes.once - (suma % Constantes.once);
-    	if(digitoVerificador == Constantes.diez) {
-    		digitoVerificador = 1;
-    	}
-    	if(digitoVerificador == Constantes.once) {
-    		digitoVerificador = 0;
-    	}
-    	String claveAcceso=cadenaVerificacion+digitoVerificador;
-    	return Optional.of(claveAcceso);
     }
 
     @Override
@@ -179,12 +181,9 @@ public class FacturaService implements IFacturaService {
         if(factura.getEstado().equals(Constantes.recaudada)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         validar(factura);
+        calcular(factura);
         facturar(factura);
-        if(factura.getPorPagar() > Constantes.cero){
-            factura.setEstado(Constantes.noRecaudada);
-        } else{
-            factura.setEstado(Constantes.recaudada);
-        }
+        calcularRecaudacion(factura);
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -390,6 +389,11 @@ public class FacturaService implements IFacturaService {
         }
         factura.setPorPagar(porPagar);
         factura.setTotalRecaudacion(total);
+        if(factura.getPorPagar() > Constantes.cero){
+            factura.setEstado(Constantes.noRecaudada);
+        } else{
+            factura.setEstado(Constantes.recaudada);
+        }
         return factura;
     }
     
