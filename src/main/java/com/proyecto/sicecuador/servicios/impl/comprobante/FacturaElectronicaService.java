@@ -120,7 +120,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	
     	Detalles detalles=crearDetalles(factura);
 
-		List<CampoAdicional> infoAdicional = crearInfoAdicional(factura);
+		InfoAdicional infoAdicional = crearInfoAdicional(factura);
     	
     	facturaElectronica.setInfoTributaria(infoTributaria);
     	facturaElectronica.setInfoFactura(infoFactura);
@@ -233,8 +233,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	return impuestos;
     }
 
-	private List<CampoAdicional> crearInfoAdicional(Factura factura) {
-		List<CampoAdicional> infoAdicional = new ArrayList<>();
+	private InfoAdicional crearInfoAdicional(Factura factura) {
+		List<CampoAdicional> camposAdicionales = new ArrayList<>();
 		CampoAdicional campoAdicional1 = new CampoAdicional();
 		campoAdicional1.setNombre(Constantes.telefono);
 		campoAdicional1.setValor(factura.getCliente().getTelefonos().get(0).getNumero());
@@ -250,11 +250,13 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		CampoAdicional campoAdicional5 = new CampoAdicional();
 		campoAdicional5.setNombre(Constantes.valor);
 		campoAdicional5.setValor(factura.getTotalConDescuento() + Constantes.vacio);
-		infoAdicional.add(campoAdicional1);
-		infoAdicional.add(campoAdicional2);
-		infoAdicional.add(campoAdicional3);
-		infoAdicional.add(campoAdicional4);
-		infoAdicional.add(campoAdicional5);
+		camposAdicionales.add(campoAdicional1);
+		camposAdicionales.add(campoAdicional2);
+		camposAdicionales.add(campoAdicional3);
+		camposAdicionales.add(campoAdicional4);
+		camposAdicionales.add(campoAdicional5);
+		InfoAdicional infoAdicional = new InfoAdicional();
+		infoAdicional.setCampoAdicional(camposAdicionales);
 		return infoAdicional;
 	}
 

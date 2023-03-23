@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.modelos.comprobante.electronico.guiaremision;
 import lombok.Data;
 
 import javax.xml.bind.annotation.*;
-import java.util.List;
 
 @XmlRootElement(name = "guiaRemision")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -18,5 +17,5 @@ public class GuiaRemisionElectronica {
 	private InfoTributaria infoTributaria;
 	private InfoGuiaRemision infoGuiaRemision;
 	private Destinatarios destinatarios;
-	private List<CampoAdicional> infoAdicional;
+	private InfoAdicional infoAdicional;
 }

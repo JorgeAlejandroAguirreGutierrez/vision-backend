@@ -108,7 +108,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		infoGuiaRemision.setFechaFinTransporte(fechaFinTransporte);
 		infoGuiaRemision.setPlaca(guiaRemision.getTransportista().getVehiculoTransporte().getPlaca());
 		Destinatarios destinatarios = crearDestinatarios(guiaRemision);
-		List<CampoAdicional> infoAdicional = crearInfoAdicional(guiaRemision);
+		InfoAdicional infoAdicional = crearInfoAdicional(guiaRemision);
 		guiaRemisionElectronica.setInfoTributaria(infoTributaria);
 		guiaRemisionElectronica.setInfoGuiaRemision(infoGuiaRemision);
 		guiaRemisionElectronica.setDestinatarios(destinatarios);
@@ -118,13 +118,34 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 	private Destinatarios crearDestinatarios(GuiaRemision guiaRemision) {
 		Destinatarios destinatarios = new Destinatarios();
 		List<Destinatario> destinatariosLista = new ArrayList<>();
-
-
+		Destinatario destinatario = new Destinatario();
+		if(guiaRemision.getOpcionGuia().equals(Constantes.cliente_direccion)){
+			destinatario.setIdentificacionDestinatario(guiaRemision.getFactura().getCliente().getIdentificacion());
+			destinatario.setRazonSocialDestinatario(guiaRemision.getFactura().getCliente().getRazonSocial());
+			destinatario.setDirDestinatario(guiaRemision.getFactura().getCliente().getDireccion());
+		}
+		if(guiaRemision.getOpcionGuia().equals(Constantes.nueva_direccion)){
+			destinatario.setIdentificacionDestinatario(guiaRemision.getIdentificacionDestinatario());
+			destinatario.setRazonSocialDestinatario(guiaRemision.getRazonSocialDestinatario());
+			destinatario.setDirDestinatario(guiaRemision.getDireccionDestinatario());
+		}
+		destinatario.setMotivoTraslado(guiaRemision.getMotivoTraslado());
+		destinatario.setRuta(guiaRemision.getRuta());
+		destinatario.setCodDocSustento(Constantes.factura_sri);
+		String numDocSustento = guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI()
+				+ Constantes.guion + guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI()
+				+ guiaRemision.getFactura().getSecuencia();
+		destinatario.setNumDocSustento(numDocSustento);
+		destinatario.setNumAutDocSustento(guiaRemision.getFactura().getClaveAcceso());
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		destinatario.setFechaEmisionDocSustento(dateFormat.format(guiaRemision.getFactura().getFecha()));
+		destinatariosLista.add(destinatario);
 		destinatarios.setDestinatario(destinatariosLista);
 		return destinatarios;
 	}
-	private List<CampoAdicional> crearInfoAdicional(GuiaRemision guiaRemision) {
-		List<CampoAdicional> infoAdicional = new ArrayList<>();
+	private InfoAdicional crearInfoAdicional(GuiaRemision guiaRemision) {
+		InfoAdicional infoAdicional = new InfoAdicional();
+		List<CampoAdicional> camposAdicionales = new ArrayList<>();
 		CampoAdicional campoAdicional1 = new CampoAdicional();
 		campoAdicional1.setNombre(Constantes.telefono);
 		campoAdicional1.setValor(guiaRemision.getFactura().getCliente().getTelefonos().get(0).getNumero());
@@ -140,11 +161,12 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		CampoAdicional campoAdicional5 = new CampoAdicional();
 		campoAdicional5.setNombre(Constantes.valor);
 		campoAdicional5.setValor(guiaRemision.getFactura().getTotalConDescuento() + Constantes.vacio);
-		infoAdicional.add(campoAdicional1);
-		infoAdicional.add(campoAdicional2);
-		infoAdicional.add(campoAdicional3);
-		infoAdicional.add(campoAdicional4);
-		infoAdicional.add(campoAdicional5);
+		camposAdicionales.add(campoAdicional1);
+		camposAdicionales.add(campoAdicional2);
+		camposAdicionales.add(campoAdicional3);
+		camposAdicionales.add(campoAdicional4);
+		camposAdicionales.add(campoAdicional5);
+		infoAdicional.setCampoAdicional(camposAdicionales);
 		return infoAdicional;
 	}
 

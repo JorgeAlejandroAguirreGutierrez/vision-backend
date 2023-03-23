@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder={"codigoPrincipal", "descripcion", "cantidad", "precioUnitario", "descuento", "precioTotalSinImpuesto", "impuestos"})
 @Data
 public class Detalle {
-
 	private String codigoPrincipal;
 	private String descripcion;
 	private double cantidad;

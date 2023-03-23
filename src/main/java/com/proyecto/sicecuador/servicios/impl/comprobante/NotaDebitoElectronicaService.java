@@ -115,7 +115,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		Pagos pagos = crearPagos(notaDebitoVenta);
 		Motivos motivos = crearMotivos(notaDebitoVenta);
 
-		List<CampoAdicional> infoAdicional = crearInfoAdicional(notaDebitoVenta);
+		InfoAdicional infoAdicional = crearInfoAdicional(notaDebitoVenta);
 
 		notaDebitoElectronica.setInfoTributaria(infoTributaria);
 		notaDebitoElectronica.setInfoNotaDebito(infoNotaDebito);
@@ -210,8 +210,9 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
     	return motivos;
     }
 
-	private List<CampoAdicional> crearInfoAdicional(NotaDebitoVenta notaDebitoVenta) {
-		List<CampoAdicional> infoAdicional = new ArrayList<>();
+	private InfoAdicional crearInfoAdicional(NotaDebitoVenta notaDebitoVenta) {
+		InfoAdicional infoAdicional = new InfoAdicional();
+		List<CampoAdicional> camposAdicionales = new ArrayList<>();
 		CampoAdicional campoAdicional1 = new CampoAdicional();
 		campoAdicional1.setNombre(Constantes.telefono);
 		campoAdicional1.setValor(notaDebitoVenta.getFactura().getCliente().getTelefonos().get(0).getNumero());
@@ -227,11 +228,12 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		CampoAdicional campoAdicional5 = new CampoAdicional();
 		campoAdicional5.setNombre(Constantes.valor);
 		campoAdicional5.setValor(notaDebitoVenta.getFactura().getTotalConDescuento() + Constantes.vacio);
-		infoAdicional.add(campoAdicional1);
-		infoAdicional.add(campoAdicional2);
-		infoAdicional.add(campoAdicional3);
-		infoAdicional.add(campoAdicional4);
-		infoAdicional.add(campoAdicional5);
+		camposAdicionales.add(campoAdicional1);
+		camposAdicionales.add(campoAdicional2);
+		camposAdicionales.add(campoAdicional3);
+		camposAdicionales.add(campoAdicional4);
+		camposAdicionales.add(campoAdicional5);
+		infoAdicional.setCampoAdicional(camposAdicionales);
 		return infoAdicional;
 	}
 
