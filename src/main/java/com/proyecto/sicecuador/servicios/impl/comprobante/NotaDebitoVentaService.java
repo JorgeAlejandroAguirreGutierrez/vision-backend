@@ -171,6 +171,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         notaDebitoVenta.setEstado(Constantes.estadoEmitida);
         calcular(notaDebitoVenta);
         facturar(notaDebitoVenta);
+        calcularRecaudacion(notaDebitoVenta);
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
         return res;
@@ -178,9 +179,11 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
 
     @Override
     public NotaDebitoVenta actualizar(NotaDebitoVenta notaDebitoVenta) {
+        if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         validar(notaDebitoVenta);
         calcular(notaDebitoVenta);
         facturar(notaDebitoVenta);
+        calcularRecaudacion(notaDebitoVenta);
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
         return res;

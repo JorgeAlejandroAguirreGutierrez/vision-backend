@@ -120,7 +120,6 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         notaCreditoVenta.setEstado(Constantes.estadoEmitida);
         calcular(notaCreditoVenta);
         facturar(notaCreditoVenta);
-        notaCreditoVenta.setEstado(Constantes.estadoFacturada);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
         return res;
@@ -164,10 +163,10 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
 
     @Override
     public NotaCreditoVenta actualizar(NotaCreditoVenta notaCreditoVenta) {
+        if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         validar(notaCreditoVenta);
         calcular(notaCreditoVenta);
         facturar(notaCreditoVenta);
-        notaCreditoVenta.setEstado(Constantes.estadoFacturada);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
         return res;

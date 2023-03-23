@@ -35,34 +35,6 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		if(guiaRemision.getFechaInicioTransporte() == null) throw new DatoInvalidoException(Constantes.fechaInicioTransporte);
 		if(guiaRemision.getFechaFinTransporte() == null) throw new DatoInvalidoException(Constantes.fechaFinTransporte);
 	}
-    
-    @Override
-    public GuiaRemision crear(GuiaRemision guiaRemision) {
-		Optional<String>codigo = Util.generarCodigo(Constantes.tabla_guia_remision);
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
-		guiaRemision.setCodigo(codigo.get());
-		Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_guia_remision);
-		if (secuencia.isEmpty()) {
-			throw new SecuenciaNoExistenteException();
-		}
-		guiaRemision.setSecuencia(secuencia.get());
-		Optional<String> codigoNumerico = Util.generarCodigoNumerico(Constantes.tabla_guia_remision);
-		if (codigoNumerico.isEmpty()) {
-			throw new CodigoNumericoNoExistenteException();
-		}
-		guiaRemision.setCodigoNumerico(codigoNumerico.get());
-		Optional<String> claveAcceso = crearClaveAcceso(guiaRemision);
-		if (claveAcceso.isEmpty()) {
-			throw new ClaveAccesoNoExistenteException();
-		}
-		guiaRemision.setClaveAcceso(claveAcceso.get());
-        guiaRemision.setEstado(Constantes.estadoEmitida);
-		GuiaRemision res = rep.save(guiaRemision);
-		res.normalizar();
-    	return rep.save(guiaRemision);
-    }
 
 	private Optional<String> crearClaveAcceso(GuiaRemision guiaRemision) {
 		DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
@@ -99,10 +71,41 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		String claveAcceso=cadenaVerificacion+digitoVerificador;
 		return Optional.of(claveAcceso);
 	}
+    
+    @Override
+    public GuiaRemision crear(GuiaRemision guiaRemision) {
+		validar(guiaRemision);
+		Optional<String>codigo = Util.generarCodigo(Constantes.tabla_guia_remision);
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+		guiaRemision.setCodigo(codigo.get());
+		Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_guia_remision);
+		if (secuencia.isEmpty()) {
+			throw new SecuenciaNoExistenteException();
+		}
+		guiaRemision.setSecuencia(secuencia.get());
+		Optional<String> codigoNumerico = Util.generarCodigoNumerico(Constantes.tabla_guia_remision);
+		if (codigoNumerico.isEmpty()) {
+			throw new CodigoNumericoNoExistenteException();
+		}
+		guiaRemision.setCodigoNumerico(codigoNumerico.get());
+		Optional<String> claveAcceso = crearClaveAcceso(guiaRemision);
+		if (claveAcceso.isEmpty()) {
+			throw new ClaveAccesoNoExistenteException();
+		}
+		guiaRemision.setClaveAcceso(claveAcceso.get());
+        guiaRemision.setEstado(Constantes.estadoEmitida);
+		GuiaRemision res = rep.save(guiaRemision);
+		res.normalizar();
+    	return rep.save(guiaRemision);
+    }
 
     @Override
     public GuiaRemision actualizar(GuiaRemision guiaRemision) {
-        return rep.save(guiaRemision);
+		if(guiaRemision.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
+        validar(guiaRemision);
+		return rep.save(guiaRemision);
     }
 
 	@Override
