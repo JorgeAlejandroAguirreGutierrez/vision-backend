@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.modelos.comprobante.electronico.factura;
 import lombok.Data;
 
 import javax.xml.bind.annotation.*;
-import java.util.List;
 
 @XmlRootElement(name = "factura")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -18,5 +17,5 @@ public class FacturaElectronica {
 	private InfoTributaria infoTributaria;
 	private InfoFactura infoFactura;
 	private Detalles detalles;
-	private List<CampoAdicional> infoAdicional;
+	private InfoAdicional infoAdicional;
 }

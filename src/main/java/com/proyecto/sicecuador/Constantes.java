@@ -74,6 +74,7 @@ public class Constantes {
     
     public static final String vacio="";
     public static final String espacio=" ";
+    public static final String guion = "-";
     public static final String si = "SI";
     public static final String no = "NO";
     

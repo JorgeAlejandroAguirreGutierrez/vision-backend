@@ -2,12 +2,11 @@ package com.proyecto.sicecuador.modelos.comprobante.electronico.notadebito;
 
 import lombok.Data;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.*;
 
-@Data
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "campoAdicional")
+@Data
 public class CampoAdicional {
     @XmlAttribute(name = "nombre")
     private String nombre;
