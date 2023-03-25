@@ -185,6 +185,11 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         calcular(notaDebitoVenta);
         facturar(notaDebitoVenta);
         calcularRecaudacion(notaDebitoVenta);
+        if(notaDebitoVenta.getPorPagar() > Constantes.cero){
+            notaDebitoVenta.setEstado(Constantes.noRecaudada);
+        } else{
+            notaDebitoVenta.setEstado(Constantes.recaudada);
+        }
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
         return res;
@@ -285,11 +290,6 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         }
         notaDebitoVenta.setPorPagar(porPagar);
         notaDebitoVenta.setTotalRecaudacion(total);
-        if(porPagar > 0){
-            notaDebitoVenta.setEstado(Constantes.noRecaudada);
-        } else{
-            notaDebitoVenta.setEstado(Constantes.recaudada);
-        }
         return notaDebitoVenta;
     }
 
