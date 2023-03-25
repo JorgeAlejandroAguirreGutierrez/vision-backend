@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface IEstablecimientoRepository extends JpaRepository<Establecimiento, Long>, JpaSpecificationExecutor<Establecimiento> {
-    @Query(value = "select e from Establecimiento e order by e.codigo desc")
+    @Query(value = "select e from Establecimiento e order by e.codigo asc")
     List<Establecimiento> consultar();
-    @Query(value = "select e from Establecimiento e where e.estado=:estado order by e.codigo desc")
+    @Query(value = "select e from Establecimiento e where e.estado=:estado order by e.codigo asc")
     List<Establecimiento> consultarPorEstado(String estado);
 	
-	@Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId and e.estado=:estado order by e.codigo desc")
+	@Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId and e.estado=:estado order by e.codigo asc")
     List<Establecimiento> consultarPorEmpresa(long empresaId, String estado);
 }

@@ -10,9 +10,9 @@ import java.util.List;
 
 @Repository
 public interface INotaDebitoVentaRepository extends JpaRepository<NotaDebitoVenta, Long>, JpaSpecificationExecutor<NotaDebitoVenta> {
-    @Query(value = "select ndv from NotaDebitoVenta ndv order by ndv.codigo desc")
+    @Query(value = "select ndv from NotaDebitoVenta ndv order by ndv.codigo asc")
     List<NotaDebitoVenta> consultar();
-    @Query(value = "select ndv from NotaDebitoVenta ndv where ndv.estado = :estado order by ndv.codigo desc")
+    @Query(value = "select ndv from NotaDebitoVenta ndv where ndv.estado = :estado order by ndv.codigo asc")
     List<NotaDebitoVenta> consultarPorEstado(String estado);
 
 }

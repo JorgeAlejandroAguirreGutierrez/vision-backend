@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IMovimientoContableRepository extends JpaRepository<MovimientoContable, Long>, JpaSpecificationExecutor<MovimientoContable> {
-    @Query(value = "select mc from MovimientoContable mc order by mc.codigo desc")
+    @Query(value = "select mc from MovimientoContable mc order by mc.codigo asc")
     List<MovimientoContable> consultar();
-    @Query(value = "select mc from MovimientoContable mc where mc.estado=:estado order by mc.codigo desc")
+    @Query(value = "select mc from MovimientoContable mc where mc.estado=:estado order by mc.codigo asc")
     List<MovimientoContable> consultarPorEstado(String estado);
 }

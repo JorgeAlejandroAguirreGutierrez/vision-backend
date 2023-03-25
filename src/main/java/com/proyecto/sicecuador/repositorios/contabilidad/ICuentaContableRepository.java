@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ICuentaContableRepository extends JpaRepository<CuentaContable, Long>, JpaSpecificationExecutor<CuentaContable> {
-    @Query(value = "select cc from CuentaContable cc order by cc.codigo desc")
+    @Query(value = "select cc from CuentaContable cc order by cc.codigo asc")
     List<CuentaContable> consultar();
-    @Query(value = "select cc from CuentaContable cc where cc.estado=:estado order by cc.codigo desc")
+    @Query(value = "select cc from CuentaContable cc where cc.estado=:estado order by cc.codigo asc")
     List<CuentaContable> consultarPorEstado(String estado);
 }

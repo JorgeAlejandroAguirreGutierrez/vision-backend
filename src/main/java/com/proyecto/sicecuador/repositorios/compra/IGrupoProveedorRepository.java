@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IGrupoProveedorRepository extends JpaRepository<GrupoProveedor, Long>, JpaSpecificationExecutor<GrupoProveedor> {
-    @Query(value = "select gp from GrupoProveedor gp order by gp.codigo desc")
+    @Query(value = "select gp from GrupoProveedor gp order by gp.codigo asc")
     List<GrupoProveedor> consultar();
-    @Query(value = "select gp from GrupoProveedor gp where gp.estado=:estado order by gp.codigo desc")
+    @Query(value = "select gp from GrupoProveedor gp where gp.estado=:estado order by gp.codigo asc")
     List<GrupoProveedor> consultarPorEstado(String estado);
-    @Query(value = "select gp from GrupoProveedor gp where gp.codigo like '%'||:codigo||'%' and gp.descripcion like '%'||:descripcion||'%' and gp.abreviatura like '%'||:abreviatura||'%' order by gp.estado desc")
+    @Query(value = "select gp from GrupoProveedor gp where gp.codigo like '%'||:codigo||'%' and gp.descripcion like '%'||:descripcion||'%' and gp.abreviatura like '%'||:abreviatura||'%' order by gp.estado asc")
     List<GrupoProveedor> buscar(String codigo, String descripcion, String abreviatura);
 }
