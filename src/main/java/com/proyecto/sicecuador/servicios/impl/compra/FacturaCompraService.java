@@ -124,7 +124,7 @@ public class FacturaCompraService implements IFacturaCompraService {
 
     @Override
     public List<FacturaCompra> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

@@ -72,7 +72,7 @@ public class PlazoCreditoService implements IPlazoCreditoService {
 
     @Override
     public List<PlazoCredito> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

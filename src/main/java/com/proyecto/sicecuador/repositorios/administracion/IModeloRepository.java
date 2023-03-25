@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IModeloRepository extends JpaRepository<Modelo, Long>, JpaSpecificationExecutor<Modelo> {
-	@Query(value = "select m from Modelo m where m.estado=:estado")
-    public List<Modelo> consultarPorEstado(String estado);
+    @Query(value = "select m from Modelo m order by m.codigo")
+    List<Modelo> consultar();
+    @Query(value = "select m from Modelo m where m.estado=:estado order by m.codigo")
+    List<Modelo> consultarPorEstado(String estado);
 }

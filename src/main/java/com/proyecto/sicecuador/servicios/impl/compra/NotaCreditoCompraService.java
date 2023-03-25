@@ -162,7 +162,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
 
     @Override
     public List<NotaCreditoCompra> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

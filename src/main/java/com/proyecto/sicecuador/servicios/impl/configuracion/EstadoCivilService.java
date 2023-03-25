@@ -56,7 +56,7 @@ public class EstadoCivilService implements IEstadoCivilService {
 
     @Override
     public List<EstadoCivil> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

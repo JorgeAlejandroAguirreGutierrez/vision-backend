@@ -80,7 +80,7 @@ public class PerfilService implements IPerfilService {
 
     @Override
     public List<Perfil> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

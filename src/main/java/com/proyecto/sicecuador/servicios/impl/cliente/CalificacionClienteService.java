@@ -71,7 +71,7 @@ public class CalificacionClienteService implements ICalificacionClienteService {
 
     @Override
     public List<CalificacionCliente> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
 
     public CalificacionCliente normalizar() {

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IVehiculoTransporteRepository extends JpaRepository<VehiculoTransporte, Long>, JpaSpecificationExecutor<VehiculoTransporte> {
-	@Query(value = "select vt from VehiculoTransporte vt where vt.estado=:estado")
+    @Query(value = "select vt from VehiculoTransporte vt order by vt.codigo desc")
+    List<VehiculoTransporte> consultar();
+    @Query(value = "select vt from VehiculoTransporte vt where vt.estado=:estado order by vt.codigo desc")
     List<VehiculoTransporte> consultarPorEstado(String estado);
 }

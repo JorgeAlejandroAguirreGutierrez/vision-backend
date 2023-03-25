@@ -90,7 +90,7 @@ public class GrupoProductoService implements IGrupoProductoService {
 
     @Override
     public List<GrupoProducto> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

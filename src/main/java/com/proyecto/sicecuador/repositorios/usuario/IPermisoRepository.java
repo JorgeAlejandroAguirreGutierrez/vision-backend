@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.repositorios.usuario;
 
-import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.modelos.usuario.Permiso;
 
 import java.util.List;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IPermisoRepository extends JpaRepository<Permiso, Long>, JpaSpecificationExecutor<Permiso> {
-    @Query(value = "select pr from Permiso pr where pr.estado=:estado")
+    @Query(value = "select pr from Permiso pr order by pr.codigo desc")
+    List<Permiso> consultar();
+    @Query(value = "select pr from Permiso pr where pr.estado=:estado order by pr.codigo desc")
     List<Permiso> consultarPorEstado(String estado);
 }

@@ -66,7 +66,7 @@ public class BancoService implements IBancoService {
 
     @Override
     public List<Banco> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

@@ -59,7 +59,7 @@ public class TransportistaService implements ITransportistaService {
 
     @Override
     public List<Transportista> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

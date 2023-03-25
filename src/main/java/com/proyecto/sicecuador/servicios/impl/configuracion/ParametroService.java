@@ -71,7 +71,7 @@ public class ParametroService implements IParametroService {
 
     @Override
     public List<Parametro> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

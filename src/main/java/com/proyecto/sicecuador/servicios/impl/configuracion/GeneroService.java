@@ -70,7 +70,7 @@ public class GeneroService implements IGeneroService {
 
     @Override
     public List<Genero> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

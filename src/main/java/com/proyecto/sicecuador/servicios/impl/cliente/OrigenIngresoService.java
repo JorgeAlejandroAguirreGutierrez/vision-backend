@@ -72,7 +72,7 @@ public class OrigenIngresoService implements IOrigenIngresoService {
 
     @Override
     public List<OrigenIngreso> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

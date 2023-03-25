@@ -71,7 +71,7 @@ public class BodegaService implements IBodegaService {
 
     @Override
     public List<Bodega> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

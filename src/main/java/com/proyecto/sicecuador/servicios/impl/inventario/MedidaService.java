@@ -73,7 +73,7 @@ public class MedidaService implements IMedidaService {
 
     @Override
     public List<Medida> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

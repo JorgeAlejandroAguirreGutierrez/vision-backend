@@ -58,7 +58,7 @@ public class ModeloService implements IModeloService {
     
     @Override
     public List<Modelo> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
 
     @Override

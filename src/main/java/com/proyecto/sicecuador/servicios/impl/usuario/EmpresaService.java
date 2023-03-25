@@ -29,11 +29,9 @@ public class EmpresaService implements IEmpresaService {
         if(empresa.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
         if(empresa.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.razonSocial);
         if(empresa.getNombreComercial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombreComercial);
-        //if(empresa.getLogo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.logo);
         if(empresa.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.obligadoContabilidad);
         if(empresa.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
         if(empresa.getTipoIdentificacion().getId() ==  Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
-        //if(empresa.getUbicacion().getId() ==  Constantes.ceroId) throw new DatoInvalidoException(Constantes.ubicacion);
     }
 
     @Override
@@ -99,7 +97,7 @@ public class EmpresaService implements IEmpresaService {
 
     @Override
     public List<Empresa> consultar() {
-        List<Empresa> empresas = rep.findAll();
+        List<Empresa> empresas = rep.consultar();
         if(!empresas.isEmpty()) {
             for (Empresa empresa : empresas){
                 if(empresa.getLogo() != null) {

@@ -58,7 +58,7 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
 
     @Override
     public List<VehiculoTransporte> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

@@ -91,7 +91,7 @@ public class MovimientoContableService implements IMovimientoContableService {
 
     @Override
     public List<MovimientoContable> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
 
     @Override

@@ -71,7 +71,7 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
 
     @Override
     public List<OperadorTarjeta> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

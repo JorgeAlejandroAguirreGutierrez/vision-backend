@@ -80,7 +80,7 @@ public class GrupoProveedorService implements IGrupoProveedorService {
 
     @Override
     public List<GrupoProveedor> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

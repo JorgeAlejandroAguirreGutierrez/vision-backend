@@ -436,7 +436,7 @@ public class ClienteService implements IClienteService {
 
     @Override
     public List<Cliente> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

@@ -75,7 +75,7 @@ public class TipoRetencionService implements ITipoRetencionService {
 
     @Override
     public List<TipoRetencion> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

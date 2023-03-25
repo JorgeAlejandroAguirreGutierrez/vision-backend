@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IGrupoClienteRepository extends JpaRepository<GrupoCliente, Long>, JpaSpecificationExecutor<GrupoCliente> {
-	@Query(value = "select gc from GrupoCliente gc where gc.estado=:estado")
+	@Query(value = "select gc from GrupoCliente gc order by gc.codigo desc")
+	List<GrupoCliente> consultar();
+	@Query(value = "select gc from GrupoCliente gc where gc.estado=:estado order by gc.codigo desc")
     List<GrupoCliente> consultarPorEstado(String estado);
 
-	@Query(value = "select gc from GrupoCliente gc where gc.codigo like '%'||:codigo||'%' and gc.descripcion like '%'||:descripcion||'%' and gc.abreviatura like '%'||:abreviatura||'%'")
+	@Query(value = "select gc from GrupoCliente gc where gc.codigo like '%'||:codigo||'%' and gc.descripcion like '%'||:descripcion||'%' and gc.abreviatura like '%'||:abreviatura||'%' order by gc.codigo desc")
 	List<GrupoCliente> buscar(String codigo, String descripcion, String abreviatura);
 }

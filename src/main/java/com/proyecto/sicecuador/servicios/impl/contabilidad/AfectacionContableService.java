@@ -74,7 +74,7 @@ public class AfectacionContableService implements IAfectacionContableService {
 
     @Override
     public List<AfectacionContable> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override
