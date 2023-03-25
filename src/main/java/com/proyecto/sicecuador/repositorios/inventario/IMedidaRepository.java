@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IMedidaRepository extends JpaRepository<Medida, Long>, JpaSpecificationExecutor<Medida> {
-    @Query(value = "select m from Medida m order by m.codigo desc")
+    @Query(value = "select m from Medida m order by m.codigo asc")
     List<Medida> consultar();
-    @Query(value = "select m from Medida m where m.estado=:estado order by m.codigo desc")
+    @Query(value = "select m from Medida m where m.estado=:estado order by m.codigo asc")
     List<Medida> consultarPorEstado(String estado);
 }

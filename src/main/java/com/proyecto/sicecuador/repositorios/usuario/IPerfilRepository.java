@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IPerfilRepository extends JpaRepository<Perfil, Long>, JpaSpecificationExecutor<Perfil> {
-    @Query(value = "select p from Perfil p order by p.codigo desc")
+    @Query(value = "select p from Perfil p order by p.codigo asc")
     List<Perfil> consultar();
-    @Query(value = "select p from Perfil p where p.estado=:estado order by p.codigo desc")
+    @Query(value = "select p from Perfil p where p.estado=:estado order by p.codigo asc")
     List<Perfil> consultarPorEstado(String estado);
 }

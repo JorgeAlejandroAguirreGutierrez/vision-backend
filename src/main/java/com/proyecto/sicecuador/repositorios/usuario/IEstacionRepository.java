@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IEstacionRepository extends JpaRepository<Estacion, Long>, JpaSpecificationExecutor<Estacion> {
-    @Query(value = "select e from Estacion e order by e.codigo desc")
+    @Query(value = "select e from Estacion e order by e.codigo asc")
     List<Estacion> consultar();
-    @Query(value = "select e from Estacion e where e.estado=:estado order by e.codigo desc")
+    @Query(value = "select e from Estacion e where e.estado=:estado order by e.codigo asc")
     List<Estacion> consultarPorEstado(String estado);
 
-    @Query(value = "select e from Estacion e where e.establecimiento.id = :establecimientoId and e.estado = :estado order by e.codigo desc")
+    @Query(value = "select e from Estacion e where e.establecimiento.id = :establecimientoId and e.estado = :estado order by e.codigo asc")
     List<Estacion> consultarPorEstablecimiento(long establecimientoId, String estado);
 }
