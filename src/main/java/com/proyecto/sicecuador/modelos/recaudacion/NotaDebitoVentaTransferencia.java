@@ -18,12 +18,12 @@ import static com.proyecto.sicecuador.Constantes.tabla_nota_debito_venta_transfe
 public class NotaDebitoVentaTransferencia extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "fecha_transaccion", nullable = true)
+    private Date fechaTransaccion;
     @Column(name = "tipo_transaccion", nullable = true)
     private String tipoTransaccion;
     @Column(name = "numero_transaccion", nullable = true)
     private String numeroTransaccion;
-    @Column(name = "fecha_transaccion", nullable = true)
-    private Date fechaTransaccion;
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
@@ -40,9 +40,9 @@ public class NotaDebitoVentaTransferencia extends Entidad {
     public NotaDebitoVentaTransferencia(){
         super();
         this.codigo = Constantes.vacio;
+        this.fechaTransaccion = new Date();
         this.tipoTransaccion = Constantes.vacio;
         this.numeroTransaccion = Constantes.vacio;
-        this.fechaTransaccion = new Date();
         this.valor = Constantes.cero;
         this.banco = new Banco();
     }
