@@ -35,6 +35,8 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public void validar(Factura factura) {
+        if(factura.getEstado().equals(Constantes.recaudada)) throw new DatoInvalidoException(Constantes.estado);
+        if(factura.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(factura.getCliente().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cliente);
         if(factura.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
@@ -178,8 +180,6 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public Factura actualizar(Factura factura) {
-        if(factura.getEstado().equals(Constantes.recaudada)) throw new DatoInvalidoException(Constantes.estado);
-        if(factura.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         validar(factura);
         calcular(factura);
         facturar(factura);

@@ -36,6 +36,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
 
     @Override
     public void validar(NotaCreditoVenta notaCreditoVenta) {
+        if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaCreditoVenta.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaCreditoVenta.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaCreditoVenta.getNotaCreditoVentaLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_credito_venta_linea);
@@ -163,7 +164,6 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
 
     @Override
     public NotaCreditoVenta actualizar(NotaCreditoVenta notaCreditoVenta) {
-        if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         validar(notaCreditoVenta);
         calcular(notaCreditoVenta);
         facturar(notaCreditoVenta);

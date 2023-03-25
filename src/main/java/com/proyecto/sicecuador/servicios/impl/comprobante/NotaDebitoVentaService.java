@@ -36,6 +36,8 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
 
     @Override
     public void validar(NotaDebitoVenta notaDebitoVenta) {
+        if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaDebitoVenta.getEstado().equals(Constantes.recaudada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaDebitoVenta.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaDebitoVenta.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaDebitoVenta.getNotaDebitoVentaLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_debito_venta_linea);
@@ -179,7 +181,6 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
 
     @Override
     public NotaDebitoVenta actualizar(NotaDebitoVenta notaDebitoVenta) {
-        if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         validar(notaDebitoVenta);
         calcular(notaDebitoVenta);
         facturar(notaDebitoVenta);
