@@ -10,9 +10,10 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface IImpuestoRepository extends JpaRepository<Impuesto, Long>, JpaSpecificationExecutor<Impuesto> {
-	@Query(value = "select i from Impuesto i where i.estado=:estado")
-    public List<Impuesto> consultarPorEstado(String estado);
-	
-	@Query(value = "select i from Impuesto i where i.porcentaje = :porcentaje and i.estado = :estado")
+    @Query(value = "select i from Impuesto i order by i.codigo desc")
+    List<Impuesto> consultar();
+    @Query(value = "select i from Impuesto i where i.estado=:estado order by i.codigo desc")
+    List<Impuesto> consultarPorEstado(String estado);
+	@Query(value = "select i from Impuesto i where i.porcentaje = :porcentaje and i.estado = :estado order by i.codigo desc")
     Optional<Impuesto> findByPorcentaje(double porcentaje, String estado);
 }

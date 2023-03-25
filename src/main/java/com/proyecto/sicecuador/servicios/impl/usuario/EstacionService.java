@@ -81,7 +81,7 @@ public class EstacionService implements IEstacionService {
 
     @Override
     public List<Estacion> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

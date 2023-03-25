@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IBodegaRepository extends JpaRepository<Bodega, Long>, JpaSpecificationExecutor<Bodega> {
-	@Query(value = "select b from Bodega b where b.estado=:estado")
+    @Query(value = "select b from Bodega b order by b.codigo desc")
+    List<Bodega> consultar();
+    @Query(value = "select b from Bodega b where b.estado=:estado order by b.codigo desc")
     List<Bodega> consultarPorEstado(String estado);
 }

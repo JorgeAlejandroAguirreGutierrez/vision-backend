@@ -127,7 +127,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
 
     @Override
     public List<NotaDebitoCompra> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

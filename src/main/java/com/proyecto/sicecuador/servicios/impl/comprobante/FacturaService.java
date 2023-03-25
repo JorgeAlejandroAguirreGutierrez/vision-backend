@@ -225,7 +225,7 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public List<Factura> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

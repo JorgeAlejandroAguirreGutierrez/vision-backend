@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ITipoContribuyenteRepository extends JpaRepository<TipoContribuyente, Long>, JpaSpecificationExecutor<TipoContribuyente> {
-    @Query(value="SELECT * FROM tipo_contribuyente u WHERE u.tipo = :tipo and u.subtipo = :subtipo", nativeQuery = true)
+    @Query(value="select * from tipo_contribuyente u where u.tipo = :tipo and u.subtipo = :subtipo order by u.codigo desc", nativeQuery = true)
     TipoContribuyente findByTipoAndSubtipo(
             @Param("tipo") String tipo,
             @Param("subtipo") String subtipo);

@@ -79,7 +79,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
 
     @Override
     public List<CuentaPropia> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

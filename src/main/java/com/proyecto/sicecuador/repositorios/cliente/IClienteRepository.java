@@ -13,13 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface IClienteRepository extends IGenericoRepository<Cliente> {
-	
-	@Query(value = "select c from Cliente c where c.identificacion=:identificacion and c.estado=:estado")
-    Optional<Cliente> obtenerPorIdentificacion(String identificacion, String estado);
-	
-	@Query(value = "select c from Cliente c where c.razonSocial=:razonSocial and c.estado=:estado")
-    Optional<Cliente> obtenerPorRazonSocial(String razonSocial, String estado);
-	
-	@Query(value = "select c from Cliente c where c.estado=:estado")
+    @Query(value = "select c from Cliente c order by c.codigo desc")
+    List<Cliente> consultar();
+    @Query(value = "select c from Cliente c where c.estado=:estado order by c.codigo desc")
     List<Cliente> consultarPorEstado(String estado);
+	@Query(value = "select c from Cliente c where c.identificacion=:identificacion and c.estado=:estado order by c.codigo desc")
+    Optional<Cliente> obtenerPorIdentificacion(String identificacion, String estado);
+	@Query(value = "select c from Cliente c where c.razonSocial=:razonSocial and c.estado=:estado order by c.codigo desc")
+    Optional<Cliente> obtenerPorRazonSocial(String razonSocial, String estado);
 }

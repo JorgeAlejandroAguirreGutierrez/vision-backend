@@ -114,7 +114,7 @@ public class ProductoService implements IProductoService {
 
     @Override
     public List<Producto> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

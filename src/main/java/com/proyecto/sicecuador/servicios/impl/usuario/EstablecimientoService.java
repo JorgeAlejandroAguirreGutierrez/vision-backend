@@ -95,7 +95,7 @@ public class EstablecimientoService implements IEstablecimientoService {
 
     @Override
     public List<Establecimiento> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

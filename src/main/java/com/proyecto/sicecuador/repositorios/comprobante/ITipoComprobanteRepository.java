@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface ITipoComprobanteRepository extends JpaRepository<TipoComprobante, Long>, JpaSpecificationExecutor<TipoComprobante> {
-    @Query(value = "select tc from TipoComprobante tc where tc.nombreTabla = :nombreTabla")
+    @Query(value = "select tc from TipoComprobante tc where tc.nombreTabla = :nombreTabla order by tc.codigo desc")
     Optional<TipoComprobante> obtenerPorNombreTabla(String nombreTabla);
 }

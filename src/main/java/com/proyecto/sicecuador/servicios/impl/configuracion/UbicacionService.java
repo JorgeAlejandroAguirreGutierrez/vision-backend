@@ -74,7 +74,7 @@ public class UbicacionService implements IUbicacionService {
 
     @Override
     public List<Ubicacion> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

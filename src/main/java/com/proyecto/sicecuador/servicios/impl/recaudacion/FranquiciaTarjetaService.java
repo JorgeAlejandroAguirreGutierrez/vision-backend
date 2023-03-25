@@ -70,7 +70,7 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
 
     @Override
     public List<FranquiciaTarjeta> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

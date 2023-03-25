@@ -79,7 +79,7 @@ public class CuentaContableService implements ICuentaContableService {
 
     @Override
     public List<CuentaContable> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

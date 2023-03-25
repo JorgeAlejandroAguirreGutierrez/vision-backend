@@ -7,14 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-@Transactional
 public interface IEstacionRepository extends JpaRepository<Estacion, Long>, JpaSpecificationExecutor<Estacion> {
-	@Query(value = "select e from Estacion e where e.estado=:estado")
+    @Query(value = "select e from Estacion e order by e.codigo desc")
+    List<Estacion> consultar();
+    @Query(value = "select e from Estacion e where e.estado=:estado order by e.codigo desc")
     List<Estacion> consultarPorEstado(String estado);
 
-    @Query(value = "select e from Estacion e where e.establecimiento.id = :establecimientoId and e.estado = :estado")
+    @Query(value = "select e from Estacion e where e.establecimiento.id = :establecimientoId and e.estado = :estado order by e.codigo desc")
     List<Estacion> consultarPorEstablecimiento(long establecimientoId, String estado);
 }

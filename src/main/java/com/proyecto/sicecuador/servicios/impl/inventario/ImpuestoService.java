@@ -74,7 +74,7 @@ public class ImpuestoService implements IImpuestoService {
 
     @Override
     public List<Impuesto> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

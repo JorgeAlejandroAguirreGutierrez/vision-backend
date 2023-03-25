@@ -81,7 +81,7 @@ public class CategoriaProductoService implements ICategoriaProductoService {
 
     @Override
     public List<CategoriaProducto> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

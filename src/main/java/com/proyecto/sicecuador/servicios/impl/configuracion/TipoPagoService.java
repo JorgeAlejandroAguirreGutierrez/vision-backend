@@ -72,7 +72,7 @@ public class TipoPagoService implements ITipoPagoService {
 
     @Override
     public List<TipoPago> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

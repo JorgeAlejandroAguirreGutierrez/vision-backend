@@ -1,9 +1,8 @@
 package com.proyecto.sicecuador.datos.usuario;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
+import com.proyecto.sicecuador.modelos.usuario.*;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -28,7 +27,13 @@ public class EstablecimientoData implements ApplicationRunner {
         Optional<Establecimiento> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Establecimiento> establecimientos = new ArrayList<>();
-            establecimientos.add(new Establecimiento("EST001", "001", "DESCRIPCION 1", "CALLE 10 CARRERA 15 #27", "1", "1", Constantes.activo, new Ubicacion(1), new Empresa(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            List<TelefonoEstablecimiento> telefonosEstablecimientos = new ArrayList<>();
+            telefonosEstablecimientos.add(new TelefonoEstablecimiento("TEL011907000001", "032964123", new Establecimiento(1)));
+            List<CelularEstablecimiento> celularesEstablecimientos = new ArrayList<>();
+            celularesEstablecimientos.add(new CelularEstablecimiento("CEL011907000001", "0999778877", new Establecimiento(1)));
+            List<CorreoEstablecimiento> correosEstablecimientos = new ArrayList<>();
+            correosEstablecimientos.add(new CorreoEstablecimiento("COR011907000001", "CORREO@HOTMAIL.COM", new Establecimiento(1)));
+            establecimientos.add(new Establecimiento("EST001", "001", "DESCRIPCION 1", "CALLE 10 CARRERA 15 #27", "1", "1", Constantes.activo, new Ubicacion(1), new Empresa(1), telefonosEstablecimientos, celularesEstablecimientos, correosEstablecimientos));
             establecimientos.add(new Establecimiento("EST002", "002", "DESCRIPCION 2", "CALLE 5 CARRERA 60 #50", "1", "1", Constantes.activo, new Ubicacion(2), new Empresa(1),Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
             establecimientos.add(new Establecimiento("EST003", "003", "DESCRIPCION 3", "CALLE 8 Y LARREA #27", "1", "1", Constantes.activo, new Ubicacion(3), new Empresa(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
             establecimientos.add(new Establecimiento("EST004", "004", "DESCRIPCION 4", "CALLE 19 Y OLMEDO #50", "1", "1", Constantes.activo, new Ubicacion(4), new Empresa(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));

@@ -110,7 +110,7 @@ public class ProveedorService implements IProveedorService {
 
     @Override
     public List<Proveedor> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

@@ -71,7 +71,7 @@ public class FormaPagoService implements IFormaPagoService {
 
     @Override
     public List<FormaPago> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

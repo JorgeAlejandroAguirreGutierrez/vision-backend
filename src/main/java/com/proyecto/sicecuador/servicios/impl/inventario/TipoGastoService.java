@@ -70,7 +70,7 @@ public class TipoGastoService implements ITipoGastoService {
 
     @Override
     public List<TipoGasto> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

@@ -74,7 +74,7 @@ public class SegmentoService implements ISegmentoService {
 
     @Override
     public List<Segmento> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
     
     @Override

@@ -142,7 +142,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 
     @Override
     public List<GuiaRemision> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
 
     @Override

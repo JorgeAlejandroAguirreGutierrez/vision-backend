@@ -60,7 +60,7 @@ public class PermisoService implements IPermisoService {
 
     @Override
     public List<Permiso> consultar() {
-        return rep.findAll();
+        return rep.consultar();
     }
 
     @Override
