@@ -18,8 +18,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_transferencia;
 public class Transferencia extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "fecha_transaccion", nullable = true)
-    private Date fechaTransaccion;
+    @Column(name = "fecha", nullable = true)
+    private Date fecha;
     @Column(name = "tipo_transaccion", nullable = true)
     private String tipoTransaccion;
     @Column(name = "numero_transaccion", nullable = true)
@@ -40,14 +40,14 @@ public class Transferencia extends Entidad {
     public Transferencia(){
         super();
         this.codigo = Constantes.vacio;
+        this.fecha = new Date();
         this.tipoTransaccion = Constantes.vacio;
         this.numeroTransaccion = Constantes.vacio;
-        this.fechaTransaccion = new Date();
         this.valor = Constantes.cero;
         this.banco = new Banco();
     }
     public void normalizar(){
-        if(this.fechaTransaccion == null) this.fechaTransaccion = new Date();
+        if(this.fecha == null) this.fecha = new Date();
         if(this.banco == null) this.banco = new Banco();
     }
 }
