@@ -66,7 +66,7 @@ public class FacturaService implements IFacturaService {
         }
         for(TarjetaDebito tarjetaDebito : factura.getTarjetasDebitos()){
             if(tarjetaDebito.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
-            if(tarjetaDebito.getNombreTitular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre_titular);
+            if(tarjetaDebito.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre_titular);
             if(tarjetaDebito.getLote().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.lote);
             if(tarjetaDebito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
             if(tarjetaDebito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
@@ -77,7 +77,7 @@ public class FacturaService implements IFacturaService {
             if(tarjetaCredito.getDiferido().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.diferido);
             if(tarjetaCredito.getTitular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.titular);
             if(tarjetaCredito.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
-            if(tarjetaCredito.getNombreTitular().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre_titular);
+            if(tarjetaCredito.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre_titular);
             if(tarjetaCredito.getLote().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.lote);
             if(tarjetaCredito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
             if(tarjetaCredito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);

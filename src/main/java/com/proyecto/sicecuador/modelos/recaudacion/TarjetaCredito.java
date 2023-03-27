@@ -23,8 +23,8 @@ public class TarjetaCredito extends Entidad {
     private String titular;
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
-    @Column(name = "nombre_titular", nullable = true)
-    private String nombreTitular;
+    @Column(name = "nombre", nullable = true)
+    private String nombre;
     @Column(name = "lote", nullable = true)
     private String lote;
     @Column(name = "valor", nullable = true)
@@ -52,7 +52,7 @@ public class TarjetaCredito extends Entidad {
         this.diferido = Constantes.no;
         this.titular = Constantes.no;
         this.identificacion = Constantes.vacio;
-        this.nombreTitular = Constantes.vacio;
+        this.nombre = Constantes.vacio;
         this.lote = Constantes.vacio;
         this.valor = Constantes.cero;
         this.operadorTarjeta = new OperadorTarjeta();

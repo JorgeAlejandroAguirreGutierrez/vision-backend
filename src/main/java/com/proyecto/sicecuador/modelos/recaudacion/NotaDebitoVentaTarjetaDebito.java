@@ -18,10 +18,12 @@ import static com.proyecto.sicecuador.Constantes.tabla_nota_debito_venta_tarjeta
 public class NotaDebitoVentaTarjetaDebito extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "titular", nullable = true)
+    private String titular;
 	@Column(name = "identificacion", nullable = true)
     private String identificacion;
-    @Column(name = "nombre_titular", nullable = true)
-    private String nombreTitular;
+    @Column(name = "nombre", nullable = true)
+    private String nombre;
     @Column(name = "lote", nullable = true)
     private String lote;
     @Column(name = "valor", nullable = true)
@@ -46,8 +48,9 @@ public class NotaDebitoVentaTarjetaDebito extends Entidad {
     public NotaDebitoVentaTarjetaDebito(){
         super();
         this.codigo = Constantes.vacio;
+        this.titular = Constantes.vacio;
         this.identificacion = Constantes.vacio;
-        this.nombreTitular = Constantes.vacio;
+        this.nombre = Constantes.vacio;
         this.lote = Constantes.vacio;
         this.valor = Constantes.cero;
         this.banco = new Banco();
