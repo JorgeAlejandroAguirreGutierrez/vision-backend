@@ -2,7 +2,6 @@ package com.proyecto.sicecuador.controladoras.comprobante;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVenta;
 import com.proyecto.sicecuador.modelos.comprobante.NotaDebitoVentaLinea;
 import com.proyecto.sicecuador.servicios.interf.comprobante.INotaDebitoVentaService;
