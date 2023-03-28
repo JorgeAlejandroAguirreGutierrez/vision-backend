@@ -13,7 +13,7 @@ public class GuiaRemisionElectronica {
 	@XmlAttribute(name = "id")
     private String id="comprobante";
 	@XmlAttribute(name = "version")
-    private String version="2.1.0";
+    private String version="1.1.0";
 	private InfoTributaria infoTributaria;
 	private InfoGuiaRemision infoGuiaRemision;
 	private Destinatarios destinatarios;
