@@ -26,6 +26,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 
 	@Override
 	public void validar(GuiaRemision guiaRemision) {
+		if(guiaRemision.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
 		if(guiaRemision.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
 		if(guiaRemision.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
 		if(guiaRemision.getTransportista().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.transportista);
@@ -34,6 +35,14 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		if(guiaRemision.getRuta().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.ruta);
 		if(guiaRemision.getFechaInicioTransporte() == null) throw new DatoInvalidoException(Constantes.fechaInicioTransporte);
 		if(guiaRemision.getFechaFinTransporte() == null) throw new DatoInvalidoException(Constantes.fechaFinTransporte);
+		if(guiaRemision.getOpcionGuia().equals(Constantes.nueva_direccion)){
+			if(guiaRemision.getIdentificacionDestinatario().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
+			if(guiaRemision.getRazonSocialDestinatario().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.razonSocial);
+			if(guiaRemision.getDireccionDestinatario().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
+			if(guiaRemision.getTelefonoDestinatario().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.telefono);
+			if(guiaRemision.getCelularDestinatario().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.celular);
+			if(guiaRemision.getCorreoDestinatario().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.correo);
+		}
 	}
 
 	private Optional<String> crearClaveAcceso(GuiaRemision guiaRemision) {
@@ -103,7 +112,6 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 
     @Override
     public GuiaRemision actualizar(GuiaRemision guiaRemision) {
-		if(guiaRemision.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         validar(guiaRemision);
 		return rep.save(guiaRemision);
     }
