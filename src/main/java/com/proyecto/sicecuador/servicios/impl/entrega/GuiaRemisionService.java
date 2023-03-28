@@ -89,7 +89,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     		throw new CodigoNoExistenteException();
     	}
 		guiaRemision.setCodigo(codigo.get());
-		Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_guia_remision);
+		Optional<String>secuencia = Util.generarSecuencia(Constantes.tabla_guia_remision);
 		if (secuencia.isEmpty()) {
 			throw new SecuenciaNoExistenteException();
 		}
