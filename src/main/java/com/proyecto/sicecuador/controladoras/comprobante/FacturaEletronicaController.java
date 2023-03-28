@@ -23,7 +23,7 @@ public class FacturaEletronicaController {
     @GetMapping(value = "/{facturaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> enviar(@PathVariable("facturaId") long facturaId) {
         Factura factura = servicio.enviar(facturaId);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_factura_electronica_exitosa + Constantes.espacio + factura.getClaveAcceso(), factura);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_crear_factura_electronica_exitosa + Constantes.espacio + factura.getClaveAcceso(), factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }
