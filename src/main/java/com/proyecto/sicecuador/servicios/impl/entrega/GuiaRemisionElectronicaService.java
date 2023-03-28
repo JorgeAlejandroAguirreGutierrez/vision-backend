@@ -133,7 +133,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		destinatario.setRuta(guiaRemision.getRuta());
 		destinatario.setCodDocSustento(Constantes.factura_sri);
 		String numDocSustento = guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI()
-				+ Constantes.guion + guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI()
+				+ Constantes.guion + guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion
 				+ guiaRemision.getFactura().getSecuencia();
 		destinatario.setNumDocSustento(numDocSustento);
 		destinatario.setNumAutDocSustento(guiaRemision.getFactura().getClaveAcceso());
