@@ -247,6 +247,7 @@ public class Constantes {
     public static final String parametro="PARAMETRO";
     public static final String tipo_retencion="TIPO RETENCION";
     public static final String ubicacion="UBICACION";
+    public static final String correo_predeterminado="facturacion@futuristic.com.ec";
     
     //ENTREGA
     public static final String entrega="ENTREGA";
@@ -432,6 +433,10 @@ public class Constantes {
     public static final String inicioTelefono = "0";
     public static final String inicioCelular = "09";
     public static final String arroba = "@";
+
+    //COORDENADAS
+    public static final double latCiudad = -1.6719601146175727;
+    public static final double lngCiudad = -78.65041698970757;
     
     //NUMEROS
     public static final int uno = 1;

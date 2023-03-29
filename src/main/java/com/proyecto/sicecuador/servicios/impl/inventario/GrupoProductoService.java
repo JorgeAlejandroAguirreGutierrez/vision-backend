@@ -31,10 +31,14 @@ public class GrupoProductoService implements IGrupoProductoService {
         if(grupoProducto.getGrupo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.grupo);
         if(grupoProducto.getSubgrupo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.subgrupo);
         if(grupoProducto.getSeccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.seccion);
-        if(grupoProducto.getLinea().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.linea);
-        if(grupoProducto.getSublinea().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.sublinea);
-        if(grupoProducto.getPresentacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.sublinea);
         if(grupoProducto.getCategoriaProducto().equals(Constantes.ceroId)) throw new DatoInvalidoException(Constantes.categoria_producto);
+        if (grupoProducto.getCategoriaProducto().getId() == 1) {
+            if (grupoProducto.getLinea().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.linea);
+            if (grupoProducto.getSublinea().equals(Constantes.vacio))
+                throw new DatoInvalidoException(Constantes.sublinea);
+            if (grupoProducto.getPresentacion().equals(Constantes.vacio))
+                throw new DatoInvalidoException(Constantes.sublinea);
+        }
         if(grupoProducto.getCuentaContable().equals(Constantes.ceroId)) throw new DatoInvalidoException(Constantes.cuenta_contable);
     }
     
