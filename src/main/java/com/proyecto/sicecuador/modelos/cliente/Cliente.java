@@ -114,8 +114,8 @@ public class Cliente extends Entidad {
         this.estado = Constantes.activo;
         this.direccion = Constantes.vacio;
         this.referencia = Constantes.vacio;
-        this.latitudgeo = Constantes.cero;
-        this.longitudgeo = Constantes.cero;
+        this.latitudgeo = Constantes.latCiudad;
+        this.longitudgeo = Constantes.lngCiudad;
         this.montoFinanciamiento = Constantes.cero;
         this.tipoIdentificacion = new TipoIdentificacion();
         this.tipoContribuyente = new TipoContribuyente();

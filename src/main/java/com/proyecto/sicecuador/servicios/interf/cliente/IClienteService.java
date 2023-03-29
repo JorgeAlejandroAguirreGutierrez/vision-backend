@@ -15,6 +15,7 @@ public interface IClienteService extends IGenericoService<Cliente> {
     Cliente obtenerPorRazonSocial(String razonSocial);
     List<Cliente> buscar(Cliente cliente);
     Cliente validarIdentificacion(String identificacion);
+    Cliente buscarClienteBase(Cliente cliente);
     boolean verificarPersonaNatural(String identificacion);
     boolean verificarCedula(String identificacion);
     boolean verificarSociedadesPublicas(String identificacion);
