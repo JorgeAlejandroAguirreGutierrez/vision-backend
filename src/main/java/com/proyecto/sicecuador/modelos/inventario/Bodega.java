@@ -18,6 +18,8 @@ public class Bodega extends Entidad {
     private String codigo;
     @Column(name = "nombre", nullable = true)
     private String nombre;
+    @Column(name = "abreviatura", nullable = true)
+    private String abreviatura;
     @Column(name = "estado", nullable = true)
     private String estado;
 
@@ -29,6 +31,7 @@ public class Bodega extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.nombre = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
         this.estado = Constantes.activo;
     }
 }

@@ -25,9 +25,9 @@ public class BodegaData implements ApplicationRunner {
         Optional<Bodega> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Bodega> bodegas = new ArrayList<>();
-            bodegas.add(new Bodega("BOD012001000001","BODEGA MATRIZ", Constantes.activo));
-            bodegas.add(new Bodega("BOD012001000002","BODEGA LOCAL 1", Constantes.activo));
-            bodegas.add(new Bodega("BOD012001000003","BODEGA LOCAL 2", Constantes.activo));
+            bodegas.add(new Bodega("BOD012001000001","BODEGA MATRIZ", "BM001",Constantes.activo));
+            bodegas.add(new Bodega("BOD012001000002","BODEGA LOCAL 1", "BL002",Constantes.activo));
+            bodegas.add(new Bodega("BOD012001000003","BODEGA LOCAL 2", "BL003",Constantes.activo));
             rep.saveAll(bodegas);
         }
     }
