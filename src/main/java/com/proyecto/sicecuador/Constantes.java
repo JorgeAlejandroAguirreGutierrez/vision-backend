@@ -544,5 +544,6 @@ public class Constantes {
     public static final String extensionXml =".xml";
     public static final String applicationPdf="application/pdf";
     public static final String textXml="text/xml";
+    public static final float fontSize = 10;
     
 }

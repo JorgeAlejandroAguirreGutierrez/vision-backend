@@ -276,7 +276,9 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         notaDebitoVenta.setTotalTarjetasDebitos(totalTarjetasDebitos);
         notaDebitoVenta.setTotalTarjetasCreditos(totalTarjetasCreditos);
         if(total >= notaDebitoVenta.getTotalConDescuento()){
-            notaDebitoVenta.setCambio(total - notaDebitoVenta.getTotalConDescuento());
+            double cambio = total - notaDebitoVenta.getTotalConDescuento();
+            cambio = Math.round(cambio*100.0)/100.0;
+            notaDebitoVenta.setCambio(cambio);
         } else {
             notaDebitoVenta.setCambio(Constantes.cero);
         }

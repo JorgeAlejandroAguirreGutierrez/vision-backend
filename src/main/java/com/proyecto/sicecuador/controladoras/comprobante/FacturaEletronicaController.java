@@ -9,10 +9,14 @@ import com.proyecto.sicecuador.modelos.comprobante.Factura;
 import com.proyecto.sicecuador.servicios.interf.comprobante.IFacturaElectronicaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayInputStream;
 
 @RestController
 @RequestMapping(contexto+pathFacturaElectronica)
@@ -25,5 +29,13 @@ public class FacturaEletronicaController {
         Factura factura = servicio.enviar(facturaId);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_crear_factura_electronica_exitosa + Constantes.espacio + factura.getClaveAcceso(), factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    @GetMapping(value = "/obtenerPDF/{facturaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerPDF(@PathVariable("facturaId") long facturaId) {
+        ByteArrayInputStream pdf = servicio.obtenerPDF(facturaId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=factura.pdf");
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(pdf));
     }
 }
