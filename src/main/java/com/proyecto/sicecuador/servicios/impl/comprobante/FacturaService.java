@@ -380,7 +380,9 @@ public class FacturaService implements IFacturaService {
         factura.setTotalTarjetasDebitos(totalTarjetasDebitos);
         factura.setTotalTarjetasCreditos(totalTarjetasCreditos);
         if(total >= factura.getTotalConDescuento()){
-            factura.setCambio(total - factura.getTotalConDescuento());
+            double cambio = total - factura.getTotalConDescuento();
+            cambio = Math.round(cambio*100.0)/100.0;
+            factura.setCambio(cambio);
         } else {
             factura.setCambio(Constantes.cero);
         }
