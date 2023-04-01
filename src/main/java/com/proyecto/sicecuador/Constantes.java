@@ -227,6 +227,7 @@ public class Constantes {
     public static final String tabla_permiso="permiso";
     public static final String tabla_sesion="sesion";
     public static final String tabla_usuario="usuario";
+    public static final String tabla_regimen="regimen";
 	
     //CONTABILIDAD
     public static final String tabla_afectacion_contable="afectacion_contable";
@@ -341,6 +342,7 @@ public class Constantes {
     public static final String celular_establecimiento="CELULAR ESTABLECIMIENTO";
     public static final String correo_establecimiento="CORREO ESTABLECIMIENTO";
     public static final String telefono_establecimiento="TELEFONO ESTABLECIMIENTO";
+    public static final String regimen="REGIMEN";
 	
     //CONTABILIDAD
     public static final String afectacion_contable="AFECTACION CONTABLE";

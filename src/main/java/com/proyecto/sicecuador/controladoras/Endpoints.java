@@ -99,6 +99,7 @@ public class Endpoints {
     public static final String pathSesion="sesion";
     public static final String pathUsuario="usuario";
     public static final String pathTelefonoEstablecimiento="telefonoEstablecimiento";
+    public static final String pathRegimen="regimen";
     
     //CONTABILIDAD
     public static final String pathAfectacionContable="afectacionContable";

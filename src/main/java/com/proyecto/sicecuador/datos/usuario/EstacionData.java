@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.datos.usuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
+import com.proyecto.sicecuador.modelos.configuracion.Regimen;
 import com.proyecto.sicecuador.repositorios.usuario.IEstacionRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +26,14 @@ public class EstacionData implements ApplicationRunner {
         Optional<Estacion> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Estacion> estaciones = new ArrayList<>();
-            estaciones.add(new Estacion("ESN001", "001", "CAJA1", "PC", Constantes.activo, new Establecimiento(1)));
-            estaciones.add(new Estacion("ESN002", "002", "CAJA2", "PC", Constantes.activo, new Establecimiento(2)));
-            estaciones.add(new Estacion("ESN003", "003", "CAJA3", "PC", Constantes.activo, new Establecimiento(3)));
-            estaciones.add(new Estacion("ESN004", "004", "PC4", "PC", Constantes.activo, new Establecimiento(4)));
-            estaciones.add(new Estacion("ESN005", "005", "PC5", "PC", Constantes.activo, new Establecimiento(1)));
-            estaciones.add(new Estacion("ESN006", "006", "PC6", "PC", Constantes.activo, new Establecimiento(2)));
-            estaciones.add(new Estacion("ESN007", "007", "PC7", "PC", Constantes.activo, new Establecimiento(3)));
-            estaciones.add(new Estacion("ESN008", "008", "PC8", "PC", Constantes.activo, new Establecimiento(4)));
+            estaciones.add(new Estacion("ESN202301000001", "001", "CAJA1", "PC", "192.168.1.1",Constantes.activo, new Regimen(1), new Establecimiento(1)));
+            estaciones.add(new Estacion("ESN202301000002", "002", "CAJA2", "PC", "192.168.1.2", Constantes.activo, null, new Establecimiento(2)));
+            estaciones.add(new Estacion("ESN202301000003", "003", "CAJA3", "PC", "192.168.1.3", Constantes.activo, new Regimen(3), new Establecimiento(3)));
+            estaciones.add(new Estacion("ESN202301000004", "004", "PC4", "TABLET", "192.168.1.4", Constantes.activo, null, new Establecimiento(4)));
+            estaciones.add(new Estacion("ESN202301000005", "005", "PC5", "PC", "192.168.1.5", Constantes.activo, new Regimen(2), new Establecimiento(1)));
+            estaciones.add(new Estacion("ESN202301000006", "006", "PC6", "PC", null,Constantes.activo, new Regimen(3), new Establecimiento(2)));
+            estaciones.add(new Estacion("ESN202301000007", "007", "PC7", "PORTATIL", "192.168.1.6", Constantes.activo, new Regimen(1), new Establecimiento(3)));
+            estaciones.add(new Estacion("ESN202301000008", "008", "PC8", "PC", null,Constantes.activo, new Regimen(3), new Establecimiento(4)));
             rep.saveAll(estaciones);
         }
     }
