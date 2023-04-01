@@ -6,7 +6,7 @@ import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.configuracion.Regimen;
-import com.proyecto.sicecuador.repositorios.usuario.IRegimenRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.IRegimenRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IRegimenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.controladoras.usuario;
+package com.proyecto.sicecuador.controladoras.configuracion;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;

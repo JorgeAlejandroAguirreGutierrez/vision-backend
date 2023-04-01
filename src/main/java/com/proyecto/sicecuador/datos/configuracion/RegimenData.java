@@ -2,7 +2,7 @@ package com.proyecto.sicecuador.datos.configuracion;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.configuracion.Regimen;
-import com.proyecto.sicecuador.repositorios.usuario.IRegimenRepository;
+import com.proyecto.sicecuador.repositorios.configuracion.IRegimenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

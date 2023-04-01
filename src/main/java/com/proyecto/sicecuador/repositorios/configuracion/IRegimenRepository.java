@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.repositorios.usuario;
+package com.proyecto.sicecuador.repositorios.configuracion;
 
 import com.proyecto.sicecuador.modelos.configuracion.Regimen;
 import org.springframework.data.jpa.repository.JpaRepository;
