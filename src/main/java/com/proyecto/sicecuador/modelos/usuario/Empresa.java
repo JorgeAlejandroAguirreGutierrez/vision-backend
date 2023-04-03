@@ -29,10 +29,18 @@ public class Empresa extends Entidad {
     @Lob
     @Column(name = "logo", nullable = true)
     private byte[] logo;
-    @Column(name = "obligado_contabilidad", nullable = true)
-    private String obligadoContabilidad;
     @Column(name = "direccion", nullable = true)
     private String direccion;
+    @Column(name = "obligado_contabilidad", nullable = true)
+    private String obligadoContabilidad;
+    @Column(name = "especial", nullable = true)
+    private String especial;
+    @Column(name = "resolucion_especial", nullable = true)
+    private String resolucionEspecial;
+    @Column(name = "agente_retencion", nullable = true)
+    private String agenteRetencion;
+    @Column(name = "resolucion_agente", nullable = true)
+    private String resolucionAgente;
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
@@ -53,8 +61,12 @@ public class Empresa extends Entidad {
         this.nombreComercial = Constantes.vacio;
         this.logo64 = Constantes.vacio;
         this.logo = null;
-        this.obligadoContabilidad = Constantes.no;
         this.direccion = Constantes.vacio;
+        this.obligadoContabilidad = Constantes.no;
+        this.especial = Constantes.no;
+        this.resolucionEspecial = Constantes.vacio;
+        this.agenteRetencion = Constantes.no;
+        this.resolucionAgente = Constantes.vacio;
         this.estado = Constantes.activo;
         this.tipoIdentificacion = new TipoIdentificacion();
         //this.ubicacion = new Ubicacion();

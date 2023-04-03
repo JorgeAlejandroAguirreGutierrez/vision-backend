@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.modelos.usuario;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.configuracion.Regimen;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +33,9 @@ public class Establecimiento extends Entidad {
     private String longitudgeo;
     @Column(name = "estado", nullable = true)
     private String estado;
+    @ManyToOne
+    @JoinColumn(name = "regimen_id", nullable = true)
+    private Regimen regimen;
     @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
@@ -63,6 +67,7 @@ public class Establecimiento extends Entidad {
         this.latitudgeo = Constantes.vacio;
         this.longitudgeo = Constantes.vacio;
         this.estado = Constantes.activo;
+        this.regimen = new Regimen();
         this.ubicacion = new Ubicacion();
         this.empresa = new Empresa();
         this.telefonos = Collections.emptyList();
@@ -71,6 +76,7 @@ public class Establecimiento extends Entidad {
 
     }
     public void normalizar(){
+        if(this.regimen == null) this.regimen = new Regimen();
         if(this.ubicacion == null) this.ubicacion = new Ubicacion();
         if(this.empresa == null) this.empresa = new Empresa();
         if(this.telefonos == null) this.telefonos = Collections.emptyList();
