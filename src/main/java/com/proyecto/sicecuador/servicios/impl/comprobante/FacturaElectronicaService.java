@@ -389,7 +389,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
 			tabla.addCell(getCellFactura("RUC: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"FACTURA"+"\n"+
-					"No. " + factura.getSecuencia() + "\n" +
+					"No. " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + factura.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + factura.getSecuencia() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + factura.getClaveAcceso()+ "\n" +
 					"FECHA: " + factura.getFecha().toString() + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
