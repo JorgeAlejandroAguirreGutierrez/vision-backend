@@ -402,7 +402,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			Table tablaCliente = new Table(columnasCliente);
 			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + factura.getFecha().toString() +"\n",
 					TextAlignment.LEFT));
-			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA REMISION: " + "\t" + "\t"+ "\t" + "\t"+ "\t" + "\t"+ "\t" + "\t", TextAlignment.RIGHT));
+			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA REMISION: " + "\t" + "\t"+ "\t" + "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
 			documento.add( new Paragraph("\n"));
             float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
