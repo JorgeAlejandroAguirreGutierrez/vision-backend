@@ -2,7 +2,7 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.venta.Factura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

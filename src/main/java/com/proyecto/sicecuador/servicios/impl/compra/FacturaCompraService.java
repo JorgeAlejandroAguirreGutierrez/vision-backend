@@ -5,11 +5,11 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
-import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
+import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.compra.IFacturaCompraRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
-import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
+import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,7 +45,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     private void facturar(FacturaCompra facturaCompra) {
         if(facturaCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(facturaCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-        kardexService.eliminar(Constantes.factura_compra, Constantes.operacion_compra, facturaCompra.getSecuencia());
+        kardexService.eliminar(Constantes.factura_compra, Constantes.operacion_compra, facturaCompra.getSecuencial());
         for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
             Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
             double saldo = Constantes.cero;
@@ -53,9 +53,9 @@ public class FacturaCompraService implements IFacturaCompraService {
                 saldo = ultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
             }
             Kardex kardex = new Kardex(null, new Date(), Constantes.factura_compra, Constantes.operacion_compra,
-                    facturaCompra.getSecuencia(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
+                    facturaCompra.getSecuencial(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
                     facturaCompraLinea.getTotalSinDescuentoLinea(), Constantes.cero,
-                    facturaCompraLinea.getCantidad(), facturaCompraLinea.getCostoUnitario(), facturaCompraLinea.getTotalSinDescuentoLinea(),
+                    facturaCompraLinea.getCostoUnitario(), facturaCompraLinea.getTotalSinDescuentoLinea(),
                     facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
             kardexService.crear(kardex);
         }
@@ -72,11 +72,11 @@ public class FacturaCompraService implements IFacturaCompraService {
     		throw new CodigoNoExistenteException();
     	}
     	facturaCompra.setCodigo(codigo.get());
-    	Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_factura_compra);
-    	if (secuencia.isEmpty()) {
-    		throw new SecuenciaNoExistenteException();
+    	Optional<String>secuencial=Util.generarSecuencial(Constantes.tabla_factura_compra);
+    	if (secuencial.isEmpty()) {
+    		throw new SecuencialNoExistenteException();
     	}
-    	facturaCompra.setSecuencia(secuencia.get());
+    	facturaCompra.setSecuencial(secuencial.get());
         facturar(facturaCompra);
         facturaCompra.setEstado(Constantes.estadoFacturada);
         FacturaCompra res = rep.save(facturaCompra);

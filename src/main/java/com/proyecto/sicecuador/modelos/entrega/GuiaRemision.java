@@ -2,7 +2,7 @@ package com.proyecto.sicecuador.modelos.entrega;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.comprobante.Factura;
+import com.proyecto.sicecuador.modelos.venta.Factura;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,8 +19,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_guia_remision;
 public class GuiaRemision extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "secuencia", nullable = true)
-    private String secuencia;
+    @Column(name = "secuencial", nullable = true)
+    private String secuencial;
     @Column(name = "codigo_numerico", nullable = true)
     private String codigoNumerico;
     @Column(name = "clave_acceso", nullable = true)
@@ -67,7 +67,7 @@ public class GuiaRemision extends Entidad {
     public GuiaRemision(){
         super();
         this.codigo = Constantes.vacio;
-        this.secuencia = Constantes.vacio;
+        this.secuencial = Constantes.vacio;
         this.codigoNumerico = Constantes.vacio;
         this.fecha = new Date();
         this.fechaInicioTransporte = new Date();

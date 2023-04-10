@@ -8,5 +8,5 @@ import java.util.List;
 public interface IKardexService extends IGenericoService<Kardex> {
     List<Kardex> consultarPorProducto(long productoId);
     Kardex obtenerUltimoPorFecha(long bodegaId, long productoId);
-    void eliminar(String documento, String operacion, String secuencia);
+    void eliminar(String documento, String operacion, String secuencial);
 }

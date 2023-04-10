@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.modelos.compra;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.comprobante.TipoComprobante;
+import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,8 +22,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_factura_compra;
 public class FacturaCompra extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "secuencia", nullable = true)
-    private String secuencia;
+    @Column(name = "secuencial", nullable = true)
+    private String secuencial;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
     @Column(name = "estado", nullable = true)
@@ -66,7 +66,7 @@ public class FacturaCompra extends Entidad {
     public FacturaCompra(){
         super();
         this.codigo = Constantes.vacio;
-        this.secuencia = Constantes.vacio;
+        this.secuencial = Constantes.vacio;
         this.fecha = new Date();
         this.estado = Constantes.activo;
         this.valorDescuentoTotal = Constantes.cero;
