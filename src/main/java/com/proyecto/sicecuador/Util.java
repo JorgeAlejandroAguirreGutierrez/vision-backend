@@ -155,7 +155,7 @@ private static IParametroRepository parametroRep;
     	}
     }
     
-    public static Optional<String> generarSecuencia(String tabla){
+    public static Optional<String> generarSecuencial(String tabla){
     	try {
         	Optional<String> conteo= conteo(tabla);
         	if (conteo.isPresent()) {

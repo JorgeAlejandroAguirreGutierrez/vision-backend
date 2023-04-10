@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.controladoras.entrega;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
-import com.proyecto.sicecuador.servicios.interf.comprobante.IGuiaRemisionElectronicaService;
+import com.proyecto.sicecuador.servicios.interf.venta.IGuiaRemisionElectronicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

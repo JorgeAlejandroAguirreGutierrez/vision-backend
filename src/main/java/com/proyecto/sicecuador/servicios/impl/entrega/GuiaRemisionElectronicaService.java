@@ -20,11 +20,11 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.exception.EstadoInvalidoException;
 import com.proyecto.sicecuador.exception.FacturaElectronicaInvalidaException;
-import com.proyecto.sicecuador.modelos.comprobante.FacturaLinea;
-import com.proyecto.sicecuador.modelos.comprobante.electronico.guiaremision.*;
+import com.proyecto.sicecuador.modelos.venta.FacturaLinea;
+import com.proyecto.sicecuador.modelos.venta.electronico.guiaremision.*;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
 import com.proyecto.sicecuador.repositorios.entrega.IGuiaRemisionRepository;
-import com.proyecto.sicecuador.servicios.interf.comprobante.IGuiaRemisionElectronicaService;
+import com.proyecto.sicecuador.servicios.interf.venta.IGuiaRemisionElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -90,7 +90,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
     	infoTributaria.setCodDoc(Constantes.guia_de_remision_sri);
     	infoTributaria.setEstab(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
     	infoTributaria.setPtoEmi(guiaRemision.getSesion().getUsuario().getEstacion().getCodigoSRI());
-    	infoTributaria.setSecuencial(guiaRemision.getSecuencia());
+    	infoTributaria.setSecuencial(guiaRemision.getSecuencial());
     	infoTributaria.setDirMatriz(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
 
 		InfoGuiaRemision infoGuiaRemision = new InfoGuiaRemision();
@@ -134,7 +134,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		destinatario.setCodDocSustento(Constantes.factura_sri);
 		String numDocSustento = guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI()
 				+ Constantes.guion + guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion
-				+ guiaRemision.getFactura().getSecuencia();
+				+ guiaRemision.getFactura().getSecuencial();
 		destinatario.setNumDocSustento(numDocSustento);
 		destinatario.setNumAutDocSustento(guiaRemision.getFactura().getClaveAcceso());
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -299,7 +299,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
             documento.add( new Paragraph("\n"));
             documento.add(new Paragraph("RUC: "+ guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
                     "NOTA DE DEBITO"+"\n"+
-                    "No. " + guiaRemision.getSecuencia() + "\n" +
+                    "No. " + guiaRemision.getSecuencial() + "\n" +
                     "NÚMERO DE AUTORIZACIÓN: " + guiaRemision.getClaveAcceso()+ "\n" +
                     "FECHA: " + guiaRemision.getFecha().toString() + "\n" +
                     "AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
@@ -405,10 +405,10 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 	        
 	        MimeBodyPart parte1 = new MimeBodyPart();
 	        parte1.setDataHandler(new DataHandler(pdfData));
-	        parte1.setFileName(Constantes.nota_credito + guiaRemision.getSecuencia()+Constantes.extensionPdf);
+	        parte1.setFileName(Constantes.nota_credito + guiaRemision.getSecuencial()+Constantes.extensionPdf);
 	        MimeBodyPart parte2 = new MimeBodyPart();
 	        parte2.setDataHandler(new DataHandler(xmlData));
-	        parte2.setFileName(Constantes.nota_credito + guiaRemision.getSecuencia()+Constantes.extensionXml);
+	        parte2.setFileName(Constantes.nota_credito + guiaRemision.getSecuencial()+Constantes.extensionXml);
 	        
 	        Multipart multipart = new MimeMultipart();
 	        multipart.addBodyPart(parte1);

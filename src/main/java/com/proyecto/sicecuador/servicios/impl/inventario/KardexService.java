@@ -65,7 +65,7 @@ public class KardexService implements IKardexService {
         return res.get();
     }
     @Override
-    public void eliminar(String documento, String operacion,String secuencia) {
-        rep.eliminar(documento, operacion, secuencia);
+    public void eliminar(String documento, String operacion,String secuencial) {
+        rep.eliminar(documento, operacion, secuencial);
     }
 }

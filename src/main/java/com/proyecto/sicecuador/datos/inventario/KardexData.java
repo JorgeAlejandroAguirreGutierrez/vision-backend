@@ -28,11 +28,12 @@ public class KardexData implements ApplicationRunner {
         Optional<Kardex> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Kardex> kardexs = new ArrayList<>();
-            kardexs.add(new Kardex("KAR012001000001", Date.valueOf("2021-01-29"), Constantes.vacio, Constantes.vacio, Constantes.vacio, 200, 0, 200, 0, 200, 2, 100.00, 200.0, new Bodega(1), new Producto(1)));
-            kardexs.add(new Kardex("KAR012001000002", Date.valueOf("2021-01-29"), Constantes.vacio, Constantes.vacio, Constantes.vacio, 200, 0, 0, 200, 240, 1, 120.0, 240.0, new Bodega(1), new Producto(2)));
-            kardexs.add(new Kardex("KAR012001000003", Date.valueOf("2021-01-29"), Constantes.vacio, Constantes.vacio, Constantes.vacio,200, 0, 0, 200, 50, 3, 200, 400.0, new Bodega(1), new Producto(3)));
-            kardexs.add(new Kardex("KAR012001000004", Date.valueOf("2021-01-29"), Constantes.vacio, Constantes.vacio, Constantes.vacio, 200, 0, 0, 200, 50, 3, 200, 400.0, new Bodega(1), new Producto(4)));
-            kardexs.add(new Kardex("KAR012001000005", Date.valueOf("2021-01-29"), Constantes.vacio, Constantes.vacio, Constantes.vacio,200, 0, 0, 200, 50, 3, 200, 400.0, new Bodega(1), new Producto(5)));
+            kardexs.add(new Kardex("KAR202304000001", Date.valueOf("2023-04-01"), Constantes.vacio, "INVENTARIO INICIAL", Constantes.vacio, 200, 0, 200, 100.00, 0, 100.00, 2000.00, new Bodega(1), new Producto(1)));
+            kardexs.add(new Kardex("KAR202304000002", Date.valueOf("2023-04-01"), Constantes.vacio, "INVENTARIO INICIAL", Constantes.vacio, 240, 0, 240, 120.75, 0, 120.75, 28980.00, new Bodega(1), new Producto(2)));
+            kardexs.add(new Kardex("KAR202304000003", Date.valueOf("2023-04-01"), Constantes.vacio, "INVENTARIO INICIAL", Constantes.vacio,345, 0, 345, 200.15, 0, 200.15, 69051.75, new Bodega(1), new Producto(3)));
+            kardexs.add(new Kardex("KAR202304000004", Date.valueOf("2023-04-01"), Constantes.vacio, "INVENTARIO INICIAL", Constantes.vacio, 400, 0, 400, 200.00, 0, 200.00, 80000.00, new Bodega(1), new Producto(4)));
+            kardexs.add(new Kardex("KAR202304000005", Date.valueOf("2023-04-01"), Constantes.vacio, "INVENTARIO INICIAL", Constantes.vacio,100, 0, 100, 300.25, 0, 300.25, 30025.00, new Bodega(1), new Producto(5)));
+            kardexs.add(new Kardex("KAR202304000006", Date.valueOf("2023-04-01"), Constantes.vacio, "INVENTARIO INICIAL", Constantes.vacio,100, 0, 100, 30.00, 0, 30.00, 3000.00, new Bodega(1), new Producto(6)));
             rep.saveAll(kardexs);
         }
     }
