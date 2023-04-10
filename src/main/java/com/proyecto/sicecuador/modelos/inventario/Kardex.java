@@ -24,8 +24,8 @@ public class Kardex extends Entidad {
     private String documento;
     @Column(name = "operacion", nullable = true)
     private String operacion;
-    @Column(name = "secuencia", nullable = true)
-    private String secuencia;
+    @Column(name = "secuencial", nullable = true)
+    private String secuencial;
     @Column(name = "entrada", nullable = true)
     private double entrada;
     @Column(name = "salida", nullable = true)
@@ -36,8 +36,6 @@ public class Kardex extends Entidad {
     private double debe;
     @Column(name = "haber", nullable = true)
     private double haber;
-    @Column(name = "cantidad", nullable = true)
-    private long cantidad;
     @Column(name = "costo_unitario", nullable = true)
     private double costoUnitario;
     @Column(name = "costo_total", nullable = true)
@@ -59,13 +57,12 @@ public class Kardex extends Entidad {
         this.fecha = new Date();
         this.documento = Constantes.vacio;
         this.operacion = Constantes.vacio;
-        this.secuencia = Constantes.vacio;
+        this.secuencial = Constantes.vacio;
         this.entrada = Constantes.cero;
         this.salida = Constantes.cero;
         this.saldo = Constantes.cero;
         this.debe = Constantes.cero;
         this.haber = Constantes.cero;
-        this.cantidad = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
         this.costoTotal = Constantes.cero;
     }

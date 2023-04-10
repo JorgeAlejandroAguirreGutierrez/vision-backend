@@ -25,9 +25,10 @@ public class ImpuestoData implements ApplicationRunner {
         Optional<Impuesto> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Impuesto> impuestos = new ArrayList<>();
-            impuestos.add(new Impuesto("IMP012001000001", "2", "IVA", "0 %", 0, Constantes.activo));
+            impuestos.add(new Impuesto("IMP012001000001", "0", "IVA", "0 %", 0, Constantes.activo));
             impuestos.add(new Impuesto("IMP012001000002", "2", "IVA", "12 %", 12, Constantes.activo));
-            impuestos.add(new Impuesto("IMP012001000003", "2", "IVA", "14 %", 14, Constantes.activo));
+            impuestos.add(new Impuesto("IMP012001000003", "3", "IVA", "14 %", 14, Constantes.activo));
+            impuestos.add(new Impuesto("IMP012001000004", "8", "IVA diferenciado", "8 %", 8, Constantes.activo));
             rep.saveAll(impuestos);
         }
     }

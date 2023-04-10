@@ -19,6 +19,6 @@ public interface IKardexRepository extends JpaRepository<Kardex, Long>, JpaSpeci
     Optional<Kardex> obtenerUltimoPorFecha(long bodegaId, long productoId);
     @Modifying
     @Transactional
-    @Query(value = "delete from kardex k where k.documento = :documento and k.operacion = :operacion and k.secuencia = :secuencia", nativeQuery = true)
-    void eliminar(String documento, String operacion, String secuencia);
+    @Query(value = "delete from kardex k where k.documento = :documento and k.operacion = :operacion and k.secuencial = :secuencial", nativeQuery = true)
+    void eliminar(String documento, String operacion, String secuencial);
 }

@@ -51,7 +51,7 @@ public class ProductoService implements IProductoService {
             }
         }
         for(Kardex kardex: producto.getKardexs()){
-            if(kardex.getCantidad() <= Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
+            if(kardex.getSaldo() <= Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
             if(kardex.getCostoUnitario() <= Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
             if(kardex.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
         }

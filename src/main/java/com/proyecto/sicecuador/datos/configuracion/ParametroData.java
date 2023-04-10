@@ -94,8 +94,8 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR41", "TIPOS MEDIDAS", "KILOGRAMO", "", "KG", Constantes.activo));
             parametros.add(new Parametro("PAR42", "CHEQUE", "A LA VISTA", "", "CHV", Constantes.activo));
             parametros.add(new Parametro("PAR43", "CHEQUE", "POSFECHADO", "", "CHP", Constantes.activo));
-            parametros.add(new Parametro("PAR44", "TIPO TRANSACCION", "DEPOSITO", "", "DP", Constantes.activo));
-            parametros.add(new Parametro("PAR45", "TIPO TRANSACCION", "TRANSFERENCIA", "", "TF", Constantes.activo));
+            parametros.add(new Parametro("PAR44", "TIPO TRANSACCION", "DIRECTA", "", "DIR", Constantes.activo));
+            parametros.add(new Parametro("PAR45", "TIPO TRANSACCION", "VIA BCE", "", "BCE", Constantes.activo));
             parametros.add(new Parametro("PAR46", "TARJETA", "CREDITO", "", "TCR", Constantes.activo));
             parametros.add(new Parametro("PAR47", "TARJETA", "DEBITO", "", "TDB", Constantes.activo));
             parametros.add(new Parametro("PAR48", "PERIODICIDAD", "MENSUAL", "", "M", Constantes.activo));

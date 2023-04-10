@@ -5,17 +5,17 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.exception.SecuenciaNoExistenteException;
+import com.proyecto.sicecuador.exception.SecuencialNoExistenteException;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.modelos.compra.NotaCreditoCompra;
 import com.proyecto.sicecuador.modelos.compra.NotaCreditoCompraLinea;
-import com.proyecto.sicecuador.modelos.comprobante.*;
+import com.proyecto.sicecuador.modelos.venta.*;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.compra.INotaCreditoCompraRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
 import com.proyecto.sicecuador.servicios.interf.compra.INotaCreditoCompraService;
-import com.proyecto.sicecuador.servicios.interf.comprobante.ITipoComprobanteService;
+import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,18 +49,18 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     private void facturar(NotaCreditoCompra notaCreditoCompra) {
         if(notaCreditoCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaCreditoCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-        kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_conjunta, notaCreditoCompra.getSecuencia());
-        kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_devolucion, notaCreditoCompra.getSecuencia());
-        kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_descuento, notaCreditoCompra.getSecuencia());
+        kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_conjunta, notaCreditoCompra.getSecuencial());
+        kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_devolucion, notaCreditoCompra.getSecuencial());
+        kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_descuento, notaCreditoCompra.getSecuencial());
         if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_conjunta)){
             for(NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
                 Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaCreditoCompraLinea.getBodega().getId(), notaCreditoCompraLinea.getProducto().getId());
                 if (ultimoKardex != null) {
                     double saldo = ultimoKardex.getSaldo() - notaCreditoCompraLinea.getDevolucion();
                     Kardex kardex = new Kardex(null, new Date(), Constantes.nota_credito_compra, notaCreditoCompra.getOperacion(),
-                            notaCreditoCompra.getSecuencia(), Constantes.cero, notaCreditoCompraLinea.getDevolucion(), saldo,
+                            notaCreditoCompra.getSecuencial(), Constantes.cero, notaCreditoCompraLinea.getDevolucion(), saldo,
                             Constantes.cero, notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
-                            notaCreditoCompraLinea.getDevolucion(), notaCreditoCompraLinea.getCostoUnitario(), notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
+                            notaCreditoCompraLinea.getCostoUnitario(), notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
                             ultimoKardex.getBodega(), ultimoKardex.getProducto());
                     kardexService.crear(kardex);
                 }
@@ -72,9 +72,9 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 if (ultimoKardex != null) {
                     double saldo = ultimoKardex.getSaldo() - notaCreditoCompraLinea.getDevolucion();
                     Kardex kardex = new Kardex(null, new Date(), Constantes.nota_credito_compra, notaCreditoCompra.getOperacion(),
-                            notaCreditoCompra.getSecuencia(), Constantes.cero, notaCreditoCompraLinea.getDevolucion(), saldo,
+                            notaCreditoCompra.getSecuencial(), Constantes.cero, notaCreditoCompraLinea.getDevolucion(), saldo,
                             Constantes.cero, notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
-                            notaCreditoCompraLinea.getDevolucion(), ultimoKardex.getCostoUnitario(),notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
+                            ultimoKardex.getCostoUnitario(),notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
                             ultimoKardex.getBodega(), ultimoKardex.getProducto());
                     kardexService.crear(kardex);
                 }
@@ -85,9 +85,9 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaCreditoCompraLinea.getBodega().getId(), notaCreditoCompraLinea.getProducto().getId());
                 if(ultimoKardex != null){
                     Kardex kardex = new Kardex(null, new Date(), Constantes.nota_credito_compra, notaCreditoCompra.getOperacion(),
-                            notaCreditoCompra.getSecuencia(), Constantes.cero, ultimoKardex.getCantidad(), ultimoKardex.getSaldo(),
+                            notaCreditoCompra.getSecuencial(), Constantes.cero, ultimoKardex.getSalida(), ultimoKardex.getSaldo(),
                             Constantes.cero, notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
-                            ultimoKardex.getCantidad(), notaCreditoCompraLinea.getCostoUnitario(), notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
+                            notaCreditoCompraLinea.getCostoUnitario(), notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
                             ultimoKardex.getBodega(), ultimoKardex.getProducto());
                     kardexService.crear(kardex);
                 }
@@ -106,11 +106,11 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     		throw new CodigoNoExistenteException();
     	}
         notaCreditoCompra.setCodigo(codigo.get());
-    	Optional<String>secuencia=Util.generarSecuencia(Constantes.tabla_factura_compra);
+    	Optional<String>secuencia=Util.generarSecuencial(Constantes.tabla_factura_compra);
     	if (secuencia.isEmpty()) {
-    		throw new SecuenciaNoExistenteException();
+    		throw new SecuencialNoExistenteException();
     	}
-        notaCreditoCompra.setSecuencia(secuencia.get());
+        notaCreditoCompra.setSecuencial(secuencia.get());
         notaCreditoCompra.setEstado(Constantes.estadoEmitida);
         calcular(notaCreditoCompra);
         facturar(notaCreditoCompra);

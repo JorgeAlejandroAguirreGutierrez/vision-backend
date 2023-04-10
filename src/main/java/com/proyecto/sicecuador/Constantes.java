@@ -88,7 +88,7 @@ public class Constantes {
     public static String error_codigo_sesion_invalida="4004";
     public static String error_codigo_datos_invalidos="4005";
     public static String error_codigo_identificacion_invalida="4006";
-    public static String error_codigo_secuencia_no_existente="4007";
+    public static String error_codigo_secuencial_no_existente="4007";
     public static String error_codigo_cliente_no_existente="4008";
     public static String error_codigo_parametro_invalido="4009";
 
@@ -103,7 +103,7 @@ public class Constantes {
     public static String error_sesion_invalida="ERROR SESION INVALIDA";
     public static String error_datos_invalidos="ERROR DATOS INVALIDOS";
     public static String error_identificacion_invalida="ERROR IDENTIFICACION INVALIDA";
-    public static String error_secuencia_no_existente="ERROR SECUENCIA NO EXISTENTE";
+    public static String error_secuencial_no_existente="ERROR SECUENCIAL NO EXISTENTE";
     public static String error_cliente_no_existente="ERROR CLIENTE NO EXISTENTE";
     public static String error_parametro_invalido="ERROR PARAMETRO INVALIDO";
     public static String error_estado_invalido="ERROR ESTADO INVALIDO";
@@ -383,7 +383,7 @@ public class Constantes {
     public static final String codigoSRI="Codigo SRI";
     public static final String subtipo="SUBTIPO";
     public static final String nombreComercial="NOMBRE COMERCIAL";
-    public static final String secuencia="SECUENCIA";
+    public static final String secuencial="SECUENCIAL";
 
     public static final String codigoNumerico="CODIGO NUMERICO";
     public static final String fecha="FECHA";

@@ -52,7 +52,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		String numeroRuc = guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
 		String tipoAmbiente = Constantes.pruebas_sri;
 		String serie = guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + guiaRemision.getSesion().getUsuario().getEstacion().getCodigoSRI();
-		String numeroComprobante = guiaRemision.getSecuencia();
+		String numeroComprobante = guiaRemision.getSecuencial();
 		String codigoNumerico = guiaRemision.getCodigoNumerico();
 		String tipoEmision = Constantes.emision_normal_sri;
 		String cadenaVerificacion = fechaEmision + tipoComprobante+numeroRuc+tipoAmbiente+serie+numeroComprobante + codigoNumerico + tipoEmision;
@@ -89,11 +89,11 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     		throw new CodigoNoExistenteException();
     	}
 		guiaRemision.setCodigo(codigo.get());
-		Optional<String>secuencia = Util.generarSecuencia(Constantes.tabla_guia_remision);
-		if (secuencia.isEmpty()) {
-			throw new SecuenciaNoExistenteException();
+		Optional<String>secuencial = Util.generarSecuencial(Constantes.tabla_guia_remision);
+		if (secuencial.isEmpty()) {
+			throw new SecuencialNoExistenteException();
 		}
-		guiaRemision.setSecuencia(secuencia.get());
+		guiaRemision.setSecuencial(secuencial.get());
 		Optional<String> codigoNumerico = Util.generarCodigoNumerico(Constantes.tabla_guia_remision);
 		if (codigoNumerico.isEmpty()) {
 			throw new CodigoNumericoNoExistenteException();

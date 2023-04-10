@@ -58,11 +58,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@ExceptionHandler(SecuenciaNoExistenteException.class)
-	public final ResponseEntity<RestExceptionMessage> handleSecuenciaNoExistenteException(
-			SecuenciaNoExistenteException ex, WebRequest req) {
-		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_secuencia_no_existente,
-	        Constantes.error_secuencia_no_existente,
+	@ExceptionHandler(SecuencialNoExistenteException.class)
+	public final ResponseEntity<RestExceptionMessage> handleSecuencialNoExistenteException(
+			SecuencialNoExistenteException ex, WebRequest req) {
+		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_secuencial_no_existente,
+	        Constantes.error_secuencial_no_existente,
 	        null
 	    );
 	    return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
