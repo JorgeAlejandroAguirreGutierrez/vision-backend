@@ -6,7 +6,7 @@ public class FacturaElectronicaInvalidaException extends RuntimeException  {
 	private String estado;
 
 	public FacturaElectronicaInvalidaException(String estado) {
-		this.estado=estado;
+		this.estado = estado;
 	}
 
 	public String getEstado() {
