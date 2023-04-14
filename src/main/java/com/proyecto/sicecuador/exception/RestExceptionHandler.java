@@ -101,7 +101,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	public final ResponseEntity<RestExceptionMessage> handleDatoInvalidoException(
 			DatoInvalidoException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_dato_invalido,
-				Constantes.error_dato_invalido+Constantes.espacio+ex.getDato(),
+				Constantes.error_dato_invalido + Constantes.espacio + ex.getDato(),
 				null
 		);
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -111,7 +111,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	public final ResponseEntity<RestExceptionMessage> handleFacturaElectronicaInvalidaException(
 			FacturaElectronicaInvalidaException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_factura_electronica_invalida,
-				Constantes.error_factura_electronica_invalida+Constantes.espacio+ex.getEstado(),
+				Constantes.error_factura_electronica_invalida + Constantes.espacio + ex.getEstado(),
 				null
 		);
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
