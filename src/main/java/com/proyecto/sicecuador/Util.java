@@ -200,9 +200,7 @@ private static IParametroRepository parametroRep;
     			+ "    <soapenv:Header />\r\n"
     			+ "    <soapenv:Body>\r\n"
     			+ "        <ec:validarComprobante>\r\n"
-    			+ "            <xml>\r\n"
-    			+ "                <![CDATA["+request+"]]>\r\n"
-    			+ "            </xml>\r\n"
+    			+ "            <xml>"+ request + "</xml>"
     			+ "        </ec:validarComprobante>\r\n"
     			+ "    </soapenv:Body>\r\n"
     			+ "</soapenv:Envelope>";
