@@ -108,7 +108,7 @@ public class Constantes {
     public static String error_parametro_invalido="ERROR PARAMETRO INVALIDO";
     public static String error_estado_invalido="ERROR ESTADO INVALIDO";
     public static String error_dato_invalido="ERROR DATO INVALIDO";
-    public static String error_factura_electronica_invalida="ERROR FACTURA ELECTRONICA INVALIDA. ESTADO ENVIADO POR EL SRI:";
+    public static String error_factura_electronica_invalida="ERROR EN FACTURA ELECTRONICA. ESTADO DESDE SRI:";
     
     //CODIGO PARA CREAR
     public static final String tipo="CREAR";
