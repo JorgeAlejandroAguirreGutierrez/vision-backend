@@ -111,14 +111,14 @@ public class FacturaService implements IFacturaService {
     private Optional<String> crearClaveAcceso(Factura factura) {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         String fechaEmision = dateFormat.format(factura.getFecha());
-        String tipoComprobante=Constantes.factura_sri;
-        String numeroRuc=factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
-        String tipoAmbiente=Constantes.pruebas_sri;
-        String serie=factura.getSerie();
-        String numeroComprobante=factura.getSecuencial();
-        String codigoNumerico=factura.getCodigoNumerico();
-        String tipoEmision=Constantes.emision_normal_sri;
-        String cadenaVerificacion=fechaEmision+tipoComprobante+numeroRuc+tipoAmbiente+serie+numeroComprobante+codigoNumerico+tipoEmision;
+        String tipoComprobante = Constantes.factura_sri;
+        String numeroRuc = factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
+        String tipoAmbiente = Constantes.pruebas_sri;
+        String serie = factura.getSerie();
+        String numeroComprobante = factura.getSecuencial();
+        String codigoNumerico = factura.getCodigoNumerico();
+        String tipoEmision = Constantes.emision_normal_sri;
+        String cadenaVerificacion = fechaEmision + tipoComprobante+numeroRuc + tipoAmbiente + serie + numeroComprobante + codigoNumerico + tipoEmision;
         int[] arreglo=new int[cadenaVerificacion.length()];
         for(int i=0; i<cadenaVerificacion.length(); i++) {
             arreglo[i]= Integer.parseInt(cadenaVerificacion.charAt(i)+Constantes.vacio);

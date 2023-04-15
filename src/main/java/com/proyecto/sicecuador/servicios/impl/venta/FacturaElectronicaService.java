@@ -389,9 +389,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
 			tabla.addCell(getCellFactura("RUC: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"FACTURA"+"\n"+
-					"No. " + factura.getSecuencial() + "\n" +
+					"No. " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + factura.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + factura.getSecuencial() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + factura.getClaveAcceso()+ "\n" +
-					"FECHA: " + factura.getFecha().toString() + "\n" +
+					"FECHA DE AUTORIZACIÓN: " + factura.getFecha().toString() + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
 					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor, TextAlignment.LEFT));
 			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
@@ -402,7 +402,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			Table tablaCliente = new Table(columnasCliente);
 			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + factura.getFecha().toString() +"\n",
 					TextAlignment.LEFT));
-			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA REMISION: " + "\t" + "\t", TextAlignment.RIGHT));
+			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA REMISION: " + "\t" + "\t"+ "\t" + "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
 			documento.add( new Paragraph("\n"));
             float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
