@@ -344,7 +344,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
             notaCreditoVentaLinea.setImpuesto(facturaLinea.getImpuesto());
             notaCreditoVentaLinea.setBodega(facturaLinea.getBodega());
             notaCreditoVentaLinea.setProducto(facturaLinea.getProducto());
-            notaCreditoVentaLinea.setCostoUnitario(facturaLinea.getPrecio().getPrecioVentaPublicoManual());
+            notaCreditoVentaLinea.setCostoUnitario(facturaLinea.getPrecioUnitario());
             notaCreditoVentaLinea.setCantidad(facturaLinea.getCantidad());
             notaCreditoVenta.getNotaCreditoVentaLineas().add(notaCreditoVentaLinea);
         }
