@@ -143,7 +143,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
     		detalle.setCodigoInterno(notaCreditoVentaLinea.getProducto().getCodigo());
     		detalle.setDescripcion(notaCreditoVentaLinea.getProducto().getNombre());
     		detalle.setCantidad(notaCreditoVentaLinea.getDevolucion());
-    		detalle.setPrecioUnitario(notaCreditoVentaLinea.getPrecio().getPrecioVentaPublicoManual());
+    		detalle.setPrecioUnitario(Math.round(notaCreditoVentaLinea.getCostoUnitario()*100.0)/100.0);
     		detalle.setDescuento(notaCreditoVentaLinea.getValorDescuentoLinea());
     		detalle.setPrecioTotalSinImpuesto(notaCreditoVentaLinea.getTotalSinDescuentoLinea());
     		detalle.setImpuestos(crearImpuestos(notaCreditoVentaLinea));
