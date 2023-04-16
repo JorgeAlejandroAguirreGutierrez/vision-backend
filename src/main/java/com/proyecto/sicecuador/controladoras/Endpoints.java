@@ -25,8 +25,7 @@ public class Endpoints {
     public static final String pathRetencionCliente="retencionCliente";
     public static final String pathTelefono="telefono";
     public static final String pathTipoContribuyente="tipoContribuyente";
-    public static final String pathTipoPago="tipoPago";
-    
+
     //COMPRA
     public static final String pathFacturaCompra="facturaCompra";
     public static final String pathNotaCreditoCompra="notaCreditoCompra";
@@ -54,6 +53,7 @@ public class Endpoints {
     public static final String pathTipoRetencion="tipoRetencion";
     public static final String pathUbicacion="ubicacion";
     public static final String pathTipoIdentificacion="tipoIdentificacion";
+    public static final String pathSecuencial="secuencial";
     
     //ENTREGA
     public static final String pathGuiaRemision="guiaRemision";

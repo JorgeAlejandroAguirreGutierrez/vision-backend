@@ -19,10 +19,14 @@ public class TipoComprobante extends Entidad {
     private String codigoSRI;
     @Column(name = "descripcion", nullable = true)
     private String descripcion;
-    @Column(name = "nombre", nullable = true)
-    private String nombre;
+    @Column(name = "abreviatura", nullable = true)
+    private String abreviatura;
     @Column(name = "nombre_tabla", nullable = true)
     private String nombreTabla;
+    @Column(name = "electronica", nullable = true)
+    private String electronica;
+    @Column(name = "estado", nullable = true)
+    private String estado;
 
     public TipoComprobante(long id){
         super(id);
@@ -32,7 +36,9 @@ public class TipoComprobante extends Entidad {
         this.codigo = Constantes.vacio;
         this.codigoSRI = Constantes.vacio;
         this.descripcion = Constantes.vacio;
-        this.nombre = Constantes.vacio;
+        this.abreviatura = Constantes.vacio;
         this.nombreTabla = Constantes.vacio;
+        this.electronica = Constantes.no;
+        this.estado = Constantes.activo;
     }
 }

@@ -6,6 +6,8 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathTipoComprobant
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
+import com.proyecto.sicecuador.modelos.usuario.Estacion;
 import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,19 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
     public ResponseEntity<?> consultar() {
         List<TipoComprobante> tipos_comprobantes=servicio.consultar();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_comprobantes);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos() {
+        List<TipoComprobante> tipos_comprobantes = servicio.consultarActivos();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_comprobantes);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    @GetMapping(value = "/consultarElectronica", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarElectronica() {
+        List<TipoComprobante> tipos_comprobantes=servicio.consultarElectronica();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipos_comprobantes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

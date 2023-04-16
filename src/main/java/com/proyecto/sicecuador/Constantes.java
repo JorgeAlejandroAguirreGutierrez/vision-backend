@@ -137,8 +137,7 @@ public class Constantes {
     public static final String tabla_telefono="telefono";
     public static final String tabla_telefono_dependiente="telefono_dependiente";
     public static final String tabla_tipo_contribuyente="tipo_contribuyente";
-    public static final String tabla_tipo_pago="tipo_pago";
-    
+
     //COMPRA
     public static final String tabla_grupo_proveedor="grupo_proveedor";
     public static final String tabla_telefono_proveedor="telefono_proveedor";
@@ -169,6 +168,7 @@ public class Constantes {
     public static final String tabla_tipo_retencion="tipo_retencion";
     public static final String tabla_ubicacion="ubicacion";
     public static final String tabla_tipo_identificacion="tipo_identificacion";
+    public static final String tabla_secuencial="secuencial";
     
     //ENTREGA
     public static final String tabla_guia_remision="guia_remision";
