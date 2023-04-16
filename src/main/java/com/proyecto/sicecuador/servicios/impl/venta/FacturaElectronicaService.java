@@ -208,7 +208,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     		detalle.setCodigoPrincipal(factura.getFacturaLineas().get(i).getProducto().getCodigo());
     		detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
     		detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
-    		detalle.setPrecioUnitario(factura.getFacturaLineas().get(i).getPrecio().getPrecioVentaPublicoManual());
+    		detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
     		detalle.setDescuento(factura.getFacturaLineas().get(i).getTotalDescuentoLinea());
     		detalle.setPrecioTotalSinImpuesto(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
     		detalle.setImpuestos(crearImpuestos(factura.getFacturaLineas().get(i)));

@@ -344,29 +344,29 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public Factura calcularRecaudacion(Factura factura){
-        double total = 0;
+        double total = Constantes.cero;
         total = total + factura.getEfectivo();
-        double totalCheques = 0;
+        double totalCheques = Constantes.cero;
         for(Cheque cheque: factura.getCheques()) {
             totalCheques = totalCheques+cheque.getValor();
             total = total + totalCheques;
         }
-        double totalDepositos = 0;
+        double totalDepositos = Constantes.cero;
         for(Deposito deposito: factura.getDepositos()) {
             totalDepositos = totalDepositos + deposito.getValor();
             total = total + totalDepositos;
         }
-        double totalTransferencias = 0;
+        double totalTransferencias = Constantes.cero;
         for(Transferencia transferencia: factura.getTransferencias()) {
             totalTransferencias = totalTransferencias+transferencia.getValor();
             total = total + totalTransferencias;
         }
-        double totalTarjetasDebitos = 0;
+        double totalTarjetasDebitos = Constantes.cero;
         for(TarjetaDebito tarjetaDebito: factura.getTarjetasDebitos()) {
             totalTarjetasDebitos = totalTarjetasDebitos + tarjetaDebito.getValor();
             total = total + totalTarjetasDebitos;
         }
-        double totalTarjetasCreditos = 0;
+        double totalTarjetasCreditos = Constantes.cero;
         for(TarjetaCredito tarjetaCredito: factura.getTarjetasCreditos()) {
             totalTarjetasCreditos = totalTarjetasCreditos+tarjetaCredito.getValor();
             total = total + totalTarjetasCreditos;
