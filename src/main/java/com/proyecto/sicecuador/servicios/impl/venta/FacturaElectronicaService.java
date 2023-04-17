@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.venta;
 
+import com.itextpdf.barcodes.BarcodeEAN;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
@@ -7,6 +8,7 @@ import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
@@ -387,13 +389,20 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tabla.addCell(getCellEmpresa(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+"\n"+ "\n"+
 					"DIRECCION MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion()+"\n"+ "\n"+
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
+			BarcodeEAN codigoBarras = new BarcodeEAN(pdf);
+			//Seteo el tipo de codigo
+			codigoBarras.setCodeType(BarcodeEAN.EAN13);
+			//Setep el codigo
+			codigoBarras.setCode(factura.getClaveAcceso());
+			PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
+			Image imagenCodigoBarras = new Image(objetoCodigoBarras);
 			tabla.addCell(getCellFactura("RUC: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"FACTURA"+"\n"+
 					"No. " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + factura.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + factura.getSecuencial() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + factura.getClaveAcceso()+ "\n" +
 					"FECHA DE AUTORIZACIÓN: " + factura.getFecha().toString() + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
-					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor, TextAlignment.LEFT));
+					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor, TextAlignment.LEFT, imagenCodigoBarras));
 			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
 			tabla.setHorizontalBorderSpacing(3);
 			documento.add(tabla);
@@ -501,10 +510,11 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		cell.setFontSize(Constantes.fontSize);
 		return cell;
 	}
-	private Cell getCellFactura(String text, TextAlignment alignment) {
+	private Cell getCellFactura(String text, TextAlignment alignment, Image imagenCodigoBarras) {
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
+		cell.add(imagenCodigoBarras);
 		cell.setTextAlignment(alignment);
 		cell.setFontSize(Constantes.fontSize);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
