@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.venta;
 
+import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.barcodes.BarcodeEAN;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -391,7 +392,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
 			BarcodeEAN codigoBarras = new BarcodeEAN(pdf);
 			//Seteo el tipo de codigo
-			codigoBarras.setCodeType(BarcodeEAN.UPCA);
+			codigoBarras.setCodeType(Barcode128.CODE128);
 			//Setep el codigo
 			codigoBarras.setCode(factura.getClaveAcceso());
 			PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
