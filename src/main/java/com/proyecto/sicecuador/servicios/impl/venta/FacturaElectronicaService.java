@@ -390,7 +390,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tabla.addCell(getCellEmpresa(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+"\n"+ "\n"+
 					"DIRECCION MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion()+"\n"+ "\n"+
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
-			BarcodeEAN codigoBarras = new BarcodeEAN(pdf);
+			Barcode128 codigoBarras = new Barcode128(pdf);
 			//Seteo el tipo de codigo
 			codigoBarras.setCodeType(Barcode128.CODE128);
 			//Setep el codigo
