@@ -391,7 +391,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
 			BarcodeEAN codigoBarras = new BarcodeEAN(pdf);
 			//Seteo el tipo de codigo
-			//codigoBarras.setCodeType(BarcodeEAN.EAN8);
+			codigoBarras.setCodeType(BarcodeEAN.UPCA);
 			//Setep el codigo
 			codigoBarras.setCode(factura.getClaveAcceso());
 			PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
