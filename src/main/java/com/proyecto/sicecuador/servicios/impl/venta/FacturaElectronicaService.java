@@ -403,7 +403,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 					"NÚMERO DE AUTORIZACIÓN: " + factura.getClaveAcceso()+ "\n" +
 					"FECHA DE AUTORIZACIÓN: " + factura.getFecha().toString() + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
-					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor, TextAlignment.LEFT, imagenCodigoBarras));
+					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
+					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
 			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
 			tabla.setHorizontalBorderSpacing(3);
 			documento.add(tabla);
