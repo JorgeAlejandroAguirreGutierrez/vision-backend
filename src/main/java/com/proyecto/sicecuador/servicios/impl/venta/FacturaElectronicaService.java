@@ -1,7 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.venta;
 
 import com.itextpdf.barcodes.Barcode128;
-import com.itextpdf.barcodes.BarcodeEAN;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
@@ -385,11 +384,21 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
 			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			String regimen = Constantes.vacio;
+			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
+				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getAbreviatura();
+			}
+			if(factura.getSesion().getUsuario().getEstacion().getRegimen() != null) {
+				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getAbreviatura();
+			}
 			float [] columnas = {320F, 280F};
 			Table tabla = new Table(columnas);
-			tabla.addCell(getCellEmpresa(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+"\n"+ "\n"+
-					"DIRECCION MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion()+"\n"+ "\n"+
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
+			tabla.addCell(getCellEmpresa(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
+					"DIRECCIÓN MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion()+"\n" + "\n" +
+					"REGIMEN: " + regimen +
+					"CONTIRUYENTE ESPECIAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() +
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
+					"AGENTE RETENCION RESOLUCIÓN: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
 			Barcode128 codigoBarras = new Barcode128(pdf);
 			//Seteo el tipo de codigo
 			codigoBarras.setCodeType(Barcode128.CODE128);
@@ -443,18 +452,21 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			String subtotalBase12ConDescuento = String.format("%.2f", factura.getSubtotalBase12ConDescuento());
 			String subtotalBase0SinDescuento = String.format("%.2f", factura.getSubtotalBase0SinDescuento());
 			String subtotalBase0ConDescuento = String.format("%.2f", factura.getSubtotalBase0ConDescuento());
+			String iva = String.format("%.2f", factura.getIvaConDescuento());
 			String totalSinDescuento = String.format("%.2f", factura.getTotalSinDescuento());
 			String totalConDescuento = String.format("%.2f", factura.getTotalConDescuento());
             float [] columnasTablaFactura = {300F, 300F};
             Table tablaFactura = new Table(columnasTablaFactura);
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL SD 12%"));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL SD GRAVADO"));
             tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase12SinDescuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL CD 12%"));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL CD GRAVADO"));
             tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase12ConDescuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL SD 0%"));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL SD NO GRAVADO"));
             tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase0SinDescuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL CD 0%"));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL CD NO GRAVADO"));
             tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase0ConDescuento));
+			tablaFactura.addCell(getCellFilaFactura("IVA"));
+			tablaFactura.addCell(getCellFilaFactura("$" + iva));
             tablaFactura.addCell(getCellFilaFactura("TOTAL SD"));
             tablaFactura.addCell(getCellFilaFactura("$" + totalSinDescuento));
             tablaFactura.addCell(getCellFilaFactura("TOTAL CD"));
