@@ -486,7 +486,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			}
 			String direccionCliente = factura.getCliente().getDireccion();
 			String comentario = factura.getComentario();
-			float [] columnasAdicional = {300F, 300F};
+			float [] columnasAdicional = {150F, 450F};
 			Table tablaAdicional = new Table(columnasAdicional);
 			tablaAdicional.addCell(getCellAdicional("COMENTARIO"));
 			tablaAdicional.addCell(getCellAdicional(comentario));
@@ -498,7 +498,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaAdicional.addCell(getCellAdicional(celularCliente));
 			tablaAdicional.addCell(getCellAdicional("CORREO"));
 			tablaAdicional.addCell(getCellAdicional(correoCliente));
-			float [] columnasAdicionalYFactura = {400F, 200F};
+			float [] columnasAdicionalYFactura = {300F, 300F};
 			Table tablaAdicionalYFactura = new Table(columnasAdicionalYFactura);
 			tablaAdicionalYFactura.addCell(getCellAdicionalYFactura(tablaAdicional));
 			tablaAdicionalYFactura.addCell(getCellAdicionalYFactura(tablaFactura));
