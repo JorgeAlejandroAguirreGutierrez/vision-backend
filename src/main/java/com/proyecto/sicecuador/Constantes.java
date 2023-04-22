@@ -475,6 +475,14 @@ public class Constantes {
     public static final String tarjeta_de_credito="19";
     public static final String otros_con_utilizacion_sistema_financiero="20";
     public static final String endoso_titulos="21";
+    public static final String texto_sin_utilizacion_del_sistema_financiero="sin_utilizacion_del_sistema_financiero";
+    public static final String texto_compensacion_de_deudas = "compensacion_de_deudas";
+    public static final String texto_tarjeta_de_debito = "tarjeta_de_debito";
+    public static final String texto_dinero_electronico = "dinero_electronico";
+    public static final String texto_tarjeta_prepago = "tarjeta_prepago";
+    public static final String texto_tarjeta_de_credito = "tarjeta_de_credito";
+    public static final String texto_otros_con_utilizacion_sistema_financiero = "otros_con_utilizacion_sistema_financiero";
+    public static final String texto_endoso_titulos = "endoso_titulos";
     
     //OTRAS
     public static final String iva= "IVA";
