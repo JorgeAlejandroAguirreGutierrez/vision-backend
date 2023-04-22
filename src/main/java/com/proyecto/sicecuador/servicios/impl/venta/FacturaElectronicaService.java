@@ -498,7 +498,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaAdicional.addCell(getCellAdicional(celularCliente));
 			tablaAdicional.addCell(getCellAdicional("CORREO"));
 			tablaAdicional.addCell(getCellAdicional(correoCliente));
-			float [] columnasAdicionalYFactura = {300F, 300F};
+			float [] columnasAdicionalYFactura = {100F, 100};
 			Table tablaAdicionalYFactura = new Table(columnasAdicionalYFactura);
 			tablaAdicionalYFactura.addCell(getCellAdicionalYFactura(tablaAdicional));
 			tablaAdicionalYFactura.addCell(getCellAdicionalYFactura(tablaFactura));
@@ -543,8 +543,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				tablaFormaPago.addCell(getCellFormaPago(Constantes.otros_con_utilizacion_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_otros_con_utilizacion_sistema_financiero));
 				String valor = String.format("%.2f", factura.getCredito().getSaldo());
 				tablaFormaPago.addCell(getCellFormaPago(valor));
-				Pago pago = new Pago();
 			}
+			tablaFormaPago.setHorizontalAlignment(HorizontalAlignment.LEFT);
 			documento.add(tablaFormaPago);
             // 5. Close document
             documento.close();
