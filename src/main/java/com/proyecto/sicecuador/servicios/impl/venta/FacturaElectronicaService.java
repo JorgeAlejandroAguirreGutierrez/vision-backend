@@ -505,7 +505,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaAdicionalYFactura.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
 			tablaAdicionalYFactura.setHorizontalBorderSpacing(3);
 			documento.add(tablaAdicionalYFactura);
-			float [] columnasTablaFormaPago = {100F, 100F};
+			float [] columnasTablaFormaPago = {200F, 100F};
 			Table tablaFormaPago = new Table(columnasTablaFormaPago);
 			tablaFormaPago.addCell(getCellFormaPago("FORMA DE PAGO"));
 			tablaFormaPago.addCell(getCellFormaPago("VALOR"));
