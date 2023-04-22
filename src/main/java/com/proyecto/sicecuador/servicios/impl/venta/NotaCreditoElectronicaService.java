@@ -2,14 +2,17 @@ package com.proyecto.sicecuador.servicios.impl.venta;
 
 import ayungan.com.signature.ConvertFile;
 import ayungan.com.signature.SignatureXAdESBES;
+import com.itextpdf.barcodes.BarcodeEAN;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.SolidBorder;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
@@ -143,7 +146,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
     		detalle.setCodigoInterno(notaCreditoVentaLinea.getProducto().getCodigo());
     		detalle.setDescripcion(notaCreditoVentaLinea.getProducto().getNombre());
     		detalle.setCantidad(notaCreditoVentaLinea.getDevolucion());
-    		detalle.setPrecioUnitario(notaCreditoVentaLinea.getPrecio().getPrecioVentaPublicoManual());
+    		detalle.setPrecioUnitario(Math.round(notaCreditoVentaLinea.getCostoUnitario()*100.0)/100.0);
     		detalle.setDescuento(notaCreditoVentaLinea.getValorDescuentoLinea());
     		detalle.setPrecioTotalSinImpuesto(notaCreditoVentaLinea.getTotalSinDescuentoLinea());
     		detalle.setImpuestos(crearImpuestos(notaCreditoVentaLinea));
@@ -326,8 +329,17 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
                     "EMISIÓN: " + Constantes.facturaFisicaEmisionValor).setBorder(new SolidBorder(1)));
             
             documento.add( new Paragraph("\n"));
-            
-            String telefonoCliente="";
+			BarcodeEAN codigoBarras = new BarcodeEAN(pdf);
+			//Seteo el tipo de codigo
+			codigoBarras.setCodeType(BarcodeEAN.EAN13);
+			//Setep el codigo
+			codigoBarras.setCode(notaCreditoVenta.getClaveAcceso());
+			PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
+			Image imagenCodigoBarras = new Image(objetoCodigoBarras);
+			//Agrego la imagen al documento
+			documento.add(imagenCodigoBarras);
+
+			String telefonoCliente="";
             String correoCliente="";
             if (!notaCreditoVenta.getFactura().getCliente().getTelefonos().isEmpty()){
                 telefonoCliente=notaCreditoVenta.getFactura().getCliente().getTelefonos().get(0).getNumero();

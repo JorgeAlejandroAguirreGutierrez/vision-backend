@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.servicios.impl.venta;
 
+import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
@@ -7,6 +8,7 @@ import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
@@ -208,7 +210,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     		detalle.setCodigoPrincipal(factura.getFacturaLineas().get(i).getProducto().getCodigo());
     		detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
     		detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
-    		detalle.setPrecioUnitario(factura.getFacturaLineas().get(i).getPrecio().getPrecioVentaPublicoManual());
+    		detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
     		detalle.setDescuento(factura.getFacturaLineas().get(i).getTotalDescuentoLinea());
     		detalle.setPrecioTotalSinImpuesto(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
     		detalle.setImpuestos(crearImpuestos(factura.getFacturaLineas().get(i)));
@@ -382,18 +384,36 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
 			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			String regimen = Constantes.vacio;
+			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
+				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getAbreviatura();
+			}
+			if(factura.getSesion().getUsuario().getEstacion().getRegimen() != null) {
+				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getAbreviatura();
+			}
 			float [] columnas = {320F, 280F};
 			Table tabla = new Table(columnas);
-			tabla.addCell(getCellEmpresa(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+"\n"+ "\n"+
-					"DIRECCION MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion()+"\n"+ "\n"+
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
+			tabla.addCell(getCellEmpresa(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
+					"DIRECCIÓN MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion()+"\n" + "\n" +
+					"REGIMEN: " + regimen + "\n" + "\n" +
+					"CONTIRUYENTE ESPECIAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
+					"AGENTE RETENCION RESOLUCIÓN: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+			Barcode128 codigoBarras = new Barcode128(pdf);
+			//Seteo el tipo de codigo
+			codigoBarras.setCodeType(Barcode128.CODE128);
+			//Setep el codigo
+			codigoBarras.setCode(factura.getClaveAcceso());
+			PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
+			Image imagenCodigoBarras = new Image(objetoCodigoBarras);
 			tabla.addCell(getCellFactura("RUC: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"FACTURA"+"\n"+
 					"No. " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + factura.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + factura.getSecuencial() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + factura.getClaveAcceso()+ "\n" +
 					"FECHA DE AUTORIZACIÓN: " + factura.getFecha().toString() + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
-					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor, TextAlignment.LEFT));
+					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
+					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
 			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
 			tabla.setHorizontalBorderSpacing(3);
 			documento.add(tabla);
@@ -432,18 +452,21 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			String subtotalBase12ConDescuento = String.format("%.2f", factura.getSubtotalBase12ConDescuento());
 			String subtotalBase0SinDescuento = String.format("%.2f", factura.getSubtotalBase0SinDescuento());
 			String subtotalBase0ConDescuento = String.format("%.2f", factura.getSubtotalBase0ConDescuento());
+			String iva = String.format("%.2f", factura.getIvaConDescuento());
 			String totalSinDescuento = String.format("%.2f", factura.getTotalSinDescuento());
 			String totalConDescuento = String.format("%.2f", factura.getTotalConDescuento());
             float [] columnasTablaFactura = {300F, 300F};
             Table tablaFactura = new Table(columnasTablaFactura);
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL SD 12%"));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL SD GRAVADO"));
             tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase12SinDescuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL CD 12%"));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL CD GRAVADO"));
             tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase12ConDescuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL SD 0%"));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL SD NO GRAVADO"));
             tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase0SinDescuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL CD 0%"));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL CD NO GRAVADO"));
             tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase0ConDescuento));
+			tablaFactura.addCell(getCellFilaFactura("IVA"));
+			tablaFactura.addCell(getCellFilaFactura("$" + iva));
             tablaFactura.addCell(getCellFilaFactura("TOTAL SD"));
             tablaFactura.addCell(getCellFilaFactura("$" + totalSinDescuento));
             tablaFactura.addCell(getCellFilaFactura("TOTAL CD"));
@@ -463,7 +486,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			}
 			String direccionCliente = factura.getCliente().getDireccion();
 			String comentario = factura.getComentario();
-			float [] columnasAdicional = {300F, 300F};
+			float [] columnasAdicional = {150F, 450F};
 			Table tablaAdicional = new Table(columnasAdicional);
 			tablaAdicional.addCell(getCellAdicional("COMENTARIO"));
 			tablaAdicional.addCell(getCellAdicional(comentario));
@@ -475,7 +498,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaAdicional.addCell(getCellAdicional(celularCliente));
 			tablaAdicional.addCell(getCellAdicional("CORREO"));
 			tablaAdicional.addCell(getCellAdicional(correoCliente));
-			float [] columnasAdicionalYFactura = {400F, 200F};
+			float [] columnasAdicionalYFactura = {300F, 300F};
 			Table tablaAdicionalYFactura = new Table(columnasAdicionalYFactura);
 			tablaAdicionalYFactura.addCell(getCellAdicionalYFactura(tablaAdicional));
 			tablaAdicionalYFactura.addCell(getCellAdicionalYFactura(tablaFactura));
@@ -501,10 +524,11 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		cell.setFontSize(Constantes.fontSize);
 		return cell;
 	}
-	private Cell getCellFactura(String text, TextAlignment alignment) {
+	private Cell getCellFactura(String text, TextAlignment alignment, Image imagenCodigoBarras) {
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
+		cell.add(imagenCodigoBarras);
 		cell.setTextAlignment(alignment);
 		cell.setFontSize(Constantes.fontSize);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
