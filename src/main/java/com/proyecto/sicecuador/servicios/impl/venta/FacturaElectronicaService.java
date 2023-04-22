@@ -498,14 +498,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaAdicional.addCell(getCellAdicional(celularCliente));
 			tablaAdicional.addCell(getCellAdicional("CORREO"));
 			tablaAdicional.addCell(getCellAdicional(correoCliente));
-			float [] columnasAdicionalYFactura = {100F, 100};
+			float [] columnasAdicionalYFactura = {300F, 300F};
 			Table tablaAdicionalYFactura = new Table(columnasAdicionalYFactura);
 			tablaAdicionalYFactura.addCell(getCellAdicionalYFactura(tablaAdicional));
 			tablaAdicionalYFactura.addCell(getCellAdicionalYFactura(tablaFactura));
 			tablaAdicionalYFactura.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
 			tablaAdicionalYFactura.setHorizontalBorderSpacing(3);
 			documento.add(tablaAdicionalYFactura);
-			float [] columnasTablaFormaPago = {300F, 300F};
+			float [] columnasTablaFormaPago = {100F, 100F};
 			Table tablaFormaPago = new Table(columnasTablaFormaPago);
 			tablaFormaPago.addCell(getCellFormaPago("FORMA DE PAGO"));
 			tablaFormaPago.addCell(getCellFormaPago("VALOR"));
