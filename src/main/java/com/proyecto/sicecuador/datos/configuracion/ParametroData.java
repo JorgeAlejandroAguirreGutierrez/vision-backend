@@ -86,7 +86,7 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR58", "CREAR", "", "tabla_equivalencia_medida", "TEM", Constantes.activo));
             parametros.add(new Parametro("PAR59", "CREAR", "", "medida", "MED", Constantes.activo));
             parametros.add(new Parametro("PAR60", "CREAR", "", "establecimiento", "EST", Constantes.activo));
-            parametros.add(new Parametro("PAR61", "CREAR", "", "estacion", "ESC", Constantes.activo));
+            parametros.add(new Parametro("PAR61", "CREAR", "", "estacion", "ESN", Constantes.activo));
             parametros.add(new Parametro("PAR62", "CREAR", "", "perfil", "PER", Constantes.activo));
             parametros.add(new Parametro("PAR63", "CREAR", "", "parametro", "PAR", Constantes.activo));
             parametros.add(new Parametro("PAR64", "CREAR", "", "proveedor", "PRV", Constantes.activo));
@@ -131,33 +131,33 @@ public class ParametroData implements ApplicationRunner {
             parametros.add(new Parametro("PAR103", "LOGO", "siice.png", "", "LOG", Constantes.activo));
             
             //MODULOS
-            parametros.add(new Parametro("PAR104", "MODULO", "", "CLIENTES", "", Constantes.activo));
-            parametros.add(new Parametro("PAR105", "MODULO", "", "COMPRAS", "", Constantes.activo));
-            parametros.add(new Parametro("PAR106", "MODULO", "", "VENTAS", "", Constantes.activo));
-            parametros.add(new Parametro("PAR107", "MODULO", "", "INVENTARIOS", "", Constantes.activo));
-            parametros.add(new Parametro("PAR108", "MODULO", "", "CAJA BANCOS", "", Constantes.activo));
-            parametros.add(new Parametro("PAR109", "MODULO", "", "CUENTAS POR COBRAR", "", Constantes.activo));
-            parametros.add(new Parametro("PAR110", "MODULO", "", "CUENTAS POR PAGAR", "", Constantes.activo));
-            parametros.add(new Parametro("PAR111", "MODULO", "", "ACTIVOS FIJOS", "", Constantes.activo));
-            parametros.add(new Parametro("PAR112", "MODULO", "", "PRODUCCION", "", Constantes.activo));
-            parametros.add(new Parametro("PAR113", "MODULO", "", "CONTABILIDAD", "", Constantes.activo));
-            parametros.add(new Parametro("PAR114", "MODULO", "", "TALENTO HUMANO", "", Constantes.activo));
-            parametros.add(new Parametro("PAR115", "MODULO", "", "FINANCIERO", "", Constantes.activo));
-            parametros.add(new Parametro("PAR116", "MODULO", "", "IMPORTACION", "", Constantes.activo));
-            parametros.add(new Parametro("PAR117", "MODULO", "", "REPORTES", "", Constantes.activo));
-            parametros.add(new Parametro("PAR118", "MODULO", "", "ACCESOS", "", Constantes.activo));
-            parametros.add(new Parametro("PAR119", "MODULO", "", "CONFIGURACION", "", Constantes.activo));
-            parametros.add(new Parametro("PAR120", "MODULO", "", "INDICADORES", "", Constantes.activo));
-            parametros.add(new Parametro("PAR121", "MODULO", "", "ORGANISMOS DE CONTROL", "", Constantes.activo));
-            parametros.add(new Parametro("PAR122", "MODULO", "", "AUDITORIA", "", Constantes.activo));
-            parametros.add(new Parametro("PAR123", "MODULO", "", "TUTORIALES", "", Constantes.activo));
+            parametros.add(new Parametro("PAR104", "MODULO", "CLIENTES", "", "CL", Constantes.activo));
+            parametros.add(new Parametro("PAR105", "MODULO", "COMPRAS", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR106", "MODULO", "VENTAS", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR107", "MODULO", "INVENTARIOS", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR108", "MODULO", "CAJA BANCOS", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR109", "MODULO", "CUENTAS POR COBRAR", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR110", "MODULO", "CUENTAS POR PAGAR", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR111", "MODULO", "ACTIVOS FIJOS", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR112", "MODULO", "PRODUCCION", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR113", "MODULO", "CONTABILIDAD", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR114", "MODULO", "TALENTO HUMANO", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR115", "MODULO", "FINANCIERO", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR116", "MODULO", "IMPORTACION", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR117", "MODULO", "REPORTES", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR118", "MODULO", "ACCESOS", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR119", "MODULO", "CONFIGURACION", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR120", "MODULO", "INDICADORES", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR121", "MODULO", "CONTROL", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR122", "MODULO", "AUDITORIA", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR123", "MODULO", "TUTORIALES", "", "", Constantes.activo));
             
-            parametros.add(new Parametro("PAR124", "OPERACION", "", "CONSULTAR", "", Constantes.activo));
-            parametros.add(new Parametro("PAR125", "OPERACION", "", "OBTENER", "", Constantes.activo));
-            parametros.add(new Parametro("PAR126", "OPERACION", "", "CREAR", "", Constantes.activo));
-            parametros.add(new Parametro("PAR127", "OPERACION", "", "ACTUALIZAR", "", Constantes.activo));
-            parametros.add(new Parametro("PAR128", "OPERACION", "", "ACTIVAR", "", Constantes.activo));
-            parametros.add(new Parametro("PAR129", "OPERACION", "", "INACTIVAR", "", Constantes.activo));
+            parametros.add(new Parametro("PAR124", "OPERACION", "CONSULTAR", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR125", "OPERACION", "OBTENER", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR126", "OPERACION", "CREAR", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR127", "OPERACION", "ACTUALIZAR", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR128", "OPERACION", "ACTIVAR", "", "", Constantes.activo));
+            parametros.add(new Parametro("PAR129", "OPERACION", "INACTIVAR", "", "", Constantes.activo));
             rep.saveAll(parametros);
         }
     }

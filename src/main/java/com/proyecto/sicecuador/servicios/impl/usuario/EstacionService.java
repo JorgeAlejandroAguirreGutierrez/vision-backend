@@ -23,9 +23,10 @@ public class EstacionService implements IEstacionService {
 
     @Override
     public void validar(Estacion estacion) {
-        if(estacion.getCodigoSRI().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.codigoSRI);
+        //if(estacion.getCodigoSRI().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.codigoSRI);
         if(estacion.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
         if(estacion.getEstablecimiento().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.establecimiento);
+        if(estacion.getRegimen().getId() == Constantes.ceroId) estacion.setRegimen(null);
     }
     
     @Override
