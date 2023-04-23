@@ -505,6 +505,47 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaAdicionalYFactura.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
 			tablaAdicionalYFactura.setHorizontalBorderSpacing(3);
 			documento.add(tablaAdicionalYFactura);
+			float [] columnasTablaFormaPago = {200F, 100F};
+			Table tablaFormaPago = new Table(columnasTablaFormaPago);
+			tablaFormaPago.addCell(getCellFormaPago("FORMA DE PAGO"));
+			tablaFormaPago.addCell(getCellFormaPago("VALOR"));
+			if(factura.getEfectivo()>0) {
+				tablaFormaPago.addCell(getCellFormaPago(Constantes.sin_utilizacion_del_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_sin_utilizacion_del_sistema_financiero));
+				String valor = String.format("%.2f", factura.getEfectivo());
+				tablaFormaPago.addCell(getCellFormaPago(valor));
+			}
+			for(Cheque cheque: factura.getCheques()) {
+				tablaFormaPago.addCell(getCellFormaPago(Constantes.otros_con_utilizacion_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_otros_con_utilizacion_sistema_financiero));
+				String valor = String.format("%.2f", cheque.getValor());
+				tablaFormaPago.addCell(getCellFormaPago(valor));
+			}
+			for(Deposito deposito: factura.getDepositos()) {
+				tablaFormaPago.addCell(getCellFormaPago(Constantes.otros_con_utilizacion_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_otros_con_utilizacion_sistema_financiero));
+				String valor = String.format("%.2f", deposito.getValor());
+				tablaFormaPago.addCell(getCellFormaPago(valor));
+			}
+			for(Transferencia transferencia: factura.getTransferencias()) {
+				tablaFormaPago.addCell(getCellFormaPago(Constantes.otros_con_utilizacion_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_otros_con_utilizacion_sistema_financiero));
+				String valor = String.format("%.2f", transferencia.getValor());
+				tablaFormaPago.addCell(getCellFormaPago(valor));
+			}
+			for(TarjetaDebito tarjetaDebito: factura.getTarjetasDebitos()) {
+				tablaFormaPago.addCell(getCellFormaPago(Constantes.tarjeta_de_debito + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_tarjeta_de_debito));
+				String valor = String.format("%.2f", tarjetaDebito.getValor());
+				tablaFormaPago.addCell(getCellFormaPago(valor));
+			}
+			for(TarjetaCredito tarjetaCredito: factura.getTarjetasCreditos()) {
+				tablaFormaPago.addCell(getCellFormaPago(Constantes.tarjeta_de_credito + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_tarjeta_de_credito));
+				String valor = String.format("%.2f", tarjetaCredito.getValor());
+				tablaFormaPago.addCell(getCellFormaPago(valor));
+			}
+			if(factura.getCredito()!= null && factura.getCredito().getSaldo() > Constantes.cero) {
+				tablaFormaPago.addCell(getCellFormaPago(Constantes.otros_con_utilizacion_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_otros_con_utilizacion_sistema_financiero));
+				String valor = String.format("%.2f", factura.getCredito().getSaldo());
+				tablaFormaPago.addCell(getCellFormaPago(valor));
+			}
+			tablaFormaPago.setHorizontalAlignment(HorizontalAlignment.LEFT);
+			documento.add(tablaFormaPago);
             // 5. Close document
             documento.close();
             return new ByteArrayInputStream(salida.toByteArray());
@@ -576,6 +617,15 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		Cell cell = new Cell();
 		cell.add(tabla);
 		cell.setBorder(Border.NO_BORDER);
+		return cell;
+	}
+
+	private Cell getCellFormaPago(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
 	}
     
