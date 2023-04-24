@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.datos.usuario;
 
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
 import com.proyecto.sicecuador.modelos.usuario.Perfil;
 import com.proyecto.sicecuador.modelos.usuario.Permiso;
 import com.proyecto.sicecuador.repositorios.usuario.IPermisoRepository;
@@ -49,8 +50,8 @@ public class PermisoData implements ApplicationRunner {
             permisos.add(new Permiso("PER202301000020", "INVENTARIOS", "PRODUCTOS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000021", "INVENTARIOS", "KARDEX", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000022", "INVENTARIOS", "PROMOCIONES", Constantes.si, Constantes.activo, new Perfil(1)));
-            permisos.add(new Permiso("PER202301000023", "INVENTARIOS", "PROVEEDORES DE PRODUCTOS", Constantes.si, Constantes.activo, new Perfil(1)));
-            permisos.add(new Permiso("PER202301000024", "INVENTARIOS", "TRANSFERENCIAS DE BODEGA", Constantes.si, Constantes.activo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000023", "INVENTARIOS", "PROVEEDORES DE PRODUCTOS", Constantes.no, Constantes.inactivo, new Perfil(1)));
+            permisos.add(new Permiso("PER202301000024", "INVENTARIOS", "TRANSFERENCIAS DE BODEGA", Constantes.no, Constantes.inactivo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000025", "INVENTARIOS", "BODEGAS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000026", "INVENTARIOS", "MEDIDAS", Constantes.si, Constantes.activo, new Perfil(1)));
             permisos.add(new Permiso("PER202301000027", "INVENTARIOS", "EQUIVALENCIA DE MEDIDAS", Constantes.si, Constantes.activo, new Perfil(1)));

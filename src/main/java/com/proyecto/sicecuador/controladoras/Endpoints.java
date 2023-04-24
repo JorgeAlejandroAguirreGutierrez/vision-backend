@@ -49,6 +49,7 @@ public class Endpoints {
     
     //CONFIGURACION
     public static final String pathEmpresa="empresa";
+    public static final String pathMenuOpcion="menuOpcion";
     public static final String pathParametro="parametro";
     public static final String pathTipoRetencion="tipoRetencion";
     public static final String pathUbicacion="ubicacion";

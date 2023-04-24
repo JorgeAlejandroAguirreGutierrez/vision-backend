@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
-import com.proyecto.sicecuador.modelos.inventario.Impuesto;
+import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
 import com.proyecto.sicecuador.modelos.inventario.Precio;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import lombok.AllArgsConstructor;

@@ -93,14 +93,14 @@ public class ParametroService implements IParametroService {
         throw new EntidadNoExistenteException(Constantes.parametro);
     }
 
-    @Override
+    /*@Override
     public Parametro obtenerPorTipoTabla(Parametro parametro) {
         Optional<Parametro> res= rep.findByTablaAndTipo(parametro.getTabla(), parametro.getTipo(), Constantes.activo);
         if(res.isPresent()) {
         	return res.get();
         }
         throw new EntidadNoExistenteException(Constantes.parametro);
-    }
+    }*/
     
     @Override
     public List<Parametro> consultarPorTipo(String tipo) {

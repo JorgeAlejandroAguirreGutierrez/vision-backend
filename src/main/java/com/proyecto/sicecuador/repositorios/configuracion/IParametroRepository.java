@@ -15,15 +15,12 @@ public interface IParametroRepository extends JpaRepository<Parametro, Long>, Jp
     List<Parametro> consultar();
     @Query(value = "select p from Parametro p where p.estado=:estado order by p.codigo asc")
     List<Parametro> consultarPorEstado(String estado);
-    @Query(value = "select count(*) from modelo", nativeQuery = true)
-    long findConteoModelo();
-
+    //@Query(value = "select count(*) from modelo", nativeQuery = true)
+    //long findConteoModelo();
     @Query(value = "select p from Parametro p where p.tipo = :tipo and p.estado = :estado order by p.codigo asc")
     Optional<Parametro> findByTipo(String tipo, String estado);
-    
-    @Query(value = "select p from Parametro p where p.tabla = :tabla and p.tipo = :tipo and p.estado = :estado order by p.codigo asc")
-    Optional<Parametro> findByTablaAndTipo(String tabla, String tipo, String estado);
-    
+    //@Query(value = "select p from Parametro p where p.tabla = :tabla and p.tipo = :tipo and p.estado = :estado order by p.codigo asc")
+    //Optional<Parametro> findByTablaAndTipo(String tabla, String tipo, String estado);
     @Query(value = "select p from Parametro p where p.tipo = :tipo and p.estado = :estado order by p.codigo asc")
     List<Parametro> AllByTipo(String tipo, String estado);
 }

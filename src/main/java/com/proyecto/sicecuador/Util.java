@@ -26,21 +26,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.proyecto.sicecuador.modelos.configuracion.Parametro;
-import com.proyecto.sicecuador.repositorios.configuracion.IParametroRepository;
+import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
+import com.proyecto.sicecuador.repositorios.configuracion.IMenuOpcionRepository;
 
 @Component
 public class Util {
-	
-private static IParametroRepository parametroRep;
+    private static IMenuOpcionRepository menuOpcionRep;
 	@Autowired
-	private IParametroRepository autowiredParametroRep;
+	private IMenuOpcionRepository autowiredMenuOpcionRep;
 	private static EntityManager em;
 	@Autowired
 	private EntityManager autowiredEm;
 	@PostConstruct
 	private void init() {
-		parametroRep = this.autowiredParametroRep;
+        menuOpcionRep = this.autowiredMenuOpcionRep;
 		em=this.autowiredEm;
 	}
 	public static File archivoConvertir(MultipartFile archivo ) throws IOException
@@ -134,9 +133,9 @@ private static IParametroRepository parametroRep;
     
     public static Optional<String> generarCodigo(String tabla){
     	try {
-    		Optional<Parametro> parametro = parametroRep.findByTablaAndTipo(tabla, Constantes.tipo, Constantes.activo);
+    		Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacion, Constantes.activo);
         	Optional<String> conteo= conteo(tabla);
-        	if (parametro.isPresent() && conteo.isPresent()) {
+        	if (menuOpcion.isPresent() && conteo.isPresent()) {
             	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);
                 Date fecha = new Date();
                 Calendar calendar = Calendar.getInstance();
@@ -147,7 +146,7 @@ private static IParametroRepository parametroRep;
                 if(mesC<10) {
                 	mes= "0"+mesC;
                 }
-                return Optional.of(parametro.get().getAbreviatura() + año + mes + rellenoConteo);
+                return Optional.of(menuOpcion.get().getAbreviatura() + año + mes + rellenoConteo);
             }
         	return Optional.ofNullable(null);
     	}catch(Exception e) {

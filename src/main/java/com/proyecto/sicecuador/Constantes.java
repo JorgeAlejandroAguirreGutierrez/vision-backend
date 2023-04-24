@@ -111,7 +111,7 @@ public class Constantes {
     public static String error_factura_electronica_invalida="ERROR EN FACTURA ELECTRONICA. ESTADO DESDE SRI:";
     
     //CODIGO PARA CREAR
-    public static final String tipo="CREAR";
+    public static final String operacion="CREAR";
     
     //TABLAS
     //CLIENTE
@@ -169,6 +169,7 @@ public class Constantes {
     public static final String tabla_ubicacion="ubicacion";
     public static final String tabla_tipo_identificacion="tipo_identificacion";
     public static final String tabla_secuencial="secuencial";
+    public static final String tabla_menu_opcion="menu_opcion";
     
     //ENTREGA
     public static final String tabla_guia_remision="guia_remision";
@@ -228,7 +229,7 @@ public class Constantes {
     public static final String tabla_sesion="sesion";
     public static final String tabla_usuario="usuario";
     public static final String tabla_regimen="regimen";
-	
+
     //CONTABILIDAD
     public static final String tabla_afectacion_contable="afectacion_contable";
     public static final String tabla_movimiento_contable="movimiento_contable";
@@ -277,6 +278,7 @@ public class Constantes {
     
     //CONFIGURACION
     public static final String empresa="EMPRESA";
+    public static final String menu_opcion=",MENU OPCION";
     public static final String parametro="PARAMETRO";
     public static final String tipo_retencion="TIPO RETENCION";
     public static final String ubicacion="UBICACION";
@@ -430,6 +432,7 @@ public class Constantes {
     public static final String total_recaudacion="TOTAL RECAUDACION";
     public static final String multiempresa="MULTI EMPRESA";
     public static final String apodo="APODO";
+    public static final String tipo="TIPO";
     public static final String motivoTraslado="MOTIVO TRASLADO";
     public static final String ruta="RUTA";
     public static final String fechaInicioTransporte="FECHA INICIO TRANSPORTE";
