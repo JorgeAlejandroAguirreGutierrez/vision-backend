@@ -2,8 +2,9 @@ package com.proyecto.sicecuador.servicios.impl.venta;
 
 import ayungan.com.signature.ConvertFile;
 import ayungan.com.signature.SignatureXAdESBES;
-import com.itextpdf.barcodes.BarcodeEAN;
+import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
@@ -11,13 +12,13 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
+import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.HorizontalAlignment;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.layout.property.*;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
@@ -304,104 +305,208 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			throw new RuntimeException(e);
 		}
 	}
-    
-    public ByteArrayInputStream crearPDF(NotaCreditoVenta notaCreditoVenta) {
-    	try {
-            ByteArrayOutputStream salida = new ByteArrayOutputStream();
-            PdfWriter writer = new PdfWriter(salida);
-            PdfDocument pdf = new PdfDocument(writer);
-            // Initialize document
-            Document documento = new Document(pdf, PageSize.A4);
-            documento.setMargins(20, 20, 20, 20);
-            // 4. Add content
-            PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
-            documento.setFont(font);
-            documento.add(new Paragraph(notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+"\n"+
-                    "DIRECCION MATRIZ: "+notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion()+"\n"+
-            		"OBLIGADO A LLEVAR CONTABILIDAD: "+notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad()).setBorder(new SolidBorder(1)));
-            documento.add( new Paragraph("\n"));
-            documento.add(new Paragraph("RUC: "+notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
-                    "NOTA DE CREDITO"+"\n"+
-                    "No. " + notaCreditoVenta.getSecuencial() + "\n" +
-                    "NÚMERO DE AUTORIZACIÓN: " + notaCreditoVenta.getClaveAcceso()+ "\n" +
-                    "FECHA: " + notaCreditoVenta.getFecha().toString() + "\n" +
-                    "AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
-                    "EMISIÓN: " + Constantes.facturaFisicaEmisionValor).setBorder(new SolidBorder(1)));
-            
-            documento.add( new Paragraph("\n"));
-			BarcodeEAN codigoBarras = new BarcodeEAN(pdf);
+
+	public ByteArrayInputStream crearPDF(NotaCreditoVenta notaCreditoVenta) {
+		try {
+			ByteArrayOutputStream salida = new ByteArrayOutputStream();
+			PdfWriter writer = new PdfWriter(salida);
+			PdfDocument pdf = new PdfDocument(writer);
+			// Initialize document
+			Document documento = new Document(pdf, PageSize.A4);
+			documento.setMargins(0,0,0,0);
+			// 4. Add content
+			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+			documento.setFont(font);
+			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			String regimen = Constantes.vacio;
+			if(notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
+				regimen = notaCreditoVenta.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			}
+			if(notaCreditoVenta.getSesion().getUsuario().getEstacion().getRegimen() != null) {
+				regimen = notaCreditoVenta.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			}
+			float [] columnas = {320F, 280F};
+			Table tabla = new Table(columnas);
+			tabla.addCell(getCellEmpresa(notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
+					"DIRECCIÓN MATRIZ: " + notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
+					"DIRECCIÓN SUCURSAL: " + notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
+					regimen + "\n" + "\n" +
+					"CONTIRUYENTE ESPECIAL: " + notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
+					"AGENTE RETENCION RESOLUCIÓN: " + notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+			Barcode128 codigoBarras = new Barcode128(pdf);
 			//Seteo el tipo de codigo
-			codigoBarras.setCodeType(BarcodeEAN.EAN13);
+			codigoBarras.setCodeType(Barcode128.CODE128);
 			//Setep el codigo
 			codigoBarras.setCode(notaCreditoVenta.getClaveAcceso());
 			PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
 			Image imagenCodigoBarras = new Image(objetoCodigoBarras);
-			//Agrego la imagen al documento
-			documento.add(imagenCodigoBarras);
+			tabla.addCell(getCellFactura("RUC: "+ notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+					"FACTURA"+"\n"+
+					"No. " + notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + notaCreditoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + notaCreditoVenta.getSecuencial() + "\n" +
+					"NÚMERO DE AUTORIZACIÓN: " + notaCreditoVenta.getClaveAcceso()+ "\n" +
+					"FECHA DE AUTORIZACIÓN: " + notaCreditoVenta.getFecha().toString() + "\n" +
+					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
+					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
+					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
+			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
+			tabla.setHorizontalBorderSpacing(3);
+			documento.add(tabla);
+			documento.add(new Paragraph("\n"));
+			float [] columnasCliente = {300F, 300F};
+			Table tablaCliente = new Table(columnasCliente);
+			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+notaCreditoVenta.getFactura().getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + notaCreditoVenta.getFecha().toString() + "\n" +
+					"DIRECCION: " + notaCreditoVenta.getFactura().getCliente().getDireccion() + "\n", TextAlignment.LEFT));
+			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + notaCreditoVenta.getFactura().getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
+			documento.add(tablaCliente);
+			documento.add( new Paragraph("\n"));
+			float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
+			Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("CÓDIGO"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("CANT"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("DESCRIPCION"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("PRECIO U"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
+			for (int i = 0; i <notaCreditoVenta.getNotaCreditoVentaLineas().size(); i++)
+			{
+				String precioSinIva = String.format("%.2f", notaCreditoVenta.getNotaCreditoVentaLineas().get(i).getPrecio().getPrecioSinIva());
+				String valorDescuentoLinea = String.format("%.2f", notaCreditoVenta.getNotaCreditoVentaLineas().get(i).getValorDescuentoLinea());
+				String subtotalConDescuentoLinea = String.format("%.2f", notaCreditoVenta.getNotaCreditoVentaLineas().get(i).getTotalSinDescuentoLinea());
 
-			String telefonoCliente="";
-            String correoCliente="";
-            if (!notaCreditoVenta.getFactura().getCliente().getTelefonos().isEmpty()){
-                telefonoCliente=notaCreditoVenta.getFactura().getCliente().getTelefonos().get(0).getNumero();
-            }
-            if (!notaCreditoVenta.getFactura().getCliente().getCorreos().isEmpty()){
-                correoCliente=notaCreditoVenta.getFactura().getCliente().getCorreos().get(0).getEmail();
-            }
-            documento.add( new Paragraph("RAZÓN SOCIAL: "+notaCreditoVenta.getFactura().getCliente().getRazonSocial()+"\n"+
-                    "IDENTIFICACIÓN: " + notaCreditoVenta.getFactura().getCliente().getIdentificacion()+"\n"+
-                    "FECHA EMISIÓN: " + notaCreditoVenta.getFactura().getFecha().toString()+"\n"+
-                    "DIRECCIÓN: " + notaCreditoVenta.getFactura().getCliente().getDireccion() + "\n" +
-                    "TELÉFONO: " + telefonoCliente + "\n" +
-                    "CORREO: " + correoCliente).setBorder(new SolidBorder(1)));
-            documento.add( new Paragraph("\n"));
-            float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
-            Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
-            tablaFacturaDetalle.addCell("CÓDIGO");
-            tablaFacturaDetalle.addCell("DEV");
-            tablaFacturaDetalle.addCell("DESCRIPCION");
-            tablaFacturaDetalle.addCell("PRECIO U");
-            tablaFacturaDetalle.addCell("DSCTO");
-            tablaFacturaDetalle.addCell("TOTAL");
-            for (NotaCreditoVentaLinea notaCreditoVentaLinea : notaCreditoVenta.getNotaCreditoVentaLineas())
-            {
-                tablaFacturaDetalle.addCell(notaCreditoVentaLinea.getProducto().getCodigo());
-                tablaFacturaDetalle.addCell(notaCreditoVentaLinea.getDevolucion()+"");
-                tablaFacturaDetalle.addCell(notaCreditoVentaLinea.getProducto().getNombre());
-                tablaFacturaDetalle.addCell("$" + notaCreditoVentaLinea.getPrecio().getPrecioVentaPublicoManual());
-                tablaFacturaDetalle.addCell("$" + notaCreditoVentaLinea.getValorDescuentoLinea());
-                tablaFacturaDetalle.addCell("$" +notaCreditoVentaLinea.getTotalSinDescuentoLinea());
-            }
-            documento.add(tablaFacturaDetalle);
-            documento.add( new Paragraph("\n"));
-            float [] columnasTablaFactura = {130F, 100F};
-            Table tablaFactura = new Table(columnasTablaFactura);
-            tablaFactura.addCell("SUBTOTAL SD 12%");
-            tablaFactura.addCell("$"+notaCreditoVenta.getSubtotalBase12SinDescuento());
-            tablaFactura.addCell("SUBTOTAL CD 12%");
-            tablaFactura.addCell("$"+notaCreditoVenta.getSubtotalBase12SinDescuento());
-            tablaFactura.addCell("SUBTOTAL SD 0%");
-            tablaFactura.addCell("$"+notaCreditoVenta.getSubtotalBase0SinDescuento());
-            tablaFactura.addCell("SUBTOTAL CD 0%");
-            tablaFactura.addCell("$"+notaCreditoVenta.getSubtotalBase0SinDescuento());
-            tablaFactura.addCell("TOTAL SD");
-            tablaFactura.addCell("$"+notaCreditoVenta.getTotalSinDescuento());
-            tablaFactura.addCell("TOTAL CD");
-            tablaFactura.addCell("$"+notaCreditoVenta.getTotalConDescuento());
-            tablaFactura.setTextAlignment(TextAlignment.RIGHT);
-            tablaFactura.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-            documento.add(tablaFactura);
-            
-            documento.add(new Paragraph("INFORMACION ADICIONAL"+"\n" +
-					"MOTIVO: " +notaCreditoVenta.getOperacion() + "\n" +
-                    "COMENTARIO: " + notaCreditoVenta.getComentario()).setBorder(new SolidBorder(1)).setWidth(300).setVerticalAlignment(VerticalAlignment.TOP).setHorizontalAlignment(HorizontalAlignment.LEFT));
-            documento.add( new Paragraph("\n"));
-            // 5. Close document
-            documento.close();
-            return new ByteArrayInputStream(salida.toByteArray());
-        } catch(Exception e){
-            return null;
-        }
-    }
+				tablaFacturaDetalle.addCell(getCellFilaFactura(notaCreditoVenta.getNotaCreditoVentaLineas().get(i).getProducto().getCodigo()));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(notaCreditoVenta.getNotaCreditoVentaLineas().get(i).getCantidad() + Constantes.vacio));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(notaCreditoVenta.getNotaCreditoVentaLineas().get(i).getProducto().getNombre()));
+				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioSinIva));
+				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+valorDescuentoLinea));
+				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+subtotalConDescuentoLinea));
+			}
+			documento.add(tablaFacturaDetalle);
+			documento.add( new Paragraph("\n"));
+			String subtotal = String.format("%.2f", notaCreditoVenta.getTotalConDescuento());
+			String descuento = String.format("%.2f", notaCreditoVenta.getDescuentoTotal());
+			String subtotalBase12ConDescuento = String.format("%.2f", notaCreditoVenta.getSubtotalBase12SinDescuento());
+			String subtotalBase0ConDescuento = String.format("%.2f", notaCreditoVenta.getSubtotalBase0SinDescuento());
+			String iva = String.format("%.2f", notaCreditoVenta.getIvaSinDescuento());
+			String totalConDescuento = String.format("%.2f", notaCreditoVenta.getTotalConDescuento());
+			float [] columnasTablaFactura = {300F, 300F};
+			Table tablaFactura = new Table(columnasTablaFactura);
+			tablaFactura.addCell(getCellFilaFactura("SUBTOTAL"));
+			tablaFactura.addCell(getCellFilaFactura("$" + subtotal));
+			tablaFactura.addCell(getCellFilaFactura("DESCUENTO"));
+			tablaFactura.addCell(getCellFilaFactura("$" + descuento));
+			tablaFactura.addCell(getCellFilaFactura("SUBTOTAL GRAVADO"));
+			tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase12ConDescuento));
+			tablaFactura.addCell(getCellFilaFactura("SUBTOTAL NO GRAVADO"));
+			tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase0ConDescuento));
+			tablaFactura.addCell(getCellFilaFactura("IVA"));
+			tablaFactura.addCell(getCellFilaFactura("$" + iva));
+			tablaFactura.addCell(getCellFilaFactura("TOTAL"));
+			tablaFactura.addCell(getCellFilaFactura("$" + totalConDescuento));
+			tablaFactura.setTextAlignment(TextAlignment.RIGHT);
+			String telefonoCliente = Constantes.vacio;
+			String celularCliente = Constantes.vacio;
+			String correoCliente = Constantes.vacio;
+			if (!notaCreditoVenta.getFactura().getCliente().getTelefonos().isEmpty()){
+				telefonoCliente = notaCreditoVenta.getFactura().getCliente().getTelefonos().get(0).getNumero();
+			}
+			if (!notaCreditoVenta.getFactura().getCliente().getCelulares().isEmpty()){
+				celularCliente = notaCreditoVenta.getFactura().getCliente().getCelulares().get(0).getNumero();
+			}
+			if (!notaCreditoVenta.getFactura().getCliente().getCorreos().isEmpty()){
+				correoCliente = notaCreditoVenta.getFactura().getCliente().getCorreos().get(0).getEmail();
+			}
+			String comentario = notaCreditoVenta.getComentario();
+			float [] columnasAdicional = {150F, 450F};
+			Table tablaAdicional = new Table(columnasAdicional);
+			tablaAdicional.addCell(getCellAdicional("COMENTARIO"));
+			tablaAdicional.addCell(getCellAdicional(comentario));
+			tablaAdicional.addCell(getCellAdicional("TELEFONO"));
+			tablaAdicional.addCell(getCellAdicional(telefonoCliente));
+			tablaAdicional.addCell(getCellAdicional("CELULAR"));
+			tablaAdicional.addCell(getCellAdicional(celularCliente));
+			tablaAdicional.addCell(getCellAdicional("CORREO"));
+			tablaAdicional.addCell(getCellAdicional(correoCliente));
+			float [] columnasAdicionalYFactura = {300F, 300F};
+			Table tablaAdicionalYFactura = new Table(columnasAdicionalYFactura);
+			tablaAdicionalYFactura.addCell(getCellAdicionalYFactura(tablaAdicional));
+			tablaAdicionalYFactura.addCell(getCellAdicionalYFactura(tablaFactura));
+			tablaAdicionalYFactura.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
+			tablaAdicionalYFactura.setHorizontalBorderSpacing(3);
+			documento.add(tablaAdicionalYFactura);
+			// 5. Close document
+			documento.close();
+			return new ByteArrayInputStream(salida.toByteArray());
+		} catch(Exception e){
+			return null;
+		}
+	}
+
+	private Cell getCellEmpresa(String text, TextAlignment alignment) {
+		Cell cell = new Cell().add(new Paragraph(text));
+		cell.setTextAlignment(alignment);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+		cell.setBorderTopLeftRadius(new BorderRadius(5));
+		cell.setBorderTopRightRadius(new BorderRadius(5));
+		cell.setBorderBottomLeftRadius(new BorderRadius(5));
+		cell.setBorderBottomRightRadius(new BorderRadius(5));
+		cell.setFontSize(Constantes.fontSize);
+		return cell;
+	}
+	private Cell getCellFactura(String text, TextAlignment alignment, Image imagenCodigoBarras) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.add(imagenCodigoBarras);
+		cell.setTextAlignment(alignment);
+		cell.setFontSize(Constantes.fontSize);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+		cell.setBorderTopLeftRadius(new BorderRadius(5));
+		cell.setBorderTopRightRadius(new BorderRadius(5));
+		cell.setBorderBottomLeftRadius(new BorderRadius(5));
+		cell.setBorderBottomRightRadius(new BorderRadius(5));
+		return cell;
+	}
+	private Cell getCellCliente(String text, TextAlignment alignment) {
+		Cell cell = new Cell().add(new Paragraph(text));
+		cell.setTextAlignment(alignment);
+		cell.setBorder(Border.NO_BORDER);
+		cell.setFontSize(Constantes.fontSize);
+		cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
+		cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
+		return cell;
+	}
+	private Cell getCellColumnaFactura(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize);
+		cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		return cell;
+	}
+	private Cell getCellFilaFactura(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		return cell;
+	}
+	private Cell getCellAdicional(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		return cell;
+	}
+	private Cell getCellAdicionalYFactura(Table tabla){
+		Cell cell = new Cell();
+		cell.add(tabla);
+		cell.setBorder(Border.NO_BORDER);
+		return cell;
+	}
     
     private ByteArrayInputStream crearXML(NotaCreditoElectronica notaCreditoElectronica) {
     	try {
