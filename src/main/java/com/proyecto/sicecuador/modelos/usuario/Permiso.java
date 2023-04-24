@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.modelos.usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
 import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,9 +31,9 @@ public class Permiso extends Entidad {
     @ManyToOne
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
-    //@ManyToOne
-    //@JoinColumn(name = "menu_opcion_id", nullable = true)
-    //private MenuOpcion menuOpcion;
+    @ManyToOne
+    @JoinColumn(name = "menu_opcion_id", nullable = true)
+    private MenuOpcion menuOpcion;
 
     public Permiso(long id){
         super(id);
@@ -44,7 +45,6 @@ public class Permiso extends Entidad {
         this.operacion = Constantes.vacio;
         this.habilitado = Constantes.si;
         this.estado = Constantes.activo;
-        this.perfil = new Perfil();
-        //this.menuOpcion = new MenuOpcion();
+        this.menuOpcion = new MenuOpcion();
     }
 }
