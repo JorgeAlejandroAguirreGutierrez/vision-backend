@@ -38,6 +38,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import javax.activation.DataHandler;
 import javax.mail.Message;
@@ -386,7 +387,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
-			ImageData data = ImageDataFactory.create("src\\main\\static\\siice3.png");
+			File file = ResourceUtils.getFile("classpath:static\\siice3.png");
+			ImageData data = ImageDataFactory.create(file.getPath());
 			Image img = new Image(data);
 			img.setWidth(300);
 			img.setHeight(150);
