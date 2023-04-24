@@ -386,7 +386,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
-			ImageData data = ImageDataFactory.create(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getLogo64().getBytes(StandardCharsets.UTF_8));
+			ImageData data = ImageDataFactory.create(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getLogo());
 			Image img = new Image(data);
 			documento.add(img.setTextAlignment(TextAlignment.CENTER));
 			String regimen = Constantes.vacio;
