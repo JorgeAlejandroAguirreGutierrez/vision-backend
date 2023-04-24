@@ -427,7 +427,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			Table tablaCliente = new Table(columnasCliente);
 			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + factura.getFecha().toString() + "\n" +
 					"DIRECCION: " + factura.getCliente().getDireccion() + "\n", TextAlignment.LEFT));
-			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
+			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
 			documento.add( new Paragraph("\n"));
             float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
@@ -453,28 +453,25 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             }
 			documento.add(tablaFacturaDetalle);
 			documento.add( new Paragraph("\n"));
-			String subtotalBase12SinDescuento = String.format("%.2f", factura.getSubtotalBase12SinDescuento());
+			String subtotal = String.format("%.2f", factura.getSubtotalConDescuento());
+			String descuento = String.format("%.2f", factura.getDescuentoTotal());
 			String subtotalBase12ConDescuento = String.format("%.2f", factura.getSubtotalBase12ConDescuento());
-			String subtotalBase0SinDescuento = String.format("%.2f", factura.getSubtotalBase0SinDescuento());
 			String subtotalBase0ConDescuento = String.format("%.2f", factura.getSubtotalBase0ConDescuento());
 			String iva = String.format("%.2f", factura.getIvaConDescuento());
-			String totalSinDescuento = String.format("%.2f", factura.getTotalSinDescuento());
 			String totalConDescuento = String.format("%.2f", factura.getTotalConDescuento());
             float [] columnasTablaFactura = {300F, 300F};
             Table tablaFactura = new Table(columnasTablaFactura);
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL SD GRAVADO"));
-            tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase12SinDescuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL CD GRAVADO"));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL"));
+            tablaFactura.addCell(getCellFilaFactura("$" + subtotal));
+			tablaFactura.addCell(getCellFilaFactura("DESCUENTO"));
+			tablaFactura.addCell(getCellFilaFactura("$" + descuento));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL GRAVADO"));
             tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase12ConDescuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL SD NO GRAVADO"));
-            tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase0SinDescuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL CD NO GRAVADO"));
+            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL NO GRAVADO"));
             tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase0ConDescuento));
 			tablaFactura.addCell(getCellFilaFactura("IVA"));
 			tablaFactura.addCell(getCellFilaFactura("$" + iva));
-            tablaFactura.addCell(getCellFilaFactura("TOTAL SD"));
-            tablaFactura.addCell(getCellFilaFactura("$" + totalSinDescuento));
-            tablaFactura.addCell(getCellFilaFactura("TOTAL CD"));
+            tablaFactura.addCell(getCellFilaFactura("TOTAL"));
             tablaFactura.addCell(getCellFilaFactura("$" + totalConDescuento));
             tablaFactura.setTextAlignment(TextAlignment.RIGHT);
 			String telefonoCliente = Constantes.vacio;
