@@ -28,6 +28,7 @@ public class EstablecimientoService implements IEstablecimientoService {
         if(establecimiento.getCodigoSRI().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.codigoSRI);
         if(establecimiento.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
         if(establecimiento.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
+        if(establecimiento.getRegimen().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.regimen);
         if(establecimiento.getUbicacion().getProvincia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.provincia);
         if(establecimiento.getUbicacion().getCanton().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.canton);
         if(establecimiento.getUbicacion().getParroquia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.parroquia);

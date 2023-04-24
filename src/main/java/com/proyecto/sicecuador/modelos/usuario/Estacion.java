@@ -25,6 +25,8 @@ public class Estacion extends Entidad {
     private String dispositivo;
     @Column(name = "ip", nullable = true)
     private String ip;
+    @Column(name = "punto_venta", nullable = true)
+    private String puntoVenta;
 	@Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
@@ -45,6 +47,7 @@ public class Estacion extends Entidad {
         this.descripcion = Constantes.vacio;
         this.dispositivo = Constantes.vacio;
         this.ip = Constantes.vacio;
+        this.puntoVenta = Constantes.no;
         this.estado = Constantes.activo;
         this.regimen = new Regimen();
         this.establecimiento = new Establecimiento();

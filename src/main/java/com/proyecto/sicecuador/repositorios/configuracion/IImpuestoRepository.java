@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.inventario;
+package com.proyecto.sicecuador.repositorios.configuracion;
 
-import com.proyecto.sicecuador.modelos.inventario.Impuesto;
+import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

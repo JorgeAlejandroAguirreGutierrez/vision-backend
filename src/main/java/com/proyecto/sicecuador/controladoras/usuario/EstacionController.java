@@ -89,4 +89,11 @@ public class EstacionController implements GenericoController<Estacion> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, estacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/establecimientoPuntoVenta/{establecimientoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarEstablecimientoPuntoVenta(@PathVariable("establecimientoId") long establecimientoId) {
+        List<Estacion> estacion=servicio.consultarPorEstablecimientoPuntoVenta(establecimientoId);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, estacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 }

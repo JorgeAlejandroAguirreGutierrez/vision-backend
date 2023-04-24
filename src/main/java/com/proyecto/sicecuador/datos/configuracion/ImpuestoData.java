@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.datos.inventario;
+package com.proyecto.sicecuador.datos.configuracion;
 
 import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.inventario.Impuesto;
-import com.proyecto.sicecuador.repositorios.inventario.IImpuestoRepository;
+import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
+import com.proyecto.sicecuador.repositorios.configuracion.IImpuestoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
