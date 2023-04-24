@@ -386,10 +386,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
 			String regimen = Constantes.vacio;
 			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
-				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getAbreviatura();
+				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
 			if(factura.getSesion().getUsuario().getEstacion().getRegimen() != null) {
-				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getAbreviatura();
+				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
 			float [] columnas = {320F, 280F};
 			Table tabla = new Table(columnas);
@@ -423,7 +423,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			Table tablaCliente = new Table(columnasCliente);
 			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + factura.getFecha().toString() +"\n",
 					TextAlignment.LEFT));
-			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA REMISION: " + "\t" + "\t"+ "\t" + "\t"+ "\t", TextAlignment.RIGHT));
+			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t", TextAlignment.RIGHT));
+			tablaCliente.addCell(getCellCliente("DIRECCION: " + factura.getCliente().getDireccion(), TextAlignment.LEFT));
 			documento.add(tablaCliente);
 			documento.add( new Paragraph("\n"));
             float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
@@ -491,8 +492,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			Table tablaAdicional = new Table(columnasAdicional);
 			tablaAdicional.addCell(getCellAdicional("COMENTARIO"));
 			tablaAdicional.addCell(getCellAdicional(comentario));
-			tablaAdicional.addCell(getCellAdicional("DIRECCION"));
-			tablaAdicional.addCell(getCellAdicional(direccionCliente));
 			tablaAdicional.addCell(getCellAdicional("TELEFONO"));
 			tablaAdicional.addCell(getCellAdicional(telefonoCliente));
 			tablaAdicional.addCell(getCellAdicional("CELULAR"));
