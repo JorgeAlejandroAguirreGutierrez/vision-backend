@@ -492,8 +492,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			Table tablaAdicional = new Table(columnasAdicional);
 			tablaAdicional.addCell(getCellAdicional("COMENTARIO"));
 			tablaAdicional.addCell(getCellAdicional(comentario));
-			tablaAdicional.addCell(getCellAdicional("DIRECCION"));
-			tablaAdicional.addCell(getCellAdicional(direccionCliente));
 			tablaAdicional.addCell(getCellAdicional("TELEFONO"));
 			tablaAdicional.addCell(getCellAdicional(telefonoCliente));
 			tablaAdicional.addCell(getCellAdicional("CELULAR"));
