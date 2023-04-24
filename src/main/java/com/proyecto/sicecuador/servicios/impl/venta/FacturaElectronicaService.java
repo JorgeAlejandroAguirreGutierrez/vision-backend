@@ -386,9 +386,12 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
-			ImageData data = ImageDataFactory.create(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getLogo());
+			ImageData data = ImageDataFactory.create("src\\main\\static\\siice3.png");
 			Image img = new Image(data);
-			documento.add(img.setTextAlignment(TextAlignment.CENTER));
+			img.setWidth(300);
+			img.setHeight(150);
+			img.setHorizontalAlignment(HorizontalAlignment.CENTER);
+			documento.add(img);
 			String regimen = Constantes.vacio;
 			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
@@ -490,7 +493,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			if (!factura.getCliente().getCorreos().isEmpty()){
 				correoCliente = factura.getCliente().getCorreos().get(0).getEmail();
 			}
-			String direccionCliente = factura.getCliente().getDireccion();
 			String comentario = factura.getComentario();
 			float [] columnasAdicional = {150F, 450F};
 			Table tablaAdicional = new Table(columnasAdicional);
