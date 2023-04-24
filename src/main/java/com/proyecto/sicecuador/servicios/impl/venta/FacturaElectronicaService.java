@@ -437,7 +437,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             tablaFacturaDetalle.addCell(getCellColumnaFactura("DESCRIPCION"));
             tablaFacturaDetalle.addCell(getCellColumnaFactura("PRECIO U"));
             tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO"));
-            tablaFacturaDetalle.addCell(getCellColumnaFactura("TOTAL"));
+            tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
             for (int i = 0; i <factura.getFacturaLineas().size(); i++)
             {
 				String precioSinIva = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecio().getPrecioSinIva());
