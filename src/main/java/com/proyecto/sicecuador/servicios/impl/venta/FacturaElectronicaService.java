@@ -387,13 +387,13 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
-			/*File file = ResourceUtils.getFile("classpath:static\\siice3.png");
+			File file = new File(this.getClass().getClassLoader().getResource("static/siice3.png").getFile());
 			ImageData data = ImageDataFactory.create(file.getPath());
 			Image img = new Image(data);
 			img.setWidth(300);
 			img.setHeight(150);
 			img.setHorizontalAlignment(HorizontalAlignment.CENTER);
-			documento.add(img);*/
+			documento.add(img);
 			String regimen = Constantes.vacio;
 			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
