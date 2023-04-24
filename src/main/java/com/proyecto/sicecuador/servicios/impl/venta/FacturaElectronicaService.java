@@ -387,8 +387,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
-			File file = new File(this.getClass().getClassLoader().getResource("static/siice3.png").getFile());
-			ImageData data = ImageDataFactory.create(file.getPath());
+			ImageData data = ImageDataFactory.create(ClassLoader.getSystemResource("siice3.png").getPath());
 			Image img = new Image(data);
 			img.setWidth(300);
 			img.setHeight(150);
