@@ -400,7 +400,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tabla.addCell(getCellEmpresa(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
 					"DIRECCIÓN MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
 					"DIRECCIÓN SUCURSAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
-					"REGIMEN: " + regimen + "\n" + "\n" +
+					regimen + "\n" + "\n" +
 					"CONTIRUYENTE ESPECIAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
 					"AGENTE RETENCION RESOLUCIÓN: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
