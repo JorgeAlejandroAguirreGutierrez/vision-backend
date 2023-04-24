@@ -387,12 +387,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
-			ImageData data = ImageDataFactory.create(ClassLoader.getSystemResource("siice3.png").getPath());
-			Image img = new Image(data);
-			img.setWidth(300);
-			img.setHeight(150);
-			img.setHorizontalAlignment(HorizontalAlignment.CENTER);
-			documento.add(img);
+			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
 			String regimen = Constantes.vacio;
 			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
@@ -432,7 +427,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			Table tablaCliente = new Table(columnasCliente);
 			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + factura.getFecha().toString() + "\n" +
 					"DIRECCION: " + factura.getCliente().getDireccion() + "\n", TextAlignment.LEFT));
-			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
+			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
 			documento.add( new Paragraph("\n"));
             float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
