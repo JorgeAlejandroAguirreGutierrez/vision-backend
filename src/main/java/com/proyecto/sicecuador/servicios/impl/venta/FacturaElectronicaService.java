@@ -59,6 +59,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -385,7 +386,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
-			ImageData data = ImageDataFactory.create(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getLogo());
+			ImageData data = ImageDataFactory.create(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getLogo64().getBytes(StandardCharsets.UTF_8));
 			Image img = new Image(data);
 			documento.add(img.setTextAlignment(TextAlignment.CENTER));
 			String regimen = Constantes.vacio;
