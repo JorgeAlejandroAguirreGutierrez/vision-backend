@@ -33,9 +33,9 @@ public class EstablecimientoService implements IEstablecimientoService {
         if(establecimiento.getUbicacion().getCanton().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.canton);
         if(establecimiento.getUbicacion().getParroquia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.parroquia);
         if(establecimiento.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
-        if(establecimiento.getTelefonos().isEmpty()) throw new DatoInvalidoException(Constantes.telefono);
-        if(establecimiento.getCelulares().isEmpty()) throw new DatoInvalidoException(Constantes.celular);
-        if(establecimiento.getCorreos().isEmpty()) throw new DatoInvalidoException(Constantes.correo);
+        if(establecimiento.getTelefonosEstablecimiento().isEmpty()) throw new DatoInvalidoException(Constantes.telefono);
+        if(establecimiento.getCelularesEstablecimiento().isEmpty()) throw new DatoInvalidoException(Constantes.celular);
+        if(establecimiento.getCorreosEstablecimiento().isEmpty()) throw new DatoInvalidoException(Constantes.correo);
     }
     
     @Override

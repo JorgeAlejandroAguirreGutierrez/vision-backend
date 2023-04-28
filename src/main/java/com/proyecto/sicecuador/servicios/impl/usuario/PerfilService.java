@@ -24,7 +24,7 @@ public class PerfilService implements IPerfilService {
         if(perfil.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
         if(perfil.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
         if(perfil.getMultiempresa().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.multiempresa);
-        if(perfil.getPermisos().isEmpty()) throw new DatoInvalidoException(Constantes.permiso);
+        //if(perfil.getPermisos().isEmpty()) throw new DatoInvalidoException(Constantes.permiso);
     }
     
     @Override

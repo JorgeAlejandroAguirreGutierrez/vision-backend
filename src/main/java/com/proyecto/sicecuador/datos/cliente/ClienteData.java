@@ -35,9 +35,9 @@ public class ClienteData implements ApplicationRunner {
             List<Cliente> clientes = new ArrayList<>();
 
             List<Celular> celulares = new ArrayList<>();
-            celulares.add(new Celular("CEL011908000001", "0987654321", new Cliente(1)));
+            celulares.add(new Celular("CEL011908000001", "09-8765-4321", new Cliente(1)));
             List<Telefono> telefonos = new ArrayList<>();
-            telefonos.add(new Telefono("TEL011907000001", "032964123", new Cliente(1)));
+            telefonos.add(new Telefono("TEL011907000001", "03-2964-123", new Cliente(1)));
             List<Correo> correos = new ArrayList<>();
             correos.add(new Correo("COR011907000001", "je.hidalgob@hotmail.com", new Cliente(1)));
 
@@ -46,9 +46,9 @@ public class ClienteData implements ApplicationRunner {
                     new EstadoCivil(2), new CalificacionCliente(1), new OrigenIngreso(1), new Segmento(1), Collections.emptyList(), telefonos, celulares, correos, Collections.emptyList()));
 
             List<Celular> celulares2 = new ArrayList<>();
-            celulares2.add(new Celular("CEL011909000003", "0965431234", new Cliente(2)));
+            celulares2.add(new Celular("CEL011909000003", "09-6543-1234", new Cliente(2)));
             List<Telefono> telefonos2 = new ArrayList<>();
-            telefonos2.add(new Telefono("TEL011907000002", "032424344", new Cliente(2)));
+            telefonos2.add(new Telefono("TEL011907000002", "03-2424-344", new Cliente(2)));
             List<Correo> correos2 = new ArrayList<>();
             correos2.add(new Correo("COR011908000002", "alejo@gmail.com", new Cliente(2)));
 
@@ -57,9 +57,9 @@ public class ClienteData implements ApplicationRunner {
                     new EstadoCivil(1), new CalificacionCliente(1), new OrigenIngreso(1), new Segmento(2), Collections.emptyList(), telefonos2, celulares2, correos2, Collections.emptyList()));
 
             List<Celular> celulares3 = new ArrayList<>();
-            celulares3.add(new Celular("CEL011909000003", "0965431231", new Cliente(2)));
+            celulares3.add(new Celular("CEL011909000003", "09-6543-1231", new Cliente(2)));
             List<Telefono> telefonos3 = new ArrayList<>();
-            telefonos3.add(new Telefono("TEL011907000002", "032424341", new Cliente(2)));
+            telefonos3.add(new Telefono("TEL011907000002", "03-2424-341", new Cliente(2)));
             List<Correo> correos3 = new ArrayList<>();
             correos3.add(new Correo("COR011908000002", "cliente3@gmail.com", new Cliente(2)));
 

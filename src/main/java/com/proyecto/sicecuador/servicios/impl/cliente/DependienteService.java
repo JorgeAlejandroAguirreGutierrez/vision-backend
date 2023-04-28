@@ -22,7 +22,7 @@ public class DependienteService implements IDependienteService {
     
     @Override
     public Dependiente crear(Dependiente dependiente) {
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_auxiliar);
+    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_dependiente);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

@@ -45,15 +45,15 @@ public class Establecimiento extends Entidad {
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id", nullable = true)
-    private List<TelefonoEstablecimiento> telefonos;    
+    private List<TelefonoEstablecimiento> telefonosEstablecimiento;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id", nullable = true)
-    private List<CelularEstablecimiento> celulares;    
+    private List<CelularEstablecimiento> celularesEstablecimiento;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id", nullable = true)
-    private List<CorreoEstablecimiento> correos;
+    private List<CorreoEstablecimiento> correosEstablecimiento;
 
     public Establecimiento(long id){
         super(id);
@@ -70,17 +70,17 @@ public class Establecimiento extends Entidad {
         this.regimen = new Regimen();
         this.ubicacion = new Ubicacion();
         this.empresa = new Empresa();
-        this.telefonos = Collections.emptyList();
-        this.celulares = Collections.emptyList();
-        this.correos = Collections.emptyList();
+        this.telefonosEstablecimiento = Collections.emptyList();
+        this.celularesEstablecimiento = Collections.emptyList();
+        this.correosEstablecimiento = Collections.emptyList();
 
     }
     public void normalizar(){
         if(this.regimen == null) this.regimen = new Regimen();
         if(this.ubicacion == null) this.ubicacion = new Ubicacion();
         if(this.empresa == null) this.empresa = new Empresa();
-        if(this.telefonos == null) this.telefonos = Collections.emptyList();
-        if(this.celulares == null) this.celulares = Collections.emptyList();
-        if(this.correos == null) this.correos = Collections.emptyList();
+        if(this.telefonosEstablecimiento == null) this.telefonosEstablecimiento = Collections.emptyList();
+        if(this.celularesEstablecimiento == null) this.celularesEstablecimiento = Collections.emptyList();
+        if(this.correosEstablecimiento == null) this.correosEstablecimiento = Collections.emptyList();
     }
 }
