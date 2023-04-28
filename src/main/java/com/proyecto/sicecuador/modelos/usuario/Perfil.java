@@ -28,7 +28,7 @@ public class Perfil extends Entidad {
     @Column(name = "multiempresa", nullable = true)
     private String multiempresa;
     @JsonManagedReference
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "perfil_id", nullable = true)
     private List<Permiso> permisos;
 
