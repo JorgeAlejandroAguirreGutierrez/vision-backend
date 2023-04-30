@@ -28,7 +28,7 @@ public class Secuencial extends Entidad {
     @ManyToOne
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipoComprobante;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "estacion_id", nullable = true)
     private Estacion estacion;
     public Secuencial(long id){
