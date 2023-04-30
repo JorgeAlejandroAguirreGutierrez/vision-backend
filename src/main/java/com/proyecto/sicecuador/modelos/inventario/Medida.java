@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.modelos.inventario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,7 +11,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_medida;
 
 @Entity
 @Table(name = tabla_medida)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Medida extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -23,7 +25,6 @@ public class Medida extends Entidad {
     private String abreviatura;
     @Column(name = "estado", nullable = true)
     private String estado;
-
     public Medida(long id){
         super(id);
     }

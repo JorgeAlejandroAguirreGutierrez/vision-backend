@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,7 +11,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_cuenta_propia;
 
 @Entity
 @Table(name = tabla_cuenta_propia)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class CuentaPropia extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -31,7 +33,6 @@ public class CuentaPropia extends Entidad {
         this.codigo = Constantes.vacio;
         this.numero = Constantes.vacio;
         this.estado = Constantes.activo;
-        this.banco = new Banco();
     }
     public void normalizar(){
         if(this.banco == null) this.banco = new Banco();

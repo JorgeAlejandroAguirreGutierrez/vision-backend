@@ -7,6 +7,8 @@ import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
 import com.proyecto.sicecuador.modelos.inventario.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -14,7 +16,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_factura_linea;
 
 @Entity
 @Table(name = tabla_factura_linea)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class FacturaLinea extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -54,7 +57,7 @@ public class FacturaLinea extends Entidad {
     private double ivaConDescuentoLinea;
     @Column(name = "total_con_descuento_linea", nullable = true)
     private double totalConDescuentoLinea;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
@@ -67,7 +70,7 @@ public class FacturaLinea extends Entidad {
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
 
@@ -93,10 +96,6 @@ public class FacturaLinea extends Entidad {
         this.subtotalConDescuentoLinea = Constantes.cero;
         this.ivaConDescuentoLinea = Constantes.cero;
         this.totalConDescuentoLinea = Constantes.cero;
-        this.producto = new Producto();
-        this.impuesto = new Impuesto();
-        this.precio = new Precio();
-        this.bodega = new Bodega();
     }
 
     public void normalizar(){

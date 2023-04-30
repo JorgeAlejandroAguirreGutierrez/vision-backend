@@ -3,7 +3,8 @@ package com.proyecto.sicecuador.modelos.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,7 +12,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_plazo_credito;
 
 @Entity
 @Table(name = tabla_plazo_credito)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class PlazoCredito extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -24,7 +26,6 @@ public class PlazoCredito extends Entidad {
     private double plazo;
     @Column(name = "estado", nullable = true)
     private String estado;
-
     public PlazoCredito(long id){
         super(id);
     }

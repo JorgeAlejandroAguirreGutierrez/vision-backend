@@ -154,30 +154,14 @@ public class Util {
     	}
     }
     
-    public static Optional<String> generarSecuencial(String tabla){
-    	try {
-        	Optional<String> conteo= conteo(tabla);
-        	if (conteo.isPresent()) {
-            	String rellenoConteo = String.format("%09d" , Long.parseLong(conteo.get())+1);
-                return Optional.of(rellenoConteo);
-            }
-        	return Optional.ofNullable(null);
-    	}catch(Exception e) {
-    		return Optional.ofNullable(null);
-    	}
+    public static String generarSecuencial(long numero){
+        String rellenoConteo = String.format("%09d" , numero);
+        return rellenoConteo;
     }
     
-    public static Optional<String> generarCodigoNumerico(String tabla){
-    	try {
-        	Optional<String> conteo= conteo(tabla);
-        	if (conteo.isPresent()) {
-            	String rellenoConteo = String.format("%08d" , Long.parseLong(conteo.get())+1);
-                return Optional.of(rellenoConteo);
-            }
-        	return Optional.ofNullable(null);
-    	}catch(Exception e) {
-    		return Optional.ofNullable(null);
-    	}
+    public static String generarCodigoNumerico(long numero){
+        String rellenoConteo = String.format("%08d" , numero);
+        return rellenoConteo;
     }
     
     public static Optional<String> generarGuiaNumero(String tabla){

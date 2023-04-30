@@ -28,7 +28,53 @@ public class SecuencialData implements ApplicationRunner {
         if (!ant.isPresent()) {
             List<Secuencial> secuenciales = new ArrayList<>();
             secuenciales.add(new Secuencial("SEC202304000001", 1, Constantes.activo, new TipoComprobante(1), new Estacion(1)));
-            secuenciales.add(new Secuencial("SEC202304000002", 1, Constantes.activo, new TipoComprobante(2), new Estacion(1)));
+            secuenciales.add(new Secuencial("SEC202304000002", 1, Constantes.activo, new TipoComprobante(3), new Estacion(1)));
+            secuenciales.add(new Secuencial("SEC202304000003", 1, Constantes.activo, new TipoComprobante(4), new Estacion(1)));
+            secuenciales.add(new Secuencial("SEC202304000004", 1, Constantes.activo, new TipoComprobante(5), new Estacion(1)));
+            secuenciales.add(new Secuencial("SEC202304000005", 1, Constantes.activo, new TipoComprobante(6), new Estacion(1)));
+            secuenciales.add(new Secuencial("SEC202304000005", 1, Constantes.activo, new TipoComprobante(7), new Estacion(1)));
+
+            secuenciales.add(new Secuencial("SEC202304000006", 1, Constantes.activo, new TipoComprobante(1), new Estacion(2)));
+            secuenciales.add(new Secuencial("SEC202304000007", 1, Constantes.activo, new TipoComprobante(3), new Estacion(2)));
+            secuenciales.add(new Secuencial("SEC202304000008", 1, Constantes.activo, new TipoComprobante(4), new Estacion(2)));
+            secuenciales.add(new Secuencial("SEC202304000009", 1, Constantes.activo, new TipoComprobante(5), new Estacion(2)));
+            secuenciales.add(new Secuencial("SEC202304000010", 1, Constantes.activo, new TipoComprobante(6), new Estacion(2)));
+            secuenciales.add(new Secuencial("SEC202304000005", 1, Constantes.activo, new TipoComprobante(7), new Estacion(2)));
+
+            secuenciales.add(new Secuencial("SEC202304000006", 1, Constantes.activo, new TipoComprobante(1), new Estacion(3)));
+            secuenciales.add(new Secuencial("SEC202304000007", 1, Constantes.activo, new TipoComprobante(3), new Estacion(3)));
+            secuenciales.add(new Secuencial("SEC202304000008", 1, Constantes.activo, new TipoComprobante(4), new Estacion(3)));
+            secuenciales.add(new Secuencial("SEC202304000009", 1, Constantes.activo, new TipoComprobante(5), new Estacion(3)));
+            secuenciales.add(new Secuencial("SEC202304000010", 1, Constantes.activo, new TipoComprobante(6), new Estacion(3)));
+            secuenciales.add(new Secuencial("SEC202304000005", 1, Constantes.activo, new TipoComprobante(7), new Estacion(3)));
+
+            secuenciales.add(new Secuencial("SEC202304000006", 1, Constantes.activo, new TipoComprobante(1), new Estacion(4)));
+            secuenciales.add(new Secuencial("SEC202304000007", 1, Constantes.activo, new TipoComprobante(3), new Estacion(4)));
+            secuenciales.add(new Secuencial("SEC202304000008", 1, Constantes.activo, new TipoComprobante(4), new Estacion(4)));
+            secuenciales.add(new Secuencial("SEC202304000009", 1, Constantes.activo, new TipoComprobante(5), new Estacion(4)));
+            secuenciales.add(new Secuencial("SEC202304000010", 1, Constantes.activo, new TipoComprobante(6), new Estacion(4)));
+            secuenciales.add(new Secuencial("SEC202304000005", 1, Constantes.activo, new TipoComprobante(7), new Estacion(4)));
+
+            secuenciales.add(new Secuencial("SEC202304000006", 1, Constantes.activo, new TipoComprobante(1), new Estacion(5)));
+            secuenciales.add(new Secuencial("SEC202304000007", 1, Constantes.activo, new TipoComprobante(3), new Estacion(5)));
+            secuenciales.add(new Secuencial("SEC202304000008", 1, Constantes.activo, new TipoComprobante(4), new Estacion(5)));
+            secuenciales.add(new Secuencial("SEC202304000009", 1, Constantes.activo, new TipoComprobante(5), new Estacion(5)));
+            secuenciales.add(new Secuencial("SEC202304000010", 1, Constantes.activo, new TipoComprobante(6), new Estacion(5)));
+            secuenciales.add(new Secuencial("SEC202304000005", 1, Constantes.activo, new TipoComprobante(7), new Estacion(5)));
+
+            secuenciales.add(new Secuencial("SEC202304000006", 1, Constantes.activo, new TipoComprobante(1), new Estacion(6)));
+            secuenciales.add(new Secuencial("SEC202304000007", 1, Constantes.activo, new TipoComprobante(3), new Estacion(6)));
+            secuenciales.add(new Secuencial("SEC202304000008", 1, Constantes.activo, new TipoComprobante(4), new Estacion(6)));
+            secuenciales.add(new Secuencial("SEC202304000009", 1, Constantes.activo, new TipoComprobante(5), new Estacion(6)));
+            secuenciales.add(new Secuencial("SEC202304000010", 1, Constantes.activo, new TipoComprobante(6), new Estacion(6)));
+            secuenciales.add(new Secuencial("SEC202304000005", 1, Constantes.activo, new TipoComprobante(7), new Estacion(6)));
+
+            secuenciales.add(new Secuencial("SEC202304000006", 1, Constantes.activo, new TipoComprobante(1), new Estacion(7)));
+            secuenciales.add(new Secuencial("SEC202304000007", 1, Constantes.activo, new TipoComprobante(3), new Estacion(7)));
+            secuenciales.add(new Secuencial("SEC202304000008", 1, Constantes.activo, new TipoComprobante(4), new Estacion(7)));
+            secuenciales.add(new Secuencial("SEC202304000009", 1, Constantes.activo, new TipoComprobante(5), new Estacion(7)));
+            secuenciales.add(new Secuencial("SEC202304000010", 1, Constantes.activo, new TipoComprobante(6), new Estacion(7)));
+            secuenciales.add(new Secuencial("SEC202304000010", 1, Constantes.activo, new TipoComprobante(7), new Estacion(7)));
             rep.saveAll(secuenciales);
         }
     }

@@ -7,6 +7,8 @@ import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -17,7 +19,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_nota_debito_compra;
 
 @Entity
 @Table(name = tabla_nota_debito_compra)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class NotaDebitoCompra extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -50,7 +53,7 @@ public class NotaDebitoCompra extends Entidad {
     private double totalConDescuento;
     @Column(name = "comentario", nullable = true)
     private String comentario;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_coompra_id", nullable = true)
     private FacturaCompra facturaCompra;
     @ManyToOne
@@ -84,8 +87,6 @@ public class NotaDebitoCompra extends Entidad {
         this.totalSinDescuento = Constantes.cero;
         this.totalConDescuento = Constantes.cero;
         this.comentario = Constantes.vacio;
-        this.sesion = new Sesion();
-        this.tipoComprobante = new TipoComprobante();
         this.notaDebitoCompraLineas = Collections.emptyList();
     }
 

@@ -259,6 +259,7 @@ public class Constantes {
     public static final String telefono_dependiente="TELEFONO DEPENDIENTE";
     public static final String tipo_contribuyente="TIPO CONTRIBUYENTE";
     public static final String tipo_pago="TIPO PAGO";
+    public static final String secuencial = "SECUENCIAL";
     
     //COMPRA
     public static final String retencion_compra="RETENCION COMPRA";
@@ -385,7 +386,6 @@ public class Constantes {
     public static final String codigoSRI="Codigo SRI";
     public static final String subtipo="SUBTIPO";
     public static final String nombreComercial="NOMBRE COMERCIAL";
-    public static final String secuencial="SECUENCIAL";
 
     public static final String codigoNumerico="CODIGO NUMERICO";
     public static final String fecha="FECHA";

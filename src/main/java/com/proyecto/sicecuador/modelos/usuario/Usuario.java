@@ -1,11 +1,10 @@
 package com.proyecto.sicecuador.modelos.usuario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.Type;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,7 +12,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_usuario;
 
 @Entity
 @Table(name = tabla_usuario)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Usuario extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -72,8 +72,6 @@ public class Usuario extends Entidad {
         this.pregunta = Constantes.vacio;
         this.respuesta = Constantes.vacio;
         this.estado = Constantes.activo;
-        this.estacion = new Estacion();
-        this.perfil = new Perfil();
     }
     public void normalizar(){
         if(this.estacion == null) this.estacion = new Estacion();

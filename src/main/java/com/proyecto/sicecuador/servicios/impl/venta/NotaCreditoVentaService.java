@@ -3,9 +3,11 @@ package com.proyecto.sicecuador.servicios.impl.venta;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
+import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
 import com.proyecto.sicecuador.modelos.venta.*;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.venta.INotaCreditoVentaRepository;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.sicecuador.servicios.interf.venta.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.venta.INotaCreditoVentaService;
 import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
@@ -33,6 +35,8 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     private IKardexService kardexService;
     @Autowired
     private IFacturaService facturaService;
+    @Autowired
+    private ISecuencialService secuencialService;
 
     @Override
     public void validar(NotaCreditoVenta notaCreditoVenta) {
@@ -103,16 +107,9 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     		throw new CodigoNoExistenteException();
     	}
         notaCreditoVenta.setCodigo(codigo.get());
-    	Optional<String>secuencia=Util.generarSecuencial(Constantes.tabla_nota_credito_venta);
-    	if (secuencia.isEmpty()) {
-    		throw new SecuencialNoExistenteException();
-    	}
-        notaCreditoVenta.setSecuencial(secuencia.get());
-        Optional<String> codigoNumerico = Util.generarCodigoNumerico(Constantes.tabla_nota_credito_venta);
-        if (codigoNumerico.isEmpty()) {
-            throw new CodigoNumericoNoExistenteException();
-        }
-        notaCreditoVenta.setCodigoNumerico(codigoNumerico.get());
+        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaCreditoVenta.getTipoComprobante().getId(), notaCreditoVenta.getSesion().getUsuario().getEstacion().getId());
+        notaCreditoVenta.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+        notaCreditoVenta.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
         Optional<String> claveAcceso = crearClaveAcceso(notaCreditoVenta);
         if (claveAcceso.isEmpty()) {
             throw new ClaveAccesoNoExistenteException();
@@ -123,6 +120,8 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         facturar(notaCreditoVenta);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
+        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
+        secuencialService.actualizar(secuencial);
         return res;
     }
 

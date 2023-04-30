@@ -9,6 +9,8 @@ import com.proyecto.sicecuador.modelos.inventario.Precio;
 import com.proyecto.sicecuador.modelos.inventario.Producto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -16,7 +18,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_nota_credito_venta_linea;
 
 @Entity
 @Table(name = tabla_nota_credito_venta_linea)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class NotaCreditoVentaLinea extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -41,14 +44,14 @@ public class NotaCreditoVentaLinea extends Entidad {
     @ManyToOne
     @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nota_credito_compra_id", nullable = true)
     private NotaCreditoVenta notaCreditoVentaLinea;
 

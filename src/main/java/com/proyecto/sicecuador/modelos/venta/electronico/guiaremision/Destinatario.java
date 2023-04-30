@@ -1,13 +1,16 @@
 package com.proyecto.sicecuador.modelos.venta.electronico.guiaremision;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "destinatario")
 @XmlType(propOrder={"identificacionDestinatario", "razonSocialDestinatario", "dirDestinatario", "motivoTraslado", "ruta", "codDocSustento", "numDocSustento", "numAutDocSustento", "fechaEmisionDocSustento"})
-@Data
+@Getter
+@Setter
 public class Destinatario {
 	private String identificacionDestinatario;
 	private String razonSocialDestinatario;

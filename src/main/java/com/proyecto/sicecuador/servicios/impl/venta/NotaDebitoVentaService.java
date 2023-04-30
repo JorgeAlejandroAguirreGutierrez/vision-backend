@@ -3,10 +3,12 @@ package com.proyecto.sicecuador.servicios.impl.venta;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
+import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
 import com.proyecto.sicecuador.modelos.venta.*;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.repositorios.venta.INotaDebitoVentaRepository;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.sicecuador.servicios.interf.venta.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.venta.INotaDebitoVentaService;
 import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
@@ -33,6 +35,8 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     private IKardexService kardexService;
     @Autowired
     private IFacturaService facturaService;
+    @Autowired
+    private ISecuencialService secuencialService;
 
     @Override
     public void validar(NotaDebitoVenta notaDebitoVenta) {
@@ -155,16 +159,9 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     		throw new CodigoNoExistenteException();
     	}
         notaDebitoVenta.setCodigo(codigo.get());
-    	Optional<String>secuencia=Util.generarSecuencial(Constantes.tabla_nota_debito_venta);
-    	if (secuencia.isEmpty()) {
-    		throw new SecuencialNoExistenteException();
-    	}
-        notaDebitoVenta.setSecuencial(secuencia.get());
-        Optional<String> codigoNumerico = Util.generarCodigoNumerico(Constantes.tabla_nota_debito_venta);
-        if (codigoNumerico.isEmpty()) {
-            throw new CodigoNumericoNoExistenteException();
-        }
-        notaDebitoVenta.setCodigoNumerico(codigoNumerico.get());
+        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaDebitoVenta.getTipoComprobante().getId(), notaDebitoVenta.getSesion().getUsuario().getEstacion().getId());
+        notaDebitoVenta.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+        notaDebitoVenta.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
         Optional<String> claveAcceso = crearClaveAcceso(notaDebitoVenta);
         if (claveAcceso.isEmpty()) {
             throw new ClaveAccesoNoExistenteException();
@@ -176,6 +173,8 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         calcularRecaudacion(notaDebitoVenta);
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
+        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
+        secuencialService.actualizar(secuencial);
         return res;
     }
 

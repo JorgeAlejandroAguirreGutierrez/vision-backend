@@ -1,13 +1,16 @@
 package com.proyecto.sicecuador.modelos.venta.electronico.factura;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "detalle")
 @XmlType(propOrder={"codigoPrincipal", "descripcion", "cantidad", "precioUnitario", "descuento", "precioTotalSinImpuesto", "impuestos"})
-@Data
+@Getter
+@Setter
 public class Detalle {
 	private String codigoPrincipal;
 	private String descripcion;

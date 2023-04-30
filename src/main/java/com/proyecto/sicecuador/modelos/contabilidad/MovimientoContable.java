@@ -4,6 +4,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,7 +13,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_movimiento_contable;
 
 @Entity
 @Table(name = tabla_movimiento_contable)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class MovimientoContable extends Entidad {
 	@Column(name = "codigo", nullable = true)
@@ -53,15 +56,6 @@ public class MovimientoContable extends Entidad {
         super();
 		this.codigo = Constantes.vacio;
 		this.estado = Constantes.activo;
-		this.afectacionContable = new AfectacionContable();
-		this.inventario = new CuentaContable();
-		this.costoVenta = new CuentaContable();
-		this.devolucionCompra = new CuentaContable();
-		this.descuentoCompra = new CuentaContable();
-		this.venta = new CuentaContable();
-		this.devolucionVenta = new CuentaContable();
-		this.descuentoVenta = new CuentaContable();
-		this.devolucionCostoVenta = new CuentaContable();
 
     }
 	public void normalizar(){

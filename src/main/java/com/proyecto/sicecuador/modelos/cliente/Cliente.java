@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.modelos.configuracion.*;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,7 +18,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_cliente;
 
 @Entity
 @Table(name = tabla_cliente)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Cliente extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -117,18 +120,6 @@ public class Cliente extends Entidad {
         this.latitudgeo = Constantes.latCiudad;
         this.longitudgeo = Constantes.lngCiudad;
         this.montoFinanciamiento = Constantes.cero;
-        this.tipoIdentificacion = new TipoIdentificacion();
-        this.tipoContribuyente = new TipoContribuyente();
-        this.estacion = new Estacion();
-        this.grupoCliente = new GrupoCliente();
-        this.formaPago = new FormaPago();
-        this.plazoCredito = new PlazoCredito();
-        this.ubicacion = new Ubicacion();
-        this.genero = new Genero();
-        this.estadoCivil = new EstadoCivil();
-        this.calificacionCliente = new CalificacionCliente();
-        this.origenIngreso = new OrigenIngreso();
-        this.segmento = new Segmento();
         this.dependientes = Collections.emptyList();
         this.telefonos = Collections.emptyList();
         this.celulares = Collections.emptyList();

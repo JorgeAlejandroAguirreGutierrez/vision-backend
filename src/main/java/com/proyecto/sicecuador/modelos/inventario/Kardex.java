@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,7 +14,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_kardex;
 
 @Entity
 @Table(name = tabla_kardex)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Kardex extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -44,7 +46,7 @@ public class Kardex extends Entidad {
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
 

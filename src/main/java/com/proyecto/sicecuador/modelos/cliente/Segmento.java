@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.modelos.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +13,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_segmento;
 
 @Entity
 @Table(name = tabla_segmento)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Segmento extends Entidad {
     @Column(name = "codigo", nullable = true)

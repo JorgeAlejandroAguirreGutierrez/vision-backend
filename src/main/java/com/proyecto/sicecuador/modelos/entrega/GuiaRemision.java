@@ -4,8 +4,11 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
+import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,7 +17,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_guia_remision;
 
 @Entity
 @Table(name = tabla_guia_remision)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class GuiaRemision extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -52,12 +56,15 @@ public class GuiaRemision extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
+    @JoinColumn(name = "tipo_comprobante_id", nullable = true)
+    private TipoComprobante tipoComprobante;
+    @ManyToOne
     @JoinColumn(name = "sesion_id", nullable = true)
     private Sesion sesion;
     @ManyToOne
     @JoinColumn(name = "transportista_id", nullable = true)
     private Transportista transportista;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
 
@@ -82,8 +89,6 @@ public class GuiaRemision extends Entidad {
         this.correoDestinatario = Constantes.vacio;
         this.opcionGuia = Constantes.vacio;
         this.estado = Constantes.activo;
-        this.factura = new Factura();
-        this.transportista = new Transportista();
     }
 
     public void normalizar(){

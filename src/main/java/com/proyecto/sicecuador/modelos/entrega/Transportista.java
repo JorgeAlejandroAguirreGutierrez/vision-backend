@@ -5,6 +5,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,7 +14,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_transportista;
 
 @Entity
 @Table(name = tabla_transportista)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Transportista extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -42,8 +45,6 @@ public class Transportista extends Entidad {
         this.identificacion = Constantes.vacio;
         this.vehiculoPropio = Constantes.si;
         this.estado = Constantes.activo;
-        this.tipoIdentificacion = new TipoIdentificacion();
-        this.vehiculoTransporte = new VehiculoTransporte();
     }
 
     public void normalizar(){

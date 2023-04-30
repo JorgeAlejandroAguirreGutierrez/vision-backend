@@ -5,6 +5,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +16,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "cliente_base")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class ClienteBase extends Entidad {
     @Column(name = "identificacion", nullable = true)
@@ -79,9 +82,6 @@ public class ClienteBase extends Entidad {
         this.estado = Constantes.activo;
         this.origen = Constantes.vacio;
         this.prioridad = Constantes.cero;
-        this.ubicacion = new Ubicacion();
-        this.genero = new Genero();
-        this.estadoCivil = new EstadoCivil();
     }
       
     public void normalizar(){

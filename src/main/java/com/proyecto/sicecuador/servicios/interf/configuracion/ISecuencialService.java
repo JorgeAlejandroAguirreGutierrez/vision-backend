@@ -10,4 +10,5 @@ public interface ISecuencialService extends IGenericoService<Secuencial> {
 	Secuencial activar(Secuencial secuencial);
 	Secuencial inactivar(Secuencial secuencial);
 	List<Secuencial> consultarActivos();
+	Secuencial obtenerPorTipoComprobanteYEstacion(long tipoComprobanteId, long estacionId);
 }

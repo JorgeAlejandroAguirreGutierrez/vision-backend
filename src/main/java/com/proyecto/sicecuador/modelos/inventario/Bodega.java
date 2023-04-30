@@ -4,6 +4,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,7 +13,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_bodega;
 
 @Entity
 @Table(name = tabla_bodega)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Bodega extends Entidad {
     @Column(name = "codigo", nullable = true)

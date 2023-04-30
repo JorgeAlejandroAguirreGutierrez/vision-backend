@@ -5,6 +5,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,7 +14,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_correo_proveedor;
 
 @Entity
 @Table(name = tabla_correo_proveedor)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class CorreoProveedor extends Entidad {
 
@@ -21,7 +24,7 @@ public class CorreoProveedor extends Entidad {
     @Column(name = "email", nullable = true)
     private String email;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
 

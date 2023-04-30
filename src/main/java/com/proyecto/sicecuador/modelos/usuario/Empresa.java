@@ -1,11 +1,11 @@
 package com.proyecto.sicecuador.modelos.usuario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,7 +13,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_empresa;
 
 @Entity
 @Table(name = tabla_empresa)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Empresa extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -46,9 +47,6 @@ public class Empresa extends Entidad {
     @ManyToOne
     @JoinColumn(name = "tipo_identificacion_id", nullable = true)
     private TipoIdentificacion tipoIdentificacion;
-    //@ManyToOne
-    //@JoinColumn(name = "ubicacion_id", nullable = true)
-    //private Ubicacion ubicacion;
 
     public Empresa(long id){
         super(id);
@@ -68,12 +66,9 @@ public class Empresa extends Entidad {
         this.agenteRetencion = Constantes.no;
         this.resolucionAgente = Constantes.vacio;
         this.estado = Constantes.activo;
-        this.tipoIdentificacion = new TipoIdentificacion();
-        //this.ubicacion = new Ubicacion();
     }
 
     public void normalizar(){
         if(this.tipoIdentificacion == null) this.tipoIdentificacion = new TipoIdentificacion();
-        //if(this.ubicacion == null) this.ubicacion = new Ubicacion();
     }
 }

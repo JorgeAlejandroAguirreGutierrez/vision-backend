@@ -1,12 +1,15 @@
 package com.proyecto.sicecuador.modelos.venta.electronico.notadebito;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @XmlRootElement(name = "pagos")
-@Data
+@Getter
+@Setter
 public class Pagos {
 	private List<Pago> pago;
 }

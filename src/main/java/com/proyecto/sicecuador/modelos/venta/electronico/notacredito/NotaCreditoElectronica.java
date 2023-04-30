@@ -1,12 +1,15 @@
 package com.proyecto.sicecuador.modelos.venta.electronico.notacredito;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "notaCredito")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder={"infoTributaria", "infoNotaCredito", "detalles", "infoAdicional"})
-@Data
+@Getter
+@Setter
 public class NotaCreditoElectronica {
 	//DATOS DEL SRI CAMPOS EXACTAMENTE COMO LOS TIENE
 	@XmlAttribute(name = "id")

@@ -1,13 +1,16 @@
 package com.proyecto.sicecuador.modelos.venta.electronico.notacredito;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "infoNotaCredito")
 @XmlType(propOrder={"fechaEmision", "dirEstablecimiento", "tipoIdentificacionComprador", "razonSocialComprador", "identificacionComprador", "obligadoContabilidad", "codDocModificado", "numDocModificado", "fechaEmisionDocSustento","totalSinImpuestos", "valorModificacion", "moneda", "totalConImpuestos", "motivo"})
-@Data
+@Getter
+@Setter
 public class InfoNotaCredito {
 	private String fechaEmision;
 	private String dirEstablecimiento;

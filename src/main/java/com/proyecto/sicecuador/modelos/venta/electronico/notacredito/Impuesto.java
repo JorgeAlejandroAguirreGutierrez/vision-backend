@@ -1,13 +1,16 @@
 package com.proyecto.sicecuador.modelos.venta.electronico.notacredito;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "impuesto")
 @XmlType(propOrder={"codigo", "codigoPorcentaje", "tarifa", "baseImponible", "valor"})
-@Data
+@Getter
+@Setter
 public class Impuesto {
 	private String codigo;
 	private String codigoPorcentaje;

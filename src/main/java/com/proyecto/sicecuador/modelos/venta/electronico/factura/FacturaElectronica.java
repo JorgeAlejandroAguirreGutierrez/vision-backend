@@ -1,13 +1,16 @@
 package com.proyecto.sicecuador.modelos.venta.electronico.factura;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "factura")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder={"infoTributaria", "infoFactura", "detalles", "infoAdicional"})
-@Data
+@Getter
+@Setter
 public class FacturaElectronica {
 	//DATOS DEL SRI CAMPOS EXACTAMENTE COMO LOS TIENE
 	@XmlAttribute(name = "id")

@@ -3,6 +3,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,7 +12,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_tipo_retencion;
 
 @Entity
 @Table(name = tabla_tipo_retencion)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class TipoRetencion extends Entidad {
     @Column(name = "codigo", nullable = true)

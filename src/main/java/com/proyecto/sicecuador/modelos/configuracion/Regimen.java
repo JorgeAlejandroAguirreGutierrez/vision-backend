@@ -3,7 +3,8 @@ package com.proyecto.sicecuador.modelos.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_regimen;
 
 @Entity
 @Table(name = tabla_regimen)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Regimen extends Entidad {
     @Column(name = "codigo", nullable = true)

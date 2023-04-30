@@ -3,6 +3,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,7 +12,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_operador_tarjeta;
 
 @Entity
 @Table(name = tabla_operador_tarjeta)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class OperadorTarjeta extends Entidad {
     @Column(name = "codigo", nullable = true)

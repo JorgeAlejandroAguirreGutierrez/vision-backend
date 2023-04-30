@@ -5,6 +5,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,7 +14,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_grupo_producto;
 
 @Entity
 @Table(name = tabla_grupo_producto)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class GrupoProducto extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -51,8 +54,6 @@ public class GrupoProducto extends Entidad {
         this.sublinea = Constantes.vacio;
         this.presentacion = Constantes.vacio;
         this.estado = Constantes.activo;
-        this.categoriaProducto = new CategoriaProducto();
-        this.cuentaContable = new CuentaContable();
     }
 
     public void normalizar(){

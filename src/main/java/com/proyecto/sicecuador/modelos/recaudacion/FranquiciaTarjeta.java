@@ -3,6 +3,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +14,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_franquicia_tarjeta;
 
 @Entity
 @Table(name = tabla_franquicia_tarjeta)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class FranquiciaTarjeta extends Entidad {
     @Column(name = "codigo", nullable = true)

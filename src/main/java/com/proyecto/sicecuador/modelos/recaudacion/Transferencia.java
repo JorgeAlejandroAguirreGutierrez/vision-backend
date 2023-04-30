@@ -5,6 +5,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,7 +15,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_transferencia;
 
 @Entity
 @Table(name = tabla_transferencia)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Transferencia extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -26,11 +29,11 @@ public class Transferencia extends Entidad {
     private String numeroTransaccion;
     @Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
 
@@ -44,7 +47,6 @@ public class Transferencia extends Entidad {
         this.tipoTransaccion = Constantes.vacio;
         this.numeroTransaccion = Constantes.vacio;
         this.valor = Constantes.cero;
-        this.banco = new Banco();
     }
     public void normalizar(){
         if(this.fecha == null) this.fecha = new Date();

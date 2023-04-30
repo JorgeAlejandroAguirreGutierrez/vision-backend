@@ -5,6 +5,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -14,7 +16,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_perfil;
 
 @Entity
 @Table(name = tabla_perfil)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Perfil extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -28,7 +31,7 @@ public class Perfil extends Entidad {
     @Column(name = "multiempresa", nullable = true)
     private String multiempresa;
     @JsonManagedReference
-    @OneToMany(cascade =CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "perfil_id", nullable = true)
     private List<Permiso> permisos;
 
@@ -44,7 +47,6 @@ public class Perfil extends Entidad {
         this.estado = Constantes.activo;
         this.permisos = Collections.emptyList();
     }
-
     public void normalizar(){
         if(this.permisos == null) this.permisos = Collections.emptyList();
     }

@@ -3,12 +3,14 @@ package com.proyecto.sicecuador.servicios.impl.venta;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
+import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import com.proyecto.sicecuador.modelos.venta.FacturaLinea;
 import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.repositorios.venta.IFacturaRepository;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.sicecuador.servicios.interf.venta.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
@@ -32,6 +34,8 @@ public class FacturaService implements IFacturaService {
     private IKardexService kardexService;
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
+    @Autowired
+    private ISecuencialService secuencialService;
 
     @Override
     public void validar(Factura factura) {
@@ -154,16 +158,9 @@ public class FacturaService implements IFacturaService {
     		throw new CodigoNoExistenteException();
     	}
     	factura.setCodigo(codigo.get());
-    	Optional<String>secuencial=Util.generarSecuencial(Constantes.tabla_factura);
-    	if (secuencial.isEmpty()) {
-    		throw new SecuencialNoExistenteException();
-    	}
-    	factura.setSecuencial(secuencial.get());
-    	Optional<String> codigoNumerico = Util.generarCodigoNumerico(Constantes.tabla_factura);
-    	if (codigoNumerico.isEmpty()) {
-    		throw new CodigoNumericoNoExistenteException();
-    	}
-    	factura.setCodigoNumerico(codigoNumerico.get());
+    	Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(factura.getTipoComprobante().getId(), factura.getSesion().getUsuario().getEstacion().getId());
+    	factura.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+    	factura.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
     	Optional<String> claveAcceso = crearClaveAcceso(factura);
     	if (claveAcceso.isEmpty()) {
     		throw new ClaveAccesoNoExistenteException();
@@ -175,6 +172,8 @@ public class FacturaService implements IFacturaService {
         calcularRecaudacion(factura);
         Factura res = rep.save(factura);
         res.normalizar();
+        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
+        secuencialService.actualizar(secuencial);
         return res;
     }
 
