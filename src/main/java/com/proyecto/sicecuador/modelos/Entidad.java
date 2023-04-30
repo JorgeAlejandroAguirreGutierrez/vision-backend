@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.modelos;
 
 import com.proyecto.sicecuador.Constantes;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,7 +11,8 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @MappedSuperclass
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Entidad {
     @Id

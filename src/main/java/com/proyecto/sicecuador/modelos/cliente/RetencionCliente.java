@@ -5,7 +5,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,7 +14,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_retencion_cliente;
 
 @Entity
 @Table(name = tabla_retencion_cliente)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class RetencionCliente extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -22,7 +24,7 @@ public class RetencionCliente extends Entidad {
     @JoinColumn(name = "tipo_retencion_id", nullable = true)
     private TipoRetencion tipoRetencion;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 

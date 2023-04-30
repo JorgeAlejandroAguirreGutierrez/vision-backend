@@ -7,6 +7,8 @@ import com.proyecto.sicecuador.modelos.configuracion.Regimen;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -16,7 +18,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_establecimiento;
 
 @Entity
 @Table(name = tabla_establecimiento)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Establecimiento extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -43,15 +46,15 @@ public class Establecimiento extends Entidad {
     @JoinColumn(name = "empresa_id", nullable = true)
     private Empresa empresa;
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private List<TelefonoEstablecimiento> telefonosEstablecimiento;
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private List<CelularEstablecimiento> celularesEstablecimiento;
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private List<CorreoEstablecimiento> correosEstablecimiento;
 
@@ -73,7 +76,6 @@ public class Establecimiento extends Entidad {
         this.telefonosEstablecimiento = Collections.emptyList();
         this.celularesEstablecimiento = Collections.emptyList();
         this.correosEstablecimiento = Collections.emptyList();
-
     }
     public void normalizar(){
         if(this.regimen == null) this.regimen = new Regimen();

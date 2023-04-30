@@ -7,7 +7,8 @@ import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -18,7 +19,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_factura;
 
 @Entity
 @Table(name = tabla_factura)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Factura extends Entidad {
 	@Column(name = "codigo", nullable = true)
@@ -70,7 +72,7 @@ public class Factura extends Entidad {
 	private double valorPorcentajeDescuentoTotal;
 	@Column(name = "comentario", nullable = true)
 	private String comentario;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliente_id", nullable = true)
 	private Cliente cliente;
 	@ManyToOne
@@ -125,7 +127,7 @@ public class Factura extends Entidad {
 	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "tarjeta_credito_id", nullable = true)
 	private List<TarjetaCredito> tarjetasCreditos;
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "credito_id", nullable = true)
 	private Credito credito;
 
@@ -157,9 +159,6 @@ public class Factura extends Entidad {
 		this.porcentajeDescuentoTotal = Constantes.cero;
 		this.valorPorcentajeDescuentoTotal = Constantes.cero;
 		this.comentario = Constantes.vacio;
-		this.cliente = new Cliente();
-		this.sesion = new Sesion();
-		this.tipoComprobante = new TipoComprobante();
 		this.facturaLineas = Collections.emptyList();
 
 		//RECAUDACION
@@ -178,7 +177,6 @@ public class Factura extends Entidad {
 		this.transferencias = Collections.emptyList();
 		this.tarjetasDebitos = Collections.emptyList();
 		this.tarjetasCreditos = Collections.emptyList();
-		this.credito = new Credito();
 	}
 
 	public void normalizar(){

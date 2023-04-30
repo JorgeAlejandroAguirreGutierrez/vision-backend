@@ -7,6 +7,8 @@ import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -17,7 +19,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_factura_compra;
 
 @Entity
 @Table(name = tabla_factura_compra)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class FacturaCompra extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -78,9 +81,6 @@ public class FacturaCompra extends Entidad {
         this.ivaSinDescuento = Constantes.cero;
         this.totalSinDescuento = Constantes.cero;
         this.comentario = Constantes.vacio;
-        this.proveedor = new Proveedor();
-        this.sesion = new Sesion();
-        this.tipoComprobante = new TipoComprobante();
         this.facturaCompraLineas = Collections.emptyList();
     }
 

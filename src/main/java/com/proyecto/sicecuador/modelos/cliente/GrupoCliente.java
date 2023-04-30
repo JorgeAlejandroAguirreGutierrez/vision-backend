@@ -4,14 +4,17 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 import static com.proyecto.sicecuador.Constantes.tabla_grupo_cliente;
 
 @Entity
 @Table(name = tabla_grupo_cliente)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class GrupoCliente extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -35,7 +38,6 @@ public class GrupoCliente extends Entidad {
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
         this.estado = Constantes.activo;
-        this.cuentaContable = new CuentaContable();
     }
 
     public void normalizar(){

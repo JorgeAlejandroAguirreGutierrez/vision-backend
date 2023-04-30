@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -14,7 +15,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_correo_establecimiento;
 
 @Entity
 @Table(name = tabla_correo_establecimiento)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class CorreoEstablecimiento extends Entidad {
 	@Column(name = "codigo", nullable = true)
@@ -22,7 +24,7 @@ public class CorreoEstablecimiento extends Entidad {
 	@Column(name = "email", nullable = true)
     private String email;
 	@JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_id", nullable = true)
     private Establecimiento establecimiento;
 

@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,7 +16,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_cheque;
 
 @Entity
 @Table(name = tabla_cheque)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Cheque extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -33,7 +36,7 @@ public class Cheque extends Entidad {
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
 
@@ -48,7 +51,6 @@ public class Cheque extends Entidad {
         this.fecha = new Date();
         this.fechaEfectivizacion = new Date();
         this.valor = Constantes.cero;
-        this.banco = new Banco();
     }
 
     public void normalizar(){

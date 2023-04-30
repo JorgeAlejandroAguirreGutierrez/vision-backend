@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.modelos.venta;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,7 +11,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_tipo_comprobante;
 
 @Entity
 @Table(name = tabla_tipo_comprobante)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class TipoComprobante extends Entidad {
     @Column(name = "codigo", nullable = true)

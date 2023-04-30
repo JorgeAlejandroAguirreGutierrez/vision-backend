@@ -3,15 +3,18 @@ package com.proyecto.sicecuador.modelos.compra;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 import static com.proyecto.sicecuador.Constantes.tabla_grupo_proveedor;
 
 @Entity
 @Table(name = tabla_grupo_proveedor)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class GrupoProveedor extends Entidad {
 	@Column(name = "codigo", nullable = true)
@@ -31,7 +34,6 @@ public class GrupoProveedor extends Entidad {
 		this.descripcion = Constantes.vacio;
 		this.abreviatura = Constantes.vacio;
 		this.estado = Constantes.vacio;
-		this.cuentaContable = new CuentaContable();
 	}
 	
 	public GrupoProveedor(long id) {

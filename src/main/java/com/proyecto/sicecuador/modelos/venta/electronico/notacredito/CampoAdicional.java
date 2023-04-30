@@ -1,12 +1,15 @@
 package com.proyecto.sicecuador.modelos.venta.electronico.notacredito;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "campoAdicional")
-@Data
+@Getter
+@Setter
 public class CampoAdicional {
     @XmlAttribute
     private String nombre;

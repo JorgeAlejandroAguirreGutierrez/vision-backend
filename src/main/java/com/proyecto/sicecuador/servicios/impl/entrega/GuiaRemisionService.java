@@ -3,10 +3,14 @@ package com.proyecto.sicecuador.servicios.impl.entrega;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
+import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
 import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
+import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.repositorios.entrega.IGuiaRemisionRepository;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.sicecuador.servicios.interf.entrega.IGuiaRemisionService;
+import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +24,12 @@ import java.util.Optional;
 public class GuiaRemisionService implements IGuiaRemisionService {
     @Autowired
     private IGuiaRemisionRepository rep;
-    
     @Autowired
     private IUbicacionRepository repUbicacion;
+	@Autowired
+	private ITipoComprobanteService tipoComprobanteService;
+	@Autowired
+	private ISecuencialService secuencialService;
 
 	@Override
 	public void validar(GuiaRemision guiaRemision) {
@@ -84,21 +91,16 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     @Override
     public GuiaRemision crear(GuiaRemision guiaRemision) {
 		validar(guiaRemision);
+		TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito_venta);
+		guiaRemision.setTipoComprobante(tipoComprobante);
 		Optional<String>codigo = Util.generarCodigo(Constantes.tabla_guia_remision);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
 		guiaRemision.setCodigo(codigo.get());
-		Optional<String>secuencial = Util.generarSecuencial(Constantes.tabla_guia_remision);
-		if (secuencial.isEmpty()) {
-			throw new SecuencialNoExistenteException();
-		}
-		guiaRemision.setSecuencial(secuencial.get());
-		Optional<String> codigoNumerico = Util.generarCodigoNumerico(Constantes.tabla_guia_remision);
-		if (codigoNumerico.isEmpty()) {
-			throw new CodigoNumericoNoExistenteException();
-		}
-		guiaRemision.setCodigoNumerico(codigoNumerico.get());
+		Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(guiaRemision.getTipoComprobante().getId(), guiaRemision.getSesion().getUsuario().getEstacion().getId());
+		guiaRemision.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+		guiaRemision.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
 		Optional<String> claveAcceso = crearClaveAcceso(guiaRemision);
 		if (claveAcceso.isEmpty()) {
 			throw new ClaveAccesoNoExistenteException();
@@ -107,6 +109,8 @@ public class GuiaRemisionService implements IGuiaRemisionService {
         guiaRemision.setEstado(Constantes.estadoEmitida);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();
+		secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
+		secuencialService.actualizar(secuencial);
     	return rep.save(guiaRemision);
     }
 

@@ -1,12 +1,15 @@
 package com.proyecto.sicecuador.modelos.venta.electronico.guiaremision;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @XmlRootElement(name = "destinatarios")
-@Data
+@Getter
+@Setter
 public class Destinatarios {
 	private List<Destinatario> destinatario;
 }

@@ -7,6 +7,8 @@ import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -16,7 +18,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_producto;
 
 @Entity
 @Table(name = tabla_producto)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Producto extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -46,11 +49,11 @@ public class Producto extends Entidad {
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     private List<Precio> precios;
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     private List<Kardex> kardexs;
 
@@ -63,12 +66,6 @@ public class Producto extends Entidad {
         this.nombre = Constantes.vacio;
         this.consignacion = Constantes.si;
         this.estado = Constantes.activo;
-        this.categoriaProducto = new CategoriaProducto();
-        this.grupoProducto = new GrupoProducto();
-        this.tipoGasto = new TipoGasto();
-        this.impuesto = new Impuesto();
-        this.medida = new Medida();
-        this.proveedor = new Proveedor();
         this.precios = Collections.emptyList();
         this.kardexs = Collections.emptyList();
     }

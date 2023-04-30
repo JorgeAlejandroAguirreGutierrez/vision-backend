@@ -2,7 +2,8 @@ package com.proyecto.sicecuador.modelos.contabilidad;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,7 +11,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_cuenta_contable;
 
 @Entity
 @Table(name = tabla_cuenta_contable)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class CuentaContable extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -31,7 +33,6 @@ public class CuentaContable extends Entidad {
     private String mapeo;
     @Column(name = "estado", nullable = true)
     private String estado;
-
     public CuentaContable(long id){
         super(id);
     }

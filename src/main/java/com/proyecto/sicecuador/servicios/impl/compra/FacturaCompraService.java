@@ -5,10 +5,12 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
+import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
 import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.compra.IFacturaCompraRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class FacturaCompraService implements IFacturaCompraService {
     private ITipoComprobanteService tipoComprobanteService;
     @Autowired
     private IKardexService kardexService;
+    @Autowired
+    private ISecuencialService secuencialService;
 
     @Override
     public void validar(FacturaCompra facturaCompra) {
@@ -72,15 +76,14 @@ public class FacturaCompraService implements IFacturaCompraService {
     		throw new CodigoNoExistenteException();
     	}
     	facturaCompra.setCodigo(codigo.get());
-    	Optional<String>secuencial=Util.generarSecuencial(Constantes.tabla_factura_compra);
-    	if (secuencial.isEmpty()) {
-    		throw new SecuencialNoExistenteException();
-    	}
-    	facturaCompra.setSecuencial(secuencial.get());
+        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(facturaCompra.getTipoComprobante().getId(), facturaCompra.getSesion().getUsuario().getEstacion().getId());
+        facturaCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         facturar(facturaCompra);
         facturaCompra.setEstado(Constantes.estadoFacturada);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
+        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
+        secuencialService.actualizar(secuencial);
         return res;
     }
 

@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,7 +15,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_tarjeta_debito;
 
 @Entity
 @Table(name = tabla_tarjeta_debito)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class TarjetaDebito extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -28,17 +31,17 @@ public class TarjetaDebito extends Entidad {
     private String lote;
     @Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "operador_tarjeta_id", nullable = true)
     private OperadorTarjeta operadorTarjeta;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "franquicia_tarjeta_id", nullable = true)
     private FranquiciaTarjeta franquiciaTarjeta;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
 
@@ -53,9 +56,6 @@ public class TarjetaDebito extends Entidad {
         this.nombre = Constantes.vacio;
         this.lote = Constantes.vacio;
         this.valor = Constantes.cero;
-        this.banco = new Banco();
-        this.operadorTarjeta = new OperadorTarjeta();
-        this.franquiciaTarjeta = new FranquiciaTarjeta();
     }
     public void normalizar(){
         if(this.banco == null) this.banco = new Banco();

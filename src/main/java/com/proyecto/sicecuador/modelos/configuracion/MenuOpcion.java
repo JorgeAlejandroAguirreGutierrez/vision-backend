@@ -4,6 +4,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +15,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_menu_opcion;
 
 @Entity
 @Table(name = tabla_menu_opcion)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class MenuOpcion extends Entidad {
     @Column(name = "codigo", nullable = true)

@@ -5,6 +5,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.Regimen;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,7 +14,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_estacion;
 
 @Entity
 @Table(name = tabla_estacion)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Estacion extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -49,8 +52,6 @@ public class Estacion extends Entidad {
         this.ip = Constantes.vacio;
         this.puntoVenta = Constantes.no;
         this.estado = Constantes.activo;
-        this.regimen = new Regimen();
-        this.establecimiento = new Establecimiento();
     }
 
     public void normalizar(){

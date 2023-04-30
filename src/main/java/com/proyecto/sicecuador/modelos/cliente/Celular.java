@@ -5,6 +5,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,7 +14,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_celular;
 
 @Entity
 @Table(name = tabla_celular)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Celular extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -20,7 +23,7 @@ public class Celular extends Entidad {
     @Column(name = "numero", nullable = true)
     private String numero;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
 

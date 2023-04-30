@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,7 +15,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_permiso;
 
 @Entity
 @Table(name = tabla_permiso)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Permiso extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -24,7 +27,7 @@ public class Permiso extends Entidad {
     @JoinColumn(name = "menu_opcion_id", nullable = true)
     private MenuOpcion menuOpcion;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "perfil_id", nullable = true)
     private Perfil perfil;
     public Permiso(long id){
@@ -34,6 +37,5 @@ public class Permiso extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.estado = Constantes.activo;
-        this.menuOpcion = new MenuOpcion();
     }
 }

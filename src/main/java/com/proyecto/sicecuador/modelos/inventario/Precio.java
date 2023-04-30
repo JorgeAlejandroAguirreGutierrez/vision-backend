@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cliente.Segmento;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,7 +15,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_precio;
 
 @Entity
 @Table(name = tabla_precio)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Precio extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -40,7 +43,7 @@ public class Precio extends Entidad {
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
 
@@ -59,7 +62,6 @@ public class Precio extends Entidad {
         this.utilidad = Constantes.cero;
         this.utilidadPorcentaje = Constantes.cero;
         this.estado = Constantes.activo;
-        this.segmento = new Segmento();
     }
 
     public void normalizar(){

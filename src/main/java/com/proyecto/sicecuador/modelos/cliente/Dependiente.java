@@ -5,7 +5,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -15,7 +16,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_dependiente;
 
 @Entity
 @Table(name = tabla_dependiente)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Dependiente extends Entidad {
     @Column(name = "codigo", nullable = true)
@@ -34,7 +36,7 @@ public class Dependiente extends Entidad {
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = true)
     private Cliente cliente;
     @JsonManagedReference
@@ -58,7 +60,6 @@ public class Dependiente extends Entidad {
         this.codigo = Constantes.vacio;
         this.razonSocial = Constantes.vacio;
         this.direccion = Constantes.vacio;
-        this.ubicacion = new Ubicacion();
         this.estado = Constantes.activo;
         this.telefonosDependiente = Collections.emptyList();
         this.celularesDependiente = Collections.emptyList();

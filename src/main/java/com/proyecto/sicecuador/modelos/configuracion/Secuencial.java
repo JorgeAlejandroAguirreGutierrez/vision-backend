@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,19 +15,20 @@ import static com.proyecto.sicecuador.Constantes.secuencial;
 
 @Entity
 @Table(name = secuencial)
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Secuencial extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @Column(name = "numero_siguiente", nullable = true)
-    private double numeroSiguiente;
+    private long numeroSiguiente;
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipoComprobante;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estacion_id", nullable = true)
     private Estacion estacion;
     public Secuencial(long id){
@@ -34,9 +37,7 @@ public class Secuencial extends Entidad {
     public Secuencial(){
         super();
         this.codigo = Constantes.vacio;
-        this.numeroSiguiente = Constantes.cero;
+        this.numeroSiguiente = Constantes.ceroId;
         this.estado = Constantes.activo;
-        this.tipoComprobante = new TipoComprobante();
-        this.estacion = new Estacion();
     }
 }

@@ -10,11 +10,13 @@ import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.modelos.compra.NotaCreditoCompra;
 import com.proyecto.sicecuador.modelos.compra.NotaCreditoCompraLinea;
+import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
 import com.proyecto.sicecuador.modelos.venta.*;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.repositorios.compra.INotaCreditoCompraRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
 import com.proyecto.sicecuador.servicios.interf.compra.INotaCreditoCompraService;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,8 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     private IKardexService kardexService;
     @Autowired
     private IFacturaCompraService facturaCompraService;
+    @Autowired
+    private ISecuencialService secuencialService;
 
     @Override
     public void validar(NotaCreditoCompra notaCreditoCompra) {
@@ -106,17 +110,16 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     		throw new CodigoNoExistenteException();
     	}
         notaCreditoCompra.setCodigo(codigo.get());
-    	Optional<String>secuencia=Util.generarSecuencial(Constantes.tabla_factura_compra);
-    	if (secuencia.isEmpty()) {
-    		throw new SecuencialNoExistenteException();
-    	}
-        notaCreditoCompra.setSecuencial(secuencia.get());
+        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaCreditoCompra.getTipoComprobante().getId(), notaCreditoCompra.getSesion().getUsuario().getEstacion().getId());
+        notaCreditoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         notaCreditoCompra.setEstado(Constantes.estadoEmitida);
         calcular(notaCreditoCompra);
         facturar(notaCreditoCompra);
         notaCreditoCompra.setEstado(Constantes.estadoFacturada);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
+        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
+        secuencialService.actualizar(secuencial);
         return res;
     }
 

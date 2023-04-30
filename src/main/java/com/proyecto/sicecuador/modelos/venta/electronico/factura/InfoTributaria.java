@@ -1,13 +1,16 @@
 package com.proyecto.sicecuador.modelos.venta.electronico.factura;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "infoTributaria")
 @XmlType(propOrder={"ambiente", "tipoEmision", "razonSocial", "nombreComercial", "ruc", "claveAcceso", "codDoc", "estab", "ptoEmi", "secuencial", "dirMatriz"})
-@Data
+@Getter
+@Setter
 public class InfoTributaria {
 	private String ambiente;
 	private String tipoEmision;

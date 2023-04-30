@@ -67,6 +67,15 @@ public class SecuencialService implements ISecuencialService {
     }
 
     @Override
+    public Secuencial obtenerPorTipoComprobanteYEstacion(long tipoComprobanteId, long estacionId) {
+        Optional<Secuencial> res= rep.obtenerPorTipoComprobanteYEstacion(tipoComprobanteId, estacionId);
+        if(res.isPresent()) {
+            return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.secuencial);
+    }
+
+    @Override
     public List<Secuencial> consultar() {
         return rep.consultar();
     }
