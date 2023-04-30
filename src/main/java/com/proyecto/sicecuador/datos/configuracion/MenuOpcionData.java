@@ -80,7 +80,7 @@ public class MenuOpcionData implements ApplicationRunner {
             opciones.add(new MenuOpcion("MEN202305000046", "INVENTARIOS", "BODEGAS","CREAR", Constantes.no, "bodega_producto", "BOP", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000047", "INVENTARIOS", "CATEGORÍA PRODUCTO","CREAR", Constantes.no, "categoria_producto", "CAP", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000048", "INVENTARIOS", "EQUIVALENCIA DE MEDIDAS","CREAR", Constantes.no, "equivalencia_medida", "EQM", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000049", "INVENTARIOS", "GRUPOS DE PRODUCTOS","CREAR", Constantes.si, "grupo_producto", "GRP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000049", "INVENTARIOS", "GRUPOS DE PRODUCTOS","CREAR", Constantes.si, "grupo_producto", "GPR", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000050", "INVENTARIOS", "KARDEX","CREAR", Constantes.si, "kardex", "KAR", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000051", "INVENTARIOS", "MEDIDAS","CREAR", Constantes.si, "medida", "MED", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000052", "INVENTARIOS", "PRECIO","CREAR", Constantes.no, "precio", "PRE", Constantes.activo));

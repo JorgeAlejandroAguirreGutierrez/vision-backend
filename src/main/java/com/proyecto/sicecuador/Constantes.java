@@ -116,7 +116,6 @@ public class Constantes {
     //TABLAS
     //CLIENTE
     public static final String tabla_modelo="modelo";
-    public static final String tabla_auxiliar="auxiliar";
     public static final String tabla_calificacion_cliente="calificacion_cliente";
     public static final String tabla_celular="celular";
     public static final String tabla_celular_dependiente="celular_dependiente";

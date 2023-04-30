@@ -447,6 +447,11 @@ public class ClienteService implements IClienteService {
     	if(ubicacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
+        if(cliente.getCorreos().isEmpty()){
+            List<Correo> correos = new ArrayList<>();
+            correos.add(new Correo("", Constantes.correo_predeterminado, cliente));
+            cliente.setCorreos(correos);
+        }
         for(Dependiente dependiente: cliente.getDependientes()) {
             Optional<Ubicacion> ubicacionDependiente= repUbicacion.findByProvinciaAndCantonAndParroquia(dependiente.getUbicacion().getProvincia(),dependiente.getUbicacion().getCanton(), dependiente.getUbicacion().getParroquia(), Constantes.activo);
             if(ubicacionDependiente.isEmpty()) {
