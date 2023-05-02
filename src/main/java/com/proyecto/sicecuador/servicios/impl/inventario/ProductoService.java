@@ -39,17 +39,17 @@ public class ProductoService implements IProductoService {
         if(producto.getTipoGasto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_gasto);
         if(producto.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
         if(producto.getPrecios().isEmpty()) throw new DatoInvalidoException(Constantes.precio);
-        if(producto.getCategoriaProducto().getDescripcion().equals(Constantes.servicio)){
+        if(!producto.getCategoriaProducto().getDescripcion().equals(Constantes.bien)){
             producto.setKardexs(Collections.emptyList());
         }
-        if(producto.getCategoriaProducto().getDescripcion().equals(Constantes.activo_fijo)){
+        /*if(producto.getCategoriaProducto().getDescripcion().equals(Constantes.activo_fijo)){
             producto.setKardexs(Collections.emptyList());
         }
         for (Precio precio : producto.getPrecios()) {
             if(precio.getPrecioVentaPublicoManual() < precio.getPrecioVentaPublico()){
                 throw new DatoInvalidoException(Constantes.precio_venta_publico_manual);
             }
-        }
+        }*/
         for(Kardex kardex: producto.getKardexs()){
             if(kardex.getSaldo() <= Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
             if(kardex.getCostoUnitario() <= Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);

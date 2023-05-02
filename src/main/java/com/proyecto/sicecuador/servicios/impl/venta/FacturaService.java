@@ -95,20 +95,22 @@ public class FacturaService implements IFacturaService {
         if(factura.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
         kardexService.eliminar(Constantes.factura, Constantes.operacion_venta, factura.getSecuencial());
         for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(facturaLinea.getBodega().getId(), facturaLinea.getProducto().getId());
-            if(ultimoKardex == null){
-                throw new DatoInvalidoException(Constantes.kardex);
+            if(facturaLinea.getProducto().getCategoriaProducto().getDescripcion().equals(Constantes.bien)) {
+                Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(facturaLinea.getBodega().getId(), facturaLinea.getProducto().getId());
+                if (ultimoKardex == null) {
+                    throw new DatoInvalidoException(Constantes.kardex);
+                }
+                if (ultimoKardex.getSaldo() < facturaLinea.getCantidad()) {
+                    throw new DatoInvalidoException(Constantes.kardex);
+                }
+                double saldo = ultimoKardex.getSaldo() - facturaLinea.getCantidad();
+                Kardex kardex = new Kardex(null, new Date(), Constantes.factura, Constantes.operacion_venta,
+                        factura.getSecuencial(), Constantes.cero, facturaLinea.getCantidad(), saldo,
+                        Constantes.cero, facturaLinea.getSubtotalSinDescuentoLinea(),
+                        facturaLinea.getPrecioUnitario(), facturaLinea.getSubtotalSinDescuentoLinea(),
+                        facturaLinea.getBodega(), facturaLinea.getProducto());
+                kardexService.crear(kardex);
             }
-            if(ultimoKardex.getSaldo() < facturaLinea.getCantidad()){
-                throw new DatoInvalidoException(Constantes.kardex);
-            }
-            double saldo = ultimoKardex.getSaldo() - facturaLinea.getCantidad();
-            Kardex kardex = new Kardex(null, new Date(), Constantes.factura, Constantes.operacion_venta,
-                    factura.getSecuencial(), Constantes.cero, facturaLinea.getCantidad(), saldo,
-                    Constantes.cero, facturaLinea.getSubtotalSinDescuentoLinea(),
-                    facturaLinea.getPrecioUnitario(), facturaLinea.getSubtotalSinDescuentoLinea(),
-                    facturaLinea.getBodega(), facturaLinea.getProducto());
-            kardexService.crear(kardex);
         }
     }
 
@@ -641,7 +643,7 @@ public class FacturaService implements IFacturaService {
     @Override
     public void validarLinea(FacturaLinea facturaLinea) {
         if(facturaLinea.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
-        if(facturaLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
+        //if(facturaLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
         if(facturaLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
         if(facturaLinea.getPrecio().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.precio);
         if(facturaLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
