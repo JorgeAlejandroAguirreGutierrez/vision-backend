@@ -104,7 +104,8 @@ public class ClienteController implements GenericoController<Cliente> {
     
     @GetMapping(value = "/identificacion/validar/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> validarIdentificacion(@PathVariable("identificacion") String identificacion) {
-        Cliente _cliente=servicio.validarIdentificacion(identificacion);
+        Cliente _cliente = servicio.validarIdentificacion(identificacion);
+        _cliente.normalizar();
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
