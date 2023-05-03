@@ -108,26 +108,26 @@ public class Factura extends Entidad {
 	@Column(name = "total_credito", nullable = true)
 	private double totalCredito;
 	@JsonManagedReference
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "cheque_id", nullable = true)
 	private List<Cheque> cheques;
 	@JsonManagedReference
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "deposito_id", nullable = true)
 	private List<Deposito> depositos;
 	@JsonManagedReference
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "transferencia_id", nullable = true)
 	private List<Transferencia> transferencias;
 	@JsonManagedReference
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "tarjeta_debito_id", nullable = true)
 	private List<TarjetaDebito> tarjetasDebitos;
 	@JsonManagedReference
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "tarjeta_credito_id", nullable = true)
 	private List<TarjetaCredito> tarjetasCreditos;
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	@JoinColumn(name = "credito_id", nullable = true)
 	private Credito credito;
 
