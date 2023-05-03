@@ -44,7 +44,7 @@ public class NotaCreditoVentaLinea extends Entidad {
     @ManyToOne
     @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne

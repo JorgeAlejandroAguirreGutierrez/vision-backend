@@ -32,7 +32,7 @@ public class NotaDebitoVentaCheque extends Entidad {
     private Date fechaEfectivizacion;
 	@Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
     @JsonBackReference
