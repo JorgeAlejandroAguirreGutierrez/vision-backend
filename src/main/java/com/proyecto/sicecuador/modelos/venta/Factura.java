@@ -72,7 +72,7 @@ public class Factura extends Entidad {
 	private double valorPorcentajeDescuentoTotal;
 	@Column(name = "comentario", nullable = true)
 	private String comentario;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = true)
 	private Cliente cliente;
 	@ManyToOne
