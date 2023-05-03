@@ -4,7 +4,6 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +28,7 @@ public class Transferencia extends Entidad {
     private String numeroTransaccion;
     @Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
     @JsonBackReference
