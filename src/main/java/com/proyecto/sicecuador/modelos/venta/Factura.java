@@ -82,7 +82,7 @@ public class Factura extends Entidad {
 	@JoinColumn(name = "tipo_comprobante_id", nullable = true)
 	private TipoComprobante tipoComprobante;
 	@JsonManagedReference
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.LAZY)
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
 	@JoinColumn(name = "factura_id", nullable = true)
 	private List<FacturaLinea> facturaLineas;
 
