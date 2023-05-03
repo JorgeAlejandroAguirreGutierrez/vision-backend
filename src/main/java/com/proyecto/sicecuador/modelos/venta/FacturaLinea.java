@@ -56,7 +56,7 @@ public class FacturaLinea extends Entidad {
     private double ivaConDescuentoLinea;
     @Column(name = "total_con_descuento_linea", nullable = true)
     private double totalConDescuentoLinea;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
