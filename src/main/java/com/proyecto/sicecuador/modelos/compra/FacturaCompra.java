@@ -25,6 +25,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_factura_compra;
 public class FacturaCompra extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "serie", nullable = true)
+    private String serie;
     @Column(name = "secuencial", nullable = true)
     private String secuencial;
     @Column(name = "fecha", nullable = true)

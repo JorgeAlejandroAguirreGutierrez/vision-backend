@@ -6,7 +6,6 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +24,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_nota_debito_compra;
 public class NotaDebitoCompra extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "serie", nullable = true)
+    private String serie;
     @Column(name = "secuencial", nullable = true)
     private String secuencial;
     @Column(name = "operacion", nullable = true)

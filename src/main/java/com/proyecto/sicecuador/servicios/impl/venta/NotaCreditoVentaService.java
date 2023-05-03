@@ -107,6 +107,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     		throw new CodigoNoExistenteException();
     	}
         notaCreditoVenta.setCodigo(codigo.get());
+        notaCreditoVenta.setSerie(notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCreditoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaCreditoVenta.getTipoComprobante().getId(), notaCreditoVenta.getSesion().getUsuario().getEstacion().getId());
         notaCreditoVenta.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         notaCreditoVenta.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));

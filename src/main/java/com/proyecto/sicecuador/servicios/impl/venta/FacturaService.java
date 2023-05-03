@@ -160,7 +160,8 @@ public class FacturaService implements IFacturaService {
     		throw new CodigoNoExistenteException();
     	}
     	factura.setCodigo(codigo.get());
-    	Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(factura.getTipoComprobante().getId(), factura.getSesion().getUsuario().getEstacion().getId());
+    	factura.setSerie(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + factura.getSesion().getUsuario().getEstacion().getCodigoSRI());
+        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(factura.getTipoComprobante().getId(), factura.getSesion().getUsuario().getEstacion().getId());
     	factura.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
     	factura.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
     	Optional<String> claveAcceso = crearClaveAcceso(factura);

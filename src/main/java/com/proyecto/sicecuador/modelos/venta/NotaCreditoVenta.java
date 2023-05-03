@@ -5,7 +5,6 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +23,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_nota_credito_venta;
 public class NotaCreditoVenta extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "serie", nullable = true)
+    private String serie;
     @Column(name = "secuencial", nullable = true)
     private String secuencial;
     @Column(name = "codigo_numerico", nullable = true)
