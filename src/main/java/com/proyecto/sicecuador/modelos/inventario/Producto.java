@@ -6,7 +6,6 @@ import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
