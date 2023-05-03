@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.venta;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
@@ -56,7 +57,8 @@ public class FacturaLinea extends Entidad {
     private double ivaConDescuentoLinea;
     @Column(name = "total_con_descuento_linea", nullable = true)
     private double totalConDescuentoLinea;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne

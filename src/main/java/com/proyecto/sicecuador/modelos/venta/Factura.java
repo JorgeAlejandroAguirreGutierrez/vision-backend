@@ -185,7 +185,6 @@ public class Factura extends Entidad {
 		if(this.sesion == null) this.sesion = new Sesion();
 		if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
 		if(this.facturaLineas.isEmpty()) this.facturaLineas = Collections.emptyList();
-
 		//RECAUDACION
 		if(this.cheques == null) this.cheques = Collections.emptyList();
 		if(this.depositos == null) this.depositos = Collections.emptyList();
