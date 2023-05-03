@@ -48,11 +48,11 @@ public class Producto extends Entidad {
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id")
     private List<Precio> precios;
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id")
     private List<Kardex> kardexs;
 
