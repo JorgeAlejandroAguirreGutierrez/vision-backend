@@ -76,6 +76,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     		throw new CodigoNoExistenteException();
     	}
     	facturaCompra.setCodigo(codigo.get());
+        facturaCompra.setSerie(facturaCompra.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + facturaCompra.getSesion().getUsuario().getEstacion().getCodigoSRI());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(facturaCompra.getTipoComprobante().getId(), facturaCompra.getSesion().getUsuario().getEstacion().getId());
         facturaCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         facturar(facturaCompra);

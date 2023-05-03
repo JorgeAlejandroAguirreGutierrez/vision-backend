@@ -5,7 +5,6 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.exception.SecuencialNoExistenteException;
 import com.proyecto.sicecuador.modelos.compra.*;
 import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
 import com.proyecto.sicecuador.modelos.venta.*;
@@ -75,6 +74,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     		throw new CodigoNoExistenteException();
     	}
         notaDebitoCompra.setCodigo(codigo.get());
+        notaDebitoCompra.setSerie(notaDebitoCompra.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaDebitoCompra.getSesion().getUsuario().getEstacion().getCodigoSRI());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaDebitoCompra.getTipoComprobante().getId(), notaDebitoCompra.getSesion().getUsuario().getEstacion().getId());
         notaDebitoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         notaDebitoCompra.setEstado(Constantes.estadoEmitida);
