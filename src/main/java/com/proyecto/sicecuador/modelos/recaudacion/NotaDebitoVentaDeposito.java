@@ -28,10 +28,10 @@ public class NotaDebitoVentaDeposito extends Entidad {
     private String comprobante;
     @Column(name = "valor", nullable = true)
     private double valor;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "cuenta_propia_id", nullable = true)
     private CuentaPropia cuentaPropia;
     @JsonBackReference
