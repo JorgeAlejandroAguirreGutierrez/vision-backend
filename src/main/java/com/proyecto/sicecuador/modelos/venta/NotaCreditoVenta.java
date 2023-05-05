@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.modelos.venta;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
@@ -53,6 +54,7 @@ public class NotaCreditoVenta extends Entidad {
     private double totalConDescuento;
     @Column(name = "comentario", nullable = true)
     private String comentario;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
