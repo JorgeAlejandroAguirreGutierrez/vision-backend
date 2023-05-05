@@ -58,7 +58,7 @@ public class FacturaLinea extends Entidad {
     @Column(name = "total_con_descuento_linea", nullable = true)
     private double totalConDescuentoLinea;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
