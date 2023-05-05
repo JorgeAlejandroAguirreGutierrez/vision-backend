@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.venta;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
@@ -44,7 +45,8 @@ public class NotaCreditoVentaLinea extends Entidad {
     @ManyToOne
     @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
-    @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
