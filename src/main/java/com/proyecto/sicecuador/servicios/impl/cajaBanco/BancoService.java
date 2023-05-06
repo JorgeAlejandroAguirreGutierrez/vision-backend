@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.servicios.impl.recaudacion;
+package com.proyecto.sicecuador.servicios.impl.cajaBanco;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.modelos.recaudacion.Banco;
-import com.proyecto.sicecuador.repositorios.recaudacion.IBancoRepository;
-import com.proyecto.sicecuador.servicios.interf.recaudacion.IBancoService;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
+import com.proyecto.sicecuador.repositorios.cajaBanco.IBancoRepository;
+import com.proyecto.sicecuador.servicios.interf.cajaBanco.IBancoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +21,9 @@ public class BancoService implements IBancoService {
 
     @Override
     public void validar(Banco banco) {
-        if(banco.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo);
-        if(banco.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
-        if(banco.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
+        if(banco.getRuc().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo);
+        if(banco.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
+        if(banco.getSubsistema().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
     }
     
     @Override

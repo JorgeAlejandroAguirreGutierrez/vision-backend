@@ -91,7 +91,6 @@ public class MenuOpcionData implements ApplicationRunner {
             opciones.add(new MenuOpcion("MEN202305000057", "INVENTARIOS", "TIPO GASTO","CREAR", Constantes.no, "tipo_gasto", "TIG", Constantes.activo));
             //RECAUDACIÓN
             opciones.add(new MenuOpcion("MEN202305000058", "VENTAS", "RECAUDACIÓN","CREAR", Constantes.no, "amortizacion", "AMO", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000059", "VENTAS", "RECAUDACIÓN","CREAR", Constantes.no, "banco", "BAN", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000060", "VENTAS", "RECAUDACIÓN","CREAR", Constantes.no, "cheque_vista", "CHV", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000061", "VENTAS", "RECAUDACIÓN","CREAR", Constantes.no, "cheque_posfechado", "CHP", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000062", "VENTAS", "RECAUDACIÓN","CREAR", Constantes.no, "credito", "CRE", Constantes.activo));
@@ -129,8 +128,10 @@ public class MenuOpcionData implements ApplicationRunner {
             opciones.add(new MenuOpcion("MEN202305000091", "VENTAS", "GUIAS DE REMISION","CREAR", Constantes.si, "guia_remision", "GRE", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000092", "VENTAS", "TRANSPORTISTAS","CREAR", Constantes.si, "transportista", "TRAN", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000093", "VENTAS", "VEHICULOS TRANSPORTES","CREAR", Constantes.si, "vehiculo_transporte", "VEH", Constantes.activo));
+            //CAJA BANCOS
+            opciones.add(new MenuOpcion("MEN202305000094", "CAJA BANCOS", "CUENTAS PROPIAS","CREAR", Constantes.si, "cuenta_propia", "CTP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000059", "CAJA BANCOS", "BANCOS","CREAR", Constantes.si, "banco", "BAN", Constantes.activo));
             //FALTA IMPLEMENTAR
-            opciones.add(new MenuOpcion("MEN202305000094", "CAJA BANCOS", "CAJA BANCOS","CREAR", Constantes.no, "caja_bancos", "CJB", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000095", "CUENTAS POR COBRAR", "CUENTAS POR COBRAR","CREAR", Constantes.no, "cuentas_cobrar", "CXC", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000096", "CUENTAS POR PAGAR", "CUENTAS POR PAGAR","CREAR", Constantes.no, "cuentas_pagar", "CXP", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000097", "ACTIVOS FIJOS", "ACTIVOS FIJOS","CREAR", Constantes.no, "activos_fijos", "ACF", Constantes.activo));

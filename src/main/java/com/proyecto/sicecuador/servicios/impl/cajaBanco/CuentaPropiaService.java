@@ -1,13 +1,13 @@
-package com.proyecto.sicecuador.servicios.impl.recaudacion;
+package com.proyecto.sicecuador.servicios.impl.cajaBanco;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
-import com.proyecto.sicecuador.repositorios.recaudacion.ICuentaPropiaRepository;
-import com.proyecto.sicecuador.servicios.interf.recaudacion.ICuentaPropiaService;
+import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
+import com.proyecto.sicecuador.repositorios.cajaBanco.ICuentaPropiaRepository;
+import com.proyecto.sicecuador.servicios.interf.cajaBanco.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

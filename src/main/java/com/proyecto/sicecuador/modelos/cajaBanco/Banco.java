@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.recaudacion;
+package com.proyecto.sicecuador.modelos.cajaBanco;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;
@@ -18,10 +18,14 @@ import static com.proyecto.sicecuador.Constantes.tabla_banco;
 public class Banco extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "tipo", nullable = true)
-    private String tipo;
-    @Column(name = "nombre", nullable = true)
-    private String nombre;
+    @Column(name = "ruc", nullable = true)
+    private String ruc;
+    @Column(name = "razon_social", nullable = true)
+    private String razonSocial;
+    @Column(name = "subsistema", nullable = true)
+    private String subsistema;
+    @Column(name = "calificacion", nullable = true)
+    private String calificacion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
     @Column(name = "estado", nullable = true)
@@ -33,8 +37,10 @@ public class Banco extends Entidad {
     public Banco(){
         super();
         this.codigo = Constantes.vacio;
-        this.tipo = Constantes.vacio;
-        this.nombre = Constantes.vacio;
+        this.ruc = Constantes.vacio;
+        this.razonSocial = Constantes.vacio;
+        this.subsistema = Constantes.vacio;
+        this.calificacion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
         this.estado = Constantes.activo;
     }

@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.recaudacion;
+package com.proyecto.sicecuador.repositorios.cajaBanco;
 
-import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
+import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
 
 import java.util.List;
 
