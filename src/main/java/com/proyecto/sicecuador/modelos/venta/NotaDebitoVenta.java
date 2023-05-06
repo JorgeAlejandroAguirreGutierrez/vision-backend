@@ -109,6 +109,7 @@ public class NotaDebitoVenta extends Entidad {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "tarjeta_credito_id", nullable = true)
     private List<NotaDebitoVentaTarjetaCredito> tarjetasCreditos;
+
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "credito_id", nullable = true)
     private NotaDebitoVentaCredito credito;
@@ -155,6 +156,7 @@ public class NotaDebitoVenta extends Entidad {
         if(this.fecha == null) this.fecha = new Date();
         if(this.sesion == null) this.sesion = new Sesion();
         if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
+        if(this.credito == null) this.credito = new NotaDebitoVentaCredito();
         if(this.notaDebitoVentaLineas.isEmpty()) this.notaDebitoVentaLineas = Collections.emptyList();
 
         if(cheques.isEmpty()) this.cheques = Collections.emptyList();

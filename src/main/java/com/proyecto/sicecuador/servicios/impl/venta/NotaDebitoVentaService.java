@@ -426,6 +426,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         NotaDebitoVenta notaDebitoVenta = new NotaDebitoVenta();
         Factura factura = facturaService.obtener(facturaId);
         notaDebitoVenta.setFactura(factura);
+        notaDebitoVenta.normalizar();
         return notaDebitoVenta;
     }
 }
