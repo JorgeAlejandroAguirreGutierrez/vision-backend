@@ -192,12 +192,15 @@ public class Constantes {
     public static final String tabla_segmento="segmento";
     public static final String tabla_sub_grupo_producto="sub_grupo_producto";
     public static final String tabla_sub_linea_producto="sub_linea_producto";
-    public static final String tabla_equivalencia_medida="tabla_equivalencia_medida";
+    public static final String tabla_equivalencia_medida="equivalencia_medida";
     public static final String tabla_tipo_gasto="tipo_gasto";
-    
+
+    //CAJA BANCOS
+    public static final String tabla_banco="banco";
+    public static final String tabla_banco_propio="banco_propio";
+
     //RECAUDACION
     public static final String tabla_amortizacion="amortizacion";
-    public static final String tabla_banco="banco";
     public static final String tabla_cuenta_propia="cuenta_propia";
     public static final String tabla_franquicia_tarjeta="franquicia_tarjeta";
     public static final String tabla_operador_tarjeta="operador_tarjeta";

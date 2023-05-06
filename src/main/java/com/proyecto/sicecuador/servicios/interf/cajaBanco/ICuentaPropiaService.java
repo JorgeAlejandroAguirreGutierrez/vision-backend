@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.servicios.interf.recaudacion;
+package com.proyecto.sicecuador.servicios.interf.cajaBanco;
 
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.recaudacion.CuentaPropia;
+import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface ICuentaPropiaService extends IGenericoService<CuentaPropia> {

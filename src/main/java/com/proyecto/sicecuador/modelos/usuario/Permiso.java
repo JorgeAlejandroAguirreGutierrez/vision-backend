@@ -11,6 +11,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.util.Collections;
+
 import static com.proyecto.sicecuador.Constantes.tabla_permiso;
 
 @Entity
@@ -37,5 +39,9 @@ public class Permiso extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.estado = Constantes.activo;
+        this.menuOpcion = new MenuOpcion();
     }
+    //public void normalizar(){
+    //    if(this.perfil == null) this.perfil = Collections.emptyList();
+    //}
 }

@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.servicios.interf.recaudacion;
+package com.proyecto.sicecuador.servicios.interf.cajaBanco;
 
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.recaudacion.Banco;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
 public interface IBancoService extends IGenericoService<Banco> {
