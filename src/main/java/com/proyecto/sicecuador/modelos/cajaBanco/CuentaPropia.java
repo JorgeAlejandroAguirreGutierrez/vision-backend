@@ -40,6 +40,7 @@ public class CuentaPropia extends Entidad {
         this.nombre = Constantes.vacio;
         this.numero = Constantes.vacio;
         this.estado = Constantes.activo;
+        this.banco = new Banco();
     }
     public void normalizar(){
         if(this.banco == null) this.banco = new Banco();
