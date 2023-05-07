@@ -152,7 +152,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			campoAdicional.setValor(telefono);
 			camposAdicionales.add(campoAdicional);
 		}
-		if(!guiaRemision.getFactura().getCliente().getTelefonos().isEmpty()){
+		if(!guiaRemision.getFactura().getCliente().getCelulares().isEmpty()){
 			String celular = guiaRemision.getFactura().getCliente().getCelulares().get(0).getNumero();
 			CampoAdicional campoAdicional = new CampoAdicional();
 			campoAdicional.setNombre(Constantes.celular);

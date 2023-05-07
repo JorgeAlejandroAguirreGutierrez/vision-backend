@@ -247,7 +247,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			campoAdicional.setValor(telefono);
 			camposAdicionales.add(campoAdicional);
 		}
-		if(!factura.getCliente().getTelefonos().isEmpty()){
+		if(!factura.getCliente().getCelulares().isEmpty()){
 			String celular = factura.getCliente().getCelulares().get(0).getNumero();
 			CampoAdicional campoAdicional = new CampoAdicional();
 			campoAdicional.setNombre(Constantes.celular);

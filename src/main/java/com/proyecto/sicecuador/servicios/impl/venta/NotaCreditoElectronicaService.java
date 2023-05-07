@@ -180,7 +180,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			campoAdicional.setValor(telefono);
 			camposAdicionales.add(campoAdicional);
 		}
-		if(!notaCreditoVenta.getFactura().getCliente().getTelefonos().isEmpty()){
+		if(!notaCreditoVenta.getFactura().getCliente().getCelulares().isEmpty()){
 			String celular = notaCreditoVenta.getFactura().getCliente().getCelulares().get(0).getNumero();
 			CampoAdicional campoAdicional = new CampoAdicional();
 			campoAdicional.setNombre(Constantes.celular);
