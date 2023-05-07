@@ -239,33 +239,39 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     }
 
 	private InfoAdicional crearInfoAdicional(Factura factura) {
-		String telefono = Constantes.vacio;
-		if(!factura.getCliente().getTelefonos().isEmpty()) telefono = factura.getCliente().getTelefonos().get(0).getNumero();
-		String celular = Constantes.vacio;
-		if(!factura.getCliente().getTelefonos().isEmpty()) celular = factura.getCliente().getCelulares().get(0).getNumero();
-		String correo = Constantes.vacio;
-		if(!factura.getCliente().getCorreos().isEmpty()) correo = factura.getCliente().getCorreos().get(0).getEmail();
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
-		CampoAdicional campoAdicional1 = new CampoAdicional();
-		campoAdicional1.setNombre(Constantes.telefono);
-		campoAdicional1.setValor(telefono);
-		CampoAdicional campoAdicional2 = new CampoAdicional();
-		campoAdicional2.setNombre(Constantes.celular);
-		campoAdicional2.setValor(celular);
-		CampoAdicional campoAdicional3 = new CampoAdicional();
-		campoAdicional3.setNombre(Constantes.correo);
-		campoAdicional3.setValor(correo);
-		CampoAdicional campoAdicional4 = new CampoAdicional();
-		campoAdicional4.setNombre(Constantes.direccion);
-		campoAdicional4.setValor(factura.getCliente().getDireccion());
-		CampoAdicional campoAdicional5 = new CampoAdicional();
-		campoAdicional5.setNombre(Constantes.valor);
-		campoAdicional5.setValor(factura.getTotalConDescuento() + Constantes.vacio);
-		camposAdicionales.add(campoAdicional1);
-		camposAdicionales.add(campoAdicional2);
-		camposAdicionales.add(campoAdicional3);
-		camposAdicionales.add(campoAdicional4);
-		camposAdicionales.add(campoAdicional5);
+		if(!factura.getCliente().getTelefonos().isEmpty()) {
+			String telefono = factura.getCliente().getTelefonos().get(0).getNumero();
+			CampoAdicional campoAdicional = new CampoAdicional();
+			campoAdicional.setNombre(Constantes.telefono);
+			campoAdicional.setValor(telefono);
+			camposAdicionales.add(campoAdicional);
+		}
+		if(!factura.getCliente().getTelefonos().isEmpty()){
+			String celular = factura.getCliente().getCelulares().get(0).getNumero();
+			CampoAdicional campoAdicional = new CampoAdicional();
+			campoAdicional.setNombre(Constantes.celular);
+			campoAdicional.setValor(celular);
+			camposAdicionales.add(campoAdicional);
+		}
+		if(!factura.getCliente().getCorreos().isEmpty()) {
+			String correo = factura.getCliente().getCorreos().get(0).getEmail();
+			CampoAdicional campoAdicional = new CampoAdicional();
+			campoAdicional.setNombre(Constantes.correo);
+			campoAdicional.setValor(correo);
+			camposAdicionales.add(campoAdicional);
+		}
+		if(factura.getCliente().getDireccion().length() > Constantes.cero) {
+			String direccion = factura.getCliente().getDireccion();
+			CampoAdicional campoAdicional = new CampoAdicional();
+			campoAdicional.setNombre(Constantes.direccion);
+			campoAdicional.setValor(direccion);
+			camposAdicionales.add(campoAdicional);
+		}
+		CampoAdicional campoAdicional = new CampoAdicional();
+		campoAdicional.setNombre(Constantes.valor);
+		campoAdicional.setValor(factura.getTotalConDescuento() + Constantes.vacio);
+		camposAdicionales.add(campoAdicional);
 		InfoAdicional infoAdicional = new InfoAdicional();
 		infoAdicional.setCampoAdicional(camposAdicionales);
 		return infoAdicional;
