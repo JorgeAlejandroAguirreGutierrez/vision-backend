@@ -215,17 +215,23 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
     }
 
 	private InfoAdicional crearInfoAdicional(NotaDebitoVenta notaDebitoVenta) {
+		String telefono = Constantes.vacio;
+		if(!notaDebitoVenta.getFactura().getCliente().getTelefonos().isEmpty()) telefono = notaDebitoVenta.getFactura().getCliente().getTelefonos().get(0).getNumero();
+		String celular = Constantes.vacio;
+		if(!notaDebitoVenta.getFactura().getCliente().getTelefonos().isEmpty()) celular = notaDebitoVenta.getFactura().getCliente().getCelulares().get(0).getNumero();
+		String correo = Constantes.vacio;
+		if(!notaDebitoVenta.getFactura().getCliente().getCorreos().isEmpty()) correo = notaDebitoVenta.getFactura().getCliente().getCorreos().get(0).getEmail();
 		InfoAdicional infoAdicional = new InfoAdicional();
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
 		CampoAdicional campoAdicional1 = new CampoAdicional();
 		campoAdicional1.setNombre(Constantes.telefono);
-		campoAdicional1.setValor(notaDebitoVenta.getFactura().getCliente().getTelefonos().get(0).getNumero());
+		campoAdicional1.setValor(telefono);
 		CampoAdicional campoAdicional2 = new CampoAdicional();
 		campoAdicional2.setNombre(Constantes.celular);
-		campoAdicional2.setValor(notaDebitoVenta.getFactura().getCliente().getCelulares().get(0).getNumero());
+		campoAdicional2.setValor(celular);
 		CampoAdicional campoAdicional3 = new CampoAdicional();
 		campoAdicional3.setNombre(Constantes.correo);
-		campoAdicional3.setValor(notaDebitoVenta.getFactura().getCliente().getCorreos().get(0).getEmail());
+		campoAdicional3.setValor(correo);
 		CampoAdicional campoAdicional4 = new CampoAdicional();
 		campoAdicional4.setNombre(Constantes.direccion);
 		campoAdicional4.setValor(notaDebitoVenta.getFactura().getCliente().getDireccion());
