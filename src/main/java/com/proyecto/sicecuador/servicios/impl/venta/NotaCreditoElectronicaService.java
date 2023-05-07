@@ -106,7 +106,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		infoNotaCredito.setIdentificacionComprador(notaCreditoVenta.getFactura().getCliente().getIdentificacion());
 		infoNotaCredito.setObligadoContabilidad(notaCreditoVenta.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
 		infoNotaCredito.setCodDocModificado(Constantes.factura_sri);
-		String numero = notaCreditoVenta.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI()+"-"+notaCreditoVenta.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI()+"-"+notaCreditoVenta.getFactura().getSecuencial();
+		String numero = notaCreditoVenta.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI()+Constantes.guion+notaCreditoVenta.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI()+Constantes.guion+notaCreditoVenta.getFactura().getSecuencial();
 		infoNotaCredito.setNumDocModificado(numero);
 		String fechaEmisionFactura = dateFormat.format(notaCreditoVenta.getFactura().getFecha());
 		infoNotaCredito.setFechaEmisionDocSustento(fechaEmisionFactura);

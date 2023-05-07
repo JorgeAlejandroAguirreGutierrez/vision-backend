@@ -194,7 +194,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
         	pago.setTotal(tarjetaCredito.getValor());
         	pagosLista.add(pago);
         }
-        if(factura.getCredito()!= null && factura.getCredito().getSaldo() > Constantes.cero) {
+        if(factura.getCredito() != null && factura.getCredito().getSaldo() > Constantes.cero) {
         	Pago pago = new Pago();
         	pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
         	pago.setTotal(factura.getCredito().getSaldo());
@@ -239,16 +239,22 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     }
 
 	private InfoAdicional crearInfoAdicional(Factura factura) {
+		String telefono = Constantes.vacio;
+		if(!factura.getCliente().getTelefonos().isEmpty()) telefono = factura.getCliente().getTelefonos().get(0).getNumero();
+		String celular = Constantes.vacio;
+		if(!factura.getCliente().getTelefonos().isEmpty()) celular = factura.getCliente().getCelulares().get(0).getNumero();
+		String correo = Constantes.vacio;
+		if(!factura.getCliente().getCorreos().isEmpty()) correo = factura.getCliente().getCorreos().get(0).getEmail();
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
 		CampoAdicional campoAdicional1 = new CampoAdicional();
 		campoAdicional1.setNombre(Constantes.telefono);
-		campoAdicional1.setValor(factura.getCliente().getTelefonos().get(0).getNumero());
+		campoAdicional1.setValor(telefono);
 		CampoAdicional campoAdicional2 = new CampoAdicional();
 		campoAdicional2.setNombre(Constantes.celular);
-		campoAdicional2.setValor(factura.getCliente().getCelulares().get(0).getNumero());
+		campoAdicional2.setValor(celular);
 		CampoAdicional campoAdicional3 = new CampoAdicional();
 		campoAdicional3.setNombre(Constantes.correo);
-		campoAdicional3.setValor(factura.getCliente().getCorreos().get(0).getEmail());
+		campoAdicional3.setValor(correo);
 		CampoAdicional campoAdicional4 = new CampoAdicional();
 		campoAdicional4.setNombre(Constantes.direccion);
 		campoAdicional4.setValor(factura.getCliente().getDireccion());
