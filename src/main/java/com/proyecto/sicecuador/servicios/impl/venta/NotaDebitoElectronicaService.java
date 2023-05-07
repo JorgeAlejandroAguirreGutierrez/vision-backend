@@ -224,7 +224,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			camposAdicionales.add(campoAdicional);
 		}
 		if(!notaDebitoVenta.getFactura().getCliente().getTelefonos().isEmpty()){
-			String celular = notaDebitoVenta.getFactura().getCliente().getCelulares().get(0).getNumero();
+			String celular = notaDebitoVenta.getFactura().getCliente().getTelefonos().get(0).getNumero();
 			CampoAdicional campoAdicional = new CampoAdicional();
 			campoAdicional.setNombre(Constantes.celular);
 			campoAdicional.setValor(celular);
