@@ -160,7 +160,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		campoAdicional2.setValor(celular);
 		CampoAdicional campoAdicional3 = new CampoAdicional();
 		campoAdicional3.setNombre(Constantes.correo);
-		campoAdicional3.setValor(email);
+		campoAdicional3.setValor(correo);
 		CampoAdicional campoAdicional4 = new CampoAdicional();
 		campoAdicional4.setNombre(Constantes.direccion);
 		campoAdicional4.setValor(guiaRemision.getFactura().getCliente().getDireccion());
