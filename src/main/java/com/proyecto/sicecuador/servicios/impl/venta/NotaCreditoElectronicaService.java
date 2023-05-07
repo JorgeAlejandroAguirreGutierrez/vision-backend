@@ -172,34 +172,40 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
     }
 
 	private InfoAdicional crearInfoAdicional(NotaCreditoVenta notaCreditoVenta) {
-		String telefono = Constantes.vacio;
-		if(!notaCreditoVenta.getFactura().getCliente().getTelefonos().isEmpty()) telefono = notaCreditoVenta.getFactura().getCliente().getTelefonos().get(0).getNumero();
-		String celular = Constantes.vacio;
-		if(!notaCreditoVenta.getFactura().getCliente().getTelefonos().isEmpty()) celular = notaCreditoVenta.getFactura().getCliente().getCelulares().get(0).getNumero();
-		String correo = Constantes.vacio;
-		if(!notaCreditoVenta.getFactura().getCliente().getCorreos().isEmpty()) correo = notaCreditoVenta.getFactura().getCliente().getCorreos().get(0).getEmail();
-		InfoAdicional infoAdicional = new InfoAdicional();
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
-		CampoAdicional campoAdicional1 = new CampoAdicional();
-		campoAdicional1.setNombre(Constantes.telefono);
-		campoAdicional1.setValor(telefono);
-		CampoAdicional campoAdicional2 = new CampoAdicional();
-		campoAdicional2.setNombre(Constantes.celular);
-		campoAdicional2.setValor(celular);
-		CampoAdicional campoAdicional3 = new CampoAdicional();
-		campoAdicional3.setNombre(Constantes.correo);
-		campoAdicional3.setValor(correo);
-		CampoAdicional campoAdicional4 = new CampoAdicional();
-		campoAdicional4.setNombre(Constantes.direccion);
-		campoAdicional4.setValor(notaCreditoVenta.getFactura().getCliente().getDireccion());
-		CampoAdicional campoAdicional5 = new CampoAdicional();
-		campoAdicional5.setNombre(Constantes.valor);
-		campoAdicional5.setValor(notaCreditoVenta.getFactura().getTotalConDescuento() + Constantes.vacio);
-		camposAdicionales.add(campoAdicional1);
-		camposAdicionales.add(campoAdicional2);
-		camposAdicionales.add(campoAdicional3);
-		camposAdicionales.add(campoAdicional4);
-		camposAdicionales.add(campoAdicional5);
+		if(!notaCreditoVenta.getFactura().getCliente().getTelefonos().isEmpty()) {
+			String telefono = notaCreditoVenta.getFactura().getCliente().getTelefonos().get(0).getNumero();
+			CampoAdicional campoAdicional = new CampoAdicional();
+			campoAdicional.setNombre(Constantes.telefono);
+			campoAdicional.setValor(telefono);
+			camposAdicionales.add(campoAdicional);
+		}
+		if(!notaCreditoVenta.getFactura().getCliente().getTelefonos().isEmpty()){
+			String celular = notaCreditoVenta.getFactura().getCliente().getCelulares().get(0).getNumero();
+			CampoAdicional campoAdicional = new CampoAdicional();
+			campoAdicional.setNombre(Constantes.celular);
+			campoAdicional.setValor(celular);
+			camposAdicionales.add(campoAdicional);
+		}
+		if(!notaCreditoVenta.getFactura().getCliente().getCorreos().isEmpty()) {
+			String correo = notaCreditoVenta.getFactura().getCliente().getCorreos().get(0).getEmail();
+			CampoAdicional campoAdicional = new CampoAdicional();
+			campoAdicional.setNombre(Constantes.correo);
+			campoAdicional.setValor(correo);
+			camposAdicionales.add(campoAdicional);
+		}
+		if(notaCreditoVenta.getFactura().getCliente().getDireccion().length() > Constantes.cero) {
+			String direccion = notaCreditoVenta.getFactura().getCliente().getDireccion();
+			CampoAdicional campoAdicional = new CampoAdicional();
+			campoAdicional.setNombre(Constantes.direccion);
+			campoAdicional.setValor(direccion);
+			camposAdicionales.add(campoAdicional);
+		}
+		CampoAdicional campoAdicional = new CampoAdicional();
+		campoAdicional.setNombre(Constantes.valor);
+		campoAdicional.setValor(notaCreditoVenta.getFactura().getTotalConDescuento() + Constantes.vacio);
+		camposAdicionales.add(campoAdicional);
+		InfoAdicional infoAdicional = new InfoAdicional();
 		infoAdicional.setCampoAdicional(camposAdicionales);
 		return infoAdicional;
 	}
