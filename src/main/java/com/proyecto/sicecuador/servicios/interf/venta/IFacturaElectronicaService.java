@@ -7,4 +7,5 @@ import java.io.ByteArrayInputStream;
 public interface IFacturaElectronicaService {
 	Factura enviar(long facturaId);
 	ByteArrayInputStream obtenerPDF(long facturaId);
+	void enviarPDFYXML(long facturaId);
 }
