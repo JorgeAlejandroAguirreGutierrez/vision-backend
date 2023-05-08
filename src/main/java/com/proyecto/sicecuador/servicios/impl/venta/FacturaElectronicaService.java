@@ -698,14 +698,25 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             e.printStackTrace();   //Si se produce un error
         }
     }
-
+	@Override
 	public ByteArrayInputStream obtenerPDF(long facturaId){
 		Optional<Factura> opcional= rep.findById(facturaId);
 		if(opcional.isEmpty()) {
 			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		Factura factura = opcional.get();
-		ByteArrayInputStream pdf= crearPDF(factura);
+		ByteArrayInputStream pdf = crearPDF(factura);
 		return pdf;
+	}
+
+	@Override
+	public void enviarPDFYXML(long facturaId){
+		Optional<Factura> opcional= rep.findById(facturaId);
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.factura);
+		}
+		Factura factura = opcional.get();
+		FacturaElectronica facturaElectronica = crear(factura);
+		enviarCorreo(factura, facturaElectronica);
 	}
 }

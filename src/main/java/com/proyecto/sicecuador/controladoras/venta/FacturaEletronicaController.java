@@ -38,4 +38,10 @@ public class FacturaEletronicaController {
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(pdf));
     }
+    @GetMapping(value = "/enviarPDFXML/{facturaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> enviarPDFYXML(@PathVariable("facturaId") long facturaId) {
+        servicio.enviarPDFYXML(facturaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, null);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 }
