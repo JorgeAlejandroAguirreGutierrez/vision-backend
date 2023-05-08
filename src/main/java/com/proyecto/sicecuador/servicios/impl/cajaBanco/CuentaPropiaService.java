@@ -103,13 +103,14 @@ public class CuentaPropiaService implements ICuentaPropiaService {
 
     @Override
     public List<CuentaPropia> consultarPorBanco(String banco) {
-        List<CuentaPropia> cuentasPropias=rep.consultarPorEstado(Constantes.activo);
+        List<CuentaPropia> cuentasPropiasBancos=rep.consultarPorBanco(banco, Constantes.activo);
+        /*List<CuentaPropia> cuentasPropias=rep.consultarPorEstado(Constantes.activo);
         List<CuentaPropia> cuentasPropiasBancos=new ArrayList<>();
         for (CuentaPropia cuentaPropia: cuentasPropias) {
             if (cuentaPropia.getBanco().getAbreviatura().equals(banco)) {
                 cuentasPropiasBancos.add(cuentaPropia);
             }
-        }
+        }*/
         return cuentasPropiasBancos;
     }
 
