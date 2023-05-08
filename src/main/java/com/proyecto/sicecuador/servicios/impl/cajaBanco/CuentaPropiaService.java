@@ -6,6 +6,8 @@ import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
+import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
+import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.repositorios.cajaBanco.ICuentaPropiaRepository;
 import com.proyecto.sicecuador.servicios.interf.cajaBanco.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -91,4 +94,23 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     public Page<CuentaPropia> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
+
+    @Override
+    public List<String> consultarBancos() {
+        List<String> bancos=rep.consultarBancos(Constantes.activo);
+        return bancos;
+    }
+
+    @Override
+    public List<CuentaPropia> consultarPorBanco(String banco) {
+        List<CuentaPropia> cuentasPropias=rep.consultarPorEstado(Constantes.activo);
+        List<CuentaPropia> cuentasPropiasBancos=new ArrayList<>();
+        for (CuentaPropia cuentaPropia: cuentasPropias) {
+            if (cuentaPropia.getBanco().getAbreviatura().equals(banco)) {
+                cuentasPropiasBancos.add(cuentaPropia);
+            }
+        }
+        return cuentasPropiasBancos;
+    }
+
 }

@@ -59,7 +59,6 @@ public class FacturaService implements IFacturaService {
         for(Deposito deposito : factura.getDepositos()){
             if(deposito.getComprobante().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.comprobante);
             if(deposito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
-            if(deposito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
             if(deposito.getCuentaPropia().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cuenta_propia);
         }
         for(Transferencia transferencia : factura.getTransferencias()){
