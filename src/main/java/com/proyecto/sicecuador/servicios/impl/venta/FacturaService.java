@@ -39,7 +39,7 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public void validar(Factura factura) {
-        if(factura.getEstado().equals(Constantes.recaudada)) throw new DatoInvalidoException(Constantes.estado);
+        if(factura.getEstado().equals(Constantes.estadoRecaudada)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(factura.getCliente().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cliente);
@@ -187,9 +187,9 @@ public class FacturaService implements IFacturaService {
         facturar(factura);
         calcularRecaudacion(factura);
         if(factura.getPorPagar() > Constantes.cero){
-            factura.setEstado(Constantes.noRecaudada);
+            factura.setEstado(Constantes.estadoNoRecaudada);
         } else{
-            factura.setEstado(Constantes.recaudada);
+            factura.setEstado(Constantes.estadoRecaudada);
         }
         Factura res = rep.save(factura);
         res.normalizar();
@@ -639,7 +639,7 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public List<Factura> consultarPorCliente(long facturaId) {
-        return rep.consultarPorCliente(facturaId, Constantes.estadoFacturada);
+        return rep.consultarPorCliente(facturaId, Constantes.estadoRecaudada, Constantes.estadoFacturada);
     }
     @Override
     public void validarLinea(FacturaLinea facturaLinea) {

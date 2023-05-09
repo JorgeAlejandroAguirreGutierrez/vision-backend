@@ -41,7 +41,7 @@ public class FacturaEletronicaController {
     @GetMapping(value = "/enviarPDFYXML/{facturaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> enviarPDFYXML(@PathVariable("facturaId") long facturaId) {
         servicio.enviarPDFYXML(facturaId);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, null);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

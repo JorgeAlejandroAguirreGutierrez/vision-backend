@@ -13,8 +13,6 @@ public class Constantes {
 	public static final String placa_abreviatura="PL";
 	public static final String pasaporte_abreviatura="E";
 	public static final String tipo_producto_bien="BIEN";
-	public static final String recaudada="RECAUDADA";
-	public static final String noRecaudada="NO RECAUDADA";
 	
 	public static final String pendiente="PENDIENTE";
 	public static final String entregado="ENTREGADO";
@@ -38,7 +36,8 @@ public class Constantes {
 	
 	public static final String activo="ACTIVO";
 	public static final String inactivo="INACTIVO";
-	
+
+    public static final String mensaje_exitoso="Exito";
     public static final String mensaje_consultar_exitoso="Exito en la consulta";
     public static final String mensaje_obtener_exitoso="Exito en la consulta";
     public static final String mensaje_crear_exitoso="Exito al procesar";
@@ -535,6 +534,8 @@ public class Constantes {
     public static final String estadoAnulada="ANULADA";
     public static final String estadoFacturada="FACTURADA";
     public static final String estadoNoFacturada="NO FACTURADA";
+    public static final String estadoRecaudada="RECAUDADA";
+    public static final String estadoNoRecaudada="NO RECAUDADA";
     
     //CONSTANTES PARA FACTURA FISICA
     public static final String facturaFisicaAmbienteValor="PRUEBAS";
