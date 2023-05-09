@@ -284,11 +284,11 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		Factura factura = opcional.get();
-		if(!factura.getEstado().equals(Constantes.recaudada)){
+		if(!factura.getEstado().equals(Constantes.estadoRecaudada)){
 			throw new EstadoInvalidoException(Constantes.recaudacion);
 		}
 		FacturaElectronica facturaElectronica = crear(factura);
-		if(factura.getEstado().equals(Constantes.recaudada)) {
+		if(factura.getEstado().equals(Constantes.estadoRecaudada)) {
 			String estadoRecepcion = recepcion(facturaElectronica);
 			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
 				String estadoAutorizacion = autorizacion(facturaElectronica);
@@ -307,7 +307,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			factura.normalizar();
 			return factura;
 		}
-		throw new FacturaElectronicaInvalidaException(Constantes.noRecaudada);
+		throw new FacturaElectronicaInvalidaException(Constantes.estadoNoRecaudada);
 	}
     
     private String recepcion(FacturaElectronica facturaElectronica) {
@@ -402,7 +402,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
 			String regimen = Constantes.vacio;
 			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
-				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+				regimen = factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
 			}
 			if(factura.getSesion().getUsuario().getEstacion().getRegimen() != null) {
 				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();

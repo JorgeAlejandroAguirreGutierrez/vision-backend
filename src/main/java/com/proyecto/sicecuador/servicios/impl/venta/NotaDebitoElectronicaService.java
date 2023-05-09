@@ -260,11 +260,11 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			throw new EntidadNoExistenteException(Constantes.nota_debito_venta);
 		}
 		NotaDebitoVenta notaDebitoVenta = opcional.get();
-		if(!notaDebitoVenta.getEstado().equals(Constantes.recaudada)){
+		if(!notaDebitoVenta.getEstado().equals(Constantes.estadoRecaudada)){
 			throw new EstadoInvalidoException(Constantes.recaudacion);
 		}
 		NotaDebitoElectronica notaDebitoElectronica = crear(notaDebitoVenta);
-		if(notaDebitoVenta.getEstado().equals(Constantes.recaudada)) {
+		if(notaDebitoVenta.getEstado().equals(Constantes.estadoRecaudada)) {
 			String estadoRecepcion = recepcion(notaDebitoElectronica);
 			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
 				String estadoAutorizacion = autorizacion(notaDebitoElectronica);
@@ -283,7 +283,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			notaDebitoVenta.normalizar();
 			return notaDebitoVenta;
 		}
-		throw new FacturaElectronicaInvalidaException(Constantes.noRecaudada);
+		throw new FacturaElectronicaInvalidaException(Constantes.estadoNoRecaudada);
 	}
     
     private String recepcion(NotaDebitoElectronica notaDebitoElectronica) {

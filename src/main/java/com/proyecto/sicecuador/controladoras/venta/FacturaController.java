@@ -111,7 +111,7 @@ public class FacturaController implements GenericoController<Factura> {
     }
 
     @GetMapping(value = "/consultarPorCliente/{clienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorProveedor(@PathVariable("clienteId") long clienteId) {
+    public ResponseEntity<?> consultarPorCliente(@PathVariable("clienteId") long clienteId) {
         List<Factura> facturas = servicio.consultarPorCliente(clienteId);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);

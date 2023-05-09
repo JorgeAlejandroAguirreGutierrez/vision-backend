@@ -52,13 +52,6 @@ public class NotaCreditoVentaController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "obtenerPorFacturaCompra/{facturaCompraId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerPorFacturaVenta(@PathVariable("facturaVentaId") long facturaVentaId) {
-        NotaCreditoVenta notaCreditoVenta = servicio.obtenerPorFactura(facturaVentaId);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_obtener_exitoso, notaCreditoVenta);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody NotaCreditoVenta _notaCreditoVenta) {
         NotaCreditoVenta notaCreditoVenta = servicio.crear(_notaCreditoVenta);
@@ -97,7 +90,7 @@ public class NotaCreditoVentaController {
     @GetMapping(value = "obtenerPorFactura/{facturaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerPorFactura(@PathVariable("facturaId") long facturaId) {
         NotaCreditoVenta notaCreditoVenta = servicio.obtenerPorFactura(facturaId);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_obtener_exitoso, notaCreditoVenta);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_obtener_exitoso, notaCreditoVenta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }
