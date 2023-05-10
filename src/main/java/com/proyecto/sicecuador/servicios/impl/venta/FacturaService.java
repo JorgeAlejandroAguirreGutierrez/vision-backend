@@ -613,13 +613,23 @@ public class FacturaService implements IFacturaService {
     }
     
     private void calcularIvaSinDescuento(Factura factura) {
-        double ivaSinDescuento=factura.getSubtotalBase12SinDescuento()*12/100;
+        double ivaSinDescuento=0;
+        for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
+            if (facturaLinea.getImpuesto().getPorcentaje()!=0){
+                ivaSinDescuento+= facturaLinea.getSubtotalSinDescuentoLinea()* facturaLinea.getImpuesto().getPorcentaje()/100;
+            }
+        }
         ivaSinDescuento=Math.round(ivaSinDescuento*100.0)/100.0;
         factura.setIvaSinDescuento(ivaSinDescuento);
     }
     
     private void calcularIvaConDescuento(Factura factura) {
-        double ivaConDescuento=factura.getSubtotalBase12ConDescuento()*12/100;
+        double ivaConDescuento=0;
+        for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
+            if (facturaLinea.getImpuesto().getPorcentaje()!=0){
+                ivaConDescuento+= facturaLinea.getSubtotalConDescuentoLinea()* facturaLinea.getImpuesto().getPorcentaje()/100;
+            }
+        }
         ivaConDescuento= Math.round(ivaConDescuento*100.0)/100.0;
         factura.setIvaConDescuento(ivaConDescuento);
     }
