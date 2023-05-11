@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import lombok.AllArgsConstructor;
@@ -30,9 +29,6 @@ public class Deposito extends Entidad {
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
-    @JoinColumn(name = "banco_id", nullable = true)
-    private Banco banco;
-    @ManyToOne
     @JoinColumn(name = "cuenta_propia_id", nullable = true)
     private CuentaPropia cuentaPropia;
     @JsonBackReference
@@ -52,7 +48,6 @@ public class Deposito extends Entidad {
     }
 
     public void normalizar(){
-        if(this.banco == null) this.banco = new Banco();
         if(this.cuentaPropia == null) this.cuentaPropia = new CuentaPropia();
     }
 }

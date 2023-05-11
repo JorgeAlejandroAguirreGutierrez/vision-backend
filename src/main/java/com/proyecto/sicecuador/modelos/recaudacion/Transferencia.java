@@ -2,7 +2,7 @@ package com.proyecto.sicecuador.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
+import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,15 +23,15 @@ public class Transferencia extends Entidad {
     private String codigo;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
-    @Column(name = "tipo_transaccion", nullable = true)
-    private String tipoTransaccion;
-    @Column(name = "numero_transaccion", nullable = true)
-    private String numeroTransaccion;
+    @Column(name = "tipo", nullable = true)
+    private String tipo;
+    @Column(name = "comprobante", nullable = true)
+    private String comprobante;
     @Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
-    @JoinColumn(name = "banco_id", nullable = true)
-    private Banco banco;
+    @JoinColumn(name = "cuenta_propia_id", nullable = true)
+    private CuentaPropia cuentaPropia;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
@@ -44,12 +44,12 @@ public class Transferencia extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.fecha = new Date();
-        this.tipoTransaccion = Constantes.vacio;
-        this.numeroTransaccion = Constantes.vacio;
+        this.tipo = Constantes.vacio;
+        this.comprobante = Constantes.vacio;
         this.valor = Constantes.cero;
     }
     public void normalizar(){
         if(this.fecha == null) this.fecha = new Date();
-        if(this.banco == null) this.banco = new Banco();
+        if(this.cuentaPropia == null) this.cuentaPropia = new CuentaPropia();
     }
 }

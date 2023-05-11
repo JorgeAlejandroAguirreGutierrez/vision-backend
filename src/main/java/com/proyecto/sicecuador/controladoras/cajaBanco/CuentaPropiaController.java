@@ -7,6 +7,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
+import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
 import com.proyecto.sicecuador.servicios.interf.cajaBanco.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -79,6 +80,20 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
     public ResponseEntity<?> inactivar(@RequestBody CuentaPropia _cuentaPropia) {
     	CuentaPropia cuentaPropia = servicio.inactivar(_cuentaPropia);
         Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, cuentaPropia);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarBancos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarBancos() {
+        List<String> bancos= servicio.consultarBancos();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bancos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorBanco", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorBanco (@RequestParam("banco") String banco) {
+        List<CuentaPropia> cuentasPropias=servicio.consultarPorBanco(banco);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentasPropias);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

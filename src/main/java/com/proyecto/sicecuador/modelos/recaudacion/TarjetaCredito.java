@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.util.Date;
+
 import static com.proyecto.sicecuador.Constantes.tabla_tarjeta_credito;
 
 @Entity
@@ -20,14 +22,16 @@ import static com.proyecto.sicecuador.Constantes.tabla_tarjeta_credito;
 public class TarjetaCredito extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "diferido", nullable = true)
-    private String diferido;
+    @Column(name = "fecha", nullable = true)
+    private Date fecha;
     @Column(name = "titular", nullable = true)
     private String titular;
     @Column(name = "identificacion", nullable = true)
     private String identificacion;
     @Column(name = "nombre", nullable = true)
     private String nombre;
+    @Column(name = "diferido", nullable = true)
+    private String diferido;
     @Column(name = "lote", nullable = true)
     private String lote;
     @Column(name = "valor", nullable = true)
@@ -52,14 +56,16 @@ public class TarjetaCredito extends Entidad {
     public TarjetaCredito(){
         super();
         this.codigo = Constantes.vacio;
-        this.diferido = Constantes.no;
+        this.fecha = new Date();
         this.titular = Constantes.no;
         this.identificacion = Constantes.vacio;
         this.nombre = Constantes.vacio;
+        this.diferido = Constantes.no;
         this.lote = Constantes.vacio;
         this.valor = Constantes.cero;
     }
     public void normalizar(){
+        if(this.fecha == null) this.fecha = new Date();
         if(this.banco == null) this.banco = new Banco();
         if(this.operadorTarjeta == null) this.operadorTarjeta = new OperadorTarjeta();
         if(this.franquiciaTarjeta == null) this.franquiciaTarjeta = new FranquiciaTarjeta();

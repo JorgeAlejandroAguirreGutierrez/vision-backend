@@ -11,6 +11,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.util.Date;
+
 import static com.proyecto.sicecuador.Constantes.tabla_tarjeta_debito;
 
 @Entity
@@ -21,6 +23,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_tarjeta_debito;
 public class TarjetaDebito extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "fecha", nullable = true)
+    private Date fecha;
     @Column(name = "titular", nullable = true)
     private String titular;
 	@Column(name = "identificacion", nullable = true)
@@ -51,6 +55,7 @@ public class TarjetaDebito extends Entidad {
     public TarjetaDebito(){
         super();
         this.codigo = Constantes.vacio;
+        this.fecha = new Date();
         this.titular = Constantes.vacio;
         this.identificacion = Constantes.vacio;
         this.nombre = Constantes.vacio;
@@ -58,6 +63,7 @@ public class TarjetaDebito extends Entidad {
         this.valor = Constantes.cero;
     }
     public void normalizar(){
+        if(this.fecha == null) this.fecha = new Date();
         if(this.banco == null) this.banco = new Banco();
         if(this.operadorTarjeta == null) this.operadorTarjeta = new OperadorTarjeta();
         if(this.franquiciaTarjeta == null) this.franquiciaTarjeta = new FranquiciaTarjeta();

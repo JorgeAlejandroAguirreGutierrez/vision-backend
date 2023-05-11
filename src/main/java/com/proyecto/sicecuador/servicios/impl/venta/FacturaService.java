@@ -59,14 +59,13 @@ public class FacturaService implements IFacturaService {
         for(Deposito deposito : factura.getDepositos()){
             if(deposito.getComprobante().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.comprobante);
             if(deposito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
-            if(deposito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
             if(deposito.getCuentaPropia().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cuenta_propia);
         }
         for(Transferencia transferencia : factura.getTransferencias()){
-            if(transferencia.getTipoTransaccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo_transaccion);
-            if(transferencia.getNumeroTransaccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero_transaccion);
+            if(transferencia.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo_transaccion);
+            if(transferencia.getComprobante().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero_transaccion);
             if(transferencia.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
-            if(transferencia.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
+            if(transferencia.getCuentaPropia().getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
         }
         for(TarjetaDebito tarjetaDebito : factura.getTarjetasDebitos()){
             if(tarjetaDebito.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
@@ -614,13 +613,23 @@ public class FacturaService implements IFacturaService {
     }
     
     private void calcularIvaSinDescuento(Factura factura) {
-        double ivaSinDescuento=factura.getSubtotalBase12SinDescuento()*12/100;
+        double ivaSinDescuento=0;
+        for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
+            if (facturaLinea.getImpuesto().getPorcentaje()!=0){
+                ivaSinDescuento+= facturaLinea.getSubtotalSinDescuentoLinea()* facturaLinea.getImpuesto().getPorcentaje()/100;
+            }
+        }
         ivaSinDescuento=Math.round(ivaSinDescuento*100.0)/100.0;
         factura.setIvaSinDescuento(ivaSinDescuento);
     }
     
     private void calcularIvaConDescuento(Factura factura) {
-        double ivaConDescuento=factura.getSubtotalBase12ConDescuento()*12/100;
+        double ivaConDescuento=0;
+        for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
+            if (facturaLinea.getImpuesto().getPorcentaje()!=0){
+                ivaConDescuento+= facturaLinea.getSubtotalConDescuentoLinea()* facturaLinea.getImpuesto().getPorcentaje()/100;
+            }
+        }
         ivaConDescuento= Math.round(ivaConDescuento*100.0)/100.0;
         factura.setIvaConDescuento(ivaConDescuento);
     }
