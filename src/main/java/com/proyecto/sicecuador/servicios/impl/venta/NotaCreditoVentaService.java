@@ -47,8 +47,25 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     }
 
     private void facturar(NotaCreditoVenta notaCreditoVenta) {
-        if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaCreditoVenta.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        if (notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada))
+            throw new DatoInvalidoException(Constantes.estado);
+        if (notaCreditoVenta.getEstado().equals(Constantes.estadoAnulada))
+            throw new DatoInvalidoException(Constantes.estado);
+        List<NotaCreditoVenta> notasCreditoVentaAnt = rep.consultarPorFactura(notaCreditoVenta.getFactura().getId(), Constantes.estadoEmitida, Constantes.estadoFacturada);
+        List<Long> cantidadesDevueltas = new ArrayList();
+        for(int i = 0; i < notaCreditoVenta.getNotaCreditoVentaLineas().size(); i++ ) {
+            cantidadesDevueltas.add(Constantes.ceroId);
+        }
+        for(int i = 0; i < notasCreditoVentaAnt.size(); i++ ){
+            for(int j = 0; j < notasCreditoVentaAnt.get(i).getNotaCreditoVentaLineas().size(); j++){
+                cantidadesDevueltas.set(j, cantidadesDevueltas.get(j) + notasCreditoVentaAnt.get(i).getNotaCreditoVentaLineas().get(j).getDevolucion());
+            }
+        }
+        for(int i = 0; i<notaCreditoVenta.getNotaCreditoVentaLineas().size(); i++){
+            if(notaCreditoVenta.getNotaCreditoVentaLineas().get(i).getDevolucion() + cantidadesDevueltas.get(i) > notaCreditoVenta.getNotaCreditoVentaLineas().get(i).getCantidad()){
+                throw new DatoInvalidoException(Constantes.devolucion);
+            }
+        }
         kardexService.eliminar(Constantes.nota_credito_venta, Constantes.operacion_conjunta, notaCreditoVenta.getSecuencial());
         kardexService.eliminar(Constantes.nota_credito_venta, Constantes.operacion_devolucion, notaCreditoVenta.getSecuencial());
         kardexService.eliminar(Constantes.nota_credito_venta, Constantes.operacion_descuento, notaCreditoVenta.getSecuencial());
