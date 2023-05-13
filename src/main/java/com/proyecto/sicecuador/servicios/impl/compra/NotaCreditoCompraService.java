@@ -52,6 +52,21 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     private void facturar(NotaCreditoCompra notaCreditoCompra) {
         if(notaCreditoCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaCreditoCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        List<NotaCreditoCompra> notasCreditoCompraAnt = rep.consultarPorFacturaCompra(notaCreditoCompra.getFacturaCompra().getId(), Constantes.estadoFacturada);
+        List<Long> cantidadesDevueltas = new ArrayList();
+        for(int i = 0; i < notaCreditoCompra.getNotaCreditoCompraLineas().size(); i++ ) {
+            cantidadesDevueltas.add(Constantes.ceroId);
+        }
+        for(int i = 0; i < notasCreditoCompraAnt.size(); i++ ){
+            for(int j = 0; j < notasCreditoCompraAnt.get(i).getNotaCreditoCompraLineas().size(); j++){
+                cantidadesDevueltas.set(j, cantidadesDevueltas.get(j) + notasCreditoCompraAnt.get(i).getNotaCreditoCompraLineas().get(j).getDevolucion());
+            }
+        }
+        for(int i = 0; i<notaCreditoCompra.getNotaCreditoCompraLineas().size(); i++){
+            if(notaCreditoCompra.getNotaCreditoCompraLineas().get(i).getDevolucion() + cantidadesDevueltas.get(i) > notaCreditoCompra.getNotaCreditoCompraLineas().get(i).getCantidad()){
+                throw new DatoInvalidoException(Constantes.devolucion);
+            }
+        }
         kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_conjunta, notaCreditoCompra.getSecuencial());
         kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_devolucion, notaCreditoCompra.getSecuencial());
         kardexService.eliminar(Constantes.nota_credito_compra, Constantes.operacion_descuento, notaCreditoCompra.getSecuencial());
