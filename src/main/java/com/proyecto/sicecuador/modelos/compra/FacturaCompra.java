@@ -25,10 +25,8 @@ import static com.proyecto.sicecuador.Constantes.tabla_factura_compra;
 public class FacturaCompra extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "serie", nullable = true)
-    private String serie;
-    @Column(name = "secuencial", nullable = true)
-    private String secuencial;
+    @Column(name = "numero_factura", nullable = true)
+    private String numeroFactura;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
     @Column(name = "estado", nullable = true)
@@ -75,7 +73,7 @@ public class FacturaCompra extends Entidad {
     public FacturaCompra(){
         super();
         this.codigo = Constantes.vacio;
-        this.secuencial = Constantes.vacio;
+        this.numeroFactura = Constantes.vacio;
         this.fecha = new Date();
         this.estado = Constantes.activo;
         this.valorDistribuidoTotal = Constantes.cero;

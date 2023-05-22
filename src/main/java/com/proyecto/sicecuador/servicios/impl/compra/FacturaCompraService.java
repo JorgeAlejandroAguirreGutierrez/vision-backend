@@ -49,7 +49,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     private void facturar(FacturaCompra facturaCompra) {
         //if(facturaCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         //if(facturaCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-        kardexService.eliminar(Constantes.factura_compra, Constantes.operacion_compra, facturaCompra.getSecuencial());
+        kardexService.eliminar(Constantes.factura_compra, Constantes.operacion_compra, facturaCompra.getNumeroFactura());
         for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
             Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
             double saldo = Constantes.cero;
@@ -57,7 +57,7 @@ public class FacturaCompraService implements IFacturaCompraService {
                 saldo = ultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
             }
             Kardex kardex = new Kardex(null, new Date(), Constantes.factura_compra, Constantes.operacion_compra,
-                    facturaCompra.getSecuencial(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
+                    facturaCompra.getNumeroFactura(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
                     facturaCompraLinea.getSubtotalSinDescuentoLinea(), Constantes.cero,
                     facturaCompraLinea.getCostoUnitario(), facturaCompraLinea.getSubtotalSinDescuentoLinea(),
                     facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
@@ -76,15 +76,10 @@ public class FacturaCompraService implements IFacturaCompraService {
     		throw new CodigoNoExistenteException();
     	}
     	facturaCompra.setCodigo(codigo.get());
-        facturaCompra.setSerie(facturaCompra.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + facturaCompra.getSesion().getUsuario().getEstacion().getCodigoSRI());
-        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(facturaCompra.getTipoComprobante().getId(), facturaCompra.getSesion().getUsuario().getEstacion().getId());
-        facturaCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         facturar(facturaCompra);
         facturaCompra.setEstado(Constantes.activo);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
-        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
-        secuencialService.actualizar(secuencial);
         return res;
     }
 
