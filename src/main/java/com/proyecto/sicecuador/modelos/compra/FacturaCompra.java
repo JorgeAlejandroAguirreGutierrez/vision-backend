@@ -33,22 +33,26 @@ public class FacturaCompra extends Entidad {
     private Date fecha;
     @Column(name = "estado", nullable = true)
     private String estado;
+    @Column(name = "valor_distribuido_total", nullable = true)
+    private double valorDistribuidoTotal;
     @Column(name = "valor_descuento_total", nullable = true)
     private double valorDescuentoTotal;
     @Column(name = "porcentaje_descuento_total", nullable = true)
     private double porcentajeDescuentoTotal;
+    @Column(name = "valor_porcentaje_descuento_total", nullable = true)
+    private double valorPorcentajeDescuentoTotal;
     @Column(name = "subtotal_sin_descuento", nullable = true)
     private double subtotalSinDescuento;
     @Column(name = "descuento_total", nullable = true)
     private double descuentoTotal;
-    @Column(name = "subtotal_base12_sin_descuento", nullable = true)
-    private double subtotalBase12SinDescuento;
-    @Column(name = "subtotal_base0_sin_descuento", nullable = true)
-    private double subtotalBase0SinDescuento;
-    @Column(name = "iva_sin_descuento", nullable = true)
-    private double ivaSinDescuento;
-    @Column(name = "total_sin_descuento", nullable = true)
-    private double totalSinDescuento;
+    @Column(name = "subtotal_grabado_con_descuento", nullable = true)
+    private double subtotalGrabadoConDescuento;
+    @Column(name = "subtotal_no_grabado_con_descuento", nullable = true)
+    private double subtotalNoGrabadoConDescuento;
+    @Column(name = "importe_iva_total", nullable = true)
+    private double importeIvaTotal;
+    @Column(name = "valor_total", nullable = true)
+    private double valorTotal;
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @ManyToOne
@@ -74,14 +78,16 @@ public class FacturaCompra extends Entidad {
         this.secuencial = Constantes.vacio;
         this.fecha = new Date();
         this.estado = Constantes.activo;
+        this.valorDistribuidoTotal = Constantes.cero;
         this.valorDescuentoTotal = Constantes.cero;
         this.porcentajeDescuentoTotal = Constantes.cero;
+        this.valorPorcentajeDescuentoTotal = Constantes.cero;
         this.subtotalSinDescuento = Constantes.cero;
         this.descuentoTotal = Constantes.cero;
-        this.subtotalBase12SinDescuento = Constantes.cero;
-        this.subtotalBase0SinDescuento = Constantes.cero;
-        this.ivaSinDescuento = Constantes.cero;
-        this.totalSinDescuento = Constantes.cero;
+        this.subtotalGrabadoConDescuento = Constantes.cero;
+        this.subtotalNoGrabadoConDescuento = Constantes.cero;
+        this.importeIvaTotal = Constantes.cero;
+        this.valorTotal = Constantes.cero;
         this.comentario = Constantes.vacio;
         this.facturaCompraLineas = Collections.emptyList();
     }
