@@ -27,12 +27,28 @@ public class FacturaCompraLinea extends Entidad {
     private long cantidad;
     @Column(name = "costo_unitario", nullable = true)
     private double costoUnitario;
+    @Column(name = "costo_distribuido", nullable = true)
+    private double costoDistribuido;
+    @Column(name = "costo_promedio", nullable = true)
+    private double costoPromedio;
     @Column(name = "valor_descuento_linea", nullable = true)
     private double valorDescuentoLinea;
     @Column(name = "porcentaje_descuento_linea", nullable = true)
     private double porcentajeDescuentoLinea;
-    @Column(name = "total_sin_descuento", nullable = true)
-    private double totalSinDescuentoLinea;
+    @Column(name = "valor_porcentaje_descuento_linea", nullable = true)
+    private double valorPorcentajeDescuentoLinea;
+    @Column(name = "valor_descuento_total_linea", nullable = true)
+    private double valorDescuentoTotalLinea;
+    @Column(name = "valor_porcentaje_descuento_total_linea", nullable = true)
+    private double valorPorcentajeDescuentoTotalLinea;
+    @Column(name = "subtotal_sin_descuento_linea", nullable = true)
+    private double subtotalSinDescuentoLinea;
+    @Column(name = "subtotal_con_descuento_linea", nullable = true)
+    private double subtotalConDescuentoLinea;
+    @Column(name = "importe_iva_linea", nullable = true)
+    private double importeIvaLinea;
+    @Column(name = "total_linea", nullable = true)
+    private double totalLinea;
     @ManyToOne
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
@@ -55,8 +71,16 @@ public class FacturaCompraLinea extends Entidad {
         this.codigo = Constantes.vacio;
         this.cantidad = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
+        this.costoDistribuido = Constantes.cero;
+        this.costoPromedio = Constantes.cero;
         this.valorDescuentoLinea = Constantes.cero;
         this.porcentajeDescuentoLinea = Constantes.cero;
-        this.totalSinDescuentoLinea = Constantes.cero;
+        this.valorPorcentajeDescuentoLinea = Constantes.cero;
+        this.valorDescuentoTotalLinea = Constantes.cero;
+        this.valorPorcentajeDescuentoTotalLinea = Constantes.cero;
+        this.subtotalSinDescuentoLinea = Constantes.cero;
+        this.subtotalConDescuentoLinea = Constantes.cero;
+        this.importeIvaLinea = Constantes.cero;
+        this.totalLinea = Constantes.cero;
     }
 }
