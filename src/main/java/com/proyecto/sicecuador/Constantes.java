@@ -52,7 +52,7 @@ public class Constantes {
     public static final String mensaje_calcular_exitoso="Exito al calcular";
     public static final String mensaje_activar_exitoso="Exito al activar";
     public static final String mensaje_inactivar_exitoso="Exito al inactivar";
-
+    public static final String mensaje_recaudacion_exitosa="Exito al recaudar";
     public static final String mensaje_consulta_fallido="Error en la consulta los objetos";
     public static final String mensaje_obtener_fallido="Error al obtener un objeto";
     public static final String mensaje_crear_fallido="Error al crear un objeto";
@@ -194,6 +194,8 @@ public class Constantes {
     public static final String tabla_equivalencia_medida="equivalencia_medida";
     public static final String tabla_tipo_gasto="tipo_gasto";
 
+    public static final String tabla_tipo_operacion="tipo_operacion";
+
     //CAJA BANCOS
     public static final String tabla_banco="banco";
     public static final String tabla_banco_propio="banco_propio";
@@ -314,6 +316,7 @@ public class Constantes {
     public static final String sub_linea_producto="SUB LINEA PRODUCTO";
     public static final String equivalencia_medida="TABLA EQUIVALENCIA MEDIDA";
     public static final String tipo_gasto="TIPO GASTO";
+    public static final String tipo_operacion="TIPO OPERACION";
     public static final String producto_proveedor="PRODUCTO Y PROVEEDOR";
     public static final String producto_bodega="PRODUCTO Y BODEGA";
     

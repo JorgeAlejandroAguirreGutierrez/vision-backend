@@ -5,14 +5,17 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
-import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
-import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
+import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
+import com.proyecto.sicecuador.modelos.inventario.Precio;
+import com.proyecto.sicecuador.servicios.interf.inventario.IPrecioService;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
+import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
+import com.proyecto.sicecuador.modelos.inventario.TipoOperacion;
+import com.proyecto.sicecuador.servicios.interf.inventario.ITipoOperacionService;
 import com.proyecto.sicecuador.repositorios.compra.IFacturaCompraRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
-import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
-import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoComprobanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +33,11 @@ public class FacturaCompraService implements IFacturaCompraService {
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
     @Autowired
+    private ITipoOperacionService tipoOperacionService;
+    @Autowired
     private IKardexService kardexService;
+    @Autowired
+    private IPrecioService precioService;
     @Autowired
     private ISecuencialService secuencialService;
 
@@ -46,25 +53,6 @@ public class FacturaCompraService implements IFacturaCompraService {
 
     }
 
-    private void facturar(FacturaCompra facturaCompra) {
-        //if(facturaCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
-        //if(facturaCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-        kardexService.eliminar(Constantes.factura_compra, Constantes.operacion_compra, facturaCompra.getNumeroFactura());
-        for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
-            double saldo = Constantes.cero;
-            if(ultimoKardex != null){
-                saldo = ultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
-            }
-            Kardex kardex = new Kardex(null, new Date(), Constantes.factura_compra, Constantes.operacion_compra,
-                    facturaCompra.getNumeroFactura(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
-                    facturaCompraLinea.getSubtotalSinDescuentoLinea(), Constantes.cero,
-                    facturaCompraLinea.getCostoUnitario(), facturaCompraLinea.getSubtotalSinDescuentoLinea(),
-                    facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
-            kardexService.crear(kardex);
-        }
-    }
-
     @Transactional
     @Override
     public FacturaCompra crear(FacturaCompra facturaCompra) {
@@ -76,20 +64,92 @@ public class FacturaCompraService implements IFacturaCompraService {
     		throw new CodigoNoExistenteException();
     	}
     	facturaCompra.setCodigo(codigo.get());
-        facturar(facturaCompra);
+        crearKardex(facturaCompra);
+        actualizarPrecios(facturaCompra);
         facturaCompra.setEstado(Constantes.activo);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
     }
 
+    private void crearKardex(FacturaCompra facturaCompra) {
+        for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
+            double saldo = Constantes.cero;
+            double costoTotal = Constantes.cero;
+            double costoUnitario = Constantes.cero;
+            double costoPromedio = Constantes.cero;
+            if(ultimoKardex != null){
+                saldo = ultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
+                costoTotal = ultimoKardex.getCostoTotal() + facturaCompraLinea.getSubtotalConDescuentoLinea();
+                costoUnitario = facturaCompraLinea.getSubtotalConDescuentoLinea() / facturaCompraLinea.getCantidad();
+                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+            }
+            Kardex kardex = new Kardex(null, new Date(),
+                    facturaCompra.getNumeroFactura(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
+                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, new TipoComprobante(8),
+                    new TipoOperacion(3), facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
+
+            kardexService.crear(kardex);
+        }
+    }
+
     @Override
     public FacturaCompra actualizar(FacturaCompra facturaCompra) {
         validar(facturaCompra);
-        facturar(facturaCompra);
         FacturaCompra res = rep.save(facturaCompra);
+        actualizarKardex(facturaCompra);
+        actualizarPrecios(facturaCompra);
         res.normalizar();
         return res;
+    }
+
+    private void actualizarKardex(FacturaCompra facturaCompra) {
+        for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
+            int ultimoIndiceKardex = facturaCompraLinea.getProducto().getKardexs().size()-1;
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
+            double saldo = Constantes.cero;
+            double costoTotal = Constantes.cero;
+            double costoUnitario = Constantes.cero;
+            double costoPromedio = Constantes.cero;
+            if(ultimoIndiceKardex > Constantes.cero){
+                saldo = facturaCompraLinea.getProducto().getKardexs().get(ultimoIndiceKardex-1).getSaldo() + facturaCompraLinea.getCantidad();
+                costoTotal = facturaCompraLinea.getProducto().getKardexs().get(ultimoIndiceKardex-1).getCostoTotal() + facturaCompraLinea.getSubtotalConDescuentoLinea();
+                costoUnitario = facturaCompraLinea.getSubtotalConDescuentoLinea() / facturaCompraLinea.getCantidad();
+                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+            }
+            ultimoKardex.setEntrada(facturaCompraLinea.getCantidad());
+            ultimoKardex.setSaldo(saldo);
+            ultimoKardex.setDebe(costoUnitario);
+            ultimoKardex.setCostoPromedio(costoPromedio);
+            ultimoKardex.setCostoTotal(costoTotal);
+            kardexService.actualizar(ultimoKardex);
+        }
+    }
+
+    private void actualizarPrecios(FacturaCompra facturaCompra) {
+        for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()) {
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
+            for(Precio precio: facturaCompraLinea.getProducto().getPrecios()) {
+                precio.setCosto(ultimoKardex.getCostoPromedio());
+                double precioSinIva = ultimoKardex.getCostoPromedio() + (ultimoKardex.getCostoPromedio() * precio.getMargenGanancia() / 100);
+                precioSinIva = Math.round(precioSinIva * 10000.0) / 10000.0;
+                precio.setPrecioSinIva(precioSinIva);
+                double pvp = precioSinIva + (precioSinIva * precio.getProducto().getImpuesto().getPorcentaje() / 100);
+                pvp = Math.round(pvp * 100.0) / 100.0;
+                precio.setPrecioVentaPublico(pvp);
+                precio.setPrecioVentaPublicoManual(pvp);
+                double utilidad = precioSinIva - ultimoKardex.getCostoPromedio();
+                utilidad = Math.round(utilidad * 10000.0) / 10000.0;
+                precio.setUtilidad(utilidad);
+                precio.setUtilidadPorcentaje(precio.getMargenGanancia());
+                precioService.actualizar(precio);
+            }
+        }
     }
 
     @Override

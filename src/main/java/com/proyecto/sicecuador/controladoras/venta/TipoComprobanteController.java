@@ -6,10 +6,8 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathTipoComprobant
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.modelos.usuario.Estacion;
-import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
-import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
+import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoComprobanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

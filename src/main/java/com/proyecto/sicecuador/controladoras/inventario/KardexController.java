@@ -54,9 +54,9 @@ public class KardexController implements GenericoController<Kardex> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/obtenerUltimoPorFecha/{bodegaId}/{productoId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerUltimoPorFecha(@PathVariable("bodegaId") long bodegaId, @PathVariable("productoId") long productoId) {
-        Kardex kardex=servicio.obtenerUltimoPorFecha(bodegaId, productoId);
+    @GetMapping(value = "/obtenerUltimoPorBodega/{bodegaId}/{productoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerUltimoPorBodega(@PathVariable("bodegaId") long bodegaId, @PathVariable("productoId") long productoId) {
+        Kardex kardex=servicio.obtenerUltimoPorBodega(bodegaId, productoId);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

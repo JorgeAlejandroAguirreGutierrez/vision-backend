@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.modelos.venta;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;

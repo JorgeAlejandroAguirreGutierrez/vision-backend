@@ -74,6 +74,13 @@ public class FacturaController implements GenericoController<Factura> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
+    @PatchMapping(value = "/recaudar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> recaudar(@RequestBody Factura _factura) {
+        Factura factura = servicio.recaudar(_factura);
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_recaudacion_exitosa, factura);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
     
     @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> activar(@RequestBody Factura _factura) {

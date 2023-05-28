@@ -4,9 +4,8 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
-import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
+import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

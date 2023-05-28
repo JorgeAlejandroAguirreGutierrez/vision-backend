@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.modelos.inventario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,12 +23,10 @@ public class Kardex extends Entidad {
     private String codigo;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
-    @Column(name = "documento", nullable = true)
-    private String documento;
-    @Column(name = "operacion", nullable = true)
-    private String operacion;
-    @Column(name = "secuencial", nullable = true)
-    private String secuencial;
+    //@Column(name = "operacion", nullable = true)
+    //private String operacion;
+    @Column(name = "referencia", nullable = true)
+    private String referencia;
     @Column(name = "entrada", nullable = true)
     private double entrada;
     @Column(name = "salida", nullable = true)
@@ -38,10 +37,16 @@ public class Kardex extends Entidad {
     private double debe;
     @Column(name = "haber", nullable = true)
     private double haber;
-    @Column(name = "costo_unitario", nullable = true)
-    private double costoUnitario;
+    @Column(name = "costo_promedio", nullable = true)
+    private double costoPromedio;
     @Column(name = "costo_total", nullable = true)
     private double costoTotal;
+    @ManyToOne
+    @JoinColumn(name = "tipo_comprobante_id", nullable = true)
+    private TipoComprobante tipoComprobante;
+    @ManyToOne
+    @JoinColumn(name = "tipo_operacion_id", nullable = true)
+    private TipoOperacion tipoOperacion;
     @ManyToOne
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
@@ -57,15 +62,15 @@ public class Kardex extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.fecha = new Date();
-        this.documento = Constantes.vacio;
-        this.operacion = Constantes.vacio;
-        this.secuencial = Constantes.vacio;
+        //this.documento = Constantes.vacio;
+        //this.operacion = Constantes.vacio;
+        this.referencia = Constantes.vacio;
         this.entrada = Constantes.cero;
         this.salida = Constantes.cero;
         this.saldo = Constantes.cero;
         this.debe = Constantes.cero;
         this.haber = Constantes.cero;
-        this.costoUnitario = Constantes.cero;
+        this.costoPromedio = Constantes.cero;
         this.costoTotal = Constantes.cero;
     }
 }
