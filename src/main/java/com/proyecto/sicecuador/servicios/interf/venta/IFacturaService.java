@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IFacturaService extends IGenericoService<Factura> {
 	void validar(Factura factura);
+	Factura recaudar(Factura factura);
 	Factura activar(Factura factura);
 	Factura inactivar(Factura factura);
 	List<Factura> consultarActivos();

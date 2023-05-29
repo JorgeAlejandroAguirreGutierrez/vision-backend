@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.venta;
+package com.proyecto.sicecuador.repositorios.configuracion;
 
-import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
+import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

@@ -2,18 +2,19 @@ package com.proyecto.sicecuador.servicios.impl.compra;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.compra.*;
 import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
-import com.proyecto.sicecuador.modelos.venta.*;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
+import com.proyecto.sicecuador.modelos.inventario.TipoOperacion;
 import com.proyecto.sicecuador.repositorios.compra.INotaDebitoCompraRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
 import com.proyecto.sicecuador.servicios.interf.compra.INotaDebitoCompraService;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
-import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,16 +49,16 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     private void facturar(NotaDebitoCompra notaDebitoCompra) {
         if(notaDebitoCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaDebitoCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-        kardexService.eliminar(Constantes.nota_debito_compra, notaDebitoCompra.getOperacion(), notaDebitoCompra.getSecuencial());
+        kardexService.eliminar(10, 7, notaDebitoCompra.getSecuencial());
         for(NotaDebitoCompraLinea notaDebitoCompraLinea : notaDebitoCompra.getNotaDebitoCompraLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaDebitoCompraLinea.getBodega().getId(), notaDebitoCompraLinea.getProducto().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaDebitoCompraLinea.getBodega().getId(), notaDebitoCompraLinea.getProducto().getId());
             if (ultimoKardex != null) {
                 double saldo = ultimoKardex.getSaldo() - notaDebitoCompraLinea.getCantidad();
-                Kardex kardex = new Kardex(null, new Date(), Constantes.nota_debito_compra, notaDebitoCompra.getOperacion(),
+                Kardex kardex = new Kardex(null, new Date(),
                         notaDebitoCompra.getSecuencial(), notaDebitoCompraLinea.getCantidad(), Constantes.cero, saldo,
                         notaDebitoCompraLinea.getTotalSinDescuentoLinea(), Constantes.cero,
                         notaDebitoCompraLinea.getCostoUnitario(), notaDebitoCompraLinea.getTotalSinDescuentoLinea(),
-                        ultimoKardex.getBodega(), ultimoKardex.getProducto());
+                        new TipoComprobante(10), new TipoOperacion(6), ultimoKardex.getBodega(), ultimoKardex.getProducto());
                 kardexService.crear(kardex);
             }
         }

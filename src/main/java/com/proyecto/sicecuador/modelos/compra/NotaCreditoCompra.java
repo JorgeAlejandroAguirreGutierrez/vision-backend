@@ -3,7 +3,7 @@ package com.proyecto.sicecuador.modelos.compra;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
+import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

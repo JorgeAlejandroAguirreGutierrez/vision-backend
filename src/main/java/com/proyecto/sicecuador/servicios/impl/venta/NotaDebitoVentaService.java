@@ -2,8 +2,10 @@ package com.proyecto.sicecuador.servicios.impl.venta;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
+import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
 import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
+import com.proyecto.sicecuador.modelos.inventario.TipoOperacion;
 import com.proyecto.sicecuador.modelos.venta.*;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.modelos.recaudacion.*;
@@ -11,7 +13,7 @@ import com.proyecto.sicecuador.repositorios.venta.INotaDebitoVentaRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.sicecuador.servicios.interf.venta.IFacturaService;
 import com.proyecto.sicecuador.servicios.interf.venta.INotaDebitoVentaService;
-import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -93,9 +95,9 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     private void facturar(NotaDebitoVenta notaDebitoVenta) {
         if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaDebitoVenta.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-        kardexService.eliminar(Constantes.nota_debito_venta, Constantes.operacion_venta, notaDebitoVenta.getSecuencial());
+        kardexService.eliminar(5, 3, notaDebitoVenta.getSecuencial());
         for(NotaDebitoVentaLinea notaDebitoVentaLinea : notaDebitoVenta.getNotaDebitoVentaLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(notaDebitoVentaLinea.getBodega().getId(), notaDebitoVentaLinea.getProducto().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaDebitoVentaLinea.getBodega().getId(), notaDebitoVentaLinea.getProducto().getId());
             if(ultimoKardex == null){
                 throw new DatoInvalidoException(Constantes.kardex);
             }
@@ -103,11 +105,10 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
                 throw new DatoInvalidoException(Constantes.kardex);
             }
             double saldo = ultimoKardex.getSaldo() - notaDebitoVentaLinea.getCantidad();
-            Kardex kardex = new Kardex(null, new Date(), Constantes.nota_debito_venta, Constantes.operacion_venta,
-                    notaDebitoVenta.getSecuencial(), Constantes.cero, notaDebitoVentaLinea.getCantidad(), saldo,
-                    Constantes.cero, notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
+            Kardex kardex = new Kardex(null, new Date(), notaDebitoVenta.getSecuencial(), Constantes.cero, notaDebitoVentaLinea.getCantidad(),
+                    saldo, Constantes.cero, notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
                     notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual(), notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
-                    notaDebitoVentaLinea.getBodega(), notaDebitoVentaLinea.getProducto());
+                    new TipoComprobante(5), new TipoOperacion(6), notaDebitoVentaLinea.getBodega(), notaDebitoVentaLinea.getProducto());
             kardexService.crear(kardex);
         }
     }

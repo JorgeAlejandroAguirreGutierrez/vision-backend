@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.venta;
+package com.proyecto.sicecuador.modelos.configuracion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import lombok.AllArgsConstructor;

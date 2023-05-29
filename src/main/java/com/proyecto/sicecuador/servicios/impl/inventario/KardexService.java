@@ -57,15 +57,15 @@ public class KardexService implements IKardexService {
         return rep.consultarPorProducto(productoId);
     }
     @Override
-    public Kardex obtenerUltimoPorFecha(long bodegaId, long productoId) {
-        Optional<Kardex> res = rep.obtenerUltimoPorFecha(bodegaId, productoId);
+    public Kardex obtenerUltimoPorBodega(long bodegaId, long productoId) {
+        Optional<Kardex> res = rep.obtenerUltimoPorBodega(bodegaId, productoId);
         if(res.isEmpty()){
             return null;
         }
         return res.get();
     }
     @Override
-    public void eliminar(String documento, String operacion,String secuencial) {
-        rep.eliminar(documento, operacion, secuencial);
+    public void eliminar(long tipoComprobanteId, long tipoOperacionId,String referencia) {
+        rep.eliminar(tipoComprobanteId, tipoOperacionId, referencia);
     }
 }

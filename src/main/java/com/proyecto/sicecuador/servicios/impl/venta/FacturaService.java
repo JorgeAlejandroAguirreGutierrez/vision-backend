@@ -4,15 +4,16 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
 import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
+import com.proyecto.sicecuador.modelos.inventario.TipoOperacion;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import com.proyecto.sicecuador.modelos.venta.FacturaLinea;
-import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
+import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.repositorios.venta.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.sicecuador.servicios.interf.venta.IFacturaService;
-import com.proyecto.sicecuador.servicios.interf.venta.ITipoComprobanteService;
+import com.proyecto.sicecuador.servicios.interf.configuracion.ITipoComprobanteService;
 import com.proyecto.sicecuador.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -89,13 +90,13 @@ public class FacturaService implements IFacturaService {
         }
     }
 
-    private void facturar(Factura factura) {
+    private void crearKardex(Factura factura) {
         if(factura.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-        kardexService.eliminar(Constantes.factura, Constantes.operacion_venta, factura.getSecuencial());
+        kardexService.eliminar(2, 2, factura.getSecuencial());
         for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
             if(facturaLinea.getProducto().getCategoriaProducto().getDescripcion().equals(Constantes.bien)) {
-                Kardex ultimoKardex = kardexService.obtenerUltimoPorFecha(facturaLinea.getBodega().getId(), facturaLinea.getProducto().getId());
+                Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaLinea.getBodega().getId(), facturaLinea.getProducto().getId());
                 if (ultimoKardex == null) {
                     throw new DatoInvalidoException(Constantes.kardex);
                 }
@@ -103,11 +104,13 @@ public class FacturaService implements IFacturaService {
                     throw new DatoInvalidoException(Constantes.kardex);
                 }
                 double saldo = ultimoKardex.getSaldo() - facturaLinea.getCantidad();
-                Kardex kardex = new Kardex(null, new Date(), Constantes.factura, Constantes.operacion_venta,
+                double costoTotal = ultimoKardex.getCostoTotal() - (facturaLinea.getCantidad() * ultimoKardex.getCostoPromedio());
+                costoTotal = Math.round(costoTotal * 100.0) / 100.0;
+                Kardex kardex = new Kardex(null, new Date(),
                         factura.getSecuencial(), Constantes.cero, facturaLinea.getCantidad(), saldo,
-                        Constantes.cero, facturaLinea.getSubtotalSinDescuentoLinea(),
-                        facturaLinea.getPrecioUnitario(), facturaLinea.getSubtotalSinDescuentoLinea(),
-                        facturaLinea.getBodega(), facturaLinea.getProducto());
+                        Constantes.cero, ultimoKardex.getCostoPromedio(),
+                        ultimoKardex.getCostoPromedio(), costoTotal,
+                        new TipoComprobante(2), new TipoOperacion(2), facturaLinea.getBodega(), facturaLinea.getProducto());
                 kardexService.crear(kardex);
             }
         }
@@ -170,8 +173,8 @@ public class FacturaService implements IFacturaService {
     	factura.setClaveAcceso(claveAcceso.get());
     	factura.setEstado(Constantes.estadoEmitida);
         calcular(factura);
-        facturar(factura);
         calcularRecaudacion(factura);
+        crearKardex(factura);
         Factura res = rep.save(factura);
         res.normalizar();
         secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
@@ -183,7 +186,17 @@ public class FacturaService implements IFacturaService {
     public Factura actualizar(Factura factura) {
         validar(factura);
         calcular(factura);
-        facturar(factura);
+        calcularRecaudacion(factura);
+        crearKardex(factura);
+        Factura res = rep.save(factura);
+        res.normalizar();
+        return res;
+    }
+
+    @Override
+    public Factura recaudar(Factura factura) {
+        validar(factura);
+        calcular(factura);
         calcularRecaudacion(factura);
         if(factura.getPorPagar() > Constantes.cero){
             factura.setEstado(Constantes.estadoNoRecaudada);

@@ -2,10 +2,8 @@ package com.proyecto.sicecuador.modelos.configuracion;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.venta.TipoComprobante;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
