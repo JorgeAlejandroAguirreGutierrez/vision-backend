@@ -156,9 +156,9 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito_venta);
         notaDebitoVenta.setTipoComprobante(tipoComprobante);
         Optional<String>codigo=Util.generarCodigo(Constantes.tabla_nota_debito_venta);
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
         notaDebitoVenta.setCodigo(codigo.get());
         notaDebitoVenta.setSerie(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaDebitoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaDebitoVenta.getTipoComprobante().getId(), notaDebitoVenta.getSesion().getUsuario().getEstacion().getId());
@@ -229,15 +229,15 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     public List<NotaDebitoVenta> consultar() {
         return rep.consultar();
     }
-    
+
     @Override
     public List<NotaDebitoVenta> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+        return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override
     public Page<NotaDebitoVenta> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
+        return rep.findAll(pageable);
     }
 
     @Override
@@ -322,12 +322,12 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         return notaDebitoVentaLinea;
     }
     private void calcularTotalSinDescuentoLinea(NotaDebitoVenta notaDebitoVenta) {
-    	for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
+        for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
             validarLinea(notaDebitoVentaLinea);
-    		double totalSinDescuentoLinea = (notaDebitoVentaLinea.getCantidad()) * notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual();
-        	totalSinDescuentoLinea=Math.round(totalSinDescuentoLinea*100.0)/100.0;
+            double totalSinDescuentoLinea = (notaDebitoVentaLinea.getCantidad()) * notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual();
+            totalSinDescuentoLinea=Math.round(totalSinDescuentoLinea*100.0)/100.0;
             notaDebitoVentaLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
-    	}
+        }
     }
     private void calcularIvaSinDescuentoLinea(NotaDebitoVenta notaDebitoVenta) {
         for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
@@ -340,7 +340,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     /*
      * FIN CALCULO CON NOTA DEBITO VENTA LINEA
      */
-    
+
     /*
      * CALCULAR DESCUENTOS
      */
@@ -356,36 +356,36 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     /*
      * FIN CALCULAR DESCUENTOS
      */
-    
+
     /*
      * CALCULOS CON FACTURA
      */
     private void calcularSubtotalSinDescuento(NotaDebitoVenta notaDebitoVenta) {
-    	double subtotalSinDescuento = Constantes.cero;
+        double subtotalSinDescuento = Constantes.cero;
         for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()){
-          subtotalSinDescuento += notaDebitoVentaLinea.getTotalSinDescuentoLinea();
+            subtotalSinDescuento += notaDebitoVentaLinea.getTotalSinDescuentoLinea();
         }
         subtotalSinDescuento = Math.round(subtotalSinDescuento * 100.0) / 100.0;
         notaDebitoVenta.setSubtotalSinDescuento(subtotalSinDescuento);
     }
-    
+
     private void calcularSubtotalBase12SinDescuento(NotaDebitoVenta notaDebitoVenta) {
-    	double subtotalBase12SinDescuento = Constantes.cero;
-    	for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()){
-          if (notaDebitoVentaLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva12){
-            subtotalBase12SinDescuento += notaDebitoVentaLinea.getTotalSinDescuentoLinea();
-          }
-    	}
+        double subtotalBase12SinDescuento = Constantes.cero;
+        for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()){
+            if (notaDebitoVentaLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva12){
+                subtotalBase12SinDescuento += notaDebitoVentaLinea.getTotalSinDescuentoLinea();
+            }
+        }
         subtotalBase12SinDescuento= Math.round(subtotalBase12SinDescuento*100.0)/100.0;
         notaDebitoVenta.setSubtotalBase12SinDescuento(subtotalBase12SinDescuento);
     }
-    
+
     private void calcularSubtotalBase0SinDescuento(NotaDebitoVenta notaDebitoVenta) {
-    	double subtotalBase0SinDescuento = Constantes.cero;
-    	for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()){
-          if (notaDebitoVentaLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva0){
-            subtotalBase0SinDescuento += notaDebitoVentaLinea.getTotalSinDescuentoLinea();
-          }
+        double subtotalBase0SinDescuento = Constantes.cero;
+        for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()){
+            if (notaDebitoVentaLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva0){
+                subtotalBase0SinDescuento += notaDebitoVentaLinea.getTotalSinDescuentoLinea();
+            }
         }
         subtotalBase0SinDescuento = Math.round(subtotalBase0SinDescuento*100.0)/100.0;
         notaDebitoVenta.setSubtotalBase0SinDescuento(subtotalBase0SinDescuento);

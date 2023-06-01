@@ -69,38 +69,38 @@ import java.util.*;
 
 @Service
 public class NotaDebitoElectronicaService implements INotaDebitoElectronicaService {
-    @Autowired
-    private INotaDebitoVentaRepository rep;
-    
-    @Value("${prefijo.url.imagenes}")
-    private String imagenes;
-    
-    @Value("${correo.usuario}")
-    private String correoUsuario;
-    
-    @Value("${correo.contrasena}")
-    private String correoContrasena;
+	@Autowired
+	private INotaDebitoVentaRepository rep;
 
-    
-    private NotaDebitoElectronica crear(NotaDebitoVenta notaDebitoVenta) {
-    	//MAPEO A FACTURA ELECTRONICA
+	@Value("${prefijo.url.imagenes}")
+	private String imagenes;
+
+	@Value("${correo.usuario}")
+	private String correoUsuario;
+
+	@Value("${correo.contrasena}")
+	private String correoContrasena;
+
+
+	private NotaDebitoElectronica crear(NotaDebitoVenta notaDebitoVenta) {
+		//MAPEO A FACTURA ELECTRONICA
 		NotaDebitoElectronica notaDebitoElectronica = new NotaDebitoElectronica();
-    	InfoTributaria infoTributaria = new InfoTributaria();
-    	  	
-    	infoTributaria.setAmbiente(Constantes.pruebas_sri);
-    	infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
-    	infoTributaria.setRazonSocial(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
-    	infoTributaria.setNombreComercial(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
-    	infoTributaria.setRuc(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
-    	infoTributaria.setClaveAcceso(notaDebitoVenta.getClaveAcceso());
-    	infoTributaria.setCodDoc(Constantes.nota_de_debito_sri);
-    	infoTributaria.setEstab(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
-    	infoTributaria.setPtoEmi(notaDebitoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI());
-    	infoTributaria.setSecuencial(notaDebitoVenta.getSecuencial());
-    	infoTributaria.setDirMatriz(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
-    	
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
-    	String fechaEmision = dateFormat.format(notaDebitoVenta.getFecha());
+		InfoTributaria infoTributaria = new InfoTributaria();
+
+		infoTributaria.setAmbiente(Constantes.pruebas_sri);
+		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
+		infoTributaria.setRazonSocial(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+		infoTributaria.setNombreComercial(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+		infoTributaria.setRuc(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
+		infoTributaria.setClaveAcceso(notaDebitoVenta.getClaveAcceso());
+		infoTributaria.setCodDoc(Constantes.nota_de_debito_sri);
+		infoTributaria.setEstab(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
+		infoTributaria.setPtoEmi(notaDebitoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI());
+		infoTributaria.setSecuencial(notaDebitoVenta.getSecuencial());
+		infoTributaria.setDirMatriz(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
+
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String fechaEmision = dateFormat.format(notaDebitoVenta.getFecha());
 		InfoNotaDebito infoNotaDebito = new InfoNotaDebito();
 		infoNotaDebito.setFechaEmision(fechaEmision);
 		infoNotaDebito.setDirEstablecimiento(notaDebitoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
@@ -127,8 +127,8 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		notaDebitoElectronica.getInfoNotaDebito().setPagos(pagos);
 		notaDebitoElectronica.setMotivos(motivos);
 		notaDebitoElectronica.setInfoAdicional(infoAdicional);
-    	return notaDebitoElectronica;
-    }
+		return notaDebitoElectronica;
+	}
 
 	private Impuestos crearImpuestos(NotaDebitoVenta notaDebitoVenta) {
 		Impuestos impuestos=new Impuestos();
@@ -202,17 +202,17 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		return pagos;
 	}
 	private Motivos crearMotivos(NotaDebitoVenta notaDebitoVenta) {
-    	Motivos motivos=new Motivos();
-    	List<Motivo> motivoLista = new ArrayList<>();
-    	for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
-    		Motivo motivo = new Motivo();
-    		motivo.setRazon(notaDebitoVentaLinea.getProducto().getNombre());
-    		motivo.setValor(notaDebitoVentaLinea.getTotalSinDescuentoLinea());
-    		motivoLista.add(motivo);
-    	}
-    	motivos.setMotivo(motivoLista);
-    	return motivos;
-    }
+		Motivos motivos=new Motivos();
+		List<Motivo> motivoLista = new ArrayList<>();
+		for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
+			Motivo motivo = new Motivo();
+			motivo.setRazon(notaDebitoVentaLinea.getProducto().getNombre());
+			motivo.setValor(notaDebitoVentaLinea.getTotalSinDescuentoLinea());
+			motivoLista.add(motivo);
+		}
+		motivos.setMotivo(motivoLista);
+		return motivos;
+	}
 
 	private InfoAdicional crearInfoAdicional(NotaDebitoVenta notaDebitoVenta) {
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
@@ -285,48 +285,48 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		}
 		throw new FacturaElectronicaInvalidaException(Constantes.estadoNoRecaudada);
 	}
-    
-    private String recepcion(NotaDebitoElectronica notaDebitoElectronica) {
-    	try {
-    		JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoElectronica.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
-            jaxbMarshaller.marshal(notaDebitoElectronica, System.out);
-            StringWriter sw = new StringWriter();
-            jaxbMarshaller.marshal(notaDebitoElectronica, sw);
-            String xml=sw.toString();
+
+	private String recepcion(NotaDebitoElectronica notaDebitoElectronica) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoElectronica.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
+			jaxbMarshaller.marshal(notaDebitoElectronica, System.out);
+			StringWriter sw = new StringWriter();
+			jaxbMarshaller.marshal(notaDebitoElectronica, sw);
+			String xml=sw.toString();
 			Path path = Paths.get(Constantes.certificadoSri);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
-            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasenaCertificadoSri);
-            String encode=Base64.getEncoder().encodeToString(firmado);
-            String body=Util.soapFacturacionEletronica(encode);
-            System.out.println(body);
-            HttpClient httpClient = HttpClient.newBuilder()
-                    .version(HttpClient.Version.HTTP_1_1)
-                    .connectTimeout(Duration.ofSeconds(10))
-                    .build();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .POST(BodyPublishers.ofString(body))
-                    .uri(URI.create(Constantes.urlFacturacionEletronicaSri))
-                    .setHeader(Constantes.contentType, Constantes.contenTypeValor)
-                    .build();
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            // print response headers
-            HttpHeaders headers = response.headers();
-            headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
-            // print status code
-            System.out.println(response.statusCode());
-            // print response body
-            System.out.println(response.body());
-            JSONObject json=Util.convertirXmlJson(response.body());
-            return json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
-        } catch (JAXBException ex) {
-            System.err.println(ex.getMessage());                        
-        } catch (IOException ex) {
+			byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasenaCertificadoSri);
+			String encode=Base64.getEncoder().encodeToString(firmado);
+			String body=Util.soapFacturacionEletronica(encode);
+			System.out.println(body);
+			HttpClient httpClient = HttpClient.newBuilder()
+					.version(HttpClient.Version.HTTP_1_1)
+					.connectTimeout(Duration.ofSeconds(10))
+					.build();
+			HttpRequest request = HttpRequest.newBuilder()
+					.POST(BodyPublishers.ofString(body))
+					.uri(URI.create(Constantes.urlFacturacionEletronicaSri))
+					.setHeader(Constantes.contentType, Constantes.contenTypeValor)
+					.build();
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+			// print response headers
+			HttpHeaders headers = response.headers();
+			headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
+			// print status code
+			System.out.println(response.statusCode());
+			// print response body
+			System.out.println(response.body());
+			JSONObject json=Util.convertirXmlJson(response.body());
+			return json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
+		} catch (JAXBException ex) {
+			System.err.println(ex.getMessage());
+		} catch (IOException ex) {
 			// TODO Auto-generated catch block
-        	System.err.println(ex.getMessage());   
+			System.err.println(ex.getMessage());
 		} catch (InterruptedException ex) {
 			// TODO Auto-generated catch block
 			System.err.println(ex.getMessage());
@@ -335,7 +335,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			e.printStackTrace();
 		}
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
-    }
+	}
 
 	public String autorizacion(NotaDebitoElectronica notaDebitoElectronica){
 		try {
@@ -615,9 +615,9 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
 	}
-    
-    private ByteArrayInputStream crearXML(NotaDebitoElectronica notaDebitoElectronica) {
-    	try {
+
+	private ByteArrayInputStream crearXML(NotaDebitoElectronica notaDebitoElectronica) {
+		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -627,51 +627,51 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			jaxbMarshaller.marshal(notaDebitoElectronica, sw);
 			String xml=sw.toString();
 			return new ByteArrayInputStream(xml.getBytes());
-    	} catch(Exception e) {
-    		return null;
-    	}
-    }
-    
-    private void enviarCorreo(NotaDebitoVenta notaDebitoVenta, NotaDebitoElectronica notaDebitoElectronica) {
-    	try {
-	    	ByteArrayInputStream pdf = crearPDF(notaDebitoVenta);
-	    	ByteArrayInputStream xml = crearXML(notaDebitoElectronica);
-	    	ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf); 
-	    	ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml); 
-	        Properties props = System.getProperties();
-	        props.put(Constantes.mailSmtpHost, Constantes.valorMailSmtpHost);
-	        props.put(Constantes.mailSmtpUser, correoUsuario); 
-	        props.put(Constantes.mailSmtpClave, correoContrasena);
-	        props.put(Constantes.mailSmtpAuth, Constantes.valorMailtSmtpAuth);
-	        props.put(Constantes.mailSmtpStarttlsEnable, Constantes.valorMailtSmtpStarttlsEnable);
-	        props.put(Constantes.mailSmtpPort, Constantes.valorMailSmtpPort);
-	
-	        Session session = Session.getDefaultInstance(props);
-	        MimeMessage message = new MimeMessage(session);
-	        
-	        MimeBodyPart parte1 = new MimeBodyPart();
-	        parte1.setDataHandler(new DataHandler(pdfData));
-	        parte1.setFileName(Constantes.nota_credito + notaDebitoVenta.getSecuencial()+Constantes.extensionPdf);
-	        MimeBodyPart parte2 = new MimeBodyPart();
-	        parte2.setDataHandler(new DataHandler(xmlData));
-	        parte2.setFileName(Constantes.nota_credito + notaDebitoVenta.getSecuencial()+Constantes.extensionXml);
-	        
-	        Multipart multipart = new MimeMultipart();
-	        multipart.addBodyPart(parte1);
-	        multipart.addBodyPart(parte2);
+		} catch(Exception e) {
+			return null;
+		}
+	}
 
-            message.setFrom(new InternetAddress(correoUsuario));
-            message.addRecipients(Message.RecipientType.TO, notaDebitoVenta.getFactura().getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
-            message.setSubject(notaDebitoVenta.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + notaDebitoVenta.getCodigo());
-            message.setText(Constantes.vacio);
-            message.setContent(multipart);
-            Transport transport = session.getTransport(Constantes.smtp);
-            transport.connect(Constantes.smtpGmailCom, correoUsuario, correoContrasena);
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();   //Si se produce un error
-        }
-    }
+	private void enviarCorreo(NotaDebitoVenta notaDebitoVenta, NotaDebitoElectronica notaDebitoElectronica) {
+		try {
+			ByteArrayInputStream pdf = crearPDF(notaDebitoVenta);
+			ByteArrayInputStream xml = crearXML(notaDebitoElectronica);
+			ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf);
+			ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml);
+			Properties props = System.getProperties();
+			props.put(Constantes.mailSmtpHost, Constantes.valorMailSmtpHost);
+			props.put(Constantes.mailSmtpUser, correoUsuario);
+			props.put(Constantes.mailSmtpClave, correoContrasena);
+			props.put(Constantes.mailSmtpAuth, Constantes.valorMailtSmtpAuth);
+			props.put(Constantes.mailSmtpStarttlsEnable, Constantes.valorMailtSmtpStarttlsEnable);
+			props.put(Constantes.mailSmtpPort, Constantes.valorMailSmtpPort);
+
+			Session session = Session.getDefaultInstance(props);
+			MimeMessage message = new MimeMessage(session);
+
+			MimeBodyPart parte1 = new MimeBodyPart();
+			parte1.setDataHandler(new DataHandler(pdfData));
+			parte1.setFileName(Constantes.nota_credito + notaDebitoVenta.getSecuencial()+Constantes.extensionPdf);
+			MimeBodyPart parte2 = new MimeBodyPart();
+			parte2.setDataHandler(new DataHandler(xmlData));
+			parte2.setFileName(Constantes.nota_credito + notaDebitoVenta.getSecuencial()+Constantes.extensionXml);
+
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(parte1);
+			multipart.addBodyPart(parte2);
+
+			message.setFrom(new InternetAddress(correoUsuario));
+			message.addRecipients(Message.RecipientType.TO, notaDebitoVenta.getFactura().getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
+			message.setSubject(notaDebitoVenta.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + notaDebitoVenta.getCodigo());
+			message.setText(Constantes.vacio);
+			message.setContent(multipart);
+			Transport transport = session.getTransport(Constantes.smtp);
+			transport.connect(Constantes.smtpGmailCom, correoUsuario, correoContrasena);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();   //Si se produce un error
+		}
+	}
 }
