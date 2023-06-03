@@ -1,7 +1,8 @@
-package com.proyecto.sicecuador.datos.inventario;
+package com.proyecto.sicecuador.datos.cliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.Segmento;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import com.proyecto.sicecuador.repositorios.cliente.ISegmentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -25,10 +26,12 @@ public class SegmentoData implements ApplicationRunner {
         Optional<Segmento> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Segmento> segmentos = new ArrayList<>();
-            segmentos.add(new Segmento("SEG202301000001", 6, "CLIENTE FINAL", "CF", Constantes.activo));
-            segmentos.add(new Segmento("SEG202301000002", 2, "MAYORISTA" ,"MAY", Constantes.activo));
-            segmentos.add(new Segmento("SEG202301000003", 3, "DISTRIBUIDOR", "DIST", Constantes.activo));
-            segmentos.add(new Segmento("SEG202301000004", 10, "TARJETA DE CREDITO", "TCR", Constantes.activo));
+            segmentos.add(new Segmento("SEG012301000001", 6, "CLIENTE FINAL", "CF", Constantes.activo, new Empresa(1)));
+            segmentos.add(new Segmento("SEG012301000002", 2, "MAYORISTA" ,"MAY", Constantes.activo, new Empresa(1)));
+            segmentos.add(new Segmento("SEG012301000003", 3, "DISTRIBUIDOR", "DIST", Constantes.activo, new Empresa(1)));
+            segmentos.add(new Segmento("SEG012301000004", 10, "TARJETA DE CREDITO", "TCR", Constantes.activo, new Empresa(1)));
+            segmentos.add(new Segmento("SEG022305000001", 6, "CLIENTE FINAL", "CF", Constantes.activo, new Empresa(2)));
+            segmentos.add(new Segmento("SEG032305000002", 2, "MAYORISTA" ,"MAY", Constantes.activo, new Empresa(2)));
             rep.saveAll(segmentos);
         }
     }

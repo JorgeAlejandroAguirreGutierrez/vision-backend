@@ -1,13 +1,13 @@
 package com.proyecto.sicecuador.modelos.cliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import static com.proyecto.sicecuador.Constantes.tabla_segmento;
 
@@ -27,6 +27,9 @@ public class Segmento extends Entidad {
     private String abreviatura;
 	@Column(name = "estado", nullable = true)
     private String estado;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
 
     public Segmento(long id){
         super(id);
@@ -38,5 +41,9 @@ public class Segmento extends Entidad {
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
         this.estado = Constantes.activo;
+    }
+
+    public void normalizar(){
+        if(this.empresa == null) this.empresa = new Empresa();
     }
 }

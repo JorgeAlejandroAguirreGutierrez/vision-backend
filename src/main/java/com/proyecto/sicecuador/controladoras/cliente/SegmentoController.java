@@ -32,6 +32,13 @@ public class SegmentoController implements GenericoController<Segmento> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/consultar/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<Segmento> segmentos=servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
     
     @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarActivos() {
