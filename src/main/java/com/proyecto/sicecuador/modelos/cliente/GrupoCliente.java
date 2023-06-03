@@ -29,9 +29,9 @@ public class GrupoCliente extends Entidad {
 	@ManyToOne
     @JoinColumn(name = "cuenta_contable_id", nullable = true)
     private CuentaContable cuentaContable;
-    @ManyToOne
-    @JoinColumn(name = "empresa_id", nullable = true)
-    private Empresa empresa;
+    //@ManyToOne
+    //@JoinColumn(name = "empresa_id", nullable = true)
+    //private Empresa empresa;
 
     public GrupoCliente(long id){
         super(id);
@@ -46,6 +46,6 @@ public class GrupoCliente extends Entidad {
 
     public void normalizar(){
         if(this.cuentaContable == null) this.cuentaContable = new CuentaContable();
-        if(this.empresa == null) this.empresa = new Empresa();
+        //if(this.empresa == null) this.empresa = new Empresa();
     }
 }

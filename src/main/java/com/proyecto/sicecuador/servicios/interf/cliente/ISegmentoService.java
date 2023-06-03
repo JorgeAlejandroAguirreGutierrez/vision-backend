@@ -10,5 +10,6 @@ public interface ISegmentoService extends IGenericoService<Segmento> {
 	Segmento activar(Segmento segmento);
 	Segmento inactivar(Segmento segmento);
 	List<Segmento> consultarActivos();
+	List<Segmento> consultarPorEmpresa(long empresaId);
 	List<Segmento> buscar(Segmento segmento);
 }
