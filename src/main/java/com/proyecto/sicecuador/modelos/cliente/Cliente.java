@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.*;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -53,9 +54,6 @@ public class Cliente extends Entidad {
     @JoinColumn(name = "tipo_contribuyente_id", nullable = true)
     private TipoContribuyente tipoContribuyente;
     @ManyToOne
-    @JoinColumn(name = "estacion_id", nullable = true)
-    private Estacion estacion;
-    @ManyToOne
     @JoinColumn(name = "grupo_cliente_id", nullable = true)
     private GrupoCliente grupoCliente;
     @ManyToOne
@@ -82,6 +80,9 @@ public class Cliente extends Entidad {
     @ManyToOne
     @JoinColumn(name = "segmento_id", nullable = true)
     private Segmento segmento;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
     @JsonManagedReference
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = true)
@@ -134,7 +135,6 @@ public class Cliente extends Entidad {
     public void normalizar(){
         if(this.tipoIdentificacion == null) this.tipoIdentificacion = new TipoIdentificacion();
         if(this.tipoContribuyente == null) this.tipoContribuyente = new TipoContribuyente();
-        if(this.estacion == null) this.estacion = new Estacion();
         if(this.grupoCliente == null) this.grupoCliente = new GrupoCliente();
         if(this.formaPago == null) this.formaPago = new FormaPago();
         if(this.plazoCredito == null) this.plazoCredito = new PlazoCredito();
@@ -144,6 +144,7 @@ public class Cliente extends Entidad {
         if(this.calificacionCliente == null) this.calificacionCliente = new CalificacionCliente();
         if(this.origenIngreso == null) this.origenIngreso = new OrigenIngreso();
         if(this.segmento == null) this.segmento = new Segmento();
+        if(this.empresa == null) this.empresa = new Empresa();
         if(this.dependientes == null) this.dependientes = Collections.emptyList();
         if(this.telefonos == null) this.telefonos = Collections.emptyList();
         if(this.celulares == null) this.celulares = Collections.emptyList();

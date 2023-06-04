@@ -7,6 +7,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICalificacionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,14 @@ public class CalificacionClienteController implements GenericoController<Calific
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, calificacionesClientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
+
+    @GetMapping(value = "/consultar/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<CalificacionCliente> calificacionesClientes=servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, calificacionesClientes);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarActivos() {
 	    List<CalificacionCliente> calificacionesClientes=servicio.consultarActivos();

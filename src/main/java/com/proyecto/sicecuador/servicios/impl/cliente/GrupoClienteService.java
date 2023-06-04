@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -81,6 +82,11 @@ public class GrupoClienteService implements IGrupoClienteService {
     @Override
     public List<GrupoCliente> consultar() {
         return rep.consultar();
+    }
+
+    @Override
+    public List<GrupoCliente> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
     }
     
     @Override

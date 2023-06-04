@@ -52,10 +52,8 @@ public class ClienteService implements IClienteService {
         if(cliente.getEspecial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.especial);
         if(cliente.getSegmento().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.segmento);
         if(cliente.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
-        //if(cliente.getReferencia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.referencia);
         if(cliente.getTipoIdentificacion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
         if(cliente.getTipoContribuyente().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.tipo_contribuyente);
-        if(cliente.getEstacion().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.estacion);
         if(cliente.getGrupoCliente().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.grupo_cliente);
         if(cliente.getFormaPago().getId() == Constantes.cero) throw new DatoInvalidoException(Constantes.forma_pago);
         if(cliente.getUbicacion().getProvincia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.provincia);
@@ -500,7 +498,12 @@ public class ClienteService implements IClienteService {
     public List<Cliente> consultar() {
         return rep.consultar();
     }
-    
+
+    @Override
+    public List<Cliente> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
     @Override
     public List<Cliente> consultarActivos(){
     	return rep.consultarPorEstado(Constantes.activo);
