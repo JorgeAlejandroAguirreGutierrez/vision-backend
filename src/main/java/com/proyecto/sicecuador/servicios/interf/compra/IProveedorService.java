@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.servicios.interf.compra;
 
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
 import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
@@ -10,5 +11,6 @@ public interface IProveedorService extends IGenericoService<Proveedor> {
 	Proveedor activar(Proveedor proveedor);
 	Proveedor inactivar(Proveedor proveedor);
 	List<Proveedor> consultarActivos();
-    List<Proveedor> buscar(Proveedor proveedor);
+	List<Proveedor> consultarPorEmpresa(long empresaId);
+	List<Proveedor> buscar(Proveedor proveedor);
 }

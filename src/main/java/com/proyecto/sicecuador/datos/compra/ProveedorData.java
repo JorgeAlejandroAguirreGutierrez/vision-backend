@@ -7,6 +7,7 @@ import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.modelos.compra.*;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import com.proyecto.sicecuador.repositorios.compra.IProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -39,7 +40,7 @@ public class ProveedorData implements ApplicationRunner {
                 celulares.add(new CelularProveedor("CPR011908000002", "0981234563", new Proveedor(1)));
                 List<TelefonoProveedor> telefonos = new ArrayList<>();
                 telefonos.add(new TelefonoProveedor("TEA011908000001", "032964121", new Proveedor(1)));
-                proveedores.add(new Proveedor("PRV110721000001", "0101010101", "CORAL CENTRO", "NOMBRE COMERCIAL CORAL","CALLE SUCRE Y VEGA MUÑOZ", "TRAS LA IGLESIA", -1.6719601146175827, -78.65041698970857, 0, Constantes.si, Constantes.no, Constantes.no, Constantes.no, Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(1), telefonos, celulares, correos));
+                proveedores.add(new Proveedor("PRV110721000001", "0101010101", "CORAL CENTRO", "NOMBRE COMERCIAL CORAL","CALLE SUCRE Y VEGA MUÑOZ", "TRAS LA IGLESIA", -1.6719601146175827, -78.65041698970857, 0, Constantes.si, Constantes.no, Constantes.no, Constantes.no, Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(1), telefonos, celulares, correos, new Empresa(1)));
                 List<CorreoProveedor> correos2 = new ArrayList<>();
                 correos2.add(new CorreoProveedor("COA011909000003", "AUXILIAR2@GMAIL.COM", new Proveedor(2)));
                 correos2.add(new CorreoProveedor("COA011909000004", "AUXILIAR3@GMAIL.COM", new Proveedor(2)));
@@ -48,7 +49,7 @@ public class ProveedorData implements ApplicationRunner {
                 celulares2.add(new CelularProveedor("CPR011909000004", "0965431236", new Proveedor(2)));
                 List<TelefonoProveedor> telefonos2 = new ArrayList<>();
                 telefonos2.add(new TelefonoProveedor("TEA011909000003", "032964123", new Proveedor(2)));
-                proveedores.add(new Proveedor("PRV110721000002",  "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", "AV HURTADO DE MENDOZA", "TRAS EL MERCADO", -1.6719601146175827, -78.65041698970857, 0, Constantes.si, Constantes.no, Constantes.si, Constantes.no, Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(2), new FormaPago(1), new PlazoCredito(1), new Ubicacion(5), telefonos2, celulares2, correos2));
+                proveedores.add(new Proveedor("PRV110721000002",  "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", "AV HURTADO DE MENDOZA", "TRAS EL MERCADO", -1.6719601146175827, -78.65041698970857, 0, Constantes.si, Constantes.no, Constantes.si, Constantes.no, Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(2), new FormaPago(1), new PlazoCredito(1), new Ubicacion(5), telefonos2, celulares2, correos2, new Empresa(1)));
                 rep.saveAll(proveedores);
             }
     }

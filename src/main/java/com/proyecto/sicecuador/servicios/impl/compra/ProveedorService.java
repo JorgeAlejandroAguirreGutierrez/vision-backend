@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.servicios.impl.compra;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
 import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
@@ -112,7 +113,12 @@ public class ProveedorService implements IProveedorService {
     public List<Proveedor> consultar() {
         return rep.consultar();
     }
-    
+
+    @Override
+    public List<Proveedor> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
     @Override
     public List<Proveedor> consultarActivos(){
     	return rep.consultarPorEstado(Constantes.activo);
