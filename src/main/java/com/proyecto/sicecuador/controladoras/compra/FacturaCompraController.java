@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.controladoras.compra;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
 import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
@@ -34,6 +35,13 @@ public class FacturaCompraController {
     public ResponseEntity<?> consultarActivos() {
         List<FacturaCompra> facturasCompras= servicio.consultarActivos();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<FacturaCompra> facturasCompras = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

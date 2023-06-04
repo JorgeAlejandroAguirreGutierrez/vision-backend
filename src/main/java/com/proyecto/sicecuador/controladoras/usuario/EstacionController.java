@@ -5,6 +5,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathEstacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEstacionService;
@@ -39,6 +40,13 @@ public class EstacionController implements GenericoController<Estacion> {
 	    List<Estacion> estaciones= servicio.consultarActivos();
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<Estacion> estaciones = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)

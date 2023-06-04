@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.controladoras.venta;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.venta.NotaDebitoVenta;
 import com.proyecto.sicecuador.modelos.venta.NotaDebitoVentaLinea;
 import com.proyecto.sicecuador.servicios.interf.venta.INotaDebitoVentaService;
@@ -36,6 +37,13 @@ public class NotaDebitoVentaController {
     public ResponseEntity<?> consultarActivos() {
         List<NotaDebitoVenta> notasDebitosVentas= servicio.consultarActivos();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosVentas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<NotaDevitoVenta> notasDebitosVentas = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosVentas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

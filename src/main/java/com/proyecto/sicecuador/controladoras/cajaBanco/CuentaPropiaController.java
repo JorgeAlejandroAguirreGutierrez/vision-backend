@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathCuentaPropia;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
 import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
 import com.proyecto.sicecuador.servicios.interf.cajaBanco.ICuentaPropiaService;
@@ -36,9 +37,16 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
     
     @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarActivos() {
-	    List<CuentaPropia> cuentasPropias= servicio.consultarActivos();
+	    List<CuentaPropia> cuentasPropias = servicio.consultarActivos();
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasPropias);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<CuentaPropia> cuentasPropias = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasPropias);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)

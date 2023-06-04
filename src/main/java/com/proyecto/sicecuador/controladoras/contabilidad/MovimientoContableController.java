@@ -3,6 +3,7 @@ package com.proyecto.sicecuador.controladoras.contabilidad;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
 import com.proyecto.sicecuador.servicios.interf.contabilidad.IMovimientoContableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,13 @@ public class MovimientoContableController implements GenericoController<Movimien
 	    List<MovimientoContable> movimientosContables=servicio.consultar();
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, movimientosContables);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<MovimientoContable> movimientosContables = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, movimientosContables);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)

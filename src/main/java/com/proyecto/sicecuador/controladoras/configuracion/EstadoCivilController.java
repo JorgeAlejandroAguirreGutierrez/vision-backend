@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathEstadoCivil;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.configuracion.EstadoCivil;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IEstadoCivilService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estadosCiviles);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){

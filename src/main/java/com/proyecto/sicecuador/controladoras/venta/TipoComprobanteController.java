@@ -28,49 +28,50 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<TipoComprobante> tipos_comprobantes=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_comprobantes);
+        List<TipoComprobante> tiposComprobantes = servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposComprobantes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarActivos() {
-        List<TipoComprobante> tipos_comprobantes = servicio.consultarActivos();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_comprobantes);
+        List<TipoComprobante> tiposComprobantes = servicio.consultarActivos();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposComprobantes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
     @GetMapping(value = "/consultarElectronica", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarElectronica() {
-        List<TipoComprobante> tipos_comprobantes=servicio.consultarElectronica();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipos_comprobantes);
+        List<TipoComprobante> tiposComprobantes = servicio.consultarElectronica();
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tiposComprobantes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<TipoComprobante> tipos_comprobantes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipos_comprobantes);
+    	Page<TipoComprobante> tiposComprobantes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, tiposComprobantes);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        TipoComprobante tipo_comprobante=servicio.obtener(id);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_comprobante);
+        TipoComprobante tipoComprobante=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipoComprobante);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid TipoComprobante _tipo_comprobante) {
-        TipoComprobante tipo_comprobante=servicio.crear(_tipo_comprobante);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_comprobante);
+        TipoComprobante tipoComprobante=servicio.crear(_tipo_comprobante);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipoComprobante);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody TipoComprobante _tipo_comprobante) {
-        TipoComprobante tipo_comprobante=servicio.actualizar(_tipo_comprobante);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_comprobante);
+        TipoComprobante tipoComprobante=servicio.actualizar(_tipo_comprobante);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipoComprobante);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

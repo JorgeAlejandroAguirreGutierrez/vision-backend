@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathSesion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.servicios.interf.usuario.ISesionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,14 @@ public class SesionController implements GenericoController<Sesion> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, sesiones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<Sesion> sesiones = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, sesiones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){

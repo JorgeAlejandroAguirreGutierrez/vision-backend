@@ -28,36 +28,36 @@ public class TipoContribuyenteController implements GenericoController<TipoContr
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<TipoContribuyente> tipos_contribuyentes = servicio.consultar();
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, tipos_contribuyentes);
+        List<TipoContribuyente> tiposContribuyentes = servicio.consultar();
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposContribuyentes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<TipoContribuyente> tipocontribuyentes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, tipocontribuyentes);
+    	Page<TipoContribuyente> tiposContribuyentes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, tiposContribuyentes);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        TipoContribuyente tipo_contribuyente=servicio.obtener(id);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipo_contribuyente);
+        TipoContribuyente tipoContribuyente=servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipoContribuyente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid TipoContribuyente _tipoContribuyente) {
-        TipoContribuyente tipo_contribuyente=servicio.crear(_tipoContribuyente);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipo_contribuyente);
+        TipoContribuyente tipoContribuyente=servicio.crear(_tipoContribuyente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, tipoContribuyente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody TipoContribuyente _TipoContribuyente) {
-        TipoContribuyente tipo_contribuyente=servicio.actualizar(_TipoContribuyente);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipo_contribuyente);
+        TipoContribuyente tipoContribuyente=servicio.actualizar(_TipoContribuyente);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipoContribuyente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }
