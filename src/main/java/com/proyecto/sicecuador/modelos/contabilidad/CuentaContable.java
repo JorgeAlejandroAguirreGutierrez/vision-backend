@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.modelos.contabilidad;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,10 @@ public class CuentaContable extends Entidad {
     private String mapeo;
     @Column(name = "estado", nullable = true)
     private String estado;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
+
     public CuentaContable(long id){
         super(id);
     }
@@ -47,5 +52,9 @@ public class CuentaContable extends Entidad {
 		this.casillero = Constantes.vacio;
 		this.mapeo = Constantes.vacio;
 		this.estado = Constantes.activo;
+    }
+
+    public void normalizar(){
+        if(this.empresa == null) this.empresa = new Empresa();
     }
 }

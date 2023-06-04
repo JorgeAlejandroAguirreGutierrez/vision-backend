@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface IGrupoClienteRepository extends JpaRepository<GrupoCliente, Long>, JpaSpecificationExecutor<GrupoCliente> {
 	@Query(value = "select gc from GrupoCliente gc order by gc.codigo asc")
 	List<GrupoCliente> consultar();
+	@Query(value = "select gc from GrupoCliente gc where gc.empresa.id=:empresaId order by gc.codigo asc")
+	List<GrupoCliente> consultarPorEmpresa(long empresaId);
 	@Query(value = "select gc from GrupoCliente gc where gc.estado=:estado order by gc.codigo asc")
     List<GrupoCliente> consultarPorEstado(String estado);
 

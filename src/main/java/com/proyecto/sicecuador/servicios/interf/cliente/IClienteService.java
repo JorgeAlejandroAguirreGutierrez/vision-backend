@@ -1,5 +1,6 @@
 package com.proyecto.sicecuador.servicios.interf.cliente;
 
+import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 
@@ -7,6 +8,7 @@ import java.util.List;
 
 public interface IClienteService extends IGenericoService<Cliente> {
     void validar(Cliente cliente);
+    List<Cliente> consultarPorEmpresa(long empresaId);
     List<Cliente> consultarActivos();
 	Cliente activar(Cliente cliente);
 	Cliente inactivar(Cliente cliente);

@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IClienteRepository extends IGenericoRepository<Cliente> {
     @Query(value = "select c from Cliente c order by c.codigo asc")
     List<Cliente> consultar();
+    @Query(value = "select c from Cliente c where c.empresa.id=:empresaId order by c.fechaActualizacion desc")
+    List<Cliente> consultarPorEmpresa(long empresaId);
     @Query(value = "select c from Cliente c where c.estado=:estado order by c.codigo asc")
     List<Cliente> consultarPorEstado(String estado);
 	@Query(value = "select c from Cliente c where c.identificacion=:identificacion and c.estado=:estado order by c.codigo desc")
