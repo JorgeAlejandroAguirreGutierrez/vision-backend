@@ -74,8 +74,8 @@ public class GeneroService implements IGeneroService {
     }
     
     @Override
-    public List<Genero> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Genero> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

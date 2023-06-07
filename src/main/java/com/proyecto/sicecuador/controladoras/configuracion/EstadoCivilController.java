@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathEstadoCivil;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.configuracion.EstadoCivil;
 import com.proyecto.sicecuador.servicios.interf.configuracion.IEstadoCivilService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +27,14 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<EstadoCivil> estados_civiles=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estados_civiles);
+        List<EstadoCivil> estadosCiviles = servicio.consultar();
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estadosCiviles);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<EstadoCivil> estadosCiviles = servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<EstadoCivil> estadosCiviles = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estadosCiviles);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -50,22 +49,22 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        EstadoCivil estado_civil=servicio.obtener(id);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, estado_civil);
+        EstadoCivil estadoCivil = servicio.obtener(id);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, estadoCivil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid EstadoCivil _EstadoCivil) {
-        EstadoCivil estado_civil=servicio.crear(_EstadoCivil);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, estado_civil);
+        EstadoCivil estadoCivil = servicio.crear(_EstadoCivil);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_crear_exitoso, estadoCivil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody EstadoCivil _EstadoCivil) {
-        EstadoCivil estado_civil=servicio.actualizar(_EstadoCivil);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, estado_civil);
+        EstadoCivil estadoCivil = servicio.actualizar(_EstadoCivil);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, estadoCivil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     

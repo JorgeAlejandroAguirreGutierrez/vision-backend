@@ -33,16 +33,16 @@ public class NotaDebitoVentaController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-        List<NotaDebitoVenta> notasDebitosVentas= servicio.consultarActivos();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosVentas);
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos(@PathVariable("estado") String estado) {
+        List<NotaDebitoVenta> notasDebitosVentas = servicio.consultarPorEstado(estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosVentas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
-        List<NotaDevitoVenta> notasDebitosVentas = servicio.consultarPorEmpresa(empresaId);
+        List<NotaDebitoVenta> notasDebitosVentas = servicio.consultarPorEmpresa(empresaId);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosVentas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

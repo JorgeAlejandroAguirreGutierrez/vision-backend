@@ -8,7 +8,9 @@ public interface IGrupoProductoService extends IGenericoService<GrupoProducto> {
 	void validar(GrupoProducto grupoProducto);
 	GrupoProducto activar(GrupoProducto grupoProducto);
 	GrupoProducto inactivar(GrupoProducto grupoProducto);
-	List<GrupoProducto> consultarActivos();
+	List<GrupoProducto> consultarPorEstado(String estado);
+	List<GrupoProducto> consultarPorEmpresa(long empresaId);
+	List<GrupoProducto> consultarPorEmpresaYEstado(long empresaId, String estado);
 	List<GrupoProducto> buscar(GrupoProducto grupo_producto);
 	List<String> consultarGrupos();
 	List<String> consultarSubgrupos(String grupo);

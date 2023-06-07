@@ -91,10 +91,10 @@ public class SesionService implements ISesionService {
     
     @Override
     public Optional<Sesion> cerrar(Sesion sesion) {
-        Sesion _sesion=rep.findById(sesion.getId()).get();
+        Sesion _sesion = rep.findById(sesion.getId()).get();
         sesion.setFechaCierre(new Date());
         sesion.setEstado(Constantes.activo);
-        _sesion=rep.save(_sesion);
+        _sesion = rep.save(_sesion);
         return Optional.of(_sesion);
     }
 }

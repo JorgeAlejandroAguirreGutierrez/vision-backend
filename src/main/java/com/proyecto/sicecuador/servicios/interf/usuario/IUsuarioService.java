@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IUsuarioService extends IGenericoService<Usuario> {
 	void validar(Usuario usuario);
-    List<Usuario> consultarActivos();
+    List<Usuario> consultarPorEstado(String estado);
     Usuario activar(Usuario usuario);
     Usuario inactivar(Usuario usuario);
     Usuario obtenerPorApodo(String apodo);

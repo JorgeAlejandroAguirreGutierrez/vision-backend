@@ -6,6 +6,7 @@ import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
 import com.proyecto.sicecuador.repositorios.cliente.ICalificacionClienteRepository;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICalificacionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,18 +70,26 @@ public class CalificacionClienteService implements ICalificacionClienteService {
         throw new EntidadNoExistenteException(Constantes.calificacion_cliente);
     }
 
+    public CalificacionCliente normalizar() { return null; }
+
     @Override
     public List<CalificacionCliente> consultar() {
         return rep.consultar();
     }
 
-    public CalificacionCliente normalizar() {
-        return null;
+    @Override
+    public List<CalificacionCliente> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override
-    public List<CalificacionCliente> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<CalificacionCliente> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<CalificacionCliente> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
     
     @Override

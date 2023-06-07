@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.compra;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import lombok.Getter;
@@ -28,6 +29,9 @@ public class GrupoProveedor extends Entidad {
 	@ManyToOne
 	@JoinColumn(name = "cuenta_contable_id", nullable = true)
 	private CuentaContable cuentaContable;
+	@ManyToOne
+	@JoinColumn(name = "empresa_id", nullable = true)
+	private Empresa empresa;
 	public GrupoProveedor() {
 		super();
 		this.codigo = Constantes.vacio;

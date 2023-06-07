@@ -81,8 +81,8 @@ public class SecuencialService implements ISecuencialService {
     }
     
     @Override
-    public List<Secuencial> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Secuencial> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

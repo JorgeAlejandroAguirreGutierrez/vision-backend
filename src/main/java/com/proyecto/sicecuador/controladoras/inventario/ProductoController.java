@@ -28,14 +28,14 @@ public class ProductoController implements GenericoController<Producto> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-	    List<Producto> productos=servicio.consultar();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
+	    List<Producto> productos = servicio.consultar();
+	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-        List<Producto> productos=servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+        List<Producto> productos = servicio.consultarPorEstado(estado);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

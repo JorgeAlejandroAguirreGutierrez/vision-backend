@@ -76,8 +76,8 @@ public class MenuOpcionService implements IMenuOpcionService {
     }
     
     @Override
-    public List<MenuOpcion> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<MenuOpcion> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

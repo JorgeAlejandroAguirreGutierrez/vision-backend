@@ -59,8 +59,8 @@ public class TipoComprobanteService implements ITipoComprobanteService {
     }
 
     @Override
-    public List<TipoComprobante> consultarActivos(){
-        return rep.consultarPorEstado(Constantes.activo);
+    public List<TipoComprobante> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
     }
     @Override
     public List<TipoComprobante> consultarElectronica() {

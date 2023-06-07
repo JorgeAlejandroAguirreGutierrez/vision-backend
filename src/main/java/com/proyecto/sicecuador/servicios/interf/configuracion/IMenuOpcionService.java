@@ -9,7 +9,7 @@ public interface IMenuOpcionService extends IGenericoService<MenuOpcion> {
 	void validar(MenuOpcion menuOpcion);
     MenuOpcion activar(MenuOpcion menuOpcion);
     MenuOpcion inactivar(MenuOpcion menuOpcion);
-	List<MenuOpcion> consultarActivos();
+	List<MenuOpcion> consultarPorEstado(String estado);
     List<String> consultarModulos();
     MenuOpcion obtenerPorOperacion(String operacion);
     MenuOpcion obtenerPorOperacionTabla(MenuOpcion menuOpcion);

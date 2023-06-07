@@ -1,6 +1,8 @@
 package com.proyecto.sicecuador.datos.cliente;
 
+import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import com.proyecto.sicecuador.repositorios.cliente.IPlazoCreditoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -23,11 +25,14 @@ public class PlazoCreditoData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<PlazoCredito> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<PlazoCredito> plazos_creditos = new ArrayList<>();
-            plazos_creditos.add(new PlazoCredito("PCR202301000001", "CORTO PLAZO", "CPL",30, "ACTIVO"));
-            plazos_creditos.add(new PlazoCredito("PCR202301000002", "MEDIANO PLAZO", "MPL",45, "ACTIVO"));
-            plazos_creditos.add(new PlazoCredito("PCR202301000003", "LARGO PLAZO", "LPL",60, "ACTIVO"));
-            rep.saveAll(plazos_creditos);
+            List<PlazoCredito> plazosCreditos = new ArrayList<>();
+            plazosCreditos.add(new PlazoCredito("PCR202301000001", "CORTO PLAZO", "CPL",30, Constantes.activo, new Empresa(1)));
+            plazosCreditos.add(new PlazoCredito("PCR202301000002", "MEDIANO PLAZO", "MPL",45, Constantes.activo, new Empresa(1)));
+            plazosCreditos.add(new PlazoCredito("PCR202301000003", "LARGO PLAZO", "LPL",60, Constantes.activo, new Empresa(1)));
+            plazosCreditos.add(new PlazoCredito("PCR202301000001", "CORTO PLAZO FLEXIBLE", "CPLF",30, Constantes.activo, new Empresa(2)));
+            plazosCreditos.add(new PlazoCredito("PCR202301000002", "MEDIANO PLAZO FLEXIBLE", "MPLF",45, Constantes.activo, new Empresa(2)));
+            plazosCreditos.add(new PlazoCredito("PCR202301000003", "LARGO PLAZO FLEXIBLE", "LPLF",60, Constantes.activo, new Empresa(2)));
+            rep.saveAll(plazosCreditos);
         }
     }
 }

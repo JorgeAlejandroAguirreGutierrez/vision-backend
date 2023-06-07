@@ -23,11 +23,11 @@ public class OrigenIngresoData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<OrigenIngreso> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<OrigenIngreso> origenes_ingresos = new ArrayList<>();
-            origenes_ingresos.add(new OrigenIngreso("OIN202301000001", "SALARIO", "SLR", "ACTIVO"));
-            origenes_ingresos.add(new OrigenIngreso("OIN202301000002", "VENTAS", "VNT", "ACTIVO"));
-            origenes_ingresos.add(new OrigenIngreso("OIN202301000003", "INDEPENDIENTE", "INDP", "ACTIVO"));
-            rep.saveAll(origenes_ingresos);
+            List<OrigenIngreso> origenesIngresos = new ArrayList<>();
+            origenesIngresos.add(new OrigenIngreso("OIN202301000001", "SALARIO", "SLR", "ACTIVO"));
+            origenesIngresos.add(new OrigenIngreso("OIN202301000002", "VENTAS", "VNT", "ACTIVO"));
+            origenesIngresos.add(new OrigenIngreso("OIN202301000003", "INDEPENDIENTE", "INDP", "ACTIVO"));
+            rep.saveAll(origenesIngresos);
         }
     }
 }

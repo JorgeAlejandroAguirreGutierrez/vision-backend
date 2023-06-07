@@ -24,7 +24,6 @@ public class PerfilService implements IPerfilService {
         if(perfil.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
         if(perfil.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
         if(perfil.getMultiempresa().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.multiempresa);
-        //if(perfil.getPermisos().isEmpty()) throw new DatoInvalidoException(Constantes.permiso);
     }
     
     @Override
@@ -84,8 +83,8 @@ public class PerfilService implements IPerfilService {
     }
     
     @Override
-    public List<Perfil> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Perfil> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

@@ -113,8 +113,8 @@ public class UsuarioService implements IUsuarioService {
     }
     
     @Override
-    public List<Usuario> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Usuario> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

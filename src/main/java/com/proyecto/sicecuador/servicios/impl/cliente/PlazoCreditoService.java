@@ -76,8 +76,18 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     }
     
     @Override
-    public List<PlazoCredito> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<PlazoCredito> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<PlazoCredito> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<PlazoCredito> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

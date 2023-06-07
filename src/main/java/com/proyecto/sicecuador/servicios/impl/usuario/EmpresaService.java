@@ -110,8 +110,8 @@ public class EmpresaService implements IEmpresaService {
     }
     
     @Override
-    public List<Empresa> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Empresa> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

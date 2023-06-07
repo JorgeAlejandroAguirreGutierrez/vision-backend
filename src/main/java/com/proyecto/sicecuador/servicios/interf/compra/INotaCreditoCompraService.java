@@ -10,7 +10,9 @@ public interface INotaCreditoCompraService extends IGenericoService<NotaCreditoC
 	void validar(NotaCreditoCompra notaCreditoCompra);
 	NotaCreditoCompra activar(NotaCreditoCompra notaCreditoCompra);
 	NotaCreditoCompra inactivar(NotaCreditoCompra notaCreditoCompra);
-	List<NotaCreditoCompra> consultarActivos();
+	List<NotaCreditoCompra> consultarPorEstado(String estado);
+	List<NotaCreditoCompra> consultarPorEmpresa(long empresaId);
+	List<NotaCreditoCompra> consultarPorEmpresaYEstado(long empresaId, String estado);
 	NotaCreditoCompra calcular(NotaCreditoCompra notaCreditoCompra);
 	void validarLinea(NotaCreditoCompraLinea notaCreditoCompraLinea);
 	NotaCreditoCompra obtenerPorFacturaCompra(long facturaCompraId);

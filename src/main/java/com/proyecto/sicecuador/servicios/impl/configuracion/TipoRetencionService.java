@@ -76,8 +76,8 @@ public class TipoRetencionService implements ITipoRetencionService {
     }
     
     @Override
-    public List<TipoRetencion> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<TipoRetencion> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

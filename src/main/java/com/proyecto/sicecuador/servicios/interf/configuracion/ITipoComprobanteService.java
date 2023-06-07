@@ -6,8 +6,7 @@ import com.proyecto.sicecuador.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface ITipoComprobanteService extends IGenericoService<TipoComprobante> {
-
-    List<TipoComprobante> consultarActivos();
+    List<TipoComprobante> consultarPorEstado(String estado);
     List<TipoComprobante> consultarElectronica();
     TipoComprobante obtenerPorNombreTabla(String nombreTabla);
 }

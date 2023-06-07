@@ -9,5 +9,5 @@ public interface ITipoOperacionService extends IGenericoService<TipoOperacion> {
 	void validar(TipoOperacion tipoGasto);
 	TipoOperacion activar(TipoOperacion tipoGasto);
 	TipoOperacion inactivar(TipoOperacion tipoGasto);
-	List<TipoOperacion> consultarActivos();
+	List<TipoOperacion> consultarPorEstado(String estado);
 }

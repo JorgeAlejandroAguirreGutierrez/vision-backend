@@ -23,11 +23,11 @@ public class FranquiciaTarjetaData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<FranquiciaTarjeta> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<FranquiciaTarjeta> franquicia_tarjetas = new ArrayList<>();
-            franquicia_tarjetas.add(new FranquiciaTarjeta("FT1", "", "VISA", "V", Constantes.activo));
-            franquicia_tarjetas.add(new FranquiciaTarjeta("FT1", "", "DINERS CLUB", "DC", Constantes.activo));
-            franquicia_tarjetas.add(new FranquiciaTarjeta("FT1", "", "MASTERCARD", "M", Constantes.activo));
-            rep.saveAll(franquicia_tarjetas);
+            List<FranquiciaTarjeta> franquiciaTarjetas = new ArrayList<>();
+            franquiciaTarjetas.add(new FranquiciaTarjeta("FT1", "", "VISA", "V", Constantes.activo));
+            franquiciaTarjetas.add(new FranquiciaTarjeta("FT1", "", "DINERS CLUB", "DC", Constantes.activo));
+            franquiciaTarjetas.add(new FranquiciaTarjeta("FT1", "", "MASTERCARD", "M", Constantes.activo));
+            rep.saveAll(franquiciaTarjetas);
         }
     }
 }

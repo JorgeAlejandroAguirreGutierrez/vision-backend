@@ -99,7 +99,6 @@ public class MovimientoContableService implements IMovimientoContableService {
     	return rep.findAll(pageable);
     }
 
-
     @Override
     public List<MovimientoContable> buscar(MovimientoContable movimientoContable) {
         return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {

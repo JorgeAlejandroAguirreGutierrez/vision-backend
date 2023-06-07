@@ -33,9 +33,9 @@ public class BancoController implements GenericoController<Banco> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Banco> bancos= servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<Banco> bancos = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bancos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -63,14 +63,14 @@ public class BancoController implements GenericoController<Banco> {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Banco _banco) {
-        Banco banco=servicio.crear(_banco);
+        Banco banco = servicio.crear(_banco);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, banco);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Banco _banco) {
-        Banco banco=servicio.actualizar(_banco);
+        Banco banco = servicio.actualizar(_banco);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, banco);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

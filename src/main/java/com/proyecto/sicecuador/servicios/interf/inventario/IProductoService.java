@@ -9,7 +9,9 @@ public interface IProductoService extends IGenericoService<Producto> {
 	void validar(Producto producto);
     Producto activar(Producto producto);
 	Producto inactivar(Producto producto);
-	List<Producto> consultarActivos();
+	List<Producto> consultarPorEstado(String estado);
+    List<Producto> consultarPorEmpresa(long empresaId);
+    List<Producto> consultarPorEmpresaYEstado(long empresaId, String estado);
     List<Producto> consultarBien();
     List<Producto> consultarServicio();
     List<Producto> consultarActivoFijo();

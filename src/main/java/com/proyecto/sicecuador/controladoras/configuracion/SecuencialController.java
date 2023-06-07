@@ -34,17 +34,10 @@ public class SecuencialController implements GenericoController<Secuencial> {
     }
     
     @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Secuencial> secuenciales = servicio.consultarActivos();
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<Secuencial> secuenciales = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, secuenciales);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
-        List<Secuencial> secuenciales = servicio.consultarPorEmpresa(empresaId);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, secuenciales);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -9,6 +9,7 @@ public interface IEstablecimientoService extends IGenericoService<Establecimient
 	void validar(Establecimiento establecimiento);
 	Establecimiento activar(Establecimiento establecimiento);
 	Establecimiento inactivar(Establecimiento establecimiento);
-	List<Establecimiento> consultarActivos();
+	List<Establecimiento> consultarPorEstado(String estado);
 	List<Establecimiento> consultarPorEmpresa(long empresaId);
+	List<Establecimiento> consultarPorEmpresaYEstado(long empresaId, String estado);
 }

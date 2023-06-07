@@ -34,9 +34,9 @@ public class EstablecimientoController implements GenericoController<Establecimi
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Establecimiento> establecimientos = servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<Establecimiento> establecimientos = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -46,13 +46,6 @@ public class EstablecimientoController implements GenericoController<Establecimi
         List<Establecimiento> establecimientos = servicio.consultarPorEmpresa(empresaId);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    
-    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos(@PathVariable("empresaId") long empresaId) {
-	    List<Establecimiento> establecimientos = servicio.consultarPorEmpresa(empresaId);
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
-	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)

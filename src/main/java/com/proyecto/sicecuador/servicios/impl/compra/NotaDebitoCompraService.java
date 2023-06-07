@@ -135,8 +135,8 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     }
     
     @Override
-    public List<NotaDebitoCompra> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<NotaDebitoCompra> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override
@@ -277,5 +277,15 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         FacturaCompra facturaCompra = facturaCompraService.obtener(facturaCompraId);
         notaDebitoCompra.setFacturaCompra(facturaCompra);
         return notaDebitoCompra;
+    }
+
+    @Override
+    public List<NotaDebitoCompra> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<NotaDebitoCompra> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 }

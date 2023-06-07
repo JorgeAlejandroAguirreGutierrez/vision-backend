@@ -15,6 +15,10 @@ public interface IAfectacionContableRepository extends JpaRepository<AfectacionC
     List<AfectacionContable> consultar();
     @Query(value = "select ac from AfectacionContable ac where ac.estado=:estado order by ac.codigo asc")
     List<AfectacionContable> consultarPorEstado(String estado);
+    @Query(value = "select ac from AfectacionContable ac where ac.empresa.id = :empresaId order by ac.codigo asc")
+    List<AfectacionContable> consultarPorEmpresa(long empresaId);
+    @Query(value = "select ac from AfectacionContable ac where ac.empresa.id = :empresaId and ac.estado=:estado order by ac.codigo asc")
+    List<AfectacionContable> consultarPorEmpresaYEstado(long empresaId, String estado);
 	@Query(value = "select ac from AfectacionContable ac where ac.descripcion like '%'||:descripcion||'%' and ac.estado=:estado order by ac.codigo asc")
     List<AfectacionContable> buscar(String descripcion, String estado);
 }

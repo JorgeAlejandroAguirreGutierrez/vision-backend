@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.cliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;

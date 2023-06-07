@@ -35,9 +35,9 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<CuentaPropia> cuentasPropias = servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<CuentaPropia> cuentasPropias = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasPropias);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -88,13 +88,6 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
     public ResponseEntity<?> inactivar(@RequestBody CuentaPropia _cuentaPropia) {
     	CuentaPropia cuentaPropia = servicio.inactivar(_cuentaPropia);
         Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, cuentaPropia);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/consultarBancos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarBancos() {
-        List<String> bancos= servicio.consultarBancos();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bancos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

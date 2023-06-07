@@ -74,8 +74,8 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     }
     
     @Override
-    public List<FranquiciaTarjeta> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<FranquiciaTarjeta> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

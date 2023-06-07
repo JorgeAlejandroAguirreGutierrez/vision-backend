@@ -85,8 +85,18 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     }
     
     @Override
-    public List<CategoriaProducto> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<CategoriaProducto> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<CategoriaProducto> consultarPorEmpresa(long empresaId){
+        return consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<CategoriaProducto> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

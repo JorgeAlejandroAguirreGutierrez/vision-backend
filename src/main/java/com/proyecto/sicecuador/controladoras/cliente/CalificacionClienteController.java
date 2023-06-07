@@ -8,6 +8,7 @@ import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
 import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
+import com.proyecto.sicecuador.modelos.cliente.Segmento;
 import com.proyecto.sicecuador.servicios.interf.cliente.ICalificacionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,10 +34,10 @@ public class CalificacionClienteController implements GenericoController<Calific
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, calificacionesClientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<CalificacionCliente> calificacionesClientes = servicio.consultarActivos();
+
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<CalificacionCliente> calificacionesClientes = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, calificacionesClientes);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

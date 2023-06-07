@@ -42,14 +42,6 @@ public class ProductoService implements IProductoService {
         if(!producto.getCategoriaProducto().getDescripcion().equals(Constantes.bien)){
             producto.setKardexs(Collections.emptyList());
         }
-        /*if(producto.getCategoriaProducto().getDescripcion().equals(Constantes.activo_fijo)){
-            producto.setKardexs(Collections.emptyList());
-        }
-        for (Precio precio : producto.getPrecios()) {
-            if(precio.getPrecioVentaPublicoManual() < precio.getPrecioVentaPublico()){
-                throw new DatoInvalidoException(Constantes.precio_venta_publico_manual);
-            }
-        }*/
         for(Kardex kardex: producto.getKardexs()){
             if(kardex.getSaldo() <= Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
             if(kardex.getCostoPromedio() <= Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
@@ -118,8 +110,18 @@ public class ProductoService implements IProductoService {
     }
     
     @Override
-    public List<Producto> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Producto> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<Producto> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<Producto> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathRetencionClien
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.IRetencionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -30,13 +28,6 @@ public class RetencionClienteController implements GenericoController<RetencionC
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
         List<RetencionCliente> retencionesClientes = servicio.consultar();
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, retencionesClientes);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
-        List<RetencionCliente> retencionesClientes = servicio.consultarPorEmpresa(empresaId);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, retencionesClientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

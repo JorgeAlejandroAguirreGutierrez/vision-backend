@@ -83,8 +83,18 @@ public class CuentaContableService implements ICuentaContableService {
     }
     
     @Override
-    public List<CuentaContable> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<CuentaContable> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<CuentaContable> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<CuentaContable> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

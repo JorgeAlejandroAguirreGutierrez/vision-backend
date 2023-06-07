@@ -34,9 +34,9 @@ public class GrupoProveedorController implements GenericoController<GrupoProveed
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<GrupoProveedor> gruposProveedores = servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<GrupoProveedor> gruposProveedores = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, gruposProveedores);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

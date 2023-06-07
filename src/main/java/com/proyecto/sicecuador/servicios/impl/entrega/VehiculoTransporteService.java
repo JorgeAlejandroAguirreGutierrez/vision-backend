@@ -62,8 +62,8 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
     }
     
     @Override
-    public List<VehiculoTransporte> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<VehiculoTransporte> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

@@ -9,7 +9,7 @@ public interface IEstacionService extends IGenericoService<Estacion> {
 	void validar(Estacion estacion);
 	Estacion activar(Estacion estacion);
 	Estacion inactivar(Estacion estacion);
-	List<Estacion> consultarActivos();
+	List<Estacion> consultarPorEstado(String estado);
     List<Estacion> consultarPorEstablecimiento(long establecimientoId);
 	List<Estacion> consultarPorEstablecimientoPuntoVenta(long establecimientoId);
 }

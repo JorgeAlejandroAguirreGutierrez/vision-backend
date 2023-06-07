@@ -78,8 +78,8 @@ public class UbicacionService implements IUbicacionService {
     }
     
     @Override
-    public List<Ubicacion> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Ubicacion> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

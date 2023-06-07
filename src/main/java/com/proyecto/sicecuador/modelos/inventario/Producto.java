@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +48,9 @@ public class Producto extends Entidad {
     @ManyToOne
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "producto_id")

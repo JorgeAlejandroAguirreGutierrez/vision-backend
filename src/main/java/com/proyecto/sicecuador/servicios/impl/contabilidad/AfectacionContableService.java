@@ -78,8 +78,8 @@ public class AfectacionContableService implements IAfectacionContableService {
     }
     
     @Override
-    public List<AfectacionContable> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<AfectacionContable> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override
@@ -87,6 +87,15 @@ public class AfectacionContableService implements IAfectacionContableService {
     	return rep.findAll(pageable);
     }
 
+    @Override
+    public List<AfectacionContable> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<AfectacionContable> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
+    }
 
     @Override
     public List<AfectacionContable> buscar(AfectacionContable afectacionContable) {

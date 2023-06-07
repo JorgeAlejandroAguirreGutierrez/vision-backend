@@ -30,14 +30,14 @@ public class AfectacionContableController implements GenericoController<Afectaci
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-	    List<AfectacionContable> afectacionesContables=servicio.consultar();
+	    List<AfectacionContable> afectacionesContables = servicio.consultar();
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, afectacionesContables);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<AfectacionContable> afectacionesContables = servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<AfectacionContable> afectacionesContables = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, afectacionesContables);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

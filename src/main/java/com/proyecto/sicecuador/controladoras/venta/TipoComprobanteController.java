@@ -33,9 +33,9 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-        List<TipoComprobante> tiposComprobantes = servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+        List<TipoComprobante> tiposComprobantes = servicio.consultarPorEstado(estado);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposComprobantes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -57,7 +57,7 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         TipoComprobante tipoComprobante=servicio.obtener(id);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipoComprobante);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipoComprobante);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

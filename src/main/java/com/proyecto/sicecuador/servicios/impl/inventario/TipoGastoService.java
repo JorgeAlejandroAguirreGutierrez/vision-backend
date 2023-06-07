@@ -74,8 +74,8 @@ public class TipoGastoService implements ITipoGastoService {
     }
     
     @Override
-    public List<TipoGasto> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<TipoGasto> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

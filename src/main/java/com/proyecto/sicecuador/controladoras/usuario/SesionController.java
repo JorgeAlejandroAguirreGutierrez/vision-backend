@@ -31,18 +31,10 @@ public class SesionController implements GenericoController<Sesion> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<Sesion> sesiones=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, sesiones);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
-        List<Sesion> sesiones = servicio.consultarPorEmpresa(empresaId);
+        List<Sesion> sesiones = servicio.consultar();
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, sesiones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){

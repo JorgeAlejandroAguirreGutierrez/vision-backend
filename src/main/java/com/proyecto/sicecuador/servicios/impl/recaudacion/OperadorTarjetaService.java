@@ -75,8 +75,8 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     }
     
     @Override
-    public List<OperadorTarjeta> consultarActivos() {
-        return rep.consultarPorEstado(Constantes.activo);
+    public List<OperadorTarjeta> consultarPorEstado(String estado) {
+        return rep.consultarPorEstado(estado);
     }
     
     @Override

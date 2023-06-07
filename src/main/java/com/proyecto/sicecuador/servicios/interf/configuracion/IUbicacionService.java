@@ -9,7 +9,7 @@ public interface IUbicacionService extends IGenericoService<Ubicacion> {
 	void validar(Ubicacion ubicacion);
     Ubicacion activar(Ubicacion ubicacion);
 	Ubicacion inactivar(Ubicacion ubicacion);
-	List<Ubicacion> consultarActivos();
+	List<Ubicacion> consultarPorEstado(String estado);
     List<Ubicacion> consultarProvincias();
     List<Ubicacion> consultarCantones(Ubicacion ubicacion);
     List<Ubicacion> consultarParroquias(String canton);
