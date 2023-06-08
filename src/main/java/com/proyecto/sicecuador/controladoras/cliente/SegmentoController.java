@@ -32,19 +32,26 @@ public class SegmentoController implements GenericoController<Segmento> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
-        List<Segmento> segmentos = servicio.consultarPorEmpresa(empresaId);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
     
     @GetMapping(value = "/consultarPorEstado", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
 	    List<Segmento> segmentos = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<Segmento> segmentos = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<Segmento> segmentos = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)

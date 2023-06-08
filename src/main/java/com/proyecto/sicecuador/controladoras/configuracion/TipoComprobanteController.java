@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.controladoras.venta;
+package com.proyecto.sicecuador.controladoras.configuracion;
 
 import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
 import static com.proyecto.sicecuador.controladoras.Endpoints.pathTipoComprobante;
@@ -29,21 +29,14 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
         List<TipoComprobante> tiposComprobantes = servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposComprobantes);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposComprobantes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
-        List<TipoComprobante> tiposComprobantes = servicio.consultarPorEstado(estado);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposComprobantes);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/consultarElectronica", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarElectronica() {
-        List<TipoComprobante> tiposComprobantes = servicio.consultarElectronica();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, tiposComprobantes);
+    @GetMapping(value = "/consultarPorElectronica", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorElectronica() {
+        List<TipoComprobante> tiposComprobantes = servicio.consultarPorElectronica();
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, tiposComprobantes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

@@ -34,10 +34,10 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos(@PathVariable("estado") String estado) {
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
 	    List<OrigenIngreso> origenesIngresos = servicio.consultarPorEstado(estado);
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, origenesIngresos);
+	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, origenesIngresos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

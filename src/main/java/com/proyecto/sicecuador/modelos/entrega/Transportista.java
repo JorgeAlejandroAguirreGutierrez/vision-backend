@@ -1,7 +1,9 @@
 package com.proyecto.sicecuador.modelos.entrega;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.cliente.Telefono;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
@@ -10,6 +12,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.util.List;
 
 import static com.proyecto.sicecuador.Constantes.tabla_transportista;
 
@@ -33,11 +37,13 @@ public class Transportista extends Entidad {
     @JoinColumn(name = "tipo_identificacion_id", nullable = true)
     private TipoIdentificacion tipoIdentificacion;
     @ManyToOne
-    @JoinColumn(name = "vehiculo_transporte_id", nullable = true)
-    private VehiculoTransporte vehiculoTransporte;
-    @ManyToOne
     @JoinColumn(name = "empresa_id", nullable = true)
     private Empresa empresa;
+    @JsonManagedReference
+    @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "transportista_id", nullable = true)
+    private List<VehiculoTransporte> vehiculosTransportes;
+
 
     public Transportista(long id){
         super(id);
@@ -53,6 +59,5 @@ public class Transportista extends Entidad {
 
     public void normalizar(){
         if(this.tipoIdentificacion == null) this.tipoIdentificacion = new TipoIdentificacion();
-        if(this.vehiculoTransporte == null) this.vehiculoTransporte = new VehiculoTransporte();
     }
 }

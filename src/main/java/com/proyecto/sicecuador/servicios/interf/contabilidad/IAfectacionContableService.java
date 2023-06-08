@@ -10,7 +10,5 @@ public interface IAfectacionContableService extends IGenericoService<AfectacionC
 	AfectacionContable activar(AfectacionContable afectacionContable);
 	AfectacionContable inactivar(AfectacionContable afectacionContable);
 	List<AfectacionContable> consultarPorEstado(String estado);
-	List<AfectacionContable> consultarPorEmpresa(long empresaId);
-	List<AfectacionContable> consultarPorEmpresaYEstado(long empresaId, String estado);
     List<AfectacionContable> buscar(AfectacionContable afectacionContable);
 }

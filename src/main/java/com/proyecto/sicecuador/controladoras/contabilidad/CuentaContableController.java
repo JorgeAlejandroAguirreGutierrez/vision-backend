@@ -49,6 +49,13 @@ public class CuentaContableController implements GenericoController<CuentaContab
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<CuentaContable> cuentasContables = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasContables);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
     	Page<CuentaContable> cuentasContables = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));

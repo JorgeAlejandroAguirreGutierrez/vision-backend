@@ -25,9 +25,6 @@ public class AfectacionContable extends Entidad {
     private String abreviatura;
     @Column(name = "estado", nullable = true)
     private String estado;
-    @ManyToOne
-    @JoinColumn(name = "empresa_id", nullable = true)
-    private Empresa empresa;
 
     public AfectacionContable(long id){
         super(id);

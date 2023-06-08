@@ -49,6 +49,13 @@ public class CalificacionClienteController implements GenericoController<Calific
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<CalificacionCliente> calificacionesClientes = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, calificacionesClientes);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
     	Page<CalificacionCliente> calificacionesClientes = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));

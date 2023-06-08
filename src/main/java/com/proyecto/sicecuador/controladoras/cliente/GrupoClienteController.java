@@ -33,15 +33,22 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
     }
 
     @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos(@PathVariable("empresaId") String estado) {
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
 	    List<GrupoCliente> gruposClientes = servicio.consultarPorEstado(estado);
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, gruposClientes);
+	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, gruposClientes);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
         List<GrupoCliente> gruposClientes = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, gruposClientes);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<GrupoCliente> gruposClientes = servicio.consultarPorEmpresaYEstado(empresaId, estado);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, gruposClientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

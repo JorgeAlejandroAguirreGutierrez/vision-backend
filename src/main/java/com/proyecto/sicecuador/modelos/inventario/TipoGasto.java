@@ -22,8 +22,6 @@ public class TipoGasto extends Entidad {
     private String descripcion;
     @Column(name = "abreviatura", nullable = true)
     private String abreviatura;
-    @Column(name = "estado", nullable = true)
-    private String estado;
 
     public TipoGasto(long id){
         super(id);
@@ -33,6 +31,5 @@ public class TipoGasto extends Entidad {
         this.codigo = Constantes.vacio;
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
-        this.estado = Constantes.activo;
     }
 }
