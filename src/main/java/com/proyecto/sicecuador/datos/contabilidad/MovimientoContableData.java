@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import com.proyecto.sicecuador.repositorios.contabilidad.IMovimientoContableRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,19 @@ public class MovimientoContableData implements ApplicationRunner {
         Optional<MovimientoContable> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<MovimientoContable> movimientosContables = new ArrayList<>();
-            movimientosContables.add(new MovimientoContable("MVC011907000001", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(2),new CuentaContable(3),new CuentaContable(5), new CuentaContable(6), new CuentaContable(4), new CuentaContable(5), new CuentaContable(1)));
-            movimientosContables.add(new MovimientoContable("MVC011907000002", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(2),new CuentaContable(3),new CuentaContable(5), new CuentaContable(6), new CuentaContable(4), new CuentaContable(5), new CuentaContable(2)));
-            movimientosContables.add(new MovimientoContable("MVC011907000003", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(3),new CuentaContable(3),new CuentaContable(4), new CuentaContable(1), new CuentaContable(4), new CuentaContable(5), new CuentaContable(3)));
-            movimientosContables.add(new MovimientoContable("MVC011907000004", Constantes.activo, new AfectacionContable(1), new CuentaContable(2),new CuentaContable(3),new CuentaContable(5),new CuentaContable(4), new CuentaContable(1), new CuentaContable(3), new CuentaContable(6), new CuentaContable(4)));
-            movimientosContables.add(new MovimientoContable("MVC011907000005", Constantes.activo, new AfectacionContable(2), new CuentaContable(2),new CuentaContable(4),new CuentaContable(5),new CuentaContable(3), new CuentaContable(2), new CuentaContable(3), new CuentaContable(6), new CuentaContable(5)));
-            movimientosContables.add(new MovimientoContable("MVC011907000006", Constantes.activo, new AfectacionContable(2), new CuentaContable(2),new CuentaContable(4),new CuentaContable(5),new CuentaContable(3), new CuentaContable(2), new CuentaContable(3), new CuentaContable(6), new CuentaContable(6)));
+            movimientosContables.add(new MovimientoContable("MVC011907000001", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(2),new CuentaContable(3),new CuentaContable(5), new CuentaContable(6), new CuentaContable(4), new CuentaContable(5), new CuentaContable(1), new Empresa(1)));
+            movimientosContables.add(new MovimientoContable("MVC011907000002", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(2),new CuentaContable(3),new CuentaContable(5), new CuentaContable(6), new CuentaContable(4), new CuentaContable(5), new CuentaContable(2), new Empresa(1)));
+            movimientosContables.add(new MovimientoContable("MVC011907000003", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(3),new CuentaContable(3),new CuentaContable(4), new CuentaContable(1), new CuentaContable(4), new CuentaContable(5), new CuentaContable(3), new Empresa(1)));
+            movimientosContables.add(new MovimientoContable("MVC011907000004", Constantes.activo, new AfectacionContable(1), new CuentaContable(2),new CuentaContable(3),new CuentaContable(5),new CuentaContable(4), new CuentaContable(1), new CuentaContable(3), new CuentaContable(6), new CuentaContable(4), new Empresa(1)));
+            movimientosContables.add(new MovimientoContable("MVC011907000005", Constantes.activo, new AfectacionContable(2), new CuentaContable(2),new CuentaContable(4),new CuentaContable(5),new CuentaContable(3), new CuentaContable(2), new CuentaContable(3), new CuentaContable(6), new CuentaContable(5), new Empresa(1)));
+            movimientosContables.add(new MovimientoContable("MVC011907000006", Constantes.activo, new AfectacionContable(2), new CuentaContable(2),new CuentaContable(4),new CuentaContable(5),new CuentaContable(3), new CuentaContable(2), new CuentaContable(3), new CuentaContable(6), new CuentaContable(6), new Empresa(1)));
+
+            movimientosContables.add(new MovimientoContable("MVC011907000007", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(2),new CuentaContable(3),new CuentaContable(5), new CuentaContable(6), new CuentaContable(4), new CuentaContable(5), new CuentaContable(1), new Empresa(2)));
+            movimientosContables.add(new MovimientoContable("MVC011907000008", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(2),new CuentaContable(3),new CuentaContable(5), new CuentaContable(6), new CuentaContable(4), new CuentaContable(5), new CuentaContable(2), new Empresa(2)));
+            movimientosContables.add(new MovimientoContable("MVC011907000009", Constantes.activo, new AfectacionContable(1), new CuentaContable(1),new CuentaContable(3),new CuentaContable(3),new CuentaContable(4), new CuentaContable(1), new CuentaContable(4), new CuentaContable(5), new CuentaContable(3), new Empresa(2)));
+            movimientosContables.add(new MovimientoContable("MVC011907000010", Constantes.activo, new AfectacionContable(1), new CuentaContable(2),new CuentaContable(3),new CuentaContable(5),new CuentaContable(4), new CuentaContable(1), new CuentaContable(3), new CuentaContable(6), new CuentaContable(4), new Empresa(2)));
+            movimientosContables.add(new MovimientoContable("MVC011907000011", Constantes.activo, new AfectacionContable(2), new CuentaContable(2),new CuentaContable(4),new CuentaContable(5),new CuentaContable(3), new CuentaContable(2), new CuentaContable(3), new CuentaContable(6), new CuentaContable(5), new Empresa(2)));
+            movimientosContables.add(new MovimientoContable("MVC011907000012", Constantes.activo, new AfectacionContable(2), new CuentaContable(2),new CuentaContable(4),new CuentaContable(5),new CuentaContable(3), new CuentaContable(2), new CuentaContable(3), new CuentaContable(6), new CuentaContable(6), new Empresa(2)));
             rep.saveAll(movimientosContables);
         }
     }

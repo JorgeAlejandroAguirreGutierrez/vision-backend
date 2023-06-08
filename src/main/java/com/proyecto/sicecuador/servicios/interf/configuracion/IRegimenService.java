@@ -9,6 +9,6 @@ public interface IRegimenService extends IGenericoService<Regimen> {
 	void validar(Regimen regimen);
 	Regimen activar(Regimen regimen);
 	Regimen inactivar(Regimen regimen);
-	List<Regimen> consultarActivos();
+	List<Regimen> consultarPorEstado(String estado);
 	List<Regimen> buscar(Regimen regimen);
 }

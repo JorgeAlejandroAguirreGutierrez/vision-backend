@@ -95,10 +95,24 @@ public class MovimientoContableService implements IMovimientoContableService {
     }
 
     @Override
+    public List<MovimientoContable> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<MovimientoContable> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<MovimientoContable> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
+    }
+
+    @Override
     public Page<MovimientoContable> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
 
     @Override
     public List<MovimientoContable> buscar(MovimientoContable movimientoContable) {

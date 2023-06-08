@@ -25,15 +25,22 @@ public class FacturaCompraController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<FacturaCompra> facturasCompras=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
+        List<FacturaCompra> facturasCompras = servicio.consultar();
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-        List<FacturaCompra> facturasCompras= servicio.consultarActivos();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+        List<FacturaCompra> facturasCompras = servicio.consultarPorEstado(estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<FacturaCompra> facturasCompras = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

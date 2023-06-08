@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathSecuencial;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,12 @@ public class SecuencialController implements GenericoController<Secuencial> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Secuencial> secuenciales = servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<Secuencial> secuenciales = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, secuenciales);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){

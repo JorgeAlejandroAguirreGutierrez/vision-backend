@@ -9,6 +9,8 @@ public interface IGrupoProveedorService extends IGenericoService<GrupoProveedor>
 	void validar(GrupoProveedor grupoProveedor);
 	GrupoProveedor activar(GrupoProveedor grupoProveedor);
 	GrupoProveedor inactivar(GrupoProveedor grupoProveedor);
-	List<GrupoProveedor> consultarActivos();
+	List<GrupoProveedor> consultarPorEstado(String estado);
+	List<GrupoProveedor> consultarPorEmpresa(long empresaId);
+	List<GrupoProveedor> consultarPorEmpresaYEstado(long empresaId, String estado);
 	List<GrupoProveedor> buscar(GrupoProveedor grupoProveedor);
 }

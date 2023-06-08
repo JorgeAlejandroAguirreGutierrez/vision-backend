@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface IOperadorTarjetaService extends IGenericoService<OperadorTarjeta> {
 	void validar(OperadorTarjeta operadorTarjeta);
-	List<OperadorTarjeta> consultarActivos();
-	List<OperadorTarjeta> consultarPorTipo(String tipo);
 	OperadorTarjeta activar(OperadorTarjeta operadorTarjeta);
 	OperadorTarjeta inactivar(OperadorTarjeta operadorTarjeta);
+	List<OperadorTarjeta> consultarPorEstado(String estado);
+	List<OperadorTarjeta> consultarPorTipo(String tipo);
+
 }

@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.contabilidad;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -48,6 +49,9 @@ public class MovimientoContable extends Entidad {
     @ManyToOne
 	@JoinColumn(name = "devolucion_costo_venta_id", nullable = true)
 	private CuentaContable devolucionCostoVenta;
+	@ManyToOne
+	@JoinColumn(name = "empresa_id", nullable = true)
+	private Empresa empresa;
 
 	public MovimientoContable(long id){
 		super(id);

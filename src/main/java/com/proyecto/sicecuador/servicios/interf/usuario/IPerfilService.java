@@ -9,5 +9,5 @@ public interface IPerfilService extends IGenericoService<Perfil> {
 	void validar(Perfil perfil);
 	Perfil activar(Perfil perfil);
 	Perfil inactivar(Perfil perfil);
-	List<Perfil> consultarActivos();
+	List<Perfil> consultarPorEstado(String estado);
 }

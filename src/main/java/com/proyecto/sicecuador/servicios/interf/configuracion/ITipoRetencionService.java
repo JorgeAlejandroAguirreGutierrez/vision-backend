@@ -9,7 +9,7 @@ public interface ITipoRetencionService extends IGenericoService<TipoRetencion> {
 	void validar(TipoRetencion tipoRetencion);
 	TipoRetencion activar(TipoRetencion tipoRetencion);
 	TipoRetencion inactivar(TipoRetencion tipoRetencion);
-	List<TipoRetencion> consultarActivos();
+	List<TipoRetencion> consultarPorEstado(String estado);
 	List<TipoRetencion> consultarIvaBien();
     List<TipoRetencion> consultarIvaServicio();
     List<TipoRetencion> consultarRentaBien();

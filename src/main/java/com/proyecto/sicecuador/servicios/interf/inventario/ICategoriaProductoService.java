@@ -8,6 +8,8 @@ public interface ICategoriaProductoService extends IGenericoService<CategoriaPro
 	void validar(CategoriaProducto categoriaProducto);
 	CategoriaProducto activar(CategoriaProducto categoriaProducto);
 	CategoriaProducto inactivar(CategoriaProducto categoriaProducto);
-	List<CategoriaProducto> consultarActivos();
+	List<CategoriaProducto> consultarPorEstado(String estado);
+	List<CategoriaProducto> consultarPorEmpresa(long empresaId);
+	List<CategoriaProducto> consultarPorEmpresaYEstado(long empresaId, String estado);
 	CategoriaProducto obtenerPorAbreviatura(String descripcion);
 }

@@ -500,13 +500,18 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
+    public List<Cliente> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
+    }
+
+    @Override
     public List<Cliente> consultarPorEmpresa(long empresaId){
         return rep.consultarPorEmpresa(empresaId);
     }
 
     @Override
-    public List<Cliente> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
     
     @Override

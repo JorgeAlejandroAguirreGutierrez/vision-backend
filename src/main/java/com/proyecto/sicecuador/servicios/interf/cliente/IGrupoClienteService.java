@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface IGrupoClienteService extends IGenericoService<GrupoCliente> {
 	void validar(GrupoCliente grupoCliente);
+	List<GrupoCliente> consultarPorEstado(String estado);
 	List<GrupoCliente> consultarPorEmpresa(long empresaId);
-	List<GrupoCliente> consultarActivos();
+	List<GrupoCliente> consultarPorEmpresaYEstado(long empresaId, String estado);
 	GrupoCliente activar(GrupoCliente grupoCliente);
 	GrupoCliente inactivar(GrupoCliente grupoCliente);
 	List<GrupoCliente> buscar(GrupoCliente grupoCliente);

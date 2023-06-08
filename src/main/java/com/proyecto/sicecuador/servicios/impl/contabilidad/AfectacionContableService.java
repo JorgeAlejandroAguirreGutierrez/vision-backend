@@ -78,15 +78,14 @@ public class AfectacionContableService implements IAfectacionContableService {
     }
     
     @Override
-    public List<AfectacionContable> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<AfectacionContable> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override
     public Page<AfectacionContable> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
 
     @Override
     public List<AfectacionContable> buscar(AfectacionContable afectacionContable) {

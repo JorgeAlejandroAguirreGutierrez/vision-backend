@@ -70,6 +70,9 @@ public class Proveedor extends Entidad {
     @ManyToOne
     @JoinColumn(name = "ubicacion_id", nullable = true)
     private Ubicacion ubicacion;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
     @JsonManagedReference
     @OneToMany(cascade ={CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "proveedor_id", nullable = true)
@@ -82,9 +85,6 @@ public class Proveedor extends Entidad {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "proveedor_id", nullable = true)
     private List<CorreoProveedor> correosProveedor;
-    @ManyToOne
-    @JoinColumn(name = "empresa_id", nullable = true)
-    private Empresa empresa;
 
     public Proveedor(long id){
         super(id);

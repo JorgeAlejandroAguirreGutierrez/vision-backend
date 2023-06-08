@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathBodega;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.servicios.interf.inventario.IBodegaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,25 @@ public class BodegaController implements GenericoController<Bodega> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Bodega> bodegas= servicio.consultarActivos();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bodegas);
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<Bodega> bodegas = servicio.consultarPorEstado(estado);
+	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, bodegas);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<Bodega> bodegas = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, bodegas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<Bodega> bodegas = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, bodegas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)

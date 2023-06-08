@@ -63,6 +63,9 @@ public class GuiaRemision extends Entidad {
     @ManyToOne
     @JoinColumn(name = "transportista_id", nullable = true)
     private Transportista transportista;
+    @ManyToOne
+    @JoinColumn(name = "vehiculo_transporte_id", nullable = true)
+    private VehiculoTransporte vehiculoTransporte;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;

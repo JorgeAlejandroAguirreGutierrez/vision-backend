@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathOrigenIngreso;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.servicios.interf.cliente.IOrigenIngresoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,10 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<OrigenIngreso> origenesIngresos = servicio.consultarActivos();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, origenesIngresos);
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<OrigenIngreso> origenesIngresos = servicio.consultarPorEstado(estado);
+	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, origenesIngresos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

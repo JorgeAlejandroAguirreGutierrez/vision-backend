@@ -9,5 +9,7 @@ public interface IPlazoCreditoService extends IGenericoService<PlazoCredito> {
 	void validar(PlazoCredito plazoCredito);
 	PlazoCredito activar(PlazoCredito plazoCredito);
 	PlazoCredito inactivar(PlazoCredito plazoCredito);
-	List<PlazoCredito> consultarActivos();
+	List<PlazoCredito> consultarPorEstado(String estado);
+	List<PlazoCredito> consultarPorEmpresa(long empresaId);
+	List<PlazoCredito> consultarPorEmpresaYEstado(long empresaId, String estado);
 }

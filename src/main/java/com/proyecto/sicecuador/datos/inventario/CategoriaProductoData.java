@@ -24,12 +24,12 @@ public class CategoriaProductoData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<CategoriaProducto> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<CategoriaProducto> categorias_productos = new ArrayList<>();
-            categorias_productos.add(new CategoriaProducto("TPR011907000001", "BIEN", "B", Constantes.activo));
-            categorias_productos.add(new CategoriaProducto("TPR011907000002", "SERVICIO", "S", Constantes.activo));
-            categorias_productos.add(new CategoriaProducto("TPR011907000003", "ACTIVO_FIJO", "AF", Constantes.activo));
-            categorias_productos.add(new CategoriaProducto("TPR011907000004", "OTRO", "OT", Constantes.activo));
-            rep.saveAll(categorias_productos);
+            List<CategoriaProducto> categoriasProductos = new ArrayList<>();
+            categoriasProductos.add(new CategoriaProducto("TPR011907000001", "BIEN", "B", Constantes.activo));
+            categoriasProductos.add(new CategoriaProducto("TPR011907000002", "SERVICIO", "S", Constantes.activo));
+            categoriasProductos.add(new CategoriaProducto("TPR011907000003", "ACTIVO_FIJO", "AF", Constantes.activo));
+            categoriasProductos.add(new CategoriaProducto("TPR011907000004", "OTRO", "OT", Constantes.activo));
+            rep.saveAll(categoriasProductos);
         }
     }
 }

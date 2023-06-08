@@ -10,7 +10,8 @@ public interface ICuentaPropiaService extends IGenericoService<CuentaPropia> {
 	void validar(CuentaPropia cuentaPropia);
 	CuentaPropia activar(CuentaPropia cuentaPropia);
 	CuentaPropia inactivar(CuentaPropia cuentaPropia);
-	List<CuentaPropia> consultarActivos();
-	List<String> consultarBancos();
+	List<CuentaPropia> consultarPorEstado(String estado);
+	List<CuentaPropia> consultarPorEmpresa(long empresaId);
+	List<CuentaPropia> consultarPorEmpresaYEstado(long empresaId, String estado);
 	List<CuentaPropia> consultarPorBanco(String banco);
 }

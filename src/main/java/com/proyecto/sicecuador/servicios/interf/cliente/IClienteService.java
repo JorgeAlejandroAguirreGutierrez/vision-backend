@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface IClienteService extends IGenericoService<Cliente> {
     void validar(Cliente cliente);
+    List<Cliente> consultarPorEstado(String estado);
     List<Cliente> consultarPorEmpresa(long empresaId);
-    List<Cliente> consultarActivos();
+    List<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado);
 	Cliente activar(Cliente cliente);
 	Cliente inactivar(Cliente cliente);
     String existe(Cliente cliente);

@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathCategoriaProdu
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
 import com.proyecto.sicecuador.servicios.interf.inventario.ICategoriaProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,9 @@ public class CategoriaProductoController implements GenericoController<Categoria
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<CategoriaProducto> categoriasProductos= servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<CategoriaProducto> categoriasProductos = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, categoriasProductos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

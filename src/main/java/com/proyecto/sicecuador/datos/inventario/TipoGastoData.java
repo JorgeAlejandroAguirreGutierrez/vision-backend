@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.datos.inventario;
 
-import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
 import com.proyecto.sicecuador.repositorios.inventario.ITipoGastoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +24,14 @@ public class TipoGastoData implements ApplicationRunner {
         Optional<TipoGasto> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<TipoGasto> tiposGastos = new ArrayList<>();
-            tiposGastos.add(new TipoGasto("TGA011907000001", "NO APLICA","N/A", Constantes.activo));
-            tiposGastos.add(new TipoGasto("TGA011907000002", "ALIMENTACION","AL",Constantes.activo));
-            tiposGastos.add(new TipoGasto("TGA011907000003", "SALUD","SA",Constantes.activo));
-            tiposGastos.add(new TipoGasto("TGA011907000004", "VIVIENDA","VI",Constantes.activo));
-            tiposGastos.add(new TipoGasto("TGA011907000005", "VESTIMENTA","VE",Constantes.activo));
-            tiposGastos.add(new TipoGasto("TGA011907000006", "EDUCACION","ED",Constantes.activo));
-            tiposGastos.add(new TipoGasto("TGA011907000007", "ARTE","AR",Constantes.activo));
-            tiposGastos.add(new TipoGasto("TGA011907000008", "CULTURA","CU",Constantes.activo));
+            tiposGastos.add(new TipoGasto("TGA011907000001", "NO APLICA","N/A"));
+            tiposGastos.add(new TipoGasto("TGA011907000002", "ALIMENTACION","AL"));
+            tiposGastos.add(new TipoGasto("TGA011907000003", "SALUD","SA"));
+            tiposGastos.add(new TipoGasto("TGA011907000004", "VIVIENDA","VI"));
+            tiposGastos.add(new TipoGasto("TGA011907000005", "VESTIMENTA","VE"));
+            tiposGastos.add(new TipoGasto("TGA011907000006", "EDUCACION","ED"));
+            tiposGastos.add(new TipoGasto("TGA011907000007", "ARTE","AR"));
+            tiposGastos.add(new TipoGasto("TGA011907000008", "CULTURA","CU"));
             rep.saveAll(tiposGastos);
         }
     }

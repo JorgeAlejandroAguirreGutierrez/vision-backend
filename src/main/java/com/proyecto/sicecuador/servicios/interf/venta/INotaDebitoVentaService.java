@@ -10,7 +10,9 @@ public interface INotaDebitoVentaService extends IGenericoService<NotaDebitoVent
 	void validar(NotaDebitoVenta notaDebitoVenta);
 	NotaDebitoVenta activar(NotaDebitoVenta notaDebitoVenta);
 	NotaDebitoVenta inactivar(NotaDebitoVenta notaDebitoVenta);
-	List<NotaDebitoVenta> consultarActivos();
+	List<NotaDebitoVenta> consultarPorEstado(String estado);
+	List<NotaDebitoVenta> consultarPorEmpresa(long empresaId);
+	List<NotaDebitoVenta> consultarPorEmpresaYEstado(long empresaId, String estado);
 	NotaDebitoVenta calcular(NotaDebitoVenta notaDebitoVenta);
 	void validarLinea(NotaDebitoVentaLinea notaDebitoVentaLinea);
 	NotaDebitoVentaLinea calcularLinea(NotaDebitoVentaLinea notaDebitoVentaLinea);

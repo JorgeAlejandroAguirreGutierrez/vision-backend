@@ -13,6 +13,4 @@ import org.springframework.stereotype.Repository;
 public interface ITipoGastoRepository extends JpaRepository<TipoGasto, Long>, JpaSpecificationExecutor<TipoGasto> {
     @Query(value = "select tg from TipoGasto tg order by tg.codigo asc")
     List<TipoGasto> consultar();
-    @Query(value = "select tg from TipoGasto tg where tg.estado=:estado order by tg.codigo asc")
-    List<TipoGasto> consultarPorEstado(String estado);
 }

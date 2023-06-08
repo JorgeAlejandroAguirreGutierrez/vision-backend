@@ -100,13 +100,18 @@ public class EstablecimientoService implements IEstablecimientoService {
     }
     
     @Override
-    public List<Establecimiento> consultarActivos(){
+    public List<Establecimiento> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(Constantes.activo);
     }
-    
+
     @Override
     public List<Establecimiento> consultarPorEmpresa(long empresaId){
-    	return rep.consultarPorEmpresa(empresaId, Constantes.activo);
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<Establecimiento> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathProveedor;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.Segmento;
 import com.proyecto.sicecuador.modelos.compra.Proveedor;
@@ -31,23 +32,23 @@ public class ProveedorController implements GenericoController<Proveedor> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-	    List<Proveedor> proveedores=servicio.consultar();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, proveedores);
-	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/consultar/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
-        List<Proveedor> proveedores=servicio.consultarPorEmpresa(empresaId);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, proveedores);
+        List<Proveedor> proveedores = servicio.consultar();
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, proveedores);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Proveedor> proveedores= servicio.consultarActivos();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, proveedores);
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<Proveedor> proveedores = servicio.consultarPorEstado(estado);
+	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, proveedores);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<Proveedor> proveedores = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, proveedores);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)

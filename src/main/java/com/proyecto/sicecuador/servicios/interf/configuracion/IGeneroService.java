@@ -9,6 +9,6 @@ public interface IGeneroService extends IGenericoService<Genero> {
 	void validar(Genero genero);
 	Genero activar (Genero genero);
 	Genero inactivar (Genero genero);
-	List<Genero> consultarActivos();
+	List<Genero> consultarPorEstado(String estado);
 	List<Genero> buscar(Genero genero);
 }

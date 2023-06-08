@@ -76,15 +76,19 @@ public class SegmentoService implements ISegmentoService {
     public List<Segmento> consultar() {
         return rep.consultar();
     }
+    
+    @Override
+    public List<Segmento> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
 
     @Override
     public List<Segmento> consultarPorEmpresa(long empresaId){
         return rep.consultarPorEmpresa(empresaId);
     }
-    
     @Override
-    public List<Segmento> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Segmento> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

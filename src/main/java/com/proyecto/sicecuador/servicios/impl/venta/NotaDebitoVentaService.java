@@ -231,8 +231,18 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     }
 
     @Override
-    public List<NotaDebitoVenta> consultarActivos(){
-        return rep.consultarPorEstado(Constantes.activo);
+    public List<NotaDebitoVenta> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<NotaDebitoVenta> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<NotaDebitoVenta> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

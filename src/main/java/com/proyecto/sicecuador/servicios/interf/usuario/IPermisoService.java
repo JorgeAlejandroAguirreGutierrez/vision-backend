@@ -9,5 +9,5 @@ import java.util.List;
 public interface IPermisoService extends IGenericoService<Permiso> {
     Permiso activar(Permiso permiso);
     Permiso inactivar(Permiso permiso);
-    List<Permiso> consultarActivos();
+    List<Permiso> consultarPorEstado(String estado);
 }

@@ -29,16 +29,9 @@ public class TipoGastoController implements GenericoController<TipoGasto> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<TipoGasto> tiposGastos=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposGastos);
+        List<TipoGasto> tiposGastos = servicio.consultar();
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposGastos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<TipoGasto> tiposGastos= servicio.consultarActivos();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, tiposGastos);
-	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -66,20 +59,6 @@ public class TipoGastoController implements GenericoController<TipoGasto> {
     public ResponseEntity<?> actualizar(@RequestBody TipoGasto _tipo_gasto) {
         TipoGasto tipoGasto=servicio.actualizar(_tipo_gasto);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, tipoGasto);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    
-    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> activar(@RequestBody TipoGasto _tipoGasto) {
-    	TipoGasto tipoGasto = servicio.activar(_tipoGasto);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, tipoGasto);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-   
-    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> inactivar(@RequestBody TipoGasto _tipoGasto) {
-    	TipoGasto tipoGasto = servicio.inactivar(_tipoGasto);
-        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, tipoGasto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

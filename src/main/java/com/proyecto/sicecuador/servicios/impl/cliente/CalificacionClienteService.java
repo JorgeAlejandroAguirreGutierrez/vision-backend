@@ -78,13 +78,18 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     }
 
     @Override
+    public List<CalificacionCliente> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
     public List<CalificacionCliente> consultarPorEmpresa(long empresaId){
         return rep.consultarPorEmpresa(empresaId);
     }
 
     @Override
-    public List<CalificacionCliente> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<CalificacionCliente> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
     
     @Override

@@ -35,27 +35,12 @@ public class TipoGastoService implements ITipoGastoService {
     		throw new CodigoNoExistenteException();
     	}
     	tipoGasto.setCodigo(codigo.get());
-    	tipoGasto.setEstado(Constantes.activo);
     	return rep.save(tipoGasto);
     }
 
     @Override
     public TipoGasto actualizar(TipoGasto tipoGasto) {
         validar(tipoGasto);
-        return rep.save(tipoGasto);
-    }
-
-    @Override
-    public TipoGasto activar(TipoGasto tipoGasto) {
-        validar(tipoGasto);
-        tipoGasto.setEstado(Constantes.activo);
-        return rep.save(tipoGasto);
-    }
-
-    @Override
-    public TipoGasto inactivar(TipoGasto tipoGasto) {
-        validar(tipoGasto);
-        tipoGasto.setEstado(Constantes.inactivo);
         return rep.save(tipoGasto);
     }
 
@@ -71,11 +56,6 @@ public class TipoGastoService implements ITipoGastoService {
     @Override
     public List<TipoGasto> consultar() {
         return rep.consultar();
-    }
-    
-    @Override
-    public List<TipoGasto> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
     }
 
     @Override

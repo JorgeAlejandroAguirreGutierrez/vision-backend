@@ -115,20 +115,24 @@ public class ProveedorService implements IProveedorService {
     }
 
     @Override
+    public List<Proveedor> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
     public List<Proveedor> consultarPorEmpresa(long empresaId){
         return rep.consultarPorEmpresa(empresaId);
     }
 
     @Override
-    public List<Proveedor> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Proveedor> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override
     public Page<Proveedor> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
 
     @Override
     public List<Proveedor> buscar(Proveedor proveedor) {

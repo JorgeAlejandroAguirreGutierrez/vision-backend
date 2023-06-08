@@ -34,9 +34,9 @@ public class ImpuestoController implements GenericoController<Impuesto> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Impuesto> impuestos = servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<Impuesto> impuestos = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, impuestos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

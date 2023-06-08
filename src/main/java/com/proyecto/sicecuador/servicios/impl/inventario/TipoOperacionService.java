@@ -74,8 +74,8 @@ public class TipoOperacionService implements ITipoOperacionService {
     }
     
     @Override
-    public List<TipoOperacion> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<TipoOperacion> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

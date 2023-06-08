@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.controladoras.venta;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.venta.NotaDebitoVenta;
 import com.proyecto.sicecuador.modelos.venta.NotaDebitoVentaLinea;
 import com.proyecto.sicecuador.servicios.interf.venta.INotaDebitoVentaService;
@@ -32,10 +33,24 @@ public class NotaDebitoVentaController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-        List<NotaDebitoVenta> notasDebitosVentas= servicio.consultarActivos();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosVentas);
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+        List<NotaDebitoVenta> notasDebitosVentas = servicio.consultarPorEstado(estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosVentas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<NotaDebitoVenta> notasDebitosVentas = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosVentas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<NotaDebitoVenta> notasDebitosVentas = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosVentas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

@@ -74,8 +74,18 @@ public class MedidaService implements IMedidaService {
     }
     
     @Override
-    public List<Medida> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Medida> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<Medida> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<Medida> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

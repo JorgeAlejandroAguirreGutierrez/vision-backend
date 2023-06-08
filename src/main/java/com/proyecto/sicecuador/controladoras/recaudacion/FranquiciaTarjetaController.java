@@ -32,9 +32,9 @@ public class FranquiciaTarjetaController implements GenericoController<Franquici
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<FranquiciaTarjeta> franquiciasTarjetas= servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<FranquiciaTarjeta> franquiciasTarjetas = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, franquiciasTarjetas);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
