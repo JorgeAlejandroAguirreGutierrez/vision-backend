@@ -36,7 +36,7 @@ public class EstablecimientoData implements ApplicationRunner {
             correosEstablecimientos.add(new CorreoEstablecimiento("COE202305000001", "correo@hotmail.com", new Establecimiento(1)));
             establecimientos.add(new Establecimiento("EST202301000001", "001", "ESTABLECIMIENTO 1", "CALLE 10 CARRERA 15 #27", "1", "1", Constantes.activo, new Regimen(1), new Ubicacion(1), new Empresa(1), telefonosEstablecimientos, celularesEstablecimientos, correosEstablecimientos));
             establecimientos.add(new Establecimiento("EST202301000002", "002", "ESTABLECIMIENTO 2", "CALLE 5 CARRERA 60 #50", "1", "1", Constantes.activo, new Regimen(2), new Ubicacion(2), new Empresa(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
-            establecimientos.add(new Establecimiento("EST202301000003", "003", "ESTABLECIMIENTO 3", "CALLE 8 Y LARREA #27", "1", "1", Constantes.activo, new Regimen(3), new Ubicacion(3), new Empresa(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            establecimientos.add(new Establecimiento("EST202301000003", "003", "ESTABLECIMIENTO 3", "CALLE 8 Y LARREA #27", "1", "1", Constantes.activo, new Regimen(3), new Ubicacion(3), new Empresa(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
             rep.saveAll(establecimientos);
         }
     }
