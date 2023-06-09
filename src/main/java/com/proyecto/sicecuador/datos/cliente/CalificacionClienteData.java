@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(2)
+@Order(3)
 @Profile({"dev","prod"})
 public class CalificacionClienteData implements ApplicationRunner {
     @Autowired
