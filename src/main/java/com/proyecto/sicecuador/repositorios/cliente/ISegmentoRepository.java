@@ -13,10 +13,10 @@ import org.springframework.stereotype.Repository;
 public interface ISegmentoRepository extends JpaRepository<Segmento, Long>, JpaSpecificationExecutor<Segmento> {
     @Query(value = "select s from Segmento s order by s.codigo asc")
     List<Segmento> consultar();
-    @Query(value = "select s from Segmento s where s.empresa.id = :empresaId and s.estado=:estado order by s.codigo asc")
+    @Query(value = "select s from Segmento s where s.estado = :estado order by s.codigo asc")
     List<Segmento> consultarPorEstado(String estado);
-    @Query(value = "select s from Segmento s where s.empresa.id=:empresaId order by s.codigo asc")
+    @Query(value = "select s from Segmento s where s.empresa.id = :empresaId order by s.codigo asc")
     List<Segmento> consultarPorEmpresa(long empresaId);
-    @Query(value = "select s from Segmento s where s.empresa.id=:empresaId and s.estado = :estado order by s.codigo asc")
+    @Query(value = "select s from Segmento s where s.empresa.id = :empresaId and s.estado = :estado order by s.codigo asc")
     List<Segmento> consultarPorEmpresaYEstado(long empresaId, String estado);
 }
