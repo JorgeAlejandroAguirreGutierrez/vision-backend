@@ -68,6 +68,11 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
     }
 
     @Override
+    public List<VehiculoTransporte> consultarPorTransportistaYEstado(long transportistaId, String estado){
+        return rep.consultarPorTransportistaYEstado(transportistaId, estado);
+    }
+
+    @Override
     public Page<VehiculoTransporte> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
