@@ -15,4 +15,6 @@ public interface IVehiculoTransporteRepository extends JpaRepository<VehiculoTra
     List<VehiculoTransporte> consultar();
     @Query(value = "select vt from VehiculoTransporte vt where vt.estado=:estado order by vt.codigo asc")
     List<VehiculoTransporte> consultarPorEstado(String estado);
+    @Query(value = "select vt from VehiculoTransporte vt where vt.transportista.id = :transportistaId and vt.estado = :estado order by vt.codigo asc")
+    List<VehiculoTransporte> consultarPorTransportistaYEstado(long transportistaId, String estado);
 }

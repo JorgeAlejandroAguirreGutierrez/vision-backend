@@ -9,4 +9,5 @@ public interface IVehiculoTransporteService extends IGenericoService<VehiculoTra
     VehiculoTransporte activar(VehiculoTransporte vehiculoTransporte);
     VehiculoTransporte inactivar(VehiculoTransporte vehiculoTransporte);
     List<VehiculoTransporte> consultarPorEstado(String estado);
+    List<VehiculoTransporte> consultarPorTransportistaYEstado(long transportistaId, String estado);
 }
