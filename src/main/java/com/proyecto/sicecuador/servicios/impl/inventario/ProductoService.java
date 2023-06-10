@@ -130,33 +130,26 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public List<Producto> consultarBien() {
-        return rep.consultarPorBien(Constantes.tipo_producto_bien, Constantes.activo);
-    }
-    @Override
-    public List<Producto> consultarBienPorProveedor(long proveedorId) {
-        return rep.consultarBienPorProveedor(Constantes.tipo_producto_bien, proveedorId, Constantes.activo);
-    }
-    @Override
-    public List<Producto> consultarServicio() {
-        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
-		    List<Predicate> predicates = new ArrayList<>();
-		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "SERVICIO")));
-		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-		});
+    public List<Producto> consultarPorProveedor(long proveedorId) {
+        return  rep.consultarPorProveedor(proveedorId, Constantes.activo);
     }
 
     @Override
-    public List<Producto> consultarActivoFijo() {
-        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
-		    List<Predicate> predicates = new ArrayList<>();
-		    predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("tipoProducto").get("tipo"), "ACTIVOFIJO")));
-		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-		});
+    public List<Producto> consultarPorCategoriaProductoYEstado(String categoriaProducto, String estado) {
+        return rep.consultarPorCategoriaProductoYEstado(categoriaProducto, estado);
     }
     @Override
-    public List<Producto> consultarPorProveedor(long proveedorId) {
-        return  rep.consultarPorProveedor(proveedorId, Constantes.activo);
+    public List<Producto> consultarPorCategoriaProductoYProveedorYEstado(String categoriaProducto, long proveedorId, String estado) {
+        return rep.consultarPorCategoriaProductoYProveedorYEstado(categoriaProducto, proveedorId, estado);
+    }
+    @Override
+    public List<Producto> consultarPorCategoriaProductoYEmpresaYEstado(String categoriaProducto, long empresaId, String estado) {
+        return  rep.consultarPorCategoriaProductoYEmpresaYEstado(categoriaProducto, empresaId, estado);
+    }
+
+    @Override
+    public List<Producto> consultarPorCategoriaProductoYProveedorYEmpresaYEstado(String categoriaProducto, long proveedorId, long empresaId, String estado) {
+        return  rep.consultarPorCategoriaProductoYProveedorYEmpresaYEstado(categoriaProducto, proveedorId, empresaId, estado);
     }
 
     @Override
