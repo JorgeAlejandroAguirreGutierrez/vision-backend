@@ -75,8 +75,8 @@ public class ImpuestoService implements IImpuestoService {
     }
     
     @Override
-    public List<Impuesto> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Impuesto> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

@@ -12,6 +12,5 @@ public interface ICuentaContableService extends IGenericoService<CuentaContable>
 	List<CuentaContable> consultarPorEmpresaYEstado(long empresa, String estado);
 	CuentaContable activar(CuentaContable cuentacontable);
 	CuentaContable inactivar(CuentaContable cuentacontable);
-
     List<CuentaContable> buscar(CuentaContable cuentaContable);
 }

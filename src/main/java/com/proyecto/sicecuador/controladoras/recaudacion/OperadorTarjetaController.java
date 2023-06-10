@@ -30,14 +30,14 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<OperadorTarjeta> operadoresTarjetas=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, operadoresTarjetas);
+        List<OperadorTarjeta> operadoresTarjetas = servicio.consultar();
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, operadoresTarjetas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<OperadorTarjeta> operadoresTarjetas=servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<OperadorTarjeta> operadoresTarjetas = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, operadoresTarjetas);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

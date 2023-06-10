@@ -9,5 +9,5 @@ public interface IFranquiciaTarjetaService extends IGenericoService<FranquiciaTa
 	void validar(FranquiciaTarjeta franquiciaTarjeta);
 	FranquiciaTarjeta activar(FranquiciaTarjeta franquiciaTarjeta);
 	FranquiciaTarjeta inactivar(FranquiciaTarjeta franquiciaTarjeta);
-	List<FranquiciaTarjeta> consultarActivos();
+	List<FranquiciaTarjeta> consultarPorEstado(String estado);
 }

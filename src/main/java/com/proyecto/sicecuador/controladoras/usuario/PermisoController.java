@@ -34,10 +34,10 @@ public class PermisoController implements GenericoController<Permiso> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-        List<Permiso> permisos= servicio.consultarActivos();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, permisos);
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarporEstado(@PathVariable("estado") String estado) {
+        List<Permiso> permisos = servicio.consultarPorEstado(estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, permisos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

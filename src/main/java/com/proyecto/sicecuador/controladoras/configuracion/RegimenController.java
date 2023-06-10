@@ -33,9 +33,9 @@ public class RegimenController implements GenericoController<Regimen> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Regimen> regimenes = servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarporEstado(@PathVariable("estado") String estado) {
+	    List<Regimen> regimenes = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, regimenes);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

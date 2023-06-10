@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Order(1)
+@Order(2)
 @Profile({"dev","prod"})
 public class EmpresaData implements ApplicationRunner {
     @Autowired

@@ -83,8 +83,8 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     }
 
     @Override
-    public List<CalificacionCliente> consultarPorEstado(String estado){
-    	return rep.consultarPorEstado(estado);
+    public List<CalificacionCliente> consultarPorEstado(String estado) {
+        return rep.consultarPorEstado(estado);
     }
 
     @Override

@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathCuentaPropia;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
 import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
 import com.proyecto.sicecuador.servicios.interf.cajaBanco.ICuentaPropiaService;
@@ -34,11 +35,25 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<CuentaPropia> cuentasPropias= servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<CuentaPropia> cuentasPropias = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasPropias);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<CuentaPropia> cuentasPropias = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasPropias);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<CuentaPropia> cuentasPropias = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasPropias);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -83,17 +98,17 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarBancos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarBancos() {
-        List<String> bancos= servicio.consultarBancos();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, bancos);
+    @GetMapping(value = "/consultarPorBanco", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorBanco (@PathVariable("banco") String banco) {
+        List<CuentaPropia> cuentasPropias = servicio.consultarPorBanco(banco);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentasPropias);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    @GetMapping(value = "/consultarPorEstadoDistintoBancoAbreviatura/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstadoDistintoBancoAbreviatura (@PathVariable("estado") String estado) {
+        List<String> bancos = servicio.consultarPorEstadoDistintoBancoAbreviatura(estado);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, bancos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorBanco", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorBanco (@RequestParam("banco") String banco) {
-        List<CuentaPropia> cuentasPropias=servicio.consultarPorBanco(banco);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentasPropias);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 }

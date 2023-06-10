@@ -23,8 +23,6 @@ public class Kardex extends Entidad {
     private String codigo;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
-    //@Column(name = "operacion", nullable = true)
-    //private String operacion;
     @Column(name = "referencia", nullable = true)
     private String referencia;
     @Column(name = "entrada", nullable = true)

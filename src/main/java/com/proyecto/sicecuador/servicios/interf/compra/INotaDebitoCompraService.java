@@ -10,7 +10,9 @@ public interface INotaDebitoCompraService extends IGenericoService<NotaDebitoCom
 	void validar(NotaDebitoCompra notaCreditoCompra);
 	NotaDebitoCompra activar(NotaDebitoCompra notaCreditoCompra);
 	NotaDebitoCompra inactivar(NotaDebitoCompra notaCreditoCompra);
-	List<NotaDebitoCompra> consultarActivos();
+	List<NotaDebitoCompra> consultarPorEstado(String estado);
+	List<NotaDebitoCompra> consultarPorEmpresa(long empresaId);
+	List<NotaDebitoCompra> consultarPorEmpresaYEstado(long empresaId, String estado);
 	NotaDebitoCompra calcular(NotaDebitoCompra notaDebitoCompra);
 	void validarLinea(NotaDebitoCompraLinea notaDebitoCompraLinea);
 	NotaDebitoCompraLinea calcularLinea(NotaDebitoCompraLinea notaDebitoCompraLinea);

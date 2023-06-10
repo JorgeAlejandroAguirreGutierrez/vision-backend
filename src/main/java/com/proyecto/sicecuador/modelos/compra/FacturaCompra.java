@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -61,6 +62,9 @@ public class FacturaCompra extends Entidad {
     @ManyToOne
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipoComprobante;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
     @JsonManagedReference
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_compra_id", nullable = true)

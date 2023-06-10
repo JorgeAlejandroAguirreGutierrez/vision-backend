@@ -73,7 +73,7 @@ public class FormaPagoService implements IFormaPagoService {
     public List<FormaPago> consultar() {
         return rep.consultar();
     }
-    
+
     @Override
     public List<FormaPago> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);

@@ -185,13 +185,23 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     }
     
     @Override
-    public List<NotaCreditoCompra> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<NotaCreditoCompra> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override
     public Page<NotaCreditoCompra> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
+    }
+
+    @Override
+    public List<NotaCreditoCompra> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<NotaCreditoCompra> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

@@ -74,8 +74,8 @@ public class RegimenService implements IRegimenService {
     }
     
     @Override
-    public List<Regimen> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Regimen> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
     
     @Override

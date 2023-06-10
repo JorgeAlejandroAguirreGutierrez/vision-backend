@@ -75,8 +75,8 @@ public class ParametroService implements IParametroService {
     }
     
     @Override
-    public List<Parametro> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Parametro> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

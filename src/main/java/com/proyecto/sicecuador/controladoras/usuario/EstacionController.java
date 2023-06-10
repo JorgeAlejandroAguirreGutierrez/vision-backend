@@ -5,6 +5,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathEstacion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.modelos.usuario.Estacion;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEstacionService;
@@ -30,14 +31,14 @@ public class EstacionController implements GenericoController<Estacion> {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
         List<Estacion> estaciones=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Estacion> estaciones= servicio.consultarActivos();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos(@PathVariable("estado") String estado) {
+	    List<Estacion> estaciones = servicio.consultarPorEstado(estado);
+	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

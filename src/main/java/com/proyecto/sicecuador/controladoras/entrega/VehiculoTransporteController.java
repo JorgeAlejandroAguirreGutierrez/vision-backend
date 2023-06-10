@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathVehiculoTransp
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.entrega.VehiculoTransporte;
 import com.proyecto.sicecuador.servicios.interf.entrega.IVehiculoTransporteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,18 @@ public class VehiculoTransporteController implements GenericoController<Vehiculo
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<VehiculoTransporte> vehiculosTransportes= servicio.consultarActivos();
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, vehiculosTransportes);
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<VehiculoTransporte> vehiculosTransportes = servicio.consultarPorEstado(estado);
+	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, vehiculosTransportes);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorTransportistaYEstado/{transportistaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("transportistaId") long transportistaId, @PathVariable("estado") String estado) {
+        List<VehiculoTransporte> vehiculosTransportes = servicio.consultarPorTransportistaYEstado(transportistaId, estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, vehiculosTransportes);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)

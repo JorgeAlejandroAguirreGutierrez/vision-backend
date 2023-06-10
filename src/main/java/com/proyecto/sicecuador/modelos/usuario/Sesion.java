@@ -50,6 +50,5 @@ public class Sesion extends Entidad {
         if(this.fechaApertura == null) this.fechaApertura = new Date();
         if(this.fechaCierre == null) this.fechaCierre = new Date();
         if(this.usuario == null) this.usuario = new Usuario();
-        if(this.empresa == null) this.empresa = new Empresa();
     }
 }

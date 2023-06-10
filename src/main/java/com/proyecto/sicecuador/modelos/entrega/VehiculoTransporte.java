@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.entrega;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +39,9 @@ public class VehiculoTransporte extends Entidad {
     private String fabricacion;
     @Column(name = "estado", nullable = true)
     private String estado;
+    @ManyToOne
+    @JoinColumn(name = "transportista_id", nullable = true)
+    private Transportista transportista;
 
     public VehiculoTransporte(long id){
         super(id);

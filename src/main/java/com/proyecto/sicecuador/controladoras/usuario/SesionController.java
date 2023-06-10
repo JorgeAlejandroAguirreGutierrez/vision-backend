@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathSesion;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.usuario.Sesion;
 import com.proyecto.sicecuador.servicios.interf.usuario.ISesionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class SesionController implements GenericoController<Sesion> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<Sesion> sesiones=servicio.consultar();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, sesiones);
+        List<Sesion> sesiones = servicio.consultar();
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, sesiones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

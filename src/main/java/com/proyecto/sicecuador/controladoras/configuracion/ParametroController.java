@@ -28,14 +28,14 @@ public class ParametroController implements GenericoController<Parametro> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<Parametro> parametros=servicio.consultar();
+        List<Parametro> parametros = servicio.consultar();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, parametros);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<Parametro> parametros = servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<Parametro> parametros = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, parametros);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

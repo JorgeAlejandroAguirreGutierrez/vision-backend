@@ -6,8 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathPlazoCredito;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
-import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.servicios.interf.cliente.IPlazoCreditoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +28,8 @@ public class PlazoCreditoController implements GenericoController<PlazoCredito> 
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<PlazoCredito> plazos_creditos = servicio.consultar();
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, plazos_creditos);
+        List<PlazoCredito> plazosCreditos = servicio.consultar();
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, plazosCreditos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -50,9 +48,9 @@ public class PlazoCreditoController implements GenericoController<PlazoCredito> 
     }
 
     @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
-        List<PlazoCredito> plazosCreditos=servicio.consultarPorEmpresaYEstado(empresaId, estado);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, plazosCreditos);
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<PlazoCredito> plazosCreditos = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, plazosCreditos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

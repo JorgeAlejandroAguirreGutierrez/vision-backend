@@ -98,8 +98,18 @@ public class GrupoProductoService implements IGrupoProductoService {
     }
     
     @Override
-    public List<GrupoProducto> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<GrupoProducto> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<GrupoProducto> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<GrupoProducto> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
     
     @Override

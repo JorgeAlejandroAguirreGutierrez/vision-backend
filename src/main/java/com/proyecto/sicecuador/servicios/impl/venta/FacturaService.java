@@ -243,8 +243,18 @@ public class FacturaService implements IFacturaService {
     }
     
     @Override
-    public List<Factura> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Factura> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<Factura> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<Factura> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

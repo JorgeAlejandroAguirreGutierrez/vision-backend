@@ -10,6 +10,6 @@ public interface IImpuestoService extends IGenericoService<Impuesto> {
 	void validar(Impuesto impuesto);
 	Impuesto activar(Impuesto impuesto);
 	Impuesto inactivar(Impuesto impuesto);
-	List<Impuesto> consultarActivos();
+	List<Impuesto> consultarPorEstado(String estado);
     Optional<Impuesto> obtenerImpuestoPorcentaje(double porcentaje);
 }

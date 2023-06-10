@@ -9,6 +9,6 @@ public interface ISecuencialService extends IGenericoService<Secuencial> {
 	void validar(Secuencial secuencial);
 	Secuencial activar(Secuencial secuencial);
 	Secuencial inactivar(Secuencial secuencial);
-	List<Secuencial> consultarActivos();
+	List<Secuencial> consultarPorEstado(String estado);
 	Secuencial obtenerPorTipoComprobanteYEstacion(long tipoComprobanteId, long estacionId);
 }

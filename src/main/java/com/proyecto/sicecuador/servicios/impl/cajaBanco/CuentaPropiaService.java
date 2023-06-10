@@ -25,20 +25,20 @@ public class CuentaPropiaService implements ICuentaPropiaService {
 
     @Override
     public void validar(CuentaPropia cuentaPropia) {
-        if(cuentaPropia.getNumero().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero);
-        if(cuentaPropia.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
+        if (cuentaPropia.getNumero().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero);
+        if (cuentaPropia.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
     }
-    
+
     @Override
     public CuentaPropia crear(CuentaPropia cuentaPropia) {
         validar(cuentaPropia);
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cuenta_propia);
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
-    	cuentaPropia.setCodigo(codigo.get());
-    	cuentaPropia.setEstado(Constantes.activo);
-    	CuentaPropia res = rep.save(cuentaPropia);
+        Optional<String> codigo = Util.generarCodigo(Constantes.tabla_cuenta_propia);
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
+        cuentaPropia.setCodigo(codigo.get());
+        cuentaPropia.setEstado(Constantes.activo);
+        CuentaPropia res = rep.save(cuentaPropia);
         res.normalizar();
         return res;
     }
@@ -71,9 +71,9 @@ public class CuentaPropiaService implements ICuentaPropiaService {
 
     @Override
     public CuentaPropia obtener(long id) {
-        Optional<CuentaPropia> cuentaPropia= rep.findById(id);
-        if(cuentaPropia.isPresent()) {
-        	CuentaPropia res = cuentaPropia.get();
+        Optional<CuentaPropia> cuentaPropia = rep.findById(id);
+        if (cuentaPropia.isPresent()) {
+            CuentaPropia res = cuentaPropia.get();
             res.normalizar();
             return res;
         }
@@ -84,34 +84,35 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     public List<CuentaPropia> consultar() {
         return rep.consultar();
     }
-    
+
     @Override
-    public List<CuentaPropia> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<CuentaPropia> consultarPorEstado(String estado) {
+        return rep.consultarPorEstado(estado);
     }
 
     @Override
-    public Page<CuentaPropia> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
-    public List<String> consultarBancos() {
-        List<String> bancos=rep.consultarBancos(Constantes.activo);
-        return bancos;
+    public Page<CuentaPropia> consultarPagina(Pageable pageable) {
+        return rep.findAll(pageable);
     }
 
     @Override
     public List<CuentaPropia> consultarPorBanco(String banco) {
-        List<CuentaPropia> cuentasPropiasBancos=rep.consultarPorBanco(banco, Constantes.activo);
-        /*List<CuentaPropia> cuentasPropias=rep.consultarPorEstado(Constantes.activo);
-        List<CuentaPropia> cuentasPropiasBancos=new ArrayList<>();
-        for (CuentaPropia cuentaPropia: cuentasPropias) {
-            if (cuentaPropia.getBanco().getAbreviatura().equals(banco)) {
-                cuentasPropiasBancos.add(cuentaPropia);
-            }
-        }*/
-        return cuentasPropiasBancos;
+        return rep.consultarPorBanco(banco, Constantes.activo);
+    }
+    @Override
+    public List<String> consultarPorEstadoDistintoBancoAbreviatura(String estado) {
+        return rep.consultarPorEstadoDistintoBancoAbreviatura(estado);
+    }
+
+
+    @Override
+    public List<CuentaPropia> consultarPorEmpresa(long empresaId) {
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<CuentaPropia> consultarPorEmpresaYEstado(long empresaId, String estado) {
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
 }

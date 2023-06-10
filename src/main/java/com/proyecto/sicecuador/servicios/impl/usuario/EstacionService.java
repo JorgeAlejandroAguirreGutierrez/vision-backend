@@ -23,7 +23,6 @@ public class EstacionService implements IEstacionService {
 
     @Override
     public void validar(Estacion estacion) {
-        //if(estacion.getCodigoSRI().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.codigoSRI);
         if(estacion.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
         if(estacion.getEstablecimiento().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.establecimiento);
         if(estacion.getRegimen().getId() == Constantes.ceroId) estacion.setRegimen(null);
@@ -86,8 +85,8 @@ public class EstacionService implements IEstacionService {
     }
     
     @Override
-    public List<Estacion> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Estacion> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override
@@ -104,6 +103,4 @@ public class EstacionService implements IEstacionService {
     public Page<Estacion> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-
 }

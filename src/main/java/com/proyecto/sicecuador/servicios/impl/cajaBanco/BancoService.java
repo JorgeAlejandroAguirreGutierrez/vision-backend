@@ -70,8 +70,18 @@ public class BancoService implements IBancoService {
     }
     
     @Override
-    public List<Banco> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Banco> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<Banco> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<Banco> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
     
     @Override

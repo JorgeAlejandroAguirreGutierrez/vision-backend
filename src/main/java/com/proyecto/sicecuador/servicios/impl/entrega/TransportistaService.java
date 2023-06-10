@@ -63,8 +63,18 @@ public class TransportistaService implements ITransportistaService {
     }
     
     @Override
-    public List<Transportista> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Transportista> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<Transportista> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<Transportista> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

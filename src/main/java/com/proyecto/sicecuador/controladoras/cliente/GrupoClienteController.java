@@ -6,8 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathGrupoCliente;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
 import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.servicios.interf.cliente.IGrupoClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -37,15 +34,15 @@ public class GrupoClienteController implements GenericoController<GrupoCliente> 
 
     @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
-        List<GrupoCliente> gruposClientes=servicio.consultarPorEmpresa(empresaId);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, gruposClientes);
+        List<GrupoCliente> gruposClientes = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, gruposClientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
 	    List<GrupoCliente> gruposClientes = servicio.consultarPorEstado(estado);
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, gruposClientes);
+	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, gruposClientes);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

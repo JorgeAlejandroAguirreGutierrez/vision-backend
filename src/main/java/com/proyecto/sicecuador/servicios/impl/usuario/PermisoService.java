@@ -64,8 +64,8 @@ public class PermisoService implements IPermisoService {
     }
 
     @Override
-    public List<Permiso> consultarActivos(){
-        return rep.consultarPorEstado(Constantes.activo);
+    public List<Permiso> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
     }
 
     @Override

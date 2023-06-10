@@ -9,5 +9,5 @@ public interface IEmpresaService extends IGenericoService<Empresa> {
 	void validar(Empresa empresa);
 	Empresa activar(Empresa empresa);
 	Empresa inactivar(Empresa empresa);
-	List<Empresa> consultarActivos();
+	List<Empresa> consultarPorEstado(String estado);
 }

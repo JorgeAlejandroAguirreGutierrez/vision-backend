@@ -75,8 +75,18 @@ public class BodegaService implements IBodegaService {
     }
     
     @Override
-    public List<Bodega> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<Bodega> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<Bodega> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<Bodega> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

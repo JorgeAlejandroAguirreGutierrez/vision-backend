@@ -4,6 +4,7 @@ import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.entrega.Transportista;
 import com.proyecto.sicecuador.modelos.entrega.VehiculoTransporte;
 import com.proyecto.sicecuador.repositorios.entrega.IVehiculoTransporteRepository;
 import com.proyecto.sicecuador.servicios.interf.entrega.IVehiculoTransporteService;
@@ -62,8 +63,13 @@ public class VehiculoTransporteService implements IVehiculoTransporteService {
     }
     
     @Override
-    public List<VehiculoTransporte> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<VehiculoTransporte> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<VehiculoTransporte> consultarPorTransportistaYEstado(long transportistaId, String estado){
+        return rep.consultarPorTransportistaYEstado(transportistaId, estado);
     }
 
     @Override

@@ -9,6 +9,6 @@ public interface IAfectacionContableService extends IGenericoService<AfectacionC
 	void validar(AfectacionContable afectacionContable);
 	AfectacionContable activar(AfectacionContable afectacionContable);
 	AfectacionContable inactivar(AfectacionContable afectacionContable);
-	List<AfectacionContable> consultarActivos();
+	List<AfectacionContable> consultarPorEstado(String estado);
     List<AfectacionContable> buscar(AfectacionContable afectacionContable);
 }

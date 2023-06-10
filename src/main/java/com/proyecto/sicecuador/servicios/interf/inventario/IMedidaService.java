@@ -9,5 +9,7 @@ public interface IMedidaService extends IGenericoService<Medida> {
 	void validar(Medida medida);
 	Medida activar(Medida medida);
 	Medida inactivar(Medida medida);
-	List<Medida> consultarActivos();
+	List<Medida> consultarPorEstado(String estado);
+	List<Medida> consultarPorEmpresa(long empresaId);
+	List<Medida> consultarPorEmpresaYEstado(long empresaId, String estado);
 }

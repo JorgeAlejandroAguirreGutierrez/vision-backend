@@ -41,7 +41,4 @@ public class Permiso extends Entidad {
         this.estado = Constantes.activo;
         this.menuOpcion = new MenuOpcion();
     }
-    //public void normalizar(){
-    //    if(this.perfil == null) this.perfil = Collections.emptyList();
-    //}
 }

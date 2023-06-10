@@ -89,10 +89,10 @@ public class GrupoClienteService implements IGrupoClienteService {
     public List<GrupoCliente> consultarPorEmpresa(long empresaId){
         return rep.consultarPorEmpresa(empresaId);
     }
-    
+
     @Override
     public List<GrupoCliente> consultarPorEstado(String estado){
-    	return rep.consultarPorEstado(estado);
+        return rep.consultarPorEstado(estado);
     }
 
     @Override
