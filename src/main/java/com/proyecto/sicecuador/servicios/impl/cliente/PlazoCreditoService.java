@@ -1,6 +1,7 @@
 package com.proyecto.sicecuador.servicios.impl.cliente;
 
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
+import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
 import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.Constantes;
@@ -74,10 +75,20 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     public List<PlazoCredito> consultar() {
         return rep.consultar();
     }
-    
+
     @Override
-    public List<PlazoCredito> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<PlazoCredito> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<PlazoCredito> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<PlazoCredito> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

@@ -25,8 +25,8 @@ public class GeneroData implements ApplicationRunner {
         Optional<Genero> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Genero> generos = new ArrayList<>();
-            generos.add(new Genero("GEN011907000001", "MASCULINO", "M", Constantes.activo));
-            generos.add(new Genero("GEN011908000002", "FEMENINO", "F", Constantes.activo));
+            generos.add(new Genero("GEN012306000001", "MASCULINO", "M", Constantes.activo));
+            generos.add(new Genero("GEN012306000002", "FEMENINO", "F", Constantes.activo));
             rep.saveAll(generos);
         }
     }

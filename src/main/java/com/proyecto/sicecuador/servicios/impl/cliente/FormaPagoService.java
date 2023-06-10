@@ -75,8 +75,8 @@ public class FormaPagoService implements IFormaPagoService {
     }
     
     @Override
-    public List<FormaPago> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<FormaPago> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
 
     @Override

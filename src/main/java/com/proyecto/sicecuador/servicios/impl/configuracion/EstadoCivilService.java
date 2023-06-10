@@ -60,8 +60,8 @@ public class EstadoCivilService implements IEstadoCivilService {
     }
     
     @Override
-    public List<EstadoCivil> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<EstadoCivil> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
     
     @Override

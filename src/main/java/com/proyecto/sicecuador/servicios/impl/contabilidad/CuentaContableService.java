@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
 import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import com.proyecto.sicecuador.repositorios.contabilidad.ICuentaContableRepository;
@@ -81,10 +82,20 @@ public class CuentaContableService implements ICuentaContableService {
     public List<CuentaContable> consultar() {
         return rep.consultar();
     }
-    
+
     @Override
-    public List<CuentaContable> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<CuentaContable> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<CuentaContable> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<CuentaContable> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override

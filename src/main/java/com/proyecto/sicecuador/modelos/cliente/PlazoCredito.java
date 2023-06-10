@@ -2,6 +2,8 @@ package com.proyecto.sicecuador.modelos.cliente;
 
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +28,10 @@ public class PlazoCredito extends Entidad {
     private double plazo;
     @Column(name = "estado", nullable = true)
     private String estado;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
+
     public PlazoCredito(long id){
         super(id);
     }
@@ -36,5 +42,9 @@ public class PlazoCredito extends Entidad {
         this.abreviatura = Constantes.vacio;
         this.plazo = Constantes.cero;
         this.estado = Constantes.activo;
+    }
+
+    public void normalizar(){
+        if(this.empresa == null) this.empresa = new Empresa();
     }
 }

@@ -76,8 +76,8 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     }
     
     @Override
-    public List<OrigenIngreso> consultarActivos(){
-    	return rep.consultarPorEstado(Constantes.activo);
+    public List<OrigenIngreso> consultarPorEstado(String estado){
+    	return rep.consultarPorEstado(estado);
     }
     
     @Override

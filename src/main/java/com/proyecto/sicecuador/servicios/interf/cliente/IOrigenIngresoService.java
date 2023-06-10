@@ -9,6 +9,6 @@ public interface IOrigenIngresoService extends IGenericoService<OrigenIngreso> {
 	void validar(OrigenIngreso origenIngreso);
 	OrigenIngreso activar(OrigenIngreso origenIngreso);
 	OrigenIngreso inactivar(OrigenIngreso origenIngreso);
-	List<OrigenIngreso> consultarActivos();
+	List<OrigenIngreso> consultarPorEstado(String estado);
 	List<OrigenIngreso> buscar(OrigenIngreso origenIngreso);
 }

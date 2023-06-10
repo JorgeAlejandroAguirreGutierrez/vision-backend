@@ -34,18 +34,25 @@ public class CalificacionClienteController implements GenericoController<Calific
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultar/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
         List<CalificacionCliente> calificacionesClientes=servicio.consultarPorEmpresa(empresaId);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, calificacionesClientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarActivos", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos() {
-	    List<CalificacionCliente> calificacionesClientes=servicio.consultarActivos();
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<CalificacionCliente> calificacionesClientes=servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, calificacionesClientes);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<CalificacionCliente> calificacionesClientes=servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, calificacionesClientes);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
