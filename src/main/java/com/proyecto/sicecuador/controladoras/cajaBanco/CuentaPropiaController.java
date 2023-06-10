@@ -99,9 +99,16 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
     }
 
     @GetMapping(value = "/consultarPorBanco", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorBanco (@RequestParam("banco") String banco) {
-        List<CuentaPropia> cuentasPropias=servicio.consultarPorBanco(banco);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentasPropias);
+    public ResponseEntity<?> consultarPorBanco (@PathVariable("banco") String banco) {
+        List<CuentaPropia> cuentasPropias = servicio.consultarPorBanco(banco);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentasPropias);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    @GetMapping(value = "/consultarPorEstadoDistintoBancoAbreviatura", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstadoDistintoBancoAbreviatura (@PathVariable("estado") String estado) {
+        List<String> bancos = servicio.consultarPorEstadoDistintoBancoAbreviatura(estado);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, bancos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
 }
