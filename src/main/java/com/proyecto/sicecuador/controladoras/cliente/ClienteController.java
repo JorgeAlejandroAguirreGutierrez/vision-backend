@@ -33,7 +33,7 @@ public class ClienteController implements GenericoController<Cliente> {
     }
 
     @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstado(String estado) {
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado")  String estado) {
 	    List<Cliente> clientes = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
