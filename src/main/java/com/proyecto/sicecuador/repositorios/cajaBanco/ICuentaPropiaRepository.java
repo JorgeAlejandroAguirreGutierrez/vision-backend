@@ -20,4 +20,6 @@ public interface ICuentaPropiaRepository extends JpaRepository<CuentaPropia, Lon
     List<CuentaPropia> consultarPorEmpresaYEstado(long empresaId, String estado);
     @Query(value = "select cp from CuentaPropia cp where cp.banco.abreviatura = :banco and cp.estado = :estado order by cp.numero")
     List<CuentaPropia> consultarPorBanco(String banco, String estado);
+    @Query(value = "select distinct cp.banco.abreviatura from CuentaPropia cp where cp.estado = :estado order by cp.banco.abreviatura")
+    List<String> consultarPorEstadoDistintoBancoAbreviatura(String estado);
 }

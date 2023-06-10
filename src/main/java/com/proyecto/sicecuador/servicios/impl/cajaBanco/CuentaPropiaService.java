@@ -99,6 +99,11 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     public List<CuentaPropia> consultarPorBanco(String banco) {
         return rep.consultarPorBanco(banco, Constantes.activo);
     }
+    @Override
+    public List<String> consultarPorEstadoDistintoBancoAbreviatura(String estado) {
+        return rep.consultarPorEstadoDistintoBancoAbreviatura(estado);
+    }
+
 
     @Override
     public List<CuentaPropia> consultarPorEmpresa(long empresaId) {
