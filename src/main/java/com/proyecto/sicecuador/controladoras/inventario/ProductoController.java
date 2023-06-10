@@ -95,35 +95,38 @@ public class ProductoController implements GenericoController<Producto> {
         Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, producto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @GetMapping(value = "/consultarBien", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarBien() {
-        List<Producto> productos=servicio.consultarBien();
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    @GetMapping(value = "/consultarBienPorProveedor/{proveedorId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorBienPorProveedor(@PathVariable("proveedorId") long proveedorId) {
-        List<Producto> productos = servicio.consultarBienPorProveedor(proveedorId);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, productos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    @GetMapping(value = "/consultarServicio", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarServicio() {
-        List<Producto> productos=servicio.consultarServicio();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    @GetMapping(value = "/consultarActivoFijo", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivoFijo() {
-        List<Producto> productos=servicio.consultarActivoFijo();
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 
     @GetMapping(value = "/consultarPorProveedor/{proveedorId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorProveedor(@PathVariable("proveedorId") long proveedorId) {
         List<Producto> productos=servicio.consultarPorProveedor(proveedorId);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorCategoriaProductoYEstado/{tipoProducto}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorCategoriaProductoYEstado(@PathVariable("categoriaProducto") String categoriaProducto, @PathVariable("estado") String estado) {
+        List<Producto> productos = servicio.consultarPorCategoriaProductoYEstado(categoriaProducto, estado);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorCategoriaProductoYProveedorYEstado/{categoriaProducto}/{proveedorId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorCategoriaProductoYProveedorYEstado(@PathVariable("categoriaProducto") String categoriaProducto, @PathVariable("proveedorId") long proveedorId, @PathVariable("estado") String estado) {
+        List<Producto> productos = servicio.consultarPorCategoriaProductoYProveedorYEstado(categoriaProducto, proveedorId, estado);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorCategoriaProductoYEmpresaYEstado/{CategoriaProducto}/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorCategoriaProductoYEmpresaYEstado(@PathVariable("CategoriaProducto") String categoriaProducto, @PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<Producto> productos = servicio.consultarPorCategoriaProductoYEmpresaYEstado(categoriaProducto, empresaId, estado);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorCategoriaProductoYProveedorYEmpresaYEstado/{categoriaProducto}/{proveedorId}/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorCategoriaProductoYProveedorYEmpresaYEstado(@PathVariable("categoriaProducto") String categoriaProducto, @PathVariable("proveedorId") long proveedorId, @PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<Producto> productos = servicio.consultarPorCategoriaProductoYProveedorYEmpresaYEstado(categoriaProducto, proveedorId, empresaId, estado);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_consultar_exitoso, productos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

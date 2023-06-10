@@ -12,10 +12,10 @@ public interface IProductoService extends IGenericoService<Producto> {
 	List<Producto> consultarPorEstado(String estado);
     List<Producto> consultarPorEmpresa(long empresaId);
     List<Producto> consultarPorEmpresaYEstado(long empresaId, String estado);
-    List<Producto> consultarBien();
-    List<Producto> consultarServicio();
-    List<Producto> consultarActivoFijo();
     List<Producto> consultarPorProveedor(long proveedorId);
-    List<Producto> consultarBienPorProveedor(long proveedorId);
+    List<Producto> consultarPorCategoriaProductoYEstado(String categoriaProducto, String estado);
+    List<Producto> consultarPorCategoriaProductoYProveedorYEstado(String categoriaProducto, long proveedorId, String estado);
+    List<Producto> consultarPorCategoriaProductoYEmpresaYEstado(String categoriaProducto, long empresaId, String estado);
+    List<Producto> consultarPorCategoriaProductoYProveedorYEmpresaYEstado(String categoriaProducto, long empresaId, long proveedorId, String estado);
     List<Producto> buscar(Producto producto);
 }
