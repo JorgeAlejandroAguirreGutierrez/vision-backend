@@ -43,6 +43,12 @@ public class GrupoProductoData implements ApplicationRunner {
             gruposProductos.add(new GrupoProducto("GPR011907000013", "HOGAR", "TECNOLOGIA", "COMPUTADORAS","PORTATIL", "DELL","LATITUDE", Constantes.activo, new CategoriaProducto(1), new CuentaContable(5), new Empresa(1)));
             gruposProductos.add(new GrupoProducto("GPR011907000014", "HOGAR", "DEPORTES", "ROPA","CAMISETAS", "FUTBOL","ECUADOR", Constantes.activo, new CategoriaProducto(1), new CuentaContable(6), new Empresa(1)));
             gruposProductos.add(new GrupoProducto("GPR011907000015", "HOGAR", "LIMPIEZA", "CASAS","", "","", Constantes.activo, new CategoriaProducto(2), new CuentaContable(5), new Empresa(1)));
+
+            gruposProductos.add(new GrupoProducto("GPR022307000001", "HOGAR", "ELECTRODOMESTICO", "LINEA BLANCA", "NEVERA", "LG","PUERTA SIMPLE", Constantes.activo,new CategoriaProducto(1), new CuentaContable(323), new Empresa(2)));
+            gruposProductos.add(new GrupoProducto("GPR022307000002", "HOGAR", "ELECTRODOMESTICO", "LINEA GRIS", "TELEVISOR", "SONY","SMART", Constantes.activo,new CategoriaProducto(1), new CuentaContable(323), new Empresa(2)));
+            gruposProductos.add(new GrupoProducto("GPR022307000003", "HOGAR", "MUEBLES", "LINEA CAFE", "DORMITORIOS", "CAMAS", "ZERO FUSION", Constantes.activo, new CategoriaProducto(1), new CuentaContable(324), new Empresa(2)));
+            gruposProductos.add(new GrupoProducto("GPR022307000004", "JUGUETERIA", "NIÑOS", "MOTORIZADOS", "CARROS", "HOT WEELLS","MINIATURA", Constantes.activo, new CategoriaProducto(1), new CuentaContable(324), new Empresa(2)));
+
             rep.saveAll(gruposProductos);
         }
     }

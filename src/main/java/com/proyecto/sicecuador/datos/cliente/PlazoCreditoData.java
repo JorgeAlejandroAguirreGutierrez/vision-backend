@@ -25,14 +25,15 @@ public class PlazoCreditoData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Optional<PlazoCredito> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
-            List<PlazoCredito> plazosCreditos = new ArrayList<>();
-            plazosCreditos.add(new PlazoCredito("PCR202301000001", "CORTO PLAZO", "CPL",30, Constantes.activo, new Empresa(1)));
-            plazosCreditos.add(new PlazoCredito("PCR202301000002", "MEDIANO PLAZO", "MPL",45, Constantes.activo, new Empresa(1)));
-            plazosCreditos.add(new PlazoCredito("PCR202301000003", "LARGO PLAZO", "LPL",60, Constantes.activo, new Empresa(1)));
-            plazosCreditos.add(new PlazoCredito("PCR202301000001", "CORTO PLAZO FLEXIBLE", "CPLF",30, Constantes.activo, new Empresa(2)));
-            plazosCreditos.add(new PlazoCredito("PCR202301000002", "MEDIANO PLAZO FLEXIBLE", "MPLF",45, Constantes.activo, new Empresa(2)));
-            plazosCreditos.add(new PlazoCredito("PCR202301000003", "LARGO PLAZO FLEXIBLE", "LPLF",60, Constantes.activo, new Empresa(2)));
-            rep.saveAll(plazosCreditos);
+            List<PlazoCredito> plazos_creditos = new ArrayList<>();
+            plazos_creditos.add(new PlazoCredito("PCR012301000001", "CORTO PLAZO", "CPL",30, "ACTIVO", new Empresa(1)));
+            plazos_creditos.add(new PlazoCredito("PCR012301000002", "MEDIANO PLAZO", "MPL",45, "ACTIVO", new Empresa(1)));
+            plazos_creditos.add(new PlazoCredito("PCR012301000003", "LARGO PLAZO", "LPL",60, "ACTIVO", new Empresa(1)));
+            plazos_creditos.add(new PlazoCredito("PCR022301000001", "CORTO PLAZO FLEXIBLE", "CPL",15, "ACTIVO", new Empresa(2)));
+            plazos_creditos.add(new PlazoCredito("PCR022301000002", "MEDIANO PLAZO FLEXIBLE", "MPL",30, "ACTIVO", new Empresa(2)));
+            plazos_creditos.add(new PlazoCredito("PCR022301000003", "LARGO PLAZO FLEXIBLE", "LPL",45, "ACTIVO", new Empresa(2)));
+
+            rep.saveAll(plazos_creditos);
         }
     }
 }

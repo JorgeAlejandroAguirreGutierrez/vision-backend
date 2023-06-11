@@ -3,7 +3,6 @@ package com.proyecto.sicecuador.controladoras.contabilidad;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
 import com.proyecto.sicecuador.servicios.interf.contabilidad.ICuentaContableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,25 +33,25 @@ public class CuentaContableController implements GenericoController<CuentaContab
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentas_contables);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
-	    List<CuentaContable> cuentasContables = servicio.consultarPorEstado(estado);
-	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasContables);
-	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 
     @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
-        List<CuentaContable> cuentasContables = servicio.consultarPorEmpresa(empresaId);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasContables);
+        List<CuentaContable> cuentasContables=servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasContables);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<CuentaContable> cuentasContables = servicio.consultarPorEstado(estado);
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasContables);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
-        List<CuentaContable> cuentasContables = servicio.consultarPorEmpresaYEstado(empresaId, estado);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasContables);
+        List<CuentaContable> cuentasContables=servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasContables);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

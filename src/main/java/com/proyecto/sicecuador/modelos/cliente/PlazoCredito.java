@@ -43,4 +43,8 @@ public class PlazoCredito extends Entidad {
         this.plazo = Constantes.cero;
         this.estado = Constantes.activo;
     }
+
+    public void normalizar(){
+        if(this.empresa == null) this.empresa = new Empresa();
+    }
 }

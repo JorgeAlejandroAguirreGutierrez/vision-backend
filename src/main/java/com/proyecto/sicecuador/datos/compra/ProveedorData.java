@@ -49,7 +49,8 @@ public class ProveedorData implements ApplicationRunner {
                 celulares2.add(new CelularProveedor("CPR011909000004", "0965431236", new Proveedor(2)));
                 List<TelefonoProveedor> telefonos2 = new ArrayList<>();
                 telefonos2.add(new TelefonoProveedor("TEA011909000003", "032964123", new Proveedor(2)));
-                proveedores.add(new Proveedor("PRV110721000002",  "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", "AV HURTADO DE MENDOZA", "TRAS EL MERCADO", -1.6719601146175827, -78.65041698970857, 0, Constantes.si, Constantes.no, Constantes.si, Constantes.no, Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(2), new FormaPago(1), new PlazoCredito(1), new Ubicacion(5), new Empresa(1), telefonos2, celulares2, correos2));
+                proveedores.add(new Proveedor("PRV012306000002",  "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", "AV HURTADO DE MENDOZA", "TRAS EL MERCADO", -1.6719601146175827, -78.65041698970857, 0, Constantes.si, Constantes.no, Constantes.si, Constantes.no, Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(2), new FormaPago(1), new PlazoCredito(1), new Ubicacion(5), new Empresa(1), telefonos2, celulares2, correos2));
+                proveedores.add(new Proveedor("PRV022306000001",  "0101010102", "SUPERMAXI", "NOMBRE COMERCIAL SUPERMAXI", "AV HURTADO DE MENDOZA", "TRAS EL MERCADO", -1.6719601146175827, -78.65041698970857, 0, Constantes.si, Constantes.no, Constantes.si, Constantes.no, Constantes.activo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(3), new FormaPago(1), new PlazoCredito(4), new Ubicacion(200), new Empresa(2), telefonos2, celulares2, correos2));
                 rep.saveAll(proveedores);
             }
     }

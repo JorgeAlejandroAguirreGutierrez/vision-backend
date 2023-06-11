@@ -28,16 +28,9 @@ public class SegmentoController implements GenericoController<Segmento> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<Segmento> segmentos = servicio.consultar();
+        List<Segmento> segmentos=servicio.consultar();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    
-    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
-	    List<Segmento> segmentos = servicio.consultarPorEstado(estado);
-	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
-	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,6 +38,13 @@ public class SegmentoController implements GenericoController<Segmento> {
         List<Segmento> segmentos = servicio.consultarPorEmpresa(empresaId);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+	    List<Segmento> segmentos= servicio.consultarPorEstado(estado);
+	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, segmentos);
+	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathPlazoCredito;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
 import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
 import com.proyecto.sicecuador.servicios.interf.cliente.IPlazoCreditoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,19 +32,19 @@ public class PlazoCreditoController implements GenericoController<PlazoCredito> 
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, plazosCreditos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<PlazoCredito> plazosCreditos=servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, plazosCreditos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
 	    List<PlazoCredito> plazosCreditos = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, plazosCreditos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
-        List<PlazoCredito> plazosCreditos = servicio.consultarPorEmpresa(empresaId);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, plazosCreditos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)

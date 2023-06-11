@@ -144,7 +144,7 @@ public class FacturaCompraService implements IFacturaCompraService {
                 double pvp = precioSinIva + (precioSinIva * precio.getProducto().getImpuesto().getPorcentaje() / 100);
                 pvp = Math.round(pvp * 100.0) / 100.0;
                 precio.setPrecioVentaPublico(pvp);
-                precio.setPrecioVentaPublicoManual(pvp);
+                //precio.setPrecioVentaPublicoManual(pvp);
                 double utilidad = precioSinIva - ultimoKardex.getCostoPromedio();
                 utilidad = Math.round(utilidad * 10000.0) / 10000.0;
                 precio.setUtilidad(utilidad);
