@@ -15,8 +15,8 @@ public interface ITipoComprobanteRepository extends JpaRepository<TipoComprobant
     List<TipoComprobante> consultar();
     @Query(value = "select tc from TipoComprobante tc where tc.estado=:estado order by tc.codigo asc")
     List<TipoComprobante> consultarPorEstado(String estado);
-    @Query(value = "select tc from TipoComprobante tc where tc.electronica = :electronica and tc.estado = :estado order by tc.codigo asc")
+    @Query(value = "select tc from TipoComprobante tc where tc.electronica=:electronica and tc.estado=:estado order by tc.codigo asc")
     List<TipoComprobante> consultarPorElectronica(String electronica, String estado);
-    @Query(value = "select tc from TipoComprobante tc where tc.nombreTabla = :nombreTabla order by tc.codigo asc")
+    @Query(value = "select tc from TipoComprobante tc where tc.nombreTabla=:nombreTabla order by tc.codigo asc")
     Optional<TipoComprobante> obtenerPorNombreTabla(String nombreTabla);
 }

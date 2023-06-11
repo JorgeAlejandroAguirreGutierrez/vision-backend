@@ -32,7 +32,7 @@ public class EmpresaController implements GenericoController<Empresa> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEstado", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
 	    List<Empresa> empresas = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, empresas);

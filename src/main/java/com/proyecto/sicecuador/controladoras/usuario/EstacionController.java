@@ -34,7 +34,6 @@ public class EstacionController implements GenericoController<Estacion> {
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
     @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarActivos(@PathVariable("estado") String estado) {
 	    List<Estacion> estaciones = servicio.consultarPorEstado(estado);

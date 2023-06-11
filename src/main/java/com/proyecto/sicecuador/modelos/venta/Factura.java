@@ -45,22 +45,22 @@ public class Factura extends Entidad {
 	private double subtotalConDescuento;
 	@Column(name = "descuento_total", nullable = true)
 	private double descuentoTotal;
-	@Column(name = "subtotal_base12_sin_descuento", nullable = true)
-	private double subtotalBase12SinDescuento;
-	@Column(name = "subtotal_base0_sin_descuento", nullable = true)
-	private double subtotalBase0SinDescuento;
-	@Column(name = "subtotal_base12_con_descuento", nullable = true)
-	private double subtotalBase12ConDescuento;
-	@Column(name = "subtotal_base0_con_descuento", nullable = true)
-	private double subtotalBase0ConDescuento;
-	@Column(name = "iva_sin_descuento", nullable = true)
-	private double ivaSinDescuento;
-	@Column(name = "iva_con_descuento", nullable = true)
-	private double ivaConDescuento;
-	@Column(name = "total_sin_descuento", nullable = true)
-	private double totalSinDescuento;
-	@Column(name = "total_con_descuento", nullable = true)
-	private double totalConDescuento;
+	@Column(name = "subtotal_grabado_sin_descuento", nullable = true)
+	private double subtotalGrabadoSinDescuento;
+	@Column(name = "subtotal_no_grabado_sin_descuento", nullable = true)
+	private double subtotalNoGrabadoSinDescuento;
+	@Column(name = "subtotal_grabado_con_descuento", nullable = true)
+	private double subtotalGrabadoConDescuento;
+	@Column(name = "subtotal_no_grabado_con_descuento", nullable = true)
+	private double subtotalNoGrabadoConDescuento;
+	@Column(name = "importe_iva_sin_descuento", nullable = true)
+	private double importeIvaSinDescuento;
+	@Column(name = "importe_iva_total", nullable = true)
+	private double importeIvaTotal;
+	@Column(name = "valor_total_sin_descuento", nullable = true)
+	private double valorTotalSinDescuento;
+	@Column(name = "valor_total", nullable = true)
+	private double valorTotal;
 	// GENERAL
 	@Column(name = "valor_descuento_subtotal", nullable = true)
 	private double valorDescuentoSubtotal;
@@ -150,14 +150,14 @@ public class Factura extends Entidad {
 		this.subtotalSinDescuento = Constantes.cero;
 		this.subtotalConDescuento = Constantes.cero;
 		this.descuentoTotal = Constantes.cero;
-		this.subtotalBase12SinDescuento = Constantes.cero;
-		this.subtotalBase0SinDescuento = Constantes.cero;
-		this.subtotalBase12ConDescuento = Constantes.cero;
-		this.subtotalBase0ConDescuento = Constantes.cero;
-		this.ivaSinDescuento = Constantes.cero;
-		this.ivaConDescuento = Constantes.cero;
-		this.totalSinDescuento = Constantes.cero;
-		this.totalConDescuento = Constantes.cero;
+		this.subtotalGrabadoSinDescuento = Constantes.cero;
+		this.subtotalNoGrabadoSinDescuento = Constantes.cero;
+		this.subtotalGrabadoConDescuento = Constantes.cero;
+		this.subtotalNoGrabadoConDescuento = Constantes.cero;
+		this.importeIvaSinDescuento = Constantes.cero;
+		this.importeIvaTotal = Constantes.cero;
+		this.valorTotalSinDescuento = Constantes.cero;
+		this.valorTotal = Constantes.cero;
 		this.valorDescuentoSubtotal = Constantes.cero;
 		this.porcentajeDescuentoSubtotal = Constantes.cero;
 		this.valorDescuentoTotal = Constantes.cero;

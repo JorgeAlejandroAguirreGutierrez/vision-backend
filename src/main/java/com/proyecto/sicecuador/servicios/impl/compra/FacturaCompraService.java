@@ -90,7 +90,7 @@ public class FacturaCompraService implements IFacturaCompraService {
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
             Kardex kardex = new Kardex(null, new Date(),
-                    facturaCompra.getNumeroFactura(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
+                    facturaCompra.getNumeroComprobante(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
                     costoUnitario, Constantes.cero, costoPromedio, costoTotal, new TipoComprobante(8),
                     new TipoOperacion(3), facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
 

@@ -147,33 +147,33 @@ public class GrupoProductoService implements IGrupoProductoService {
     }
     
     @Override
-    public List<String> consultarGrupos() {
-        return rep.findGrupos(Constantes.activo);
+    public List<String> consultarGrupos(long empresaId, String estado) {
+        return rep.findGrupos(empresaId, estado);
     }
     
     @Override
-    public List<String> consultarSubgrupos(String grupo) {
-        return rep.findSubgrupos(grupo, Constantes.activo);
+    public List<String> consultarSubgrupos(long empresaId, String estado, String grupo) {
+        return rep.findSubgrupos(empresaId, estado, grupo);
     }
     
     @Override
-    public List<String> consultarSecciones(String grupo, String subgrupo) {
-        return rep.findSecciones(grupo, subgrupo, Constantes.activo);
+    public List<String> consultarSecciones(long empresaId, String estado, String grupo, String subgrupo) {
+        return rep.findSecciones(empresaId, estado, grupo, subgrupo);
     }
     
     @Override
-    public List<String> consultarLineas(String grupo, String subgrupo, String seccion) {
-        return rep.findLineas(grupo, subgrupo, seccion, Constantes.activo);
+    public List<String> consultarLineas(long empresaId, String estado, String grupo, String subgrupo, String seccion) {
+        return rep.findLineas(empresaId, estado, grupo, subgrupo, seccion);
     }
     
     @Override
-    public List<String> consultarSublineas(String grupo, String subgrupo, String seccion, String linea) {
-        return rep.findSublineas(grupo, subgrupo, seccion, linea, Constantes.activo);
+    public List<String> consultarSublineas(long empresaId, String estado, String grupo, String subgrupo, String seccion, String linea) {
+        return rep.findSublineas(empresaId, estado, grupo, subgrupo, seccion, linea);
     }
     
     @Override
-    public List<String> consultarPresentaciones(String grupo, String subgrupo, String seccion, String linea, String sublinea) {
-        return rep.findPresentaciones(grupo, subgrupo, seccion, linea, sublinea, Constantes.activo);
+    public List<String> consultarPresentaciones(long empresaId, String estado, String grupo, String subgrupo, String seccion, String linea, String sublinea) {
+        return rep.findPresentaciones(empresaId, estado, grupo, subgrupo, seccion, linea, sublinea);
     }
     
     @Override
