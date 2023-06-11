@@ -36,6 +36,9 @@ public class KardexData implements ApplicationRunner {
             kardexs.add(new Kardex("KAR202304000004", Date.valueOf("2023-04-01"), Constantes.vacio, 400, 0, 400, 200.00, 0, 200.00, 80000.00, new TipoComprobante(1), new TipoOperacion(1), new Bodega(1), new Producto(4)));
             kardexs.add(new Kardex("KAR202304000005", Date.valueOf("2023-04-01"), Constantes.vacio, 100, 0, 100, 300.25, 0, 300.25, 30025.00, new TipoComprobante(1), new TipoOperacion(1), new Bodega(1), new Producto(5)));
             kardexs.add(new Kardex("KAR202304000006", Date.valueOf("2023-04-01"), Constantes.vacio, 100, 0, 100, 30.00, 0, 30.00, 3000.00, new TipoComprobante(1), new TipoOperacion(1), new Bodega(1), new Producto(6)));
+
+            kardexs.add(new Kardex("KAR202304000001", Date.valueOf("2023-06-01"), Constantes.vacio, 200, 0, 200, 100.00, 0, 100.00, 20000.00, new TipoComprobante(1), new TipoOperacion(1), new Bodega(4), new Producto(7)));
+            kardexs.add(new Kardex("KAR202304000002", Date.valueOf("2023-06-01"), Constantes.vacio, 240, 0, 240, 120.75, 0, 120.75, 28980.00, new TipoComprobante(1), new TipoOperacion(1), new Bodega(4), new Producto(8)));
             rep.saveAll(kardexs);
         }
     }
