@@ -31,20 +31,12 @@ public class FacturaCompra extends Entidad {
     private String puntoVenta;
     @Column(name = "secuencial", nullable = true)
     private String secuencial;
-    @Column(name = "numero_factura", nullable = true)
-    private String numeroFactura;
+    @Column(name = "numero_comprobante", nullable = true)
+    private String numeroComprobante;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
     @Column(name = "estado", nullable = true)
     private String estado;
-    @Column(name = "valor_distribuido_total", nullable = true)
-    private double valorDistribuidoTotal;
-    @Column(name = "valor_descuento_total", nullable = true)
-    private double valorDescuentoTotal;
-    @Column(name = "porcentaje_descuento_total", nullable = true)
-    private double porcentajeDescuentoTotal;
-    @Column(name = "valor_porcentaje_descuento_total", nullable = true)
-    private double valorPorcentajeDescuentoTotal;
     @Column(name = "subtotal_sin_descuento", nullable = true)
     private double subtotalSinDescuento;
     @Column(name = "descuento_total", nullable = true)
@@ -57,6 +49,14 @@ public class FacturaCompra extends Entidad {
     private double importeIvaTotal;
     @Column(name = "valor_total", nullable = true)
     private double valorTotal;
+    @Column(name = "valor_distribuido_total", nullable = true)
+    private double valorDistribuidoTotal;
+    @Column(name = "valor_descuento_total", nullable = true)
+    private double valorDescuentoTotal;
+    @Column(name = "porcentaje_descuento_total", nullable = true)
+    private double porcentajeDescuentoTotal;
+    @Column(name = "valor_porcentaje_descuento_total", nullable = true)
+    private double valorPorcentajeDescuentoTotal;
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @ManyToOne
@@ -82,7 +82,7 @@ public class FacturaCompra extends Entidad {
     public FacturaCompra(){
         super();
         this.codigo = Constantes.vacio;
-        this.numeroFactura = Constantes.vacio;
+        this.numeroComprobante = Constantes.vacio;
         this.fecha = new Date();
         this.estado = Constantes.activo;
         this.valorDistribuidoTotal = Constantes.cero;

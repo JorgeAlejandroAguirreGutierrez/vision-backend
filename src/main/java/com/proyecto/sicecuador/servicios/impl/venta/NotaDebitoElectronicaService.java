@@ -246,7 +246,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		}
 		CampoAdicional campoAdicional = new CampoAdicional();
 		campoAdicional.setNombre(Constantes.valor);
-		campoAdicional.setValor(notaDebitoVenta.getFactura().getTotalConDescuento() + Constantes.vacio);
+		campoAdicional.setValor(notaDebitoVenta.getFactura().getValorTotal() + Constantes.vacio);
 		camposAdicionales.add(campoAdicional);
 		InfoAdicional infoAdicional = new InfoAdicional();
 		infoAdicional.setCampoAdicional(camposAdicionales);

@@ -119,7 +119,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoFactura.setTotalDescuento(factura.getDescuentoTotal());
     	infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
     	infoFactura.setPropina(Constantes.cero);
-    	infoFactura.setImporteTotal(factura.getTotalConDescuento());
+    	infoFactura.setImporteTotal(factura.getValorTotal());
     	infoFactura.setMoneda(Constantes.moneda);
     	infoFactura.setPagos(crearPagos(factura));
     	
@@ -270,7 +270,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		}
 		CampoAdicional campoAdicional = new CampoAdicional();
 		campoAdicional.setNombre(Constantes.valor);
-		campoAdicional.setValor(factura.getTotalConDescuento() + Constantes.vacio);
+		campoAdicional.setValor(factura.getValorTotal() + Constantes.vacio);
 		camposAdicionales.add(campoAdicional);
 		InfoAdicional infoAdicional = new InfoAdicional();
 		infoAdicional.setCampoAdicional(camposAdicionales);
@@ -467,10 +467,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			documento.add( new Paragraph("\n"));
 			String subtotal = String.format("%.2f", factura.getSubtotalConDescuento());
 			String descuento = String.format("%.2f", factura.getDescuentoTotal());
-			String subtotalBase12ConDescuento = String.format("%.2f", factura.getSubtotalBase12ConDescuento());
-			String subtotalBase0ConDescuento = String.format("%.2f", factura.getSubtotalBase0ConDescuento());
-			String iva = String.format("%.2f", factura.getIvaConDescuento());
-			String totalConDescuento = String.format("%.2f", factura.getTotalConDescuento());
+			String subtotalGrabadoConDescuento = String.format("%.2f", factura.getSubtotalGrabadoConDescuento());
+			String subtotalNoGrabadoConDescuento = String.format("%.2f", factura.getSubtotalNoGrabadoConDescuento());
+			String iva = String.format("%.2f", factura.getImporteIvaTotal());
+			String totalConDescuento = String.format("%.2f", factura.getValorTotal());
             float [] columnasTablaFactura = {300F, 300F};
             Table tablaFactura = new Table(columnasTablaFactura);
             tablaFactura.addCell(getCellFilaFactura("SUBTOTAL"));
@@ -478,9 +478,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaFactura.addCell(getCellFilaFactura("DESCUENTO"));
 			tablaFactura.addCell(getCellFilaFactura("$" + descuento));
             tablaFactura.addCell(getCellFilaFactura("SUBTOTAL GRAVADO"));
-            tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase12ConDescuento));
+            tablaFactura.addCell(getCellFilaFactura("$" + subtotalGrabadoConDescuento));
             tablaFactura.addCell(getCellFilaFactura("SUBTOTAL NO GRAVADO"));
-            tablaFactura.addCell(getCellFilaFactura("$" + subtotalBase0ConDescuento));
+            tablaFactura.addCell(getCellFilaFactura("$" + subtotalNoGrabadoConDescuento));
 			tablaFactura.addCell(getCellFilaFactura("IVA"));
 			tablaFactura.addCell(getCellFilaFactura("$" + iva));
             tablaFactura.addCell(getCellFilaFactura("TOTAL"));

@@ -69,6 +69,18 @@ public class SecuencialData implements ApplicationRunner {
             secuenciales.add(new Secuencial("SEC202304000034", 1, Constantes.activo, new TipoComprobante(6), new Estacion(7)));
             secuenciales.add(new Secuencial("SEC202304000035", 1, Constantes.activo, new TipoComprobante(7), new Estacion(7)));
 
+            secuenciales.add(new Secuencial("SEC022304000001", 1, Constantes.activo, new TipoComprobante(2), new Estacion(8)));
+            secuenciales.add(new Secuencial("SEC022304000002", 1, Constantes.activo, new TipoComprobante(4), new Estacion(8)));
+            secuenciales.add(new Secuencial("SEC022304000003", 1, Constantes.activo, new TipoComprobante(5), new Estacion(8)));
+            secuenciales.add(new Secuencial("SEC022304000004", 1, Constantes.activo, new TipoComprobante(6), new Estacion(8)));
+            secuenciales.add(new Secuencial("SEC022304000005", 1, Constantes.activo, new TipoComprobante(7), new Estacion(8)));
+
+            secuenciales.add(new Secuencial("SEC022304000006", 1, Constantes.activo, new TipoComprobante(2), new Estacion(9)));
+            secuenciales.add(new Secuencial("SEC022304000007", 1, Constantes.activo, new TipoComprobante(4), new Estacion(9)));
+            secuenciales.add(new Secuencial("SEC022304000008", 1, Constantes.activo, new TipoComprobante(5), new Estacion(9)));
+            secuenciales.add(new Secuencial("SEC022304000009", 1, Constantes.activo, new TipoComprobante(6), new Estacion(9)));
+            secuenciales.add(new Secuencial("SEC022304000010", 1, Constantes.activo, new TipoComprobante(7), new Estacion(9)));
+
             rep.saveAll(secuenciales);
         }
     }

@@ -6,6 +6,7 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathEstablecimient
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
 import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
 import com.proyecto.sicecuador.servicios.interf.usuario.IEstablecimientoService;
@@ -33,12 +34,26 @@ public class EstablecimientoController implements GenericoController<Establecimi
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<Establecimiento> establecimientos = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
 	    List<Establecimiento> establecimientos = servicio.consultarPorEstado(estado);
 	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<Establecimiento> establecimientos=servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, establecimientos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)

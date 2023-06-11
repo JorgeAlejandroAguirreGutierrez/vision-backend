@@ -290,10 +290,10 @@ public class FacturaService implements IFacturaService {
     		this.calcularSubtotalSinDescuento(factura);
             this.calcularSubtotalConDescuento(factura);
             this.calcularDescuentoTotal(factura);
-            this.calcularSubtotalBase12SinDescuento(factura);
-            this.calcularSubtotalBase0SinDescuento(factura);
-            this.calcularSubtotalBase12ConDescuento(factura);
-            this.calcularSubtotalBase0ConDescuento(factura);
+            this.calcularSubtotalGrabadoSinDescuento(factura);
+            this.calcularSubtotalNoGrabadoSinDescuento(factura);
+            this.calcularSubtotalGrabadoConDescuento(factura);
+            this.calcularSubtotalNoGrabadoConDescuento(factura);
             this.calcularIvaSinDescuento(factura);
             this.calcularIvaConDescuento(factura);
             this.calcularTotalSinDescuento(factura);
@@ -316,10 +316,10 @@ public class FacturaService implements IFacturaService {
             
             this.calcularSubtotalConDescuento(factura);
             this.calcularDescuentoTotal(factura);
-            this.calcularSubtotalBase12SinDescuento(factura);
-            this.calcularSubtotalBase0SinDescuento(factura);
-            this.calcularSubtotalBase12ConDescuento(factura);
-            this.calcularSubtotalBase0ConDescuento(factura);
+            this.calcularSubtotalGrabadoSinDescuento(factura);
+            this.calcularSubtotalNoGrabadoSinDescuento(factura);
+            this.calcularSubtotalGrabadoConDescuento(factura);
+            this.calcularSubtotalNoGrabadoConDescuento(factura);
             this.calcularIvaSinDescuento(factura);
             this.calcularIvaConDescuento(factura);
             this.calcularTotalSinDescuento(factura);
@@ -346,10 +346,10 @@ public class FacturaService implements IFacturaService {
             
             this.calcularSubtotalConDescuento(factura);
             this.calcularDescuentoTotal(factura);
-            this.calcularSubtotalBase12SinDescuento(factura);
-            this.calcularSubtotalBase0SinDescuento(factura);
-            this.calcularSubtotalBase12ConDescuento(factura);
-            this.calcularSubtotalBase0ConDescuento(factura);
+            this.calcularSubtotalGrabadoSinDescuento(factura);
+            this.calcularSubtotalNoGrabadoSinDescuento(factura);
+            this.calcularSubtotalGrabadoConDescuento(factura);
+            this.calcularSubtotalNoGrabadoConDescuento(factura);
             this.calcularIvaSinDescuento(factura);
             this.calcularIvaConDescuento(factura);
             this.calcularTotalSinDescuento(factura);
@@ -403,17 +403,17 @@ public class FacturaService implements IFacturaService {
         factura.setTotalTransferencias(totalTransferencias);
         factura.setTotalTarjetasDebitos(totalTarjetasDebitos);
         factura.setTotalTarjetasCreditos(totalTarjetasCreditos);
-        if(total >= factura.getTotalConDescuento()){
-            double cambio = total - factura.getTotalConDescuento();
+        if(total >= factura.getValorTotal()){
+            double cambio = total - factura.getValorTotal();
             cambio = Math.round(cambio*100.0)/100.0;
             factura.setCambio(cambio);
         } else {
             factura.setCambio(Constantes.cero);
         }
-        if(total >= factura.getTotalConDescuento()){
-            total = factura.getTotalConDescuento();
+        if(total >= factura.getValorTotal()){
+            total = factura.getValorTotal();
         }
-        double porPagar = factura.getTotalConDescuento() - total;
+        double porPagar = factura.getValorTotal() - total;
         porPagar = Math.round(porPagar*100.0)/100.0;
         if(porPagar < 0) {
             porPagar = 0;
@@ -530,7 +530,7 @@ public class FacturaService implements IFacturaService {
     }
     
     private void calcularValorPorcentajeDescuentoTotal(Factura factura){
-    	double valorPorcentajeDescuentoTotal=factura.getTotalConDescuento()*(factura.getPorcentajeDescuentoTotal()/100);
+    	double valorPorcentajeDescuentoTotal=factura.getValorTotal()*(factura.getPorcentajeDescuentoTotal()/100);
     	valorPorcentajeDescuentoTotal= Math.round(valorPorcentajeDescuentoTotal*100.0)/100.0;
     	factura.setValorPorcentajeDescuentoTotal(valorPorcentajeDescuentoTotal);
     }
@@ -590,49 +590,49 @@ public class FacturaService implements IFacturaService {
 	    factura.setDescuentoTotal(descuentoTotal);
     }
     
-    private void calcularSubtotalBase12SinDescuento(Factura factura) {
-    	double subtotalBase12SinDescuento=0;
+    private void calcularSubtotalGrabadoSinDescuento(Factura factura) {
+    	double subtotalGrabadoSinDescuento=0;
     	for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
           if (facturaLinea.getImpuesto().getPorcentaje()!=0){
-            subtotalBase12SinDescuento+= facturaLinea.getSubtotalSinDescuentoLinea();
+            subtotalGrabadoSinDescuento+= facturaLinea.getSubtotalSinDescuentoLinea();
           }
     	}
-        subtotalBase12SinDescuento= Math.round(subtotalBase12SinDescuento*100.0)/100.0;
-        factura.setSubtotalBase12SinDescuento(subtotalBase12SinDescuento);
+        subtotalGrabadoSinDescuento= Math.round(subtotalGrabadoSinDescuento*100.0)/100.0;
+        factura.setSubtotalGrabadoSinDescuento(subtotalGrabadoSinDescuento);
     }
     
-    private void calcularSubtotalBase0SinDescuento(Factura factura) {
-    	double subtotalBase0SinDescuento=0;
+    private void calcularSubtotalNoGrabadoSinDescuento(Factura factura) {
+    	double subtotalNoGrabadoSinDescuento=0;
     	for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
           if (facturaLinea.getImpuesto().getPorcentaje()==0){
-            subtotalBase0SinDescuento+= facturaLinea.getSubtotalSinDescuentoLinea();
+            subtotalNoGrabadoSinDescuento+= facturaLinea.getSubtotalSinDescuentoLinea();
           }
         }
-        subtotalBase0SinDescuento=Math.round(subtotalBase0SinDescuento*100.0)/100.0;
-        factura.setSubtotalBase0SinDescuento(subtotalBase0SinDescuento);
+        subtotalNoGrabadoSinDescuento=Math.round(subtotalNoGrabadoSinDescuento*100.0)/100.0;
+        factura.setSubtotalNoGrabadoSinDescuento(subtotalNoGrabadoSinDescuento);
     }
     
-    private void calcularSubtotalBase12ConDescuento(Factura factura) {
-    	double subtotalBase12ConDescuento=0;
+    private void calcularSubtotalGrabadoConDescuento(Factura factura) {
+    	double subtotalGrabadoConDescuento=0;
     	for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
           if (facturaLinea.getImpuesto().getPorcentaje()!=0){
-            subtotalBase12ConDescuento+= facturaLinea.getSubtotalConDescuentoLinea();
+            subtotalGrabadoConDescuento+= facturaLinea.getSubtotalConDescuentoLinea();
           }
         }
-        subtotalBase12ConDescuento= Math.round(subtotalBase12ConDescuento*100.0)/100.0;
-        factura.setSubtotalBase12ConDescuento(subtotalBase12ConDescuento);
+        subtotalGrabadoConDescuento= Math.round(subtotalGrabadoConDescuento*100.0)/100.0;
+        factura.setSubtotalGrabadoConDescuento(subtotalGrabadoConDescuento);
     }
     
     
-    private void calcularSubtotalBase0ConDescuento(Factura factura) {
-    	double subtotalBase0ConDescuento=0;
+    private void calcularSubtotalNoGrabadoConDescuento(Factura factura) {
+    	double subtotalNoGrabadoConDescuento=0;
     	for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
           if (facturaLinea.getImpuesto().getPorcentaje()==0){
-            subtotalBase0ConDescuento+= facturaLinea.getSubtotalConDescuentoLinea();
+            subtotalNoGrabadoConDescuento+= facturaLinea.getSubtotalConDescuentoLinea();
           }
         }
-        subtotalBase0ConDescuento=Math.round(subtotalBase0ConDescuento*100.0)/100.0;
-        factura.setSubtotalBase0ConDescuento(subtotalBase0ConDescuento);
+        subtotalNoGrabadoConDescuento=Math.round(subtotalNoGrabadoConDescuento*100.0)/100.0;
+        factura.setSubtotalNoGrabadoConDescuento(subtotalNoGrabadoConDescuento);
     }
     
     private void calcularIvaSinDescuento(Factura factura) {
@@ -643,7 +643,7 @@ public class FacturaService implements IFacturaService {
             }
         }
         ivaSinDescuento=Math.round(ivaSinDescuento*100.0)/100.0;
-        factura.setIvaSinDescuento(ivaSinDescuento);
+        factura.setImporteIvaSinDescuento(ivaSinDescuento);
     }
     
     private void calcularIvaConDescuento(Factura factura) {
@@ -654,19 +654,19 @@ public class FacturaService implements IFacturaService {
             }
         }
         ivaConDescuento= Math.round(ivaConDescuento*100.0)/100.0;
-        factura.setIvaConDescuento(ivaConDescuento);
+        factura.setImporteIvaTotal(ivaConDescuento);
     }
     
     private void calcularTotalSinDescuento(Factura factura) {
-        double totalSinDescuento=factura.getSubtotalBase0SinDescuento()+factura.getSubtotalBase12SinDescuento()+factura.getIvaSinDescuento();
+        double totalSinDescuento=factura.getSubtotalNoGrabadoSinDescuento()+factura.getSubtotalGrabadoSinDescuento()+factura.getImporteIvaSinDescuento();
         totalSinDescuento= Math.round(totalSinDescuento*100.0)/100.0;
-        factura.setTotalSinDescuento(totalSinDescuento);
+        factura.setValorTotalSinDescuento(totalSinDescuento);
     }
     
     private void calcularTotalConDescuento(Factura factura) {
-        double totalConDescuento=factura.getSubtotalBase0ConDescuento()+factura.getSubtotalBase12ConDescuento()+factura.getIvaConDescuento();
+        double totalConDescuento=factura.getSubtotalNoGrabadoConDescuento()+factura.getSubtotalGrabadoConDescuento()+factura.getImporteIvaTotal();
         totalConDescuento=Math.round(totalConDescuento*100.0)/100.0;
-        factura.setTotalConDescuento(totalConDescuento);
+        factura.setValorTotal(totalConDescuento);
     }
 
     @Override

@@ -175,7 +175,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		}
 		CampoAdicional campoAdicional = new CampoAdicional();
 		campoAdicional.setNombre(Constantes.valor);
-		campoAdicional.setValor(guiaRemision.getFactura().getTotalConDescuento() + Constantes.vacio);
+		campoAdicional.setValor(guiaRemision.getFactura().getValorTotal() + Constantes.vacio);
 		camposAdicionales.add(campoAdicional);
 		InfoAdicional infoAdicional = new InfoAdicional();
 		infoAdicional.setCampoAdicional(camposAdicionales);
@@ -356,17 +356,17 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
             float [] columnasTablaFactura = {130F, 100F};
             Table tablaFactura = new Table(columnasTablaFactura);
             tablaFactura.addCell("SUBTOTAL SD 12%");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalBase12SinDescuento());
+            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalGrabadoSinDescuento());
             tablaFactura.addCell("SUBTOTAL CD 12%");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalBase12SinDescuento());
+            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalGrabadoSinDescuento());
             tablaFactura.addCell("SUBTOTAL SD 0%");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalBase0SinDescuento());
+            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalNoGrabadoSinDescuento());
             tablaFactura.addCell("SUBTOTAL CD 0%");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalBase0SinDescuento());
+            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalNoGrabadoSinDescuento());
             tablaFactura.addCell("TOTAL SD");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getTotalSinDescuento());
+            tablaFactura.addCell("$" + guiaRemision.getFactura().getValorTotalSinDescuento());
             tablaFactura.addCell("TOTAL CD");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getTotalConDescuento());
+            tablaFactura.addCell("$" + guiaRemision.getFactura().getValorTotal());
             tablaFactura.setTextAlignment(TextAlignment.RIGHT);
             tablaFactura.setHorizontalAlignment(HorizontalAlignment.RIGHT);
             documento.add(tablaFactura);
