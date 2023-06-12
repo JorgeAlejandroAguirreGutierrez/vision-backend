@@ -120,8 +120,8 @@ public class FacturaController implements GenericoController<Factura> {
 
     @PostMapping(value = "/calcularLinea", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> calcularLinea(@RequestBody FacturaLinea _facturaLinea) {
-        FacturaLinea facturaLinea=servicio.calcularLinea(_facturaLinea);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, facturaLinea);
+        FacturaLinea facturaLinea = servicio.calcularLinea(_facturaLinea);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_calcular_exitoso, facturaLinea);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
