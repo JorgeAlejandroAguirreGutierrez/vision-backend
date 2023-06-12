@@ -16,7 +16,7 @@ import static com.proyecto.sicecuador.Constantes.tabla_vehiculo_transporte;
 @Getter
 @Setter
 @AllArgsConstructor
-public class VehiculoTransporte extends Entidad {
+public class Vehiculo extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @Column(name = "placa", nullable = true)
@@ -40,13 +40,13 @@ public class VehiculoTransporte extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
-    @JoinColumn(name = "transportista_id", nullable = true)
-    private Transportista transportista;
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
 
-    public VehiculoTransporte(long id){
+    public Vehiculo(long id){
         super(id);
     }
-    public VehiculoTransporte(){
+    public Vehiculo(){
         super();
         this.codigo = Constantes.vacio;
         this.placa = Constantes.vacio;

@@ -25,9 +25,11 @@ public class PerfilData implements ApplicationRunner {
         if (!ant.isPresent()) {
             List<Perfil> perfiles = new ArrayList<>();
             perfiles.add(new Perfil("PEF202301000001", "ADMINISTRADOR", "ADM", Constantes.activo, Constantes.si, Collections.emptyList()));
-            perfiles.add(new Perfil("PEF202301000002", "RECAUDADOR", "REC", Constantes.activo, Constantes.no, Collections.emptyList()));
-            perfiles.add(new Perfil("PEF202301000003", "DESPACHADOR", "DES", Constantes.activo, Constantes.no, Collections.emptyList()));
+            perfiles.add(new Perfil("PEF202301000002", "GERENCIAL", "GER", Constantes.activo, Constantes.no, Collections.emptyList()));
+            perfiles.add(new Perfil("PEF202301000003", "RECAUDADOR", "REC", Constantes.activo, Constantes.no, Collections.emptyList()));
             perfiles.add(new Perfil("PEF202301000004", "CONTADOR", "CTD", Constantes.activo, Constantes.no, Collections.emptyList()));
+            perfiles.add(new Perfil("PEF202301000005", "CONSULTA", "CON", Constantes.activo, Constantes.no, Collections.emptyList()));
+
             rep.saveAll(perfiles);
         }
     }

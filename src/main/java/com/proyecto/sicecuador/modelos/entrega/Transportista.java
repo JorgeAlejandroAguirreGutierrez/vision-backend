@@ -31,7 +31,6 @@ public class Transportista extends Entidad {
     @JoinColumn(name = "empresa_id", nullable = true)
     private Empresa empresa;
 
-
     public Transportista(long id){
         super(id);
     }

@@ -68,7 +68,7 @@ public class ClienteData implements ApplicationRunner {
                     0, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoCliente(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(10), new Genero(2),
                     new EstadoCivil(2), new CalificacionCliente(1), new OrigenIngreso(1), new Segmento(1), new Empresa(1), Collections.emptyList(), telefonos3, celulares3, correos3, Collections.emptyList()));
 
-            clientes.add(new Cliente("CLI022306000001", "9999999999999", "CONSUMIDOR FINAL", Constantes.no, Constantes.no, Constantes.activo, "CONSUMIDOR FINAL", "CASA", "", -1.6719601146175827, -78.65041698970857,
+            clientes.add(new Cliente("CLI022306000001", "9999999999999", "CONSUMIDOR FINAL", Constantes.no, Constantes.no, Constantes.activo, "RIOBAMBA (DIRECCIÓN GENERAL)", "CASA", "", -1.6719601146175827, -78.65041698970857,
                     0, new TipoIdentificacion(4), new TipoContribuyente(2), new GrupoCliente(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(248), new Genero(1),
                     new EstadoCivil(1), new CalificacionCliente(1), new OrigenIngreso(1), new Segmento(1), new Empresa(2), Collections.emptyList(), telefonos1, celulares1, correos1, Collections.emptyList()));
 

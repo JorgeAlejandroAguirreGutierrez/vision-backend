@@ -106,7 +106,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		infoGuiaRemision.setFechaIniTransporte(fechaInicioTransporte);
 		String fechaFinTransporte = dateFormat.format(guiaRemision.getFechaFinTransporte());
 		infoGuiaRemision.setFechaFinTransporte(fechaFinTransporte);
-		infoGuiaRemision.setPlaca(guiaRemision.getVehiculoTransporte().getPlaca());
+		infoGuiaRemision.setPlaca(guiaRemision.getVehiculo().getPlaca());
 		Destinatarios destinatarios = crearDestinatarios(guiaRemision);
 		InfoAdicional infoAdicional = crearInfoAdicional(guiaRemision);
 		guiaRemisionElectronica.setInfoTributaria(infoTributaria);
