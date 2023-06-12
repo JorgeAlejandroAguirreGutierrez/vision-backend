@@ -11,5 +11,4 @@ public interface IVehiculoService extends IGenericoService<Vehiculo> {
     List<Vehiculo> consultarPorEmpresa(long empresaId);
     List<Vehiculo> consultarPorEstado(String estado);
     List<Vehiculo> consultarPorEmpresaYEstado(long empresaId, String estado);
-    List<Vehiculo> consultarPorTransportistaYEstado(long transportistaId, String estado);
 }

@@ -75,10 +75,6 @@ public class VehiculoService implements IVehiculoService {
     public List<Vehiculo> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
-    @Override
-    public List<Vehiculo> consultarPorTransportistaYEstado(long transportistaId, String estado){
-        return rep.consultarPorTransportistaYEstado(transportistaId, estado);
-    }
 
     @Override
     public Page<Vehiculo> consultarPagina(Pageable pageable){
