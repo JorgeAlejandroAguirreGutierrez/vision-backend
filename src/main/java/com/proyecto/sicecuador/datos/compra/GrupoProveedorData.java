@@ -27,10 +27,12 @@ public class GrupoProveedorData implements ApplicationRunner {
 		Optional<GrupoProveedor> ant = rep.findById((long) 1);
 		if(!ant.isPresent()) {
 			List<GrupoProveedor> gruposProveedores = new ArrayList<>();
-			gruposProveedores.add(new GrupoProveedor("GPR011907000001", "PROVEEDORES NACIONALES", "NAC", Constantes.activo, new CuentaContable(4), new Empresa(1)));
-			gruposProveedores.add(new GrupoProveedor("GPR011907000002", "PROVEEDORES INTERNACIONALES", "INTER", Constantes.activo, new CuentaContable(5), new Empresa(1)));
-			gruposProveedores.add(new GrupoProveedor("GPR011907000003", "PROVEEDORES INTERNOS", "INT", Constantes.activo, new CuentaContable(4), new Empresa(2)));
-			gruposProveedores.add(new GrupoProveedor("GPR011907000004", "PROVEEDORES EXTERNOS", "EXT", Constantes.activo, new CuentaContable(5), new Empresa(2)));
+			gruposProveedores.add(new GrupoProveedor("GPR012307000001", "PROVEEDORES NACIONALES", "NAC", Constantes.activo, new CuentaContable(4), new Empresa(1)));
+			gruposProveedores.add(new GrupoProveedor("GPR012307000002", "PROVEEDORES INTERNACIONALES", "INTER", Constantes.activo, new CuentaContable(5), new Empresa(1)));
+
+			gruposProveedores.add(new GrupoProveedor("GPR022307000003", "PROVEEDORES INTERNOS", "INT", Constantes.activo, new CuentaContable(4), new Empresa(2)));
+			gruposProveedores.add(new GrupoProveedor("GPR022307000004", "PROVEEDORES EXTERNOS", "EXT", Constantes.activo, new CuentaContable(5), new Empresa(2)));
+
 			rep.saveAll(gruposProveedores);
 		}
 	}

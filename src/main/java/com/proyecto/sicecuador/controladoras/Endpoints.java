@@ -59,7 +59,7 @@ public class Endpoints {
     //ENTREGA
     public static final String pathGuiaRemision="guiaRemision";
     public static final String pathTransportista="transportista";
-    public static final String pathVehiculoTransporte="vehiculoTransporte";
+    public static final String pathVehiculo="vehiculo";
     
     //INVENTARIO
     public static final String pathBodega="bodega";

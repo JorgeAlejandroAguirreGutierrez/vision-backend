@@ -84,18 +84,18 @@ public class MenuOpcionData implements ApplicationRunner {
             opciones.add(new MenuOpcion("MEN202305000051", "VENTAS", "TRANSPORTISTAS","CREAR", Constantes.si, "transportista", "TRAN", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000052", "VENTAS", "VEHICULOS TRANSPORTES","CREAR", Constantes.si, "vehiculo_transporte", "VEH", Constantes.activo));
             //INVENTARIOS
-            opciones.add(new MenuOpcion("MEN202305000053", "INVENTARIOS", "BODEGAS","CREAR", Constantes.si, "bodega", "BOD", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000054", "INVENTARIOS", "BODEGAS","CREAR", Constantes.no, "bodega_producto", "BOP", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000055", "INVENTARIOS", "CATEGORÍA PRODUCTO","CREAR", Constantes.no, "categoria_producto", "CAP", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000056", "INVENTARIOS", "EQUIVALENCIA DE MEDIDAS","CREAR", Constantes.no, "equivalencia_medida", "EQM", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000057", "INVENTARIOS", "GRUPOS DE PRODUCTOS","CREAR", Constantes.si, "grupo_producto", "GPR", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000053", "INVENTARIOS", "CATEGORÍA PRODUCTO","CREAR", Constantes.no, "categoria_producto", "CAP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000054", "INVENTARIOS", "GRUPOS DE PRODUCTOS","CREAR", Constantes.si, "grupo_producto", "GPR", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000055", "INVENTARIOS", "PRODUCTOS","CREAR", Constantes.si, "producto", "PRO", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000056", "INVENTARIOS", "PRECIO","CREAR", Constantes.no, "precio", "PRE", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000057", "INVENTARIOS", "PROVEEDORES DE PRODUCTOS","CREAR", Constantes.no, "proveedor_producto", "PRP", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000058", "INVENTARIOS", "KARDEX","CREAR", Constantes.si, "kardex", "KAR", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000059", "INVENTARIOS", "MEDIDAS","CREAR", Constantes.si, "medida", "MED", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000060", "INVENTARIOS", "PRECIO","CREAR", Constantes.no, "precio", "PRE", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000061", "INVENTARIOS", "PRODUCTOS","CREAR", Constantes.si, "producto", "PRO", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000062", "INVENTARIOS", "PROMOCIONES","CREAR", Constantes.si, "promocion", "PRM", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000063", "INVENTARIOS", "PROVEEDORES DE PRODUCTOS","CREAR", Constantes.no, "proveedor_producto", "PRP", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000064", "INVENTARIOS", "TRANSFERENCIAS DE BODEGA","CREAR", Constantes.no, "transferencia_bodega", "TRB", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000059", "INVENTARIOS", "PROMOCIONES","CREAR", Constantes.si, "promocion", "PRM", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000060", "INVENTARIOS", "BODEGAS","CREAR", Constantes.si, "bodega", "BOD", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000061", "INVENTARIOS", "BODEGAS","CREAR", Constantes.no, "bodega_producto", "BOP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000062", "INVENTARIOS", "TRANSFERENCIAS DE BODEGA","CREAR", Constantes.no, "transferencia_bodega", "TRB", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000063", "INVENTARIOS", "MEDIDAS","CREAR", Constantes.si, "medida", "MED", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000064", "INVENTARIOS", "EQUIVALENCIA DE MEDIDAS","CREAR", Constantes.no, "equivalencia_medida", "EQM", Constantes.activo));
             opciones.add(new MenuOpcion("MEN202305000065", "INVENTARIOS", "TIPO GASTO","CREAR", Constantes.no, "tipo_gasto", "TIG", Constantes.activo));
             //CAJA BANCOS
             opciones.add(new MenuOpcion("MEN202305000066", "CAJA BANCOS", "CUENTAS PROPIAS","CREAR", Constantes.si, "cuenta_propia", "CTP", Constantes.activo));
