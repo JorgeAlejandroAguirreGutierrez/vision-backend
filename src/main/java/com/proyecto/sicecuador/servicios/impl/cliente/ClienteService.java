@@ -85,7 +85,7 @@ public class ClienteService implements IClienteService {
 
     @Override
     public String existe(Cliente cliente) {
-        Optional<Cliente> resp= rep.obtenerPorIdentificacion(cliente.getIdentificacion(), Constantes.activo);
+        Optional<Cliente> resp= rep.obtenerPorEmpresaYIdentificacion(cliente.getEmpresa().getId(), cliente.getIdentificacion(), Constantes.activo);
         if (resp.isPresent()) {
         	return Constantes.si;
         }
@@ -114,9 +114,9 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public Cliente validarIdentificacion(String identificacion) {
+    public Cliente validarIdentificacionPorEmpresa(long empresaId, String identificacion) {
     	if (identificacion!= null) {
-	    	Optional<Cliente> res = rep.obtenerPorIdentificacion(identificacion, Constantes.activo);
+	    	Optional<Cliente> res = rep.obtenerPorEmpresaYIdentificacion(empresaId, identificacion, Constantes.activo);
 	    	if(res.isPresent()) {
 	    		throw new EntidadExistenteException(Constantes.cliente);
 	    	}
@@ -406,7 +406,7 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente crear(Cliente cliente) {
     	validar(cliente);
-    	Optional<Cliente>buscarCliente=rep.obtenerPorIdentificacion(cliente.getIdentificacion(), Constantes.activo);
+    	Optional<Cliente>buscarCliente=rep.obtenerPorEmpresaYIdentificacion(cliente.getEmpresa().getId(), cliente.getIdentificacion(), Constantes.activo);
     	if(buscarCliente.isPresent()) {
     		throw new EntidadExistenteException(Constantes.cliente);
     	}

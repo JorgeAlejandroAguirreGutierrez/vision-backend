@@ -106,4 +106,12 @@ public class ProveedorController implements GenericoController<Proveedor> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, proveedores);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/validarIdentificacionPorEmpresa/{empresaId}/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> validarIdentificacionPorEmpresa(@PathVariable("empresaId") long empresaId, @PathVariable("identificacion") String identificacion) {
+        Proveedor proveedor = servicio.validarIdentificacionPorEmpresa(empresaId, identificacion);
+        proveedor.normalizar();
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, proveedor);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 }

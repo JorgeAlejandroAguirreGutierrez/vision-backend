@@ -108,6 +108,7 @@ public class ClienteController implements GenericoController<Cliente> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
     @PostMapping(value = "/buscar",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> buscar(@RequestBody Cliente cliente) {
         List<Cliente> clientes = servicio.buscar(cliente);
@@ -115,11 +116,11 @@ public class ClienteController implements GenericoController<Cliente> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/identificacion/validar/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> validarIdentificacion(@PathVariable("identificacion") String identificacion) {
-        Cliente _cliente = servicio.validarIdentificacion(identificacion);
-        _cliente.normalizar();
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, _cliente);
+    @GetMapping(value = "/validarIdentificacionPorEmpresa/{empresaId}/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> validarIdentificacionPorEmpresa(@PathVariable("empresaId") long empresaId, @PathVariable("identificacion") String identificacion) {
+        Cliente cliente = servicio.validarIdentificacionPorEmpresa(empresaId, identificacion);
+        cliente.normalizar();
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }
