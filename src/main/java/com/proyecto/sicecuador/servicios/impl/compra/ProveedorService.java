@@ -12,6 +12,7 @@ import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteBaseRepository;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
+import com.proyecto.sicecuador.repositorios.cliente.IContribuyenteRepository;
 import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.repositorios.compra.IProveedorRepository;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoIdentificacionRepository;
@@ -41,6 +42,8 @@ public class ProveedorService implements IProveedorService {
     private ITipoIdentificacionRepository repTipoIdentificacion;
     @Autowired
     private IClienteBaseRepository repClienteBase;
+    @Autowired
+    private IContribuyenteRepository repContribuyente;
     @Autowired
     private ClienteService clienteService;
 
@@ -166,7 +169,7 @@ public class ProveedorService implements IProveedorService {
                     proveedor.setIdentificacion(identificacion);
                     proveedor.setTipoIdentificacion(tipoIdentificacion);
                     proveedor.setTipoContribuyente(tipoContribuyente);
-                    //proveedor = buscarCatastroEmpresa(proveedor);
+                    proveedor = buscarContribuyente(proveedor);
                     return proveedor;
                 }
                 throw new IdentificacionInvalidaException();
@@ -180,6 +183,7 @@ public class ProveedorService implements IProveedorService {
                     proveedor.setIdentificacion(identificacion);
                     proveedor.setTipoIdentificacion(tipoIdentificacion);
                     proveedor.setTipoContribuyente(tipoContribuyente);
+                    proveedor = buscarContribuyente(proveedor);
                     return proveedor;
                 }
                 throw new IdentificacionInvalidaException();
@@ -193,6 +197,7 @@ public class ProveedorService implements IProveedorService {
                     proveedor.setIdentificacion(identificacion);
                     proveedor.setTipoIdentificacion(tipoIdentificacion);
                     proveedor.setTipoContribuyente(tipoContribuyente);
+                    proveedor = buscarContribuyente(proveedor);
                     return proveedor;
                 }
                 throw new IdentificacionInvalidaException();
@@ -206,6 +211,7 @@ public class ProveedorService implements IProveedorService {
                     proveedor.setIdentificacion(identificacion);
                     proveedor.setTipoIdentificacion(tipoIdentificacion);
                     proveedor.setTipoContribuyente(tipoContribuyente);
+                    proveedor = buscarContribuyente(proveedor);
                     return proveedor;
                 }
                 throw new IdentificacionInvalidaException();
@@ -256,6 +262,27 @@ public class ProveedorService implements IProveedorService {
                 proveedor.setCorreosProveedor(correos);
             }
 
+        }
+        return proveedor;
+    }
+
+    @Override
+    public Proveedor buscarContribuyente(Proveedor proveedor){
+        Optional<Contribuyente> contribuyente = repContribuyente.obtenerPorIdentificacion(proveedor.getIdentificacion());
+        if(contribuyente.isPresent()) {
+            proveedor.setRazonSocial(contribuyente.get().getRazonSocial());
+            if (contribuyente.get().getNombreComercial()!=null) {
+                proveedor.setNombreComercial(contribuyente.get().getNombreComercial());
+            }
+            if (contribuyente.get().getObligadoContabilidad()!=null) {
+                proveedor.setObligadoContabilidad(contribuyente.get().getObligadoContabilidad());
+            }
+            if (contribuyente.get().getEstado()!=null) {
+                proveedor.setEstado(contribuyente.get().getEstado());
+            }
+            if (contribuyente.get().getUbicacion()!=null) {
+                proveedor.setUbicacion(contribuyente.get().getUbicacion());
+            }
         }
         return proveedor;
     }

@@ -16,5 +16,6 @@ public interface IProveedorService extends IGenericoService<Proveedor> {
 	List<Proveedor> consultarPorEmpresaYEstado(long empresaId, String estado);
 	List<Proveedor> buscar(Proveedor proveedor);
 	Proveedor buscarClienteBase(Proveedor proveedor);
+	Proveedor buscarContribuyente(Proveedor proveedor);
 	Proveedor validarIdentificacionPorEmpresa(long empresaId, String identificacion);
 }
