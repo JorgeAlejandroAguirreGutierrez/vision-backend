@@ -21,7 +21,7 @@ public class TransportistaService implements ITransportistaService {
     
     @Override
     public Transportista crear(Transportista transportista) {
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_transportista);
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_transportista, transportista.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

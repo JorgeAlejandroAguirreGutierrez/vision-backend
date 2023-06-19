@@ -34,7 +34,7 @@ public class SegmentoService implements ISegmentoService {
     @Override
     public Segmento crear(Segmento segmento) {
         validar(segmento);
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_segmento);
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_segmento, segmento.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

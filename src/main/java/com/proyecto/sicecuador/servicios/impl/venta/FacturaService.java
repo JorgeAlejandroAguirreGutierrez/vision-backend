@@ -157,7 +157,7 @@ public class FacturaService implements IFacturaService {
         validar(factura);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
         factura.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo=Util.generarCodigo(Constantes.tabla_factura);
+        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_factura,factura.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

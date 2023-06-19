@@ -45,7 +45,7 @@ public class GrupoProductoService implements IGrupoProductoService {
     @Override
     public GrupoProducto crear(GrupoProducto grupoProducto) {
     	validar(grupoProducto);
-        Optional<String>codigo=Util.generarCodigo(Constantes.tabla_grupo_producto);
+        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_grupo_producto, grupoProducto.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

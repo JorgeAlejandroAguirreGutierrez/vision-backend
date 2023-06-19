@@ -31,7 +31,7 @@ public class BodegaService implements IBodegaService {
     @Override
     public Bodega crear(Bodega bodega) {
         validar(bodega);
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_bodega);
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_bodega, bodega.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
