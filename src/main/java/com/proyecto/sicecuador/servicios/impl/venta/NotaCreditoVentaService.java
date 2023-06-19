@@ -120,7 +120,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         validar(notaCreditoVenta);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito_venta);
         notaCreditoVenta.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo=Util.generarCodigo(Constantes.tabla_nota_credito_venta);
+        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_nota_credito_venta, notaCreditoVenta.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

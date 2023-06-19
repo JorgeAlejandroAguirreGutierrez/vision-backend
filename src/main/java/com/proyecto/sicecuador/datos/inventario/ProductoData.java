@@ -36,8 +36,8 @@ public class ProductoData implements ApplicationRunner {
                 productos.add(new Producto("PRO012307000005", "LADRILLOS", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(3), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
                 productos.add(new Producto("PRO012307000006", "AVIONES", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(4), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
 
-                productos.add(new Producto("PRO022306000001", "ARROZ CONEJO", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(16), new TipoGasto(1), new Impuesto(3), new Medida(27), new Proveedor(3), new Empresa(2), Collections.emptyList(), Collections.emptyList()));
-                productos.add(new Producto("PRO022306000002", "MESA NAPOLITANA", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(17), new TipoGasto(2), new Impuesto(4), new Medida(27), new Proveedor(3), new Empresa(2), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO022306000001", "ARROZ CONEJO", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(16), new TipoGasto(1), new Impuesto(2), new Medida(35), new Proveedor(3), new Empresa(2), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO022306000002", "MESA NAPOLITANA", Constantes.no, Constantes.activo, new CategoriaProducto(1), new GrupoProducto(17), new TipoGasto(2), new Impuesto(4), new Medida(35), new Proveedor(3), new Empresa(2), Collections.emptyList(), Collections.emptyList()));
                 rep.saveAll(productos);
             }
     }

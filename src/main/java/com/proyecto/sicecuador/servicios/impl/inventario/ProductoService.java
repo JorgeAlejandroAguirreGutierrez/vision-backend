@@ -56,7 +56,7 @@ public class ProductoService implements IProductoService {
         if(getProducto.isPresent()) {
             throw new EntidadExistenteException(Constantes.producto);
         }
-        Optional<String>codigo=Util.generarCodigo(Constantes.tabla_producto);
+        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_producto, producto.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }

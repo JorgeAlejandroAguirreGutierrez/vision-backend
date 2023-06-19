@@ -61,7 +61,7 @@ public class FacturaCompraService implements IFacturaCompraService {
         validar(facturaCompra);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
         facturaCompra.setTipoComprobante(tipoComprobante);
-        Optional<String> codigo = Util.generarCodigo(Constantes.tabla_factura_compra);
+        Optional<String> codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }

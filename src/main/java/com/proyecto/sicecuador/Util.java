@@ -130,7 +130,14 @@ public class Util {
         Object conteo=query.getSingleResult();
         return Optional.of(String.valueOf(conteo));
     }
-    
+
+    public static Optional<String> conteoPorEmpresa(String tabla, long empresaId) {
+        String sql = String.format("SELECT count(*) FROM %s WHERE empresa_id = %s;", tabla, empresaId);
+        Query query= em.createNativeQuery(sql);
+        Object conteo=query.getSingleResult();
+        return Optional.of(String.valueOf(conteo));
+    }
+
     public static Optional<String> generarCodigo(String tabla){
     	try {
     		Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacion, Constantes.activo);
@@ -153,7 +160,32 @@ public class Util {
     		return Optional.ofNullable(null);
     	}
     }
-    
+
+    public static Optional<String> generarCodigoPorEmpresa(String tabla, long empresaId){
+        try {
+            Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacion, Constantes.activo);
+            Optional<String> conteo= conteoPorEmpresa(tabla, empresaId);
+            if (menuOpcion.isPresent() && conteo.isPresent()) {
+                String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);
+                String empresa = String.format("%02d" , empresaId);
+                Date fecha = new Date();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(fecha);
+                String año = calendar.get(Calendar.YEAR)+"";
+                año = año.substring(2,4);
+                int mesC=calendar.get(Calendar.MONTH)+1;
+                String mes = String.format("%02d" , mesC);;
+                //if(mesC<10) {
+                //    mes= "0"+mesC;
+                //}
+                return Optional.of(menuOpcion.get().getAbreviatura() + empresa + año + mes + rellenoConteo);
+            }
+            return Optional.ofNullable(null);
+        }catch(Exception e) {
+            return Optional.ofNullable(null);
+        }
+    }
+
     public static String generarSecuencial(long numero){
         String rellenoConteo = String.format("%09d" , numero);
         return rellenoConteo;
