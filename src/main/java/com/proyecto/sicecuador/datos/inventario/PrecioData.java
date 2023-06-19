@@ -55,6 +55,13 @@ public class PrecioData implements ApplicationRunner {
             precios.add(new Precio("PRE011907000022", 30.0, 2.0, 40.0, 30.0, 50.0, 10.0, 10.0, Constantes.activo, new Segmento(2), new Producto(6)));
             precios.add(new Precio("PRE011907000023", 40.0, 3.0, 50.0, 40.0, 60.0, 10.0, 10.0, Constantes.activo, new Segmento(3), new Producto(6)));
             precios.add(new Precio("PRE011907000024", 50.0, 10.0, 60.0, 50.0, 70.0, 10.0, 10.0, Constantes.activo, new Segmento(4), new Producto(6)));
+
+            precios.add(new Precio("PRE022307000001", 100.0, 6.0, 106.0, 118.72, 118.72, 10.0, 10.0, Constantes.activo, new Segmento(5), new Producto(7)));
+            precios.add(new Precio("PRE022307000002", 100.0, 2.0, 102.0, 114.24, 114.24, 10.0, 10.0, Constantes.activo, new Segmento(6), new Producto(7)));
+
+            precios.add(new Precio("PRE022307000003", 120.75, 6.0, 127.995, 138.2346, 138.2346, 10.0, 10.0, Constantes.activo, new Segmento(5), new Producto(8)));
+            precios.add(new Precio("PRE022307000004", 120.75, 2.0, 123.165, 133.0182, 133.0182, 10.0, 10.0, Constantes.activo, new Segmento(6), new Producto(8)));
+
             rep.saveAll(precios);
         }
     }

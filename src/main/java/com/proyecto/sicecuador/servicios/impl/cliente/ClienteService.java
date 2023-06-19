@@ -8,6 +8,7 @@ import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteBaseRepository;
+import com.proyecto.sicecuador.repositorios.cliente.IContribuyenteRepository;
 import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoIdentificacionRepository;
 import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
@@ -34,6 +35,8 @@ public class ClienteService implements IClienteService {
     private IClienteRepository rep;
     @Autowired
     private IClienteBaseRepository repClienteBase;
+    @Autowired
+    private IContribuyenteRepository repContribuyente;
     @Autowired
     private ITipoContribuyenteRepository repTipoContribuyente;
     @Autowired
@@ -85,7 +88,7 @@ public class ClienteService implements IClienteService {
 
     @Override
     public String existe(Cliente cliente) {
-        Optional<Cliente> resp= rep.obtenerPorIdentificacion(cliente.getIdentificacion(), Constantes.activo);
+        Optional<Cliente> resp= rep.obtenerPorEmpresaYIdentificacion(cliente.getEmpresa().getId(), cliente.getIdentificacion(), Constantes.activo);
         if (resp.isPresent()) {
         	return Constantes.si;
         }
@@ -114,9 +117,9 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public Cliente validarIdentificacion(String identificacion) {
+    public Cliente validarIdentificacionPorEmpresa(long empresaId, String identificacion) {
     	if (identificacion!= null) {
-	    	Optional<Cliente> res = rep.obtenerPorIdentificacion(identificacion, Constantes.activo);
+	    	Optional<Cliente> res = rep.obtenerPorEmpresaYIdentificacion(empresaId, identificacion, Constantes.activo);
 	    	if(res.isPresent()) {
 	    		throw new EntidadExistenteException(Constantes.cliente);
 	    	}
@@ -152,6 +155,7 @@ public class ClienteService implements IClienteService {
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setTipoContribuyente(tipoContribuyente);
+                    cliente = buscarContribuyente(cliente);
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -165,6 +169,7 @@ public class ClienteService implements IClienteService {
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setTipoContribuyente(tipoContribuyente);
+                    cliente = buscarContribuyente(cliente);
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -178,6 +183,7 @@ public class ClienteService implements IClienteService {
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setTipoContribuyente(tipoContribuyente);
+                    cliente = buscarContribuyente(cliente);
                     return cliente;
                 }
             	throw new IdentificacionInvalidaException();
@@ -191,6 +197,7 @@ public class ClienteService implements IClienteService {
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setTipoContribuyente(tipoContribuyente);
+                    cliente = buscarContribuyente(cliente);
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -272,6 +279,24 @@ public class ClienteService implements IClienteService {
                 cliente.setCorreos(correos);
             }
 
+        }
+        return cliente;
+    }
+
+    @Override
+    public Cliente buscarContribuyente(Cliente cliente){
+        Optional<Contribuyente> contribuyente = repContribuyente.obtenerPorIdentificacion(cliente.getIdentificacion());
+        if(contribuyente.isPresent()) {
+            cliente.setRazonSocial(contribuyente.get().getRazonSocial());
+            if (contribuyente.get().getObligadoContabilidad()!=null) {
+                cliente.setObligadoContabilidad(contribuyente.get().getObligadoContabilidad());
+            }
+            if (contribuyente.get().getEstado()!=null) {
+                cliente.setEstado(contribuyente.get().getEstado());
+            }
+            if (contribuyente.get().getUbicacion()!=null) {
+                cliente.setUbicacion(contribuyente.get().getUbicacion());
+            }
         }
         return cliente;
     }
@@ -406,11 +431,11 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente crear(Cliente cliente) {
     	validar(cliente);
-    	Optional<Cliente>buscarCliente=rep.obtenerPorIdentificacion(cliente.getIdentificacion(), Constantes.activo);
+    	Optional<Cliente>buscarCliente=rep.obtenerPorEmpresaYIdentificacion(cliente.getEmpresa().getId(), cliente.getIdentificacion(), Constantes.activo);
     	if(buscarCliente.isPresent()) {
     		throw new EntidadExistenteException(Constantes.cliente);
     	}
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_cliente);
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_cliente, cliente.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
