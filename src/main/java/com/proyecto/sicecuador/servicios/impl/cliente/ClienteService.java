@@ -63,7 +63,7 @@ public class ClienteService implements IClienteService {
         for (RetencionCliente retencionCliente : cliente.getRetencionesCliente()){
             if(retencionCliente.getTipoRetencion().getId() == Constantes.ceroId) retencionCliente.setTipoRetencion(null);
         }
-        if(cliente.getGenero().getId() == Constantes.cero) cliente.setGenero(null);//throw new DatoInvalidoException(Constantes.genero);
+        if(cliente.getGenero().getId() == Constantes.cero) cliente.setGenero(null);
         if(cliente.getEstadoCivil().getId() == Constantes.cero) cliente.setEstadoCivil(null);
         if(cliente.getCalificacionCliente().getId() == Constantes.cero) cliente.setCalificacionCliente(null);
         if(cliente.getOrigenIngreso().getId() == Constantes.cero) cliente.setOrigenIngreso(null);

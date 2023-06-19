@@ -336,7 +336,8 @@ public class Constantes {
     public static final String retencion_venta_detalle="RETENCION VENTA DETALLE";
     public static final String tarjeta_credito="TARJETA CREDITO";
     public static final String tarjeta_debito="TARJETA DEBITO";
-    public static final String tranferencia="TRANSFERENCIA";
+    public static final String transferencia="TRANSFERENCIA";
+    public static final String efectivo="EFECTIVO";
     
     //USUARIO
     public static final String establecimiento="ESTABLECIMIENTO";
