@@ -25,13 +25,12 @@ import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
 import com.proyecto.sicecuador.modelos.recaudacion.*;
 import com.proyecto.sicecuador.modelos.reporte.ReporteVenta;
 import com.proyecto.sicecuador.modelos.reporte.ReporteVentaLinea;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.modelos.venta.Factura;
-import com.proyecto.sicecuador.repositorios.usuario.IEmpresaRepository;
 import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.repositorios.venta.IFacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ReporteVentaService {
 
     @Autowired
@@ -50,7 +50,7 @@ public class ReporteVentaService {
     private IUsuarioRepository usuarioRepository;
 
     public ReporteVenta obtener(String apodo, String fechaInicio, String fechaFinal) {
-        List<Factura> facturas = facturaRepository.consultarPorFechaInicioFechaFinal(fechaInicio, fechaFinal);
+        List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicio, fechaFinal);
         Optional<Usuario> usuario = usuarioRepository.obtenerPorApodo(apodo, Constantes.activo);
         if(!facturas.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.factura);

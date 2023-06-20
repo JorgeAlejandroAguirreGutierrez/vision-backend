@@ -8,18 +8,21 @@ import java.util.List;
 @Getter
 @Setter
 public class ReporteKardexLinea {
+    //OPERACION
+    private String operacion;
+
     private String fecha;
-    private String hora;
+    private String org;
+    private String bodega;
     private String documento;
-    private String establecimiento;
-    private String estacion;
-    private String secuencia;
-    private String cliente;
-    private String identificacion;
-    private String vendedor;
-    private String tipoVenta;
-    private String subtotal0;
-    private String subtotal12;
-    private String iva;
-    private String total;
+    private String provCliente;
+    private String ingresoCantidad;
+    private String ingresoCosto;
+    private String ingresoCostoTotal;
+    private String salidaCantidad;
+    private String salidaCosto;
+    private String salidaCostoTotal;
+    private String existenciaCantidad;
+    private String existenciaCosto;
+    private String existenciaCostoTotal;
 }
