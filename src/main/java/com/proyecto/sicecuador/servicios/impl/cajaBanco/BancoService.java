@@ -21,7 +21,7 @@ public class BancoService implements IBancoService {
 
     @Override
     public void validar(Banco banco) {
-        if(banco.getRuc().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo);
+        if(banco.getRuc().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
         if(banco.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
         if(banco.getSubsistema().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
     }
@@ -29,14 +29,18 @@ public class BancoService implements IBancoService {
     @Override
     public Banco crear(Banco banco) {
         validar(banco);
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_banco);
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
-    	banco.setCodigo(codigo.get());
-    	banco.setEstado(Constantes.activo);
+        Optional<String> codigo = Util.generarCodigo(Constantes.tabla_banco);
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
+        banco.setCodigo(codigo.get());
+        banco.setEstado(Constantes.activo);
     	return rep.save(banco);
     }
+
+    //EXCEPCIONES DE DIFERENTES TIPO
+    //EXCEPCION DE TIPO MERAMENTE TECNICO -> TRY {}CATCH{}
+    //EXCEPCIONES DE NEGOCIO -> TRY CATCH -> EXCEPCION CUSTOMIZADAS -> HANDLER EXCEPTION
 
     @Override
     public Banco actualizar(Banco banco) {
