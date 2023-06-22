@@ -106,6 +106,8 @@ public class Endpoints {
     public static final String pathAfectacionContable="afectacionContable";
     public static final String pathMovimientoContable="movimientoContable";
     public static final String pathCuentaContable="cuentaContable";
-	
+
+    //REPORTE
+    public static final String pathReporteVenta="reporteVenta";
 
 }
