@@ -40,20 +40,6 @@ public class BancoController implements GenericoController<Banco> {
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
-        List<Banco> bancos = servicio.consultarPorEmpresa(empresaId);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, bancos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
-        List<Banco> bancos = servicio.consultarPorEmpresaYEstado(empresaId, estado);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, bancos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
     	Page<Banco> bancos = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));

@@ -10,7 +10,4 @@ public interface IBancoService extends IGenericoService<Banco> {
 	Banco activar(Banco banco);
 	Banco inactivar(Banco banco);
 	List<Banco> consultarPorEstado(String estado);
-	List<Banco> consultarPorEmpresa(long empresaId);
-	List<Banco> consultarPorEmpresaYEstado(long empresaId, String estado);
-
 }

@@ -79,16 +79,6 @@ public class BancoService implements IBancoService {
     }
 
     @Override
-    public List<Banco> consultarPorEmpresa(long empresaId){
-        return rep.consultarPorEmpresa(empresaId);
-    }
-
-    @Override
-    public List<Banco> consultarPorEmpresaYEstado(long empresaId, String estado){
-        return rep.consultarPorEmpresaYEstado(empresaId, estado);
-    }
-    
-    @Override
     public Page<Banco> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }

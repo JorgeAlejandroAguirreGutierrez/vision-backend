@@ -141,9 +141,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
         	TotalImpuesto totalImpuesto = new TotalImpuesto();
     		totalImpuesto.setCodigo(Constantes.iva_sri);
         	totalImpuesto.setCodigoPorcentaje(factura.getFacturaLineas().get(i).getImpuesto().getCodigoSRI());
-        	totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getTotalDescuentoLinea());
+        	totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
         	totalImpuesto.setBaseImponible(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
-        	totalImpuesto.setValor(factura.getFacturaLineas().get(i).getIvaConDescuentoLinea());
+        	totalImpuesto.setValor(factura.getFacturaLineas().get(i).getImporteIvaLinea());
         	totalImpuestos.add(totalImpuesto);
     	}
     	totalConImpuestos.setTotalImpuesto(totalImpuestos);
@@ -215,7 +215,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     		detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
     		detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
     		detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
-    		detalle.setDescuento(factura.getFacturaLineas().get(i).getTotalDescuentoLinea());
+    		detalle.setDescuento(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
     		detalle.setPrecioTotalSinImpuesto(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
     		detalle.setImpuestos(crearImpuestos(factura.getFacturaLineas().get(i)));
     		detalleLista.add(detalle);
@@ -232,7 +232,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	impuesto.setCodigoPorcentaje(facturaLinea.getImpuesto().getCodigoSRI());
     	impuesto.setTarifa(facturaLinea.getImpuesto().getPorcentaje());
     	impuesto.setBaseImponible(facturaLinea.getSubtotalConDescuentoLinea());
-    	impuesto.setValor(facturaLinea.getIvaConDescuentoLinea());
+    	impuesto.setValor(facturaLinea.getImporteIvaLinea());
     	impuestoLista.add(impuesto);
     	impuestos.setImpuesto(impuestoLista);
     	return impuestos;

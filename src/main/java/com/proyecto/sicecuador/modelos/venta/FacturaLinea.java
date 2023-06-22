@@ -28,6 +28,8 @@ public class FacturaLinea extends Entidad {
     private String comentario;
     @Column(name = "entregado", nullable = true)
     private String entregado;
+    @Column(name = "consignacion", nullable = true)
+    private String consignacion;
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
     @Column(name = "precio_unitario", nullable = true)
@@ -45,31 +47,27 @@ public class FacturaLinea extends Entidad {
     private double porcentajeDescuentoTotalLinea;
     @Column(name = "valor_porcentaje_descuento_total_linea", nullable = true)
     private double valorPorcentajeDescuentoTotalLinea;
-    @Column(name = "total_descuento_linea", nullable = true)
-    private double totalDescuentoLinea;
     @Column(name = "subtotal_sin_descuento_linea", nullable = true)
     private double subtotalSinDescuentoLinea;
-    @Column(name = "iva_sin_descuento_linea", nullable = true)
-    private double ivaSinDescuentoLinea;
     @Column(name = "subtotal_con_descuento_linea", nullable = true)
     private double subtotalConDescuentoLinea;
-    @Column(name = "iva_con_descuento_linea", nullable = true)
-    private double ivaConDescuentoLinea;
-    @Column(name = "total_con_descuento_linea", nullable = true)
-    private double totalConDescuentoLinea;
+    @Column(name = "importe_iva_linea", nullable = true)
+    private double importeIvaLinea;
+    @Column(name = "total_linea", nullable = true)
+    private double totalLinea;
+    @ManyToOne
+    @JoinColumn(name = "impuesto_id", nullable = true)
+    private Impuesto impuesto;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
-    @JoinColumn(name = "impuesto_id", nullable = true)
-    private Impuesto impuesto;
+    @JoinColumn(name = "bodega_id", nullable = true)
+    private Bodega bodega;
     @ManyToOne
     @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
-    @ManyToOne
-    @JoinColumn(name = "bodega_id", nullable = true)
-    private Bodega bodega;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
@@ -84,6 +82,7 @@ public class FacturaLinea extends Entidad {
         this.posicion = Constantes.ceroId;
         this.comentario = Constantes.vacio;
         this.entregado = Constantes.no;
+        this.consignacion = Constantes.no;
         this.cantidad = Constantes.ceroId;
         this.valorDescuentoLinea = Constantes.cero;
         this.porcentajeDescuentoLinea = Constantes.cero;
@@ -91,19 +90,17 @@ public class FacturaLinea extends Entidad {
         this.valorDescuentoTotalLinea = Constantes.cero;
         this.porcentajeDescuentoTotalLinea = Constantes.cero;
         this.valorPorcentajeDescuentoTotalLinea = Constantes.cero;
-        this.totalDescuentoLinea = Constantes.cero;
         this.subtotalSinDescuentoLinea = Constantes.cero;
-        this.ivaSinDescuentoLinea = Constantes.cero;
         this.subtotalConDescuentoLinea = Constantes.cero;
-        this.ivaConDescuentoLinea = Constantes.cero;
-        this.totalConDescuentoLinea = Constantes.cero;
+        this.importeIvaLinea = Constantes.cero;
+        this.totalLinea = Constantes.cero;
     }
 
     public void normalizar(){
-        if(this.producto == null) this.producto = new Producto();
         if(this.impuesto == null) this.impuesto = new Impuesto();
-        if(this.precio == null) this.precio = new Precio();
+        if(this.producto == null) this.producto = new Producto();
         if(this.bodega == null) this.bodega = new Bodega();
+        if(this.precio == null) this.precio = new Precio();
     }
 }
 

@@ -15,8 +15,8 @@ public interface IBancoRepository extends JpaRepository<Banco, Long>, JpaSpecifi
     List<Banco> consultar();
     @Query(value = "select b from Banco b where b.estado=:estado order by b.codigo asc")
     List<Banco> consultarPorEstado(String estado);
-    @Query(value = "select b from Banco b where b.empresa.id = :empresaId order by b.codigo asc")
+    /*@Query(value = "select b from Banco b where b.empresa.id = :empresaId order by b.codigo asc")
     List<Banco> consultarPorEmpresa(long empresaId);
     @Query(value = "select b from Banco b where b.empresa.id = :empresaId and b.estado=:estado order by b.codigo asc")
-    List<Banco> consultarPorEmpresaYEstado(long empresaId, String estado);
+    List<Banco> consultarPorEmpresaYEstado(long empresaId, String estado);*/
 }

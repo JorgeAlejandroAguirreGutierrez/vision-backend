@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.modelos.cajaBanco;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.modelos.Entidad;
 import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
+import com.proyecto.sicecuador.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,9 @@ public class CuentaPropia extends Entidad {
     @ManyToOne
     @JoinColumn(name = "banco_id", nullable = true)
     private Banco banco;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
 
     public CuentaPropia(long id){
         super(id);
@@ -42,7 +46,9 @@ public class CuentaPropia extends Entidad {
         this.estado = Constantes.activo;
         this.banco = new Banco();
     }
+
     public void normalizar(){
         if(this.banco == null) this.banco = new Banco();
+        if(this.empresa == null) this.empresa = new Empresa();
     }
 }
