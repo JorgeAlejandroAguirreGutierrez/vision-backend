@@ -270,8 +270,10 @@ public class FacturaCompraService implements IFacturaCompraService {
         this.calcularSubtotalSinDescuento(facturaCompra);
         this.calcularDescuentoTotalSinPorcentajeDescuentoTotal(facturaCompra);
         this.calcularTotales(facturaCompra);
-        this.calcularDescuentoTotalConPorcentajeDescuentoTotal(facturaCompra);
-        this.calcularTotales(facturaCompra);
+        if (facturaCompra.getPorcentajeDescuentoTotal() != Constantes.cero) {
+            this.calcularDescuentoTotalConPorcentajeDescuentoTotal(facturaCompra);
+            this.calcularTotales(facturaCompra);
+        }
         return facturaCompra;
     }
 

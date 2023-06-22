@@ -29,6 +29,7 @@ public class PlazoCreditoData implements ApplicationRunner {
             plazos_creditos.add(new PlazoCredito("PCR012301000001", "CORTO PLAZO", "CPL",30, "ACTIVO", new Empresa(1)));
             plazos_creditos.add(new PlazoCredito("PCR012301000002", "MEDIANO PLAZO", "MPL",45, "ACTIVO", new Empresa(1)));
             plazos_creditos.add(new PlazoCredito("PCR012301000003", "LARGO PLAZO", "LPL",60, "ACTIVO", new Empresa(1)));
+
             plazos_creditos.add(new PlazoCredito("PCR022301000001", "CORTO PLAZO FLEXIBLE", "CPL",15, "ACTIVO", new Empresa(2)));
             plazos_creditos.add(new PlazoCredito("PCR022301000002", "MEDIANO PLAZO FLEXIBLE", "MPL",30, "ACTIVO", new Empresa(2)));
             plazos_creditos.add(new PlazoCredito("PCR022301000003", "LARGO PLAZO FLEXIBLE", "LPL",45, "ACTIVO", new Empresa(2)));

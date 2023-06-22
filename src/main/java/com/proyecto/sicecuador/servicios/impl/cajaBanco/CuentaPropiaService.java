@@ -32,7 +32,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     @Override
     public CuentaPropia crear(CuentaPropia cuentaPropia) {
         validar(cuentaPropia);
-        Optional<String> codigo = Util.generarCodigo(Constantes.tabla_cuenta_propia);
+        Optional<String> codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_cuenta_propia, cuentaPropia.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }
