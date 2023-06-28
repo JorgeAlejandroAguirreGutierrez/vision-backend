@@ -78,31 +78,43 @@ public class PermisoData implements ApplicationRunner {
             //Importación
             permisos.add(new Permiso("PER012306000038", Constantes.inactivo, new MenuOpcion(77), new Perfil(1)));
             //Reporte
-            permisos.add(new Permiso("PER012306000039", Constantes.inactivo, new MenuOpcion(78), new Perfil(1)));
-            //Accesos
+            permisos.add(new Permiso("PER012306000039", Constantes.activo, new MenuOpcion(78), new Perfil(1)));
             permisos.add(new Permiso("PER012306000040", Constantes.activo, new MenuOpcion(79), new Perfil(1)));
             permisos.add(new Permiso("PER012306000041", Constantes.activo, new MenuOpcion(80), new Perfil(1)));
             permisos.add(new Permiso("PER012306000042", Constantes.activo, new MenuOpcion(81), new Perfil(1)));
-            permisos.add(new Permiso("PER012306000043", Constantes.activo, new MenuOpcion(85), new Perfil(1)));
-            permisos.add(new Permiso("PER012306000044", Constantes.activo, new MenuOpcion(87), new Perfil(1)));
-            permisos.add(new Permiso("PER012306000045", Constantes.activo, new MenuOpcion(88), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000043", Constantes.activo, new MenuOpcion(82), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000044", Constantes.activo, new MenuOpcion(83), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000045", Constantes.activo, new MenuOpcion(84), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000046", Constantes.activo, new MenuOpcion(85), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000047", Constantes.activo, new MenuOpcion(86), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000048", Constantes.activo, new MenuOpcion(87), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000049", Constantes.activo, new MenuOpcion(88), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000050", Constantes.activo, new MenuOpcion(89), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000051", Constantes.activo, new MenuOpcion(90), new Perfil(1)));
+            //Accesos
+            permisos.add(new Permiso("PER012306000052", Constantes.activo, new MenuOpcion(91), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000053", Constantes.activo, new MenuOpcion(92), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000054", Constantes.activo, new MenuOpcion(93), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000055", Constantes.activo, new MenuOpcion(97), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000056", Constantes.activo, new MenuOpcion(99), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000057", Constantes.activo, new MenuOpcion(100), new Perfil(1)));
             //Configuración
-            permisos.add(new Permiso("PER012306000046", Constantes.activo, new MenuOpcion(90), new Perfil(1)));
-            permisos.add(new Permiso("PER012306000047", Constantes.activo, new MenuOpcion(92), new Perfil(1)));
-            permisos.add(new Permiso("PER012306000048", Constantes.activo, new MenuOpcion(93), new Perfil(1)));
-            permisos.add(new Permiso("PER012306000049", Constantes.activo, new MenuOpcion(94), new Perfil(1)));
-            permisos.add(new Permiso("PER012306000050", Constantes.activo, new MenuOpcion(95), new Perfil(1)));
-            permisos.add(new Permiso("PER012306000051", Constantes.activo, new MenuOpcion(96), new Perfil(1)));
-            permisos.add(new Permiso("PER012306000052", Constantes.activo, new MenuOpcion(97), new Perfil(1)));
-            permisos.add(new Permiso("PER012306000053", Constantes.activo, new MenuOpcion(98), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000058", Constantes.activo, new MenuOpcion(102), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000059", Constantes.activo, new MenuOpcion(104), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000060", Constantes.activo, new MenuOpcion(105), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000061", Constantes.activo, new MenuOpcion(106), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000062", Constantes.activo, new MenuOpcion(107), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000063", Constantes.activo, new MenuOpcion(108), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000064", Constantes.activo, new MenuOpcion(109), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000065", Constantes.activo, new MenuOpcion(110), new Perfil(1)));
             //Indicadores
-            permisos.add(new Permiso("PER012306000054", Constantes.activo, new MenuOpcion(102), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000066", Constantes.activo, new MenuOpcion(114), new Perfil(1)));
             //Control
-            permisos.add(new Permiso("PER012306000055", Constantes.inactivo, new MenuOpcion(103), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000067", Constantes.inactivo, new MenuOpcion(115), new Perfil(1)));
             //Auditoría
-            permisos.add(new Permiso("PER012306000056", Constantes.inactivo, new MenuOpcion(104), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000068", Constantes.inactivo, new MenuOpcion(116), new Perfil(1)));
             //Tutoriales
-            permisos.add(new Permiso("PER012306000057", Constantes.inactivo, new MenuOpcion(105), new Perfil(1)));
+            permisos.add(new Permiso("PER012306000069", Constantes.inactivo, new MenuOpcion(117), new Perfil(1)));
         //PERFIL GERENCIAL
             //Clientes
             permisos.add(new Permiso("PER022306000001", Constantes.activo, new MenuOpcion(1), new Perfil(2)));
@@ -155,32 +167,44 @@ public class PermisoData implements ApplicationRunner {
             permisos.add(new Permiso("PER022306000037", Constantes.inactivo, new MenuOpcion(76), new Perfil(2)));
             //Importación
             permisos.add(new Permiso("PER022306000038", Constantes.inactivo, new MenuOpcion(77), new Perfil(2)));
-            //Reportes
-            permisos.add(new Permiso("PER022306000039", Constantes.inactivo, new MenuOpcion(78), new Perfil(2)));
-            //Accesos
-            permisos.add(new Permiso("PER022306000040", Constantes.inactivo, new MenuOpcion(79), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000041", Constantes.inactivo, new MenuOpcion(80), new Perfil(2)));
+            //Reporte
+            permisos.add(new Permiso("PER022306000039", Constantes.activo, new MenuOpcion(78), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000040", Constantes.activo, new MenuOpcion(79), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000041", Constantes.activo, new MenuOpcion(80), new Perfil(2)));
             permisos.add(new Permiso("PER022306000042", Constantes.activo, new MenuOpcion(81), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000043", Constantes.activo, new MenuOpcion(85), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000044", Constantes.inactivo, new MenuOpcion(87), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000045", Constantes.inactivo, new MenuOpcion(88), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000043", Constantes.activo, new MenuOpcion(82), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000044", Constantes.activo, new MenuOpcion(83), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000045", Constantes.activo, new MenuOpcion(84), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000046", Constantes.activo, new MenuOpcion(85), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000047", Constantes.activo, new MenuOpcion(86), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000048", Constantes.activo, new MenuOpcion(87), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000049", Constantes.activo, new MenuOpcion(88), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000050", Constantes.activo, new MenuOpcion(89), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000051", Constantes.activo, new MenuOpcion(90), new Perfil(2)));
+            //Accesos
+            permisos.add(new Permiso("PER022306000052", Constantes.activo, new MenuOpcion(91), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000053", Constantes.activo, new MenuOpcion(92), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000054", Constantes.activo, new MenuOpcion(93), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000055", Constantes.activo, new MenuOpcion(97), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000056", Constantes.activo, new MenuOpcion(99), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000057", Constantes.activo, new MenuOpcion(100), new Perfil(2)));
             //Configuración
-            permisos.add(new Permiso("PER022306000046", Constantes.inactivo, new MenuOpcion(90), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000047", Constantes.inactivo, new MenuOpcion(92), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000048", Constantes.inactivo, new MenuOpcion(93), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000049", Constantes.activo, new MenuOpcion(94), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000050", Constantes.inactivo, new MenuOpcion(95), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000051", Constantes.inactivo, new MenuOpcion(96), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000052", Constantes.inactivo, new MenuOpcion(97), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000053", Constantes.inactivo, new MenuOpcion(98), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000058", Constantes.activo, new MenuOpcion(102), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000059", Constantes.activo, new MenuOpcion(104), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000060", Constantes.activo, new MenuOpcion(105), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000061", Constantes.activo, new MenuOpcion(106), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000062", Constantes.activo, new MenuOpcion(107), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000063", Constantes.activo, new MenuOpcion(108), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000064", Constantes.activo, new MenuOpcion(109), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000065", Constantes.activo, new MenuOpcion(110), new Perfil(2)));
             //Indicadores
-            permisos.add(new Permiso("PER022306000054", Constantes.activo, new MenuOpcion(102), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000066", Constantes.activo, new MenuOpcion(114), new Perfil(2)));
             //Control
-            permisos.add(new Permiso("PER022306000055", Constantes.inactivo, new MenuOpcion(103), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000067", Constantes.inactivo, new MenuOpcion(115), new Perfil(2)));
             //Auditoría
-            permisos.add(new Permiso("PER022306000056", Constantes.inactivo, new MenuOpcion(104), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000068", Constantes.inactivo, new MenuOpcion(116), new Perfil(2)));
             //Tutoriales
-            permisos.add(new Permiso("PER022306000057", Constantes.inactivo, new MenuOpcion(105), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000069", Constantes.inactivo, new MenuOpcion(117), new Perfil(2)));
         //RECAUDADOR
             //Clientes
             permisos.add(new Permiso("PER032306000001", Constantes.inactivo, new MenuOpcion(1), new Perfil(3)));
@@ -233,32 +257,44 @@ public class PermisoData implements ApplicationRunner {
             //permisos.add(new Permiso("PER032306000037", Constantes.inactivo, new MenuOpcion(76), new Perfil(3)));
             //Importación
             //permisos.add(new Permiso("PER032306000038", Constantes.inactivo, new MenuOpcion(77), new Perfil(3)));
-            //Reportes
-            permisos.add(new Permiso("PER032306000039", Constantes.inactivo, new MenuOpcion(78), new Perfil(3)));
+            //Reporte
+            permisos.add(new Permiso("PER032306000039", Constantes.activo, new MenuOpcion(78), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000040", Constantes.activo, new MenuOpcion(79), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000041", Constantes.activo, new MenuOpcion(80), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000042", Constantes.activo, new MenuOpcion(81), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000043", Constantes.activo, new MenuOpcion(82), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000044", Constantes.activo, new MenuOpcion(83), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000045", Constantes.activo, new MenuOpcion(84), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000046", Constantes.activo, new MenuOpcion(85), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000047", Constantes.activo, new MenuOpcion(86), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000048", Constantes.activo, new MenuOpcion(87), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000049", Constantes.activo, new MenuOpcion(88), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000050", Constantes.activo, new MenuOpcion(89), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000051", Constantes.activo, new MenuOpcion(90), new Perfil(3)));
             //Accesos
-            /*permisos.add(new Permiso("PER032306000040", Constantes.inactivo, new MenuOpcion(79), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000041", Constantes.inactivo, new MenuOpcion(80), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000042", Constantes.inactivo, new MenuOpcion(81), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000043", Constantes.inactivo, new MenuOpcion(85), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000044", Constantes.inactivo, new MenuOpcion(87), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000045", Constantes.inactivo, new MenuOpcion(88), new Perfil(3)));
-            *///Configuración
-            /*permisos.add(new Permiso("PER032306000046", Constantes.inactivo, new MenuOpcion(90), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000047", Constantes.inactivo, new MenuOpcion(92), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000048", Constantes.inactivo, new MenuOpcion(93), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000049", Constantes.inactivo, new MenuOpcion(94), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000050", Constantes.inactivo, new MenuOpcion(95), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000051", Constantes.inactivo, new MenuOpcion(96), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000052", Constantes.inactivo, new MenuOpcion(97), new Perfil(3)));
-            permisos.add(new Permiso("PER032306000053", Constantes.inactivo, new MenuOpcion(98), new Perfil(3)));
-            *///Indicadores
-            //permisos.add(new Permiso("PER032306000054", Constantes.inactivo, new MenuOpcion(102), new Perfil(3)));
+            /*permisos.add(new Permiso("PER032306000052", Constantes.activo, new MenuOpcion(91), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000053", Constantes.activo, new MenuOpcion(92), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000054", Constantes.activo, new MenuOpcion(93), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000055", Constantes.activo, new MenuOpcion(97), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000056", Constantes.activo, new MenuOpcion(99), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000057", Constantes.activo, new MenuOpcion(100), new Perfil(3)));*/
+            //Configuración
+            /*permisos.add(new Permiso("PER032306000058", Constantes.activo, new MenuOpcion(102), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000059", Constantes.activo, new MenuOpcion(104), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000060", Constantes.activo, new MenuOpcion(105), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000061", Constantes.activo, new MenuOpcion(106), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000062", Constantes.activo, new MenuOpcion(107), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000063", Constantes.activo, new MenuOpcion(108), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000064", Constantes.activo, new MenuOpcion(109), new Perfil(3)));
+            permisos.add(new Permiso("PER032306000065", Constantes.activo, new MenuOpcion(110), new Perfil(3)));*/
+            //Indicadores
+            //permisos.add(new Permiso("PER032306000066", Constantes.activo, new MenuOpcion(114), new Perfil(3)));
             //Control
-            //permisos.add(new Permiso("PER032306000055", Constantes.inactivo, new MenuOpcion(103), new Perfil(3)));
+            //permisos.add(new Permiso("PER032306000067", Constantes.inactivo, new MenuOpcion(115), new Perfil(3)));
             //Auditoría
-            //permisos.add(new Permiso("PER032306000056", Constantes.inactivo, new MenuOpcion(104), new Perfil(3)));
+            //permisos.add(new Permiso("PER032306000068", Constantes.inactivo, new MenuOpcion(116), new Perfil(3)));
             //Tutoriales
-            //permisos.add(new Permiso("PER032306000057", Constantes.inactivo, new MenuOpcion(105), new Perfil(3)));
+            //permisos.add(new Permiso("PER032306000069", Constantes.inactivo, new MenuOpcion(117), new Perfil(3)));
 
             rep.saveAll(permisos);
         }

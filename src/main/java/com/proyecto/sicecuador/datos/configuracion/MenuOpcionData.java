@@ -119,40 +119,52 @@ public class MenuOpcionData implements ApplicationRunner {
             //IMPORTACIÓN
             opciones.add(new MenuOpcion("MEN202305000077", "IMPORTACION", "IMPORTACION","CREAR", Constantes.no, "importacion", "IMT", Constantes.activo));
             //REPORTES
-            opciones.add(new MenuOpcion("MEN202305000078", "REPORTES", "REPORTES","CREAR", Constantes.no, "reportes", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000078", "REPORTES", "CLIENTE","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000079", "REPORTES", "COMPRAS","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000080", "REPORTES", "VENTAS","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000081", "REPORTES", "INVENTARIOS","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000082", "REPORTES", "CAJA BANCOS","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000083", "REPORTES", "CUENTAS POR COBRAR","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000084", "REPORTES", "CUENTAS POR PAGAR","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000085", "REPORTES", "ACTIVOS FIJOS","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000086", "REPORTES", "PRODUCCIÓN","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000087", "REPORTES", "CONTABILIDAD","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000088", "REPORTES", "TALENTO HUMANO","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000089", "REPORTES", "FINANCIERO","CREAR", Constantes.si, "", "REP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000090", "REPORTES", "IMPORTACIÓN","CREAR", Constantes.si, "", "REP", Constantes.activo));
             // ACCESOS
-            opciones.add(new MenuOpcion("MEN202305000079", "ACCESOS", "USUARIOS","CREAR", Constantes.si, "usuario", "USR", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000080", "ACCESOS", "EMPRESAS","CREAR", Constantes.si, "empresa", "EMP", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000081", "ACCESOS", "ESTABLECIMIENTOS","CREAR", Constantes.si, "establecimiento", "EST", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000082", "ACCESOS", "ESTABLECIMIENTOS","CREAR", Constantes.no, "celular_establecimiento", "CEE", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000083", "ACCESOS", "ESTABLECIMIENTOS","CREAR", Constantes.no, "correo_establecimiento", "COE", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000084", "ACCESOS", "ESTABLECIMIENTOS","CREAR", Constantes.no, "telefono_establecimiento", "TEE", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000085", "ACCESOS", "ESTACIONES","CREAR", Constantes.si, "estacion", "ESN", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000086", "ACCESOS", "ESTACIÓN USUARIO","CREAR", Constantes.no, "estacion_usuario", "ESU", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000087", "ACCESOS", "PERFILES","CREAR", Constantes.si, "perfil", "PER", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000088", "ACCESOS", "PERMISOS","CREAR", Constantes.si, "permiso", "PRM", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000089", "ACCESOS", "SESION","CREAR", Constantes.no, "sesion", "SES", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000091", "ACCESOS", "USUARIOS","CREAR", Constantes.si, "usuario", "USR", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000092", "ACCESOS", "EMPRESAS","CREAR", Constantes.si, "empresa", "EMP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000093", "ACCESOS", "ESTABLECIMIENTOS","CREAR", Constantes.si, "establecimiento", "EST", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000094", "ACCESOS", "ESTABLECIMIENTOS","CREAR", Constantes.no, "celular_establecimiento", "CEE", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000095", "ACCESOS", "ESTABLECIMIENTOS","CREAR", Constantes.no, "correo_establecimiento", "COE", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000096", "ACCESOS", "ESTABLECIMIENTOS","CREAR", Constantes.no, "telefono_establecimiento", "TEE", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000097", "ACCESOS", "ESTACIONES","CREAR", Constantes.si, "estacion", "ESN", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000098", "ACCESOS", "ESTACIÓN USUARIO","CREAR", Constantes.no, "estacion_usuario", "ESU", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000099", "ACCESOS", "PERFILES","CREAR", Constantes.si, "perfil", "PER", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000100", "ACCESOS", "PERMISOS","CREAR", Constantes.si, "permiso", "PRM", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000101", "ACCESOS", "SESION","CREAR", Constantes.no, "sesion", "SES", Constantes.activo));
             //CONFIGURACIÓN
-            opciones.add(new MenuOpcion("MEN202305000090", "CONFIGURACION", "UBICACIÓN","CREAR", Constantes.si, "ubicacion", "UBI", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000091", "CONFIGURACION", "UBICACIÓN","CREAR", Constantes.no, "direccion", "DIR", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000092", "CONFIGURACION", "ESTADO CIVIL","CREAR", Constantes.si, "estado_civil", "ECV", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000093", "CONFIGURACION", "IMPUESTOS","CREAR", Constantes.si, "impuesto", "IMP", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000094", "CONFIGURACION", "SECUENCIALES","CREAR", Constantes.si, "secuencial", "SEC", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000095", "CONFIGURACION", "TIPOS DE RETENCIÓN","CREAR", Constantes.si, "tipo_retencion", "TRE", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000096", "CONFIGURACION", "RÉGIMEN","CREAR", Constantes.si, "regimen", "REG", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000097", "CONFIGURACION", "IMPORTACIONES","CREAR", Constantes.si, "", "IMP", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000098", "CONFIGURACION", "EXPORTACIONES","CREAR", Constantes.si, "", "EXP", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000099", "CONFIGURACION", "MENU","CREAR", Constantes.no, "menu", "MEN", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000100", "CONFIGURACION", "PARAMETROS","CREAR", Constantes.no, "parametro", "PAR", Constantes.activo));
-            opciones.add(new MenuOpcion("MEN202305000101", "CONFIGURACION", "GENERO","CREAR", Constantes.no, "genero", "GEN", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000102", "CONFIGURACION", "UBICACIÓN","CREAR", Constantes.si, "ubicacion", "UBI", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000103", "CONFIGURACION", "UBICACIÓN","CREAR", Constantes.no, "direccion", "DIR", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000104", "CONFIGURACION", "ESTADO CIVIL","CREAR", Constantes.si, "estado_civil", "ECV", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000105", "CONFIGURACION", "IMPUESTOS","CREAR", Constantes.si, "impuesto", "IMP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000106", "CONFIGURACION", "SECUENCIALES","CREAR", Constantes.si, "secuencial", "SEC", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000107", "CONFIGURACION", "TIPOS DE RETENCIÓN","CREAR", Constantes.si, "tipo_retencion", "TRE", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000108", "CONFIGURACION", "RÉGIMEN","CREAR", Constantes.si, "regimen", "REG", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000109", "CONFIGURACION", "IMPORTACIONES","CREAR", Constantes.si, "", "IMP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000110", "CONFIGURACION", "EXPORTACIONES","CREAR", Constantes.si, "", "EXP", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000111", "CONFIGURACION", "MENU","CREAR", Constantes.no, "menu", "MEN", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000112", "CONFIGURACION", "PARAMETROS","CREAR", Constantes.no, "parametro", "PAR", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000113", "CONFIGURACION", "GENERO","CREAR", Constantes.no, "genero", "GEN", Constantes.activo));
             //INDICADORES
-            opciones.add(new MenuOpcion("MEN202305000102", "INDICADORES", "DASHBOARD","CREAR", Constantes.si, "dashboard", "DAS", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000114", "INDICADORES", "DASHBOARD","CREAR", Constantes.si, "dashboard", "DAS", Constantes.activo));
             //CONTROL
-            opciones.add(new MenuOpcion("MEN202305000103", "CONTROL", "CONTROL","CREAR", Constantes.no, "produccion", "PDC", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000115", "CONTROL", "CONTROL","CREAR", Constantes.no, "produccion", "PDC", Constantes.activo));
             //AUDITORÍA
-            opciones.add(new MenuOpcion("MEN202305000104", "AUDITORIA", "AUDITORIA","CREAR", Constantes.no, "produccion", "PDC", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000116", "AUDITORIA", "AUDITORIA","CREAR", Constantes.no, "produccion", "PDC", Constantes.activo));
             //TUTORIALES
-            opciones.add(new MenuOpcion("MEN202305000105", "TUTORIALES", "TUTORIALES","CREAR", Constantes.no, "produccion", "PDC", Constantes.activo));
+            opciones.add(new MenuOpcion("MEN202305000117", "TUTORIALES", "TUTORIALES","CREAR", Constantes.no, "produccion", "PDC", Constantes.activo));
 
             rep.saveAll(opciones);
         }
