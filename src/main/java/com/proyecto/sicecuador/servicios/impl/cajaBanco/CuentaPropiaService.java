@@ -5,6 +5,7 @@ import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
 import com.proyecto.sicecuador.exception.DatoInvalidoException;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
+import com.proyecto.sicecuador.modelos.Respuesta;
 import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
 import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
@@ -13,7 +14,13 @@ import com.proyecto.sicecuador.servicios.interf.cajaBanco.ICuentaPropiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,8 +93,28 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     }
 
     @Override
+    public List<CuentaPropia> consultarPorEmpresa(long empresaId) {
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
     public List<CuentaPropia> consultarPorEstado(String estado) {
         return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<CuentaPropia> consultarPorEmpresaYEstado(long empresaId, String estado) {
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
+    }
+
+    @Override
+    public List<String> consultarBancoDistintoPorEmpresaYEstado(long empresaId, String estado) {
+        return rep.consultarBancoDistintoPorEmpresaYEstado(empresaId, estado);
+    }
+
+    @Override
+    public List<CuentaPropia> consultarPorEmpresaYBanco(long empresaId, String banco) {
+        return rep.consultarPorEmpresaYBanco(empresaId, banco, Constantes.activo);
     }
 
     @Override
@@ -95,24 +122,5 @@ public class CuentaPropiaService implements ICuentaPropiaService {
         return rep.findAll(pageable);
     }
 
-    @Override
-    public List<CuentaPropia> consultarPorBanco(String banco) {
-        return rep.consultarPorBanco(banco, Constantes.activo);
-    }
-    @Override
-    public List<String> consultarPorEstadoDistintoBancoAbreviatura(String estado) {
-        return rep.consultarPorEstadoDistintoBancoAbreviatura(estado);
-    }
-
-
-    @Override
-    public List<CuentaPropia> consultarPorEmpresa(long empresaId) {
-        return rep.consultarPorEmpresa(empresaId);
-    }
-
-    @Override
-    public List<CuentaPropia> consultarPorEmpresaYEstado(long empresaId, String estado) {
-        return rep.consultarPorEmpresaYEstado(empresaId, estado);
-    }
 
 }
