@@ -55,6 +55,19 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, cuentasPropias);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    @GetMapping(value = "/consultarBancoDistintoPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarBancoDistintoPorEmpresaYEstado (@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<String> bancos = servicio.consultarBancoDistintoPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, bancos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/consultarPorEmpresaYBanco/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYBanco (@PathVariable("empresaId") long empresaId, @RequestBody String banco) {
+        List<CuentaPropia> cuentasPropias = servicio.consultarPorEmpresaYBanco(empresaId, banco);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentasPropias);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
@@ -98,17 +111,6 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorBanco", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorBanco (@PathVariable("banco") String banco) {
-        List<CuentaPropia> cuentasPropias = servicio.consultarPorBanco(banco);
-        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentasPropias);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    @GetMapping(value = "/consultarPorEstadoDistintoBancoAbreviatura/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstadoDistintoBancoAbreviatura (@PathVariable("estado") String estado) {
-        List<String> bancos = servicio.consultarPorEstadoDistintoBancoAbreviatura(estado);
-        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, bancos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
+
 
 }

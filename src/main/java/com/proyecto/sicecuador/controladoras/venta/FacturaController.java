@@ -138,4 +138,11 @@ public class FacturaController implements GenericoController<Factura> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/validarIdentificacion/{identificacion}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> validarIdentificacion(@PathVariable("identificacion") String identificacion) {
+        String nombre = servicio.validarIdentificacion(identificacion);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, nombre);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 }

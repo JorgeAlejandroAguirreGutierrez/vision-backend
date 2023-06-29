@@ -11,14 +11,12 @@ import com.proyecto.sicecuador.modelos.compra.TelefonoProveedor;
 import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
 import com.proyecto.sicecuador.repositorios.cliente.IClienteBaseRepository;
-import com.proyecto.sicecuador.repositorios.cliente.IClienteRepository;
 import com.proyecto.sicecuador.repositorios.cliente.IContribuyenteRepository;
 import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
 import com.proyecto.sicecuador.repositorios.compra.IProveedorRepository;
 import com.proyecto.sicecuador.repositorios.configuracion.ITipoIdentificacionRepository;
 import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.sicecuador.servicios.interf.compra.IProveedorService;
-import com.proyecto.sicecuador.servicios.impl.cliente.ClienteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,8 +42,6 @@ public class ProveedorService implements IProveedorService {
     private IClienteBaseRepository repClienteBase;
     @Autowired
     private IContribuyenteRepository repContribuyente;
-    @Autowired
-    private ClienteService clienteService;
 
     @Override
     public void validar(Proveedor proveedor) {
@@ -140,7 +136,7 @@ public class ProveedorService implements IProveedorService {
             TipoIdentificacion tipoIdentificacion=null;
             TipoContribuyente tipoContribuyente=null;
             if (identificacion.length() == 10 && Integer.parseInt((identificacion.substring(2,3))) != 6 && Integer.parseInt((identificacion.substring(2,3))) != 9) {
-                boolean bandera = clienteService.verificarCedula(identificacion);
+                boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("05");
                     tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
@@ -161,7 +157,7 @@ public class ProveedorService implements IProveedorService {
                 proveedor.setTipoContribuyente(tipoContribuyente);
                 return proveedor;
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
-                boolean bandera = clienteService.verificarSociedadesPublicas(identificacion);
+                boolean bandera = Util.verificarSociedadesPublicas(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                     tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
@@ -175,7 +171,7 @@ public class ProveedorService implements IProveedorService {
                 throw new IdentificacionInvalidaException();
 
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 9) {
-                boolean bandera = clienteService.verificarSociedadesPrivadas(identificacion);
+                boolean bandera = Util.verificarSociedadesPrivadas(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                     tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PRIVADA");
@@ -189,7 +185,7 @@ public class ProveedorService implements IProveedorService {
                 throw new IdentificacionInvalidaException();
 
             } else if (identificacion.length() == 13 && (Integer.parseInt(identificacion.substring(2,3)) != 6 || Integer.parseInt(identificacion.substring(2,3)) != 9)) {
-                boolean bandera = clienteService.verificarCedula(identificacion);
+                boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                     tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
@@ -203,7 +199,7 @@ public class ProveedorService implements IProveedorService {
                 throw new IdentificacionInvalidaException();
 
             }else if (identificacion.length() == 13) {
-                boolean bandera = clienteService.verificarPersonaNatural(identificacion);
+                boolean bandera = Util.verificarPersonaNatural(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                     tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PUBLICA");
@@ -216,7 +212,7 @@ public class ProveedorService implements IProveedorService {
                 }
                 throw new IdentificacionInvalidaException();
             } else if (identificacion.length() >=8) {
-                boolean bandera = clienteService.verificarPasaporte(identificacion);
+                boolean bandera = Util.verificarPasaporte(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("06");
                     Proveedor proveedor=new Proveedor();

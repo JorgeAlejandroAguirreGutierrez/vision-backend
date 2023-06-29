@@ -13,6 +13,7 @@ public interface ICuentaPropiaService extends IGenericoService<CuentaPropia> {
 	List<CuentaPropia> consultarPorEstado(String estado);
 	List<CuentaPropia> consultarPorEmpresa(long empresaId);
 	List<CuentaPropia> consultarPorEmpresaYEstado(long empresaId, String estado);
-	List<CuentaPropia> consultarPorBanco(String banco);
-	List<String> consultarPorEstadoDistintoBancoAbreviatura(String estado);
+	List<String> consultarBancoDistintoPorEmpresaYEstado(long empresaId, String estado);
+	List<CuentaPropia> consultarPorEmpresaYBanco(long empresaId, String banco);
+
 }

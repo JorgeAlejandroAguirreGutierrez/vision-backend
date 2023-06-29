@@ -3,15 +3,19 @@ package com.proyecto.sicecuador.servicios.impl.venta;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.Util;
 import com.proyecto.sicecuador.exception.*;
+import com.proyecto.sicecuador.modelos.cliente.*;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
 import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
+import com.proyecto.sicecuador.modelos.compra.Proveedor;
 import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
+import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.sicecuador.modelos.inventario.TipoOperacion;
 import com.proyecto.sicecuador.modelos.venta.Factura;
 import com.proyecto.sicecuador.modelos.venta.FacturaLinea;
 import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
 import com.proyecto.sicecuador.modelos.inventario.Kardex;
 import com.proyecto.sicecuador.modelos.recaudacion.*;
+import com.proyecto.sicecuador.repositorios.cliente.IClienteBaseRepository;
 import com.proyecto.sicecuador.repositorios.venta.IFacturaRepository;
 import com.proyecto.sicecuador.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.sicecuador.servicios.interf.venta.IFacturaService;
@@ -39,6 +43,8 @@ public class FacturaService implements IFacturaService {
     private ITipoComprobanteService tipoComprobanteService;
     @Autowired
     private ISecuencialService secuencialService;
+    @Autowired
+    private IClienteBaseRepository repClienteBase;
 
     @Override
     public void validar(Factura factura) {
@@ -444,6 +450,28 @@ public class FacturaService implements IFacturaService {
     /*
      * FIN CALCULOS TOTALES FACTURA VENTA
      */
+    @Override
+    public String validarIdentificacion(String identificacion) {
+        if (identificacion!= null) {
+            if (identificacion.length() == 10 && Integer.parseInt((identificacion.substring(2,3))) != 6 && Integer.parseInt((identificacion.substring(2,3))) != 9) {
+                boolean bandera = Util.verificarCedula(identificacion);
+                if (bandera) {
+                    Optional<ClienteBase> clienteBase = repClienteBase.obtenerPorIdentificacion(identificacion, Constantes.activo);
+                    String nombre = "";
+                    if(clienteBase.isPresent()) {
+                        nombre = clienteBase.get().getApellidos()+Constantes.espacio+clienteBase.get().getNombres();
+                    }
+                    return nombre;
+                }
+                throw new IdentificacionInvalidaException();
+            } else if (identificacion.equals(Constantes.identificacion_consumidor_final)) {
+                return "CONSUMIDOR FINAL";
+            } else {
+                throw new IdentificacionInvalidaException();
+            }
+        }
+        throw new IdentificacionInvalidaException();
+    }
 
     @Override
     public Factura calcularRecaudacion(Factura factura){

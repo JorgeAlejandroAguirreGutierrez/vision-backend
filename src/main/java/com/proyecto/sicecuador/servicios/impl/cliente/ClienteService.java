@@ -126,7 +126,7 @@ public class ClienteService implements IClienteService {
 	    	TipoIdentificacion tipoIdentificacion=null;
 	    	TipoContribuyente tipoContribuyente=null;
             if (identificacion.length() == 10 && Integer.parseInt((identificacion.substring(2,3))) != 6 && Integer.parseInt((identificacion.substring(2,3))) != 9) {
-                boolean bandera = verificarCedula(identificacion);
+                boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("05");
                 	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
@@ -147,7 +147,7 @@ public class ClienteService implements IClienteService {
                 cliente.setTipoContribuyente(tipoContribuyente);
                 return cliente;
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
-                boolean bandera = verificarSociedadesPublicas(identificacion);
+                boolean bandera = Util.verificarSociedadesPublicas(identificacion);
                 if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
@@ -161,7 +161,7 @@ public class ClienteService implements IClienteService {
             	throw new IdentificacionInvalidaException();
             	
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 9) {
-                boolean bandera = verificarSociedadesPrivadas(identificacion);
+                boolean bandera = Util.verificarSociedadesPrivadas(identificacion);
                 if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PRIVADA");
@@ -175,7 +175,7 @@ public class ClienteService implements IClienteService {
             	throw new IdentificacionInvalidaException();
             	
             } else if (identificacion.length() == 13 && (Integer.parseInt(identificacion.substring(2,3)) != 6 || Integer.parseInt(identificacion.substring(2,3)) != 9)) {
-                boolean bandera=verificarCedula(identificacion);
+                boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
@@ -189,7 +189,7 @@ public class ClienteService implements IClienteService {
             	throw new IdentificacionInvalidaException();
             	
             }else if (identificacion.length() == 13) {
-                boolean bandera = verificarPersonaNatural(identificacion);
+                boolean bandera = Util.verificarPersonaNatural(identificacion);
                 if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
                 	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PUBLICA");
@@ -203,7 +203,7 @@ public class ClienteService implements IClienteService {
             	throw new IdentificacionInvalidaException();
             	
             } else if (identificacion.length() == 7) {
-                boolean bandera = verificarPlaca(identificacion);
+                boolean bandera = Util.verificarPlaca(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("07");
                     Cliente cliente=new Cliente();
@@ -215,7 +215,7 @@ public class ClienteService implements IClienteService {
             	throw new IdentificacionInvalidaException();
             	
             } else if (identificacion.length() == 6) {
-                boolean bandera = verificarPlacaMoto(identificacion);
+                boolean bandera = Util.verificarPlacaMoto(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("07");
                     Cliente cliente=new Cliente();
@@ -227,7 +227,7 @@ public class ClienteService implements IClienteService {
             	throw new IdentificacionInvalidaException();
             }
             else if (identificacion.length() >=8) {
-                boolean bandera = verificarPasaporte(identificacion);
+                boolean bandera = Util.verificarPasaporte(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("06");
                     Cliente cliente=new Cliente();
@@ -299,133 +299,6 @@ public class ClienteService implements IClienteService {
             }
         }
         return cliente;
-    }
-
-    @Override
-    public boolean verificarPersonaNatural(String identificacion) {
-        try {
-            int provincia = Integer.parseInt(identificacion.substring(0,1) + identificacion.substring(1,2));
-            int personaNatural = Integer.parseInt(identificacion.substring(2, 3));
-            if (provincia >= 1 && provincia <= 24 && personaNatural >= 0 && personaNatural < 6) {
-                return identificacion.substring(10,13) == "001" && verificarCedula(identificacion.substring(0,10));
-            }
-            return false;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean verificarCedula(String identificacion) {
-        int numv = 10;
-        int div = 11;
-        int []coeficientes = null;
-        if (Integer.parseInt(identificacion.substring(2,3)) < 6) {
-            coeficientes = new int[]{2, 1, 2, 1, 2, 1, 2, 1, 2};
-            div = 10;
-        } else {
-            if (Integer.parseInt(identificacion.substring(2,3)) == 6) {
-                coeficientes = new int[]{3, 2, 7, 6, 5, 4, 3, 2};
-                numv = 9;
-            } else {
-                coeficientes = new int[]{4, 3, 2, 7, 6, 5, 4, 3, 2};
-            }
-        }
-        int total = 0;
-        int provincias = 24;
-        int calculo = 0;
-        if ((Integer.parseInt(identificacion.substring(2,3)) <= 6 || Integer.parseInt(identificacion.substring(2,3)) == 9)
-                && (Integer.parseInt(identificacion.substring(0,1) + identificacion.substring(1,2)) <= provincias)) {
-            for (int i = 0; i < numv - 1; i++) {
-                calculo = Integer.parseInt(identificacion.substring(i,i+1)) * coeficientes[i];
-                if (div == 10) {
-                    total += calculo > 9 ? calculo - 9 : calculo;
-                } else {
-                    total += calculo;
-                }
-            }
-            return (div - (total % div)) >= 10 ? 0 == Integer.parseInt(identificacion.substring(numv-1,numv)) : (div - (total % div)) == Integer.parseInt(identificacion.substring(numv - 1, numv));
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean verificarSociedadesPublicas(String identificacion) {
-        int modulo = 11;
-        int total = 0;
-        int coeficientes[] = new int[]{3, 2, 7, 6, 5, 4, 3, 2};
-        String numeroProvincia = identificacion.substring(0,1) + identificacion.substring(1,2);
-        String establecimiento = identificacion.substring(9,13);
-        if (Integer.parseInt(numeroProvincia) >= 1 && Integer.parseInt(numeroProvincia) <= 24 && establecimiento.equals("0001")) {
-            int digitoVerificador = Integer.parseInt(identificacion.substring(8,9));
-            for (int i = 0; i < coeficientes.length; i++) {
-                total = total + (coeficientes[i] * Integer.parseInt(identificacion.substring(i,i+1)));
-            }
-            int digitoVerificadorObtenido = modulo - (total % modulo);
-            return digitoVerificadorObtenido == digitoVerificador;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean verificarSociedadesPrivadas(String identificacion) {
-        int modulo = 11;
-        int total = 0;
-        int coeficientes[] = new int []{4, 3, 2, 7, 6, 5, 4, 3, 2};
-        String numeroProvincia = identificacion.substring(0,1) + identificacion.substring(1,2);
-        String establecimiento = identificacion.substring(10,13);
-        if (Integer.parseInt(numeroProvincia) >= 1 && Integer.parseInt(numeroProvincia) <= 24 && establecimiento.equals("001")) {
-            int digitoVerificador = Integer.parseInt(identificacion.substring(9,10));
-            for (int i = 0; i < coeficientes.length; i++) {
-                total = total + (coeficientes[i] * Integer.parseInt(identificacion.substring(i,i+1)));
-            }
-            int digitoVerificadorObtenido = (total % modulo) == 0 ? 0 : modulo - (total % modulo);
-            return digitoVerificadorObtenido == digitoVerificador;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean verificarPlaca(String identificacion) {
-        String arreglo_letras[] = new String[]{"A", "B", "U", "C", "H", "X", "O", "E", "W", "G", "I", "L", "R", "M", "V", "N", "Q", "S", "P", "Y", "J", "K", "T", "Z"};
-        List<String> letras = Arrays.asList(arreglo_letras);
-        String primera_letra = identificacion.substring(0,1);
-        boolean bandera1 = letras.contains(primera_letra);
-        String segunda_letra = identificacion.substring(1,2);
-        boolean bandera2 = letras.contains(segunda_letra);
-        String tercera_letra = identificacion.substring(2,3);
-        boolean bandera3 = letras.contains(tercera_letra);
-        if (bandera1 !=false && bandera2 !=false && bandera3 !=false){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean verificarPlacaMoto(String identificacion) {
-        String []arreglo_letras = new String[]{"A", "B", "U", "C", "H", "X", "O", "E", "W", "G", "I", "L", "R", "M", "V", "N", "Q", "S", "P", "Y", "J", "K", "T", "Z"};
-        List<String> letras = Arrays.asList(arreglo_letras);
-        String primera_letra = identificacion.substring(0,1);
-        String segunda_letra = identificacion.substring(1,2);
-        String sexta_letra = identificacion.substring(4,5);
-        boolean bandera1=letras.contains(primera_letra);
-        boolean bandera2=letras.contains(segunda_letra);
-        boolean bandera3=letras.contains(sexta_letra);
-        return bandera1!=false && bandera2!=false && bandera3!=false;
-    }
-
-    @Override
-    public boolean verificarPasaporte(String identificacion) {
-        String [] arreglo_letras = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O","P","Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-        List<String> letras = Arrays.asList(arreglo_letras);
-        for (int i=0; i<identificacion.length(); i++){
-            if (letras.contains(identificacion.substring(i,i+1))!=false){
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
