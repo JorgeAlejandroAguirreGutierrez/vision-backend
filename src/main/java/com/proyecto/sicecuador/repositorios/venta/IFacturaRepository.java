@@ -2,6 +2,7 @@ package com.proyecto.sicecuador.repositorios.venta;
 
 import com.proyecto.sicecuador.modelos.venta.Factura;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +23,6 @@ public interface IFacturaRepository extends JpaRepository<Factura, Long>, JpaSpe
     @Query(value = "select f from Factura f where f.cliente.id = :clienteId and (f.estado = :estadoRecaudada or f.estado = :estadoFacturada) order by f.codigo asc")
     List<Factura> consultarPorCliente(long clienteId, String estadoRecaudada, String estadoFacturada);
     @Query(value = "select f from Factura f where f.fecha >= :fechaInicio and f.fecha <= :fechaFinal and f.empresa.id = :empresaId order by f.codigo asc")
-    List<Factura> consultarPorFechaInicioYFechaFinal(String fechaInicio, String fechaFinal, long empresaId);
+    List<Factura> consultarPorFechaInicioYFechaFinal(Date fechaInicio, Date fechaFinal, long empresaId);
 
 }
