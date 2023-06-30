@@ -49,7 +49,9 @@ public class ReporteVentaService {
     private IUsuarioRepository usuarioRepository;
 
     private ReporteVenta obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId) {
-        List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicio, fechaFinal, empresaId);
+        Date fechaInicioC = new Date(fechaInicio);
+        Date fechaFinalC = new Date(fechaFinal);
+        List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicioC, fechaFinalC, empresaId);
         Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEmpresaYEstado(apodo, empresaId, Constantes.activo);
         if(!facturas.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.factura);
