@@ -2,8 +2,6 @@ package com.proyecto.sicecuador.servicios.impl.venta;
 
 import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.io.font.constants.StandardFonts;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -38,7 +36,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import javax.activation.DataHandler;
 import javax.mail.Message;
@@ -60,7 +57,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -573,7 +569,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		cell.setBorderTopRightRadius(new BorderRadius(5));
 		cell.setBorderBottomLeftRadius(new BorderRadius(5));
 		cell.setBorderBottomRightRadius(new BorderRadius(5));
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		return cell;
 	}
 	private Cell getCellFactura(String text, TextAlignment alignment, Image imagenCodigoBarras) {
@@ -582,7 +578,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		cell.add(parrafo);
 		cell.add(imagenCodigoBarras);
 		cell.setTextAlignment(alignment);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
 		cell.setBorderTopLeftRadius(new BorderRadius(5));
 		cell.setBorderTopRightRadius(new BorderRadius(5));
@@ -594,7 +590,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		Cell cell = new Cell().add(new Paragraph(text));
 		cell.setTextAlignment(alignment);
 		cell.setBorder(Border.NO_BORDER);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
 		cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
 		return cell;
@@ -603,7 +599,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
@@ -612,7 +608,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
 	}
@@ -620,7 +616,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
 	}
@@ -635,7 +631,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
 	}

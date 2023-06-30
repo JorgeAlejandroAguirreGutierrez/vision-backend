@@ -34,6 +34,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,21 +50,22 @@ public class ReporteVentaService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
-    private ReporteVenta obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId) {
-        Date fechaInicioC = new Date(fechaInicio);
-        Date fechaFinalC = new Date(fechaFinal);
+    private ReporteVenta obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId) throws ParseException {
+        Date fechaInicioC = new SimpleDateFormat("dd-MM-yyyy").parse(fechaInicio);
+        Date fechaFinalC = new SimpleDateFormat("dd-MM-yyyy").parse(fechaFinal);
         List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicioC, fechaFinalC, empresaId);
         Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEmpresaYEstado(apodo, empresaId, Constantes.activo);
-        if(!facturas.isEmpty()) {
+        if(facturas.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.factura);
         }
-        if(!usuario.isEmpty()) {
+        if(usuario.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.usuario);
         }
         //DATOS GENERALES
         ReporteVenta reporteVenta = new ReporteVenta();
         reporteVenta.setRazonSocial(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
         reporteVenta.setNombreComercial(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+        reporteVenta.setNombreReporte(Constantes.nombreReporteVenta);
         reporteVenta.setFechaInicio(fechaInicio);
         reporteVenta.setFechaInicio(fechaFinal);
         reporteVenta.setFecha(new Date().toString());
@@ -180,7 +183,7 @@ public class ReporteVentaService {
         return reporteVenta;
     }
 
-    public ByteArrayInputStream pdf(String apodo, String fechaInicio, String fechaFinal, long empresaId){
+    public ByteArrayInputStream pdf(String apodo, String fechaInicio, String fechaFinal, long empresaId) throws ParseException {
         ReporteVenta reporteVenta = obtener(apodo, fechaInicio, fechaFinal, empresaId);
         //GENERACION DEL PDF
         try {
@@ -195,10 +198,10 @@ public class ReporteVentaService {
             documento.setFont(font);
             float[] columnas = {600F};
             Table tabla = new Table(columnas);
-            tabla.addCell(getCellEmpresa(reporteVenta.getRazonSocial() + "\n" + "\n" +
-                    reporteVenta.getNombreComercial() + "\n" + "\n" +
-                    reporteVenta.getNombreReporte() + "\n" + "\n" +
-                    "VENTAS DESDE: " + reporteVenta.getFechaInicio() + " HASTA " + reporteVenta.getFechaFinal() + "\n" + "\n", TextAlignment.LEFT));
+            tabla.addCell(getCellEmpresa(reporteVenta.getRazonSocial() + "\n" +
+                    reporteVenta.getNombreComercial() + "\n" +
+                    reporteVenta.getNombreReporte() + "\n" +
+                    "VENTAS DESDE: " + reporteVenta.getFechaInicio() + " HASTA " + reporteVenta.getFechaFinal() + "\n", TextAlignment.CENTER));
             documento.add(tabla);
             documento.add(new Paragraph("\n"));
             documento.add(new Paragraph("DATOS GENERALES"));
@@ -315,12 +318,10 @@ public class ReporteVentaService {
     private Cell getCellEmpresa(String text, TextAlignment alignment) {
         Cell cell = new Cell().add(new Paragraph(text));
         cell.setTextAlignment(alignment);
-        cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
-        cell.setBorderTopLeftRadius(new BorderRadius(5));
-        cell.setBorderTopRightRadius(new BorderRadius(5));
-        cell.setBorderBottomLeftRadius(new BorderRadius(5));
-        cell.setBorderBottomRightRadius(new BorderRadius(5));
-        cell.setFontSize(Constantes.fontSize);
+        cell.setBorder(Border.NO_BORDER);
+        cell.setFontSize(Constantes.fontSize10);
+        cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
+        cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
         return cell;
     }
 
@@ -328,7 +329,7 @@ public class ReporteVentaService {
         Cell cell = new Cell().add(new Paragraph(text));
         cell.setTextAlignment(alignment);
         cell.setBorder(Border.NO_BORDER);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
         cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
         return cell;
@@ -337,7 +338,7 @@ public class ReporteVentaService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
         cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
         return cell;
@@ -347,7 +348,7 @@ public class ReporteVentaService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
         return cell;
     }
@@ -356,7 +357,7 @@ public class ReporteVentaService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
         return cell;
     }
@@ -365,7 +366,7 @@ public class ReporteVentaService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         return cell;
     }
 
@@ -373,7 +374,7 @@ public class ReporteVentaService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         return cell;
     }
 
@@ -388,7 +389,7 @@ public class ReporteVentaService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         return cell;
     }
 

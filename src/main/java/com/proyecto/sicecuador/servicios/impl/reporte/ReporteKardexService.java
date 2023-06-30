@@ -213,7 +213,7 @@ public class ReporteKardexService {
         cell.setBorderTopRightRadius(new BorderRadius(5));
         cell.setBorderBottomLeftRadius(new BorderRadius(5));
         cell.setBorderBottomRightRadius(new BorderRadius(5));
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         return cell;
     }
 
@@ -221,7 +221,7 @@ public class ReporteKardexService {
         Cell cell = new Cell().add(new Paragraph(text));
         cell.setTextAlignment(alignment);
         cell.setBorder(Border.NO_BORDER);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE, 1));
         cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
         return cell;
@@ -231,7 +231,7 @@ public class ReporteKardexService {
         Cell cell = new Cell().add(new Paragraph(text));
         cell.setTextAlignment(alignment);
         cell.setBorder(Border.NO_BORDER);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE, 1));
         cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
         return cell;
@@ -241,7 +241,7 @@ public class ReporteKardexService {
         Cell cell = new Cell().add(new Paragraph(text));
         cell.setTextAlignment(alignment);
         cell.setBorder(Border.NO_BORDER);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE, 1));
         cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
         return cell;
@@ -251,7 +251,7 @@ public class ReporteKardexService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
         cell.setBorder(new SolidBorder(ColorConstants.BLUE, 1));
         return cell;
@@ -261,7 +261,7 @@ public class ReporteKardexService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
         cell.setBorder(new SolidBorder(ColorConstants.BLUE, 1));
         return cell;
@@ -271,7 +271,7 @@ public class ReporteKardexService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
         cell.setBorder(new SolidBorder(ColorConstants.BLUE, 1));
         return cell;
@@ -281,7 +281,7 @@ public class ReporteKardexService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
         cell.setBorder(new SolidBorder(ColorConstants.BLUE, 1));
         return cell;
@@ -290,7 +290,7 @@ public class ReporteKardexService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
         return cell;
     }
@@ -298,7 +298,7 @@ public class ReporteKardexService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
         return cell;
     }
@@ -306,7 +306,7 @@ public class ReporteKardexService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize);
+        cell.setFontSize(Constantes.fontSize10);
         cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
         return cell;
     }
