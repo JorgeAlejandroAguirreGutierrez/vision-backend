@@ -49,10 +49,10 @@ public class ReporteKardexService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
-    public ReporteKardex obtener(String apodo, long productoId, String fechaInicio, String fechaFinal) {
+    public ReporteKardex obtener(String apodo, String fechaInicio, String fechaFinal, long productoId, long empresaId) {
         Optional<Producto> producto = productoRepository.findById(productoId);
         List<Kardex> kardexs = kardexRepository.consultarPorFechaInicioYFechaFinalYProducto(fechaInicio, fechaFinal, productoId);
-        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodo(apodo, Constantes.activo);
+        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEmpresaYEstado(apodo, empresaId, Constantes.activo);
         if (!producto.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.producto);
         }
@@ -105,8 +105,8 @@ public class ReporteKardexService {
         return reporteKardex;
     }
 
-    public ByteArrayInputStream pdf(String apodo, long productoId, String fechaInicio, String fechaFinal) {
-        ReporteKardex reporteKardex = obtener(apodo, productoId, fechaInicio, fechaFinal);
+    public ByteArrayInputStream pdf(String apodo, String fechaInicio, String fechaFinal, long productoId, long empresaId) {
+        ReporteKardex reporteKardex = obtener(apodo, fechaInicio, fechaFinal, productoId, empresaId);
         //GENERACION DEL PDF
         try {
             ByteArrayOutputStream salida = new ByteArrayOutputStream();

@@ -6,7 +6,6 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathUsuario;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.controladoras.GenericoController;
 import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.servicios.interf.usuario.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class UsuarioController implements GenericoController<Usuario> {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<Usuario> usuarios=servicio.consultar();
+        List<Usuario> usuarios = servicio.consultar();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, usuarios);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -48,28 +47,28 @@ public class UsuarioController implements GenericoController<Usuario> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Usuario usuario=servicio.obtener(id);
+        Usuario usuario = servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, usuario);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
-    @GetMapping(value = "/obtenerPorApodo/{apodo}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo) {
-        Usuario usuario=servicio.obtenerPorApodo(apodo);
+    @GetMapping(value = "/obtenerPorApodo/{apodo}/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo, @PathVariable("empresaId") long empresaId) {
+        Usuario usuario = servicio.obtenerPorApodo(apodo, empresaId);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, usuario);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody Usuario _usuario) {
-        Usuario usuario=servicio.crear(_usuario);
+        Usuario usuario = servicio.crear(_usuario);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, usuario);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Usuario _usuario) {
-        Usuario usuario=servicio.actualizar(_usuario);
+        Usuario usuario = servicio.actualizar(_usuario);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, usuario);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

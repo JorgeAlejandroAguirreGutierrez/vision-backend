@@ -34,7 +34,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,9 +48,9 @@ public class ReporteVentaService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
-    public ReporteVenta obtener(String apodo, String fechaInicio, String fechaFinal) {
-        List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicio, fechaFinal);
-        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodo(apodo, Constantes.activo);
+    private ReporteVenta obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId) {
+        List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicio, fechaFinal, empresaId);
+        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEmpresaYEstado(apodo, empresaId, Constantes.activo);
         if(!facturas.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.factura);
         }
@@ -179,8 +178,8 @@ public class ReporteVentaService {
         return reporteVenta;
     }
 
-    public ByteArrayInputStream pdf(String apodo, String fechaInicio, String fechaFinal){
-        ReporteVenta reporteVenta = obtener(apodo, fechaInicio, fechaFinal);
+    public ByteArrayInputStream pdf(String apodo, String fechaInicio, String fechaFinal, long empresaId){
+        ReporteVenta reporteVenta = obtener(apodo, fechaInicio, fechaFinal, empresaId);
         //GENERACION DEL PDF
         try {
             ByteArrayOutputStream salida = new ByteArrayOutputStream();
