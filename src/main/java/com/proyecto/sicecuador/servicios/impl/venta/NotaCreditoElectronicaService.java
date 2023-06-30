@@ -462,7 +462,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		cell.setBorderTopRightRadius(new BorderRadius(5));
 		cell.setBorderBottomLeftRadius(new BorderRadius(5));
 		cell.setBorderBottomRightRadius(new BorderRadius(5));
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		return cell;
 	}
 	private Cell getCellFactura(String text, TextAlignment alignment, Image imagenCodigoBarras) {
@@ -471,7 +471,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		cell.add(parrafo);
 		cell.add(imagenCodigoBarras);
 		cell.setTextAlignment(alignment);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
 		cell.setBorderTopLeftRadius(new BorderRadius(5));
 		cell.setBorderTopRightRadius(new BorderRadius(5));
@@ -483,7 +483,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		Cell cell = new Cell().add(new Paragraph(text));
 		cell.setTextAlignment(alignment);
 		cell.setBorder(Border.NO_BORDER);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
 		cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
 		return cell;
@@ -492,7 +492,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
@@ -501,7 +501,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
 	}
@@ -509,7 +509,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.setFontSize(Constantes.fontSize);
+		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
 	}
