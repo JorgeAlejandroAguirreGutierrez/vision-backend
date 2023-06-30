@@ -14,14 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpecificationExecutor<Usuario> {
-    @Query(value = "select * from usuario u where u.identificacion = :identificacion and u.contrasena=:contrasena and u.estado=:estado order by u.codigo asc", nativeQuery = true)
-    Optional<Usuario> findByIdentificacionContrasena(String identificacion, String contrasena, String estado);
     @Query(value = "select u from Usuario u order by u.codigo asc")
     List<Usuario> consultar();
     @Query(value = "select u from Usuario u where u.estado=:estado order by u.codigo asc")
     List<Usuario> consultarPorEstado(String estado);
-    @Query(value = "select u from Usuario u where u.apodo = :apodo and u.estado = :estado order by u.codigo asc")
-    Optional<Usuario> obtenerPorApodo(String apodo, String estado);
+    @Query(value = "select u from Usuario u where u.apodo = :apodo and u.estacion.establecimiento.empresa.id = :empresaId and u.estado = :estado order by u.codigo asc")
+    Optional<Usuario> obtenerPorApodoYEmpresaYEstado(String apodo, long empresaId, String estado);
     @Query(value = "select u from Usuario u where u.apodo = :apodo and u.contrasena = :contrasena and u.estado = :estado order by u.codigo asc")
-    Optional<Usuario> obtenerPorApodoContrasena(String apodo, String contrasena, String estado);
+    Optional<Usuario> obtenerPorApodoYContrasenaYEstado(String apodo, String contrasena, String estado);
 }

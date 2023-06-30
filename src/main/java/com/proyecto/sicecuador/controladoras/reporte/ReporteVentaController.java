@@ -18,9 +18,9 @@ public class ReporteVentaController {
     @Autowired
     private ReporteVentaService servicio;
 
-    @GetMapping(value = "/pdf/{fechaInicio}/{fechaFin}" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> pdf(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFin") String fechaFin) {
-        ByteArrayInputStream pdf = servicio.pdf(apodo, fechaInicio, fechaFin);
+    @GetMapping(value = "/pdf/{fechaInicio}/{fechaFin}/{empresaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> pdf(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFin") String fechaFin, @PathVariable("empresaId") long empresaId) {
+        ByteArrayInputStream pdf = servicio.pdf(apodo, fechaInicio, fechaFin, empresaId);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=ReporteVenta.pdf");
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)

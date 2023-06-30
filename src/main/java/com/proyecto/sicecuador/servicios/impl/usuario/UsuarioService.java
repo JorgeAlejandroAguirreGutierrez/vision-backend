@@ -41,7 +41,7 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public Usuario crear(Usuario usuario) {
         validar(usuario);
-        Optional<Usuario>buscarApodo=rep.obtenerPorApodo(usuario.getApodo(), Constantes.activo);
+        Optional<Usuario>buscarApodo=rep.obtenerPorApodoYEmpresaYEstado(usuario.getApodo(), usuario.getEstacion().getEstablecimiento().getEmpresa().getId(), Constantes.activo);
         if(buscarApodo.isPresent()) {
             throw new EntidadExistenteException(Constantes.usuario);
         }
@@ -123,8 +123,8 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public Usuario obtenerPorApodo(String apodo) {
-    	Optional<Usuario> usuario = rep.obtenerPorApodo(apodo, Constantes.activo);
+    public Usuario obtenerPorApodo(String apodo, long empresaId) {
+    	Optional<Usuario> usuario = rep.obtenerPorApodoYEmpresaYEstado(apodo, empresaId, Constantes.activo);
     	if(usuario.isPresent()) {
     		Usuario res = usuario.get();
             if(res.getAvatar() != null) {
