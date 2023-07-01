@@ -38,7 +38,13 @@ public class ReporteVenta {
     private String transferencia;
     private String credito;
     private String totalRecaudacion;
-
+    //FIRMAS DE RESPONSABILIDAD
+    private String nombreRepresentanteLegal;
+    private String cargoRepresentanteLegal;
+    private String empresaRepresentanteLegal;
+    private String nombreUsuario;
+    private String cargoUsuario;
+    private String empresaUsuario;
 
 
 }
