@@ -1,6 +1,5 @@
 package com.proyecto.sicecuador.servicios.impl.reporte;
 
-import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
@@ -8,17 +7,12 @@ import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.BorderCollapsePropertyValue;
-import com.itextpdf.layout.property.BorderRadius;
-import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
@@ -34,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,7 +49,7 @@ public class ReporteVentaService {
         Date fechaInicioC = new SimpleDateFormat("dd-MM-yyyy").parse(fechaInicio);
         Date fechaFinalC = new SimpleDateFormat("dd-MM-yyyy").parse(fechaFinal);
         List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicioC, fechaFinalC, empresaId);
-        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEmpresaYEstado(apodo, empresaId, Constantes.activo);
+        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.activo);
         if(facturas.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.factura);
         }
@@ -67,9 +62,9 @@ public class ReporteVentaService {
         reporteVenta.setNombreComercial(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
         reporteVenta.setNombreReporte(Constantes.nombreReporteVenta);
         reporteVenta.setFechaInicio(fechaInicio);
-        reporteVenta.setFechaInicio(fechaFinal);
+        reporteVenta.setFechaFinal(fechaFinal);
         reporteVenta.setFecha(new Date().toString());
-        reporteVenta.setPeriodoDelReporte(fechaInicio + Constantes.espacio + fechaFinal);
+        reporteVenta.setPeriodoDelReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
         reporteVenta.setUsuario(usuario.get().getApodo());
         reporteVenta.setPerfil(usuario.get().getPerfil().getDescripcion());
         List<ReporteVentaLinea> reporteVentaLineas = new ArrayList();
@@ -85,10 +80,12 @@ public class ReporteVentaService {
         double totalTarjetaDebito = Constantes.cero;
         double totalTransferencia = Constantes.cero;
         double totalCredito = Constantes.cero;
+        DateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat formatoHora = new SimpleDateFormat("hh:mm:ss");
         for(Factura factura: facturas){
             ReporteVentaLinea reporteVentaLinea = new ReporteVentaLinea();
-            reporteVentaLinea.setFecha(factura.getFecha().toString());
-            reporteVentaLinea.setHora(factura.getFecha().toString());
+            reporteVentaLinea.setFecha(formatoFecha.format(factura.getFecha()));
+            reporteVentaLinea.setHora(formatoHora.format(factura.getFecha()));
             reporteVentaLinea.setDocumento(factura.getTipoComprobante().getAbreviatura());
             reporteVentaLinea.setEstablecimiento(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
             reporteVentaLinea.setEstacion(factura.getSesion().getUsuario().getEstacion().getCodigoSRI());
@@ -180,6 +177,14 @@ public class ReporteVentaService {
         reporteVenta.setCredito(String.format("%.2f", totalCredito));
         String totalRecaudacion = String.format("%.2f", totalEfectivo + totalCheque + totalTarjetaCredito + totalTarjetaDebito + totalTransferencia + totalCredito);
         reporteVenta.setTotalRecaudacion(totalRecaudacion);
+
+        //FIRMAS DE RESPONSABILIDAD
+        reporteVenta.setNombreRepresentanteLegal(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getRepresentanteLegal());
+        reporteVenta.setCargoRepresentanteLegal(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getCargoRepresentanteLegal());
+        reporteVenta.setEmpresaRepresentanteLegal(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+        reporteVenta.setNombreUsuario(usuario.get().getNombre());
+        reporteVenta.setCargoUsuario(usuario.get().getPerfil().getDescripcion());
+        reporteVenta.setEmpresaUsuario(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
         return reporteVenta;
     }
 
@@ -192,7 +197,7 @@ public class ReporteVentaService {
             PdfDocument pdf = new PdfDocument(writer);
             // Initialize document
             Document documento = new Document(pdf, PageSize.A4);
-            documento.setMargins(0, 0, 0, 0);
+            documento.setMargins(10, 10, 10, 10);
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
@@ -205,7 +210,6 @@ public class ReporteVentaService {
             documento.add(tabla);
             documento.add(new Paragraph("\n"));
             documento.add(new Paragraph("DATOS GENERALES"));
-            documento.add(new Paragraph("\n"));
             float[] columnasDatoGeneral = {600F};
             Table tablaDatoGeneral = new Table(columnasDatoGeneral);
             tablaDatoGeneral.addCell(getCellDatoGeneral("FECHA DE REPORTE: " + reporteVenta.getFecha() + "\n" +
@@ -215,7 +219,6 @@ public class ReporteVentaService {
             documento.add(tablaDatoGeneral);
             documento.add(new Paragraph("\n"));
             documento.add(new Paragraph("DOCUMENTOS EN EL PERIODO"));
-            documento.add(new Paragraph("\n"));
             float[] columnasTablaDocumento = {42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F};
             Table tablaDocumento = new Table(columnasTablaDocumento);
             tablaDocumento.addCell(getCellColumnaDocumento("FECHA"));
@@ -249,19 +252,24 @@ public class ReporteVentaService {
                 tablaDocumento.addCell(getCellFilaDocumento(reporteVentaLinea.getIva()));
                 tablaDocumento.addCell(getCellFilaDocumento(reporteVentaLinea.getTotal()));
             }
+            tablaDocumento.addCell(getCellVacio(Constantes.vacio));
+            tablaDocumento.addCell(getCellVacio(Constantes.vacio));
+            tablaDocumento.addCell(getCellVacio(Constantes.vacio));
+            tablaDocumento.addCell(getCellVacio(Constantes.vacio));
+            tablaDocumento.addCell(getCellVacio(Constantes.vacio));
+            tablaDocumento.addCell(getCellVacio(Constantes.vacio));
+            tablaDocumento.addCell(getCellVacio(Constantes.vacio));
+            tablaDocumento.addCell(getCellVacio(Constantes.vacio));
+            tablaDocumento.addCell(getCellVacio(Constantes.vacio));
+            tablaDocumento.addCell(getCellFilaDocumento("TOTALES"));
+            tablaDocumento.addCell(getCellFilaDocumento("$" + reporteVenta.getTotal0()));
+            tablaDocumento.addCell(getCellFilaDocumento("$" + reporteVenta.getTotal12()));
+            tablaDocumento.addCell(getCellFilaDocumento("$" + reporteVenta.getTotalIva()));
+            tablaDocumento.addCell(getCellFilaDocumento("$" + reporteVenta.getTotal()));
             documento.add(tablaDocumento);
-            float [] columnasTotal = {120F, 120F, 120F, 120F, 120F};
-            Table tablaTotal = new Table(columnasTotal);
-            tablaTotal.addCell(getCellTotal("TOTALES"));
-            tablaTotal.addCell(getCellTotal("$" + reporteVenta.getTotal0()));
-            tablaTotal.addCell(getCellTotal("$" + reporteVenta.getTotal12()));
-            tablaTotal.addCell(getCellTotal("$" + reporteVenta.getTotalIva()));
-            tablaTotal.addCell(getCellTotal("$" + reporteVenta.getTotal()));
-            tablaTotal.setTextAlignment(TextAlignment.RIGHT);
 
             documento.add(new Paragraph("\n"));
             documento.add(new Paragraph("INFORMACION RESUMEN"));
-            documento.add(new Paragraph("\n"));
             float [] columnasFacturaYResumen = {300F, 300F};
             Table tablaFacturaYResumen = new Table(columnasFacturaYResumen);
             float [] columnasFactura = {450F, 150F};
@@ -290,8 +298,7 @@ public class ReporteVentaService {
 
             documento.add(new Paragraph("\n"));
             documento.add(new Paragraph("REPORTE DE COBROS"));
-            documento.add(new Paragraph("\n"));
-            float [] columnasRecaudacion = {450F, 150F};
+            float [] columnasRecaudacion = {300F, 300F};
             Table tablaRecaudacion = new Table(columnasRecaudacion);
             tablaRecaudacion.addCell(getCellRecaudacion("EFECTIVO"));
             tablaRecaudacion.addCell(getCellRecaudacion(reporteVenta.getEfectivo()));
@@ -307,6 +314,28 @@ public class ReporteVentaService {
             tablaRecaudacion.addCell(getCellRecaudacion(reporteVenta.getCredito()));
             documento.add(tablaRecaudacion);
 
+            documento.add(new Paragraph("\n"));
+            documento.add(new Paragraph("FIRMAS DE RESPONSABILIDAD"));
+            documento.add(new Paragraph("\n"));
+            float [] columnasFirma = {300F, 300F};
+            Table tablaFirma = new Table(columnasFirma);
+            float [] columnasFirmaGerente = {600F};
+            Table tablaFirmaGerente = new Table(columnasFirmaGerente);
+            tablaFirmaGerente.addCell(getCellFirmaGerente("_____________________________"));
+            tablaFirmaGerente.addCell(getCellFirmaGerente(reporteVenta.getNombreRepresentanteLegal()));
+            tablaFirmaGerente.addCell(getCellFirmaGerente(reporteVenta.getCargoRepresentanteLegal()));
+            tablaFirmaGerente.addCell(getCellFirmaGerente(reporteVenta.getEmpresaRepresentanteLegal()));
+            float [] columnasFirmaUsuario = {600F};
+            Table tablaFirmaUsuario = new Table(columnasFirmaUsuario);
+            tablaFirmaUsuario.addCell(getCellFirmaUsuario("_____________________________"));
+            tablaFirmaUsuario.addCell(getCellFirmaUsuario(reporteVenta.getNombreUsuario()));
+            tablaFirmaUsuario.addCell(getCellFirmaUsuario(reporteVenta.getCargoUsuario()));
+            tablaFirmaUsuario.addCell(getCellFirmaUsuario(reporteVenta.getEmpresaUsuario()));
+
+            tablaFirma.addCell(getCellFirma(tablaFirmaGerente));
+            tablaFirma.addCell(getCellFirma(tablaFirmaUsuario));
+            documento.add(tablaFirma);
+
             // 5. Close document
             documento.close();
             return new ByteArrayInputStream(salida.toByteArray());
@@ -319,9 +348,9 @@ public class ReporteVentaService {
         Cell cell = new Cell().add(new Paragraph(text));
         cell.setTextAlignment(alignment);
         cell.setBorder(Border.NO_BORDER);
-        cell.setFontSize(Constantes.fontSize10);
-        cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
-        cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
+        cell.setFontSize(Constantes.fontSize16);
+        cell.setBorderBottom(new SolidBorder(ColorConstants.BLACK,1));
+        cell.setBorderTop(new SolidBorder(ColorConstants.BLACK, 1));
         return cell;
     }
 
@@ -330,17 +359,17 @@ public class ReporteVentaService {
         cell.setTextAlignment(alignment);
         cell.setBorder(Border.NO_BORDER);
         cell.setFontSize(Constantes.fontSize10);
-        cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
-        cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
+        cell.setBorderBottom(new SolidBorder(ColorConstants.BLACK,1));
+        cell.setBorderTop(new SolidBorder(ColorConstants.BLACK, 1));
         return cell;
     }
     private Cell getCellColumnaDocumento(String text) {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize10);
-        cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
-        cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+        cell.setFontSize(Constantes.fontSize7);
+        cell.setFontColor(ColorConstants.BLACK);
+        cell.setBorder(new SolidBorder(ColorConstants.BLACK,1));
         return cell;
     }
 
@@ -348,17 +377,17 @@ public class ReporteVentaService {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize10);
-        cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+        cell.setFontSize(Constantes.fontSize7);
+        cell.setBorder(new SolidBorder(ColorConstants.BLACK,1));
         return cell;
     }
 
-    private Cell getCellTotal(String text) {
+    private Cell getCellVacio(String text) {
         Paragraph parrafo = new Paragraph(text);
         Cell cell = new Cell();
         cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize10);
-        cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+        cell.setFontSize(Constantes.fontSize7);
+        cell.setBorder(Border.NO_BORDER);
         return cell;
     }
 
@@ -390,6 +419,34 @@ public class ReporteVentaService {
         Cell cell = new Cell();
         cell.add(parrafo);
         cell.setFontSize(Constantes.fontSize10);
+        return cell;
+    }
+
+    private Cell getCellFirma(Table tabla){
+        Cell cell = new Cell();
+        cell.add(tabla);
+        cell.setBorder(Border.NO_BORDER);
+        cell.setTextAlignment(TextAlignment.CENTER);
+        return cell;
+    }
+
+    private Cell getCellFirmaGerente(String text) {
+        Paragraph parrafo = new Paragraph(text);
+        Cell cell = new Cell();
+        cell.add(parrafo);
+        cell.setBorder(Border.NO_BORDER);
+        cell.setFontSize(Constantes.fontSize10);
+        cell.setTextAlignment(TextAlignment.CENTER);
+        return cell;
+    }
+
+    private Cell getCellFirmaUsuario(String text) {
+        Paragraph parrafo = new Paragraph(text);
+        Cell cell = new Cell();
+        cell.add(parrafo);
+        cell.setBorder(Border.NO_BORDER);
+        cell.setFontSize(Constantes.fontSize10);
+        cell.setTextAlignment(TextAlignment.CENTER);
         return cell;
     }
 

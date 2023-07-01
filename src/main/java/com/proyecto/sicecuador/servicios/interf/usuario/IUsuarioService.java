@@ -10,5 +10,5 @@ public interface IUsuarioService extends IGenericoService<Usuario> {
     List<Usuario> consultarPorEstado(String estado);
     Usuario activar(Usuario usuario);
     Usuario inactivar(Usuario usuario);
-    Usuario obtenerPorApodo(String apodo, long empresaId);
+    Usuario obtenerPorApodoYEstado(String apodo, String estado);
 }

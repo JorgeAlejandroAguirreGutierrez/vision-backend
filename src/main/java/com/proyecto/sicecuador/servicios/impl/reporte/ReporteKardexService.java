@@ -49,17 +49,17 @@ public class ReporteKardexService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
-    public ReporteKardex obtener(String apodo, String fechaInicio, String fechaFinal, long productoId, long empresaId) {
+    public ReporteKardex obtener(String apodo, String fechaInicio, String fechaFinal, long productoId) {
         Optional<Producto> producto = productoRepository.findById(productoId);
         List<Kardex> kardexs = kardexRepository.consultarPorFechaInicioYFechaFinalYProducto(fechaInicio, fechaFinal, productoId);
-        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEmpresaYEstado(apodo, empresaId, Constantes.activo);
-        if (!producto.isEmpty()) {
+        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.activo);
+        if (producto.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.producto);
         }
-        if (!kardexs.isEmpty()) {
+        if (kardexs.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.factura);
         }
-        if (!usuario.isEmpty()) {
+        if (usuario.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.usuario);
         }
         //DATOS GENERALES
@@ -105,8 +105,8 @@ public class ReporteKardexService {
         return reporteKardex;
     }
 
-    public ByteArrayInputStream pdf(String apodo, String fechaInicio, String fechaFinal, long productoId, long empresaId) {
-        ReporteKardex reporteKardex = obtener(apodo, fechaInicio, fechaFinal, productoId, empresaId);
+    public ByteArrayInputStream pdf(String apodo, String fechaInicio, String fechaFinal, long productoId) {
+        ReporteKardex reporteKardex = obtener(apodo, fechaInicio, fechaFinal, productoId);
         //GENERACION DEL PDF
         try {
             ByteArrayOutputStream salida = new ByteArrayOutputStream();
@@ -114,20 +114,19 @@ public class ReporteKardexService {
             PdfDocument pdf = new PdfDocument(writer);
             // Initialize document
             Document documento = new Document(pdf, PageSize.A4);
-            documento.setMargins(0, 0, 0, 0);
+            documento.setMargins(10, 10, 10, 10);
             // 4. Add content
             PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
             documento.setFont(font);
             float[] columnas = {600F};
             Table tabla = new Table(columnas);
-            tabla.addCell(getCellEmpresa(reporteKardex.getRazonSocial() + "\n" + "\n" +
-                    reporteKardex.getNombreComercial() + "\n" + "\n" +
-                    reporteKardex.getNombreReporte() + "\n" + "\n" +
-                    "VENTAS DESDE: " + reporteKardex.getFechaInicio() + " HASTA " + reporteKardex.getFechaFinal() + "\n" + "\n", TextAlignment.LEFT));
+            tabla.addCell(getCellEmpresa(reporteKardex.getRazonSocial() + "\n" +
+                    reporteKardex.getNombreComercial() + "\n" +
+                    reporteKardex.getNombreReporte() + "\n" +
+                    "VENTAS DESDE: " + reporteKardex.getFechaInicio() + " HASTA " + reporteKardex.getFechaFinal() + "\n", TextAlignment.LEFT));
             documento.add(tabla);
             documento.add(new Paragraph("\n"));
             documento.add(new Paragraph("DATOS GENERALES"));
-            documento.add(new Paragraph("\n"));
             float[] columnasDatoGeneral = {600F};
             Table tablaDatoGeneral = new Table(columnasDatoGeneral);
             tablaDatoGeneral.addCell(getCellDatoGeneral("DATOS GENERALES:" + "\n" +
@@ -208,12 +207,10 @@ public class ReporteKardexService {
     private Cell getCellEmpresa(String text, TextAlignment alignment) {
         Cell cell = new Cell().add(new Paragraph(text));
         cell.setTextAlignment(alignment);
-        cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
-        cell.setBorderTopLeftRadius(new BorderRadius(5));
-        cell.setBorderTopRightRadius(new BorderRadius(5));
-        cell.setBorderBottomLeftRadius(new BorderRadius(5));
-        cell.setBorderBottomRightRadius(new BorderRadius(5));
-        cell.setFontSize(Constantes.fontSize10);
+        cell.setBorder(Border.NO_BORDER);
+        cell.setFontSize(Constantes.fontSize16);
+        cell.setBorderBottom(new SolidBorder(ColorConstants.BLACK,1));
+        cell.setBorderTop(new SolidBorder(ColorConstants.BLACK, 1));
         return cell;
     }
 
@@ -222,8 +219,8 @@ public class ReporteKardexService {
         cell.setTextAlignment(alignment);
         cell.setBorder(Border.NO_BORDER);
         cell.setFontSize(Constantes.fontSize10);
-        cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE, 1));
-        cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
+        cell.setBorderBottom(new SolidBorder(ColorConstants.BLACK,1));
+        cell.setBorderTop(new SolidBorder(ColorConstants.BLACK, 1));
         return cell;
     }
 
@@ -232,8 +229,8 @@ public class ReporteKardexService {
         cell.setTextAlignment(alignment);
         cell.setBorder(Border.NO_BORDER);
         cell.setFontSize(Constantes.fontSize10);
-        cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE, 1));
-        cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
+        cell.setBorderBottom(new SolidBorder(ColorConstants.BLACK,1));
+        cell.setBorderTop(new SolidBorder(ColorConstants.BLACK, 1));
         return cell;
     }
 
@@ -242,8 +239,8 @@ public class ReporteKardexService {
         cell.setTextAlignment(alignment);
         cell.setBorder(Border.NO_BORDER);
         cell.setFontSize(Constantes.fontSize10);
-        cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE, 1));
-        cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
+        cell.setBorderBottom(new SolidBorder(ColorConstants.BLACK,1));
+        cell.setBorderTop(new SolidBorder(ColorConstants.BLACK, 1));
         return cell;
     }
 
