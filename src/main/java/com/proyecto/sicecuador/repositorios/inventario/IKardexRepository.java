@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,5 +24,5 @@ public interface IKardexRepository extends JpaRepository<Kardex, Long>, JpaSpeci
     @Query(value = "delete from kardex k where k.tipo_comprobante_id = :tipoComprobanteId and k.tipo_operacion_id = :tipoOperacionId and k.referencia = :referencia", nativeQuery = true)
     void eliminar(long tipoComprobanteId, long tipoOperacionId, String referencia);
     @Query(value = "select k from Kardex k where k.fecha >= :fechaInicio and k.fecha <= :fechaFinal and k.producto.id = :productoId order by k.codigo asc")
-    List<Kardex> consultarPorFechaInicioYFechaFinalYProducto(String fechaInicio, String fechaFinal, long productoId);
+    List<Kardex> consultarPorFechaInicioYFechaFinalYProducto(Date fechaInicio, Date fechaFinal, long productoId);
 }

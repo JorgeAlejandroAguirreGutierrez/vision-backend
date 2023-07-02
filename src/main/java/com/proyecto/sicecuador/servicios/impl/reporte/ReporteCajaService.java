@@ -16,11 +16,17 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import com.proyecto.sicecuador.Constantes;
 import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.recaudacion.*;
-import com.proyecto.sicecuador.modelos.reporte.ReporteVenta;
-import com.proyecto.sicecuador.modelos.reporte.ReporteVentaLinea;
+import com.proyecto.sicecuador.modelos.inventario.Kardex;
+import com.proyecto.sicecuador.modelos.inventario.Producto;
+import com.proyecto.sicecuador.modelos.recaudacion.Cheque;
+import com.proyecto.sicecuador.modelos.recaudacion.TarjetaCredito;
+import com.proyecto.sicecuador.modelos.recaudacion.TarjetaDebito;
+import com.proyecto.sicecuador.modelos.recaudacion.Transferencia;
+import com.proyecto.sicecuador.modelos.reporte.*;
 import com.proyecto.sicecuador.modelos.usuario.Usuario;
 import com.proyecto.sicecuador.modelos.venta.Factura;
+import com.proyecto.sicecuador.repositorios.inventario.IKardexRepository;
+import com.proyecto.sicecuador.repositorios.inventario.IProductoRepository;
 import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
 import com.proyecto.sicecuador.repositorios.venta.IFacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +43,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReporteVentaService {
-
+public class ReporteCajaService {
     @Autowired
     private IFacturaRepository facturaRepository;
 
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
-    private ReporteVenta obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId) throws ParseException {
+    private ReporteCaja obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId) throws ParseException {
         Date fechaInicioC = new SimpleDateFormat("dd-MM-yyyy").parse(fechaInicio);
         Date fechaFinalC = new SimpleDateFormat("dd-MM-yyyy").parse(fechaFinal);
         List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicioC, fechaFinalC, empresaId);
@@ -56,19 +61,19 @@ public class ReporteVentaService {
         if(usuario.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.usuario);
         }
+        ReporteCaja reporteCaja = new ReporteCaja();
+        reporteCaja.setRazonSocial(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+        reporteCaja.setNombreComercial(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+        reporteCaja.setNombreReporte(Constantes.nombreReporteVenta);
+        reporteCaja.setFechaInicio(fechaInicio);
+        reporteCaja.setFechaFinal(fechaFinal);
         //DATOS GENERALES
-        ReporteVenta reporteVenta = new ReporteVenta();
-        reporteVenta.setRazonSocial(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
-        reporteVenta.setNombreComercial(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
-        reporteVenta.setNombreReporte(Constantes.nombreReporteVenta);
-        reporteVenta.setFechaInicio(fechaInicio);
-        reporteVenta.setFechaFinal(fechaFinal);
         DateFormat formatoFechaYHora = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-        reporteVenta.setFecha(formatoFechaYHora.format(new Date()));
-        reporteVenta.setPeriodoDelReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
-        reporteVenta.setUsuario(usuario.get().getApodo());
-        reporteVenta.setPerfil(usuario.get().getPerfil().getDescripcion());
-        List<ReporteVentaLinea> reporteVentaLineas = new ArrayList();
+        reporteCaja.setFecha(formatoFechaYHora.format(new Date()));
+        reporteCaja.setPeriodoDelReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
+        reporteCaja.setUsuario(usuario.get().getApodo());
+        reporteCaja.setPerfil(usuario.get().getPerfil().getDescripcion());
+        //COMPROBANTES EMITIDOS
         double total0 = Constantes.cero;
         double total12 = Constantes.cero;
         double totalIva = Constantes.cero;

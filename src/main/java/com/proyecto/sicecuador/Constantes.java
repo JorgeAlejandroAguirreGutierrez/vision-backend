@@ -569,5 +569,6 @@ public class Constantes {
     public static final float fontSize16 = 16;
     public static final float fontSize30 = 30;
     public static final String nombreReporteVenta = "DETALLE DE VENTAS";
+    public static final String nombreReporteKardex = "KARDEX DE MERCADERIAS";
     
 }

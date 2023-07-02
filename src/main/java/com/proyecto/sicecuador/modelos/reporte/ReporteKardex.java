@@ -30,4 +30,11 @@ public class ReporteKardex {
     private String tarifaProducto;
     //TARJETA KARDEX
     private List<ReporteKardexLinea> reporteKardexLineas;
+    //FIRMAS DE RESPONSABILIDAD
+    private String nombreRepresentanteLegal;
+    private String cargoRepresentanteLegal;
+    private String empresaRepresentanteLegal;
+    private String nombreUsuario;
+    private String cargoUsuario;
+    private String empresaUsuario;
 }
