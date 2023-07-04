@@ -46,8 +46,8 @@ public class ReporteVentaService {
     private IUsuarioRepository usuarioRepository;
 
     private ReporteVenta obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId) throws ParseException {
-        Date fechaInicioC = new SimpleDateFormat("dd-MM-yyyy").parse(fechaInicio);
-        Date fechaFinalC = new SimpleDateFormat("dd-MM-yyyy").parse(fechaFinal);
+        Date fechaInicioC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaInicio);
+        Date fechaFinalC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaFinal);
         List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicioC, fechaFinalC, empresaId);
         Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.activo);
         if(facturas.isEmpty()) {
@@ -63,7 +63,8 @@ public class ReporteVentaService {
         reporteVenta.setNombreReporte(Constantes.nombreReporteVenta);
         reporteVenta.setFechaInicio(fechaInicio);
         reporteVenta.setFechaFinal(fechaFinal);
-        reporteVenta.setFecha(new Date().toString());
+        DateFormat formatoFechaYHora = new SimpleDateFormat(Constantes.fechaYHora);
+        reporteVenta.setFecha(formatoFechaYHora.format(new Date()));
         reporteVenta.setPeriodoDelReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
         reporteVenta.setUsuario(usuario.get().getApodo());
         reporteVenta.setPerfil(usuario.get().getPerfil().getDescripcion());
@@ -80,8 +81,8 @@ public class ReporteVentaService {
         double totalTarjetaDebito = Constantes.cero;
         double totalTransferencia = Constantes.cero;
         double totalCredito = Constantes.cero;
-        DateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
-        DateFormat formatoHora = new SimpleDateFormat("hh:mm:ss");
+        DateFormat formatoFecha = new SimpleDateFormat(Constantes.fechaCorta);
+        DateFormat formatoHora = new SimpleDateFormat(Constantes.hora);
         for(Factura factura: facturas){
             ReporteVentaLinea reporteVentaLinea = new ReporteVentaLinea();
             reporteVentaLinea.setFecha(formatoFecha.format(factura.getFecha()));
@@ -449,5 +450,4 @@ public class ReporteVentaService {
         cell.setTextAlignment(TextAlignment.CENTER);
         return cell;
     }
-
 }

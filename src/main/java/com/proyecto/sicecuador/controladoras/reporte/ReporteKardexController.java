@@ -1,6 +1,6 @@
 package com.proyecto.sicecuador.controladoras.reporte;
 
-import com.proyecto.sicecuador.servicios.impl.reporte.ReporteVentaService;
+import com.proyecto.sicecuador.servicios.impl.reporte.ReporteKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -21,11 +21,11 @@ import static com.proyecto.sicecuador.controladoras.Endpoints.pathReporteKardex;
 @RequestMapping(contexto+pathReporteKardex)
 public class ReporteKardexController {
     @Autowired
-    private ReporteVentaService servicio;
+    private ReporteKardexService servicio;
 
-    @GetMapping(value = "/pdf/{apodo}/{fechaInicio}/{fechaFin}/{empresaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> pdf(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFin") String fechaFin, @PathVariable("empresaId") long empresaId) throws ParseException {
-        ByteArrayInputStream pdf = servicio.pdf(apodo, fechaInicio, fechaFin, empresaId);
+    @GetMapping(value = "/pdf/{apodo}/{fechaInicio}/{fechaFinal}/{productoId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> pdf(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFinal") String fechaFinal, @PathVariable("productoId") long productoId) throws ParseException {
+        ByteArrayInputStream pdf = servicio.pdf(apodo, fechaInicio, fechaFinal, productoId);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=ReporteVenta.pdf");
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)

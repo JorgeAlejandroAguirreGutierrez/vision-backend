@@ -110,5 +110,6 @@ public class Endpoints {
     //REPORTE
     public static final String pathReporteVenta="reporteVenta";
     public static final String pathReporteKardex="reporteKardex";
+    public static final String pathReporteCaja="reporteCaja";
 
 }
