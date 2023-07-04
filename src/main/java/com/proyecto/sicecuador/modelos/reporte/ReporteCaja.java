@@ -78,6 +78,8 @@ public class ReporteCaja {
     private String totalMoneda001;
     private String totalMonedas;
 
+    private String totalCaja;
+
     //DIFERENCIAS
     private String faltante;
     private String sobrante;

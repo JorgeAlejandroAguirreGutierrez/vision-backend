@@ -570,5 +570,26 @@ public class Constantes {
     public static final float fontSize30 = 30;
     public static final String nombreReporteVenta = "DETALLE DE VENTAS";
     public static final String nombreReporteKardex = "KARDEX DE MERCADERIAS";
+    public static final String nombreReporteCaja = "CIERRE DE CAJA";
+    public static final String fechaCorta = "dd-MM-yyyy";
+    public static final String fechaYHora = "dd-MM-yyyy hh:mm:ss";
+    public static final String hora = "hh:mm:ss";
+    public static final String signoDolar= "$";
+
+    public static final double billete100 = 100.00;
+    public static final double billete50 = 50.00;
+    public static final double billete20 = 20.00;
+    public static final double billete10 = 10.00;
+    public static final double billete5 = 5.00;
+    public static final double billete2 = 2.00;
+    public static final double billete1 = 1.00;
+
+    public static final double moneda1 = 1.00;
+    public static final double moneda050 = 0.50;
+    public static final double moneda025 = 0.25;
+    public static final double moneda010 = 0.10;
+    public static final double moneda005 = 0.05;
+    public static final double moneda001 = 0.01;
+
     
 }

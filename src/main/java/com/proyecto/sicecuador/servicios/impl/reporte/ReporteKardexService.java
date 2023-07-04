@@ -50,8 +50,8 @@ public class ReporteKardexService {
     private IUsuarioRepository usuarioRepository;
 
     public ReporteKardex obtener(String apodo, String fechaInicio, String fechaFinal, long productoId) throws ParseException {
-        Date fechaInicioC = new SimpleDateFormat("dd-MM-yyyy").parse(fechaInicio);
-        Date fechaFinalC = new SimpleDateFormat("dd-MM-yyyy").parse(fechaFinal);
+        Date fechaInicioC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaInicio);
+        Date fechaFinalC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaFinal);
         Optional<Producto> producto = productoRepository.findById(productoId);
         List<Kardex> kardexs = kardexRepository.consultarPorFechaInicioYFechaFinalYProducto(fechaInicioC, fechaFinalC, productoId);
         Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.activo);
@@ -71,7 +71,7 @@ public class ReporteKardexService {
         reporteKardex.setNombreReporte(Constantes.nombreReporteKardex);
         reporteKardex.setFechaInicio(fechaInicio);
         reporteKardex.setFechaFinal(fechaFinal);
-        DateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        DateFormat formatoFecha = new SimpleDateFormat(Constantes.fechaYHora);
         reporteKardex.setFecha(formatoFecha.format(new Date()));
         reporteKardex.setPeriodoDelReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
         reporteKardex.setUsuario(usuario.get().getApodo());
