@@ -15,7 +15,7 @@ public class ReporteKardex {
     private String fechaInicio;
     private String fechaFinal;
     private String fecha;
-    private String periodoDelReporte;
+    private String periodoReporte;
     private String usuario;
     private String perfil;
     //PRODUCTO

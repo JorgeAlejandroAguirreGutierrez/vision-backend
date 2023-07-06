@@ -73,7 +73,7 @@ public class ReporteKardexService {
         reporteKardex.setFechaFinal(fechaFinal);
         DateFormat formatoFecha = new SimpleDateFormat(Constantes.fechaYHora);
         reporteKardex.setFecha(formatoFecha.format(new Date()));
-        reporteKardex.setPeriodoDelReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
+        reporteKardex.setPeriodoReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
         reporteKardex.setUsuario(usuario.get().getApodo());
         reporteKardex.setPerfil(usuario.get().getPerfil().getDescripcion());
         //PRODUCTO
@@ -136,7 +136,7 @@ public class ReporteKardexService {
             Table tablaDatoGeneral = new Table(columnasDatoGeneral);
             tablaDatoGeneral.addCell(getCellDatoGeneral(
                     "FECHA DE REPORTE: " + reporteKardex.getFecha() + "\n" +
-                    "PERIODO DEL REPORTE: " + reporteKardex.getPeriodoDelReporte() + "\n" +
+                    "PERIODO DEL REPORTE: " + reporteKardex.getPeriodoReporte() + "\n" +
                     "USUARIO: " + reporteKardex.getUsuario() + "\n" +
                     "CARGO: " + reporteKardex.getPerfil(), TextAlignment.LEFT));
             documento.add(tablaDatoGeneral);

@@ -1,9 +1,13 @@
 package com.proyecto.sicecuador.controladoras.reporte;
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.reporte.ReporteVenta;
 import com.proyecto.sicecuador.servicios.impl.reporte.ReporteVentaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +30,12 @@ public class ReporteVentaController {
         headers.add("Content-Disposition", "inline; filename=ReporteVenta.pdf");
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(pdf));
+    }
+
+    @GetMapping(value = "/obtener/{apodo}/{fechaInicio}/{fechaFin}/{empresaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFin") String fechaFin, @PathVariable("empresaId") long empresaId) throws ParseException {
+        ReporteVenta reporteVenta = servicio.obtener(apodo, fechaInicio, fechaFin, empresaId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_obtener_exitoso, reporteVenta);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

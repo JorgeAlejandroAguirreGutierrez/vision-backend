@@ -13,7 +13,7 @@ public class ReporteCaja {
     private String fechaFinal;
     //DATOS GENERALES
     private String fecha;
-    private String periodoDelReporte;
+    private String periodoReporte;
     private String usuario;
     private String perfil;
     //COMPROBANTES EMITIDOS

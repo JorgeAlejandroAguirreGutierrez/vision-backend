@@ -1,9 +1,13 @@
 package com.proyecto.sicecuador.controladoras.reporte;
 
+import com.proyecto.sicecuador.Constantes;
+import com.proyecto.sicecuador.modelos.Respuesta;
+import com.proyecto.sicecuador.modelos.reporte.ReporteCaja;
 import com.proyecto.sicecuador.servicios.impl.reporte.ReporteCajaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,5 +40,18 @@ public class ReporteCajaController {
         headers.add("Content-Disposition", "inline; filename=ReporteVenta.pdf");
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(pdf));
+    }
+
+    @GetMapping(value = "/obtener/{apodo}/{fechaInicio}/{fechaFinal}/{empresaId}/" +
+            "{billete100}/{billete50}/{billete20}/{billete10}/{billete5}/{billete2}/{billete1}/" +
+            "{moneda1}/{moneda050}/{moneda025}/{moneda010}/{moneda005}/{moneda001}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFinal") String fechaFinal, @PathVariable("empresaId") long empresaId,
+                                 @PathVariable("billete100") double billete100, @PathVariable("billete50") double billete50, @PathVariable("billete20") double billete20, @PathVariable("billete10") double billete10, @PathVariable("billete5") double billete5, @PathVariable("billete2") double billete2, @PathVariable("billete1") double billete1,
+                                 @PathVariable("moneda1") double moneda1, @PathVariable("moneda050") double moneda050, @PathVariable("moneda025") double moneda025, @PathVariable("moneda010") double moneda010, @PathVariable("moneda005") double moneda005, @PathVariable("moneda001") double moneda001) throws ParseException {
+        ReporteCaja reporteCaja = servicio.obtener(apodo, fechaInicio, fechaFinal, empresaId,
+                billete100, billete50, billete20, billete10, billete5, billete2, billete1,
+                moneda1, moneda050, moneda025, moneda010, moneda005, moneda001);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_obtener_exitoso, reporteCaja);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

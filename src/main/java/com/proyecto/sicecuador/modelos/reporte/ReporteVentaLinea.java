@@ -22,5 +22,4 @@ public class ReporteVentaLinea {
     private String subtotal12;
     private String iva;
     private String total;
-
 }
