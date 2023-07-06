@@ -42,7 +42,7 @@ public class ReporteCajaService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
-    private ReporteCaja obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId,
+    public ReporteCaja obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId,
                                 double billete100, double billete50, double billete20, double billete10, double billete5, double billete2, double billete1,
                                 double moneda1, double moneda050, double moneda025, double moneda010, double moneda005, double moneda001) throws ParseException {
         Date fechaInicioC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaInicio);
@@ -64,7 +64,7 @@ public class ReporteCajaService {
         //DATOS GENERALES
         DateFormat formatoFechaYHora = new SimpleDateFormat(Constantes.fechaYHora);
         reporteCaja.setFecha(formatoFechaYHora.format(new Date()));
-        reporteCaja.setPeriodoDelReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
+        reporteCaja.setPeriodoReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
         reporteCaja.setUsuario(usuario.get().getApodo());
         reporteCaja.setPerfil(usuario.get().getPerfil().getDescripcion());
 
@@ -245,7 +245,7 @@ public class ReporteCajaService {
             float[] columnasDatoGeneral = {600F};
             Table tablaDatoGeneral = new Table(columnasDatoGeneral);
             tablaDatoGeneral.addCell(getCellSinBorde("DATOS GENERALES"));
-            tablaDatoGeneral.addCell(getCellDatoGeneral("PERIODO DEL REPORTE: " + reporteCaja.getPeriodoDelReporte()));
+            tablaDatoGeneral.addCell(getCellDatoGeneral("PERIODO DEL REPORTE: " + reporteCaja.getPeriodoReporte()));
             tablaDatoGeneral.addCell(getCellDatoGeneral("USUARIO: " + reporteCaja.getUsuario()));
             tablaDatoGeneral.addCell(getCellDatoGeneral("CARGO: " + reporteCaja.getPerfil()));
 

@@ -45,7 +45,7 @@ public class ReporteVentaService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
-    private ReporteVenta obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId) throws ParseException {
+    public ReporteVenta obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId) throws ParseException {
         Date fechaInicioC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaInicio);
         Date fechaFinalC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaFinal);
         List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicioC, fechaFinalC, empresaId);
@@ -65,7 +65,7 @@ public class ReporteVentaService {
         reporteVenta.setFechaFinal(fechaFinal);
         DateFormat formatoFechaYHora = new SimpleDateFormat(Constantes.fechaYHora);
         reporteVenta.setFecha(formatoFechaYHora.format(new Date()));
-        reporteVenta.setPeriodoDelReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
+        reporteVenta.setPeriodoReporte(fechaInicio + Constantes.espacio + "A" + Constantes.espacio + fechaFinal);
         reporteVenta.setUsuario(usuario.get().getApodo());
         reporteVenta.setPerfil(usuario.get().getPerfil().getDescripcion());
         List<ReporteVentaLinea> reporteVentaLineas = new ArrayList();
@@ -214,7 +214,7 @@ public class ReporteVentaService {
             float[] columnasDatoGeneral = {600F};
             Table tablaDatoGeneral = new Table(columnasDatoGeneral);
             tablaDatoGeneral.addCell(getCellDatoGeneral("FECHA DE REPORTE: " + reporteVenta.getFecha() + "\n" +
-                    "PERIODO DEL REPORTE: " + reporteVenta.getPeriodoDelReporte() + "\n" +
+                    "PERIODO DEL REPORTE: " + reporteVenta.getPeriodoReporte() + "\n" +
                     "USUARIO: " + reporteVenta.getUsuario() + "\n" +
                     "CARGO: " + reporteVenta.getPerfil(), TextAlignment.LEFT));
             documento.add(tablaDatoGeneral);

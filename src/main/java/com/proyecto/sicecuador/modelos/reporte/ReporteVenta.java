@@ -16,7 +16,7 @@ public class ReporteVenta {
     private String fechaInicio;
     private String fechaFinal;
     private String fecha;
-    private String periodoDelReporte;
+    private String periodoReporte;
     private String usuario;
     private String perfil;
     //DOCUMENTOS EN EL PERIODO
@@ -45,6 +45,4 @@ public class ReporteVenta {
     private String nombreUsuario;
     private String cargoUsuario;
     private String empresaUsuario;
-
-
 }
