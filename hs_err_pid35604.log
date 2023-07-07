@@ -16,6 +16,6 @@
 
 ---------------  S U M M A R Y ------------
 
-Command Line: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:43223 -javaagent:/home/jorgeaguirre/eclipse/jee-2020-09/eclipse/configuration/org.eclipse.osgi/401/0/.cp/lib/javaagent-shaded.jar -Dfile.encoding=UTF-8 com.proyecto.vision.visionApplication
+Command Line: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:43223 -javaagent:/home/jorgeaguirre/eclipse/jee-2020-09/eclipse/configuration/org.eclipse.osgi/401/0/.cp/lib/javaagent-shaded.jar -Dfile.encoding=UTF-8 com.proyecto.vision.VisionApplication
 
 Host: Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz, 4 cores, 7G, 

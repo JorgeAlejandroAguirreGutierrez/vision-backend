@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class visionApplication {
+public class VisionApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(visionApplication.class, args);
+		SpringApplication.run(VisionApplication.class, args);
 	}
 }
