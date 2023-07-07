@@ -27,6 +27,13 @@ public class ReporteKardexController {
     @Autowired
     private ReporteKardexService servicio;
 
+    @GetMapping(value = "/obtener/{apodo}/{fechaInicio}/{fechaFinal}/{productoId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFinal") String fechaFinal, @PathVariable("productoId") long productoId) throws ParseException {
+        ReporteKardex reporteKardex = servicio.obtener(apodo, fechaInicio, fechaFinal, productoId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_obtener_exitoso, reporteKardex);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/pdf/{apodo}/{fechaInicio}/{fechaFinal}/{productoId}" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> pdf(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFinal") String fechaFinal, @PathVariable("productoId") long productoId) throws ParseException {
         ByteArrayInputStream pdf = servicio.pdf(apodo, fechaInicio, fechaFinal, productoId);
@@ -34,12 +41,5 @@ public class ReporteKardexController {
         headers.add("Content-Disposition", "inline; filename=ReporteVenta.pdf");
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(pdf));
-    }
-
-    @GetMapping(value = "/obtener/{apodo}/{fechaInicio}/{fechaFinal}/{productoId}" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFinal") String fechaFinal, @PathVariable("productoId") long productoId) throws ParseException {
-        ReporteKardex reporteKardex = servicio.obtener(apodo, fechaInicio, fechaFinal, productoId);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_obtener_exitoso, reporteKardex);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }
