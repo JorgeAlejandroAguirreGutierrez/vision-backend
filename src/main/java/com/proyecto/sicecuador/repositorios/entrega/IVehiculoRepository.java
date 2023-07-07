@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.entrega;
+package com.proyecto.vision.repositorios.entrega;
 
-import com.proyecto.sicecuador.modelos.entrega.Vehiculo;
+import com.proyecto.vision.modelos.entrega.Vehiculo;
 
 import java.util.List;
 

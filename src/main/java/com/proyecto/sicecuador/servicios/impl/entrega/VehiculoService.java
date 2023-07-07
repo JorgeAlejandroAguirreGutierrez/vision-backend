@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.servicios.impl.entrega;
+package com.proyecto.vision.servicios.impl.entrega;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.entrega.Vehiculo;
-import com.proyecto.sicecuador.repositorios.entrega.IVehiculoRepository;
-import com.proyecto.sicecuador.servicios.interf.entrega.IVehiculoService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.entrega.Vehiculo;
+import com.proyecto.vision.repositorios.entrega.IVehiculoRepository;
+import com.proyecto.vision.servicios.interf.entrega.IVehiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

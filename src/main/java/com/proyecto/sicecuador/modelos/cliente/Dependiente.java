@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.modelos.cliente;
+package com.proyecto.vision.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.configuracion.Ubicacion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
-import static com.proyecto.sicecuador.Constantes.tabla_dependiente;
+import static com.proyecto.vision.Constantes.tabla_dependiente;
 
 @Entity
 @Table(name = tabla_dependiente)

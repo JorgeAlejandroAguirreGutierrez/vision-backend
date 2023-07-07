@@ -1,15 +1,15 @@
-package com.proyecto.sicecuador.servicios.impl.cliente;
+package com.proyecto.vision.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.repositorios.cliente.IGrupoClienteRepository;
-import com.proyecto.sicecuador.servicios.interf.cliente.IGrupoClienteService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.modelos.cliente.CalificacionCliente;
+import com.proyecto.vision.modelos.cliente.Cliente;
+import com.proyecto.vision.modelos.cliente.GrupoCliente;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.repositorios.cliente.IGrupoClienteRepository;
+import com.proyecto.vision.servicios.interf.cliente.IGrupoClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

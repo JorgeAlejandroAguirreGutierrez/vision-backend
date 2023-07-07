@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.servicios.interf.compra;
+package com.proyecto.vision.servicios.interf.compra;
 
-import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
-import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.compra.FacturaCompra;
+import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 

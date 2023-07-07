@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.servicios.impl.cliente;
+package com.proyecto.vision.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
-import com.proyecto.sicecuador.repositorios.cliente.ITipoContribuyenteRepository;
-import com.proyecto.sicecuador.servicios.interf.cliente.ITipoContribuyenteService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.cliente.TipoContribuyente;
+import com.proyecto.vision.repositorios.cliente.ITipoContribuyenteRepository;
+import com.proyecto.vision.servicios.interf.cliente.ITipoContribuyenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

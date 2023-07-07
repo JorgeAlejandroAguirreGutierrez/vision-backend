@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.servicios.interf.venta;
+package com.proyecto.vision.servicios.interf.venta;
 
-import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
+import com.proyecto.vision.modelos.entrega.GuiaRemision;
 
 public interface IGuiaRemisionElectronicaService {
 	GuiaRemision enviar(long guiaRemisionId);

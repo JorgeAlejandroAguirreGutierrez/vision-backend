@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.controladoras.venta;
+package com.proyecto.vision.controladoras.venta;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.controladoras.GenericoController;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
-import com.proyecto.sicecuador.modelos.venta.Factura;
-import com.proyecto.sicecuador.modelos.venta.FacturaLinea;
-import com.proyecto.sicecuador.servicios.interf.venta.IFacturaService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.controladoras.GenericoController;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.inventario.Bodega;
+import com.proyecto.vision.modelos.venta.Factura;
+import com.proyecto.vision.modelos.venta.FacturaLinea;
+import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathFactura;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathFactura;
 
 @RestController
 @RequestMapping(contexto+pathFactura)

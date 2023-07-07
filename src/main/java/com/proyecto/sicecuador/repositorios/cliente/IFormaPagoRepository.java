@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.cliente;
+package com.proyecto.vision.repositorios.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.FormaPago;
+import com.proyecto.vision.modelos.cliente.FormaPago;
 
 import java.util.List;
 

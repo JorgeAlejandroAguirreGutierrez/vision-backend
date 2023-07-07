@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.servicios.interf.compra;
+package com.proyecto.vision.servicios.interf.compra;
 
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.Segmento;
-import com.proyecto.sicecuador.modelos.compra.Proveedor;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.cliente.Cliente;
+import com.proyecto.vision.modelos.cliente.Segmento;
+import com.proyecto.vision.modelos.compra.Proveedor;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.datos.configuracion;
+package com.proyecto.vision.datos.configuracion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

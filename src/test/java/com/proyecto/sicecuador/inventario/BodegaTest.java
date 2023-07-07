@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.inventario;
+package com.proyecto.vision.inventario;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathBodega;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathBodega;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;

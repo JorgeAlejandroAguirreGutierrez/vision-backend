@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.repositorios.cliente;
+package com.proyecto.vision.repositorios.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.ClienteBase;
-import com.proyecto.sicecuador.repositorios.IGenericoRepository;
+import com.proyecto.vision.modelos.cliente.ClienteBase;
+import com.proyecto.vision.repositorios.IGenericoRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

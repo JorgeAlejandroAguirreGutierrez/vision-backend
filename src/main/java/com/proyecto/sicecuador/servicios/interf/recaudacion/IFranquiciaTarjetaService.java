@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.servicios.interf.recaudacion;
+package com.proyecto.vision.servicios.interf.recaudacion;
 
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.recaudacion.FranquiciaTarjeta;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 public interface IFranquiciaTarjetaService extends IGenericoService<FranquiciaTarjeta> {
 	void validar(FranquiciaTarjeta franquiciaTarjeta);

@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.repositorios.inventario;
+package com.proyecto.vision.repositorios.inventario;
 
-import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
-import com.proyecto.sicecuador.modelos.inventario.TipoOperacion;
+import com.proyecto.vision.modelos.inventario.TipoGasto;
+import com.proyecto.vision.modelos.inventario.TipoOperacion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

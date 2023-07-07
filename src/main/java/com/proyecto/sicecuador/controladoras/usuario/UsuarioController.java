@@ -1,13 +1,13 @@
-package com.proyecto.sicecuador.controladoras.usuario;
+package com.proyecto.vision.controladoras.usuario;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathUsuario;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathUsuario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.controladoras.GenericoController;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.usuario.Usuario;
-import com.proyecto.sicecuador.servicios.interf.usuario.IUsuarioService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.controladoras.GenericoController;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.usuario.Usuario;
+import com.proyecto.vision.servicios.interf.usuario.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

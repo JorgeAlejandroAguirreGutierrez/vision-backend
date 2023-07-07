@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.configuracion;
+package com.proyecto.vision.repositorios.configuracion;
 
-import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
+import com.proyecto.vision.modelos.configuracion.TipoRetencion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

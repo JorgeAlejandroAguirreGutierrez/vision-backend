@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.servicios.interf.inventario;
+package com.proyecto.vision.servicios.interf.inventario;
 
 import java.util.List;
-import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.inventario.CategoriaProducto;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 public interface ICategoriaProductoService extends IGenericoService<CategoriaProducto> {
 	void validar(CategoriaProducto categoriaProducto);

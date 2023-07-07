@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.datos.inventario;
+package com.proyecto.vision.datos.inventario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
-import com.proyecto.sicecuador.modelos.inventario.Kardex;
-import com.proyecto.sicecuador.modelos.inventario.Producto;
-import com.proyecto.sicecuador.modelos.inventario.TipoOperacion;
-import com.proyecto.sicecuador.repositorios.inventario.IKardexRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.configuracion.TipoComprobante;
+import com.proyecto.vision.modelos.inventario.Bodega;
+import com.proyecto.vision.modelos.inventario.Kardex;
+import com.proyecto.vision.modelos.inventario.Producto;
+import com.proyecto.vision.modelos.inventario.TipoOperacion;
+import com.proyecto.vision.repositorios.inventario.IKardexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

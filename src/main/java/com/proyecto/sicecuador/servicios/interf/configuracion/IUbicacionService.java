@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.servicios.interf.configuracion;
+package com.proyecto.vision.servicios.interf.configuracion;
 
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 

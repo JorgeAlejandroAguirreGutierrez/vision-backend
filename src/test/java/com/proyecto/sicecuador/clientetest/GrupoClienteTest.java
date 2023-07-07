@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.clientetest;
+package com.proyecto.vision.clientetest;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathGrupoCliente;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathGrupoCliente;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.proyecto.sicecuador.servicios.interf.cliente.IGrupoClienteService;
+import com.proyecto.vision.servicios.interf.cliente.IGrupoClienteService;
 
 import static org.hamcrest.Matchers.*;
 

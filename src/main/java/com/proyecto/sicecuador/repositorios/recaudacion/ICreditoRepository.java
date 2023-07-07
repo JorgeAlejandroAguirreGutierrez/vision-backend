@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.recaudacion;
+package com.proyecto.vision.repositorios.recaudacion;
 
-import com.proyecto.sicecuador.modelos.recaudacion.Credito;
+import com.proyecto.vision.modelos.recaudacion.Credito;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

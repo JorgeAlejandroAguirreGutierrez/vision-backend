@@ -1,15 +1,15 @@
-package com.proyecto.sicecuador.controladoras.cliente;
+package com.proyecto.vision.controladoras.cliente;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathCalificacionCliente;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathCalificacionCliente;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.controladoras.GenericoController;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
-import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
-import com.proyecto.sicecuador.modelos.cliente.Segmento;
-import com.proyecto.sicecuador.servicios.interf.cliente.ICalificacionClienteService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.controladoras.GenericoController;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.cajaBanco.CuentaPropia;
+import com.proyecto.vision.modelos.cliente.CalificacionCliente;
+import com.proyecto.vision.modelos.cliente.Segmento;
+import com.proyecto.vision.servicios.interf.cliente.ICalificacionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.modelos.recaudacion;
+package com.proyecto.vision.modelos.recaudacion;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
-import com.proyecto.sicecuador.modelos.venta.Factura;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.cajaBanco.CuentaPropia;
+import com.proyecto.vision.modelos.venta.Factura;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-import static com.proyecto.sicecuador.Constantes.tabla_deposito;
+import static com.proyecto.vision.Constantes.tabla_deposito;
 
 @Entity
 @Table(name = tabla_deposito)

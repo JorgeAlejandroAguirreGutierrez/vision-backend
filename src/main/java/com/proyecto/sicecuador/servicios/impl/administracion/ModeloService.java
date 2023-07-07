@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.servicios.impl.administracion;
+package com.proyecto.vision.servicios.impl.administracion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.administracion.Modelo;
-import com.proyecto.sicecuador.repositorios.administracion.IModeloRepository;
-import com.proyecto.sicecuador.servicios.interf.administracion.IModeloService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.administracion.Modelo;
+import com.proyecto.vision.repositorios.administracion.IModeloRepository;
+import com.proyecto.vision.servicios.interf.administracion.IModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

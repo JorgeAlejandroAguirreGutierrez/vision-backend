@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.venta;
+package com.proyecto.vision.repositorios.venta;
 
-import com.proyecto.sicecuador.modelos.venta.NotaDebitoVenta;
+import com.proyecto.vision.modelos.venta.NotaDebitoVenta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

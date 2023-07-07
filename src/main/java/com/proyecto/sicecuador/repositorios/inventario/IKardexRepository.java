@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.repositorios.inventario;
+package com.proyecto.vision.repositorios.inventario;
 
-import com.proyecto.sicecuador.modelos.inventario.Kardex;
-import com.proyecto.sicecuador.modelos.venta.Factura;
+import com.proyecto.vision.modelos.inventario.Kardex;
+import com.proyecto.vision.modelos.venta.Factura;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

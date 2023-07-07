@@ -1,14 +1,14 @@
-package com.proyecto.sicecuador.datos.compra;
+package com.proyecto.vision.datos.compra;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.FormaPago;
-import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
-import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
-import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.compra.*;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.repositorios.compra.IProveedorRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.cliente.FormaPago;
+import com.proyecto.vision.modelos.cliente.PlazoCredito;
+import com.proyecto.vision.modelos.cliente.TipoContribuyente;
+import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
+import com.proyecto.vision.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.modelos.compra.*;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.repositorios.compra.IProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

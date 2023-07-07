@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.servicios.interf.venta;
+package com.proyecto.vision.servicios.interf.venta;
 
-import com.proyecto.sicecuador.modelos.venta.NotaDebitoVenta;
-import com.proyecto.sicecuador.modelos.venta.NotaDebitoVentaLinea;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.venta.NotaDebitoVenta;
+import com.proyecto.vision.modelos.venta.NotaDebitoVentaLinea;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 

@@ -1,14 +1,14 @@
-package com.proyecto.sicecuador.servicios.impl.cliente;
+package com.proyecto.vision.servicios.impl.cliente;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.cliente.Segmento;
-import com.proyecto.sicecuador.repositorios.cliente.ICalificacionClienteRepository;
-import com.proyecto.sicecuador.servicios.interf.cliente.ICalificacionClienteService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.modelos.cliente.CalificacionCliente;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.cliente.Segmento;
+import com.proyecto.vision.repositorios.cliente.ICalificacionClienteRepository;
+import com.proyecto.vision.servicios.interf.cliente.ICalificacionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

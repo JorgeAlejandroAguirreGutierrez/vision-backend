@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.cliente;
+package com.proyecto.vision.repositorios.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
+import com.proyecto.vision.modelos.cliente.CalificacionCliente;
 
 import java.util.List;
 

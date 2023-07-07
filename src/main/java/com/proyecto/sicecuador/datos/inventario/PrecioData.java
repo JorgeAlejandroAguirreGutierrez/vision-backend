@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.datos.inventario;
+package com.proyecto.vision.datos.inventario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Segmento;
-import com.proyecto.sicecuador.modelos.inventario.*;
-import com.proyecto.sicecuador.repositorios.inventario.IPrecioRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.cliente.Segmento;
+import com.proyecto.vision.modelos.inventario.*;
+import com.proyecto.vision.repositorios.inventario.IPrecioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

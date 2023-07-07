@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.servicios.interf.cliente;
+package com.proyecto.vision.servicios.interf.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Dependiente;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.cliente.Dependiente;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 

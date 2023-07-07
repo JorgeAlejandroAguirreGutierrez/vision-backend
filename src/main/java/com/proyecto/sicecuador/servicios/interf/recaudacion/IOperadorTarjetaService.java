@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.servicios.interf.recaudacion;
+package com.proyecto.vision.servicios.interf.recaudacion;
 
-import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.recaudacion.OperadorTarjeta;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 

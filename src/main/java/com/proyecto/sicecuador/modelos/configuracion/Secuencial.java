@@ -1,16 +1,16 @@
-package com.proyecto.sicecuador.modelos.configuracion;
+package com.proyecto.vision.modelos.configuracion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.modelos.usuario.Estacion;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.modelos.usuario.Estacion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.sicecuador.Constantes.secuencial;
+import static com.proyecto.vision.Constantes.secuencial;
 
 @Entity
 @Table(name = secuencial)

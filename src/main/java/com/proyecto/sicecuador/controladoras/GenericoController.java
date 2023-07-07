@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.controladoras;
+package com.proyecto.vision.controladoras;
 
 import org.springframework.http.ResponseEntity;
 

@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.datos.usuario;
+package com.proyecto.vision.datos.usuario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
-import com.proyecto.sicecuador.modelos.usuario.Estacion;
-import com.proyecto.sicecuador.modelos.configuracion.Regimen;
-import com.proyecto.sicecuador.repositorios.usuario.IEstacionRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.usuario.Establecimiento;
+import com.proyecto.vision.modelos.usuario.Estacion;
+import com.proyecto.vision.modelos.configuracion.Regimen;
+import com.proyecto.vision.repositorios.usuario.IEstacionRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

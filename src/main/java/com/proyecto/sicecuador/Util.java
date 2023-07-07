@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador;
+package com.proyecto.vision;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,8 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
-import com.proyecto.sicecuador.repositorios.configuracion.IMenuOpcionRepository;
+import com.proyecto.vision.modelos.configuracion.MenuOpcion;
+import com.proyecto.vision.repositorios.configuracion.IMenuOpcionRepository;
 
 @Component
 public class Util {

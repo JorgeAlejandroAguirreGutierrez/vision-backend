@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.servicios.interf.cliente;
+package com.proyecto.vision.servicios.interf.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.cliente.CalificacionCliente;
+import com.proyecto.vision.modelos.cliente.Cliente;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 

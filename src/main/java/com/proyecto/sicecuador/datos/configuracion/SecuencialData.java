@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.datos.configuracion;
+package com.proyecto.vision.datos.configuracion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
-import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
-import com.proyecto.sicecuador.modelos.usuario.Estacion;
-import com.proyecto.sicecuador.repositorios.configuracion.ISecuencialRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.configuracion.Secuencial;
+import com.proyecto.vision.modelos.configuracion.TipoComprobante;
+import com.proyecto.vision.modelos.usuario.Estacion;
+import com.proyecto.vision.repositorios.configuracion.ISecuencialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

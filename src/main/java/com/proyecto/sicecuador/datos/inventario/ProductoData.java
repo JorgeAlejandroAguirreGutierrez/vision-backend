@@ -1,11 +1,11 @@
-package com.proyecto.sicecuador.datos.inventario;
+package com.proyecto.vision.datos.inventario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.compra.Proveedor;
-import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
-import com.proyecto.sicecuador.modelos.inventario.*;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.repositorios.inventario.IProductoRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.compra.Proveedor;
+import com.proyecto.vision.modelos.configuracion.Impuesto;
+import com.proyecto.vision.modelos.inventario.*;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.repositorios.inventario.IProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

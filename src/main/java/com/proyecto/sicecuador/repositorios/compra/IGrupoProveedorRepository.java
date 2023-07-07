@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.compra;
+package com.proyecto.vision.repositorios.compra;
 
-import com.proyecto.sicecuador.modelos.compra.GrupoProveedor;
+import com.proyecto.vision.modelos.compra.GrupoProveedor;
 
 import java.util.List;
 

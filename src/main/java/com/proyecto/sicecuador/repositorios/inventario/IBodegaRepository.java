@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.inventario;
+package com.proyecto.vision.repositorios.inventario;
 
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
+import com.proyecto.vision.modelos.inventario.Bodega;
 
 import java.util.List;
 

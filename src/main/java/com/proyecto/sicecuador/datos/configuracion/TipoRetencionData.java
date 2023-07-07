@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.datos.configuracion;
+package com.proyecto.vision.datos.configuracion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
-import com.proyecto.sicecuador.repositorios.configuracion.ITipoRetencionRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.configuracion.TipoRetencion;
+import com.proyecto.vision.repositorios.configuracion.ITipoRetencionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

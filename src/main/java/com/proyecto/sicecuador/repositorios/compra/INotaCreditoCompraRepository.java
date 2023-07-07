@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.compra;
+package com.proyecto.vision.repositorios.compra;
 
-import com.proyecto.sicecuador.modelos.compra.NotaCreditoCompra;
+import com.proyecto.vision.modelos.compra.NotaCreditoCompra;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

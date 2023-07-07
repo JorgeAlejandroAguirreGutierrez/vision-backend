@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.recaudacion;
+package com.proyecto.vision.repositorios.recaudacion;
 
-import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
+import com.proyecto.vision.modelos.recaudacion.OperadorTarjeta;
 
 import java.util.List;
 

@@ -1,11 +1,11 @@
-package com.proyecto.sicecuador.datos.contabilidad;
+package com.proyecto.vision.datos.contabilidad;
 
-import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
-import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.repositorios.contabilidad.IMovimientoContableRepository;
+import com.proyecto.vision.modelos.contabilidad.MovimientoContable;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.contabilidad.AfectacionContable;
+import com.proyecto.vision.modelos.contabilidad.CuentaContable;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.repositorios.contabilidad.IMovimientoContableRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

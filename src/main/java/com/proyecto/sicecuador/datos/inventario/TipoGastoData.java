@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.datos.inventario;
+package com.proyecto.vision.datos.inventario;
 
-import com.proyecto.sicecuador.modelos.inventario.TipoGasto;
-import com.proyecto.sicecuador.repositorios.inventario.ITipoGastoRepository;
+import com.proyecto.vision.modelos.inventario.TipoGasto;
+import com.proyecto.vision.repositorios.inventario.ITipoGastoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

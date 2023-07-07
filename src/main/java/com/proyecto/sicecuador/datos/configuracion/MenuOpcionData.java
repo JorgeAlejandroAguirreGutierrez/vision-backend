@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.datos.configuracion;
+package com.proyecto.vision.datos.configuracion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
-import com.proyecto.sicecuador.repositorios.configuracion.IMenuOpcionRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.configuracion.MenuOpcion;
+import com.proyecto.vision.repositorios.configuracion.IMenuOpcionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

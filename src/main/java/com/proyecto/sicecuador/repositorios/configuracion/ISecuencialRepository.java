@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.configuracion;
+package com.proyecto.vision.repositorios.configuracion;
 
-import com.proyecto.sicecuador.modelos.configuracion.Secuencial;
+import com.proyecto.vision.modelos.configuracion.Secuencial;
 
 import java.util.List;
 import java.util.Optional;

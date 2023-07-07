@@ -1,11 +1,11 @@
-package com.proyecto.sicecuador.modelos.inventario;
+package com.proyecto.vision.modelos.inventario;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.compra.Proveedor;
-import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.compra.Proveedor;
+import com.proyecto.vision.modelos.configuracion.Impuesto;
+import com.proyecto.vision.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
-import static com.proyecto.sicecuador.Constantes.tabla_producto;
+import static com.proyecto.vision.Constantes.tabla_producto;
 
 @Entity
 @Table(name = tabla_producto)

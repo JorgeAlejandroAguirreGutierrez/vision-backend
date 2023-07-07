@@ -1,18 +1,18 @@
-package com.proyecto.sicecuador.modelos.venta;
+package com.proyecto.vision.modelos.venta;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
-import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
-import com.proyecto.sicecuador.modelos.inventario.Precio;
-import com.proyecto.sicecuador.modelos.inventario.Producto;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.inventario.Bodega;
+import com.proyecto.vision.modelos.configuracion.Impuesto;
+import com.proyecto.vision.modelos.inventario.Precio;
+import com.proyecto.vision.modelos.inventario.Producto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import static com.proyecto.sicecuador.Constantes.tabla_nota_debito_venta_linea;
+import static com.proyecto.vision.Constantes.tabla_nota_debito_venta_linea;
 
 @Entity
 @Table(name = tabla_nota_debito_venta_linea)

@@ -1,11 +1,11 @@
-package com.proyecto.sicecuador.controladoras.compra;
+package com.proyecto.vision.controladoras.compra;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.compra.FacturaCompra;
-import com.proyecto.sicecuador.modelos.compra.FacturaCompraLinea;
-import com.proyecto.sicecuador.modelos.compra.GrupoProveedor;
-import com.proyecto.sicecuador.servicios.interf.compra.IFacturaCompraService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.compra.FacturaCompra;
+import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
+import com.proyecto.vision.modelos.compra.GrupoProveedor;
+import com.proyecto.vision.servicios.interf.compra.IFacturaCompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,8 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathFacturaCompra;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathFacturaCompra;
 
 @RestController
 @RequestMapping(contexto+pathFacturaCompra)

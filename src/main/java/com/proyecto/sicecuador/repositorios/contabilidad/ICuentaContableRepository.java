@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.contabilidad;
+package com.proyecto.vision.repositorios.contabilidad;
 
-import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
+import com.proyecto.vision.modelos.contabilidad.CuentaContable;
 
 import java.util.List;
 

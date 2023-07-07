@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.repositorios.cliente;
+package com.proyecto.vision.repositorios.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.repositorios.IGenericoRepository;
+import com.proyecto.vision.modelos.cliente.Cliente;
+import com.proyecto.vision.repositorios.IGenericoRepository;
 
 import java.util.List;
 import java.util.Optional;

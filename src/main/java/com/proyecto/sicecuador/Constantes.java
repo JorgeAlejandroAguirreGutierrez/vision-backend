@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador;
+package com.proyecto.vision;
 
 public class Constantes {
 	

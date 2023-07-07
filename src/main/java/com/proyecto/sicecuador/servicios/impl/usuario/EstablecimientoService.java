@@ -1,15 +1,15 @@
-package com.proyecto.sicecuador.servicios.impl.usuario;
+package com.proyecto.vision.servicios.impl.usuario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.usuario.Establecimiento;
-import com.proyecto.sicecuador.repositorios.configuracion.IUbicacionRepository;
-import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
-import com.proyecto.sicecuador.servicios.interf.usuario.IEstablecimientoService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.modelos.usuario.Establecimiento;
+import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
+import com.proyecto.vision.repositorios.usuario.IEstablecimientoRepository;
+import com.proyecto.vision.servicios.interf.usuario.IEstablecimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

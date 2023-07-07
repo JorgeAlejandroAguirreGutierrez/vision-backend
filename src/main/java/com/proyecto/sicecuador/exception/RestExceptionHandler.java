@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.exception;
+package com.proyecto.vision.exception;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.proyecto.sicecuador.Constantes;
+import com.proyecto.vision.Constantes;
 
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	

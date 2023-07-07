@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.administracion;
+package com.proyecto.vision.repositorios.administracion;
 
-import com.proyecto.sicecuador.modelos.administracion.Modelo;
+import com.proyecto.vision.modelos.administracion.Modelo;
 
 import java.util.List;
 

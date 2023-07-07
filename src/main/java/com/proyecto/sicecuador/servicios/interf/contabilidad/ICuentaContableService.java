@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.servicios.interf.contabilidad;
+package com.proyecto.vision.servicios.interf.contabilidad;
 
-import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.contabilidad.CuentaContable;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 

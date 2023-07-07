@@ -1,13 +1,13 @@
-package com.proyecto.sicecuador.servicios.impl.recaudacion;
+package com.proyecto.vision.servicios.impl.recaudacion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
-import com.proyecto.sicecuador.repositorios.recaudacion.IFranquiciaTarjetaRepository;
-import com.proyecto.sicecuador.servicios.interf.recaudacion.IFranquiciaTarjetaService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.recaudacion.FranquiciaTarjeta;
+import com.proyecto.vision.repositorios.recaudacion.IFranquiciaTarjetaRepository;
+import com.proyecto.vision.servicios.interf.recaudacion.IFranquiciaTarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

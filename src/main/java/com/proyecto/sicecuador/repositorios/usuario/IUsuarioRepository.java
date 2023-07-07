@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.usuario;
+package com.proyecto.vision.repositorios.usuario;
 
-import com.proyecto.sicecuador.modelos.usuario.Usuario;
+import com.proyecto.vision.modelos.usuario.Usuario;
 
 import java.util.List;
 import java.util.Optional;

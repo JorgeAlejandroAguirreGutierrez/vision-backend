@@ -8,7 +8,7 @@
 # Problematic frame:
 # C  [libjimage.so+0x30ad]
 #
-# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /home/jorgeaguirre/Documentos/sic-ecuador-backend/core.35604)
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /home/jorgeaguirre/Documentos/vision-backend/core.35604)
 #
 # If you would like to submit a bug report, please visit:
 #   https://bugs.launchpad.net/ubuntu/+source/openjdk-lts
@@ -16,6 +16,6 @@
 
 ---------------  S U M M A R Y ------------
 
-Command Line: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:43223 -javaagent:/home/jorgeaguirre/eclipse/jee-2020-09/eclipse/configuration/org.eclipse.osgi/401/0/.cp/lib/javaagent-shaded.jar -Dfile.encoding=UTF-8 com.proyecto.sicecuador.SicecuadorApplication
+Command Line: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:43223 -javaagent:/home/jorgeaguirre/eclipse/jee-2020-09/eclipse/configuration/org.eclipse.osgi/401/0/.cp/lib/javaagent-shaded.jar -Dfile.encoding=UTF-8 com.proyecto.vision.visionApplication
 
 Host: Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz, 4 cores, 7G, 

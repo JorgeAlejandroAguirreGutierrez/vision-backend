@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.datos.cliente;
+package com.proyecto.vision.datos.cliente;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.Segmento;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.repositorios.cliente.ISegmentoRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.cliente.Segmento;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.repositorios.cliente.ISegmentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

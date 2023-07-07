@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.datos.cliente;
+package com.proyecto.vision.datos.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Contribuyente;
-import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.repositorios.cliente.IContribuyenteRepository;
+import com.proyecto.vision.modelos.cliente.Contribuyente;
+import com.proyecto.vision.modelos.cliente.TipoContribuyente;
+import com.proyecto.vision.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.repositorios.cliente.IContribuyenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

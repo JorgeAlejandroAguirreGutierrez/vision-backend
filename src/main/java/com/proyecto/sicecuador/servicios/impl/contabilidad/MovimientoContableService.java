@@ -1,14 +1,14 @@
-package com.proyecto.sicecuador.servicios.impl.contabilidad;
+package com.proyecto.vision.servicios.impl.contabilidad;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
-import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
-import com.proyecto.sicecuador.repositorios.contabilidad.IMovimientoContableRepository;
-import com.proyecto.sicecuador.servicios.interf.contabilidad.IMovimientoContableService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.contabilidad.CuentaContable;
+import com.proyecto.vision.modelos.contabilidad.MovimientoContable;
+import com.proyecto.vision.repositorios.contabilidad.IMovimientoContableRepository;
+import com.proyecto.vision.servicios.interf.contabilidad.IMovimientoContableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

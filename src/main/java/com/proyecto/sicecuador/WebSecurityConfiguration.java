@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador;
+package com.proyecto.vision;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception
     {
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/api/sicecuador/**").authenticated()
+                .authorizeRequests().antMatchers("/api/vision/**").authenticated()
                 .and()
                 .httpBasic().and().cors();
     }

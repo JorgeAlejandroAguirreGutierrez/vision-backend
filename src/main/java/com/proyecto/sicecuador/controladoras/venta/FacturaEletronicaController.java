@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.controladoras.venta;
+package com.proyecto.vision.controladoras.venta;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathFacturaElectronica;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathFacturaElectronica;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.venta.Factura;
-import com.proyecto.sicecuador.servicios.interf.venta.IFacturaElectronicaService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.venta.Factura;
+import com.proyecto.vision.servicios.interf.venta.IFacturaElectronicaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;

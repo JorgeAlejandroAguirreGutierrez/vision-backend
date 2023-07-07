@@ -1,13 +1,13 @@
-package com.proyecto.sicecuador.servicios.impl.compra;
+package com.proyecto.vision.servicios.impl.compra;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.compra.GrupoProveedor;
-import com.proyecto.sicecuador.repositorios.compra.IGrupoProveedorRepository;
-import com.proyecto.sicecuador.servicios.interf.compra.IGrupoProveedorService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.compra.GrupoProveedor;
+import com.proyecto.vision.repositorios.compra.IGrupoProveedorRepository;
+import com.proyecto.vision.servicios.interf.compra.IGrupoProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

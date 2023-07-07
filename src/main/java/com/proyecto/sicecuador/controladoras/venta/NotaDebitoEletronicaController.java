@@ -1,17 +1,17 @@
-package com.proyecto.sicecuador.controladoras.venta;
+package com.proyecto.vision.controladoras.venta;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.venta.NotaDebitoVenta;
-import com.proyecto.sicecuador.servicios.interf.venta.INotaDebitoElectronicaService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.venta.NotaDebitoVenta;
+import com.proyecto.vision.servicios.interf.venta.INotaDebitoElectronicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathNotaDebitoElectronica;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathNotaDebitoElectronica;
 
 @RestController
 @RequestMapping(contexto+pathNotaDebitoElectronica)

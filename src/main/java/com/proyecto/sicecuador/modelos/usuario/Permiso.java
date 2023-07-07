@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.modelos.usuario;
+package com.proyecto.vision.modelos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.configuracion.MenuOpcion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 import java.util.Collections;
 
-import static com.proyecto.sicecuador.Constantes.tabla_permiso;
+import static com.proyecto.vision.Constantes.tabla_permiso;
 
 @Entity
 @Table(name = tabla_permiso)

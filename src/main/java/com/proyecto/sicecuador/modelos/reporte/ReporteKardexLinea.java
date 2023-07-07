@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.reporte;
+package com.proyecto.vision.modelos.reporte;
 
 import lombok.Getter;
 import lombok.Setter;

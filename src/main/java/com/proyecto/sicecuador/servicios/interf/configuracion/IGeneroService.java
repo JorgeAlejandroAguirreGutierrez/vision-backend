@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.servicios.interf.configuracion;
+package com.proyecto.vision.servicios.interf.configuracion;
 
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.configuracion.Genero;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.configuracion.Genero;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 public interface IGeneroService extends IGenericoService<Genero> {
 	void validar(Genero genero);

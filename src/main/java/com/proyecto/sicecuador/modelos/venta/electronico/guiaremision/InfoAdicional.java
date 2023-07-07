@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.venta.electronico.guiaremision;
+package com.proyecto.vision.modelos.venta.electronico.guiaremision;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
