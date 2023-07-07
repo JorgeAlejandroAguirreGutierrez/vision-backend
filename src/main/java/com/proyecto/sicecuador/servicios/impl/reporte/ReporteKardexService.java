@@ -107,6 +107,14 @@ public class ReporteKardexService {
             reporteKardexLineas.add(reporteKardexLinea);
         }
         reporteKardex.setReporteKardexLineas(reporteKardexLineas);
+        //FIRMAS DE RESPONSABILIDAD
+        reporteKardex.setNombreRepresentanteLegal(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getRepresentanteLegal());
+        reporteKardex.setCargoRepresentanteLegal(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getCargoRepresentanteLegal());
+        reporteKardex.setEmpresaRepresentanteLegal(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+        reporteKardex.setNombreUsuario(usuario.get().getNombre());
+        reporteKardex.setCargoUsuario(usuario.get().getPerfil().getDescripcion());
+        reporteKardex.setEmpresaUsuario(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+
         return reporteKardex;
     }
 
