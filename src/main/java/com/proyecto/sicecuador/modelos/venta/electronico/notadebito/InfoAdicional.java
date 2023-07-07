@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.venta.electronico.notadebito;
+package com.proyecto.vision.modelos.venta.electronico.notadebito;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

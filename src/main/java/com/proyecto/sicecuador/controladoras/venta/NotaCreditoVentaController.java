@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.controladoras.venta;
+package com.proyecto.vision.controladoras.venta;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
-import com.proyecto.sicecuador.modelos.venta.NotaCreditoVenta;
-import com.proyecto.sicecuador.servicios.interf.venta.INotaCreditoVentaService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.inventario.Bodega;
+import com.proyecto.vision.modelos.venta.NotaCreditoVenta;
+import com.proyecto.vision.servicios.interf.venta.INotaCreditoVentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathNotaCreditoVenta;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathNotaCreditoVenta;
 
 @RestController
 @RequestMapping(contexto+pathNotaCreditoVenta)

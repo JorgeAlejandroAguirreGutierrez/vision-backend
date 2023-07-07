@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.modelos.cliente;
+package com.proyecto.vision.modelos.cliente;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.sicecuador.Constantes.tabla_forma_pago;
+import static com.proyecto.vision.Constantes.tabla_forma_pago;
 
 @Entity
 @Table(name = tabla_forma_pago)

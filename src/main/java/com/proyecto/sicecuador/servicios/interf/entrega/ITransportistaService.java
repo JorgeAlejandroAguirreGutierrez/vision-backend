@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.servicios.interf.entrega;
+package com.proyecto.vision.servicios.interf.entrega;
 
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.entrega.Transportista;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.entrega.Transportista;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 public interface ITransportistaService extends IGenericoService<Transportista> {
 	Transportista activar(Transportista transportista);

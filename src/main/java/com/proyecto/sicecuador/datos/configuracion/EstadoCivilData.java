@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.datos.configuracion;
+package com.proyecto.vision.datos.configuracion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.EstadoCivil;
-import com.proyecto.sicecuador.repositorios.configuracion.IEstadoCivilRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.configuracion.EstadoCivil;
+import com.proyecto.vision.repositorios.configuracion.IEstadoCivilRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

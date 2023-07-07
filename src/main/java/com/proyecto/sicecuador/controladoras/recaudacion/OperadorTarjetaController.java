@@ -1,13 +1,13 @@
-package com.proyecto.sicecuador.controladoras.recaudacion;
+package com.proyecto.vision.controladoras.recaudacion;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathOperadorTarjeta;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathOperadorTarjeta;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.controladoras.GenericoController;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.recaudacion.OperadorTarjeta;
-import com.proyecto.sicecuador.servicios.interf.recaudacion.IOperadorTarjetaService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.controladoras.GenericoController;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.recaudacion.OperadorTarjeta;
+import com.proyecto.vision.servicios.interf.recaudacion.IOperadorTarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

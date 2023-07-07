@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.servicios.impl.cajaBanco;
+package com.proyecto.vision.servicios.impl.cajaBanco;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
-import com.proyecto.sicecuador.repositorios.cajaBanco.IBancoRepository;
-import com.proyecto.sicecuador.servicios.interf.cajaBanco.IBancoService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.modelos.cajaBanco.Banco;
+import com.proyecto.vision.repositorios.cajaBanco.IBancoRepository;
+import com.proyecto.vision.servicios.interf.cajaBanco.IBancoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

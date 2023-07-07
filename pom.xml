@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.proyecto</groupId>
-	<artifactId>sicecuador</artifactId>
+	<artifactId>vision</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sicecuador</name>
+	<name>vision</name>
 	<description>Proyecto Contable Ecuador</description>
 	
 	<repositories>

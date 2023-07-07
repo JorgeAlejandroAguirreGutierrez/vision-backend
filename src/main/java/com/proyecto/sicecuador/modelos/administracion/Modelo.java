@@ -1,14 +1,14 @@
-package com.proyecto.sicecuador.modelos.administracion;
+package com.proyecto.vision.modelos.administracion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.sicecuador.Constantes.tabla_modelo;
+import static com.proyecto.vision.Constantes.tabla_modelo;
 
 @Entity
 @Table(name = tabla_modelo)

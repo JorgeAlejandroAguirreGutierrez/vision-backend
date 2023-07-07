@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.datos.cliente;
+package com.proyecto.vision.datos.cliente;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.FormaPago;
-import com.proyecto.sicecuador.repositorios.cliente.IFormaPagoRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.cliente.FormaPago;
+import com.proyecto.vision.repositorios.cliente.IFormaPagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

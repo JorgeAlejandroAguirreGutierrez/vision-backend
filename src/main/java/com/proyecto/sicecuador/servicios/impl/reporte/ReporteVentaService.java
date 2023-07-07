@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.servicios.impl.reporte;
+package com.proyecto.vision.servicios.impl.reporte;
 
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -14,15 +14,15 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.recaudacion.*;
-import com.proyecto.sicecuador.modelos.reporte.ReporteVenta;
-import com.proyecto.sicecuador.modelos.reporte.ReporteVentaLinea;
-import com.proyecto.sicecuador.modelos.usuario.Usuario;
-import com.proyecto.sicecuador.modelos.venta.Factura;
-import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
-import com.proyecto.sicecuador.repositorios.venta.IFacturaRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.recaudacion.*;
+import com.proyecto.vision.modelos.reporte.ReporteVenta;
+import com.proyecto.vision.modelos.reporte.ReporteVentaLinea;
+import com.proyecto.vision.modelos.usuario.Usuario;
+import com.proyecto.vision.modelos.venta.Factura;
+import com.proyecto.vision.repositorios.usuario.IUsuarioRepository;
+import com.proyecto.vision.repositorios.venta.IFacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

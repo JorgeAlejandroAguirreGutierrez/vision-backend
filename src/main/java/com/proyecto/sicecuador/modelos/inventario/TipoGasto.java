@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.modelos.inventario;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
+package com.proyecto.vision.modelos.inventario;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.sicecuador.Constantes.tabla_tipo_gasto;
+import static com.proyecto.vision.Constantes.tabla_tipo_gasto;
 
 @Entity
 @Table(name = tabla_tipo_gasto)

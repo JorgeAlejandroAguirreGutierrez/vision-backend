@@ -1,14 +1,14 @@
-package com.proyecto.sicecuador.modelos.inventario;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
+package com.proyecto.vision.modelos.inventario;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.sicecuador.Constantes.tabla_medida;
+import static com.proyecto.vision.Constantes.tabla_medida;
 
 @Entity
 @Table(name = tabla_medida)

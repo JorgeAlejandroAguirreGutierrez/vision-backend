@@ -1,14 +1,14 @@
-package com.proyecto.sicecuador.controladoras.contabilidad;
+package com.proyecto.vision.controladoras.contabilidad;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathAfectacionContable;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathAfectacionContable;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.controladoras.GenericoController;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
-import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
-import com.proyecto.sicecuador.servicios.interf.contabilidad.IAfectacionContableService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.controladoras.GenericoController;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.cajaBanco.Banco;
+import com.proyecto.vision.modelos.contabilidad.AfectacionContable;
+import com.proyecto.vision.servicios.interf.contabilidad.IAfectacionContableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

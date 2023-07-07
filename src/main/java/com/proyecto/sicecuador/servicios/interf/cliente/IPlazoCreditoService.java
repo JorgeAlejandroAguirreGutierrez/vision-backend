@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.servicios.interf.cliente;
+package com.proyecto.vision.servicios.interf.cliente;
 
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.cliente.GrupoCliente;
-import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.cliente.GrupoCliente;
+import com.proyecto.vision.modelos.cliente.PlazoCredito;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 public interface IPlazoCreditoService extends IGenericoService<PlazoCredito> {
 	void validar(PlazoCredito plazoCredito);

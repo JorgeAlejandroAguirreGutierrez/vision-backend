@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador;
+package com.proyecto.vision;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

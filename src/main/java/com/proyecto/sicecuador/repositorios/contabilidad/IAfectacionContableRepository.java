@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.contabilidad;
+package com.proyecto.vision.repositorios.contabilidad;
 
-import com.proyecto.sicecuador.modelos.contabilidad.AfectacionContable;
+import com.proyecto.vision.modelos.contabilidad.AfectacionContable;
 
 import java.util.List;
 

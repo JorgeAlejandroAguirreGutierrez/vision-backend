@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.modelos.configuracion;
+package com.proyecto.vision.modelos.configuracion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import static com.proyecto.sicecuador.Constantes.tabla_menu_opcion;
+import static com.proyecto.vision.Constantes.tabla_menu_opcion;
 
 @Entity
 @Table(name = tabla_menu_opcion)

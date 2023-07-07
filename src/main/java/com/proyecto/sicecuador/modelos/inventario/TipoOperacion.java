@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.modelos.inventario;
+package com.proyecto.vision.modelos.inventario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import static com.proyecto.sicecuador.Constantes.tabla_tipo_operacion;
+import static com.proyecto.vision.Constantes.tabla_tipo_operacion;
 
 @Entity
 @Table(name = tabla_tipo_operacion)

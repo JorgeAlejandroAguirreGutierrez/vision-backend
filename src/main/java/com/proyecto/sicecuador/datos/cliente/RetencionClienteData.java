@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.datos.cliente;
+package com.proyecto.vision.datos.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.cliente.RetencionCliente;
-import com.proyecto.sicecuador.modelos.configuracion.TipoRetencion;
-import com.proyecto.sicecuador.repositorios.cliente.IRetencionClienteRepository;
+import com.proyecto.vision.modelos.cliente.Cliente;
+import com.proyecto.vision.modelos.cliente.RetencionCliente;
+import com.proyecto.vision.modelos.configuracion.TipoRetencion;
+import com.proyecto.vision.repositorios.cliente.IRetencionClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

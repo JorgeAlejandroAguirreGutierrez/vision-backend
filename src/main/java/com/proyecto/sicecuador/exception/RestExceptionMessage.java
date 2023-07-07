@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.exception;
+package com.proyecto.vision.exception;
 
 import java.util.Date;
 import java.util.List;

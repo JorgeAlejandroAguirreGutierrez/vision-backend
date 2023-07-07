@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.repositorios.cajaBanco;
+package com.proyecto.vision.repositorios.cajaBanco;
 
-import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
+import com.proyecto.vision.modelos.cajaBanco.CuentaPropia;
 
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
+import com.proyecto.vision.modelos.configuracion.MenuOpcion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

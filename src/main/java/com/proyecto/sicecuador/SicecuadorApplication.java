@@ -1,11 +1,11 @@
-package com.proyecto.sicecuador;
+package com.proyecto.vision;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SicecuadorApplication {
+public class visionApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(SicecuadorApplication.class, args);
+		SpringApplication.run(visionApplication.class, args);
 	}
 }

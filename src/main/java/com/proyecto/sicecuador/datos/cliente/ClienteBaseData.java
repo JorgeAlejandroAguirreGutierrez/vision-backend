@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.datos.cliente;
+package com.proyecto.vision.datos.cliente;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cliente.*;
-import com.proyecto.sicecuador.modelos.configuracion.EstadoCivil;
-import com.proyecto.sicecuador.modelos.configuracion.Genero;
-import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.repositorios.cliente.IClienteBaseRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.cliente.*;
+import com.proyecto.vision.modelos.configuracion.EstadoCivil;
+import com.proyecto.vision.modelos.configuracion.Genero;
+import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
+import com.proyecto.vision.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.repositorios.cliente.IClienteBaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.modelos.cajaBanco;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
+package com.proyecto.vision.modelos.cajaBanco;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.sicecuador.Constantes.tabla_banco;
+import static com.proyecto.vision.Constantes.tabla_banco;
 
 @Entity
 @Table(name = tabla_banco)

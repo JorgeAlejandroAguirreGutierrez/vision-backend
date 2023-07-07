@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.servicios.interf.usuario;
+package com.proyecto.vision.servicios.interf.usuario;
 
-import com.proyecto.sicecuador.modelos.usuario.Sesion;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.usuario.Sesion;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 import java.util.Optional;

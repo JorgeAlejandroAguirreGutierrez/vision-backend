@@ -1,18 +1,18 @@
-package com.proyecto.sicecuador.modelos.venta;
+package com.proyecto.vision.modelos.venta;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
-import com.proyecto.sicecuador.modelos.inventario.*;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.configuracion.Impuesto;
+import com.proyecto.vision.modelos.inventario.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.sicecuador.Constantes.tabla_factura_linea;
+import static com.proyecto.vision.Constantes.tabla_factura_linea;
 
 @Entity
 @Table(name = tabla_factura_linea)

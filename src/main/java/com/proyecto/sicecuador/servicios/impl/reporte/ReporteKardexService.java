@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.servicios.impl.reporte;
+package com.proyecto.vision.servicios.impl.reporte;
 
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -14,16 +14,16 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.inventario.Kardex;
-import com.proyecto.sicecuador.modelos.inventario.Producto;
-import com.proyecto.sicecuador.modelos.reporte.ReporteKardex;
-import com.proyecto.sicecuador.modelos.reporte.ReporteKardexLinea;
-import com.proyecto.sicecuador.modelos.usuario.Usuario;
-import com.proyecto.sicecuador.repositorios.inventario.IKardexRepository;
-import com.proyecto.sicecuador.repositorios.inventario.IProductoRepository;
-import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.inventario.Kardex;
+import com.proyecto.vision.modelos.inventario.Producto;
+import com.proyecto.vision.modelos.reporte.ReporteKardex;
+import com.proyecto.vision.modelos.reporte.ReporteKardexLinea;
+import com.proyecto.vision.modelos.usuario.Usuario;
+import com.proyecto.vision.repositorios.inventario.IKardexRepository;
+import com.proyecto.vision.repositorios.inventario.IProductoRepository;
+import com.proyecto.vision.repositorios.usuario.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

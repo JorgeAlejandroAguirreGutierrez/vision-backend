@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.servicios.interf.compra;
+package com.proyecto.vision.servicios.interf.compra;
 
-import com.proyecto.sicecuador.modelos.compra.NotaDebitoCompra;
-import com.proyecto.sicecuador.modelos.compra.NotaDebitoCompraLinea;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.compra.NotaDebitoCompra;
+import com.proyecto.vision.modelos.compra.NotaDebitoCompraLinea;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 

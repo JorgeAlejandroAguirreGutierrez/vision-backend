@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.controladoras.entrega;
+package com.proyecto.vision.controladoras.entrega;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.entrega.GuiaRemision;
-import com.proyecto.sicecuador.servicios.interf.venta.IGuiaRemisionElectronicaService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.entrega.GuiaRemision;
+import com.proyecto.vision.servicios.interf.venta.IGuiaRemisionElectronicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathGuiaRemisionElectronica;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathGuiaRemisionElectronica;
 
 @RestController
 @RequestMapping(contexto+pathGuiaRemisionElectronica)

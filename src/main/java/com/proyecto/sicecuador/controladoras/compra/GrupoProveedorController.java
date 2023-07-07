@@ -1,11 +1,11 @@
-package com.proyecto.sicecuador.controladoras.compra;
+package com.proyecto.vision.controladoras.compra;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.controladoras.GenericoController;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
-import com.proyecto.sicecuador.modelos.compra.GrupoProveedor;
-import com.proyecto.sicecuador.servicios.interf.compra.IGrupoProveedorService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.controladoras.GenericoController;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.cajaBanco.Banco;
+import com.proyecto.vision.modelos.compra.GrupoProveedor;
+import com.proyecto.vision.servicios.interf.compra.IGrupoProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.*;
+import static com.proyecto.vision.controladoras.Endpoints.*;
 
 @RestController
 @RequestMapping(contexto+pathGrupoProveedor)

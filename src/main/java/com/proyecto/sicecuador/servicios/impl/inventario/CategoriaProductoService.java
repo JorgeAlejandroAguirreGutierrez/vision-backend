@@ -1,14 +1,14 @@
-package com.proyecto.sicecuador.servicios.impl.inventario;
+package com.proyecto.vision.servicios.impl.inventario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.inventario.Bodega;
-import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
-import com.proyecto.sicecuador.repositorios.inventario.ICategoriaProductoRepository;
-import com.proyecto.sicecuador.servicios.interf.inventario.ICategoriaProductoService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.inventario.Bodega;
+import com.proyecto.vision.modelos.inventario.CategoriaProducto;
+import com.proyecto.vision.repositorios.inventario.ICategoriaProductoRepository;
+import com.proyecto.vision.servicios.interf.inventario.ICategoriaProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

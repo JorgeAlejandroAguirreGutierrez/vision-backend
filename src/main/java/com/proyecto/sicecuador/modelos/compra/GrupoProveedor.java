@@ -1,16 +1,16 @@
-package com.proyecto.sicecuador.modelos.compra;
+package com.proyecto.vision.modelos.compra;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
-import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
+import com.proyecto.vision.modelos.contabilidad.CuentaContable;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.sicecuador.Constantes.tabla_grupo_proveedor;
+import static com.proyecto.vision.Constantes.tabla_grupo_proveedor;
 
 @Entity
 @Table(name = tabla_grupo_proveedor)

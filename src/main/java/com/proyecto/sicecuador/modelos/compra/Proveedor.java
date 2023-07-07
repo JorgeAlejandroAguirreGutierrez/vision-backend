@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.modelos.compra;
+package com.proyecto.vision.modelos.compra;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.*;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.cliente.*;
+import com.proyecto.vision.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
+import com.proyecto.vision.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
-import static com.proyecto.sicecuador.Constantes.tabla_proveedor;
+import static com.proyecto.vision.Constantes.tabla_proveedor;
 
 @Entity
 @Table(name = tabla_proveedor)

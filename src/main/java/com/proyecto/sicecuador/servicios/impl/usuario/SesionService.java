@@ -1,15 +1,15 @@
-package com.proyecto.sicecuador.servicios.impl.usuario;
+package com.proyecto.vision.servicios.impl.usuario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.exception.SesionInvalidaException;
-import com.proyecto.sicecuador.modelos.usuario.Sesion;
-import com.proyecto.sicecuador.modelos.usuario.Usuario;
-import com.proyecto.sicecuador.repositorios.usuario.ISesionRepository;
-import com.proyecto.sicecuador.repositorios.usuario.IUsuarioRepository;
-import com.proyecto.sicecuador.servicios.interf.usuario.ISesionService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.exception.SesionInvalidaException;
+import com.proyecto.vision.modelos.usuario.Sesion;
+import com.proyecto.vision.modelos.usuario.Usuario;
+import com.proyecto.vision.repositorios.usuario.ISesionRepository;
+import com.proyecto.vision.repositorios.usuario.IUsuarioRepository;
+import com.proyecto.vision.servicios.interf.usuario.ISesionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

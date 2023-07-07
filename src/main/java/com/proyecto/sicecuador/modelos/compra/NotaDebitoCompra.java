@@ -1,11 +1,11 @@
-package com.proyecto.sicecuador.modelos.compra;
+package com.proyecto.vision.modelos.compra;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.modelos.usuario.Sesion;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.configuracion.TipoComprobante;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static com.proyecto.sicecuador.Constantes.tabla_nota_debito_compra;
+import static com.proyecto.vision.Constantes.tabla_nota_debito_compra;
 
 @Entity
 @Table(name = tabla_nota_debito_compra)

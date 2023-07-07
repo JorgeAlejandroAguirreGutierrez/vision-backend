@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.modelos.cliente;
+package com.proyecto.vision.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.*;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.modelos.usuario.Estacion;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.configuracion.*;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.modelos.usuario.Estacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.proyecto.sicecuador.Constantes.tabla_cliente;
+import static com.proyecto.vision.Constantes.tabla_cliente;
 
 @Entity
 @Table(name = tabla_cliente)

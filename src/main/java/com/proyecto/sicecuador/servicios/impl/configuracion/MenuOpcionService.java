@@ -1,13 +1,13 @@
-package com.proyecto.sicecuador.servicios.impl.configuracion;
+package com.proyecto.vision.servicios.impl.configuracion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.DatoInvalidoException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.configuracion.MenuOpcion;
-import com.proyecto.sicecuador.repositorios.configuracion.IMenuOpcionRepository;
-import com.proyecto.sicecuador.servicios.interf.configuracion.IMenuOpcionService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.configuracion.MenuOpcion;
+import com.proyecto.vision.repositorios.configuracion.IMenuOpcionRepository;
+import com.proyecto.vision.servicios.interf.configuracion.IMenuOpcionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

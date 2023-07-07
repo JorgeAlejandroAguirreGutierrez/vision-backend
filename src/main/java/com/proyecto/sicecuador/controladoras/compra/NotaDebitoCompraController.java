@@ -1,11 +1,11 @@
-package com.proyecto.sicecuador.controladoras.compra;
+package com.proyecto.vision.controladoras.compra;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
-import com.proyecto.sicecuador.modelos.compra.NotaDebitoCompra;
-import com.proyecto.sicecuador.modelos.compra.NotaDebitoCompraLinea;
-import com.proyecto.sicecuador.servicios.interf.compra.INotaDebitoCompraService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.cajaBanco.Banco;
+import com.proyecto.vision.modelos.compra.NotaDebitoCompra;
+import com.proyecto.vision.modelos.compra.NotaDebitoCompraLinea;
+import com.proyecto.vision.servicios.interf.compra.INotaDebitoCompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathNotaDebitoCompra;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathNotaDebitoCompra;
 
 @RestController
 @RequestMapping(contexto+pathNotaDebitoCompra)

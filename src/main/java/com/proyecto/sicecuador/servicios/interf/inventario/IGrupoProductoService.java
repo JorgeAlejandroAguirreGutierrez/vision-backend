@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.servicios.interf.inventario;
+package com.proyecto.vision.servicios.interf.inventario;
 
 import java.util.List;
-import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.inventario.GrupoProducto;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 public interface IGrupoProductoService extends IGenericoService<GrupoProducto> {
 	void validar(GrupoProducto grupoProducto);

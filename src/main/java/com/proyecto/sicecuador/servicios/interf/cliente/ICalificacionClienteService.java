@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.servicios.interf.cliente;
+package com.proyecto.vision.servicios.interf.cliente;
 
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.cliente.CalificacionCliente;
-import com.proyecto.sicecuador.modelos.cliente.Segmento;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.cliente.CalificacionCliente;
+import com.proyecto.vision.modelos.cliente.Segmento;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 public interface ICalificacionClienteService extends IGenericoService<CalificacionCliente> {
 	void validar(CalificacionCliente calificacionCliente);

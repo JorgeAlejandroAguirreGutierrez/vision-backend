@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.datos.usuario;
+package com.proyecto.vision.datos.usuario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.Regimen;
-import com.proyecto.sicecuador.modelos.usuario.*;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
-import com.proyecto.sicecuador.repositorios.usuario.IEstablecimientoRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.configuracion.Regimen;
+import com.proyecto.vision.modelos.usuario.*;
+import com.proyecto.vision.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.repositorios.usuario.IEstablecimientoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -1,13 +1,13 @@
-package com.proyecto.sicecuador.modelos.venta;
+package com.proyecto.vision.modelos.venta;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cliente.Cliente;
-import com.proyecto.sicecuador.modelos.recaudacion.*;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.modelos.usuario.Sesion;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.configuracion.TipoComprobante;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.cliente.Cliente;
+import com.proyecto.vision.modelos.recaudacion.*;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.modelos.usuario.Sesion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static com.proyecto.sicecuador.Constantes.tabla_factura;
+import static com.proyecto.vision.Constantes.tabla_factura;
 
 @Entity
 @Table(name = tabla_factura)

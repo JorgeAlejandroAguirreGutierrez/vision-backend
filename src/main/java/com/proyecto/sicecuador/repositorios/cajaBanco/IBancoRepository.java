@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.cajaBanco;
+package com.proyecto.vision.repositorios.cajaBanco;
 
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
+import com.proyecto.vision.modelos.cajaBanco.Banco;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.servicios.interf.configuracion;
+package com.proyecto.vision.servicios.interf.configuracion;
 
-import com.proyecto.sicecuador.modelos.configuracion.Impuesto;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.configuracion.Impuesto;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.modelos;
+package com.proyecto.vision.modelos;
 
-import com.proyecto.sicecuador.Constantes;
+import com.proyecto.vision.Constantes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

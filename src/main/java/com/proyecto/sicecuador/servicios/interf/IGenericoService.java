@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.servicios.interf;
+package com.proyecto.vision.servicios.interf;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

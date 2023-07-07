@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.datos.cliente;
+package com.proyecto.vision.datos.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.OrigenIngreso;
-import com.proyecto.sicecuador.repositorios.cliente.IOrigenIngresoRepository;
+import com.proyecto.vision.modelos.cliente.OrigenIngreso;
+import com.proyecto.vision.repositorios.cliente.IOrigenIngresoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

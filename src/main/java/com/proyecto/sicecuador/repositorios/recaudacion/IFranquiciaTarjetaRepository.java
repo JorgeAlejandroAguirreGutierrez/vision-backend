@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.recaudacion;
+package com.proyecto.vision.repositorios.recaudacion;
 
-import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
+import com.proyecto.vision.modelos.recaudacion.FranquiciaTarjeta;
 
 import java.util.List;
 

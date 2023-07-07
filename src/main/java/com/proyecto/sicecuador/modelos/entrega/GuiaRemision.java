@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.modelos.entrega;
+package com.proyecto.vision.modelos.entrega;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.venta.Factura;
-import com.proyecto.sicecuador.modelos.usuario.Sesion;
-import com.proyecto.sicecuador.modelos.configuracion.TipoComprobante;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.venta.Factura;
+import com.proyecto.vision.modelos.usuario.Sesion;
+import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-import static com.proyecto.sicecuador.Constantes.tabla_guia_remision;
+import static com.proyecto.vision.Constantes.tabla_guia_remision;
 
 @Entity
 @Table(name = tabla_guia_remision)

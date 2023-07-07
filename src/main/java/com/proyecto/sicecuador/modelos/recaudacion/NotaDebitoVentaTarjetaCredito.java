@@ -1,16 +1,16 @@
-package com.proyecto.sicecuador.modelos.recaudacion;
+package com.proyecto.vision.modelos.recaudacion;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
-import com.proyecto.sicecuador.modelos.venta.NotaDebitoVenta;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.cajaBanco.Banco;
+import com.proyecto.vision.modelos.venta.NotaDebitoVenta;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.sicecuador.Constantes.tabla_nota_debito_venta_tarjeta_credito;
+import static com.proyecto.vision.Constantes.tabla_nota_debito_venta_tarjeta_credito;
 
 @Entity
 @Table(name = tabla_nota_debito_venta_tarjeta_credito)

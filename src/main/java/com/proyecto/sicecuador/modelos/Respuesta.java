@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos;
+package com.proyecto.vision.modelos;
 
 import org.springframework.validation.ObjectError;
 

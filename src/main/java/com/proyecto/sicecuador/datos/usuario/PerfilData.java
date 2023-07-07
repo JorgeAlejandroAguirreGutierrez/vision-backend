@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.datos.usuario;
+package com.proyecto.vision.datos.usuario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.usuario.Perfil;
-import com.proyecto.sicecuador.repositorios.usuario.IPerfilRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.usuario.Perfil;
+import com.proyecto.vision.repositorios.usuario.IPerfilRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

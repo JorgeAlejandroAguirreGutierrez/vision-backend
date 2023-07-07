@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios;
+package com.proyecto.vision.repositorios;
 
-import com.proyecto.sicecuador.modelos.Entidad;
+import com.proyecto.vision.modelos.Entidad;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

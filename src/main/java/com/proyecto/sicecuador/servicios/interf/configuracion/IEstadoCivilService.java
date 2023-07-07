@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.servicios.interf.configuracion;
+package com.proyecto.vision.servicios.interf.configuracion;
 
 import java.util.List;
 
-import com.proyecto.sicecuador.modelos.configuracion.EstadoCivil;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.configuracion.EstadoCivil;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 public interface IEstadoCivilService extends IGenericoService<EstadoCivil> {
 	void validar(EstadoCivil estadoCivil);

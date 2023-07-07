@@ -1,13 +1,13 @@
-package com.proyecto.sicecuador.servicios.impl.usuario;
+package com.proyecto.vision.servicios.impl.usuario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.Util;
-import com.proyecto.sicecuador.exception.CodigoNoExistenteException;
-import com.proyecto.sicecuador.exception.EntidadNoExistenteException;
-import com.proyecto.sicecuador.modelos.usuario.Perfil;
-import com.proyecto.sicecuador.modelos.usuario.Permiso;
-import com.proyecto.sicecuador.repositorios.usuario.IPermisoRepository;
-import com.proyecto.sicecuador.servicios.interf.usuario.IPermisoService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.usuario.Perfil;
+import com.proyecto.vision.modelos.usuario.Permiso;
+import com.proyecto.vision.repositorios.usuario.IPermisoRepository;
+import com.proyecto.vision.servicios.interf.usuario.IPermisoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

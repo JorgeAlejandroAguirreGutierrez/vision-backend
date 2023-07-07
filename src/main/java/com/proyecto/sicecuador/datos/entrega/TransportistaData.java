@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.datos.entrega;
+package com.proyecto.vision.datos.entrega;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
-import com.proyecto.sicecuador.modelos.entrega.Transportista;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.repositorios.entrega.ITransportistaRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
+import com.proyecto.vision.modelos.entrega.Transportista;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.repositorios.entrega.ITransportistaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

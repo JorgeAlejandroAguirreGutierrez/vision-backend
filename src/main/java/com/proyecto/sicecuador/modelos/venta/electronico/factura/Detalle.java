@@ -1,4 +1,4 @@
-package com.proyecto.sicecuador.modelos.venta.electronico.factura;
+package com.proyecto.vision.modelos.venta.electronico.factura;
 
 import lombok.Data;
 import lombok.Getter;

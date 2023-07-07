@@ -1,12 +1,12 @@
-package com.proyecto.sicecuador.controladoras.contabilidad;
+package com.proyecto.vision.controladoras.contabilidad;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.controladoras.GenericoController;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
-import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
-import com.proyecto.sicecuador.modelos.contabilidad.MovimientoContable;
-import com.proyecto.sicecuador.servicios.interf.contabilidad.IMovimientoContableService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.controladoras.GenericoController;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.cajaBanco.Banco;
+import com.proyecto.vision.modelos.contabilidad.CuentaContable;
+import com.proyecto.vision.modelos.contabilidad.MovimientoContable;
+import com.proyecto.vision.servicios.interf.contabilidad.IMovimientoContableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,8 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathMovimientoContable;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathMovimientoContable;
 
 @RestController
 @RequestMapping(contexto+pathMovimientoContable)

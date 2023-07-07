@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.controladoras;
+package com.proyecto.vision.controladoras;
 
 public class Endpoints {
 	
-	public static final String contexto="/api/sicecuador/";
+	public static final String contexto="/api/vision/";
 	
 	//ENDPOINTS
     //ADMINISTRACION

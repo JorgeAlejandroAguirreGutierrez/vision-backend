@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.datos.recaudacion;
+package com.proyecto.vision.datos.recaudacion;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.recaudacion.FranquiciaTarjeta;
-import com.proyecto.sicecuador.repositorios.recaudacion.IFranquiciaTarjetaRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.recaudacion.FranquiciaTarjeta;
+import com.proyecto.vision.repositorios.recaudacion.IFranquiciaTarjetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

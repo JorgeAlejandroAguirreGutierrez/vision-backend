@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.inventario;
+package com.proyecto.vision.repositorios.inventario;
 
-import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
+import com.proyecto.vision.modelos.inventario.CategoriaProducto;
 
 import java.util.List;
 import java.util.Optional;

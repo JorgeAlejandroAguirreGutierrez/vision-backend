@@ -1,11 +1,11 @@
-package com.proyecto.sicecuador.datos.inventario;
+package com.proyecto.vision.datos.inventario;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.contabilidad.CuentaContable;
-import com.proyecto.sicecuador.modelos.inventario.CategoriaProducto;
-import com.proyecto.sicecuador.modelos.inventario.GrupoProducto;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.repositorios.inventario.IGrupoProductoRepository;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.contabilidad.CuentaContable;
+import com.proyecto.vision.modelos.inventario.CategoriaProducto;
+import com.proyecto.vision.modelos.inventario.GrupoProducto;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.repositorios.inventario.IGrupoProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.usuario;
+package com.proyecto.vision.repositorios.usuario;
 
-import com.proyecto.sicecuador.modelos.usuario.Sesion;
+import com.proyecto.vision.modelos.usuario.Sesion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

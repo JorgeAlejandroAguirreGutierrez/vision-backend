@@ -1,9 +1,9 @@
-package com.proyecto.sicecuador.controladoras.reporte;
+package com.proyecto.vision.controladoras.reporte;
 
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Respuesta;
-import com.proyecto.sicecuador.modelos.reporte.ReporteCaja;
-import com.proyecto.sicecuador.servicios.impl.reporte.ReporteCajaService;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.reporte.ReporteCaja;
+import com.proyecto.vision.servicios.impl.reporte.ReporteCajaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.ByteArrayInputStream;
 import java.text.ParseException;
 
-import static com.proyecto.sicecuador.controladoras.Endpoints.contexto;
-import static com.proyecto.sicecuador.controladoras.Endpoints.pathReporteCaja;
+import static com.proyecto.vision.controladoras.Endpoints.contexto;
+import static com.proyecto.vision.controladoras.Endpoints.pathReporteCaja;
 
 @RestController
 @RequestMapping(contexto+pathReporteCaja)

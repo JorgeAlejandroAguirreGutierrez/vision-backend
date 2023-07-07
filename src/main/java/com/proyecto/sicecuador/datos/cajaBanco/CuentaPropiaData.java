@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.datos.cajaBanco;
+package com.proyecto.vision.datos.cajaBanco;
 
-import com.proyecto.sicecuador.modelos.cajaBanco.CuentaPropia;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.cajaBanco.Banco;
-import com.proyecto.sicecuador.modelos.usuario.Empresa;
-import com.proyecto.sicecuador.repositorios.cajaBanco.ICuentaPropiaRepository;
+import com.proyecto.vision.modelos.cajaBanco.CuentaPropia;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.cajaBanco.Banco;
+import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.repositorios.cajaBanco.ICuentaPropiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

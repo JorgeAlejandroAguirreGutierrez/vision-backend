@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.modelos.recaudacion;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
+package com.proyecto.vision.modelos.recaudacion;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import static com.proyecto.sicecuador.Constantes.tabla_franquicia_tarjeta;
+import static com.proyecto.vision.Constantes.tabla_franquicia_tarjeta;
 
 @Entity
 @Table(name = tabla_franquicia_tarjeta)

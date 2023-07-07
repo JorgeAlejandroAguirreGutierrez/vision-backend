@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador;
+package com.proyecto.vision;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SicecuadorApplicationTests {
+class visionApplicationTests {
 
 	@Test
 	void contextLoads() {

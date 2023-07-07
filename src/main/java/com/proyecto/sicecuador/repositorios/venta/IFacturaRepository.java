@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.venta;
+package com.proyecto.vision.repositorios.venta;
 
-import com.proyecto.sicecuador.modelos.venta.Factura;
+import com.proyecto.vision.modelos.venta.Factura;
 
 import java.util.Date;
 import java.util.List;

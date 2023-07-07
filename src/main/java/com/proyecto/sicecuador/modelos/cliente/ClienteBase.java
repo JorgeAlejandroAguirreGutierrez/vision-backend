@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.modelos.cliente;
+package com.proyecto.vision.modelos.cliente;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.*;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.configuracion.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;

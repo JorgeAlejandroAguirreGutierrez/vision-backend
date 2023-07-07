@@ -1,10 +1,10 @@
-package com.proyecto.sicecuador.modelos.usuario;
+package com.proyecto.vision.modelos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.proyecto.sicecuador.Constantes;
-import com.proyecto.sicecuador.modelos.Entidad;
-import com.proyecto.sicecuador.modelos.configuracion.Regimen;
-import com.proyecto.sicecuador.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.Constantes;
+import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.configuracion.Regimen;
+import com.proyecto.vision.modelos.configuracion.Ubicacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
 
-import static com.proyecto.sicecuador.Constantes.tabla_establecimiento;
+import static com.proyecto.vision.Constantes.tabla_establecimiento;
 
 @Entity
 @Table(name = tabla_establecimiento)

@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.configuracion;
+package com.proyecto.vision.repositorios.configuracion;
 
-import com.proyecto.sicecuador.modelos.configuracion.TipoIdentificacion;
+import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

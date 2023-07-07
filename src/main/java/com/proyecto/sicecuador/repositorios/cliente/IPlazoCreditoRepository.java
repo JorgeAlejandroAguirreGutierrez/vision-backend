@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.repositorios.cliente;
+package com.proyecto.vision.repositorios.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.PlazoCredito;
+import com.proyecto.vision.modelos.cliente.PlazoCredito;
 
 import java.util.List;
 

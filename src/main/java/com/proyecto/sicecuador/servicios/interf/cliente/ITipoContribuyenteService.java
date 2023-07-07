@@ -1,7 +1,7 @@
-package com.proyecto.sicecuador.servicios.interf.cliente;
+package com.proyecto.vision.servicios.interf.cliente;
 
-import com.proyecto.sicecuador.modelos.cliente.TipoContribuyente;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.cliente.TipoContribuyente;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 
 public interface ITipoContribuyenteService extends IGenericoService<TipoContribuyente> {
 }

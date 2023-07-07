@@ -1,8 +1,8 @@
-package com.proyecto.sicecuador.servicios.interf.venta;
+package com.proyecto.vision.servicios.interf.venta;
 
-import com.proyecto.sicecuador.modelos.venta.Factura;
-import com.proyecto.sicecuador.modelos.venta.FacturaLinea;
-import com.proyecto.sicecuador.servicios.interf.IGenericoService;
+import com.proyecto.vision.modelos.venta.Factura;
+import com.proyecto.vision.modelos.venta.FacturaLinea;
+import com.proyecto.vision.servicios.interf.IGenericoService;
 import java.util.List;
 
 public interface IFacturaService extends IGenericoService<Factura> {

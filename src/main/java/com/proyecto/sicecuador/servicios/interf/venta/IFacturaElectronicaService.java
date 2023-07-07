@@ -1,6 +1,6 @@
-package com.proyecto.sicecuador.servicios.interf.venta;
+package com.proyecto.vision.servicios.interf.venta;
 
-import com.proyecto.sicecuador.modelos.venta.Factura;
+import com.proyecto.vision.modelos.venta.Factura;
 
 import java.io.ByteArrayInputStream;
 
