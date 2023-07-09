@@ -22,7 +22,7 @@ public interface IFacturaRepository extends JpaRepository<Factura, Long>, JpaSpe
     List<Factura> consultarPorEmpresaYEstado(long empresaId, String estado);
     @Query(value = "select f from Factura f where f.cliente.id = :clienteId and (f.estado = :estadoRecaudada or f.estado = :estadoFacturada) order by f.codigo asc")
     List<Factura> consultarPorCliente(long clienteId, String estadoRecaudada, String estadoFacturada);
-    @Query(value = "select f from Factura f where f.fecha >= :fechaInicio and f.fecha <= :fechaFinal and f.empresa.id = :empresaId order by f.codigo asc")
+    @Query(value = "select f from Factura f where date(f.fecha) between :fechaInicio and :fechaFinal and f.empresa.id = :empresaId order by f.codigo asc")
     List<Factura> consultarPorFechaInicioYFechaFinal(Date fechaInicio, Date fechaFinal, long empresaId);
 
 }
