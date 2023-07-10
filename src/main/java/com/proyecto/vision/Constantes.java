@@ -74,6 +74,7 @@ public class Constantes {
     public static final String vacio="";
     public static final String espacio=" ";
     public static final String guion = "-";
+    public static final String salto = "\n";
     public static final String si = "SI";
     public static final String no = "NO";
     
@@ -532,6 +533,8 @@ public class Constantes {
     public static final String contrasenaCertificadoSri = "mPrimero1981";
     public static final String recibidaSri = "RECIBIDA";
     public static final String autorizadoSri = "AUTORIZADO";
+    public static final String noAutorizadoSri = "NO AUTORIZADO";
+    public static final String devueltaSri = "DEVUELTA";
     
     //ESTADOS FACTURA
     public static final String estadoEmitida="EMITIDA";

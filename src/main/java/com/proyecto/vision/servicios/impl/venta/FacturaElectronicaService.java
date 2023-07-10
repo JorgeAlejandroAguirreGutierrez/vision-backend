@@ -108,7 +108,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
     	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
     	infoFactura.setDireccionComprador(factura.getCliente().getDireccion());
-    	infoFactura.setTotalSinImpuestos(factura.getSubtotalSinDescuento());
+    	infoFactura.setTotalSinImpuestos(Math.round(factura.getSubtotalSinDescuento() * 100.0)/100.0);
     	infoFactura.setTotalDescuento(factura.getDescuentoTotal());
     	infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
     	infoFactura.setPropina(Constantes.cero);
@@ -134,8 +134,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
         	TotalImpuesto totalImpuesto = new TotalImpuesto();
     		totalImpuesto.setCodigo(Constantes.iva_sri);
         	totalImpuesto.setCodigoPorcentaje(factura.getFacturaLineas().get(i).getImpuesto().getCodigoSRI());
-        	totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
-        	totalImpuesto.setBaseImponible(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
+        	totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getValorDescuentoTotalLinea());
+        	totalImpuesto.setBaseImponible(Math.round(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea()*100.0)/100.0);
         	totalImpuesto.setValor(factura.getFacturaLineas().get(i).getImporteIvaLinea());
         	totalImpuestos.add(totalImpuesto);
     	}
@@ -208,8 +208,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     		detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
     		detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
     		detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
-    		detalle.setDescuento(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
-    		detalle.setPrecioTotalSinImpuesto(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
+    		detalle.setDescuento(Math.round(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea()*100.0)/100.0);
+    		detalle.setPrecioTotalSinImpuesto(Math.round(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea()*100.0)/100.0);
     		detalle.setImpuestos(crearImpuestos(factura.getFacturaLineas().get(i)));
     		detalleLista.add(detalle);
     	}
@@ -218,13 +218,13 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     }
     
     private Impuestos crearImpuestos(FacturaLinea facturaLinea) {
-    	Impuestos impuestos=new Impuestos();
+    	Impuestos impuestos = new Impuestos();
     	List<Impuesto> impuestoLista = new ArrayList<>();
     	Impuesto impuesto=new Impuesto();
     	impuesto.setCodigo(Constantes.iva_sri);
     	impuesto.setCodigoPorcentaje(facturaLinea.getImpuesto().getCodigoSRI());
     	impuesto.setTarifa(facturaLinea.getImpuesto().getPorcentaje());
-    	impuesto.setBaseImponible(facturaLinea.getSubtotalConDescuentoLinea());
+    	impuesto.setBaseImponible(Math.round(facturaLinea.getSubtotalConDescuentoLinea()*100.0)/100.0);
     	impuesto.setValor(facturaLinea.getImporteIvaLinea());
     	impuestoLista.add(impuesto);
     	impuestos.setImpuesto(impuestoLista);
@@ -282,10 +282,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		}
 		FacturaElectronica facturaElectronica = crear(factura);
 		if(factura.getEstado().equals(Constantes.estadoRecaudada)) {
-			String estadoRecepcion = recepcion(facturaElectronica);
-			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
-				String estadoAutorizacion = autorizacion(facturaElectronica);
-				if(estadoAutorizacion.equals(Constantes.autorizadoSri)){
+			List<String> estadoRecepcion = recepcion(facturaElectronica);
+			if(estadoRecepcion.get(0).equals(Constantes.recibidaSri)) {
+				List<String> estadoAutorizacion = autorizacion(facturaElectronica);
+				if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
 					factura.setEstado(Constantes.estadoFacturada);
 					factura.setFechaAutorizacion(new Date());
 					enviarCorreo(factura, facturaElectronica);
@@ -293,9 +293,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 					facturada.normalizar();
 					return facturada;
 				}
-				throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
+				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
 			}
-			throw new FacturaElectronicaInvalidaException(estadoRecepcion);
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		} else if(factura.getEstado().equals(Constantes.estadoFacturada)){
 			enviarCorreo(factura, facturaElectronica);
 			factura.normalizar();
@@ -304,7 +304,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		throw new FacturaElectronicaInvalidaException(Constantes.estadoNoRecaudada);
 	}
     
-    private String recepcion(FacturaElectronica facturaElectronica) {
+    private List<String> recepcion(FacturaElectronica facturaElectronica) {
     	try {
     		JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);            
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -339,7 +339,15 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             // print response body
             System.out.println(response.body());
             JSONObject json=Util.convertirXmlJson(response.body());
-            return json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
+			List<String> resultado = new ArrayList<>();
+            String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
+			resultado.add(estado);
+			if(estado.equals(Constantes.devueltaSri)){
+				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante")
+						.getJSONObject("comprobantes").getJSONObject("comprobante").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				resultado.add(informacionAdicional);
+			}
+			return resultado;
         } catch (JAXBException ex) {
             System.err.println(ex.getMessage());                        
         } catch (IOException ex) {
@@ -355,9 +363,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
     }
 
-	public String autorizacion(FacturaElectronica facturaElectronica){
+	public List<String> autorizacion(FacturaElectronica facturaElectronica){
 		try {
-			String body=Util.soapConsultaFacturacionEletronica(facturaElectronica.getInfoTributaria().getClaveAcceso());
+			String body = Util.soapConsultaFacturacionEletronica(facturaElectronica.getInfoTributaria().getClaveAcceso());
 			HttpClient httpClient = HttpClient.newBuilder()
 					.version(HttpClient.Version.HTTP_1_1)
 					.connectTimeout(Duration.ofSeconds(10))
@@ -373,8 +381,21 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			// print response body
 			System.out.println(response.body());
 			JSONObject json=Util.convertirXmlJson(response.body());
-			return json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+			List<String> resultado = new ArrayList<>();
+			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
 					.getJSONObject("autorizaciones").getJSONObject("autorizacion").getString("estado");
+			resultado.add(estado);
+			if(estado.equals(Constantes.noAutorizadoSri)){
+				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+						.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				resultado.add(informacionAdicional);
+			}
+			if(estado.equals(Constantes.devueltaSri)){
+				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+						.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				resultado.add(informacionAdicional);
+			}
+			return resultado;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} catch (InterruptedException e) {

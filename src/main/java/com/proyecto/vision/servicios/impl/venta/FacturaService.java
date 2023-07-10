@@ -348,11 +348,11 @@ public class FacturaService implements IFacturaService {
     }
 
     private void calcularSubtotalSinDescuento(Factura factura) {
-    	double subtotalSinDescuento=0;
+    	double subtotalSinDescuento = Constantes.cero;
         for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
           subtotalSinDescuento+= facturaLinea.getSubtotalSinDescuentoLinea();
         }
-        subtotalSinDescuento=Math.round(subtotalSinDescuento * 10000.0) / 10000.0;
+        subtotalSinDescuento = Math.round(subtotalSinDescuento * 10000.0) / 10000.0;
         factura.setSubtotalSinDescuento(subtotalSinDescuento);
     }
 
