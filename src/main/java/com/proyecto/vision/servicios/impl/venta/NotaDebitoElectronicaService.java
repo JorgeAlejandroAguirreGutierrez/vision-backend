@@ -265,19 +265,19 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		}
 		NotaDebitoElectronica notaDebitoElectronica = crear(notaDebitoVenta);
 		if(notaDebitoVenta.getEstado().equals(Constantes.estadoRecaudada)) {
-			String estadoRecepcion = recepcion(notaDebitoElectronica);
-			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
-				String estadoAutorizacion = autorizacion(notaDebitoElectronica);
-				if(estadoAutorizacion.equals(Constantes.autorizadoSri)){
+			List<String> estadoRecepcion = recepcion(notaDebitoElectronica);
+			if(estadoRecepcion.get(0).equals(Constantes.recibidaSri)) {
+				List<String> estadoAutorizacion = autorizacion(notaDebitoElectronica);
+				if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
 					notaDebitoVenta.setEstado(Constantes.estadoFacturada);
 					enviarCorreo(notaDebitoVenta, notaDebitoElectronica);
 					NotaDebitoVenta facturada = rep.save(notaDebitoVenta);
 					facturada.normalizar();
 					return facturada;
 				}
-				throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
+				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
 			}
-			throw new FacturaElectronicaInvalidaException(estadoRecepcion);
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		} else if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)){
 			enviarCorreo(notaDebitoVenta, notaDebitoElectronica);
 			notaDebitoVenta.normalizar();
@@ -286,7 +286,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		throw new FacturaElectronicaInvalidaException(Constantes.estadoNoRecaudada);
 	}
 
-	private String recepcion(NotaDebitoElectronica notaDebitoElectronica) {
+	private List<String> recepcion(NotaDebitoElectronica notaDebitoElectronica) {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -321,7 +321,15 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			// print response body
 			System.out.println(response.body());
 			JSONObject json=Util.convertirXmlJson(response.body());
-			return json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
+			List<String> resultado = new ArrayList<>();
+			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
+			resultado.add(estado);
+			if(estado.equals(Constantes.devueltaSri)){
+				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante")
+						.getJSONObject("comprobantes").getJSONObject("comprobante").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				resultado.add(informacionAdicional);
+			}
+			return resultado;
 		} catch (JAXBException ex) {
 			System.err.println(ex.getMessage());
 		} catch (IOException ex) {
@@ -337,7 +345,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
 	}
 
-	public String autorizacion(NotaDebitoElectronica notaDebitoElectronica){
+	public List<String> autorizacion(NotaDebitoElectronica notaDebitoElectronica){
 		try {
 			String body=Util.soapConsultaFacturacionEletronica(notaDebitoElectronica.getInfoTributaria().getClaveAcceso());
 			HttpClient httpClient = HttpClient.newBuilder()
@@ -355,8 +363,21 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			// print response body
 			System.out.println(response.body());
 			JSONObject json=Util.convertirXmlJson(response.body());
-			return json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+			List<String> resultado = new ArrayList<>();
+			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
 					.getJSONObject("autorizaciones").getJSONObject("autorizacion").getString("estado");
+			resultado.add(estado);
+			if(estado.equals(Constantes.noAutorizadoSri)){
+				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+						.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				resultado.add(informacionAdicional);
+			}
+			if(estado.equals(Constantes.devueltaSri)){
+				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+						.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				resultado.add(informacionAdicional);
+			}
+			return resultado;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} catch (InterruptedException e) {
