@@ -37,6 +37,8 @@ public class Factura extends Entidad {
 	private Date fecha;
 	@Column(name = "clave_acceso", nullable = true)
 	private String claveAcceso;
+	@Column(name = "fecha_autorizacion", nullable = true)
+	private Date fechaAutorizacion;
 	@Column(name = "estado", nullable = true)
 	private String estado;
 	@Column(name = "subtotal_sin_descuento", nullable = true)
@@ -140,6 +142,7 @@ public class Factura extends Entidad {
 		this.codigoNumerico = Constantes.vacio;
 		this.fecha = new Date();
 		this.claveAcceso = Constantes.vacio;
+		this.fechaAutorizacion = null;
 		this.estado = Constantes.activo;
 		this.subtotalSinDescuento = Constantes.cero;
 		this.subtotalConDescuento = Constantes.cero;
