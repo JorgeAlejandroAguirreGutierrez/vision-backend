@@ -223,6 +223,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			if(estadoRecepcion.get(0).equals(Constantes.recibidaSri)) {
 				List<String> estadoAutorizacion = autorizacion(notaCreditoElectronica);
 				if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+					notaCreditoVenta.setFechaAutorizacion(new Date());
 					notaCreditoVenta.setEstado(Constantes.estadoFacturada);
 					enviarCorreo(notaCreditoVenta, notaCreditoElectronica);
 					NotaCreditoVenta facturada = rep.save(notaCreditoVenta);
@@ -367,18 +368,23 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 					"CONTIRUYENTE ESPECIAL: " + notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
 					"AGENTE RETENCION RESOLUCIÓN: " + notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
-			Barcode128 codigoBarras = new Barcode128(pdf);
-			//Seteo el tipo de codigo
-			codigoBarras.setCodeType(Barcode128.CODE128);
-			//Setep el codigo
-			codigoBarras.setCode(notaCreditoVenta.getClaveAcceso());
-			PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
-			Image imagenCodigoBarras = new Image(objetoCodigoBarras);
+			String numeroAutorizacion = Constantes.vacio;
+			String fechaAutorizacion = Constantes.vacio;
+			Image imagenCodigoBarras = null;
+			if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)){
+				numeroAutorizacion = notaCreditoVenta.getClaveAcceso();
+				fechaAutorizacion = notaCreditoVenta.getFechaAutorizacion().toString();
+				Barcode128 codigoBarras = new Barcode128(pdf);
+				codigoBarras.setCodeType(Barcode128.CODE128);
+				codigoBarras.setCode(notaCreditoVenta.getClaveAcceso());
+				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
+				imagenCodigoBarras = new Image(objetoCodigoBarras);
+			}
 			tabla.addCell(getCellFactura("RUC: "+ notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"FACTURA"+"\n"+
 					"No. " + notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + notaCreditoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + notaCreditoVenta.getSecuencial() + "\n" +
-					"NÚMERO DE AUTORIZACIÓN: " + notaCreditoVenta.getClaveAcceso()+ "\n" +
-					"FECHA DE AUTORIZACIÓN: " + notaCreditoVenta.getFecha().toString() + "\n" +
+					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion+ "\n" +
+					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
 					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
 					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
@@ -490,7 +496,9 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.add(imagenCodigoBarras);
+		if(imagenCodigoBarras != null){
+			cell.add(imagenCodigoBarras);
+		}
 		cell.setTextAlignment(alignment);
 		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));

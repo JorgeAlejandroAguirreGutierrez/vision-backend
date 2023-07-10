@@ -208,7 +208,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     		detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
     		detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
     		detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
-    		detalle.setDescuento(Math.round(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea()*100.0)/100.0);
+    		detalle.setDescuento(Math.round(factura.getFacturaLineas().get(i).getValorDescuentoTotalLinea()*100.0)/100.0);
     		detalle.setPrecioTotalSinImpuesto(Math.round(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea()*100.0)/100.0);
     		detalle.setImpuestos(crearImpuestos(factura.getFacturaLineas().get(i)));
     		detalleLista.add(detalle);
@@ -434,7 +434,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(factura.getFechaAutorizacion() != null){
+			if(factura.getEstado().equals(Constantes.estadoFacturada)){
 				numeroAutorizacion = factura.getClaveAcceso();
 				fechaAutorizacion = factura.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);
