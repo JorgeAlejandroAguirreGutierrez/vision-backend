@@ -64,11 +64,8 @@ import java.text.SimpleDateFormat;
 import java.net.http.HttpResponse;
 import java.security.cert.CertificateException;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Base64;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
 
 @Service
 public class FacturaElectronicaService implements IFacturaElectronicaService{
@@ -290,6 +287,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				String estadoAutorizacion = autorizacion(facturaElectronica);
 				if(estadoAutorizacion.equals(Constantes.autorizadoSri)){
 					factura.setEstado(Constantes.estadoFacturada);
+					factura.setFechaAutorizacion(new Date());
 					enviarCorreo(factura, facturaElectronica);
 					Factura facturada = rep.save(factura);
 					facturada.normalizar();
@@ -412,18 +410,23 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 					"CONTIRUYENTE ESPECIAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
 					"AGENTE RETENCION RESOLUCIÓN: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
-			Barcode128 codigoBarras = new Barcode128(pdf);
-			//Seteo el tipo de codigo
-			codigoBarras.setCodeType(Barcode128.CODE128);
-			//Setep el codigo
-			codigoBarras.setCode(factura.getClaveAcceso());
-			PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
-			Image imagenCodigoBarras = new Image(objetoCodigoBarras);
+			String numeroAutorizacion = Constantes.vacio;
+			String fechaAutorizacion = Constantes.vacio;
+			Image imagenCodigoBarras = null;
+			if(factura.getFechaAutorizacion() != null){
+				numeroAutorizacion = factura.getClaveAcceso();
+				fechaAutorizacion = factura.getFechaAutorizacion().toString();
+				Barcode128 codigoBarras = new Barcode128(pdf);
+				codigoBarras.setCodeType(Barcode128.CODE128);
+				codigoBarras.setCode(factura.getClaveAcceso());
+				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
+				imagenCodigoBarras = new Image(objetoCodigoBarras);
+			}
 			tabla.addCell(getCellFactura("RUC: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"FACTURA"+"\n"+
 					"No. " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + factura.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + factura.getSecuencial() + "\n" +
-					"NÚMERO DE AUTORIZACIÓN: " + factura.getClaveAcceso()+ "\n" +
-					"FECHA DE AUTORIZACIÓN: " + factura.getFecha().toString() + "\n" +
+					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
+					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
 					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
 					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
