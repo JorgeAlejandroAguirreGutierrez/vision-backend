@@ -579,7 +579,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.add(imagenCodigoBarras);
+		if(imagenCodigoBarras != null){
+			cell.add(imagenCodigoBarras);
+		}
 		cell.setTextAlignment(alignment);
 		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
