@@ -549,8 +549,8 @@ public class Constantes {
     public static final String estadoInternoPorPagar = "POR PAGAR";
     
     //CONSTANTES PARA FACTURA FISICA
-    public static final String facturaFisicaAmbienteValor="PRUEBAS";
-    public static final String facturaFisicaEmisionValor= "NORMAL";
+    public static final String facturaFisicaAmbienteValor = "PRUEBAS";
+    public static final String facturaFisicaEmisionValor = "NORMAL";
     
     //CONSTANTES PARA ENVIO DE CORREO
     public static final String mensajeCorreo=" LE ENVIA FACTURA ELECTRONICA: ";
