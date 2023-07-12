@@ -26,13 +26,13 @@ public class SegmentoData implements ApplicationRunner {
         Optional<Segmento> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Segmento> segmentos = new ArrayList<>();
-            segmentos.add(new Segmento("SEG012301000001", 6, "CLIENTE FINAL", "CF", Constantes.activo, new Empresa(1)));
-            segmentos.add(new Segmento("SEG012301000002", 2, "MAYORISTA" ,"MAY", Constantes.activo, new Empresa(1)));
-            segmentos.add(new Segmento("SEG012301000003", 3, "DISTRIBUIDOR", "DIST", Constantes.activo, new Empresa(1)));
-            segmentos.add(new Segmento("SEG012301000004", 10, "TARJETA DE CREDITO", "TCR", Constantes.activo, new Empresa(1)));
+            segmentos.add(new Segmento("SEG012301000001", 6, "CLIENTE FINAL", "CF", Constantes.estadoActivo, new Empresa(1)));
+            segmentos.add(new Segmento("SEG012301000002", 2, "MAYORISTA" ,"MAY", Constantes.estadoActivo, new Empresa(1)));
+            segmentos.add(new Segmento("SEG012301000003", 3, "DISTRIBUIDOR", "DIST", Constantes.estadoActivo, new Empresa(1)));
+            segmentos.add(new Segmento("SEG012301000004", 10, "TARJETA DE CREDITO", "TCR", Constantes.estadoActivo, new Empresa(1)));
 
-            segmentos.add(new Segmento("SEG022305000001", 6, "CLIENTE FINAL", "CF", Constantes.activo, new Empresa(2)));
-            segmentos.add(new Segmento("SEG022305000002", 2, "MAYORISTA" ,"MAY", Constantes.activo, new Empresa(2)));
+            segmentos.add(new Segmento("SEG022305000001", 6, "CLIENTE FINAL", "CF", Constantes.estadoActivo, new Empresa(2)));
+            segmentos.add(new Segmento("SEG022305000002", 2, "MAYORISTA" ,"MAY", Constantes.estadoActivo, new Empresa(2)));
             rep.saveAll(segmentos);
         }
     }

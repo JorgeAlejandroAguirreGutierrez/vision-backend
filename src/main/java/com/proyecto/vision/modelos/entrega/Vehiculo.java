@@ -58,6 +58,6 @@ public class Vehiculo extends Entidad {
         this.clase = Constantes.vacio;
         this.color = Constantes.vacio;
         this.fabricacion = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

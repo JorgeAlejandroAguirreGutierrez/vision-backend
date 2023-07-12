@@ -38,7 +38,7 @@ public class Permiso extends Entidad {
     public Permiso(){
         super();
         this.codigo = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
         this.menuOpcion = new MenuOpcion();
     }
 }

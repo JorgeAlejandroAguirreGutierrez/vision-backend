@@ -71,7 +71,7 @@ public class Usuario extends Entidad {
         this.cambiarContrasena = Constantes.no;
         this.pregunta = Constantes.vacio;
         this.respuesta = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
     public void normalizar(){
         if(this.estacion == null) this.estacion = new Estacion();

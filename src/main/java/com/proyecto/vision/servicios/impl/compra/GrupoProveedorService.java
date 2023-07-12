@@ -35,7 +35,7 @@ public class GrupoProveedorService implements IGrupoProveedorService {
     		throw new CodigoNoExistenteException();
     	}
         grupoProveedor.setCodigo(codigo.get());
-        grupoProveedor.setEstado(Constantes.activo);
+        grupoProveedor.setEstado(Constantes.estadoActivo);
     	GrupoProveedor res = rep.save(grupoProveedor);
         res.normalizar();
         return res;
@@ -52,7 +52,7 @@ public class GrupoProveedorService implements IGrupoProveedorService {
     @Override
     public GrupoProveedor activar(GrupoProveedor grupoProveedor) {
         validar(grupoProveedor);
-        grupoProveedor.setEstado(Constantes.activo);
+        grupoProveedor.setEstado(Constantes.estadoActivo);
         GrupoProveedor res = rep.save(grupoProveedor);
         res.normalizar();
         return res;
@@ -61,7 +61,7 @@ public class GrupoProveedorService implements IGrupoProveedorService {
     @Override
     public GrupoProveedor inactivar(GrupoProveedor grupoProveedor) {
         validar(grupoProveedor);
-        grupoProveedor.setEstado(Constantes.inactivo);
+        grupoProveedor.setEstado(Constantes.estadoInactivo);
         GrupoProveedor res = rep.save(grupoProveedor);
         res.normalizar();
         return res;

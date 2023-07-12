@@ -36,7 +36,7 @@ public class BodegaService implements IBodegaService {
     		throw new CodigoNoExistenteException();
     	}
     	bodega.setCodigo(codigo.get());
-    	bodega.setEstado(Constantes.activo);
+    	bodega.setEstado(Constantes.estadoActivo);
     	return rep.save(bodega);
     }
 
@@ -49,14 +49,14 @@ public class BodegaService implements IBodegaService {
     @Override
     public Bodega activar(Bodega bodega) {
         validar(bodega);
-        bodega.setEstado(Constantes.activo);
+        bodega.setEstado(Constantes.estadoActivo);
         return rep.save(bodega);
     }
 
     @Override
     public Bodega inactivar(Bodega bodega) {
         validar(bodega);
-        bodega.setEstado(Constantes.inactivo);
+        bodega.setEstado(Constantes.estadoInactivo);
         return rep.save(bodega);
     }
 

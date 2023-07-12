@@ -26,7 +26,7 @@ public class TransportistaService implements ITransportistaService {
     		throw new CodigoNoExistenteException();
     	}
     	transportista.setCodigo(codigo.get());
-    	transportista.setEstado(Constantes.activo);
+    	transportista.setEstado(Constantes.estadoActivo);
     	return rep.save(transportista);
     }
 
@@ -37,13 +37,13 @@ public class TransportistaService implements ITransportistaService {
 
     @Override
     public Transportista activar(Transportista transportista) {
-        transportista.setEstado(Constantes.activo);
+        transportista.setEstado(Constantes.estadoActivo);
         return rep.save(transportista);
     }
 
     @Override
     public Transportista inactivar(Transportista transportista) {
-        transportista.setEstado(Constantes.inactivo);
+        transportista.setEstado(Constantes.estadoInactivo);
         return rep.save(transportista);
     }
 

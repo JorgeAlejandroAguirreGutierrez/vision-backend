@@ -41,6 +41,6 @@ public class TipoComprobante extends Entidad {
         this.abreviatura = Constantes.vacio;
         this.nombreTabla = Constantes.vacio;
         this.electronica = Constantes.no;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

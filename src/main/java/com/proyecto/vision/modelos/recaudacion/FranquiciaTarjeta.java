@@ -38,6 +38,6 @@ public class FranquiciaTarjeta extends Entidad {
         this.tipo = Constantes.vacio;
         this.nombre = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

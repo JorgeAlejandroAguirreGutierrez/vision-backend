@@ -24,9 +24,9 @@ public class FranquiciaTarjetaData implements ApplicationRunner {
         Optional<FranquiciaTarjeta> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<FranquiciaTarjeta> franquiciaTarjetas = new ArrayList<>();
-            franquiciaTarjetas.add(new FranquiciaTarjeta("FT1", "", "VISA", "V", Constantes.activo));
-            franquiciaTarjetas.add(new FranquiciaTarjeta("FT1", "", "DINERS CLUB", "DC", Constantes.activo));
-            franquiciaTarjetas.add(new FranquiciaTarjeta("FT1", "", "MASTERCARD", "M", Constantes.activo));
+            franquiciaTarjetas.add(new FranquiciaTarjeta("FT1", "", "VISA", "V", Constantes.estadoActivo));
+            franquiciaTarjetas.add(new FranquiciaTarjeta("FT1", "", "DINERS CLUB", "DC", Constantes.estadoActivo));
+            franquiciaTarjetas.add(new FranquiciaTarjeta("FT1", "", "MASTERCARD", "M", Constantes.estadoActivo));
             rep.saveAll(franquiciaTarjetas);
         }
     }

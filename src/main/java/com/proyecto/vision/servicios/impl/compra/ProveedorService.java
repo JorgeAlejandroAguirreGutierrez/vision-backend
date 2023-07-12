@@ -22,8 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +63,7 @@ public class ProveedorService implements IProveedorService {
     @Override
     public Proveedor crear(Proveedor proveedor) {
         validar(proveedor);
-        Optional<Proveedor> buscarProveedor = rep.obtenerPorEmpresaYIdentificacion(proveedor.getEmpresa().getId(), proveedor.getIdentificacion(), Constantes.activo);
+        Optional<Proveedor> buscarProveedor = rep.obtenerPorEmpresaYIdentificacion(proveedor.getEmpresa().getId(), proveedor.getIdentificacion(), Constantes.estadoActivo);
         if(buscarProveedor.isPresent()) {
             throw new EntidadExistenteException(Constantes.proveedor);
         }
@@ -73,13 +71,13 @@ public class ProveedorService implements IProveedorService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(proveedor.getUbicacion().getProvincia(),proveedor.getUbicacion().getCanton(), proveedor.getUbicacion().getParroquia(), Constantes.activo);
+        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(proveedor.getUbicacion().getProvincia(),proveedor.getUbicacion().getCanton(), proveedor.getUbicacion().getParroquia(), Constantes.estadoActivo);
         if(ubicacion.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.ubicacion);
         }
         proveedor.setUbicacion(ubicacion.get());
     	proveedor.setCodigo(codigo.get());
-    	proveedor.setEstado(Constantes.activo);
+    	proveedor.setEstado(Constantes.estadoActivo);
     	Proveedor res = rep.save(proveedor);
         res.normalizar();
         return res;
@@ -88,7 +86,7 @@ public class ProveedorService implements IProveedorService {
     @Override
     public Proveedor actualizar(Proveedor proveedor) {
     	validar(proveedor);
-        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(proveedor.getUbicacion().getProvincia(),proveedor.getUbicacion().getCanton(), proveedor.getUbicacion().getParroquia(), Constantes.activo);
+        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(proveedor.getUbicacion().getProvincia(),proveedor.getUbicacion().getCanton(), proveedor.getUbicacion().getParroquia(), Constantes.estadoActivo);
         if(ubicacion.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.ubicacion);
         }
@@ -101,7 +99,7 @@ public class ProveedorService implements IProveedorService {
     @Override
     public Proveedor activar(Proveedor proveedor) {
         validar(proveedor);
-        proveedor.setEstado(Constantes.activo);
+        proveedor.setEstado(Constantes.estadoActivo);
         Proveedor res = rep.save(proveedor);
         res.normalizar();
         return res;
@@ -110,7 +108,7 @@ public class ProveedorService implements IProveedorService {
     @Override
     public Proveedor inactivar(Proveedor proveedor) {
         validar(proveedor);
-        proveedor.setEstado(Constantes.inactivo);
+        proveedor.setEstado(Constantes.estadoInactivo);
         Proveedor res = rep.save(proveedor);
         res.normalizar();
         return res;
@@ -129,7 +127,7 @@ public class ProveedorService implements IProveedorService {
     @Override
     public Proveedor validarIdentificacionPorEmpresa(long empresaId, String identificacion) {
         if (identificacion!= null) {
-            Optional<Proveedor> res = rep.obtenerPorEmpresaYIdentificacion(empresaId, identificacion, Constantes.activo);
+            Optional<Proveedor> res = rep.obtenerPorEmpresaYIdentificacion(empresaId, identificacion, Constantes.estadoActivo);
             if(res.isPresent()) {
                 throw new EntidadExistenteException(Constantes.cliente);
             }
@@ -230,7 +228,7 @@ public class ProveedorService implements IProveedorService {
 
     @Override
     public Proveedor buscarClienteBase(Proveedor proveedor){
-        Optional<ClienteBase> clienteBase = repClienteBase.obtenerPorIdentificacion(proveedor.getIdentificacion(), Constantes.activo);
+        Optional<ClienteBase> clienteBase = repClienteBase.obtenerPorIdentificacion(proveedor.getIdentificacion(), Constantes.estadoActivo);
         if(clienteBase.isPresent()) {
             proveedor.setRazonSocial(clienteBase.get().getApellidos()+Constantes.espacio+clienteBase.get().getNombres());
             if (clienteBase.get().getDireccion()!=null) {
@@ -310,6 +308,6 @@ public class ProveedorService implements IProveedorService {
 
     @Override
     public List<Proveedor> buscar(Proveedor proveedor) {
-        return  rep.consultarPorRazonSocial(proveedor.getRazonSocial(), Constantes.activo);
+        return  rep.consultarPorRazonSocial(proveedor.getRazonSocial(), Constantes.estadoActivo);
     }
 }

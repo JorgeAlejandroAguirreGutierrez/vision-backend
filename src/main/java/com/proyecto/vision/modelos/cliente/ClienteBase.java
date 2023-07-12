@@ -79,7 +79,7 @@ public class ClienteBase extends Entidad {
         this.telefono = Constantes.vacio;
         this.celular = Constantes.vacio;
         this.correo = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
         this.origen = Constantes.vacio;
         this.prioridad = Constantes.cero;
     }

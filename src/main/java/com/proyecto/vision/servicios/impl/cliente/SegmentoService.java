@@ -39,7 +39,7 @@ public class SegmentoService implements ISegmentoService {
     		throw new CodigoNoExistenteException();
     	}
     	segmento.setCodigo(codigo.get());
-    	segmento.setEstado(Constantes.activo);
+    	segmento.setEstado(Constantes.estadoActivo);
     	return rep.save(segmento);
     }
 
@@ -52,14 +52,14 @@ public class SegmentoService implements ISegmentoService {
     @Override
     public Segmento activar(Segmento segmento) {
         validar(segmento);
-        segmento.setEstado(Constantes.activo);
+        segmento.setEstado(Constantes.estadoActivo);
         return rep.save(segmento);
     }
 
     @Override
     public Segmento inactivar(Segmento segmento) {
         validar(segmento);
-        segmento.setEstado(Constantes.inactivo);
+        segmento.setEstado(Constantes.estadoInactivo);
         return rep.save(segmento);
     }
 

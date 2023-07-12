@@ -37,7 +37,7 @@ public class GrupoClienteService implements IGrupoClienteService {
     		throw new CodigoNoExistenteException();
     	}
     	grupoCliente.setCodigo(codigo.get());
-    	grupoCliente.setEstado(Constantes.activo);
+    	grupoCliente.setEstado(Constantes.estadoActivo);
     	GrupoCliente res = rep.save(grupoCliente);
         res.normalizar();
         return res;
@@ -54,7 +54,7 @@ public class GrupoClienteService implements IGrupoClienteService {
     @Override
     public GrupoCliente activar(GrupoCliente grupoCliente) {
         validar(grupoCliente);
-        grupoCliente.setEstado(Constantes.activo);
+        grupoCliente.setEstado(Constantes.estadoActivo);
         GrupoCliente res = rep.save(grupoCliente);
         res.normalizar();
         return res;
@@ -63,7 +63,7 @@ public class GrupoClienteService implements IGrupoClienteService {
     @Override
     public GrupoCliente inactivar(GrupoCliente grupoCliente) {
         validar(grupoCliente);
-        grupoCliente.setEstado(Constantes.inactivo);
+        grupoCliente.setEstado(Constantes.estadoInactivo);
         GrupoCliente res = rep.save(grupoCliente);
         res.normalizar();
         return res;

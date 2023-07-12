@@ -39,6 +39,6 @@ public class Impuesto extends Entidad {
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
         this.porcentaje = Constantes.cero;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

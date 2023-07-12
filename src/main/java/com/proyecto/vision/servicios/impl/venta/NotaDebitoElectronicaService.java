@@ -24,7 +24,6 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
-import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.NotaDebitoVenta;
 import com.proyecto.vision.modelos.venta.NotaDebitoVentaLinea;
 import com.proyecto.vision.modelos.venta.electronico.notadebito.*;
@@ -257,34 +256,36 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 	public NotaDebitoVenta enviar(long notaDebitoVentaId) {
 		Optional<NotaDebitoVenta> opcional= rep.findById(notaDebitoVentaId);
 		if(opcional.isEmpty()) {
-			throw new EntidadNoExistenteException(Constantes.nota_debito_venta);
+			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		NotaDebitoVenta notaDebitoVenta = opcional.get();
-		if(!notaDebitoVenta.getEstado().equals(Constantes.estadoRecaudada)){
-			throw new EstadoInvalidoException(Constantes.recaudacion);
+		if(notaDebitoVenta.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
+			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
+		}
+		if(notaDebitoVenta.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoInternoAnulada);
+		}
+		if(notaDebitoVenta.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
+			throw new EstadoInvalidoException(Constantes.estadoSriAutorizada);
+		}
+		if(notaDebitoVenta.getEstadoSri().equals(Constantes.estadoSriAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
 		}
 		NotaDebitoElectronica notaDebitoElectronica = crear(notaDebitoVenta);
-		if(notaDebitoVenta.getEstado().equals(Constantes.estadoRecaudada)) {
-			List<String> estadoRecepcion = recepcion(notaDebitoElectronica);
-			if(estadoRecepcion.get(0).equals(Constantes.recibidaSri)) {
-				List<String> estadoAutorizacion = autorizacion(notaDebitoElectronica);
-				if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
-					notaDebitoVenta.setFechaAutorizacion(new Date());
-					notaDebitoVenta.setEstado(Constantes.estadoFacturada);
-					enviarCorreo(notaDebitoVenta, notaDebitoElectronica);
-					NotaDebitoVenta facturada = rep.save(notaDebitoVenta);
-					facturada.normalizar();
-					return facturada;
-				}
-				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
-			}
+		List<String> estadoRecepcion = recepcion(notaDebitoElectronica);
+		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
-		} else if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)){
-			enviarCorreo(notaDebitoVenta, notaDebitoElectronica);
-			notaDebitoVenta.normalizar();
-			return notaDebitoVenta;
 		}
-		throw new FacturaElectronicaInvalidaException(Constantes.estadoNoRecaudada);
+		List<String> estadoAutorizacion = autorizacion(notaDebitoElectronica);
+		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+		}
+		notaDebitoVenta.setEstadoSri(Constantes.estadoSriAutorizada);
+		notaDebitoVenta.setFechaAutorizacion(new Date());
+		enviarCorreo(notaDebitoVenta, notaDebitoElectronica);
+		NotaDebitoVenta facturada = rep.save(notaDebitoVenta);
+		facturada.normalizar();
+		return facturada;
 	}
 
 	private List<String> recepcion(NotaDebitoElectronica notaDebitoElectronica) {
@@ -417,7 +418,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)) {
+			if(notaDebitoVenta.getEstadoSri().equals(Constantes.estadoSriAutorizada)) {
 				numeroAutorizacion = notaDebitoVenta.getClaveAcceso();
 				fechaAutorizacion = notaDebitoVenta.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);

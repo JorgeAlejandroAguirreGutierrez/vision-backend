@@ -36,7 +36,7 @@ public class ParametroService implements IParametroService {
     		throw new CodigoNoExistenteException();
     	}
     	parametro.setCodigo(codigo.get());
-    	parametro.setEstado(Constantes.activo);
+    	parametro.setEstado(Constantes.estadoActivo);
     	return rep.save(parametro);
     }
 
@@ -49,14 +49,14 @@ public class ParametroService implements IParametroService {
     @Override
     public Parametro activar(Parametro parametro) {
         validar(parametro);
-        parametro.setEstado(Constantes.activo);
+        parametro.setEstado(Constantes.estadoActivo);
         return rep.save(parametro);
     }
 
     @Override
     public Parametro inactivar(Parametro parametro) {
         validar(parametro);
-        parametro.setEstado(Constantes.inactivo);
+        parametro.setEstado(Constantes.estadoInactivo);
         return rep.save(parametro);
     }
 
@@ -86,24 +86,15 @@ public class ParametroService implements IParametroService {
 
     @Override
     public Parametro obtenerPorTipo(String tipo) {
-        Optional<Parametro> res= rep.findByTipo(tipo, Constantes.activo);
+        Optional<Parametro> res= rep.findByTipo(tipo, Constantes.estadoActivo);
         if(res.isPresent()) {
         	return res.get();
         }
         throw new EntidadNoExistenteException(Constantes.parametro);
     }
-
-    /*@Override
-    public Parametro obtenerPorTipoTabla(Parametro parametro) {
-        Optional<Parametro> res= rep.findByTablaAndTipo(parametro.getTabla(), parametro.getTipo(), Constantes.activo);
-        if(res.isPresent()) {
-        	return res.get();
-        }
-        throw new EntidadNoExistenteException(Constantes.parametro);
-    }*/
     
     @Override
     public List<Parametro> consultarPorTipo(String tipo) {
-        return rep.AllByTipo(tipo, Constantes.activo);
+        return rep.AllByTipo(tipo, Constantes.estadoActivo);
     }
 }

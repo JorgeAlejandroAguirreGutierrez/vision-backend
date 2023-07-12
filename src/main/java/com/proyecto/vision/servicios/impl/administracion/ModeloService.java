@@ -20,12 +20,12 @@ public class ModeloService implements IModeloService {
     private IModeloRepository rep;
     @Override
     public Modelo crear(Modelo modelo) {
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_modelo);
+    	Optional<String>codigo = Util.generarCodigo(Constantes.tabla_modelo);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
     	modelo.setCodigo(codigo.get());
-    	modelo.setEstado(Constantes.activo);
+    	modelo.setEstado(Constantes.estadoActivo);
         return rep.save(modelo);
     }
 
@@ -36,13 +36,13 @@ public class ModeloService implements IModeloService {
     
     @Override
     public Modelo activar(Modelo modelo) {
-        modelo.setEstado(Constantes.activo);
+        modelo.setEstado(Constantes.estadoActivo);
         return rep.save(modelo);
     }
 
     @Override
     public Modelo inactivar(Modelo modelo) {
-        modelo.setEstado(Constantes.inactivo);
+        modelo.setEstado(Constantes.estadoInactivo);
         return rep.save(modelo);
     }
 
@@ -62,7 +62,7 @@ public class ModeloService implements IModeloService {
 
     @Override
     public List<Modelo> consultarActivos() {
-        return rep.consultarPorEstado(Constantes.activo);
+        return rep.consultarPorEstado(Constantes.estadoActivo);
     }
 
     @Override

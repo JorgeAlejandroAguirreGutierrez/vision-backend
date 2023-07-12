@@ -57,7 +57,7 @@ public class Precio extends Entidad {
         this.precioVentaPublicoManual = Constantes.cero;
         this.utilidad = Constantes.cero;
         this.utilidadPorcentaje = Constantes.cero;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 
     public void normalizar(){

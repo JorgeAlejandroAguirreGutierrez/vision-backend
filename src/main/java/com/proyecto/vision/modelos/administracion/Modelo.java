@@ -35,6 +35,6 @@ public class Modelo extends Entidad {
         this.nombre = Constantes.vacio;
         this.nombreTecnico = Constantes.vacio;
         this.endpoint = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

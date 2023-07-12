@@ -25,11 +25,11 @@ public class EstadoCivilData implements ApplicationRunner {
         Optional<EstadoCivil> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<EstadoCivil> estados_civiles = new ArrayList<>();
-            estados_civiles.add(new EstadoCivil("ECV011907000001", "SOLTERO", "S", Constantes.activo));
-            estados_civiles.add(new EstadoCivil("ECV011907000002", "CASADO", "C", Constantes.activo));
-            estados_civiles.add(new EstadoCivil("ECV011908000003", "VIUDO", "V", Constantes.activo));
-            estados_civiles.add(new EstadoCivil("ECV011908000004", "DIVORCIADO", "D", Constantes.activo));
-            estados_civiles.add(new EstadoCivil("ECV01190900005", "UNION LIBRE", "U", Constantes.activo));
+            estados_civiles.add(new EstadoCivil("ECV011907000001", "SOLTERO", "S", Constantes.estadoActivo));
+            estados_civiles.add(new EstadoCivil("ECV011907000002", "CASADO", "C", Constantes.estadoActivo));
+            estados_civiles.add(new EstadoCivil("ECV011908000003", "VIUDO", "V", Constantes.estadoActivo));
+            estados_civiles.add(new EstadoCivil("ECV011908000004", "DIVORCIADO", "D", Constantes.estadoActivo));
+            estados_civiles.add(new EstadoCivil("ECV01190900005", "UNION LIBRE", "U", Constantes.estadoActivo));
             rep.saveAll(estados_civiles);
         }
     }

@@ -24,11 +24,11 @@ public class PerfilData implements ApplicationRunner {
         Optional<Perfil> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Perfil> perfiles = new ArrayList<>();
-            perfiles.add(new Perfil("PEF202301000001", "ADMINISTRADOR", "ADM", Constantes.activo, Constantes.si, Collections.emptyList()));
-            perfiles.add(new Perfil("PEF202301000002", "GERENCIAL", "GER", Constantes.activo, Constantes.no, Collections.emptyList()));
-            perfiles.add(new Perfil("PEF202301000003", "RECAUDADOR", "REC", Constantes.activo, Constantes.no, Collections.emptyList()));
-            perfiles.add(new Perfil("PEF202301000004", "CONTADOR", "CTD", Constantes.activo, Constantes.no, Collections.emptyList()));
-            perfiles.add(new Perfil("PEF202301000005", "CONSULTA", "CON", Constantes.activo, Constantes.no, Collections.emptyList()));
+            perfiles.add(new Perfil("PEF202301000001", "ADMINISTRADOR", "ADM", Constantes.estadoActivo, Constantes.si, Collections.emptyList()));
+            perfiles.add(new Perfil("PEF202301000002", "GERENCIAL", "GER", Constantes.estadoActivo, Constantes.no, Collections.emptyList()));
+            perfiles.add(new Perfil("PEF202301000003", "RECAUDADOR", "REC", Constantes.estadoActivo, Constantes.no, Collections.emptyList()));
+            perfiles.add(new Perfil("PEF202301000004", "CONTADOR", "CTD", Constantes.estadoActivo, Constantes.no, Collections.emptyList()));
+            perfiles.add(new Perfil("PEF202301000005", "CONSULTA", "CON", Constantes.estadoActivo, Constantes.no, Collections.emptyList()));
 
             rep.saveAll(perfiles);
         }

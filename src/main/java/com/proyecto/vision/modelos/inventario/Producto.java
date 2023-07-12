@@ -68,7 +68,7 @@ public class Producto extends Entidad {
         this.codigo = Constantes.vacio;
         this.nombre = Constantes.vacio;
         this.consignacion = Constantes.si;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
         this.precios = Collections.emptyList();
         this.kardexs = Collections.emptyList();
     }

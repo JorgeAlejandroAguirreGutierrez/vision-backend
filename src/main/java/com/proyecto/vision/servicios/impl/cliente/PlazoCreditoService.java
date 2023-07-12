@@ -38,7 +38,7 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     		throw new CodigoNoExistenteException();
     	}
     	plazoCredito.setCodigo(codigo.get());
-    	plazoCredito.setEstado(Constantes.activo);
+    	plazoCredito.setEstado(Constantes.estadoActivo);
     	return rep.save(plazoCredito);
     }
 
@@ -51,14 +51,14 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     @Override
     public PlazoCredito activar(PlazoCredito plazoCredito) {
         validar(plazoCredito);
-        plazoCredito.setEstado(Constantes.activo);
+        plazoCredito.setEstado(Constantes.estadoActivo);
         return rep.save(plazoCredito);
     }
 
     @Override
     public PlazoCredito inactivar(PlazoCredito plazoCredito) {
         validar(plazoCredito);
-        plazoCredito.setEstado(Constantes.inactivo);
+        plazoCredito.setEstado(Constantes.estadoInactivo);
         return rep.save(plazoCredito);
     }
 

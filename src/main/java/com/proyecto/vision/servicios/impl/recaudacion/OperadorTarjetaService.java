@@ -36,7 +36,7 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     		throw new CodigoNoExistenteException();
     	}
     	operadorTarjeta.setCodigo(codigo.get());
-    	operadorTarjeta.setEstado(Constantes.activo);
+    	operadorTarjeta.setEstado(Constantes.estadoActivo);
     	return rep.save(operadorTarjeta);
     }
 
@@ -49,14 +49,14 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     @Override
     public OperadorTarjeta activar(OperadorTarjeta operadorTarjeta) {
         validar(operadorTarjeta);
-        operadorTarjeta.setEstado(Constantes.activo);
+        operadorTarjeta.setEstado(Constantes.estadoActivo);
         return rep.save(operadorTarjeta);
     }
 
     @Override
     public OperadorTarjeta inactivar(OperadorTarjeta operadorTarjeta) {
         validar(operadorTarjeta);
-        operadorTarjeta.setEstado(Constantes.inactivo);
+        operadorTarjeta.setEstado(Constantes.estadoInactivo);
         return rep.save(operadorTarjeta);
     }
 
@@ -86,6 +86,6 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
 
     @Override
     public List<OperadorTarjeta> consultarPorTipo(String tipo) {
-        return rep.consultarPorTipo(tipo, Constantes.activo);
+        return rep.consultarPorTipo(tipo, Constantes.estadoActivo);
     }
 }

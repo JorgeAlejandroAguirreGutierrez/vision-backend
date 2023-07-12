@@ -50,7 +50,7 @@ public class GrupoProductoService implements IGrupoProductoService {
     		throw new CodigoNoExistenteException();
     	}
     	grupoProducto.setCodigo(codigo.get());
-    	grupoProducto.setEstado(Constantes.activo);
+    	grupoProducto.setEstado(Constantes.estadoActivo);
     	GrupoProducto res = rep.save(grupoProducto);
         res.normalizar();
         return res;
@@ -67,7 +67,7 @@ public class GrupoProductoService implements IGrupoProductoService {
     @Override
     public GrupoProducto activar(GrupoProducto grupoProducto) {
         validar(grupoProducto);
-        grupoProducto.setEstado(Constantes.activo);
+        grupoProducto.setEstado(Constantes.estadoActivo);
         GrupoProducto res = rep.save(grupoProducto);
         res.normalizar();
         return res;
@@ -76,7 +76,7 @@ public class GrupoProductoService implements IGrupoProductoService {
     @Override
     public GrupoProducto inactivar(GrupoProducto grupoProducto) {
         validar(grupoProducto);
-        grupoProducto.setEstado(Constantes.inactivo);
+        grupoProducto.setEstado(Constantes.estadoInactivo);
         GrupoProducto res = rep.save(grupoProducto);
         res.normalizar();
         return res;
@@ -178,7 +178,7 @@ public class GrupoProductoService implements IGrupoProductoService {
     
     @Override
     public GrupoProducto obtenerGrupoProducto(String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion) {
-        Optional<GrupoProducto> grupoProducto = rep.findGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion, Constantes.activo);
+        Optional<GrupoProducto> grupoProducto = rep.findGrupoProducto(grupo, subgrupo, seccion, linea, sublinea, presentacion, Constantes.estadoActivo);
         if(grupoProducto.isPresent()) {
         	GrupoProducto res = grupoProducto.get();
             res.normalizar();

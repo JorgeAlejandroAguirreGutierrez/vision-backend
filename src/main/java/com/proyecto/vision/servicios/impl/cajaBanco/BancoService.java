@@ -34,7 +34,7 @@ public class BancoService implements IBancoService {
             throw new CodigoNoExistenteException();
         }
         banco.setCodigo(codigo.get());
-        banco.setEstado(Constantes.activo);
+        banco.setEstado(Constantes.estadoActivo);
     	return rep.save(banco);
     }
 
@@ -51,14 +51,14 @@ public class BancoService implements IBancoService {
     @Override
     public Banco activar(Banco banco) {
         validar(banco);
-        banco.setEstado(Constantes.activo);
+        banco.setEstado(Constantes.estadoActivo);
         return rep.save(banco);
     }
 
     @Override
     public Banco inactivar(Banco banco) {
         validar(banco);
-        banco.setEstado(Constantes.inactivo);
+        banco.setEstado(Constantes.estadoInactivo);
         return rep.save(banco);
     }
 

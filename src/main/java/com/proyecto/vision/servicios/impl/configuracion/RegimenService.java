@@ -35,7 +35,7 @@ public class RegimenService implements IRegimenService {
     		throw new CodigoNoExistenteException();
     	}
     	regimen.setCodigo(codigo.get());
-    	regimen.setEstado(Constantes.activo);
+    	regimen.setEstado(Constantes.estadoActivo);
     	return rep.save(regimen);
     }
 
@@ -48,14 +48,14 @@ public class RegimenService implements IRegimenService {
     @Override
     public Regimen activar(Regimen regimen) {
         validar(regimen);
-        regimen.setEstado(Constantes.activo);
+        regimen.setEstado(Constantes.estadoActivo);
         return rep.save(regimen);
     }
 
     @Override
     public Regimen inactivar(Regimen regimen) {
         validar(regimen);
-        regimen.setEstado(Constantes.inactivo);
+        regimen.setEstado(Constantes.estadoInactivo);
         return rep.save(regimen);
     }
 

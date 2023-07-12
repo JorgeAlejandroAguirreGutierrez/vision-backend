@@ -25,10 +25,10 @@ public class OperadorTarjetaData implements ApplicationRunner {
         Optional<OperadorTarjeta> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<OperadorTarjeta> operadoresTarjetas = new ArrayList<>();
-            operadoresTarjetas.add(new OperadorTarjeta("OTA000001", "CREDITO", "DATAFAST", "DF", Constantes.activo));
-            operadoresTarjetas.add(new OperadorTarjeta("OTA000002", "DEBITO", "DATAFAST", "DF", Constantes.activo));
-            operadoresTarjetas.add(new OperadorTarjeta("OTA000003", "CREDITO", "MEGADATOS", "MD", Constantes.activo));
-            operadoresTarjetas.add(new OperadorTarjeta("OTA000004", "DEBITO", "MEGADATOS", "MD", Constantes.activo));
+            operadoresTarjetas.add(new OperadorTarjeta("OTA000001", "CREDITO", "DATAFAST", "DF", Constantes.estadoActivo));
+            operadoresTarjetas.add(new OperadorTarjeta("OTA000002", "DEBITO", "DATAFAST", "DF", Constantes.estadoActivo));
+            operadoresTarjetas.add(new OperadorTarjeta("OTA000003", "CREDITO", "MEGADATOS", "MD", Constantes.estadoActivo));
+            operadoresTarjetas.add(new OperadorTarjeta("OTA000004", "DEBITO", "MEGADATOS", "MD", Constantes.estadoActivo));
             rep.saveAll(operadoresTarjetas);
         }
     }

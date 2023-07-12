@@ -35,7 +35,7 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     		throw new CodigoNoExistenteException();
     	}
     	franquiciaTarjeta.setCodigo(codigo.get());
-    	franquiciaTarjeta.setEstado(Constantes.activo);
+    	franquiciaTarjeta.setEstado(Constantes.estadoActivo);
     	return rep.save(franquiciaTarjeta);
     }
 
@@ -48,14 +48,14 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     @Override
     public FranquiciaTarjeta activar(FranquiciaTarjeta franquiciaTarjeta) {
         validar(franquiciaTarjeta);
-        franquiciaTarjeta.setEstado(Constantes.activo);
+        franquiciaTarjeta.setEstado(Constantes.estadoActivo);
         return rep.save(franquiciaTarjeta);
     }
 
     @Override
     public FranquiciaTarjeta inactivar(FranquiciaTarjeta franquiciaTarjeta) {
         validar(franquiciaTarjeta);
-        franquiciaTarjeta.setEstado(Constantes.inactivo);
+        franquiciaTarjeta.setEstado(Constantes.estadoInactivo);
         return rep.save(franquiciaTarjeta);
     }
 
