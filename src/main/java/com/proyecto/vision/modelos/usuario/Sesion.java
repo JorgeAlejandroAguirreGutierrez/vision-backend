@@ -43,7 +43,7 @@ public class Sesion extends Entidad {
         this.fechaApertura = new Date();
         this.fechaCierre = new Date();
         this.ip = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 
     public void normalizar(){

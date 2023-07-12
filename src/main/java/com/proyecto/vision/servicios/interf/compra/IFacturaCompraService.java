@@ -16,5 +16,5 @@ public interface IFacturaCompraService extends IGenericoService<FacturaCompra> {
 	FacturaCompra calcular(FacturaCompra facturaCompra);
 	void validarLinea(FacturaCompraLinea facturaCompraLinea);
 	FacturaCompraLinea calcularLinea(FacturaCompraLinea facturaCompraLinea);
-	List<FacturaCompra> consultarPorProveedor(long proveedsorId);
+	List<FacturaCompra> consultarPorProveedorYEstadoInternoYEstado(long proveedsorId, String estadoInterno, String estado);
 }

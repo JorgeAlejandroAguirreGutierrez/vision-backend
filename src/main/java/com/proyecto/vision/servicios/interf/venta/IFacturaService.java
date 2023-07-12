@@ -17,7 +17,7 @@ public interface IFacturaService extends IGenericoService<Factura> {
 	Factura calcular(Factura factura);
 	void validarLinea(FacturaLinea facturaLinea);
 	FacturaLinea calcularLinea(FacturaLinea facturaLinea);
-	List<Factura> consultarPorCliente(long clienteId);
+	List<Factura> consultarPorClienteYEstadoSriYEstadoInternoYEstado(long clienteId, String estadoSri, String estadoInterno, String estado);
 	String validarIdentificacion(String identificacion);
 	Factura calcularRecaudacion(Factura factura);
 }

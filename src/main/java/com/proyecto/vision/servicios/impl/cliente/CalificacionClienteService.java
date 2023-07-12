@@ -37,7 +37,7 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     		throw new CodigoNoExistenteException();
     	}
     	calificacionCliente.setCodigo(codigo.get());
-    	calificacionCliente.setEstado(Constantes.activo);
+    	calificacionCliente.setEstado(Constantes.estadoActivo);
     	return rep.save(calificacionCliente);
     }
 
@@ -50,14 +50,14 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     @Override
     public CalificacionCliente activar(CalificacionCliente calificacionCliente) {
         validar(calificacionCliente);
-        calificacionCliente.setEstado(Constantes.activo);
+        calificacionCliente.setEstado(Constantes.estadoActivo);
         return rep.save(calificacionCliente);
     }
 
     @Override
     public CalificacionCliente inactivar(CalificacionCliente calificacionCliente) {
         validar(calificacionCliente);
-        calificacionCliente.setEstado(Constantes.inactivo);
+        calificacionCliente.setEstado(Constantes.estadoInactivo);
         return rep.save(calificacionCliente);
     }
 

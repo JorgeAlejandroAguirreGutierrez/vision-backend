@@ -37,7 +37,7 @@ public class TipoRetencionService implements ITipoRetencionService {
     		throw new CodigoNoExistenteException();
     	}
     	tipoRetencion.setCodigo(codigo.get());
-    	tipoRetencion.setEstado(Constantes.activo);
+    	tipoRetencion.setEstado(Constantes.estadoActivo);
     	return rep.save(tipoRetencion);
     }
 
@@ -50,14 +50,14 @@ public class TipoRetencionService implements ITipoRetencionService {
     @Override
     public TipoRetencion activar(TipoRetencion tipoRetencion) {
         validar(tipoRetencion);
-        tipoRetencion.setEstado(Constantes.activo);
+        tipoRetencion.setEstado(Constantes.estadoActivo);
         return rep.save(tipoRetencion);
     }
 
     @Override
     public TipoRetencion inactivar(TipoRetencion tipoRetencion) {
         validar(tipoRetencion);
-        tipoRetencion.setEstado(Constantes.inactivo);
+        tipoRetencion.setEstado(Constantes.estadoInactivo);
         return rep.save(tipoRetencion);
     }
 
@@ -87,21 +87,21 @@ public class TipoRetencionService implements ITipoRetencionService {
 
     @Override
     public List<TipoRetencion> consultarIvaBien() {
-        return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.bien, Constantes.activo);
+        return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.bien, Constantes.estadoActivo);
     }
 
     @Override
     public List<TipoRetencion> consultarIvaServicio() {
-        return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.servicio, Constantes.activo);
+        return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.servicio, Constantes.estadoActivo);
     }
 
     @Override
     public List<TipoRetencion> consultarRentaBien() {
-        return rep.findByImpuestoAndTipo(Constantes.renta, Constantes.bien, Constantes.activo);
+        return rep.findByImpuestoAndTipo(Constantes.renta, Constantes.bien, Constantes.estadoActivo);
     }
 
     @Override
     public List<TipoRetencion> consultarRentaServicio() {
-        return rep.findByImpuestoAndTipo(Constantes.renta, Constantes.servicio, Constantes.activo);
+        return rep.findByImpuestoAndTipo(Constantes.renta, Constantes.servicio, Constantes.estadoActivo);
     }
 }

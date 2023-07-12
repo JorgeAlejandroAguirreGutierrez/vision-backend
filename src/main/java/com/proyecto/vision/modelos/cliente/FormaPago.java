@@ -38,6 +38,6 @@ public class FormaPago extends Entidad {
         this.codigoSRI = Constantes.vacio;
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

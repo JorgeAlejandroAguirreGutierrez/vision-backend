@@ -42,8 +42,10 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
 
     @Override
     public void validar(NotaDebitoVenta notaDebitoVenta) {
-        if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaDebitoVenta.getEstado().equals(Constantes.estadoRecaudada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaDebitoVenta.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaDebitoVenta.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaDebitoVenta.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaDebitoVenta.getEstadoSri().equals(Constantes.estadoSriAnulada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaDebitoVenta.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaDebitoVenta.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaDebitoVenta.getNotaDebitoVentaLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_debito_venta_linea);
@@ -93,8 +95,6 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     }
 
     private void facturar(NotaDebitoVenta notaDebitoVenta) {
-        if(notaDebitoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaDebitoVenta.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
         kardexService.eliminar(5, 3, notaDebitoVenta.getSecuencial());
         for(NotaDebitoVentaLinea notaDebitoVentaLinea : notaDebitoVenta.getNotaDebitoVentaLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaDebitoVentaLinea.getBodega().getId(), notaDebitoVentaLinea.getProducto().getId());
@@ -169,7 +169,9 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
             throw new ClaveAccesoNoExistenteException();
         }
         notaDebitoVenta.setClaveAcceso(claveAcceso.get());
-        notaDebitoVenta.setEstado(Constantes.estadoEmitida);
+        notaDebitoVenta.setEstadoSri(Constantes.estadoSriPendiente);
+        notaDebitoVenta.setEstadoInterno(Constantes.estadoInternoEmitida);
+        notaDebitoVenta.setEstado(Constantes.estadoActivo);
         calcular(notaDebitoVenta);
         facturar(notaDebitoVenta);
         calcularRecaudacion(notaDebitoVenta);
@@ -186,11 +188,6 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         calcular(notaDebitoVenta);
         facturar(notaDebitoVenta);
         calcularRecaudacion(notaDebitoVenta);
-        if(notaDebitoVenta.getPorPagar() > Constantes.cero){
-            notaDebitoVenta.setEstado(Constantes.estadoNoRecaudada);
-        } else{
-            notaDebitoVenta.setEstado(Constantes.estadoRecaudada);
-        }
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
         return res;
@@ -199,7 +196,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     @Override
     public NotaDebitoVenta activar(NotaDebitoVenta notaDebitoVenta) {
         validar(notaDebitoVenta);
-        notaDebitoVenta.setEstado(Constantes.activo);
+        notaDebitoVenta.setEstado(Constantes.estadoActivo);
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
         return res;
@@ -208,7 +205,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     @Override
     public NotaDebitoVenta inactivar(NotaDebitoVenta notaDebitoVenta) {
         validar(notaDebitoVenta);
-        notaDebitoVenta.setEstado(Constantes.inactivo);
+        notaDebitoVenta.setEstado(Constantes.estadoInactivo);
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
         return res;

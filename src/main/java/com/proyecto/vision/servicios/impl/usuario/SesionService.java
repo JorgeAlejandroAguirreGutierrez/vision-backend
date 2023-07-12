@@ -34,11 +34,11 @@ public class SesionService implements ISesionService {
     		throw new CodigoNoExistenteException();
     	}
     	sesion.setCodigo(codigo.get());
-    	Optional<Usuario> usuario=rep_usuario.obtenerPorApodoYContrasenaYEstado(sesion.getUsuario().getApodo(), sesion.getUsuario().getContrasena(), Constantes.activo);
+    	Optional<Usuario> usuario=rep_usuario.obtenerPorApodoYContrasenaYEstado(sesion.getUsuario().getApodo(), sesion.getUsuario().getContrasena(), Constantes.estadoActivo);
     	if(usuario.isPresent()) {
     		sesion.setUsuario(usuario.get());
             sesion.setFechaApertura(new Date());
-            sesion.setEstado(Constantes.activo);
+            sesion.setEstado(Constantes.estadoActivo);
             return rep.save(sesion);
     	}
     	throw new EntidadNoExistenteException(Constantes.usuario); 
@@ -67,12 +67,7 @@ public class SesionService implements ISesionService {
     public Page<Sesion> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-    
-    /**
-     * Valida la sesion del usuario por id
-     * @param Sesion
-     * @return Sesion
-     */
+
     @Override
     public Optional<Sesion> validar(Sesion _sesion) {
         final Optional<Sesion> sesion= rep.findById(_sesion.getId());
@@ -93,7 +88,7 @@ public class SesionService implements ISesionService {
     public Optional<Sesion> cerrar(Sesion sesion) {
         Sesion _sesion = rep.findById(sesion.getId()).get();
         sesion.setFechaCierre(new Date());
-        sesion.setEstado(Constantes.activo);
+        sesion.setEstado(Constantes.estadoActivo);
         _sesion = rep.save(_sesion);
         return Optional.of(_sesion);
     }

@@ -51,7 +51,7 @@ public class Estacion extends Entidad {
         this.dispositivo = Constantes.vacio;
         this.ip = Constantes.vacio;
         this.puntoVenta = Constantes.no;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 
     public void normalizar(){

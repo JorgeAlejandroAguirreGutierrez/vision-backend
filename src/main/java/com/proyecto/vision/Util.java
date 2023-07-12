@@ -254,7 +254,7 @@ public class Util {
 
     public static Optional<String> generarCodigo(String tabla){
     	try {
-    		Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacion, Constantes.activo);
+    		Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacion, Constantes.estadoActivo);
         	Optional<String> conteo= conteo(tabla);
         	if (menuOpcion.isPresent() && conteo.isPresent()) {
             	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);
@@ -277,7 +277,7 @@ public class Util {
 
     public static Optional<String> generarCodigoPorEmpresa(String tabla, long empresaId){
         try {
-            Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacion, Constantes.activo);
+            Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacion, Constantes.estadoActivo);
             Optional<String> conteo= conteoPorEmpresa(tabla, empresaId);
             if (menuOpcion.isPresent() && conteo.isPresent()) {
                 String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);

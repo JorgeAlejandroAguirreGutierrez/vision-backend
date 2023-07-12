@@ -43,6 +43,6 @@ public class Banco extends Entidad {
         this.subsistema = Constantes.vacio;
         this.calificacion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

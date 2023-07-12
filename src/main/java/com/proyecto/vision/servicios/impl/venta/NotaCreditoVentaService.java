@@ -42,18 +42,22 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
 
     @Override
     public void validar(NotaCreditoVenta notaCreditoVenta) {
-        if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaCreditoVenta.getEstado().equals(Constantes.estado)) throw new DatoInvalidoException(Constantes.estado);
         if(notaCreditoVenta.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaCreditoVenta.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaCreditoVenta.getNotaCreditoVentaLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_credito_venta_linea);
     }
 
     private void facturar(NotaCreditoVenta notaCreditoVenta) {
-        if (notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada))
+        if (notaCreditoVenta.getEstado().equals(Constantes.estadoInactivo))
             throw new DatoInvalidoException(Constantes.estado);
-        if (notaCreditoVenta.getEstado().equals(Constantes.estadoAnulada))
+        if (notaCreditoVenta.getEstadoInterno().equals(Constantes.estadoInternoAnulada))
             throw new DatoInvalidoException(Constantes.estado);
-        List<NotaCreditoVenta> notasCreditoVentaAnt = rep.consultarPorFactura(notaCreditoVenta.getFactura().getId(), Constantes.estadoEmitida, Constantes.estadoFacturada);
+        if (notaCreditoVenta.getEstadoSri().equals(Constantes.estadoSriAutorizada))
+            throw new DatoInvalidoException(Constantes.estado);
+        if (notaCreditoVenta.getEstadoSri().equals(Constantes.estadoSriAnulada))
+            throw new DatoInvalidoException(Constantes.estado);
+        List<NotaCreditoVenta> notasCreditoVentaAnt = rep.consultarPorFacturaYEstadoSriYEstadoInternoYEstado(notaCreditoVenta.getFactura().getId(), Constantes.estadoSriAutorizada, Constantes.estadoInternoRecaudada, Constantes.estadoActivo);
         List<Long> cantidadesDevueltas = new ArrayList();
         for(int i = 0; i < notaCreditoVenta.getNotaCreditoVentaLineas().size(); i++ ) {
             cantidadesDevueltas.add(Constantes.ceroId);
@@ -134,7 +138,9 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
             throw new ClaveAccesoNoExistenteException();
         }
         notaCreditoVenta.setClaveAcceso(claveAcceso.get());
-        notaCreditoVenta.setEstado(Constantes.estadoEmitida);
+        notaCreditoVenta.setEstadoSri(Constantes.estadoSriPendiente);
+        notaCreditoVenta.setEstadoInterno(Constantes.estadoInternoEmitida);
+        notaCreditoVenta.setEstado(Constantes.estadoActivo);
         calcular(notaCreditoVenta);
         facturar(notaCreditoVenta);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
@@ -193,7 +199,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     @Override
     public NotaCreditoVenta activar(NotaCreditoVenta notaCreditoVenta) {
         validar(notaCreditoVenta);
-        notaCreditoVenta.setEstado(Constantes.activo);
+        notaCreditoVenta.setEstado(Constantes.estadoActivo);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
         return res;
@@ -202,7 +208,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     @Override
     public NotaCreditoVenta inactivar(NotaCreditoVenta notaCreditoVenta) {
         validar(notaCreditoVenta);
-        notaCreditoVenta.setEstado(Constantes.inactivo);
+        notaCreditoVenta.setEstado(Constantes.estadoInactivo);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
         return res;

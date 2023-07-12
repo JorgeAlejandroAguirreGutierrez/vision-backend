@@ -18,7 +18,7 @@ public interface INotaCreditoVentaRepository extends JpaRepository<NotaCreditoVe
     List<NotaCreditoVenta> consultarPorEmpresa(long empresaId);
     @Query(value = "select ncv from NotaCreditoVenta ncv where ncv.empresa.id = :empresaId and ncv.estado = :estado order by ncv.codigo asc")
     List<NotaCreditoVenta> consultarPorEmpresaYEstado(long empresaId, String estado);
-    @Query(value = "select ncv from NotaCreditoVenta ncv where ncv.factura.id = :facturaId and (ncv.estado = :estadoEmitida or ncv.estado = :estadoFacturada)  order by ncv.codigo asc")
-    List<NotaCreditoVenta> consultarPorFactura(long facturaId, String estadoEmitida, String  estadoFacturada);
+    @Query(value = "select ncv from NotaCreditoVenta ncv where ncv.factura.id = :facturaId and ncv.estadoSri = :estadoSri and ncv.estadoInterno = :estadoInterno and ncv.estado = :estado order by ncv.codigo asc")
+    List<NotaCreditoVenta> consultarPorFacturaYEstadoSriYEstadoInternoYEstado(long facturaId, String estadoSri, String  estadoInterno, String estado);
 
 }

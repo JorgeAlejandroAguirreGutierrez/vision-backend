@@ -49,7 +49,7 @@ public class ReporteVentaService {
         Date fechaInicioC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaInicio);
         Date fechaFinalC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaFinal);
         List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicioC, fechaFinalC, empresaId);
-        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.activo);
+        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.estadoActivo);
         if(facturas.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.factura);
         }
@@ -133,12 +133,12 @@ public class ReporteVentaService {
             totalIva = totalIva + factura.getImporteIvaTotal();
             reporteTotal = reporteTotal + factura.getValorTotal();
 
-            if(factura.getEstado().equals(Constantes.estadoAnulada)){
+            if(factura.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
                 facturasAnuladas++;
-            } else {
+            }
+            if(factura.getEstadoInterno().equals(Constantes.estadoInternoEmitida) || factura.getEstadoInterno().equals(Constantes.estadoInternoRecaudada)) {
                 facturasEmitidas++;
             }
-
             totalEfectivo = totalEfectivo + factura.getEfectivo();
             for(Cheque cheque: factura.getCheques()){
                 totalCheque = totalCheque + cheque.getValor();

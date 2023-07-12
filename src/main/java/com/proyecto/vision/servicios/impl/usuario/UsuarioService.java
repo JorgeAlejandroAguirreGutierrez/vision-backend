@@ -41,7 +41,7 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public Usuario crear(Usuario usuario) {
         validar(usuario);
-        Optional<Usuario>buscarApodo=rep.obtenerPorApodoYEstado(usuario.getApodo(), Constantes.activo);
+        Optional<Usuario>buscarApodo=rep.obtenerPorApodoYEstado(usuario.getApodo(), Constantes.estadoActivo);
         if(buscarApodo.isPresent()) {
             throw new EntidadExistenteException(Constantes.usuario);
         }
@@ -51,7 +51,7 @@ public class UsuarioService implements IUsuarioService {
     	}
     	usuario.setAvatar(usuario.getAvatar64().getBytes(StandardCharsets.UTF_8));
     	usuario.setCodigo(codigo.get());
-    	usuario.setEstado(Constantes.activo);
+    	usuario.setEstado(Constantes.estadoActivo);
     	Usuario res = rep.save(usuario);
         res.normalizar();
         return res;
@@ -69,7 +69,7 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public Usuario activar(Usuario usuario) {
         validar(usuario);
-        usuario.setEstado(Constantes.activo);
+        usuario.setEstado(Constantes.estadoActivo);
         Usuario res = rep.save(usuario);
         res.normalizar();
         return res;
@@ -78,7 +78,7 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public Usuario inactivar(Usuario usuario) {
         validar(usuario);
-        usuario.setEstado(Constantes.inactivo);
+        usuario.setEstado(Constantes.estadoInactivo);
         Usuario res = rep.save(usuario);
         res.normalizar();
         return res;

@@ -34,8 +34,8 @@ public class Constantes {
     public static final String operacion_descuento = "DESCUENTO";
     public static final String operacion_conjunta = "CONJUNTA";
 	
-	public static final String activo="ACTIVO";
-	public static final String inactivo="INACTIVO";
+	public static final String estadoActivo="ACTIVO";
+	public static final String estadoInactivo="INACTIVO";
 
     public static final String mensaje_exitoso="Exito";
     public static final String mensaje_consultar_exitoso="Exito en la consulta";
@@ -536,13 +536,17 @@ public class Constantes {
     public static final String noAutorizadoSri = "NO AUTORIZADO";
     public static final String devueltaSri = "DEVUELTA";
     
-    //ESTADOS FACTURA
-    public static final String estadoEmitida="EMITIDA";
-    public static final String estadoAnulada="ANULADA";
-    public static final String estadoFacturada="FACTURADA";
-    public static final String estadoNoFacturada="NO FACTURADA";
-    public static final String estadoRecaudada="RECAUDADA";
-    public static final String estadoNoRecaudada="NO RECAUDADA";
+    //ESTADOS VENTAS
+    public static final String estadoInternoRecaudada = "RECAUDADA";
+    public static final String estadoInternoEmitida = "EMITIDA";
+    public static final String estadoInternoAnulada = "ANULADA";
+    public static final String estadoSriPendiente = "PENDIENTE";
+    public static final String estadoSriAutorizada = "AUTORIZADA";
+    public static final String estadoSriAnulada = "ANULADA";
+
+    //ESTADOS COMPRAS
+    public static final String estadoInternoPagada = "PAGADA";
+    public static final String estadoInternoPorPagar = "POR PAGAR";
     
     //CONSTANTES PARA FACTURA FISICA
     public static final String facturaFisicaAmbienteValor="PRUEBAS";

@@ -27,17 +27,17 @@ public class CalificacionClienteData implements ApplicationRunner {
         Optional<CalificacionCliente> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<CalificacionCliente> calificacion_clientes = new ArrayList<>();
-            calificacion_clientes.add(new CalificacionCliente("CCL012301000001", "EXELENTE", "EX", Constantes.activo, new Empresa(1)));
-            calificacion_clientes.add(new CalificacionCliente("CCL012301000002", "MUY BUENO", "MB", Constantes.activo, new Empresa(1)));
-            calificacion_clientes.add(new CalificacionCliente("CCL012301000003", "BUENO", "BU", Constantes.activo, new Empresa(1)));
-            calificacion_clientes.add(new CalificacionCliente("CCL012301000004", "REGULAR", "RE", Constantes.activo, new Empresa(1)));
-            calificacion_clientes.add(new CalificacionCliente("CCL012301000005", "MALO", "MA", Constantes.activo, new Empresa(1)));
+            calificacion_clientes.add(new CalificacionCliente("CCL012301000001", "EXELENTE", "EX", Constantes.estadoActivo, new Empresa(1)));
+            calificacion_clientes.add(new CalificacionCliente("CCL012301000002", "MUY BUENO", "MB", Constantes.estadoActivo, new Empresa(1)));
+            calificacion_clientes.add(new CalificacionCliente("CCL012301000003", "BUENO", "BU", Constantes.estadoActivo, new Empresa(1)));
+            calificacion_clientes.add(new CalificacionCliente("CCL012301000004", "REGULAR", "RE", Constantes.estadoActivo, new Empresa(1)));
+            calificacion_clientes.add(new CalificacionCliente("CCL012301000005", "MALO", "MA", Constantes.estadoActivo, new Empresa(1)));
 
-            calificacion_clientes.add(new CalificacionCliente("CCL022301000001", "EXELENTE", "EX", Constantes.activo, new Empresa(2)));
-            calificacion_clientes.add(new CalificacionCliente("CCL022301000002", "MUY BUENO", "MB", Constantes.activo, new Empresa(2)));
-            calificacion_clientes.add(new CalificacionCliente("CCL022301000003", "BUENO", "BU", Constantes.activo, new Empresa(2)));
-            calificacion_clientes.add(new CalificacionCliente("CCL022301000004", "REGULAR", "RE", Constantes.activo, new Empresa(2)));
-            calificacion_clientes.add(new CalificacionCliente("CCL022301000005", "MALO", "MA", Constantes.activo, new Empresa(2)));
+            calificacion_clientes.add(new CalificacionCliente("CCL022301000001", "EXELENTE", "EX", Constantes.estadoActivo, new Empresa(2)));
+            calificacion_clientes.add(new CalificacionCliente("CCL022301000002", "MUY BUENO", "MB", Constantes.estadoActivo, new Empresa(2)));
+            calificacion_clientes.add(new CalificacionCliente("CCL022301000003", "BUENO", "BU", Constantes.estadoActivo, new Empresa(2)));
+            calificacion_clientes.add(new CalificacionCliente("CCL022301000004", "REGULAR", "RE", Constantes.estadoActivo, new Empresa(2)));
+            calificacion_clientes.add(new CalificacionCliente("CCL022301000005", "MALO", "MA", Constantes.estadoActivo, new Empresa(2)));
 
             rep.saveAll(calificacion_clientes);
         }

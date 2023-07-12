@@ -47,8 +47,8 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     }
 
     private void facturar(NotaDebitoCompra notaDebitoCompra) {
-        if(notaDebitoCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaDebitoCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaDebitoCompra.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaDebitoCompra.getEstadoInterno().equals(Constantes.estadoInternoPagada)) throw new DatoInvalidoException(Constantes.estado);
         kardexService.eliminar(10, 7, notaDebitoCompra.getSecuencial());
         for(NotaDebitoCompraLinea notaDebitoCompraLinea : notaDebitoCompra.getNotaDebitoCompraLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaDebitoCompraLinea.getBodega().getId(), notaDebitoCompraLinea.getProducto().getId());
@@ -78,10 +78,10 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         notaDebitoCompra.setSerie(notaDebitoCompra.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaDebitoCompra.getSesion().getUsuario().getEstacion().getCodigoSRI());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaDebitoCompra.getTipoComprobante().getId(), notaDebitoCompra.getSesion().getUsuario().getEstacion().getId());
         notaDebitoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
-        notaDebitoCompra.setEstado(Constantes.estadoEmitida);
+        notaDebitoCompra.setEstado(Constantes.estadoActivo);
+        notaDebitoCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
         calcular(notaDebitoCompra);
         facturar(notaDebitoCompra);
-        notaDebitoCompra.setEstado(Constantes.estadoFacturada);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
         res.normalizar();
         secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
@@ -94,7 +94,6 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         validar(notaDebitoCompra);
         calcular(notaDebitoCompra);
         facturar(notaDebitoCompra);
-        notaDebitoCompra.setEstado(Constantes.estadoFacturada);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
         res.normalizar();
         return res;
@@ -103,7 +102,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     @Override
     public NotaDebitoCompra activar(NotaDebitoCompra notaDebitoCompra) {
         validar(notaDebitoCompra);
-        notaDebitoCompra.setEstado(Constantes.activo);
+        notaDebitoCompra.setEstado(Constantes.estadoActivo);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
         res.normalizar();
         return res;
@@ -112,7 +111,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     @Override
     public NotaDebitoCompra inactivar(NotaDebitoCompra notaDebitoCompra) {
         validar(notaDebitoCompra);
-        notaDebitoCompra.setEstado(Constantes.inactivo);
+        notaDebitoCompra.setEstado(Constantes.estadoInactivo);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
         res.normalizar();
         return res;
@@ -243,7 +242,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     }
 
     private void calcularIvaSinDescuento(NotaDebitoCompra notaDebitoCompra){
-        double ivaSinDescuento=(notaDebitoCompra.getSubtotalBase12SinDescuento() * Constantes.iva12) / 100;
+        double ivaSinDescuento = (notaDebitoCompra.getSubtotalBase12SinDescuento() * Constantes.iva12) / 100;
         ivaSinDescuento=Math.round(ivaSinDescuento*100.0)/100.0;
         notaDebitoCompra.setIvaSinDescuento(ivaSinDescuento);
     }

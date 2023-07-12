@@ -39,7 +39,7 @@ public class AfectacionContableService implements IAfectacionContableService {
     		throw new CodigoNoExistenteException();
     	}
     	afectacionContable.setCodigo(codigo.get());
-    	afectacionContable.setEstado(Constantes.activo);
+    	afectacionContable.setEstado(Constantes.estadoActivo);
     	return rep.save(afectacionContable);
     }
 
@@ -52,14 +52,14 @@ public class AfectacionContableService implements IAfectacionContableService {
     @Override
     public AfectacionContable activar(AfectacionContable afectacionContable) {
         validar(afectacionContable);
-        afectacionContable.setEstado(Constantes.activo);
+        afectacionContable.setEstado(Constantes.estadoActivo);
         return rep.save(afectacionContable);
     }
 
     @Override
     public AfectacionContable inactivar(AfectacionContable afectacionContable) {
         validar(afectacionContable);
-        afectacionContable.setEstado(Constantes.inactivo);
+        afectacionContable.setEstado(Constantes.estadoInactivo);
         return rep.save(afectacionContable);
     }
 
@@ -89,6 +89,6 @@ public class AfectacionContableService implements IAfectacionContableService {
 
     @Override
     public List<AfectacionContable> buscar(AfectacionContable afectacionContable) {
-        return  rep.buscar(afectacionContable.getDescripcion(), Constantes.activo);
+        return  rep.buscar(afectacionContable.getDescripcion(), Constantes.estadoActivo);
     }
 }

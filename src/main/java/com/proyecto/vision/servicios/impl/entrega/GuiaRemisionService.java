@@ -33,7 +33,9 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 
 	@Override
 	public void validar(GuiaRemision guiaRemision) {
-		if(guiaRemision.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
+		if(guiaRemision.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
+		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
 		if(guiaRemision.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
 		if(guiaRemision.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
 		if(guiaRemision.getTransportista().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.transportista);
@@ -106,7 +108,9 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 			throw new ClaveAccesoNoExistenteException();
 		}
 		guiaRemision.setClaveAcceso(claveAcceso.get());
-        guiaRemision.setEstado(Constantes.estadoEmitida);
+        guiaRemision.setEstado(Constantes.estadoActivo);
+        guiaRemision.setEstadoInterno(Constantes.estadoInternoEmitida);
+        guiaRemision.setEstadoSri(Constantes.estadoSriPendiente);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();
 		secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
@@ -123,7 +127,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	@Override
 	public GuiaRemision activar(GuiaRemision guiaRemision) {
 		validar(guiaRemision);
-		guiaRemision.setEstado(Constantes.activo);
+		guiaRemision.setEstado(Constantes.estadoActivo);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();
 		return res;
@@ -132,7 +136,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	@Override
 	public GuiaRemision inactivar(GuiaRemision guiaRemision) {
 		validar(guiaRemision);
-		guiaRemision.setEstado(Constantes.inactivo);
+		guiaRemision.setEstado(Constantes.estadoInactivo);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();
 		return res;

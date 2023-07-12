@@ -46,7 +46,7 @@ public class MovimientoContableService implements IMovimientoContableService {
     		throw new CodigoNoExistenteException();
     	}
     	movimientoContable.setCodigo(codigo.get());
-    	movimientoContable.setEstado(Constantes.activo);
+    	movimientoContable.setEstado(Constantes.estadoActivo);
     	MovimientoContable res = rep.save(movimientoContable);
         res.normalizar();
         return res;
@@ -63,7 +63,7 @@ public class MovimientoContableService implements IMovimientoContableService {
     @Override
     public MovimientoContable activar(MovimientoContable movimientoContable) {
         validar(movimientoContable);
-        movimientoContable.setEstado(Constantes.activo);
+        movimientoContable.setEstado(Constantes.estadoActivo);
         MovimientoContable res = rep.save(movimientoContable);
         res.normalizar();
         return res;
@@ -72,7 +72,7 @@ public class MovimientoContableService implements IMovimientoContableService {
     @Override
     public MovimientoContable inactivar(MovimientoContable movimientoContable) {
         validar(movimientoContable);
-        movimientoContable.setEstado(Constantes.inactivo);
+        movimientoContable.setEstado(Constantes.estadoInactivo);
         MovimientoContable res = rep.save(movimientoContable);
         res.normalizar();
         return res;

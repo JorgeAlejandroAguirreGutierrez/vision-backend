@@ -3,7 +3,6 @@ package com.proyecto.vision.controladoras.venta;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.controladoras.GenericoController;
 import com.proyecto.vision.modelos.Respuesta;
-import com.proyecto.vision.modelos.inventario.Bodega;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
 import com.proyecto.vision.servicios.interf.venta.IFacturaService;
@@ -132,9 +131,9 @@ public class FacturaController implements GenericoController<Factura> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorCliente/{clienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorCliente(@PathVariable("clienteId") long clienteId) {
-        List<Factura> facturas = servicio.consultarPorCliente(clienteId);
+    @GetMapping(value = "/consultarPorClienteYEstadoSriYEstadoInternoYEstado/{clienteId}/{estadoSri}/{estadoInterno}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorClienteYEstadoSriYEstadoInternoYEstado(@PathVariable("clienteId") long clienteId, @PathVariable("estadoSri") String estadoSri, @PathVariable("estadoInterno") String estadoInterno, @PathVariable("estado") String estado) {
+        List<Factura> facturas = servicio.consultarPorClienteYEstadoSriYEstadoInternoYEstado(clienteId, estadoSri, estadoInterno, estado);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

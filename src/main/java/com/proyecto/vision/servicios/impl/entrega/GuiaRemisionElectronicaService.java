@@ -20,7 +20,9 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
+import com.proyecto.vision.modelos.venta.electronico.factura.FacturaElectronica;
 import com.proyecto.vision.modelos.venta.electronico.guiaremision.*;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.repositorios.entrega.IGuiaRemisionRepository;
@@ -186,37 +188,39 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 	public GuiaRemision enviar(long guiaRemisionId) {
 		Optional<GuiaRemision> opcional= rep.findById(guiaRemisionId);
 		if(opcional.isEmpty()) {
-			throw new EntidadNoExistenteException(Constantes.guia_remision);
+			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		GuiaRemision guiaRemision = opcional.get();
-		if(!guiaRemision.getEstado().equals(Constantes.estadoEmitida)){
-			throw new EstadoInvalidoException(Constantes.estadoFacturada);
+		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
+			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
+		}
+		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoInternoAnulada);
+		}
+		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
+			throw new EstadoInvalidoException(Constantes.estadoSriAutorizada);
+		}
+		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
 		}
 		GuiaRemisionElectronica guiaRemisionElectronica = crear(guiaRemision);
-		if(guiaRemision.getEstado().equals(Constantes.estadoEmitida)) {
-			String estadoRecepcion = recepcion(guiaRemisionElectronica);
-			if(estadoRecepcion.equals(Constantes.recibidaSri)) {
-				String estadoAutorizacion = autorizacion(guiaRemisionElectronica);
-				if(estadoAutorizacion.equals(Constantes.autorizadoSri)){
-					guiaRemision.setEstado(Constantes.estadoFacturada);
-					enviarCorreo(guiaRemision, guiaRemisionElectronica);
-					GuiaRemision facturada = rep.save(guiaRemision);
-					facturada.normalizar();
-					return facturada;
-				}
-				throw new FacturaElectronicaInvalidaException(estadoAutorizacion);
-			}
-			throw new FacturaElectronicaInvalidaException(estadoRecepcion);
+		List<String> estadoRecepcion = recepcion(guiaRemisionElectronica);
+		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
-		if(guiaRemision.getEstado().equals(Constantes.estadoFacturada)){
-			enviarCorreo(guiaRemision, guiaRemisionElectronica);
-			guiaRemision.normalizar();
-			return guiaRemision;
+		List<String> estadoAutorizacion = autorizacion(guiaRemisionElectronica);
+		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
-		throw new FacturaElectronicaInvalidaException(Constantes.estadoNoFacturada);
+		guiaRemision.setEstadoSri(Constantes.estadoSriAutorizada);
+		guiaRemision.setFechaAutorizacion(new Date());
+		enviarCorreo(guiaRemision, guiaRemisionElectronica);
+		GuiaRemision facturada = rep.save(guiaRemision);
+		facturada.normalizar();
+		return facturada;
 	}
     
-    private String recepcion(GuiaRemisionElectronica guiaRemisionElectronica) {
+    private List<String> recepcion(GuiaRemisionElectronica guiaRemisionElectronica) {
     	try {
     		JAXBContext jaxbContext = JAXBContext.newInstance(GuiaRemisionElectronica.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -251,7 +255,15 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
             // print response body
             System.out.println(response.body());
             JSONObject json=Util.convertirXmlJson(response.body());
-            return json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
+			List<String> resultado = new ArrayList<>();
+			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
+			resultado.add(estado);
+			if(estado.equals(Constantes.devueltaSri)){
+				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante")
+						.getJSONObject("comprobantes").getJSONObject("comprobante").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				resultado.add(informacionAdicional);
+			}
+			return resultado;
         } catch (JAXBException ex) {
             System.err.println(ex.getMessage());                        
         } catch (IOException ex) {
@@ -267,7 +279,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
     }
 
-	public String autorizacion(GuiaRemisionElectronica guiaRemisionElectronica){
+	public List<String> autorizacion(GuiaRemisionElectronica guiaRemisionElectronica){
 		try {
 			String body=Util.soapConsultaFacturacionEletronica(guiaRemisionElectronica.getInfoTributaria().getClaveAcceso());
 			HttpClient httpClient = HttpClient.newBuilder()
@@ -285,8 +297,21 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			// print response body
 			System.out.println(response.body());
 			JSONObject json=Util.convertirXmlJson(response.body());
-			return json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+			List<String> resultado = new ArrayList<>();
+			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
 					.getJSONObject("autorizaciones").getJSONObject("autorizacion").getString("estado");
+			resultado.add(estado);
+			if(estado.equals(Constantes.noAutorizadoSri)){
+				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+						.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				resultado.add(informacionAdicional);
+			}
+			if(estado.equals(Constantes.devueltaSri)){
+				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+						.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				resultado.add(informacionAdicional);
+			}
+			return resultado;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} catch (InterruptedException e) {

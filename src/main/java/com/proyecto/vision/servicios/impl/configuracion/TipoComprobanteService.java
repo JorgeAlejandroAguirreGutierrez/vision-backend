@@ -60,7 +60,7 @@ public class TipoComprobanteService implements ITipoComprobanteService {
 
     @Override
     public List<TipoComprobante> consultarPorElectronica() {
-        return rep.consultarPorElectronica(Constantes.si, Constantes.activo);
+        return rep.consultarPorElectronica(Constantes.si, Constantes.estadoActivo);
     }
 
     @Override

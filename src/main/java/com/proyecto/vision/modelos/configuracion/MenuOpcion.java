@@ -48,6 +48,6 @@ public class MenuOpcion extends Entidad {
         this.menu = Constantes.no;
         this.tabla = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

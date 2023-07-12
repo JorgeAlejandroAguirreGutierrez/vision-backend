@@ -48,7 +48,7 @@ public class ReporteCajaService {
         Date fechaInicioC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaInicio);
         Date fechaFinalC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaFinal);
         List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicioC, fechaFinalC, empresaId);
-        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.activo);
+        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.estadoActivo);
         if (facturas.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.factura);
         }
@@ -81,7 +81,7 @@ public class ReporteCajaService {
         double totalTransferencia = Constantes.cero;
         double totalCredito = Constantes.cero;
         for (Factura factura : facturas) {
-            if (factura.getEstado().equals(Constantes.estadoAnulada)) {
+            if (factura.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) {
                 facturasAnuladas++;
             } else {
                 facturasEmitidas++;

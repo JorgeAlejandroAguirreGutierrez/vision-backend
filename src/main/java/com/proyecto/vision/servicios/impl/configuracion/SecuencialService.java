@@ -33,7 +33,7 @@ public class SecuencialService implements ISecuencialService {
     		throw new CodigoNoExistenteException();
     	}
     	secuencial.setCodigo(codigo.get());
-    	secuencial.setEstado(Constantes.activo);
+    	secuencial.setEstado(Constantes.estadoActivo);
     	return rep.save(secuencial);
     }
 
@@ -46,14 +46,14 @@ public class SecuencialService implements ISecuencialService {
     @Override
     public Secuencial activar(Secuencial secuencial) {
         validar(secuencial);
-        secuencial.setEstado(Constantes.activo);
+        secuencial.setEstado(Constantes.estadoActivo);
         return rep.save(secuencial);
     }
 
     @Override
     public Secuencial inactivar(Secuencial secuencial) {
         validar(secuencial);
-        secuencial.setEstado(Constantes.inactivo);
+        secuencial.setEstado(Constantes.estadoInactivo);
         return rep.save(secuencial);
     }
 

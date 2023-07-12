@@ -34,6 +34,6 @@ public class AfectacionContable extends Entidad {
         this.codigo = Constantes.vacio;
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

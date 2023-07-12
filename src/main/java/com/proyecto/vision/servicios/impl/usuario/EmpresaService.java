@@ -37,7 +37,7 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Empresa crear(Empresa empresa) {
         validar(empresa);
-      Optional<Empresa>buscarEmpresa=rep.obtenerPorIdentificacion(empresa.getIdentificacion(), Constantes.activo);
+      Optional<Empresa>buscarEmpresa=rep.obtenerPorIdentificacion(empresa.getIdentificacion(), Constantes.estadoActivo);
       if(buscarEmpresa.isPresent()) {
           throw new EntidadExistenteException(Constantes.empresa);
       }
@@ -48,7 +48,7 @@ public class EmpresaService implements IEmpresaService {
     	empresa.setCodigo(codigo.get());
         byte[] logoBytes = empresa.getLogo64().getBytes(StandardCharsets.UTF_8);
         empresa.setLogo(logoBytes);
-    	empresa.setEstado(Constantes.activo);
+    	empresa.setEstado(Constantes.estadoActivo);
     	Empresa res = rep.save(empresa);
         res.normalizar();
         return res;
@@ -66,7 +66,7 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Empresa activar(Empresa empresa) {
         validar(empresa);
-        empresa.setEstado(Constantes.activo);
+        empresa.setEstado(Constantes.estadoActivo);
         Empresa res = rep.save(empresa);
         res.normalizar();
         return res;
@@ -75,7 +75,7 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Empresa inactivar(Empresa empresa) {
         validar(empresa);
-        empresa.setEstado(Constantes.inactivo);
+        empresa.setEstado(Constantes.estadoInactivo);
         Empresa res = rep.save(empresa);
         res.normalizar();
         return res;

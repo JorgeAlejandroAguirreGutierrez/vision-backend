@@ -18,7 +18,7 @@ public interface IFacturaCompraRepository extends JpaRepository<FacturaCompra, L
     List<FacturaCompra> consultarPorEmpresa(long empresaId);
     @Query(value = "select fc from FacturaCompra fc where fc.empresa.id = :empresaId and fc.estado = :estado order by fc.codigo asc")
     List<FacturaCompra> consultarPorEmpresaYEstado(long empresaId, String estado);
-    @Query(value = "select fc from FacturaCompra fc where fc.proveedor.id = :proveedorId and fc.estado = :estado order by fc.codigo asc")
-    List<FacturaCompra> consultarPorProveedor(long proveedorId, String estado);
+    @Query(value = "select fc from FacturaCompra fc where fc.proveedor.id = :proveedorId and fc.estadoInterno = :estadoInterno and fc.estado = :estado order by fc.codigo asc")
+    List<FacturaCompra> consultarPorProveedorYEstadoInternoYEstado(long proveedorId, String estadoInterno, String estado);
 
 }

@@ -71,7 +71,7 @@ public class Empresa extends Entidad {
         this.resolucionEspecial = Constantes.vacio;
         this.agenteRetencion = Constantes.no;
         this.resolucionAgente = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 
     public void normalizar(){

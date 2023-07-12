@@ -42,7 +42,7 @@ public class ClienteData implements ApplicationRunner {
             List<Correo> correos1 = new ArrayList<>();
             correos1.add(new Correo("COR012306000001", "consumidorfinal@futuristic.com.ec", new Cliente(1)));
 
-            clientes.add(new Cliente("CLI012306000001", "9999999999999", "CONSUMIDOR FINAL", Constantes.no, Constantes.no, Constantes.activo, "CONSUMIDOR FINAL", "CASA", "", -1.6719601146175827, -78.65041698970857,
+            clientes.add(new Cliente("CLI012306000001", "9999999999999", "CONSUMIDOR FINAL", Constantes.no, Constantes.no, Constantes.estadoActivo, "CONSUMIDOR FINAL", "CASA", "", -1.6719601146175827, -78.65041698970857,
                     0, new TipoIdentificacion(4), new TipoContribuyente(2), new GrupoCliente(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(248), new Genero(1),
                     new EstadoCivil(1), new CalificacionCliente(1), new OrigenIngreso(1), new Segmento(1), new Empresa(1), Collections.emptyList(), telefonos1, celulares1, correos1, Collections.emptyList()));
 
@@ -53,7 +53,7 @@ public class ClienteData implements ApplicationRunner {
             List<Correo> correos2 = new ArrayList<>();
             correos2.add(new Correo("COR011908000002", "alejo@gmail.com", new Cliente(2)));
 
-            clientes.add(new Cliente("CLI012306000002", "1160000240001", "CLIENTE B", Constantes.no, Constantes.si, Constantes.activo, "CARRERA 2 # 2-2", "", "CERCA A LA IGLESIA PATRIA", -1.6719601146175827, -78.65041698970857,
+            clientes.add(new Cliente("CLI012306000002", "1160000240001", "CLIENTE B", Constantes.no, Constantes.si, Constantes.estadoActivo, "CARRERA 2 # 2-2", "", "CERCA A LA IGLESIA PATRIA", -1.6719601146175827, -78.65041698970857,
                     0, new TipoIdentificacion(1), new TipoContribuyente(2), new GrupoCliente(2), new FormaPago(2), new PlazoCredito(2), new Ubicacion(100), new Genero(1),
                     new EstadoCivil(1), new CalificacionCliente(1), new OrigenIngreso(1), new Segmento(2), new Empresa(1), Collections.emptyList(), telefonos2, celulares2, correos2, Collections.emptyList()));
 
@@ -64,11 +64,11 @@ public class ClienteData implements ApplicationRunner {
             List<Correo> correos3 = new ArrayList<>();
             correos3.add(new Correo("COR011908000002", "cliente3@gmail.com", new Cliente(2)));
 
-            clientes.add(new Cliente("CLI012306000003", "1768038860001", "CLIENTE A", Constantes.no, Constantes.si, Constantes.activo, "CARRERA 1 # 1-1", "","CERCA A LA IGLESIA NOE", -1.6719601146175827, -78.65041698970857,
+            clientes.add(new Cliente("CLI012306000003", "1768038860001", "CLIENTE A", Constantes.no, Constantes.si, Constantes.estadoActivo, "CARRERA 1 # 1-1", "","CERCA A LA IGLESIA NOE", -1.6719601146175827, -78.65041698970857,
                     0, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoCliente(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(10), new Genero(2),
                     new EstadoCivil(2), new CalificacionCliente(1), new OrigenIngreso(1), new Segmento(1), new Empresa(1), Collections.emptyList(), telefonos3, celulares3, correos3, Collections.emptyList()));
 
-            clientes.add(new Cliente("CLI022306000001", "9999999999999", "CONSUMIDOR FINAL", Constantes.no, Constantes.no, Constantes.activo, "RIOBAMBA (DIRECCIÓN GENERAL)", "CASA", "", -1.6719601146175827, -78.65041698970857,
+            clientes.add(new Cliente("CLI022306000001", "9999999999999", "CONSUMIDOR FINAL", Constantes.no, Constantes.no, Constantes.estadoActivo, "RIOBAMBA (DIRECCIÓN GENERAL)", "CASA", "", -1.6719601146175827, -78.65041698970857,
                     0, new TipoIdentificacion(4), new TipoContribuyente(2), new GrupoCliente(6), new FormaPago(1), new PlazoCredito(4), new Ubicacion(248), new Genero(1),
                     new EstadoCivil(1), new CalificacionCliente(6), new OrigenIngreso(1), new Segmento(5), new Empresa(2), Collections.emptyList(), telefonos1, celulares1, correos1, Collections.emptyList()));
 

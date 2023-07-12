@@ -68,7 +68,9 @@ public class FacturaCompraService implements IFacturaCompraService {
         facturaCompra.setCodigo(codigo.get());
         crearKardex(facturaCompra);
         actualizarPrecios(facturaCompra);
-        facturaCompra.setEstado(Constantes.activo);
+        facturaCompra.setEstado(Constantes.estadoActivo);
+        facturaCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
+
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -157,7 +159,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     @Override
     public FacturaCompra activar(FacturaCompra facturaCompra) {
         validar(facturaCompra);
-        facturaCompra.setEstado(Constantes.activo);
+        facturaCompra.setEstado(Constantes.estadoActivo);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -166,7 +168,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     @Override
     public FacturaCompra inactivar(FacturaCompra facturaCompra) {
         validar(facturaCompra);
-        facturaCompra.setEstado(Constantes.inactivo);
+        facturaCompra.setEstado(Constantes.estadoInactivo);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -209,8 +211,8 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
-    public List<FacturaCompra> consultarPorProveedor(long proveedorId) {
-        return rep.consultarPorProveedor(proveedorId, Constantes.estadoFacturada);
+    public List<FacturaCompra> consultarPorProveedorYEstadoInternoYEstado(long proveedorId, String estadoInterno, String estado) {
+        return rep.consultarPorProveedorYEstadoInternoYEstado(proveedorId, estadoInterno, estado);
     }
 
     /*

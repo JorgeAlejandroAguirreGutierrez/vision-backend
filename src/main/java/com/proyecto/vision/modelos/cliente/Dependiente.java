@@ -60,7 +60,7 @@ public class Dependiente extends Entidad {
         this.codigo = Constantes.vacio;
         this.razonSocial = Constantes.vacio;
         this.direccion = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
         this.telefonosDependiente = Collections.emptyList();
         this.celularesDependiente = Collections.emptyList();
         this.correosDependiente = Collections.emptyList();

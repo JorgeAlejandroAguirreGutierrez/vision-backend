@@ -115,7 +115,7 @@ public class Cliente extends Entidad {
         this.razonSocial = Constantes.vacio;
         this.obligadoContabilidad = Constantes.no;
         this.especial = Constantes.no;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
         this.direccion = Constantes.vacio;
         this.referencia = Constantes.vacio;
         this.latitudgeo = Constantes.latCiudad;

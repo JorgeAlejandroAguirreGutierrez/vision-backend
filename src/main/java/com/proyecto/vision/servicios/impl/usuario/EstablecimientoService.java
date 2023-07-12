@@ -41,7 +41,7 @@ public class EstablecimientoService implements IEstablecimientoService {
     @Override
     public Establecimiento crear(Establecimiento establecimiento) {
         validar(establecimiento);
-    	Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(establecimiento.getUbicacion().getProvincia(),establecimiento.getUbicacion().getCanton(), establecimiento.getUbicacion().getParroquia(), Constantes.activo);
+    	Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(establecimiento.getUbicacion().getProvincia(),establecimiento.getUbicacion().getCanton(), establecimiento.getUbicacion().getParroquia(), Constantes.estadoActivo);
     	if(ubicacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
@@ -51,7 +51,7 @@ public class EstablecimientoService implements IEstablecimientoService {
     	}
     	establecimiento.setCodigo(codigo.get());
     	establecimiento.setUbicacion(ubicacion.get());
-    	establecimiento.setEstado(Constantes.activo);
+    	establecimiento.setEstado(Constantes.estadoActivo);
     	Establecimiento res = rep.save(establecimiento);
         res.normalizar();
         return res;
@@ -68,7 +68,7 @@ public class EstablecimientoService implements IEstablecimientoService {
     @Override
     public Establecimiento activar(Establecimiento establecimiento) {
         validar(establecimiento);
-        establecimiento.setEstado(Constantes.activo);
+        establecimiento.setEstado(Constantes.estadoActivo);
         Establecimiento res = rep.save(establecimiento);
         res.normalizar();
         return res;
@@ -77,7 +77,7 @@ public class EstablecimientoService implements IEstablecimientoService {
     @Override
     public Establecimiento inactivar(Establecimiento establecimiento) {
         validar(establecimiento);
-        establecimiento.setEstado(Constantes.inactivo);
+        establecimiento.setEstado(Constantes.estadoInactivo);
         Establecimiento res = rep.save(establecimiento);
         res.normalizar();
         return res;
@@ -101,7 +101,7 @@ public class EstablecimientoService implements IEstablecimientoService {
     
     @Override
     public List<Establecimiento> consultarPorEstado(String estado){
-    	return rep.consultarPorEstado(Constantes.activo);
+    	return rep.consultarPorEstado(Constantes.estadoActivo);
     }
 
     @Override

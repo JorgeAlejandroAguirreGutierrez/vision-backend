@@ -39,6 +39,6 @@ public class Parametro extends Entidad {
         this.nombre = Constantes.vacio;
         this.tabla = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

@@ -30,6 +30,8 @@ public class GuiaRemision extends Entidad {
     private String claveAcceso;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+    @Column(name = "fecha_autorizacion", nullable = true)
+    private Date fechaAutorizacion;
     @Column(name = "fecha_inicio_transporte", nullable = true)
     private Date fechaInicioTransporte;
     @Column(name = "fecha_fin_transporte", nullable = true)
@@ -54,6 +56,10 @@ public class GuiaRemision extends Entidad {
     private String opcionGuia;
     @Column(name = "estado", nullable = true)
     private String estado;
+    @Column(name = "estado_interno", nullable = true)
+    private String estadoInterno;
+    @Column(name = "estado_sri", nullable = true)
+    private String estadoSri;
     @ManyToOne
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipoComprobante;
@@ -90,7 +96,9 @@ public class GuiaRemision extends Entidad {
         this.celularDestinatario = Constantes.vacio;
         this.correoDestinatario = Constantes.vacio;
         this.opcionGuia = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
+        this.estadoInterno = Constantes.vacio;
+        this.estadoSri =  Constantes.vacio;
     }
 
     public void normalizar(){

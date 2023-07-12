@@ -57,7 +57,7 @@ public class GrupoProducto extends Entidad {
         this.linea = Constantes.vacio;
         this.sublinea = Constantes.vacio;
         this.presentacion = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 
     public void normalizar(){

@@ -39,6 +39,6 @@ public class Ubicacion extends Entidad {
         this.provincia = Constantes.vacio;
         this.canton = Constantes.vacio;
         this.parroquia = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

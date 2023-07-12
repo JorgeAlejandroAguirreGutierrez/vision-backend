@@ -37,7 +37,7 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     		throw new CodigoNoExistenteException();
     	}
     	origenIngreso.setCodigo(codigo.get());
-    	origenIngreso.setEstado(Constantes.activo);
+    	origenIngreso.setEstado(Constantes.estadoActivo);
     	return rep.save(origenIngreso);
     }
 
@@ -50,14 +50,14 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     @Override
     public OrigenIngreso activar(OrigenIngreso origenIngreso) {
         validar(origenIngreso);
-        origenIngreso.setEstado(Constantes.activo);
+        origenIngreso.setEstado(Constantes.estadoActivo);
         return rep.save(origenIngreso);
     }
 
     @Override
     public OrigenIngreso inactivar(OrigenIngreso origenIngreso) {
         validar(origenIngreso);
-        origenIngreso.setEstado(Constantes.inactivo);
+        origenIngreso.setEstado(Constantes.estadoInactivo);
         return rep.save(origenIngreso);
     }
 
