@@ -91,9 +91,9 @@ public class NotaCreditoVenta extends Entidad {
         this.operacion = Constantes.vacio;
         this.fecha = new Date();
         this.fechaAutorizacion = null;
-        this.estadoInterno = Constantes.vacio;
-        this.estado = Constantes.vacio;
-        this.estadoSri = Constantes.vacio;
+        this.estado = Constantes.estadoActivo;
+        this.estadoInterno = Constantes.estadoInternoEmitida;
+        this.estadoSri = Constantes.estadoSriPendiente;
         this.subtotalSinDescuento = Constantes.cero;
         this.descuentoTotal = Constantes.cero;
         this.subtotalBase12SinDescuento = Constantes.cero;
