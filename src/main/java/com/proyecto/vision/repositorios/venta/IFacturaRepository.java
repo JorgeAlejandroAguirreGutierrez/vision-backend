@@ -20,8 +20,14 @@ public interface IFacturaRepository extends JpaRepository<Factura, Long>, JpaSpe
     List<Factura> consultarPorEmpresa(long empresaId);
     @Query(value = "select f from Factura f where f.empresa.id = :empresaId and f.estado = :estado order by f.codigo asc")
     List<Factura> consultarPorEmpresaYEstado(long empresaId, String estado);
-    @Query(value = "select f from Factura f where f.cliente.id = :clienteId and f.estadoSri = :estadoSri and f.estadoInterno = :estadoInterno and f.estado = :estado order by f.codigo asc")
-    List<Factura> consultarPorClienteYEstadoSriYEstadoInternoYEstado(long clienteId, String estadoSri, String estadoInterno, String estado);
+    @Query(value = "select f from Factura f where f.cliente.id = :clienteId order by f.codigo asc")
+    List<Factura> consultarPorCliente(long clienteId);
+    @Query(value = "select f from Factura f where f.cliente.id = :clienteId and f.estado = :estado order by f.codigo asc")
+    List<Factura> consultarPorClienteYEstado(long clienteId, String estado);
+    @Query(value = "select f from Factura f where f.cliente.id = :clienteId and f.estado = :estado and f.estadoInterno = :estadoInterno order by f.codigo asc")
+    List<Factura> consultarPorClienteYEstadoYEstadoInterno(long clienteId, String estado, String estadoInterno);
+    @Query(value = "select f from Factura f where f.cliente.id = :clienteId and f.estado = :estado and f.estadoInterno = :estadoInterno and f.estadoSri = :estadoSri order by f.codigo asc")
+    List<Factura> consultarPorClienteYEstadoYEstadoInternoYEstadoSri(long clienteId, String estado, String estadoInterno, String estadoSri);
     @Query(value = "select f from Factura f where date(f.fecha) between :fechaInicio and :fechaFinal and f.empresa.id = :empresaId order by f.codigo asc")
     List<Factura> consultarPorFechaInicioYFechaFinal(Date fechaInicio, Date fechaFinal, long empresaId);
 

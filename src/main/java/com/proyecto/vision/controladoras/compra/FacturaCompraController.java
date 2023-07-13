@@ -110,7 +110,14 @@ public class FacturaCompraController {
     @GetMapping(value = "/consultarPorProveedor/{proveedorId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorProveedor(@PathVariable("proveedorId") long proveedorId, @PathVariable("estadoInterno") String estadoInterno, @PathVariable("estado") String estado) {
         List<FacturaCompra> facturasCompras = servicio.consultarPorProveedorYEstadoInternoYEstado(proveedorId, estadoInterno, estado);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/pagar/{facturaCompraId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorProveedor(@PathVariable("facturaCompraId") long facturaCompraId) {
+        FacturaCompra facturasCompra = servicio.pagar(facturaCompraId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_actualizar_exitoso, facturasCompra);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }
