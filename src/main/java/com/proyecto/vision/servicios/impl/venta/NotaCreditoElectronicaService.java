@@ -24,8 +24,10 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.NotaCreditoVenta;
 import com.proyecto.vision.modelos.venta.NotaCreditoVentaLinea;
+import com.proyecto.vision.modelos.venta.electronico.factura.FacturaElectronica;
 import com.proyecto.vision.modelos.venta.electronico.notacredito.*;
 import com.proyecto.vision.repositorios.venta.INotaCreditoVentaRepository;
 import com.proyecto.vision.servicios.interf.venta.INotaCreditoElectronicaService;
@@ -613,4 +615,26 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
             e.printStackTrace();   //Si se produce un error
         }
     }
+
+	@Override
+	public ByteArrayInputStream obtenerPDF(long notaCreditoVentaId){
+		Optional<NotaCreditoVenta> opcional= rep.findById(notaCreditoVentaId);
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
+		}
+		NotaCreditoVenta notaCreditoVenta = opcional.get();
+		ByteArrayInputStream pdf = crearPDF(notaCreditoVenta);
+		return pdf;
+	}
+
+	@Override
+	public void enviarPDFYXML(long notaCreditoVentaId){
+		Optional<NotaCreditoVenta> opcional= rep.findById(notaCreditoVentaId);
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
+		}
+		NotaCreditoVenta notaCreditoVenta = opcional.get();
+		NotaCreditoElectronica notaCreditoElectronica = crear(notaCreditoVenta);
+		enviarCorreo(notaCreditoVenta, notaCreditoElectronica);
+	}
 }

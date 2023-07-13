@@ -24,8 +24,10 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.modelos.venta.NotaCreditoVenta;
 import com.proyecto.vision.modelos.venta.NotaDebitoVenta;
 import com.proyecto.vision.modelos.venta.NotaDebitoVentaLinea;
+import com.proyecto.vision.modelos.venta.electronico.notacredito.NotaCreditoElectronica;
 import com.proyecto.vision.modelos.venta.electronico.notadebito.*;
 import com.proyecto.vision.modelos.recaudacion.*;
 import com.proyecto.vision.repositorios.venta.INotaDebitoVentaRepository;
@@ -703,5 +705,27 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		catch (Exception e) {
 			e.printStackTrace();   //Si se produce un error
 		}
+	}
+
+	@Override
+	public ByteArrayInputStream obtenerPDF(long notaDebitoVentaId){
+		Optional<NotaDebitoVenta> opcional= rep.findById(notaDebitoVentaId);
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.nota_debito_venta);
+		}
+		NotaDebitoVenta notaDebitoVenta = opcional.get();
+		ByteArrayInputStream pdf = crearPDF(notaDebitoVenta);
+		return pdf;
+	}
+
+	@Override
+	public void enviarPDFYXML(long notaDebitoVentaId){
+		Optional<NotaDebitoVenta> opcional= rep.findById(notaDebitoVentaId);
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.nota_debito_venta);
+		}
+		NotaDebitoVenta notaDebitoVenta = opcional.get();
+		NotaDebitoElectronica notaDebitoElectronica = crear(notaDebitoVenta);
+		enviarCorreo(notaDebitoVenta, notaDebitoElectronica);
 	}
 }

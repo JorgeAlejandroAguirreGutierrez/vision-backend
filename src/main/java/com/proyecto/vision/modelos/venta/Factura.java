@@ -147,7 +147,9 @@ public class Factura extends Entidad {
 		this.fecha = new Date();
 		this.claveAcceso = Constantes.vacio;
 		this.fechaAutorizacion = null;
-		this.estado = Constantes.vacio;
+		this.estado = Constantes.estadoActivo;
+		this.estadoInterno = Constantes.estadoInternoEmitida;
+		this.estadoSri = Constantes.estadoSriPendiente;
 		this.subtotalSinDescuento = Constantes.cero;
 		this.subtotalConDescuento = Constantes.cero;
 		this.descuentoTotal = Constantes.cero;
