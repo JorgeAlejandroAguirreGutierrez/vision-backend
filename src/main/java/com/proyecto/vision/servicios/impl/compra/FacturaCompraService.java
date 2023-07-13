@@ -52,7 +52,6 @@ public class FacturaCompraService implements IFacturaCompraService {
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
             validarLinea(facturaCompraLinea);
         }
-
     }
 
     @Transactional
@@ -220,7 +219,8 @@ public class FacturaCompraService implements IFacturaCompraService {
      */
     @Override
     public void validarLinea(FacturaCompraLinea facturaCompraLinea) {
-        if (facturaCompraLinea.getCantidad() <= Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
+        if (facturaCompraLinea.getCantidad() <= Constantes.cero)
+            throw new DatoInvalidoException(Constantes.cantidad);
         if (facturaCompraLinea.getCostoUnitario() <= Constantes.cero)
             throw new DatoInvalidoException(Constantes.costoUnitario);
         if (facturaCompraLinea.getBodega().getId() == Constantes.ceroId)
@@ -382,4 +382,22 @@ public class FacturaCompraService implements IFacturaCompraService {
     /*
      * FIN CALCULOS TOTALES FACTURA COMPRA
      */
+
+    public FacturaCompra pagar(long facturaCompraId){
+        Optional<FacturaCompra> optional = rep.findById(facturaCompraId);
+        if(optional.isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.factura_compra);
+        }
+        FacturaCompra facturaCompra = optional.get();
+        validar(facturaCompra);
+        if(facturaCompra.getEstado().equals(Constantes.estadoInactivo))
+            throw new EstadoInvalidoException(Constantes.estado);
+        if(facturaCompra.getEstadoInterno().equals(Constantes.estadoInternoPagada))
+            throw new EstadoInvalidoException(Constantes.estado);
+        if(facturaCompra.getEstadoInterno().equals(Constantes.estadoInternoPorPagar)){
+            facturaCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
+            return facturaCompra;
+        }
+        throw new ErrorInternoException();
+    }
 }

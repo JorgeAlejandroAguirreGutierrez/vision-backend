@@ -194,6 +194,12 @@ public class FacturaService implements IFacturaService {
         calcular(factura);
         calcularRecaudacion(factura);
         crearKardex(factura);
+        if(factura.getTotalRecaudacion() != factura.getValorTotal()){
+            factura.setEstadoInterno(Constantes.estadoInternoEmitida);
+        }
+        if(factura.getTotalRecaudacion() == factura.getValorTotal()){
+            factura.setEstadoInterno(Constantes.estadoInternoRecaudada);
+        }
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -231,6 +237,15 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura recaudar(Factura factura) {
         validar(factura);
+        calcular(factura);
+        calcularRecaudacion(factura);
+        crearKardex(factura);
+        if(factura.getTotalRecaudacion() != factura.getValorTotal()){
+            factura.setEstadoInterno(Constantes.estadoInternoEmitida);
+        }
+        if(factura.getTotalRecaudacion() == factura.getValorTotal()){
+            factura.setEstadoInterno(Constantes.estadoInternoRecaudada);
+        }
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -257,8 +272,23 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarPorClienteYEstadoSriYEstadoInternoYEstado(long facturaId, String estadoSri, String estadoInterno, String estado) {
-        return rep.consultarPorClienteYEstadoSriYEstadoInternoYEstado(facturaId, estadoSri, estadoInterno, estado);
+    public List<Factura> consultarPorCliente(long facturaId) {
+        return rep.consultarPorCliente(facturaId);
+    }
+
+    @Override
+    public List<Factura> consultarPorClienteYEstado(long facturaId, String estado) {
+        return rep.consultarPorClienteYEstado(facturaId, estado);
+    }
+
+    @Override
+    public List<Factura> consultarPorClienteYEstadoYEstadoInterno(long facturaId, String estado, String estadoInterno) {
+        return rep.consultarPorClienteYEstadoYEstadoInterno(facturaId, estado, estadoInterno);
+    }
+
+    @Override
+    public List<Factura> consultarPorClienteYEstadoYEstadoInternoYEstadoSri(long facturaId, String estado, String estadoInterno, String estadoSri) {
+        return rep.consultarPorClienteYEstadoYEstadoInternoYEstadoSri(facturaId, estado, estadoInterno, estadoSri);
     }
 
     @Override

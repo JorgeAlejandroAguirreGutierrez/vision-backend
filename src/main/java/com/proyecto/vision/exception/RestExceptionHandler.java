@@ -116,6 +116,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		);
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+	@ExceptionHandler(ErrorInternoException.class)
+	public final ResponseEntity<RestExceptionMessage> handleErrorInternoException(
+			ErrorInternoException ex, WebRequest req) {
+		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_generico,
+				Constantes.error_generico,
+				null
+		);
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	
 	@Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
