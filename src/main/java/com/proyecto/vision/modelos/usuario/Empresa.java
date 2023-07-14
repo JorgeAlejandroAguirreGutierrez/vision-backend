@@ -51,6 +51,10 @@ public class Empresa extends Entidad {
     @ManyToOne
     @JoinColumn(name = "tipo_identificacion_id", nullable = true)
     private TipoIdentificacion tipoIdentificacion;
+    @Column(name = "certificado", nullable = true)
+    private String certificado;
+    @Column(name = "contrasena", nullable = true)
+    private String contrasena;
 
     public Empresa(long id){
         super(id);
@@ -72,6 +76,8 @@ public class Empresa extends Entidad {
         this.agenteRetencion = Constantes.no;
         this.resolucionAgente = Constantes.vacio;
         this.estado = Constantes.estadoActivo;
+        this.certificado = Constantes.vacio;
+        this.contrasena = Constantes.vacio;
     }
 
     public void normalizar(){

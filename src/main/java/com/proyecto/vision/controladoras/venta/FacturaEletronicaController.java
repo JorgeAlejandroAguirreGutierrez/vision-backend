@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
+import java.net.MalformedURLException;
 
 @RestController
 @RequestMapping(contexto+pathFacturaElectronica)
@@ -25,7 +26,7 @@ public class FacturaEletronicaController {
     private IFacturaElectronicaService servicio;
 
     @GetMapping(value = "/{facturaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> enviar(@PathVariable("facturaId") long facturaId) {
+    public ResponseEntity<?> enviar(@PathVariable("facturaId") long facturaId) throws MalformedURLException {
         Factura factura = servicio.enviar(facturaId);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_crear_factura_electronica_exitosa + Constantes.espacio + factura.getClaveAcceso(), factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);

@@ -107,6 +107,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	@ExceptionHandler(CertificadoNoExistenteException.class)
+	public final ResponseEntity<RestExceptionMessage> handleCertificadoNoExistenteException(
+			CertificadoNoExistenteException ex, WebRequest req) {
+		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_certificado_no_existente,
+				Constantes.error_certificado_no_existente,
+				null
+		);
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
 	@ExceptionHandler(FacturaElectronicaInvalidaException.class)
 	public final ResponseEntity<RestExceptionMessage> handleFacturaElectronicaInvalidaException(
 			FacturaElectronicaInvalidaException ex, WebRequest req) {

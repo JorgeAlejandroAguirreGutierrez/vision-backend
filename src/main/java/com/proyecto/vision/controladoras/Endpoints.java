@@ -43,9 +43,9 @@ public class Endpoints {
     public static final String pathTipoComprobante="tipoComprobante";
     public static final String pathNotaCreditoVenta="notaCreditoVenta";
     public static final String pathNotaDebitoVenta="notaDebitoVenta";
-    public static final String pathNotaDebitoElectronica="notaDebitoEletronica";
-    public static final String pathNotaCreditoElectronica="notaCreditoEletronica";
-    public static final String pathGuiaRemisionElectronica="guiaRemisionEletronica";
+    public static final String pathNotaDebitoElectronica="notaDebitoElectronica";
+    public static final String pathNotaCreditoElectronica="notaCreditoElectronica";
+    public static final String pathGuiaRemisionElectronica="guiaRemisionElectronica";
     
     //CONFIGURACION
     public static final String pathEmpresa="empresa";
