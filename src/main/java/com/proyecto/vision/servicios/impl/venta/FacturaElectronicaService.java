@@ -90,7 +90,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     
     private FacturaElectronica crear(Factura factura) {
     	//MAPEO A FACTURA ELECTRONICA
-    	FacturaElectronica facturaElectronica=new FacturaElectronica();
+    	FacturaElectronica facturaElectronica = new FacturaElectronica();
     	InfoTributaria infoTributaria = new InfoTributaria();
     	InfoFactura infoFactura = new InfoFactura();	 	
     	  	
