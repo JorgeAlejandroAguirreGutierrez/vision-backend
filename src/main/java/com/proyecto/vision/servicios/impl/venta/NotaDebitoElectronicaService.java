@@ -274,7 +274,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
 		}
 		NotaDebitoElectronica notaDebitoElectronica = crear(notaDebitoVenta);
-		List<String> estadoRecepcion = recepcion(notaDebitoElectronica);
+		List<String> estadoRecepcion = recepcion(notaDebitoElectronica, notaDebitoVenta.getEmpresa().getCertificado(), notaDebitoVenta.getEmpresa().getContrasena());
 		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
@@ -290,7 +290,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		return facturada;
 	}
 
-	private List<String> recepcion(NotaDebitoElectronica notaDebitoElectronica) {
+	private List<String> recepcion(NotaDebitoElectronica notaDebitoElectronica, String certificado, String contrasena) {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -300,10 +300,10 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			StringWriter sw = new StringWriter();
 			jaxbMarshaller.marshal(notaDebitoElectronica, sw);
 			String xml=sw.toString();
-			Path path = Paths.get(Constantes.certificadoSri);
+			Path path = Paths.get(Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
-			byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasenaCertificadoSri);
+			byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
 			String encode=Base64.getEncoder().encodeToString(firmado);
 			String body=Util.soapFacturacionEletronica(encode);
 			System.out.println(body);
@@ -329,8 +329,17 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
 			resultado.add(estado);
 			if(estado.equals(Constantes.devueltaSri)){
-				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante")
-						.getJSONObject("comprobantes").getJSONObject("comprobante").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				String informacionAdicional = Constantes.vacio;
+				if(json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante")
+						.getJSONObject("comprobantes").getJSONObject("comprobante").getJSONObject("mensajes").getJSONObject("mensaje").has("mensaje")){
+					informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante")
+							.getJSONObject("comprobantes").getJSONObject("comprobante").getJSONObject("mensajes").getJSONObject("mensaje").getString("mensaje");
+				}
+				if(json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante")
+						.getJSONObject("comprobantes").getJSONObject("comprobante").getJSONObject("mensajes").getJSONObject("mensaje").has("informacionAdicional")) {
+					informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante")
+							.getJSONObject("comprobantes").getJSONObject("comprobante").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				}
 				resultado.add(informacionAdicional);
 			}
 			return resultado;
@@ -377,8 +386,17 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 				resultado.add(informacionAdicional);
 			}
 			if(estado.equals(Constantes.devueltaSri)){
-				String informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
-						.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				String informacionAdicional = Constantes.vacio;
+				if(json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+						.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").has("mensaje")){
+					informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+							.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").getString("mensaje");
+				}
+				if(json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+						.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").has("informacionAdicional")) {
+					informacionAdicional = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
+							.getJSONObject("autorizaciones").getJSONObject("autorizacion").getJSONObject("mensajes").getJSONObject("mensaje").getString("informacionAdicional");
+				}
 				resultado.add(informacionAdicional);
 			}
 			return resultado;

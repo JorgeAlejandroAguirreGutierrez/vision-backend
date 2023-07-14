@@ -6,16 +6,23 @@ import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
 import com.proyecto.vision.exception.EntidadExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
-import com.proyecto.vision.modelos.cliente.Cliente;
 import com.proyecto.vision.modelos.usuario.Empresa;
 import com.proyecto.vision.repositorios.usuario.IEmpresaRepository;
 import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +30,8 @@ import java.util.Optional;
 public class EmpresaService implements IEmpresaService {
     @Autowired
     private IEmpresaRepository rep;
+
+    private final Path root = Paths.get(Constantes.pathCertificados);
 
     @Override
     public void validar(Empresa empresa) {
@@ -37,7 +46,7 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Empresa crear(Empresa empresa) {
         validar(empresa);
-      Optional<Empresa>buscarEmpresa=rep.obtenerPorIdentificacion(empresa.getIdentificacion(), Constantes.estadoActivo);
+      Optional<Empresa> buscarEmpresa = rep.obtenerPorIdentificacion(empresa.getIdentificacion(), Constantes.estadoActivo);
       if(buscarEmpresa.isPresent()) {
           throw new EntidadExistenteException(Constantes.empresa);
       }
@@ -117,5 +126,29 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Page<Empresa> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
+    }
+
+    @Override
+    public Empresa subirCertificado(long empresaId, MultipartFile file) throws IOException {
+        Optional<Empresa> optional = rep.findById(empresaId);
+        if(optional.isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.empresa);
+        }
+        Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+        Empresa empresa = optional.get();
+        empresa.setCertificado(file.getOriginalFilename());
+        return rep.save(empresa);
+    }
+
+    @Override
+    public Resource bajarCertificado(long empresaId) throws MalformedURLException {
+        Optional<Empresa> optional = rep.findById(empresaId);
+        if(optional.isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.empresa);
+        }
+        Empresa empresa = optional.get();
+        Path file = this.root.resolve(empresa.getCertificado());
+        Resource resource = new UrlResource(file.toUri());
+        return resource;
     }
 }
