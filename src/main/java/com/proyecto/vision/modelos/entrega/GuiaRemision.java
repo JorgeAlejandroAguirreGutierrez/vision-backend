@@ -2,6 +2,7 @@ package com.proyecto.vision.modelos.entrega;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.usuario.Empresa;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.usuario.Sesion;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
@@ -75,6 +76,9 @@ public class GuiaRemision extends Entidad {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
 
     public GuiaRemision(long id){
         super(id);

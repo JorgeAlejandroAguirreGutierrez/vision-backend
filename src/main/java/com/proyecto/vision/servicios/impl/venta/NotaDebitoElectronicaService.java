@@ -274,7 +274,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
 		}
 		NotaDebitoElectronica notaDebitoElectronica = crear(notaDebitoVenta);
-		List<String> estadoRecepcion = recepcion(notaDebitoElectronica);
+		List<String> estadoRecepcion = recepcion(notaDebitoElectronica, notaDebitoVenta.getEmpresa().getCertificado(), notaDebitoVenta.getEmpresa().getContrasena());
 		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
@@ -290,7 +290,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		return facturada;
 	}
 
-	private List<String> recepcion(NotaDebitoElectronica notaDebitoElectronica) {
+	private List<String> recepcion(NotaDebitoElectronica notaDebitoElectronica, String certificado, String contrasena) {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -300,10 +300,10 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			StringWriter sw = new StringWriter();
 			jaxbMarshaller.marshal(notaDebitoElectronica, sw);
 			String xml=sw.toString();
-			Path path = Paths.get(Constantes.certificadoSri);
+			Path path = Paths.get(Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
-			byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasenaCertificadoSri);
+			byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
 			String encode=Base64.getEncoder().encodeToString(firmado);
 			String body=Util.soapFacturacionEletronica(encode);
 			System.out.println(body);

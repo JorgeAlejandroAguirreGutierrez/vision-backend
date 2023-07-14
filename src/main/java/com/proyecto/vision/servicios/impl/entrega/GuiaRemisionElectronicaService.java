@@ -17,19 +17,20 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CertificadoNoExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
-import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
-import com.proyecto.vision.modelos.venta.electronico.factura.FacturaElectronica;
 import com.proyecto.vision.modelos.venta.electronico.guiaremision.*;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.repositorios.entrega.IGuiaRemisionRepository;
+import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
 import com.proyecto.vision.servicios.interf.venta.IGuiaRemisionElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
@@ -49,6 +50,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
@@ -67,6 +69,9 @@ import java.util.*;
 public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaService {
     @Autowired
     private IGuiaRemisionRepository rep;
+
+	@Autowired
+	private IEmpresaService empresaService;
     
     @Value("${prefijo.url.imagenes}")
     private String imagenes;
@@ -185,12 +190,16 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 	}
 
 	@Override
-	public GuiaRemision enviar(long guiaRemisionId) {
+	public GuiaRemision enviar(long guiaRemisionId) throws MalformedURLException {
 		Optional<GuiaRemision> opcional= rep.findById(guiaRemisionId);
 		if(opcional.isEmpty()) {
 			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		GuiaRemision guiaRemision = opcional.get();
+		Resource certificado = empresaService.bajarCertificado(guiaRemision.getEmpresa().getId());
+		if(certificado == null){
+			throw new CertificadoNoExistenteException();
+		}
 		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
 			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
 		}
@@ -204,7 +213,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
 		}
 		GuiaRemisionElectronica guiaRemisionElectronica = crear(guiaRemision);
-		List<String> estadoRecepcion = recepcion(guiaRemisionElectronica);
+		List<String> estadoRecepcion = recepcion(guiaRemisionElectronica, guiaRemision.getEmpresa().getCertificado(), guiaRemision.getEmpresa().getContrasena());
 		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
@@ -220,7 +229,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		return facturada;
 	}
     
-    private List<String> recepcion(GuiaRemisionElectronica guiaRemisionElectronica) {
+    private List<String> recepcion(GuiaRemisionElectronica guiaRemisionElectronica, String certificado, String contrasena) {
     	try {
     		JAXBContext jaxbContext = JAXBContext.newInstance(GuiaRemisionElectronica.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -230,10 +239,10 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
             StringWriter sw = new StringWriter();
             jaxbMarshaller.marshal(guiaRemisionElectronica, sw);
             String xml=sw.toString();
-			Path path = Paths.get(Constantes.certificadoSri);
+			Path path = Paths.get(Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
-            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasenaCertificadoSri);
+            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
             String encode=Base64.getEncoder().encodeToString(firmado);
             String body=Util.soapFacturacionEletronica(encode);
             System.out.println(body);
@@ -318,7 +327,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			throw new RuntimeException(e);
 		}
 	}
-    
+
     public ByteArrayInputStream crearPDF(GuiaRemision guiaRemision) {
     	try {
             ByteArrayOutputStream salida = new ByteArrayOutputStream();
@@ -465,4 +474,26 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
             e.printStackTrace();   //Si se produce un error
         }
     }
+
+	@Override
+	public ByteArrayInputStream obtenerPDF(long guiaRemisionId){
+		Optional<GuiaRemision> opcional= rep.findById(guiaRemisionId);
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.guia_remision);
+		}
+		GuiaRemision guiaRemision = opcional.get();
+		ByteArrayInputStream pdf = crearPDF(guiaRemision);
+		return pdf;
+	}
+
+	@Override
+	public void enviarPDFYXML(long guiaRemisionId){
+		Optional<GuiaRemision> opcional= rep.findById(guiaRemisionId);
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.factura);
+		}
+		GuiaRemision guiaRemision = opcional.get();
+		GuiaRemisionElectronica guiaRemisionElectronica = crear(guiaRemision);
+		enviarCorreo(guiaRemision, guiaRemisionElectronica);
+	}
 }

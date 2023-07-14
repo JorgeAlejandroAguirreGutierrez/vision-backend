@@ -21,6 +21,7 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CertificadoNoExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
@@ -30,10 +31,12 @@ import com.proyecto.vision.modelos.venta.NotaCreditoVentaLinea;
 import com.proyecto.vision.modelos.venta.electronico.factura.FacturaElectronica;
 import com.proyecto.vision.modelos.venta.electronico.notacredito.*;
 import com.proyecto.vision.repositorios.venta.INotaCreditoVentaRepository;
+import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
 import com.proyecto.vision.servicios.interf.venta.INotaCreditoElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
@@ -53,6 +56,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
@@ -71,6 +75,9 @@ import java.util.*;
 public class NotaCreditoElectronicaService implements INotaCreditoElectronicaService {
     @Autowired
     private INotaCreditoVentaRepository rep;
+
+	@Autowired
+	private IEmpresaService empresaService;
     
     @Value("${prefijo.url.imagenes}")
     private String imagenes;
@@ -214,12 +221,16 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	}
 
 	@Override
-	public NotaCreditoVenta enviar(long notaCreditoVentaId) {
+	public NotaCreditoVenta enviar(long notaCreditoVentaId) throws MalformedURLException {
 		Optional<NotaCreditoVenta> opcional= rep.findById(notaCreditoVentaId);
 		if(opcional.isEmpty()) {
 			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		NotaCreditoVenta notaCreditoVenta = opcional.get();
+		Resource certificado = empresaService.bajarCertificado(notaCreditoVenta.getEmpresa().getId());
+		if(certificado == null){
+			throw new CertificadoNoExistenteException();
+		}
 		if(notaCreditoVenta.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
 			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
 		}
@@ -233,7 +244,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
 		}
 		NotaCreditoElectronica notaCreditoElectronica = crear(notaCreditoVenta);
-		List<String> estadoRecepcion = recepcion(notaCreditoElectronica);
+		List<String> estadoRecepcion = recepcion(notaCreditoElectronica, notaCreditoVenta.getEmpresa().getCertificado(), notaCreditoVenta.getEmpresa().getContrasena());
 		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
@@ -249,7 +260,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		return facturada;
 	}
     
-    private List<String> recepcion(NotaCreditoElectronica notaCreditoElectronica) {
+    private List<String> recepcion(NotaCreditoElectronica notaCreditoElectronica, String certificado, String contrasena) {
     	try {
     		JAXBContext jaxbContext = JAXBContext.newInstance(NotaCreditoElectronica.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -259,10 +270,10 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
             StringWriter sw = new StringWriter();
             jaxbMarshaller.marshal(notaCreditoElectronica, sw);
             String xml=sw.toString();
-			Path path = Paths.get(Constantes.certificadoSri);
+			Path path = Paths.get(Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
-            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasenaCertificadoSri);
+            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasena);
             String encode=Base64.getEncoder().encodeToString(firmado);
             String body=Util.soapFacturacionEletronica(encode);
             System.out.println(body);
