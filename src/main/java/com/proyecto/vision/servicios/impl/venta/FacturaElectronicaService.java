@@ -288,6 +288,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
 		}
+		if(factura.getEmpresa().getContrasena().equals(Constantes.vacio)){
+			throw new FacturaElectronicaInvalidaException(Constantes.contrasena);
+		}
 		if(factura.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
 			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
 		}

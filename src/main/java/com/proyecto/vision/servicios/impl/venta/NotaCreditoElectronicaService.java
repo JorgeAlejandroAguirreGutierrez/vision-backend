@@ -231,6 +231,9 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
 		}
+		if(notaCreditoVenta.getEmpresa().getContrasena().equals(Constantes.vacio)){
+			throw new FacturaElectronicaInvalidaException(Constantes.contrasena);
+		}
 		if(notaCreditoVenta.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
 			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
 		}

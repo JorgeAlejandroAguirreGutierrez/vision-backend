@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
+import java.net.MalformedURLException;
 
 import static com.proyecto.vision.controladoras.Endpoints.contexto;
 import static com.proyecto.vision.controladoras.Endpoints.pathNotaDebitoElectronica;
@@ -24,7 +25,7 @@ public class NotaDebitoEletronicaController {
     private INotaDebitoElectronicaService servicio;
 
     @GetMapping(value = "/{notaDebitoVentaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> enviar(@PathVariable("notaDebitoVentaId") long notaDebitoVentaId) {
+    public ResponseEntity<?> enviar(@PathVariable("notaDebitoVentaId") long notaDebitoVentaId) throws MalformedURLException {
         NotaDebitoVenta notaDebitoVenta = servicio.enviar(notaDebitoVentaId);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_nota_debito_electronica_exitosa + Constantes.espacio + notaDebitoVenta.getClaveAcceso(), notaDebitoVenta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
