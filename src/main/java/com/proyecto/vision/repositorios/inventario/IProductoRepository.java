@@ -23,12 +23,12 @@ public interface IProductoRepository extends JpaRepository<Producto, Long>, JpaS
     List<Producto> consultarPorEmpresaYEstado(long empresaId, String estado);
     @Query(value = "select p from Producto p where p.proveedor.id = :proveedorId and p.estado = :estado order by p.codigo asc")
     List<Producto> consultarPorProveedor(long proveedorId, String estado);
-    @Query(value = "select p from Producto p where p.categoriaProducto.descripcion = :categoriaProducto and p.estado = :estado order by p.codigo asc")
+    @Query(value = "select p from Producto p where p.categoriaProducto.abreviatura = :categoriaProducto and p.estado = :estado order by p.codigo asc")
     List<Producto> consultarPorCategoriaProductoYEstado(String categoriaProducto, String estado);
-    @Query(value = "select p from Producto p where p.categoriaProducto.descripcion = :categoriaProducto and p.proveedor.id = :proveedorId and p.estado = :estado order by p.codigo asc")
+    @Query(value = "select p from Producto p where p.categoriaProducto.abreviatura = :categoriaProducto and p.proveedor.id = :proveedorId and p.estado = :estado order by p.codigo asc")
     List<Producto> consultarPorCategoriaProductoYProveedorYEstado(String categoriaProducto, long proveedorId, String estado);
-    @Query(value = "select p from Producto p where p.categoriaProducto.descripcion = :categoriaProducto and p.empresa.id = :empresaId and p.estado = :estado order by p.codigo asc")
+    @Query(value = "select p from Producto p where p.categoriaProducto.abreviatura = :categoriaProducto and p.empresa.id = :empresaId and p.estado = :estado order by p.codigo asc")
     List<Producto> consultarPorCategoriaProductoYEmpresaYEstado(String categoriaProducto, long empresaId, String estado);
-    @Query(value = "select p from Producto p where p.categoriaProducto.descripcion = :categoriaProducto and p.proveedor.id = :proveedorId and p.empresa.id = :empresaId and p.estado = :estado order by p.codigo asc")
+    @Query(value = "select p from Producto p where p.categoriaProducto.abreviatura = :categoriaProducto and p.proveedor.id = :proveedorId and p.empresa.id = :empresaId and p.estado = :estado order by p.codigo asc")
     List<Producto> consultarPorCategoriaProductoYProveedorYEmpresaYEstado(String categoriaProducto, long proveedorId, long empresaId, String estado);
 }
