@@ -224,7 +224,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	public NotaCreditoVenta enviar(long notaCreditoVentaId) throws MalformedURLException {
 		Optional<NotaCreditoVenta> opcional= rep.findById(notaCreditoVentaId);
 		if(opcional.isEmpty()) {
-			throw new EntidadNoExistenteException(Constantes.factura);
+			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
 		}
 		NotaCreditoVenta notaCreditoVenta = opcional.get();
 		Resource certificado = empresaService.bajarCertificado(notaCreditoVenta.getEmpresa().getId());
@@ -273,7 +273,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			Path path = Paths.get(Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
-            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasena);
+            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
             String encode=Base64.getEncoder().encodeToString(firmado);
             String body=Util.soapFacturacionEletronica(encode);
             System.out.println(body);
