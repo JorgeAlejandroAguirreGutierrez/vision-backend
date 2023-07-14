@@ -262,7 +262,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 	public NotaDebitoVenta enviar(long notaDebitoVentaId) throws MalformedURLException {
 		Optional<NotaDebitoVenta> opcional= rep.findById(notaDebitoVentaId);
 		if(opcional.isEmpty()) {
-			throw new EntidadNoExistenteException(Constantes.factura);
+			throw new EntidadNoExistenteException(Constantes.nota_debito_venta);
 		}
 		NotaDebitoVenta notaDebitoVenta = opcional.get();
 		Resource certificado = empresaService.bajarCertificado(notaDebitoVenta.getEmpresa().getId());
