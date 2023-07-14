@@ -35,7 +35,7 @@ public class EstadoCivilService implements IEstadoCivilService {
     		throw new CodigoNoExistenteException();
     	}
     	estadoCivil.setCodigo(codigo.get());
-    	estadoCivil.setEstado(Constantes.activo);
+    	estadoCivil.setEstado(Constantes.estadoActivo);
     	return rep.save(estadoCivil);
     }
 
@@ -72,14 +72,14 @@ public class EstadoCivilService implements IEstadoCivilService {
     @Override
     public EstadoCivil activar(EstadoCivil estadoCivil) {
         validar(estadoCivil);
-        estadoCivil.setEstado(Constantes.activo);
+        estadoCivil.setEstado(Constantes.estadoActivo);
         return rep.save(estadoCivil);
     }
 
     @Override
     public EstadoCivil inactivar(EstadoCivil estadoCivil) {
         validar(estadoCivil);
-        estadoCivil.setEstado(Constantes.inactivo);
+        estadoCivil.setEstado(Constantes.estadoInactivo);
         return rep.save(estadoCivil);
     }
     

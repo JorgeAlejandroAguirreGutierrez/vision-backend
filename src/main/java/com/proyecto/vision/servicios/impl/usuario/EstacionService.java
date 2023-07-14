@@ -36,7 +36,7 @@ public class EstacionService implements IEstacionService {
     		throw new CodigoNoExistenteException();
     	}
     	estacion.setCodigo(codigo.get());
-    	estacion.setEstado(Constantes.activo);
+    	estacion.setEstado(Constantes.estadoActivo);
     	Estacion res = rep.save(estacion);
         res.normalizar();
         return res;
@@ -53,7 +53,7 @@ public class EstacionService implements IEstacionService {
     @Override
     public Estacion activar(Estacion estacion) {
         validar(estacion);
-        estacion.setEstado(Constantes.activo);
+        estacion.setEstado(Constantes.estadoActivo);
         Estacion res = rep.save(estacion);
         res.normalizar();
         return res;
@@ -62,7 +62,7 @@ public class EstacionService implements IEstacionService {
     @Override
     public Estacion inactivar(Estacion estacion) {
         validar(estacion);
-        estacion.setEstado(Constantes.inactivo);
+        estacion.setEstado(Constantes.estadoInactivo);
         Estacion res = rep.save(estacion);
         res.normalizar();
         return res;
@@ -70,7 +70,7 @@ public class EstacionService implements IEstacionService {
 
     @Override
     public Estacion obtener(long id) {
-        Optional<Estacion> estacion= rep.findById(id);
+        Optional<Estacion> estacion = rep.findById(id);
         if(estacion.isPresent()) {
         	Estacion res = estacion.get();
             res.normalizar();
@@ -91,12 +91,12 @@ public class EstacionService implements IEstacionService {
 
     @Override
     public List<Estacion> consultarPorEstablecimiento(long establecimientoId) {
-        return rep.consultarPorEstablecimiento(establecimientoId, Constantes.activo);
+        return rep.consultarPorEstablecimiento(establecimientoId, Constantes.estadoActivo);
     }
 
     @Override
     public List<Estacion> consultarPorEstablecimientoPuntoVenta(long establecimientoId) {
-        return rep.consultarPorEstablecimientoPuntoVenta(establecimientoId, Constantes.si, Constantes.activo);
+        return rep.consultarPorEstablecimientoPuntoVenta(establecimientoId, Constantes.si, Constantes.estadoActivo);
     }
 
     @Override

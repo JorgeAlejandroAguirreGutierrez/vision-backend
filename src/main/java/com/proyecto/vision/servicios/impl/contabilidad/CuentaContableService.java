@@ -45,7 +45,7 @@ public class CuentaContableService implements ICuentaContableService {
     		throw new CodigoNoExistenteException();
     	}
         cuentaContable.setCodigo(codigo.get());
-        cuentaContable.setEstado(Constantes.activo);
+        cuentaContable.setEstado(Constantes.estadoActivo);
     	return rep.save(cuentaContable);
     }
 
@@ -58,14 +58,14 @@ public class CuentaContableService implements ICuentaContableService {
     @Override
     public CuentaContable activar(CuentaContable cuentaContable) {
         validar(cuentaContable);
-        cuentaContable.setEstado(Constantes.activo);
+        cuentaContable.setEstado(Constantes.estadoActivo);
         return rep.save(cuentaContable);
     }
 
     @Override
     public CuentaContable inactivar(CuentaContable cuentaContable) {
         validar(cuentaContable);
-        cuentaContable.setEstado(Constantes.inactivo);
+        cuentaContable.setEstado(Constantes.estadoInactivo);
         return rep.save(cuentaContable);
     }
 

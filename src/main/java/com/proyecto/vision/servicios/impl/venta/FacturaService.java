@@ -4,11 +4,7 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.cliente.*;
-import com.proyecto.vision.modelos.compra.FacturaCompra;
-import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
-import com.proyecto.vision.modelos.compra.Proveedor;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
-import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
@@ -48,8 +44,10 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public void validar(Factura factura) {
-        if(factura.getEstado().equals(Constantes.estadoRecaudada)) throw new DatoInvalidoException(Constantes.estado);
-        if(factura.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
+        if(factura.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
+        if(factura.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        if(factura.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
+        if(factura.getEstadoSri().equals(Constantes.estadoSriAnulada)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(factura.getCliente().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cliente);
         if(factura.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
@@ -99,8 +97,6 @@ public class FacturaService implements IFacturaService {
     }
 
     private void crearKardex(Factura factura) {
-        if(factura.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
-        if(factura.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
         kardexService.eliminar(2, 2, factura.getSecuencial());
         for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
             if(facturaLinea.getProducto().getCategoriaProducto().getDescripcion().equals(Constantes.bien)) {
@@ -179,7 +175,9 @@ public class FacturaService implements IFacturaService {
     		throw new ClaveAccesoNoExistenteException();
     	}
     	factura.setClaveAcceso(claveAcceso.get());
-    	factura.setEstado(Constantes.estadoEmitida);
+    	factura.setEstado(Constantes.estadoActivo);
+    	factura.setEstadoInterno(Constantes.estadoInternoEmitida);
+    	factura.setEstadoSri(Constantes.estadoSriPendiente);
         calcular(factura);
         calcularRecaudacion(factura);
         crearKardex(factura);
@@ -196,6 +194,12 @@ public class FacturaService implements IFacturaService {
         calcular(factura);
         calcularRecaudacion(factura);
         crearKardex(factura);
+        if(factura.getTotalRecaudacion() != factura.getValorTotal()){
+            factura.setEstadoInterno(Constantes.estadoInternoEmitida);
+        }
+        if(factura.getTotalRecaudacion() == factura.getValorTotal()){
+            factura.setEstadoInterno(Constantes.estadoInternoRecaudada);
+        }
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -204,7 +208,7 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura activar(Factura factura) {
         validar(factura);
-        factura.setEstado(Constantes.activo);
+        factura.setEstado(Constantes.estadoActivo);
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -213,7 +217,7 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura inactivar(Factura factura) {
         validar(factura);
-        factura.setEstado(Constantes.inactivo);
+        factura.setEstado(Constantes.estadoInactivo);
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -233,12 +237,14 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura recaudar(Factura factura) {
         validar(factura);
-        //calcular(factura);
-        //calcularRecaudacion(factura);
-        if(factura.getPorPagar() > Constantes.cero){
-            factura.setEstado(Constantes.estadoNoRecaudada);
-        } else{
-            factura.setEstado(Constantes.estadoRecaudada);
+        calcular(factura);
+        calcularRecaudacion(factura);
+        crearKardex(factura);
+        if(factura.getTotalRecaudacion() != factura.getValorTotal()){
+            factura.setEstadoInterno(Constantes.estadoInternoEmitida);
+        }
+        if(factura.getTotalRecaudacion() == factura.getValorTotal()){
+            factura.setEstadoInterno(Constantes.estadoInternoRecaudada);
         }
         Factura res = rep.save(factura);
         res.normalizar();
@@ -267,7 +273,22 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public List<Factura> consultarPorCliente(long facturaId) {
-        return rep.consultarPorCliente(facturaId, Constantes.estadoRecaudada, Constantes.estadoFacturada);
+        return rep.consultarPorCliente(facturaId);
+    }
+
+    @Override
+    public List<Factura> consultarPorClienteYEstado(long facturaId, String estado) {
+        return rep.consultarPorClienteYEstado(facturaId, estado);
+    }
+
+    @Override
+    public List<Factura> consultarPorClienteYEstadoYEstadoInterno(long facturaId, String estado, String estadoInterno) {
+        return rep.consultarPorClienteYEstadoYEstadoInterno(facturaId, estado, estadoInterno);
+    }
+
+    @Override
+    public List<Factura> consultarPorClienteYEstadoYEstadoInternoYEstadoSri(long facturaId, String estado, String estadoInterno, String estadoSri) {
+        return rep.consultarPorClienteYEstadoYEstadoInternoYEstadoSri(facturaId, estado, estadoInterno, estadoSri);
     }
 
     @Override
@@ -456,7 +477,7 @@ public class FacturaService implements IFacturaService {
             if (identificacion.length() == 10 && Integer.parseInt((identificacion.substring(2,3))) != 6 && Integer.parseInt((identificacion.substring(2,3))) != 9) {
                 boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
-                    Optional<ClienteBase> clienteBase = repClienteBase.obtenerPorIdentificacion(identificacion, Constantes.activo);
+                    Optional<ClienteBase> clienteBase = repClienteBase.obtenerPorIdentificacion(identificacion, Constantes.estadoActivo);
                     String nombre = "";
                     if(clienteBase.isPresent()) {
                         nombre = clienteBase.get().getApellidos()+Constantes.espacio+clienteBase.get().getNombres();

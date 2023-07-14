@@ -54,7 +54,7 @@ public class ReporteKardexService {
         Date fechaFinalC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaFinal);
         Optional<Producto> producto = productoRepository.findById(productoId);
         List<Kardex> kardexs = kardexRepository.consultarPorFechaInicioYFechaFinalYProducto(fechaInicioC, fechaFinalC, productoId);
-        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.activo);
+        Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.estadoActivo);
         if (producto.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.producto);
         }

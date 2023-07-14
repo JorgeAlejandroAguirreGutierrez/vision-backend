@@ -51,7 +51,7 @@ public class CuentaContable extends Entidad {
 		this.fe = Constantes.vacio;
 		this.casillero = Constantes.vacio;
 		this.mapeo = Constantes.vacio;
-		this.estado = Constantes.activo;
+		this.estado = Constantes.estadoActivo;
     }
 
     public void normalizar(){

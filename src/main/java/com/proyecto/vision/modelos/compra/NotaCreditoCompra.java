@@ -33,6 +33,8 @@ public class NotaCreditoCompra extends Entidad {
     private String operacion;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+    @Column(name = "estado_interno", nullable = true)
+    private String estadoInterno;
     @Column(name = "estado", nullable = true)
     private String estado;
     @Column(name = "subtotal_sin_descuento", nullable = true)
@@ -77,7 +79,8 @@ public class NotaCreditoCompra extends Entidad {
         this.secuencial = Constantes.vacio;
         this.operacion = Constantes.vacio;
         this.fecha = new Date();
-        this.estado = Constantes.estadoNoFacturada;
+        this.estadoInterno = Constantes.vacio;
+        this.estado = Constantes.vacio;
         this.subtotalSinDescuento = Constantes.cero;
         this.descuentoTotal = Constantes.cero;
         this.subtotalBase12SinDescuento = Constantes.cero;

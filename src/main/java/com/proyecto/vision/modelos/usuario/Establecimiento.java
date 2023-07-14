@@ -69,7 +69,7 @@ public class Establecimiento extends Entidad {
         this.direccion = Constantes.vacio;
         this.latitudgeo = Constantes.vacio;
         this.longitudgeo = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
         this.regimen = new Regimen();
         this.ubicacion = new Ubicacion();
         this.empresa = new Empresa();

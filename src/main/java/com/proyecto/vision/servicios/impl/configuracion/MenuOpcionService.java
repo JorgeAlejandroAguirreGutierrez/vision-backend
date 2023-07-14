@@ -37,7 +37,7 @@ public class MenuOpcionService implements IMenuOpcionService {
     		throw new CodigoNoExistenteException();
     	}
         opcion.setCodigo(codigo.get());
-        opcion.setEstado(Constantes.activo);
+        opcion.setEstado(Constantes.estadoActivo);
     	return rep.save(opcion);
     }
 
@@ -50,14 +50,14 @@ public class MenuOpcionService implements IMenuOpcionService {
     @Override
     public MenuOpcion activar(MenuOpcion opcion) {
         validar(opcion);
-        opcion.setEstado(Constantes.activo);
+        opcion.setEstado(Constantes.estadoActivo);
         return rep.save(opcion);
     }
 
     @Override
     public MenuOpcion inactivar(MenuOpcion opcion) {
         validar(opcion);
-        opcion.setEstado(Constantes.inactivo);
+        opcion.setEstado(Constantes.estadoInactivo);
         return rep.save(opcion);
     }
 
@@ -87,11 +87,11 @@ public class MenuOpcionService implements IMenuOpcionService {
 
     @Override
     public List<String> consultarModulos(){
-        return rep.consultarModulos(Constantes.activo);
+        return rep.consultarModulos(Constantes.estadoActivo);
     }
     @Override
     public MenuOpcion obtenerPorOperacion(String operacion) {
-        Optional<MenuOpcion> res= rep.findByOperacion(operacion, Constantes.activo);
+        Optional<MenuOpcion> res= rep.findByOperacion(operacion, Constantes.estadoActivo);
         if(res.isPresent()) {
         	return res.get();
         }
@@ -100,7 +100,7 @@ public class MenuOpcionService implements IMenuOpcionService {
 
     @Override
     public MenuOpcion obtenerPorOperacionTabla(MenuOpcion menuOpcion) {
-        Optional<MenuOpcion> res= rep.findByTablaAndOperacion(menuOpcion.getTabla(), menuOpcion.getOperacion(), Constantes.activo);
+        Optional<MenuOpcion> res= rep.findByTablaAndOperacion(menuOpcion.getTabla(), menuOpcion.getOperacion(), Constantes.estadoActivo);
         if(res.isPresent()) {
         	return res.get();
         }
@@ -109,10 +109,10 @@ public class MenuOpcionService implements IMenuOpcionService {
 
     @Override
     public List<MenuOpcion> consultarPorModulo(String modulo) {
-        return rep.consultarPorModulo(modulo, Constantes.si ,Constantes.activo);
+        return rep.consultarPorModulo(modulo, Constantes.si ,Constantes.estadoActivo);
     }
     @Override
     public List<MenuOpcion> consultarPorOperacion(String operacion) {
-        return rep.consultarOpciones(operacion, Constantes.activo);
+        return rep.consultarOpciones(operacion, Constantes.estadoActivo);
     }
 }

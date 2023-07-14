@@ -46,14 +46,14 @@ public class PermisoService implements IPermisoService {
 
     @Override
     public Permiso activar(Permiso permiso) {
-        permiso.setEstado(Constantes.activo);
+        permiso.setEstado(Constantes.estadoActivo);
         Permiso res = rep.save(permiso);
         return res;
     }
 
     @Override
     public Permiso inactivar(Permiso permiso) {
-        permiso.setEstado(Constantes.inactivo);
+        permiso.setEstado(Constantes.estadoInactivo);
         Permiso res = rep.save(permiso);
         return res;
     }

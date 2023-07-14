@@ -22,9 +22,12 @@ import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.NotaCreditoVenta;
 import com.proyecto.vision.modelos.venta.NotaCreditoVentaLinea;
+import com.proyecto.vision.modelos.venta.electronico.factura.FacturaElectronica;
 import com.proyecto.vision.modelos.venta.electronico.notacredito.*;
 import com.proyecto.vision.repositorios.venta.INotaCreditoVentaRepository;
 import com.proyecto.vision.servicios.interf.venta.INotaCreditoElectronicaService;
@@ -214,31 +217,36 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	public NotaCreditoVenta enviar(long notaCreditoVentaId) {
 		Optional<NotaCreditoVenta> opcional= rep.findById(notaCreditoVentaId);
 		if(opcional.isEmpty()) {
-			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
+			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		NotaCreditoVenta notaCreditoVenta = opcional.get();
-		NotaCreditoElectronica notaCreditoElectronica = crear(notaCreditoVenta);
-		if(notaCreditoVenta.getEstado().equals(Constantes.estadoEmitida)) {
-			List<String> estadoRecepcion = recepcion(notaCreditoElectronica);
-			if(estadoRecepcion.get(0).equals(Constantes.recibidaSri)) {
-				List<String> estadoAutorizacion = autorizacion(notaCreditoElectronica);
-				if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
-					notaCreditoVenta.setFechaAutorizacion(new Date());
-					notaCreditoVenta.setEstado(Constantes.estadoFacturada);
-					enviarCorreo(notaCreditoVenta, notaCreditoElectronica);
-					NotaCreditoVenta facturada = rep.save(notaCreditoVenta);
-					facturada.normalizar();
-					return facturada;
-				}
-				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
-			}
-			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
-		} else if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)){
-			enviarCorreo(notaCreditoVenta, notaCreditoElectronica);
-			notaCreditoVenta.normalizar();
-			return notaCreditoVenta;
+		if(notaCreditoVenta.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
+			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
 		}
-		throw new FacturaElectronicaInvalidaException(Constantes.estado);
+		if(notaCreditoVenta.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoInternoAnulada);
+		}
+		if(notaCreditoVenta.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
+			throw new EstadoInvalidoException(Constantes.estadoSriAutorizada);
+		}
+		if(notaCreditoVenta.getEstadoSri().equals(Constantes.estadoSriAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
+		}
+		NotaCreditoElectronica notaCreditoElectronica = crear(notaCreditoVenta);
+		List<String> estadoRecepcion = recepcion(notaCreditoElectronica);
+		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+		}
+		List<String> estadoAutorizacion = autorizacion(notaCreditoElectronica);
+		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+		}
+		notaCreditoVenta.setEstadoSri(Constantes.estadoSriAutorizada);
+		notaCreditoVenta.setFechaAutorizacion(new Date());
+		enviarCorreo(notaCreditoVenta, notaCreditoElectronica);
+		NotaCreditoVenta facturada = rep.save(notaCreditoVenta);
+		facturada.normalizar();
+		return facturada;
 	}
     
     private List<String> recepcion(NotaCreditoElectronica notaCreditoElectronica) {
@@ -371,7 +379,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(notaCreditoVenta.getEstado().equals(Constantes.estadoFacturada)){
+			if(notaCreditoVenta.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
 				numeroAutorizacion = notaCreditoVenta.getClaveAcceso();
 				fechaAutorizacion = notaCreditoVenta.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);
@@ -607,4 +615,26 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
             e.printStackTrace();   //Si se produce un error
         }
     }
+
+	@Override
+	public ByteArrayInputStream obtenerPDF(long notaCreditoVentaId){
+		Optional<NotaCreditoVenta> opcional= rep.findById(notaCreditoVentaId);
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
+		}
+		NotaCreditoVenta notaCreditoVenta = opcional.get();
+		ByteArrayInputStream pdf = crearPDF(notaCreditoVenta);
+		return pdf;
+	}
+
+	@Override
+	public void enviarPDFYXML(long notaCreditoVentaId){
+		Optional<NotaCreditoVenta> opcional= rep.findById(notaCreditoVentaId);
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
+		}
+		NotaCreditoVenta notaCreditoVenta = opcional.get();
+		NotaCreditoElectronica notaCreditoElectronica = crear(notaCreditoVenta);
+		enviarCorreo(notaCreditoVenta, notaCreditoElectronica);
+	}
 }

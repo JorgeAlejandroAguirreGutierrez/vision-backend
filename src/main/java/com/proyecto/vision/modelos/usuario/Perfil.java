@@ -44,7 +44,7 @@ public class Perfil extends Entidad {
         this.descripcion = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
         this.multiempresa = Constantes.no;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
         this.permisos = Collections.emptyList();
     }
     public void normalizar(){

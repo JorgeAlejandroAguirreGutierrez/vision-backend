@@ -17,15 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Predicate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,7 +85,7 @@ public class ClienteService implements IClienteService {
 
     @Override
     public String existe(Cliente cliente) {
-        Optional<Cliente> resp= rep.obtenerPorEmpresaYIdentificacion(cliente.getEmpresa().getId(), cliente.getIdentificacion(), Constantes.activo);
+        Optional<Cliente> resp= rep.obtenerPorEmpresaYIdentificacion(cliente.getEmpresa().getId(), cliente.getIdentificacion(), Constantes.estadoActivo);
         if (resp.isPresent()) {
         	return Constantes.si;
         }
@@ -97,7 +94,7 @@ public class ClienteService implements IClienteService {
 
     @Override
     public Cliente obtenerPorRazonSocial(String razonSocial) {
-        Optional<Cliente> cliente = rep.obtenerPorRazonSocial(razonSocial, Constantes.activo);
+        Optional<Cliente> cliente = rep.obtenerPorRazonSocial(razonSocial, Constantes.estadoActivo);
         if(cliente.isPresent()){
         	Cliente res = cliente.get();
             res.normalizar();
@@ -107,7 +104,7 @@ public class ClienteService implements IClienteService {
     }
     @Override
     public Cliente obtenerPorIdentificacion(String identificacion) {
-        Optional<Cliente> cliente = rep.obtenerPorRazonSocial(identificacion, Constantes.activo);
+        Optional<Cliente> cliente = rep.obtenerPorRazonSocial(identificacion, Constantes.estadoActivo);
         if(cliente.isPresent()){
         	Cliente res = cliente.get();
             res.normalizar();
@@ -119,7 +116,7 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente validarIdentificacionPorEmpresa(long empresaId, String identificacion) {
     	if (identificacion!= null) {
-	    	Optional<Cliente> res = rep.obtenerPorEmpresaYIdentificacion(empresaId, identificacion, Constantes.activo);
+	    	Optional<Cliente> res = rep.obtenerPorEmpresaYIdentificacion(empresaId, identificacion, Constantes.estadoActivo);
 	    	if(res.isPresent()) {
 	    		throw new EntidadExistenteException(Constantes.cliente);
 	    	}
@@ -245,7 +242,7 @@ public class ClienteService implements IClienteService {
 
     @Override
     public Cliente buscarClienteBase(Cliente cliente){
-        Optional<ClienteBase> clienteBase = repClienteBase.obtenerPorIdentificacion(cliente.getIdentificacion(), Constantes.activo);
+        Optional<ClienteBase> clienteBase = repClienteBase.obtenerPorIdentificacion(cliente.getIdentificacion(), Constantes.estadoActivo);
         if(clienteBase.isPresent()) {
             cliente.setRazonSocial(clienteBase.get().getApellidos()+Constantes.espacio+clienteBase.get().getNombres());
             if (clienteBase.get().getDireccion()!=null) {
@@ -304,7 +301,7 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente crear(Cliente cliente) {
     	validar(cliente);
-    	Optional<Cliente>buscarCliente=rep.obtenerPorEmpresaYIdentificacion(cliente.getEmpresa().getId(), cliente.getIdentificacion(), Constantes.activo);
+    	Optional<Cliente>buscarCliente=rep.obtenerPorEmpresaYIdentificacion(cliente.getEmpresa().getId(), cliente.getIdentificacion(), Constantes.estadoActivo);
     	if(buscarCliente.isPresent()) {
     		throw new EntidadExistenteException(Constantes.cliente);
     	}
@@ -312,7 +309,7 @@ public class ClienteService implements IClienteService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(cliente.getUbicacion().getProvincia(),cliente.getUbicacion().getCanton(), cliente.getUbicacion().getParroquia(), Constantes.activo);
+    	Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(cliente.getUbicacion().getProvincia(),cliente.getUbicacion().getCanton(), cliente.getUbicacion().getParroquia(), Constantes.estadoActivo);
     	if(ubicacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
@@ -322,7 +319,7 @@ public class ClienteService implements IClienteService {
             cliente.setCorreos(correos);
         }
     	for(Dependiente dependiente: cliente.getDependientes()) {
-    		Optional<Ubicacion> ubicacionDependiente= repUbicacion.findByProvinciaAndCantonAndParroquia(dependiente.getUbicacion().getProvincia(),dependiente.getUbicacion().getCanton(), dependiente.getUbicacion().getParroquia(), Constantes.activo);
+    		Optional<Ubicacion> ubicacionDependiente= repUbicacion.findByProvinciaAndCantonAndParroquia(dependiente.getUbicacion().getProvincia(),dependiente.getUbicacion().getCanton(), dependiente.getUbicacion().getParroquia(), Constantes.estadoActivo);
         	if(ubicacionDependiente.isEmpty()) {
         		throw new EntidadNoExistenteException(Constantes.dependiente);
         	}
@@ -330,7 +327,7 @@ public class ClienteService implements IClienteService {
     	}
     	cliente.setUbicacion(ubicacion.get());
     	cliente.setCodigo(codigo.get());
-    	cliente.setEstado(Constantes.activo);
+    	cliente.setEstado(Constantes.estadoActivo);
         Cliente res = rep.save(cliente);
         res.normalizar();
         return res;
@@ -339,7 +336,7 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente actualizar(Cliente cliente) {
     	validar(cliente);
-        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(cliente.getUbicacion().getProvincia(),cliente.getUbicacion().getCanton(), cliente.getUbicacion().getParroquia(), Constantes.activo);
+        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(cliente.getUbicacion().getProvincia(),cliente.getUbicacion().getCanton(), cliente.getUbicacion().getParroquia(), Constantes.estadoActivo);
     	if(ubicacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
@@ -349,7 +346,7 @@ public class ClienteService implements IClienteService {
             cliente.setCorreos(correos);
         }
         for(Dependiente dependiente: cliente.getDependientes()) {
-            Optional<Ubicacion> ubicacionDependiente= repUbicacion.findByProvinciaAndCantonAndParroquia(dependiente.getUbicacion().getProvincia(),dependiente.getUbicacion().getCanton(), dependiente.getUbicacion().getParroquia(), Constantes.activo);
+            Optional<Ubicacion> ubicacionDependiente= repUbicacion.findByProvinciaAndCantonAndParroquia(dependiente.getUbicacion().getProvincia(),dependiente.getUbicacion().getCanton(), dependiente.getUbicacion().getParroquia(), Constantes.estadoActivo);
             if(ubicacionDependiente.isEmpty()) {
                 throw new EntidadNoExistenteException(Constantes.dependiente);
             }
@@ -364,7 +361,7 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente activar(Cliente cliente) {
         validar(cliente);
-        cliente.setEstado(Constantes.activo);
+        cliente.setEstado(Constantes.estadoActivo);
         Cliente res = rep.save(cliente);
         res.normalizar();
         return res;
@@ -373,7 +370,7 @@ public class ClienteService implements IClienteService {
     @Override
     public Cliente inactivar(Cliente cliente) {
         validar(cliente);
-        cliente.setEstado(Constantes.inactivo);
+        cliente.setEstado(Constantes.estadoInactivo);
         Cliente res = rep.save(cliente);
         res.normalizar();
         return res;

@@ -43,7 +43,7 @@ public class CuentaPropia extends Entidad {
         this.tipoCuenta = Constantes.vacio;
         this.nombre = Constantes.vacio;
         this.numero = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
         this.banco = new Banco();
     }
 

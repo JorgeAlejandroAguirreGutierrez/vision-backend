@@ -39,7 +39,7 @@ public class Transportista extends Entidad {
         this.codigo = Constantes.vacio;
         this.nombre = Constantes.vacio;
         this.identificacion = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 
     public void normalizar(){

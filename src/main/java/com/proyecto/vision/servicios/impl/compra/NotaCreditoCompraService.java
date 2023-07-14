@@ -51,9 +51,9 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     }
 
     private void facturar(NotaCreditoCompra notaCreditoCompra) {
-        if(notaCreditoCompra.getEstado().equals(Constantes.estadoFacturada)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaCreditoCompra.getEstado().equals(Constantes.estadoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-        List<NotaCreditoCompra> notasCreditoCompraAnt = rep.consultarPorFacturaCompra(notaCreditoCompra.getFacturaCompra().getId(), Constantes.estadoFacturada);
+        if(notaCreditoCompra.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaCreditoCompra.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        List<NotaCreditoCompra> notasCreditoCompraAnt = rep.consultarPorFacturaCompraYEstadoInternoYEstado(notaCreditoCompra.getFacturaCompra().getId(), Constantes.estadoInternoPagada, Constantes.estadoActivo);
         List<Long> cantidadesDevueltas = new ArrayList();
         for(int i = 0; i < notaCreditoCompra.getNotaCreditoCompraLineas().size(); i++ ) {
             cantidadesDevueltas.add(Constantes.ceroId);
@@ -68,8 +68,6 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 throw new DatoInvalidoException(Constantes.devolucion);
             }
         }
-        //kardexService.eliminar(9, 6, notaCreditoCompra.getSecuencial());
-        //kardexService.eliminar(9, 6, notaCreditoCompra.getSecuencial());
         kardexService.eliminar(9, 6, notaCreditoCompra.getSecuencial());
         if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_conjunta)){
             for(NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
@@ -128,10 +126,10 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         notaCreditoCompra.setSerie(notaCreditoCompra.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCreditoCompra.getSesion().getUsuario().getEstacion().getCodigoSRI());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaCreditoCompra.getTipoComprobante().getId(), notaCreditoCompra.getSesion().getUsuario().getEstacion().getId());
         notaCreditoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
-        notaCreditoCompra.setEstado(Constantes.estadoEmitida);
+        notaCreditoCompra.setEstado(Constantes.estadoActivo);
+        notaCreditoCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
         calcular(notaCreditoCompra);
         facturar(notaCreditoCompra);
-        notaCreditoCompra.setEstado(Constantes.estadoFacturada);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
         secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
@@ -144,7 +142,6 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         validar(notaCreditoCompra);
         calcular(notaCreditoCompra);
         facturar(notaCreditoCompra);
-        notaCreditoCompra.setEstado(Constantes.estadoFacturada);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
         return res;
@@ -153,7 +150,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     @Override
     public NotaCreditoCompra activar(NotaCreditoCompra notaCreditoCompra) {
         validar(notaCreditoCompra);
-        notaCreditoCompra.setEstado(Constantes.activo);
+        notaCreditoCompra.setEstado(Constantes.estadoActivo);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
         return res;
@@ -162,7 +159,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     @Override
     public NotaCreditoCompra inactivar(NotaCreditoCompra notaCreditoCompra) {
         validar(notaCreditoCompra);
-        notaCreditoCompra.setEstado(Constantes.inactivo);
+        notaCreditoCompra.setEstado(Constantes.estadoInactivo);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
         return res;

@@ -5,7 +5,6 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
-import com.proyecto.vision.modelos.inventario.Bodega;
 import com.proyecto.vision.modelos.inventario.CategoriaProducto;
 import com.proyecto.vision.repositorios.inventario.ICategoriaProductoRepository;
 import com.proyecto.vision.servicios.interf.inventario.ICategoriaProductoService;
@@ -13,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +34,7 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     		throw new CodigoNoExistenteException();
     	}
     	categoriaProducto.setCodigo(codigo.get());
-    	categoriaProducto.setEstado(Constantes.activo);
+    	categoriaProducto.setEstado(Constantes.estadoActivo);
     	return rep.save(categoriaProducto);
     }
 
@@ -51,20 +47,20 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     @Override
     public CategoriaProducto activar(CategoriaProducto categoriaProducto) {
         validar(categoriaProducto);
-        categoriaProducto.setEstado(Constantes.activo);
+        categoriaProducto.setEstado(Constantes.estadoActivo);
         return rep.save(categoriaProducto);
     }
 
     @Override
     public CategoriaProducto inactivar(CategoriaProducto categoriaProducto) {
         validar(categoriaProducto);
-        categoriaProducto.setEstado(Constantes.inactivo);
+        categoriaProducto.setEstado(Constantes.estadoInactivo);
         return rep.save(categoriaProducto);
     }
 
     @Override
     public CategoriaProducto obtenerPorAbreviatura(String abreviatura) {
-        Optional<CategoriaProducto> resp= rep.obtenerPorAbreviatura(abreviatura, Constantes.activo);
+        Optional<CategoriaProducto> resp= rep.obtenerPorAbreviatura(abreviatura, Constantes.estadoActivo);
         if(resp.isPresent()) {
         	return resp.get();
         }

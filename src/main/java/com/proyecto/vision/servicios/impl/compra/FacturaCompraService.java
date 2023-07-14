@@ -52,7 +52,6 @@ public class FacturaCompraService implements IFacturaCompraService {
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
             validarLinea(facturaCompraLinea);
         }
-
     }
 
     @Transactional
@@ -68,7 +67,9 @@ public class FacturaCompraService implements IFacturaCompraService {
         facturaCompra.setCodigo(codigo.get());
         crearKardex(facturaCompra);
         actualizarPrecios(facturaCompra);
-        facturaCompra.setEstado(Constantes.activo);
+        facturaCompra.setEstado(Constantes.estadoActivo);
+        facturaCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
+
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -157,7 +158,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     @Override
     public FacturaCompra activar(FacturaCompra facturaCompra) {
         validar(facturaCompra);
-        facturaCompra.setEstado(Constantes.activo);
+        facturaCompra.setEstado(Constantes.estadoActivo);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -166,7 +167,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     @Override
     public FacturaCompra inactivar(FacturaCompra facturaCompra) {
         validar(facturaCompra);
-        facturaCompra.setEstado(Constantes.inactivo);
+        facturaCompra.setEstado(Constantes.estadoInactivo);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -209,8 +210,8 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
-    public List<FacturaCompra> consultarPorProveedor(long proveedorId) {
-        return rep.consultarPorProveedor(proveedorId, Constantes.estadoFacturada);
+    public List<FacturaCompra> consultarPorProveedorYEstadoInternoYEstado(long proveedorId, String estadoInterno, String estado) {
+        return rep.consultarPorProveedorYEstadoInternoYEstado(proveedorId, estadoInterno, estado);
     }
 
     /*
@@ -218,7 +219,8 @@ public class FacturaCompraService implements IFacturaCompraService {
      */
     @Override
     public void validarLinea(FacturaCompraLinea facturaCompraLinea) {
-        if (facturaCompraLinea.getCantidad() <= Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
+        if (facturaCompraLinea.getCantidad() <= Constantes.cero)
+            throw new DatoInvalidoException(Constantes.cantidad);
         if (facturaCompraLinea.getCostoUnitario() <= Constantes.cero)
             throw new DatoInvalidoException(Constantes.costoUnitario);
         if (facturaCompraLinea.getBodega().getId() == Constantes.ceroId)
@@ -380,4 +382,22 @@ public class FacturaCompraService implements IFacturaCompraService {
     /*
      * FIN CALCULOS TOTALES FACTURA COMPRA
      */
+
+    public FacturaCompra pagar(long facturaCompraId){
+        Optional<FacturaCompra> optional = rep.findById(facturaCompraId);
+        if(optional.isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.factura_compra);
+        }
+        FacturaCompra facturaCompra = optional.get();
+        validar(facturaCompra);
+        if(facturaCompra.getEstado().equals(Constantes.estadoInactivo))
+            throw new EstadoInvalidoException(Constantes.estado);
+        if(facturaCompra.getEstadoInterno().equals(Constantes.estadoInternoPagada))
+            throw new EstadoInvalidoException(Constantes.estado);
+        if(facturaCompra.getEstadoInterno().equals(Constantes.estadoInternoPorPagar)){
+            facturaCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
+            return facturaCompra;
+        }
+        throw new ErrorInternoException();
+    }
 }

@@ -42,6 +42,6 @@ public class TipoRetencion extends Entidad {
         this.codigoSRI = Constantes.vacio;
         this.descripcion = Constantes.vacio;
         this.porcentaje = Constantes.cero;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

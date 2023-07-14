@@ -34,7 +34,7 @@ public class PerfilService implements IPerfilService {
     		throw new CodigoNoExistenteException();
     	}
     	perfil.setCodigo(codigo.get());
-    	perfil.setEstado(Constantes.activo);
+    	perfil.setEstado(Constantes.estadoActivo);
     	Perfil res = rep.save(perfil);
         res.normalizar();
         return res;
@@ -51,7 +51,7 @@ public class PerfilService implements IPerfilService {
     @Override
     public Perfil activar(Perfil perfil) {
         validar(perfil);
-        perfil.setEstado(Constantes.activo);
+        perfil.setEstado(Constantes.estadoActivo);
         Perfil res = rep.save(perfil);
         res.normalizar();
         return res;
@@ -60,7 +60,7 @@ public class PerfilService implements IPerfilService {
     @Override
     public Perfil inactivar(Perfil perfil) {
         validar(perfil);
-        perfil.setEstado(Constantes.inactivo);
+        perfil.setEstado(Constantes.estadoInactivo);
         Perfil res = rep.save(perfil);
         res.normalizar();
         return res;

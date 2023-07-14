@@ -37,7 +37,7 @@ public class DependienteData implements ApplicationRunner {
             List<CorreoDependiente> correos1 = new ArrayList<>();
             correos1.add(new CorreoDependiente("COD011908000001", "dependiente1_1@gmail.com", new Dependiente(1)));
             correos1.add(new CorreoDependiente("COD011908000002", "dependiente1_2@gmail.com", new Dependiente(1)));
-            dependientes.add(new Dependiente("DEP011907000001", "DEPENDIENTE 1 DE CLIENTE A", "CARRERA 4 # 4-4", -1.6719601146175827, -78.65041698970857, Constantes.activo, new Ubicacion(1), new Cliente(1), telefonos1, celulares1, correos1));
+            dependientes.add(new Dependiente("DEP011907000001", "DEPENDIENTE 1 DE CLIENTE A", "CARRERA 4 # 4-4", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Ubicacion(1), new Cliente(1), telefonos1, celulares1, correos1));
 
             List<TelefonoDependiente> telefonos2 = new ArrayList<>();
             telefonos2.add(new TelefonoDependiente("TEA011908000001", "03-2964-122", new Dependiente(2)));
@@ -48,7 +48,7 @@ public class DependienteData implements ApplicationRunner {
             List<CorreoDependiente> correos2 = new ArrayList<>();
             correos2.add(new CorreoDependiente("COA011908000001", "dependiente2_1@gmail.com", new Dependiente(2)));
             correos2.add(new CorreoDependiente("COA011908000002", "dependiente2_2@gmail.com", new Dependiente(2)));
-            dependientes.add(new Dependiente("DEP011908000002", "DEPENDIENTE 2 DE CLIENTE A", "CARRERA 5 # 5-5", -1.6719601146175827, -78.65041698970857, Constantes.activo, new Ubicacion(1), new Cliente(1), telefonos2, celulares2, correos2));
+            dependientes.add(new Dependiente("DEP011908000002", "DEPENDIENTE 2 DE CLIENTE A", "CARRERA 5 # 5-5", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Ubicacion(1), new Cliente(1), telefonos2, celulares2, correos2));
 
             List<TelefonoDependiente> telefonos3 = new ArrayList<>();
             telefonos3.add(new TelefonoDependiente("TEA011908000001", "03-2964-123", new Dependiente(3)));
@@ -59,7 +59,7 @@ public class DependienteData implements ApplicationRunner {
             List<CorreoDependiente> correos3 = new ArrayList<>();
             correos3.add(new CorreoDependiente("COA011908000001", "dependiente3_1@gmail.com", new Dependiente(3)));
             correos3.add(new CorreoDependiente("COA011908000002", "dependiente3_2@gmail.com", new Dependiente(3)));
-            dependientes.add(new Dependiente("DEP011908000003", "DEPENDIENTE 1 DE CLIENTE B", "CARRERA 6 # 6-6", -1.6719601146175827, -78.65041698970857, Constantes.activo, new Ubicacion(1), new Cliente(2), telefonos3, celulares3, correos3));
+            dependientes.add(new Dependiente("DEP011908000003", "DEPENDIENTE 1 DE CLIENTE B", "CARRERA 6 # 6-6", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Ubicacion(1), new Cliente(2), telefonos3, celulares3, correos3));
 
             List<TelefonoDependiente> telefonos4 = new ArrayList<>();
             telefonos4.add(new TelefonoDependiente("TEA011908000001", "03-2964-124", new Dependiente(4)));
@@ -70,7 +70,7 @@ public class DependienteData implements ApplicationRunner {
             List<CorreoDependiente> correos4 = new ArrayList<>();
             correos4.add(new CorreoDependiente("COA011908000001", "dependiente4_1@gmail.com", new Dependiente(4)));
             correos4.add(new CorreoDependiente("COA011908000002", "dependiente4_2@gmail.com", new Dependiente(4)));
-            dependientes.add(new Dependiente("DEP011908000004", "DEPENDIENTE 2 DE CLIENTE B", "CARRERA 7 # 7-7", -1.6719601146175827, -78.65041698970857, Constantes.activo, new Ubicacion(1), new Cliente(2), telefonos4, celulares4, correos4));
+            dependientes.add(new Dependiente("DEP011908000004", "DEPENDIENTE 2 DE CLIENTE B", "CARRERA 7 # 7-7", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Ubicacion(1), new Cliente(2), telefonos4, celulares4, correos4));
             rep.saveAll(dependientes);
         }
     }

@@ -26,7 +26,7 @@ public class VehiculoService implements IVehiculoService {
     		throw new CodigoNoExistenteException();
     	}
     	vehiculo.setCodigo(codigo.get());
-    	vehiculo.setEstado(Constantes.activo);
+    	vehiculo.setEstado(Constantes.estadoActivo);
     	return rep.save(vehiculo);
     }
 
@@ -37,13 +37,13 @@ public class VehiculoService implements IVehiculoService {
 
     @Override
     public Vehiculo activar(Vehiculo vehiculo) {
-        vehiculo.setEstado(Constantes.activo);
+        vehiculo.setEstado(Constantes.estadoActivo);
         return rep.save(vehiculo);
     }
 
     @Override
     public Vehiculo inactivar(Vehiculo vehiculo) {
-        vehiculo.setEstado(Constantes.inactivo);
+        vehiculo.setEstado(Constantes.estadoInactivo);
         return rep.save(vehiculo);
     }
 

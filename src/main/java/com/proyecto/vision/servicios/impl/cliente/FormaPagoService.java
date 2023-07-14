@@ -36,7 +36,7 @@ public class FormaPagoService implements IFormaPagoService {
     		throw new CodigoNoExistenteException();
     	}
     	formaPago.setCodigo(codigo.get());
-    	formaPago.setEstado(Constantes.activo);
+    	formaPago.setEstado(Constantes.estadoActivo);
     	return rep.save(formaPago);
     }
 
@@ -49,14 +49,14 @@ public class FormaPagoService implements IFormaPagoService {
     @Override
     public FormaPago activar(FormaPago formaPago) {
         validar(formaPago);
-        formaPago.setEstado(Constantes.activo);
+        formaPago.setEstado(Constantes.estadoActivo);
         return rep.save(formaPago);
     }
 
     @Override
     public FormaPago inactivar(FormaPago formaPago) {
         validar(formaPago);
-        formaPago.setEstado(Constantes.inactivo);
+        formaPago.setEstado(Constantes.estadoInactivo);
         return rep.save(formaPago);
     }
 

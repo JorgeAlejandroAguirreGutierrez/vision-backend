@@ -44,7 +44,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
             throw new CodigoNoExistenteException();
         }
         cuentaPropia.setCodigo(codigo.get());
-        cuentaPropia.setEstado(Constantes.activo);
+        cuentaPropia.setEstado(Constantes.estadoActivo);
         CuentaPropia res = rep.save(cuentaPropia);
         res.normalizar();
         return res;
@@ -61,7 +61,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     @Override
     public CuentaPropia activar(CuentaPropia cuentaPropia) {
         validar(cuentaPropia);
-        cuentaPropia.setEstado(Constantes.activo);
+        cuentaPropia.setEstado(Constantes.estadoActivo);
         CuentaPropia res = rep.save(cuentaPropia);
         res.normalizar();
         return res;
@@ -70,7 +70,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     @Override
     public CuentaPropia inactivar(CuentaPropia cuentaPropia) {
         validar(cuentaPropia);
-        cuentaPropia.setEstado(Constantes.inactivo);
+        cuentaPropia.setEstado(Constantes.estadoInactivo);
         CuentaPropia res = rep.save(cuentaPropia);
         res.normalizar();
         return res;
@@ -114,7 +114,7 @@ public class CuentaPropiaService implements ICuentaPropiaService {
 
     @Override
     public List<CuentaPropia> consultarPorEmpresaYBanco(long empresaId, String banco) {
-        return rep.consultarPorEmpresaYBanco(empresaId, banco, Constantes.activo);
+        return rep.consultarPorEmpresaYBanco(empresaId, banco, Constantes.estadoActivo);
     }
 
     @Override

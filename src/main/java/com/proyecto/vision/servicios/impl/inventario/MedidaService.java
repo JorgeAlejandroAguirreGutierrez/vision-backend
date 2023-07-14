@@ -35,7 +35,7 @@ public class MedidaService implements IMedidaService {
     		throw new CodigoNoExistenteException();
     	}
     	medida.setCodigo(codigo.get());
-    	medida.setEstado(Constantes.activo);
+    	medida.setEstado(Constantes.estadoActivo);
     	return rep.save(medida);
     }
 
@@ -48,14 +48,14 @@ public class MedidaService implements IMedidaService {
     @Override
     public Medida activar(Medida medida) {
         validar(medida);
-        medida.setEstado(Constantes.activo);
+        medida.setEstado(Constantes.estadoActivo);
         return rep.save(medida);
     }
 
     @Override
     public Medida inactivar(Medida medida) {
         validar(medida);
-        medida.setEstado(Constantes.inactivo);
+        medida.setEstado(Constantes.estadoInactivo);
         return rep.save(medida);
     }
 

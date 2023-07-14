@@ -277,31 +277,33 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		Factura factura = opcional.get();
-		if(!factura.getEstado().equals(Constantes.estadoRecaudada)){
-			throw new EstadoInvalidoException(Constantes.recaudacion);
+		if(factura.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
+			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
+		}
+		if(factura.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoInternoAnulada);
+		}
+		if(factura.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
+			throw new EstadoInvalidoException(Constantes.estadoSriAutorizada);
+		}
+		if(factura.getEstadoSri().equals(Constantes.estadoSriAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
 		}
 		FacturaElectronica facturaElectronica = crear(factura);
-		if(factura.getEstado().equals(Constantes.estadoRecaudada)) {
-			List<String> estadoRecepcion = recepcion(facturaElectronica);
-			if(estadoRecepcion.get(0).equals(Constantes.recibidaSri)) {
-				List<String> estadoAutorizacion = autorizacion(facturaElectronica);
-				if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
-					factura.setEstado(Constantes.estadoFacturada);
-					factura.setFechaAutorizacion(new Date());
-					enviarCorreo(factura, facturaElectronica);
-					Factura facturada = rep.save(factura);
-					facturada.normalizar();
-					return facturada;
-				}
-				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
-			}
+		List<String> estadoRecepcion = recepcion(facturaElectronica);
+		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
-		} else if(factura.getEstado().equals(Constantes.estadoFacturada)){
-			enviarCorreo(factura, facturaElectronica);
-			factura.normalizar();
-			return factura;
 		}
-		throw new FacturaElectronicaInvalidaException(Constantes.estadoNoRecaudada);
+		List<String> estadoAutorizacion = autorizacion(facturaElectronica);
+		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+		}
+		factura.setEstadoSri(Constantes.estadoSriAutorizada);
+		factura.setFechaAutorizacion(new Date());
+		enviarCorreo(factura, facturaElectronica);
+		Factura facturada = rep.save(factura);
+		facturada.normalizar();
+		return facturada;
 	}
     
     private List<String> recepcion(FacturaElectronica facturaElectronica) {
@@ -434,7 +436,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(factura.getEstado().equals(Constantes.estadoFacturada)){
+			if(factura.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
 				numeroAutorizacion = factura.getClaveAcceso();
 				fechaAutorizacion = factura.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);

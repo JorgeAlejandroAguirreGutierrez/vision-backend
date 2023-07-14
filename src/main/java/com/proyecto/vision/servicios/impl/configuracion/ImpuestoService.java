@@ -36,7 +36,7 @@ public class ImpuestoService implements IImpuestoService {
     		throw new CodigoNoExistenteException();
     	}
     	impuesto.setCodigo(codigo.get());
-    	impuesto.setEstado(Constantes.activo);
+    	impuesto.setEstado(Constantes.estadoActivo);
     	return rep.save(impuesto);
     }
 
@@ -49,14 +49,14 @@ public class ImpuestoService implements IImpuestoService {
     @Override
     public Impuesto activar(Impuesto impuesto) {
         validar(impuesto);
-        impuesto.setEstado(Constantes.activo);
+        impuesto.setEstado(Constantes.estadoActivo);
         return rep.save(impuesto);
     }
 
     @Override
     public Impuesto inactivar(Impuesto impuesto) {
         validar(impuesto);
-        impuesto.setEstado(Constantes.inactivo);
+        impuesto.setEstado(Constantes.estadoInactivo);
         return rep.save(impuesto);
     }
 
@@ -86,6 +86,6 @@ public class ImpuestoService implements IImpuestoService {
 
     @Override
     public Optional<Impuesto> obtenerImpuestoPorcentaje(double porcentaje) {
-        return rep.findByPorcentaje(porcentaje, Constantes.activo);
+        return rep.findByPorcentaje(porcentaje, Constantes.estadoActivo);
     }
 }

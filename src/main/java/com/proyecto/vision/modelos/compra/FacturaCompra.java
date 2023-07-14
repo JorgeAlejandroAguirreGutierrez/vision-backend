@@ -35,6 +35,8 @@ public class FacturaCompra extends Entidad {
     private String numeroComprobante;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
+    @Column(name = "estado_interno", nullable = true)
+    private String estadoInterno;
     @Column(name = "estado", nullable = true)
     private String estado;
     @Column(name = "subtotal_sin_descuento", nullable = true)
@@ -84,7 +86,8 @@ public class FacturaCompra extends Entidad {
         this.codigo = Constantes.vacio;
         this.numeroComprobante = Constantes.vacio;
         this.fecha = new Date();
-        this.estado = Constantes.activo;
+        this.estadoInterno = Constantes.vacio;
+        this.estado = Constantes.vacio;
         this.valorDistribuidoTotal = Constantes.cero;
         this.valorDescuentoTotal = Constantes.cero;
         this.porcentajeDescuentoTotal = Constantes.cero;

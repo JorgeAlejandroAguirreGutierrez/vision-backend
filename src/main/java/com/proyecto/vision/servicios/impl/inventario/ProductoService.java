@@ -61,7 +61,7 @@ public class ProductoService implements IProductoService {
             throw new CodigoNoExistenteException();
         }
     	producto.setCodigo(codigo.get());
-    	producto.setEstado(Constantes.activo);
+    	producto.setEstado(Constantes.estadoActivo);
     	Producto res = rep.save(producto);
         res.normalizar();
         return res;
@@ -78,7 +78,7 @@ public class ProductoService implements IProductoService {
     @Override
     public Producto activar(Producto producto) {
         validar(producto);
-        producto.setEstado(Constantes.activo);
+        producto.setEstado(Constantes.estadoActivo);
         Producto res = rep.save(producto);
         res.normalizar();
         return res;
@@ -87,7 +87,7 @@ public class ProductoService implements IProductoService {
     @Override
     public Producto inactivar(Producto producto) {
         validar(producto);
-        producto.setEstado(Constantes.inactivo);
+        producto.setEstado(Constantes.estadoInactivo);
         Producto res = rep.save(producto);
         res.normalizar();
         return res;
@@ -131,7 +131,7 @@ public class ProductoService implements IProductoService {
 
     @Override
     public List<Producto> consultarPorProveedor(long proveedorId) {
-        return  rep.consultarPorProveedor(proveedorId, Constantes.activo);
+        return  rep.consultarPorProveedor(proveedorId, Constantes.estadoActivo);
     }
 
     @Override

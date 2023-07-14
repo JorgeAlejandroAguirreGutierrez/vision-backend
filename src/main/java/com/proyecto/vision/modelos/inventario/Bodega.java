@@ -39,6 +39,6 @@ public class Bodega extends Entidad {
         this.codigo = Constantes.vacio;
         this.nombre = Constantes.vacio;
         this.abreviatura = Constantes.vacio;
-        this.estado = Constantes.activo;
+        this.estado = Constantes.estadoActivo;
     }
 }

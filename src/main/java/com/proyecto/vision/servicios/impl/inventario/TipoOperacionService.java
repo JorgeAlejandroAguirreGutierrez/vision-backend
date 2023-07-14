@@ -35,7 +35,7 @@ public class TipoOperacionService implements ITipoOperacionService {
     		throw new CodigoNoExistenteException();
     	}
     	tipoOperacion.setCodigo(codigo.get());
-    	tipoOperacion.setEstado(Constantes.activo);
+    	tipoOperacion.setEstado(Constantes.estadoActivo);
     	return rep.save(tipoOperacion);
     }
 
@@ -48,14 +48,14 @@ public class TipoOperacionService implements ITipoOperacionService {
     @Override
     public TipoOperacion activar(TipoOperacion tipoOperacion) {
         validar(tipoOperacion);
-        tipoOperacion.setEstado(Constantes.activo);
+        tipoOperacion.setEstado(Constantes.estadoActivo);
         return rep.save(tipoOperacion);
     }
 
     @Override
     public TipoOperacion inactivar(TipoOperacion tipoOperacion) {
         validar(tipoOperacion);
-        tipoOperacion.setEstado(Constantes.inactivo);
+        tipoOperacion.setEstado(Constantes.estadoInactivo);
         return rep.save(tipoOperacion);
     }
 

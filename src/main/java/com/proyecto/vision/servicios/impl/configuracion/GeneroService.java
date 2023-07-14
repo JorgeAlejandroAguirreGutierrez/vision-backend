@@ -35,7 +35,7 @@ public class GeneroService implements IGeneroService {
     		throw new CodigoNoExistenteException();
     	}
     	genero.setCodigo(codigo.get());
-    	genero.setEstado(Constantes.activo);
+    	genero.setEstado(Constantes.estadoActivo);
     	return rep.save(genero);
     }
 
@@ -48,20 +48,20 @@ public class GeneroService implements IGeneroService {
     @Override
     public Genero activar(Genero genero) {
         validar(genero);
-        genero.setEstado(Constantes.activo);
+        genero.setEstado(Constantes.estadoActivo);
         return rep.save(genero);
     }
 
     @Override
     public Genero inactivar(Genero genero) {
         validar(genero);
-        genero.setEstado(Constantes.inactivo);
+        genero.setEstado(Constantes.estadoInactivo);
         return rep.save(genero);
     }
 
     @Override
     public Genero obtener(long id) {
-        Optional<Genero> res= rep.findById(id);
+        Optional<Genero> res = rep.findById(id);
         if(res.isPresent()) {
         	return res.get();
         }

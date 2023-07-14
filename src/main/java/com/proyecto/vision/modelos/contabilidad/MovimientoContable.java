@@ -59,7 +59,7 @@ public class MovimientoContable extends Entidad {
 	public MovimientoContable(){
         super();
 		this.codigo = Constantes.vacio;
-		this.estado = Constantes.activo;
+		this.estado = Constantes.estadoActivo;
 
     }
 	public void normalizar(){

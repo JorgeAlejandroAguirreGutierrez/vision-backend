@@ -41,8 +41,12 @@ public class NotaDebitoVenta extends Entidad {
     private Date fecha;
     @Column(name = "fecha_autorizacion", nullable = true)
     private Date fechaAutorizacion;
+    @Column(name = "estado_interno", nullable = true)
+    private String estadoInterno;
     @Column(name = "estado", nullable = true)
     private String estado;
+    @Column(name = "estado_sri", nullable = true)
+    private String estadoSri;
     @Column(name = "subtotal_sin_descuento", nullable = true)
     private double subtotalSinDescuento;
     @Column(name = "descuento_total", nullable = true)
@@ -134,7 +138,9 @@ public class NotaDebitoVenta extends Entidad {
         this.operacion = Constantes.vacio;
         this.fecha = new Date();
         this.fechaAutorizacion = null;
-        this.estado = Constantes.estadoNoFacturada;
+        this.estado = Constantes.estadoActivo;
+        this.estadoInterno = Constantes.estadoInternoEmitida;
+        this.estadoSri = Constantes.estadoSriPendiente;
         this.subtotalSinDescuento = Constantes.cero;
         this.descuentoTotal = Constantes.cero;
         this.subtotalBase12SinDescuento = Constantes.cero;
