@@ -21,6 +21,7 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CertificadoNoExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
@@ -31,10 +32,12 @@ import com.proyecto.vision.modelos.venta.electronico.notacredito.NotaCreditoElec
 import com.proyecto.vision.modelos.venta.electronico.notadebito.*;
 import com.proyecto.vision.modelos.recaudacion.*;
 import com.proyecto.vision.repositorios.venta.INotaDebitoVentaRepository;
+import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
 import com.proyecto.vision.servicios.interf.venta.INotaDebitoElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
@@ -54,6 +57,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
@@ -73,8 +77,8 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 	@Autowired
 	private INotaDebitoVentaRepository rep;
 
-	@Value("${prefijo.url.imagenes}")
-	private String imagenes;
+	@Autowired
+	private IEmpresaService empresaService;
 
 	@Value("${correo.usuario}")
 	private String correoUsuario;
@@ -255,12 +259,19 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 	}
 
 	@Override
-	public NotaDebitoVenta enviar(long notaDebitoVentaId) {
+	public NotaDebitoVenta enviar(long notaDebitoVentaId) throws MalformedURLException {
 		Optional<NotaDebitoVenta> opcional= rep.findById(notaDebitoVentaId);
 		if(opcional.isEmpty()) {
 			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		NotaDebitoVenta notaDebitoVenta = opcional.get();
+		Resource certificado = empresaService.bajarCertificado(notaDebitoVenta.getEmpresa().getId());
+		if(certificado == null){
+			throw new CertificadoNoExistenteException();
+		}
+		if(notaDebitoVenta.getEmpresa().getContrasena().equals(Constantes.vacio)){
+			throw new FacturaElectronicaInvalidaException(Constantes.contrasena);
+		}
 		if(notaDebitoVenta.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
 			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
 		}
