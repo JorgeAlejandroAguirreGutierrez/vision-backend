@@ -29,15 +29,26 @@ public class ProductoData implements ApplicationRunner {
             Optional<Producto> ant=rep.findById((long) 1);
             if (!ant.isPresent()) {
                 List<Producto> productos = new ArrayList<>();
+                //PRODUCTOS PARA EMPRESA 1
                 productos.add(new Producto("PRO012307000001", "CELULARES", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
                 productos.add(new Producto("PRO012307000002", "REFRIGERADOR", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(2), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
                 productos.add(new Producto("PRO012307000003", "TELEVISOR", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(1), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
                 productos.add(new Producto("PRO012307000004", "CAMAS", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(2), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
                 productos.add(new Producto("PRO012307000005", "LADRILLOS", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(3), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
                 productos.add(new Producto("PRO012307000006", "AVIONES", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(1), new GrupoProducto(1), new TipoGasto(1), new Impuesto(4), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
-
+                //SERVICIOS PARA EMPRESA 1
+                productos.add(new Producto("PRO012307000007", "SERVICIO INFORMATICO", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(2), new GrupoProducto(1), new TipoGasto(1), new Impuesto(2), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO012307000008", "SERVICIO ASEO", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(2), new GrupoProducto(2), new TipoGasto(1), new Impuesto(2), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO012307000008", "INTERESES CORRIENTES", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(2), new GrupoProducto(3), new TipoGasto(1), new Impuesto(2), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO012307000008", "INTERESES POR MORA", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(2), new GrupoProducto(4), new TipoGasto(1), new Impuesto(2), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
+                //PRODUCTOS PARA EMPRESA 2
                 productos.add(new Producto("PRO022306000001", "ARROZ CONEJO", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(1), new GrupoProducto(16), new TipoGasto(1), new Impuesto(2), new Medida(35), new Proveedor(3), new Empresa(2), Collections.emptyList(), Collections.emptyList()));
                 productos.add(new Producto("PRO022306000002", "MESA NAPOLITANA", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(1), new GrupoProducto(17), new TipoGasto(2), new Impuesto(4), new Medida(35), new Proveedor(3), new Empresa(2), Collections.emptyList(), Collections.emptyList()));
+                //SERVICIOS PARA EMPRESA 2
+                productos.add(new Producto("PRO022306000003", "SERVICIO INFORMATICO", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(2), new GrupoProducto(1), new TipoGasto(1), new Impuesto(2), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO022306000004", "SERVICIO ASEO", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(2), new GrupoProducto(2), new TipoGasto(1), new Impuesto(2), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO022306000005", "INTERESES CORRIENTES", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(2), new GrupoProducto(3), new TipoGasto(1), new Impuesto(2), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
+                productos.add(new Producto("PRO022306000006", "INTERESES POR MORA", Constantes.no, Constantes.estadoActivo, new CategoriaProducto(2), new GrupoProducto(4), new TipoGasto(1), new Impuesto(2), new Medida(1), new Proveedor(1), new Empresa(1), Collections.emptyList(), Collections.emptyList()));
                 rep.saveAll(productos);
             }
     }

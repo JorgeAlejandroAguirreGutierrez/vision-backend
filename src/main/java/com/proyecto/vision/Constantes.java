@@ -6,6 +6,9 @@ public class Constantes {
 	public static final String tipo_contribuyente_natural="NATURAL";
 	public static final String tipo_contribuyente_juridica="JURIDICA";
 	public static final String tipo_contribuyente_publica="PUBLICA";
+
+	public static final String pathCertificados = "certificados";
+	public static final String slash = "/";
 	
 	public static final String cedula_abreviatura="C";
 	public static final String consumidor_final_abreviatura="CF";
@@ -95,6 +98,7 @@ public class Constantes {
     public static String error_codigo_estado_invalido="4010";
     public static String error_codigo_dato_invalido="4011";
     public static String error_codigo_factura_electronica_invalida="4012";
+    public static String error_codigo_certificado_no_existente="4013";
     
     public static String error_generico="ERROR INTERNO DE SERVIDOR";
     public static String error_entidad_existente="ERROR ENTIDAD YA EXISTE";
@@ -108,6 +112,7 @@ public class Constantes {
     public static String error_parametro_invalido="ERROR PARAMETRO INVALIDO";
     public static String error_estado_invalido="ERROR ESTADO INVALIDO";
     public static String error_dato_invalido="ERROR DATO INVALIDO";
+    public static String error_certificado_no_existente="ERROR CERTIFICADO PARA SRI NO EXISTENTE";
     
     //CODIGO PARA CREAR
     public static final String operacion="CREAR";
@@ -442,8 +447,6 @@ public class Constantes {
     public static final String ruta="RUTA";
     public static final String fechaInicioTransporte="FECHA INICIO TRANSPORTE";
     public static final String fechaFinTransporte="FECHA FIN TRANSPORTE";
-
-
     
     //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
     public static final int size=20;
@@ -525,11 +528,10 @@ public class Constantes {
     public static final String contentType = "Content-Type";
     public static final String moneda = "USD";
     public static final String contenTypeValor = "text/xml;charset=UTF-8";
-    public static final String mensajeSri = "LA RESPUESTA DEL SRI A LA FACTURA ES: ";
-    public static final String mensajeNoSri = "LA FACTURA YA FUE PROCESADO CON CLAVE DE ACCESO: ";
-    public static final String mensajeClaveAccesoSri = " CON CLAVE DE ACCESO: ";
-    public static final String certificadoSri = "certificado.p12";
-    public static final String contrasenaCertificadoSri = "mPrimero1981";
+    public static final String certificadoSri1 = "certificadoMario.p12";
+    public static final String certificadoSri2 = "certificadoMayra.p12";
+    public static final String contrasenaCertificadoSri1 = "mPrimero1981";
+    public static final String contrasenaCertificadoSri2 = "locuras2022";
     public static final String recibidaSri = "RECIBIDA";
     public static final String autorizadoSri = "AUTORIZADO";
     public static final String noAutorizadoSri = "NO AUTORIZADO";

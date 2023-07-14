@@ -16,6 +16,7 @@ import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.CertificadoNoExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
@@ -28,6 +29,7 @@ import com.proyecto.vision.modelos.recaudacion.TarjetaCredito;
 import com.proyecto.vision.modelos.recaudacion.TarjetaDebito;
 import com.proyecto.vision.modelos.recaudacion.Transferencia;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
+import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaElectronicaService;
 
 import ayungan.com.signature.ConvertFile;
@@ -35,6 +37,7 @@ import ayungan.com.signature.SignatureXAdESBES;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
@@ -52,6 +55,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
@@ -71,6 +75,9 @@ import java.util.List;
 public class FacturaElectronicaService implements IFacturaElectronicaService{
     @Autowired
     private IFacturaRepository rep;
+
+    @Autowired
+	private IEmpresaService empresaService;
     
     @Value("${prefijo.url.imagenes}")
     private String imagenes;
@@ -271,12 +278,16 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	}
 
 	@Override
-	public Factura enviar(long facturaId) {
-		Optional<Factura> opcional= rep.findById(facturaId);
+	public Factura enviar(long facturaId) throws MalformedURLException {
+		Optional<Factura> opcional = rep.findById(facturaId);
 		if(opcional.isEmpty()) {
 			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		Factura factura = opcional.get();
+		Resource certificado = empresaService.bajarCertificado(factura.getEmpresa().getId());
+		if(certificado == null){
+			throw new CertificadoNoExistenteException();
+		}
 		if(factura.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
 			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
 		}
@@ -290,7 +301,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
 		}
 		FacturaElectronica facturaElectronica = crear(factura);
-		List<String> estadoRecepcion = recepcion(facturaElectronica);
+		List<String> estadoRecepcion = recepcion(facturaElectronica, factura.getEmpresa().getCertificado(), factura.getEmpresa().getContrasena());
 		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
@@ -306,7 +317,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		return facturada;
 	}
     
-    private List<String> recepcion(FacturaElectronica facturaElectronica) {
+    private List<String> recepcion(FacturaElectronica facturaElectronica, String certificado, String contrasena) {
     	try {
     		JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);            
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -315,13 +326,13 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             jaxbMarshaller.marshal(facturaElectronica, System.out);
             StringWriter sw = new StringWriter();
             jaxbMarshaller.marshal(facturaElectronica, sw);
-            String xml=sw.toString();
-			Path path = Paths.get(Constantes.certificadoSri);
+            String xml = sw.toString();
+			Path path = Paths.get(Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
-            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, Constantes.contrasenaCertificadoSri);
-            String encode=Base64.getEncoder().encodeToString(firmado);
-            String body=Util.soapFacturacionEletronica(encode);
+            byte[] firmado = SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
+            String encode = Base64.getEncoder().encodeToString(firmado);
+            String body = Util.soapFacturacionEletronica(encode);
             System.out.println(body);
             HttpClient httpClient = HttpClient.newBuilder()
                     .version(HttpClient.Version.HTTP_1_1)
