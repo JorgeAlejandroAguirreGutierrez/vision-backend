@@ -45,4 +45,12 @@ public class FacturaEletronicaController {
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_exitoso, null);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+    @GetMapping(value = "/obtenerTicket/{facturaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerTicket(@PathVariable("facturaId") long facturaId) {
+        ByteArrayInputStream pdf = servicio.obtenerTicket(facturaId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=ticket.pdf");
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(pdf));
+    }
 }
