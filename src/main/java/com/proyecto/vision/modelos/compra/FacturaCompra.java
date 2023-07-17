@@ -84,6 +84,9 @@ public class FacturaCompra extends Entidad {
     public FacturaCompra(){
         super();
         this.codigo = Constantes.vacio;
+        this.establecimiento = Constantes.vacio;
+        this.puntoVenta = Constantes.vacio;
+        this.secuencial = Constantes.vacio;
         this.numeroComprobante = Constantes.vacio;
         this.fecha = new Date();
         this.estadoInterno = Constantes.vacio;

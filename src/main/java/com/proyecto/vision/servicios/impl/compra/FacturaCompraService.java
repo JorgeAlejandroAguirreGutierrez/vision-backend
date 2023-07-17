@@ -210,6 +210,11 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
+    public List<FacturaCompra> consultarPorEmpresaProveedorYEstado(long empresaId, long proveedorId, String estado){
+        return rep.consultarPorEmpresaProveedorYEstado(empresaId, proveedorId, estado);
+    }
+
+    @Override
     public List<FacturaCompra> consultarPorProveedorYEstadoInternoYEstado(long proveedorId, String estadoInterno, String estado) {
         return rep.consultarPorProveedorYEstadoInternoYEstado(proveedorId, estadoInterno, estado);
     }
