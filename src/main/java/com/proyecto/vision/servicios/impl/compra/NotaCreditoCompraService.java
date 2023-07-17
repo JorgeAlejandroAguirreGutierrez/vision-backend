@@ -123,17 +123,13 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     		throw new CodigoNoExistenteException();
     	}
         notaCreditoCompra.setCodigo(codigo.get());
-        notaCreditoCompra.setSerie(notaCreditoCompra.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCreditoCompra.getSesion().getUsuario().getEstacion().getCodigoSRI());
-        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaCreditoCompra.getTipoComprobante().getId(), notaCreditoCompra.getSesion().getUsuario().getEstacion().getId());
-        notaCreditoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+
         notaCreditoCompra.setEstado(Constantes.estadoActivo);
         notaCreditoCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
         calcular(notaCreditoCompra);
         facturar(notaCreditoCompra);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
-        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
-        secuencialService.actualizar(secuencial);
         return res;
     }
 
@@ -272,7 +268,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
           }
     	}
         subtotalBase12SinDescuento= Math.round(subtotalBase12SinDescuento*100.0)/100.0;
-        notaCreditoCompra.setSubtotalBase12SinDescuento(subtotalBase12SinDescuento);
+        notaCreditoCompra.setSubtotalGrabadoSinDescuento(subtotalBase12SinDescuento);
     }
     
     private void calcularSubtotalBase0SinDescuento(NotaCreditoCompra notaCreditoCompra) {
@@ -283,22 +279,22 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
           }
         }
         subtotalBase0SinDescuento = Math.round(subtotalBase0SinDescuento*100.0)/100.0;
-        notaCreditoCompra.setSubtotalBase0SinDescuento(subtotalBase0SinDescuento);
+        notaCreditoCompra.setSubtotalNoGrabadoSinDescuento(subtotalBase0SinDescuento);
     }
 
     private void calcularIvaSinDescuento(NotaCreditoCompra notaCreditoCompra){
-        double ivaSinDescuento=(notaCreditoCompra.getSubtotalBase12SinDescuento() * Constantes.iva12) / 100;
+        double ivaSinDescuento=(notaCreditoCompra.getSubtotalGrabadoSinDescuento() * Constantes.iva12) / 100;
         ivaSinDescuento=Math.round(ivaSinDescuento*100.0)/100.0;
         notaCreditoCompra.setIvaSinDescuento(ivaSinDescuento);
     }
 
     private void calcularTotalSinDescuento(NotaCreditoCompra notaCreditoCompra){
-        double totalSinDescuento = notaCreditoCompra.getSubtotalBase0SinDescuento() + notaCreditoCompra.getSubtotalBase12SinDescuento() + notaCreditoCompra.getIvaSinDescuento();
+        double totalSinDescuento = notaCreditoCompra.getSubtotalNoGrabadoSinDescuento() + notaCreditoCompra.getSubtotalGrabadoSinDescuento() + notaCreditoCompra.getIvaSinDescuento();
         totalSinDescuento=Math.round(totalSinDescuento*100.0)/100.0;
         notaCreditoCompra.setTotalSinDescuento(totalSinDescuento);
     }
     private void calcularTotalConDescuento(NotaCreditoCompra notaCreditoCompra){
-        double totalConDescuento = notaCreditoCompra.getSubtotalBase0SinDescuento() + notaCreditoCompra.getSubtotalBase12SinDescuento() + notaCreditoCompra.getIvaSinDescuento() - notaCreditoCompra.getDescuentoTotal();
+        double totalConDescuento = notaCreditoCompra.getSubtotalNoGrabadoSinDescuento() + notaCreditoCompra.getSubtotalGrabadoSinDescuento() + notaCreditoCompra.getIvaSinDescuento() - notaCreditoCompra.getDescuentoTotal();
         totalConDescuento = Math.round(totalConDescuento*100.0)/100.0;
         notaCreditoCompra.setTotalConDescuento(totalConDescuento);
     }

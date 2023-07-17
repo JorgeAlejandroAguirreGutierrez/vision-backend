@@ -25,10 +25,14 @@ import static com.proyecto.vision.Constantes.tabla_nota_credito_compra;
 public class NotaCreditoCompra extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "serie", nullable = true)
-    private String serie;
+    @Column(name = "establecimiento", nullable = true)
+    private String establecimiento;
+    @Column(name = "punto_venta", nullable = true)
+    private String puntoVenta;
     @Column(name = "secuencial", nullable = true)
     private String secuencial;
+    @Column(name = "numero_comprobante", nullable = true)
+    private String numeroComprobante;
     @Column(name = "operacion", nullable = true)
     private String operacion;
     @Column(name = "fecha", nullable = true)
@@ -41,10 +45,10 @@ public class NotaCreditoCompra extends Entidad {
     private double subtotalSinDescuento;
     @Column(name = "descuento_total", nullable = true)
     private double descuentoTotal;
-    @Column(name = "subtotal_base12_sin_descuento", nullable = true)
-    private double subtotalBase12SinDescuento;
-    @Column(name = "subtotal_base0_sin_descuento", nullable = true)
-    private double subtotalBase0SinDescuento;
+    @Column(name = "subtotal_grabado_sin_descuento", nullable = true)
+    private double subtotalGrabadoSinDescuento;
+    @Column(name = "subtotal_no_grabado_sin_descuento", nullable = true)
+    private double subtotalNoGrabadoSinDescuento;
     @Column(name = "iva_sin_descuento", nullable = true)
     private double ivaSinDescuento;
     @Column(name = "total_sin_descuento", nullable = true)
@@ -53,7 +57,7 @@ public class NotaCreditoCompra extends Entidad {
     private double totalConDescuento;
     @Column(name = "comentario", nullable = true)
     private String comentario;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "factura_compra_id", nullable = true)
     private FacturaCompra facturaCompra;
     @ManyToOne
@@ -76,15 +80,18 @@ public class NotaCreditoCompra extends Entidad {
     public NotaCreditoCompra(){
         super();
         this.codigo = Constantes.vacio;
+        this.establecimiento = Constantes.vacio;
+        this.puntoVenta = Constantes.vacio;
         this.secuencial = Constantes.vacio;
+        this.numeroComprobante = Constantes.vacio;
         this.operacion = Constantes.vacio;
         this.fecha = new Date();
         this.estadoInterno = Constantes.vacio;
         this.estado = Constantes.vacio;
         this.subtotalSinDescuento = Constantes.cero;
         this.descuentoTotal = Constantes.cero;
-        this.subtotalBase12SinDescuento = Constantes.cero;
-        this.subtotalBase0SinDescuento = Constantes.cero;
+        this.subtotalGrabadoSinDescuento = Constantes.cero;
+        this.subtotalNoGrabadoSinDescuento = Constantes.cero;
         this.ivaSinDescuento = Constantes.cero;
         this.totalSinDescuento = Constantes.cero;
         this.comentario = Constantes.vacio;
