@@ -56,11 +56,38 @@ public class PrecioData implements ApplicationRunner {
             precios.add(new Precio("PRE011907000023", 40.0, 3.0, 50.0, 40.0, 60.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(3), new Producto(6)));
             precios.add(new Precio("PRE011907000024", 50.0, 10.0, 60.0, 50.0, 70.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(4), new Producto(6)));
 
-            precios.add(new Precio("PRE022307000001", 100.0, 6.0, 106.0, 118.72, 118.72, 10.0, 10.0, Constantes.estadoActivo, new Segmento(5), new Producto(7)));
-            precios.add(new Precio("PRE022307000002", 100.0, 2.0, 102.0, 114.24, 114.24, 10.0, 10.0, Constantes.estadoActivo, new Segmento(6), new Producto(7)));
+            precios.add(new Precio("PRE011907000025", 20.0, 6.0, 30.0, 20.0, 40.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(1), new Producto(7)));
+            precios.add(new Precio("PRE011907000026", 30.0, 2.0, 40.0, 30.0, 50.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(2), new Producto(7)));
+            precios.add(new Precio("PRE011907000027", 40.0, 3.0, 50.0, 40.0, 60.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(3), new Producto(7)));
+            precios.add(new Precio("PRE011907000028", 50.0, 10.0, 60.0, 50.0, 70.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(4), new Producto(7)));
 
-            precios.add(new Precio("PRE022307000003", 120.75, 6.0, 127.995, 138.2346, 138.2346, 10.0, 10.0, Constantes.estadoActivo, new Segmento(5), new Producto(8)));
-            precios.add(new Precio("PRE022307000004", 120.75, 2.0, 123.165, 133.0182, 133.0182, 10.0, 10.0, Constantes.estadoActivo, new Segmento(6), new Producto(8)));
+            precios.add(new Precio("PRE011907000029", 20.0, 6.0, 30.0, 20.0, 40.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(1), new Producto(8)));
+            precios.add(new Precio("PRE011907000030", 30.0, 2.0, 40.0, 30.0, 50.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(2), new Producto(8)));
+            precios.add(new Precio("PRE011907000031", 40.0, 3.0, 50.0, 40.0, 60.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(3), new Producto(8)));
+            precios.add(new Precio("PRE011907000032", 50.0, 10.0, 60.0, 50.0, 70.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(4), new Producto(8)));
+
+            precios.add(new Precio("PRE011907000033", 20.0, 6.0, 30.0, 20.0, 40.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(1), new Producto(9)));
+            precios.add(new Precio("PRE011907000034", 30.0, 2.0, 40.0, 30.0, 50.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(2), new Producto(9)));
+            precios.add(new Precio("PRE011907000035", 40.0, 3.0, 50.0, 40.0, 60.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(3), new Producto(9)));
+            precios.add(new Precio("PRE011907000036", 50.0, 10.0, 60.0, 50.0, 70.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(4), new Producto(9)));
+
+            precios.add(new Precio("PRE011907000037", 20.0, 6.0, 30.0, 20.0, 40.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(5), new Producto(10)));
+            precios.add(new Precio("PRE011907000038", 30.0, 2.0, 40.0, 30.0, 50.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(6), new Producto(10)));
+
+            precios.add(new Precio("PRE011907000038", 20.0, 6.0, 30.0, 20.0, 40.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(5), new Producto(11)));
+            precios.add(new Precio("PRE011907000039", 30.0, 2.0, 40.0, 30.0, 50.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(6), new Producto(11)));
+
+            precios.add(new Precio("PRE011907000040", 20.0, 6.0, 30.0, 20.0, 40.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(5), new Producto(12)));
+            precios.add(new Precio("PRE011907000041", 30.0, 2.0, 40.0, 30.0, 50.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(6), new Producto(12)));
+
+            precios.add(new Precio("PRE011907000042", 20.0, 6.0, 30.0, 20.0, 40.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(5), new Producto(13)));
+            precios.add(new Precio("PRE011907000043", 30.0, 2.0, 40.0, 30.0, 50.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(6), new Producto(13)));
+
+            precios.add(new Precio("PRE011907000044", 20.0, 6.0, 30.0, 20.0, 40.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(5), new Producto(14)));
+            precios.add(new Precio("PRE011907000045", 30.0, 2.0, 40.0, 30.0, 50.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(6), new Producto(14)));
+
+            precios.add(new Precio("PRE011907000046", 20.0, 6.0, 30.0, 20.0, 40.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(5), new Producto(15)));
+            precios.add(new Precio("PRE011907000047", 30.0, 2.0, 40.0, 30.0, 50.0, 10.0, 10.0, Constantes.estadoActivo, new Segmento(6), new Producto(15)));
 
             rep.saveAll(precios);
         }
