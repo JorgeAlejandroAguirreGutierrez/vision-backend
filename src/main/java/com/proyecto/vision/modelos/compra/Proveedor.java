@@ -103,6 +103,7 @@ public class Proveedor extends Entidad {
         this.especial = Constantes.no;
         this.obligadoContabilidad = Constantes.no;
         this.fantasma = Constantes.no;
+        this.relacionado = Constantes.no;
         this.estado = Constantes.estadoActivo;
         this.telefonosProveedor = Collections.emptyList();
         this.celularesProveedor = Collections.emptyList();

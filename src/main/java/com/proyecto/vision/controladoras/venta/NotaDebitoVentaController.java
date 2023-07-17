@@ -105,7 +105,7 @@ public class NotaDebitoVentaController {
     @PostMapping(value = "/calcularLinea", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> calcularLinea(@RequestBody NotaDebitoVentaLinea _notaDebitoVentaLinea) {
         NotaDebitoVentaLinea notaDebitoVentaLinea = servicio.calcularLinea(_notaDebitoVentaLinea);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_calcular_exitoso, notaDebitoVentaLinea);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_calcular_exitoso, notaDebitoVentaLinea);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
