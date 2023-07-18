@@ -26,6 +26,7 @@ public class EstacionData implements ApplicationRunner {
         Optional<Estacion> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<Estacion> estaciones = new ArrayList<>();
+            //ESTACIONES EMPRESA 1
             estaciones.add(new Estacion("ESN012301000001", "001", "CAJA1", "PC", "192.168.1.1", Constantes.si, Constantes.estadoActivo, new Regimen(1), new Establecimiento(1)));
             estaciones.add(new Estacion("ESN012301000002", "002", "CAJA2", "PC", "192.168.1.2", Constantes.si, Constantes.estadoActivo, null, new Establecimiento(1)));
             estaciones.add(new Estacion("ESN012301000003", "003", "CAJA3", "PC", "192.168.1.3", Constantes.si, Constantes.estadoActivo, new Regimen(3), new Establecimiento(1)));
@@ -33,10 +34,10 @@ public class EstacionData implements ApplicationRunner {
             estaciones.add(new Estacion("ESN012301000005", "002", "GERENTE-EMP1", "PC", "192.168.1.5", Constantes.no, Constantes.estadoActivo, new Regimen(2), new Establecimiento(2)));
             estaciones.add(new Estacion("ESN012301000006", "001", "TESORERO", "PC", "192.168.1.7", Constantes.no, Constantes.estadoActivo, new Regimen(3), new Establecimiento(3)));
             estaciones.add(new Estacion("ESN012301000007", "002", "VENTAS2", "PORTATIL", "192.168.1.6", Constantes.si, Constantes.estadoActivo, new Regimen(1), new Establecimiento(3)));
-
+            //ESTACIONES EMPRESA 2
             estaciones.add(new Estacion("ESN022301000001", "001", "GERENTE-EMP2", "PC", "192.168.2.1", Constantes.si, Constantes.estadoActivo, new Regimen(1), new Establecimiento(4)));
             estaciones.add(new Estacion("ESN022301000004", "001", "VENTAS1-EMP2", "TABLET", "192.168.2.2", Constantes.si, Constantes.estadoActivo, null, new Establecimiento(5)));
-            estaciones.add(new Estacion("ESN022301000005", "", "CONTADOR-EMP2", "PC", "192.168.2.3", Constantes.no, Constantes.estadoActivo, new Regimen(2), new Establecimiento(5)));
+            estaciones.add(new Estacion("ESN022301000005", "002", "CONTADOR-EMP2", "PC", "192.168.2.3", Constantes.no, Constantes.estadoActivo, new Regimen(2), new Establecimiento(5)));
 
             rep.saveAll(estaciones);
         }

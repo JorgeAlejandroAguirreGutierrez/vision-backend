@@ -9,4 +9,5 @@ public interface IFacturaElectronicaService {
 	Factura enviar(long facturaId) throws MalformedURLException;
 	ByteArrayInputStream obtenerPDF(long facturaId);
 	void enviarPDFYXML(long facturaId);
+	ByteArrayInputStream obtenerTicket(long facturaId);
 }

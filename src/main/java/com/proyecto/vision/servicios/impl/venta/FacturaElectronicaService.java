@@ -754,6 +754,267 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             e.printStackTrace();   //Si se produce un error
         }
     }
+
+	public ByteArrayInputStream crearTicket(Factura factura) {
+		try {
+			ByteArrayOutputStream salida = new ByteArrayOutputStream();
+			PdfWriter writer = new PdfWriter(salida);
+			PdfDocument pdf = new PdfDocument(writer);
+			// Initialize document
+			Document documento = new Document(pdf, PageSize.A7);
+			documento.setMargins(0,0,0,0);
+			// 4. Add content
+			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+			documento.setFont(font);
+			documento.add(new Paragraph("LOGO").setFontSize(10).setTextAlignment(TextAlignment.CENTER));
+			float[] columnas = {600F};
+			Table tabla = new Table(columnas);
+			tabla.addCell(getCellEmpresaTicket(factura.getEmpresa().getRazonSocial() + "\n" +
+					factura.getEmpresa().getNombreComercial() + "\n" +
+					"RUC: " + factura.getEmpresa().getIdentificacion() + "\n", TextAlignment.CENTER));
+			documento.add(tabla);
+			String numeroAutorizacion = Constantes.vacio;
+			String fechaAutorizacion = Constantes.vacio;
+			Image imagenCodigoBarras = null;
+			if(factura.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
+				numeroAutorizacion = factura.getClaveAcceso();
+				fechaAutorizacion = factura.getFechaAutorizacion().toString();
+				Barcode128 codigoBarras = new Barcode128(pdf);
+				codigoBarras.setCodeType(Barcode128.CODE128);
+				codigoBarras.setCode(factura.getClaveAcceso());
+				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
+				imagenCodigoBarras = new Image(objetoCodigoBarras);
+			}
+			float [] columnasFactura = {600F};
+			Table tablaFactura = new Table(columnasFactura);
+			tabla.addCell(getCellFacturaTicket("RUC: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+					"FACTURA"+"\n"+
+					"No. " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + factura.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + factura.getSecuencial() + "\n" +
+					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
+					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
+					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
+					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
+					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
+			documento.add(tablaFactura);
+			String regimen = Constantes.vacio;
+			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
+				regimen = factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
+			}
+			if(factura.getSesion().getUsuario().getEstacion().getRegimen() != null) {
+				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			}
+			float [] columnasEmpresa = {600F};
+			Table tablaEmpresa = new Table(columnasEmpresa);
+			tablaEmpresa.addCell(getCellEmpresaTicket(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" +
+					"DIRECCIÓN MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" +
+					"DIRECCIÓN SUCURSAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
+					regimen + "\n" +
+					"CONTIRUYENTE ESPECIAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" +
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" +
+					"AGENTE RETENCION RESOLUCIÓN: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+			documento.add(tablaEmpresa);
+			float [] columnasCliente = {600F};
+			Table tablaCliente = new Table(columnasCliente);
+			tablaCliente.addCell(getCellClienteTicket("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n" +
+					"FECHA EMISIÓN: " + factura.getFecha().toString() + "\n" +
+					"DIRECCION: " + factura.getCliente().getDireccion() + "\n" +
+					"IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion(), TextAlignment.LEFT));
+			documento.add(tablaCliente);
+			float [] columnasTablaFacturaDetalle = {150F, 150F, 150F, 150F};
+			Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
+			tablaFacturaDetalle.addCell(getCellColumnaFacturaTicket("CANT"));
+			tablaFacturaDetalle.addCell(getCellColumnaFacturaTicket("DESCRIPCION"));
+			tablaFacturaDetalle.addCell(getCellColumnaFacturaTicket("PRECIO U"));
+			tablaFacturaDetalle.addCell(getCellColumnaFacturaTicket("SUBTOTAL"));
+			for (int i = 0; i <factura.getFacturaLineas().size(); i++)
+			{
+				String precioSinIva = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecio().getPrecioSinIva());
+				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
+
+				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
+				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getProducto().getNombre()));
+				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$"+precioSinIva));
+				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$"+subtotalConDescuentoLinea));
+			}
+
+			String subtotalGrabadoConDescuento = String.format("%.2f", factura.getSubtotalGrabadoConDescuento());
+			String subtotalNoGrabadoConDescuento = String.format("%.2f", factura.getSubtotalNoGrabadoConDescuento());
+			String iva = String.format("%.2f", factura.getImporteIvaTotal());
+			String totalConDescuento = String.format("%.2f", factura.getValorTotal());
+			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
+			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("SUBTOTAL 12%"));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$" + subtotalGrabadoConDescuento));
+			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
+			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("SUBTOTAL 0%"));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$" + subtotalNoGrabadoConDescuento));
+			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
+			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("IVA"));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$" + iva));
+			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
+			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("TOTAL"));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$" + totalConDescuento));
+			documento.add(tablaFacturaDetalle);
+
+			float [] columnasTablaFormaPago = {200F, 100F};
+			Table tablaFormaPago = new Table(columnasTablaFormaPago);
+			tablaFormaPago.addCell(getCellFormaPagoTicket("FORMA DE PAGO"));
+			tablaFormaPago.addCell(getCellFormaPagoTicket("VALOR"));
+			if(factura.getEfectivo() > Constantes.cero) {
+				tablaFormaPago.addCell(getCellFormaPagoTicket(Constantes.sin_utilizacion_del_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_sin_utilizacion_del_sistema_financiero));
+				String valor = String.format("%.2f", factura.getEfectivo());
+				tablaFormaPago.addCell(getCellFormaPagoTicket(valor));
+			}
+			for(Cheque cheque: factura.getCheques()) {
+				tablaFormaPago.addCell(getCellFormaPagoTicket(Constantes.otros_con_utilizacion_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_otros_con_utilizacion_sistema_financiero));
+				String valor = String.format("%.2f", cheque.getValor());
+				tablaFormaPago.addCell(getCellFormaPagoTicket(valor));
+			}
+			for(Deposito deposito: factura.getDepositos()) {
+				tablaFormaPago.addCell(getCellFormaPagoTicket(Constantes.otros_con_utilizacion_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_otros_con_utilizacion_sistema_financiero));
+				String valor = String.format("%.2f", deposito.getValor());
+				tablaFormaPago.addCell(getCellFormaPagoTicket(valor));
+			}
+			for(Transferencia transferencia: factura.getTransferencias()) {
+				tablaFormaPago.addCell(getCellFormaPagoTicket(Constantes.otros_con_utilizacion_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_otros_con_utilizacion_sistema_financiero));
+				String valor = String.format("%.2f", transferencia.getValor());
+				tablaFormaPago.addCell(getCellFormaPagoTicket(valor));
+			}
+			for(TarjetaDebito tarjetaDebito: factura.getTarjetasDebitos()) {
+				tablaFormaPago.addCell(getCellFormaPagoTicket(Constantes.tarjeta_de_debito + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_tarjeta_de_debito));
+				String valor = String.format("%.2f", tarjetaDebito.getValor());
+				tablaFormaPago.addCell(getCellFormaPagoTicket(valor));
+			}
+			for(TarjetaCredito tarjetaCredito: factura.getTarjetasCreditos()) {
+				tablaFormaPago.addCell(getCellFormaPagoTicket(Constantes.tarjeta_de_credito + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_tarjeta_de_credito));
+				String valor = String.format("%.2f", tarjetaCredito.getValor());
+				tablaFormaPago.addCell(getCellFormaPagoTicket(valor));
+			}
+			if(factura.getCredito()!= null && factura.getCredito().getSaldo() > Constantes.cero) {
+				tablaFormaPago.addCell(getCellFormaPagoTicket(Constantes.otros_con_utilizacion_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_otros_con_utilizacion_sistema_financiero));
+				String valor = String.format("%.2f", factura.getCredito().getSaldo());
+				tablaFormaPago.addCell(getCellFormaPagoTicket(valor));
+			}
+			tablaFormaPago.setHorizontalAlignment(HorizontalAlignment.LEFT);
+			documento.add(tablaFormaPago);
+
+			String telefonoCliente = Constantes.vacio;
+			String celularCliente = Constantes.vacio;
+			String correoCliente = Constantes.vacio;
+			if (!factura.getCliente().getTelefonos().isEmpty()){
+				telefonoCliente = factura.getCliente().getTelefonos().get(0).getNumero();
+			}
+			if (!factura.getCliente().getCelulares().isEmpty()){
+				celularCliente = factura.getCliente().getCelulares().get(0).getNumero();
+			}
+			if (!factura.getCliente().getCorreos().isEmpty()){
+				correoCliente = factura.getCliente().getCorreos().get(0).getEmail();
+			}
+			String comentario = factura.getComentario();
+			float [] columnasAdicional = {150F, 450F};
+			Table tablaAdicional = new Table(columnasAdicional);
+			tablaAdicional.addCell(getCellAdicionalTicket("COMENTARIO"));
+			tablaAdicional.addCell(getCellAdicionalTicket(comentario));
+			tablaAdicional.addCell(getCellAdicionalTicket("TELEFONO"));
+			tablaAdicional.addCell(getCellAdicionalTicket(telefonoCliente));
+			tablaAdicional.addCell(getCellAdicionalTicket("CELULAR"));
+			tablaAdicional.addCell(getCellAdicionalTicket(celularCliente));
+			tablaAdicional.addCell(getCellAdicionalTicket("CORREO"));
+			tablaAdicional.addCell(getCellAdicionalTicket(correoCliente));
+			documento.add(tablaAdicional);
+			// 5. Close document
+			documento.close();
+			return new ByteArrayInputStream(salida.toByteArray());
+		} catch(Exception e){
+			return null;
+		}
+	}
+
+	private Cell getCellVacio(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize6);
+		cell.setBorder(Border.NO_BORDER);
+		return cell;
+	}
+
+	private Cell getCellEmpresaTicket(String text, TextAlignment alignment) {
+		Cell cell = new Cell().add(new Paragraph(text));
+		cell.setTextAlignment(alignment);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+		cell.setBorderTopLeftRadius(new BorderRadius(5));
+		cell.setBorderTopRightRadius(new BorderRadius(5));
+		cell.setBorderBottomLeftRadius(new BorderRadius(5));
+		cell.setBorderBottomRightRadius(new BorderRadius(5));
+		cell.setFontSize(Constantes.fontSize6);
+		return cell;
+	}
+	private Cell getCellFacturaTicket(String text, TextAlignment alignment, Image imagenCodigoBarras) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		if(imagenCodigoBarras != null){
+			cell.add(imagenCodigoBarras);
+		}
+		cell.setTextAlignment(alignment);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+		cell.setBorderTopLeftRadius(new BorderRadius(5));
+		cell.setBorderTopRightRadius(new BorderRadius(5));
+		cell.setBorderBottomLeftRadius(new BorderRadius(5));
+		cell.setBorderBottomRightRadius(new BorderRadius(5));
+		cell.setFontSize(Constantes.fontSize6);
+		return cell;
+	}
+	private Cell getCellClienteTicket(String text, TextAlignment alignment) {
+		Cell cell = new Cell().add(new Paragraph(text));
+		cell.setTextAlignment(alignment);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+		cell.setBorderTopLeftRadius(new BorderRadius(5));
+		cell.setBorderTopRightRadius(new BorderRadius(5));
+		cell.setBorderBottomLeftRadius(new BorderRadius(5));
+		cell.setBorderBottomRightRadius(new BorderRadius(5));
+		cell.setFontSize(Constantes.fontSize6);
+		return cell;
+	}
+	private Cell getCellColumnaFacturaTicket(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize6);
+		cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		return cell;
+	}
+	private Cell getCellFilaFacturaTicket(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize6);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		return cell;
+	}
+	private Cell getCellAdicionalTicket(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize6);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		return cell;
+	}
+
+	private Cell getCellFormaPagoTicket(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize6);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		return cell;
+	}
+
 	@Override
 	public ByteArrayInputStream obtenerPDF(long facturaId){
 		Optional<Factura> opcional= rep.findById(facturaId);
@@ -775,4 +1036,16 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		FacturaElectronica facturaElectronica = crear(factura);
 		enviarCorreo(factura, facturaElectronica);
 	}
+
+	@Override
+	public ByteArrayInputStream obtenerTicket(long facturaId){
+		Optional<Factura> opcional= rep.findById(facturaId);
+		if(opcional.isEmpty()) {
+			throw new EntidadNoExistenteException(Constantes.factura);
+		}
+		Factura factura = opcional.get();
+		ByteArrayInputStream pdf = crearTicket(factura);
+		return pdf;
+	}
+
 }
