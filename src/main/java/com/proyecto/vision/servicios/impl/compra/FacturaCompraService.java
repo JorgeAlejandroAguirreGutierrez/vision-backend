@@ -324,10 +324,12 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     private void calcularTotales(FacturaCompra facturaCompra) {
+        double subtotalConDescuento = Constantes.cero;
         double subtotalGrabadoConDescuento = Constantes.cero;
         double subtotalNoGrabadoConDescuento = Constantes.cero;
         double importeIvaTotal = Constantes.cero;
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
+            subtotalConDescuento += facturaCompraLinea.getSubtotalConDescuentoLinea();
             if (facturaCompraLinea.getImpuesto().getPorcentaje() != Constantes.cero) {
                 subtotalGrabadoConDescuento += facturaCompraLinea.getSubtotalConDescuentoLinea();
             } else {
@@ -335,6 +337,9 @@ public class FacturaCompraService implements IFacturaCompraService {
             }
             importeIvaTotal += facturaCompraLinea.getImporteIvaLinea();
         }
+        subtotalConDescuento = Math.round(subtotalConDescuento * 100.0) / 100.0;
+        facturaCompra.setSubtotalConDescuento(subtotalConDescuento);
+
         subtotalGrabadoConDescuento = Math.round(subtotalGrabadoConDescuento * 100.0) / 100.0;
         facturaCompra.setSubtotalGrabadoConDescuento(subtotalGrabadoConDescuento);
 
