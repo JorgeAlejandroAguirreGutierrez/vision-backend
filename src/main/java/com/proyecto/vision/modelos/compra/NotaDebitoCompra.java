@@ -25,10 +25,14 @@ import static com.proyecto.vision.Constantes.tabla_nota_debito_compra;
 public class NotaDebitoCompra extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "serie", nullable = true)
-    private String serie;
+    @Column(name = "establecimiento", nullable = true)
+    private String establecimiento;
+    @Column(name = "punto_venta", nullable = true)
+    private String puntoVenta;
     @Column(name = "secuencial", nullable = true)
     private String secuencial;
+    @Column(name = "numero_comprobante", nullable = true)
+    private String numeroComprobante;
     @Column(name = "operacion", nullable = true)
     private String operacion;
     @Column(name = "fecha", nullable = true)
