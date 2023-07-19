@@ -75,7 +75,6 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     		throw new CodigoNoExistenteException();
     	}
         notaDebitoCompra.setCodigo(codigo.get());
-        notaDebitoCompra.setSerie(notaDebitoCompra.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaDebitoCompra.getSesion().getUsuario().getEstacion().getCodigoSRI());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaDebitoCompra.getTipoComprobante().getId(), notaDebitoCompra.getSesion().getUsuario().getEstacion().getId());
         notaDebitoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         notaDebitoCompra.setEstado(Constantes.estadoActivo);
