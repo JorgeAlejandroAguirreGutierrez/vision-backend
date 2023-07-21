@@ -12,11 +12,10 @@ public interface IFacturaCompraService extends IGenericoService<FacturaCompra> {
 	FacturaCompra inactivar(FacturaCompra facturaCompra);
 	List<FacturaCompra> consultarPorEstado(String estado);
 	List<FacturaCompra> consultarPorEmpresa(long empresaId);
-	List<FacturaCompra> consultarPorEmpresaYEstado(long empresaId, String estado);
-	List<FacturaCompra> consultarPorEmpresaProveedorYEstado(long empresaId, long proveedorId, String estado);
+	List<FacturaCompra> consultarPorEmpresaYEstadoInternoYEstado(long empresaId, String estadoInterno, String estado);
+	List<FacturaCompra> consultarPorProveedorYEmpresaYEstadoInternoYEstado(long proveedorId, long empresaId, String estadoInterno, String estado);
 	FacturaCompra calcular(FacturaCompra facturaCompra);
 	void validarLinea(FacturaCompraLinea facturaCompraLinea);
 	FacturaCompraLinea calcularLinea(FacturaCompraLinea facturaCompraLinea);
-	List<FacturaCompra> consultarPorProveedorYEstadoInternoYEstado(long proveedorId, String estadoInterno, String estado);
 	FacturaCompra pagar(long facturaCompraId);
 }

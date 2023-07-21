@@ -205,18 +205,13 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
-    public List<FacturaCompra> consultarPorEmpresaYEstado(long empresaId, String estado){
-        return rep.consultarPorEmpresaYEstado(empresaId, estado);
+    public List<FacturaCompra> consultarPorProveedorYEmpresaYEstadoInternoYEstado(long proveedorId, long empresaId, String estadoInterno, String estado){
+        return rep.consultarPorProveedorYEmpresaYEstadoInternoYEstado(proveedorId, empresaId, estadoInterno, estado);
     }
 
     @Override
-    public List<FacturaCompra> consultarPorEmpresaProveedorYEstado(long empresaId, long proveedorId, String estado){
-        return rep.consultarPorEmpresaProveedorYEstado(empresaId, proveedorId, estado);
-    }
-
-    @Override
-    public List<FacturaCompra> consultarPorProveedorYEstadoInternoYEstado(long proveedorId, String estadoInterno, String estado) {
-        return rep.consultarPorProveedorYEstadoInternoYEstado(proveedorId, estadoInterno, estado);
+    public List<FacturaCompra> consultarPorEmpresaYEstadoInternoYEstado(long empresaId, String estadoInterno, String estado) {
+        return rep.consultarPorEmpresaYEstadoInternoYEstado(empresaId, estadoInterno, estado);
     }
 
     /*
@@ -405,8 +400,10 @@ public class FacturaCompraService implements IFacturaCompraService {
         if(facturaCompra.getEstadoInterno().equals(Constantes.estadoInternoPagada))
             throw new EstadoInvalidoException(Constantes.estado);
         if(facturaCompra.getEstadoInterno().equals(Constantes.estadoInternoPorPagar)){
-            facturaCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
-            return facturaCompra;
+            facturaCompra.setEstadoInterno(Constantes.estadoInternoPagada);
+            FacturaCompra facturada = rep.save(facturaCompra);
+            facturada.normalizar();
+            return facturada;
         }
         throw new ErrorInternoException();
     }
