@@ -11,6 +11,7 @@ import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.modelos.recaudacion.*;
 import com.proyecto.vision.repositorios.venta.INotaDebitoVentaRepository;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
+import com.proyecto.vision.servicios.interf.inventario.ITipoOperacionService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import com.proyecto.vision.servicios.interf.venta.INotaDebitoVentaService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
@@ -33,6 +34,8 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     private INotaDebitoVentaRepository rep;
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
+    @Autowired
+    private ITipoOperacionService tipoOperacionService;
     @Autowired
     private IKardexService kardexService;
     @Autowired
@@ -57,26 +60,26 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         for(NotaDebitoVentaCheque cheque : notaDebitoVenta.getCheques()){
             if(cheque.getNumero().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero);
             if(cheque.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.dato_tipo);
-            if(cheque.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(cheque.getValor() <= Constantes.cero) throw new DatoInvalidoException(Constantes.valor);
             if(cheque.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
         }
         for(NotaDebitoVentaDeposito deposito : notaDebitoVenta.getDepositos()){
             if(deposito.getComprobante().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.comprobante);
-            if(deposito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(deposito.getValor() <= Constantes.cero) throw new DatoInvalidoException(Constantes.valor);
             if(deposito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
             if(deposito.getCuentaPropia().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cuenta_propia);
         }
         for(NotaDebitoVentaTransferencia transferencia : notaDebitoVenta.getTransferencias()){
             if(transferencia.getTipoTransaccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo_transaccion);
             if(transferencia.getNumeroTransaccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero_transaccion);
-            if(transferencia.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(transferencia.getValor() <= Constantes.cero) throw new DatoInvalidoException(Constantes.valor);
             if(transferencia.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
         }
         for(NotaDebitoVentaTarjetaDebito tarjetaDebito : notaDebitoVenta.getTarjetasDebitos()){
             if(tarjetaDebito.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
             if(tarjetaDebito.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre_titular);
             if(tarjetaDebito.getLote().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.lote);
-            if(tarjetaDebito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(tarjetaDebito.getValor() <= Constantes.cero) throw new DatoInvalidoException(Constantes.valor);
             if(tarjetaDebito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
             if(tarjetaDebito.getOperadorTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.operador_tarjeta);
             if(tarjetaDebito.getFranquiciaTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.franquicia_tarjeta);
@@ -87,7 +90,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
             if(tarjetaCredito.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
             if(tarjetaCredito.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre_titular);
             if(tarjetaCredito.getLote().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.lote);
-            if(tarjetaCredito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(tarjetaCredito.getValor() <= Constantes.cero) throw new DatoInvalidoException(Constantes.valor);
             if(tarjetaCredito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
             if(tarjetaCredito.getOperadorTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.operador_tarjeta);
             if(tarjetaCredito.getFranquiciaTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.franquicia_tarjeta);
@@ -95,7 +98,9 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     }
 
     private void facturar(NotaDebitoVenta notaDebitoVenta) {
-        kardexService.eliminar(5, 3, notaDebitoVenta.getSecuencial());
+        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito_compra);
+        TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.dev_venta, Constantes.estadoActivo);
+        kardexService.eliminar(tipoComprobante.getId(), tipoOperacion.getId(), notaDebitoVenta.getSecuencial());
         for(NotaDebitoVentaLinea notaDebitoVentaLinea : notaDebitoVenta.getNotaDebitoVentaLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaDebitoVentaLinea.getBodega().getId(), notaDebitoVentaLinea.getProducto().getId());
             if(ultimoKardex == null){
@@ -108,7 +113,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
             Kardex kardex = new Kardex(null, new Date(), notaDebitoVenta.getSecuencial(), Constantes.cero, notaDebitoVentaLinea.getCantidad(),
                     saldo, Constantes.cero, notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
                     notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual(), notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
-                    new TipoComprobante(5), new TipoOperacion(6), notaDebitoVentaLinea.getBodega(), notaDebitoVentaLinea.getProducto());
+                    tipoComprobante, tipoOperacion, notaDebitoVentaLinea.getBodega(), notaDebitoVentaLinea.getProducto());
             kardexService.crear(kardex);
         }
     }
@@ -249,29 +254,29 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
 
     @Override
     public NotaDebitoVenta calcularRecaudacion(NotaDebitoVenta notaDebitoVenta){
-        double total = 0;
+        double total = Constantes.cero;
         total = total + notaDebitoVenta.getEfectivo();
-        double totalCheques = 0;
+        double totalCheques = Constantes.cero;
         for(NotaDebitoVentaCheque cheque: notaDebitoVenta.getCheques()) {
             totalCheques=totalCheques+cheque.getValor();
             total=total+totalCheques;
         }
-        double totalDepositos = 0;
+        double totalDepositos = Constantes.cero;
         for(NotaDebitoVentaDeposito deposito: notaDebitoVenta.getDepositos()) {
             totalDepositos = totalDepositos + deposito.getValor();
             total = total + totalDepositos;
         }
-        double totalTransferencias = 0;
+        double totalTransferencias = Constantes.cero;
         for(NotaDebitoVentaTransferencia transferencia: notaDebitoVenta.getTransferencias()) {
             totalTransferencias = totalTransferencias+transferencia.getValor();
             total = total + totalTransferencias;
         }
-        double totalTarjetasDebitos = 0;
+        double totalTarjetasDebitos = Constantes.cero;
         for(NotaDebitoVentaTarjetaDebito tarjetaDebito: notaDebitoVenta.getTarjetasDebitos()) {
             totalTarjetasDebitos=totalTarjetasDebitos+tarjetaDebito.getValor();
             total=total+totalTarjetasDebitos;
         }
-        double totalTarjetasCreditos = 0;
+        double totalTarjetasCreditos = Constantes.cero;
         for(NotaDebitoVentaTarjetaCredito tarjetaCredito: notaDebitoVenta.getTarjetasCreditos()) {
             totalTarjetasCreditos = totalTarjetasCreditos + tarjetaCredito.getValor();
             total = total + totalTarjetasCreditos;

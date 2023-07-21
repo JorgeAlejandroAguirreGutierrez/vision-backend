@@ -5,6 +5,7 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.compra.FacturaCompra;
 import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
+import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.modelos.inventario.Precio;
 import com.proyecto.vision.servicios.interf.inventario.IPrecioService;
@@ -65,23 +66,23 @@ public class FacturaCompraService implements IFacturaCompraService {
             throw new CodigoNoExistenteException();
         }
         facturaCompra.setCodigo(codigo.get());
+        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(facturaCompra.getTipoComprobante().getId(), facturaCompra.getSesion().getUsuario().getEstacion().getId());
+        facturaCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         crearKardex(facturaCompra);
         actualizarPrecios(facturaCompra);
         facturaCompra.setEstado(Constantes.estadoActivo);
         facturaCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
-
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
+        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
+        secuencialService.actualizar(secuencial);
         return res;
     }
 
     private void crearKardex(FacturaCompra facturaCompra) {
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
-            double saldo = Constantes.cero;
-            double costoTotal = Constantes.cero;
-            double costoUnitario = Constantes.cero;
-            double costoPromedio = Constantes.cero;
+            double saldo, costoTotal, costoUnitario, costoPromedio;
             if (ultimoKardex != null) {
                 saldo = ultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
                 costoTotal = ultimoKardex.getCostoTotal() + facturaCompraLinea.getSubtotalConDescuentoLinea();
@@ -89,11 +90,20 @@ public class FacturaCompraService implements IFacturaCompraService {
                 costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+            } else{
+                saldo = facturaCompraLinea.getCantidad();
+                costoTotal = facturaCompraLinea.getSubtotalConDescuentoLinea();
+                costoUnitario = facturaCompraLinea.getSubtotalConDescuentoLinea() / facturaCompraLinea.getCantidad();
+                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
+            TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
+            TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.compra, Constantes.estadoActivo);
             Kardex kardex = new Kardex(null, new Date(),
                     facturaCompra.getNumeroComprobante(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
-                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, new TipoComprobante(8),
-                    new TipoOperacion(3), facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
+                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, tipoComprobante,
+                    tipoOperacion, facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
 
             kardexService.crear(kardex);
         }
@@ -320,31 +330,31 @@ public class FacturaCompraService implements IFacturaCompraService {
 
     private void calcularTotales(FacturaCompra facturaCompra) {
         double subtotalConDescuento = Constantes.cero;
-        double subtotalGrabadoConDescuento = Constantes.cero;
-        double subtotalNoGrabadoConDescuento = Constantes.cero;
+        double subtotalGravadoConDescuento = Constantes.cero;
+        double subtotalNoGravadoConDescuento = Constantes.cero;
         double importeIvaTotal = Constantes.cero;
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
             subtotalConDescuento += facturaCompraLinea.getSubtotalConDescuentoLinea();
             if (facturaCompraLinea.getImpuesto().getPorcentaje() != Constantes.cero) {
-                subtotalGrabadoConDescuento += facturaCompraLinea.getSubtotalConDescuentoLinea();
+                subtotalGravadoConDescuento += facturaCompraLinea.getSubtotalConDescuentoLinea();
             } else {
-                subtotalNoGrabadoConDescuento += facturaCompraLinea.getSubtotalConDescuentoLinea();
+                subtotalNoGravadoConDescuento += facturaCompraLinea.getSubtotalConDescuentoLinea();
             }
             importeIvaTotal += facturaCompraLinea.getImporteIvaLinea();
         }
         subtotalConDescuento = Math.round(subtotalConDescuento * 100.0) / 100.0;
         facturaCompra.setSubtotalConDescuento(subtotalConDescuento);
 
-        subtotalGrabadoConDescuento = Math.round(subtotalGrabadoConDescuento * 100.0) / 100.0;
-        facturaCompra.setSubtotalGrabadoConDescuento(subtotalGrabadoConDescuento);
+        subtotalGravadoConDescuento = Math.round(subtotalGravadoConDescuento * 100.0) / 100.0;
+        facturaCompra.setSubtotalGravadoConDescuento(subtotalGravadoConDescuento);
 
-        subtotalNoGrabadoConDescuento = Math.round(subtotalNoGrabadoConDescuento * 100.0) / 100.0;
-        facturaCompra.setSubtotalNoGrabadoConDescuento(subtotalNoGrabadoConDescuento);
+        subtotalNoGravadoConDescuento = Math.round(subtotalNoGravadoConDescuento * 100.0) / 100.0;
+        facturaCompra.setSubtotalNoGravadoConDescuento(subtotalNoGravadoConDescuento);
 
         importeIvaTotal = Math.round(importeIvaTotal * 100.0) / 100.0;
         facturaCompra.setImporteIvaTotal(importeIvaTotal);
 
-        double valorTotal = subtotalGrabadoConDescuento + subtotalNoGrabadoConDescuento + importeIvaTotal;
+        double valorTotal = subtotalGravadoConDescuento + subtotalNoGravadoConDescuento + importeIvaTotal;
         valorTotal = Math.round(valorTotal * 100.0) / 100.0;
         facturaCompra.setValorTotal(valorTotal);
     }

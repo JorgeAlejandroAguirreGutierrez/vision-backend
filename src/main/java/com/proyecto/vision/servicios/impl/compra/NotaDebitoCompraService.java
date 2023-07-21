@@ -53,7 +53,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         if(notaDebitoCompra.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
         if(notaDebitoCompra.getEstadoInterno().equals(Constantes.estadoInternoPagada)) throw new DatoInvalidoException(Constantes.estado);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito_compra);
-        TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.dev_venta, Constantes.estadoActivo);
+        TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.dev_compra, Constantes.estadoActivo);
         kardexService.eliminar(tipoComprobante.getId(), tipoOperacion.getId(), notaDebitoCompra.getSecuencial());
         for(NotaDebitoCompraLinea notaDebitoCompraLinea : notaDebitoCompra.getNotaDebitoCompraLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaDebitoCompraLinea.getBodega().getId(), notaDebitoCompraLinea.getProducto().getId());
@@ -63,7 +63,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
                         notaDebitoCompra.getSecuencial(), notaDebitoCompraLinea.getCantidad(), Constantes.cero, saldo,
                         notaDebitoCompraLinea.getTotalLinea(), Constantes.cero,
                         notaDebitoCompraLinea.getCostoUnitario(), notaDebitoCompraLinea.getTotalLinea(),
-                        new TipoComprobante(10), new TipoOperacion(6), ultimoKardex.getBodega(), ultimoKardex.getProducto());
+                        new TipoComprobante(tipoComprobante.getId()), tipoOperacion, ultimoKardex.getBodega(), ultimoKardex.getProducto());
                 kardexService.crear(kardex);
             }
         }
@@ -149,11 +149,12 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
 
     @Override
     public NotaDebitoCompra calcular(NotaDebitoCompra notaDebitoCompra) {
-        this.calcularTotalLinea(notaDebitoCompra);
         this.calcularIvaLinea(notaDebitoCompra);
+        this.calcularSubtotalLinea(notaDebitoCompra);
+        this.calcularTotalLinea(notaDebitoCompra);
         this.calcularSubtotalGravado(notaDebitoCompra);
         this.calcularSubtotalNoGravado(notaDebitoCompra);
-        this.calcularIva(notaDebitoCompra);
+        this.calcularImporteIva(notaDebitoCompra);
         this.calcularTotal(notaDebitoCompra);
         return notaDebitoCompra;
     }
@@ -163,30 +164,41 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     @Override
     public NotaDebitoCompraLinea calcularLinea(NotaDebitoCompraLinea notaDebitoCompraLinea) {
         validarLinea(notaDebitoCompraLinea);
+        double subtotalLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario();
         double impuesto = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() * notaDebitoCompraLinea.getImpuesto().getPorcentaje() / 100;
-        double totalSinDescuentoLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() + impuesto;
-        totalSinDescuentoLinea = Math.round(totalSinDescuentoLinea*100.0)/100.0;
-        notaDebitoCompraLinea.setTotalLinea(totalSinDescuentoLinea);
+        double totalLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() + impuesto - notaDebitoCompraLinea.getDescuento();
+        subtotalLinea = Math.round(subtotalLinea * 100.0)/100.0;
+        notaDebitoCompraLinea.setSubtotalLinea(subtotalLinea);
+        totalLinea = Math.round(totalLinea * 100.0)/100.0;
+        notaDebitoCompraLinea.setTotalLinea(totalLinea);
         return notaDebitoCompraLinea;
     }
     /*
      * CALCULOS CON NOTA DEBITO COMPRA LINEA
      */
-    private void calcularTotalLinea(NotaDebitoCompra notaDebitoCompra) {
-    	for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()) {
-            validarLinea(notaDebitoCompraLinea);
-    		double totalLinea = (notaDebitoCompraLinea.getCantidad()) * notaDebitoCompraLinea.getCostoUnitario();
-        	totalLinea=Math.round(totalLinea*100.0)/100.0;
-            notaDebitoCompraLinea.setTotalLinea(totalLinea);
-    	}
-    }
     private void calcularIvaLinea(NotaDebitoCompra notaDebitoCompra) {
         for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()) {
             validarLinea(notaDebitoCompraLinea);
-            double ivaLinea = notaDebitoCompraLinea.getTotalLinea() * notaDebitoCompraLinea.getImpuesto().getPorcentaje() / 100;
-            ivaLinea = Math.round(ivaLinea*100.0)/100.0;
+            double ivaLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() * notaDebitoCompraLinea.getImpuesto().getPorcentaje() / 100;
+            ivaLinea = Math.round(ivaLinea * 100.0)/100.0;
             notaDebitoCompraLinea.setIvaLinea(ivaLinea);
         }
+    }
+    private void calcularSubtotalLinea(NotaDebitoCompra notaDebitoCompra){
+        for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()) {
+            validarLinea(notaDebitoCompraLinea);
+            double subtotalLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario();
+            subtotalLinea = Math.round(subtotalLinea * 100.0)/100.0;
+            notaDebitoCompraLinea.setTotalLinea(subtotalLinea);
+        }
+    }
+    private void calcularTotalLinea(NotaDebitoCompra notaDebitoCompra) {
+    	for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()) {
+            validarLinea(notaDebitoCompraLinea);
+            double totalLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() + notaDebitoCompraLinea.getIvaLinea() - notaDebitoCompraLinea.getDescuento();
+        	totalLinea=Math.round(totalLinea*100.0)/100.0;
+            notaDebitoCompraLinea.setTotalLinea(totalLinea);
+    	}
     }
     /*
      * FIN CALCULO NOTA DEBITO COMPRA LINEAS
@@ -200,10 +212,10 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     	double subtotalGravado = Constantes.cero;
     	for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()){
           if (notaDebitoCompraLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva12){
-              subtotalGravado += notaDebitoCompraLinea.getTotalLinea();
+              subtotalGravado += notaDebitoCompraLinea.getSubtotalLinea();
           }
     	}
-        subtotalGravado= Math.round(subtotalGravado*100.0)/100.0;
+        subtotalGravado = Math.round(subtotalGravado*100.0)/100.0;
         notaDebitoCompra.setSubtotalGravado(subtotalGravado);
     }
     
@@ -211,14 +223,14 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     	double subtotalNoGravado = Constantes.cero;
     	for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()){
           if (notaDebitoCompraLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva0){
-              subtotalNoGravado += notaDebitoCompraLinea.getTotalLinea();
+              subtotalNoGravado += notaDebitoCompraLinea.getSubtotalLinea();
           }
         }
         subtotalNoGravado = Math.round(subtotalNoGravado*100.0)/100.0;
         notaDebitoCompra.setSubtotalNoGravado(subtotalNoGravado);
     }
 
-    private void calcularIva(NotaDebitoCompra notaDebitoCompra){
+    private void calcularImporteIva(NotaDebitoCompra notaDebitoCompra){
         double iva = (notaDebitoCompra.getSubtotalGravado() * Constantes.iva12) / 100;
         iva = Math.round(iva*100.0)/100.0;
         notaDebitoCompra.setIva(iva);
