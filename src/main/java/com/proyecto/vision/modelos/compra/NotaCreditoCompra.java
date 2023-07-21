@@ -45,14 +45,14 @@ public class NotaCreditoCompra extends Entidad {
     private double descuento;
     @Column(name = "subtotal", nullable = true)
     private double subtotal;
-    @Column(name = "subtotal_grabado", nullable = true)
-    private double subtotalGrabado;
-    @Column(name = "subtotal_no_grabado", nullable = true)
-    private double subtotalNoGrabado;
-    @Column(name = "importe_iva_total", nullable = true)
-    private double importeIvaTotal;
-    @Column(name = "valor_total", nullable = true)
-    private double valorTotal;
+    @Column(name = "subtotal_gravado", nullable = true)
+    private double subtotalGravado;
+    @Column(name = "subtotal_no_gravado", nullable = true)
+    private double subtotalNoGravado;
+    @Column(name = "iva", nullable = true)
+    private double iva;
+    @Column(name = "total", nullable = true)
+    private double total;
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @ManyToOne
@@ -88,10 +88,10 @@ public class NotaCreditoCompra extends Entidad {
         this.estado = Constantes.vacio;
         this.descuento = Constantes.cero;
         this.subtotal = Constantes.cero;
-        this.subtotalGrabado = Constantes.cero;
-        this.subtotalNoGrabado = Constantes.cero;
-        this.importeIvaTotal = Constantes.cero;
-        this.valorTotal = Constantes.cero;
+        this.subtotalGravado = Constantes.cero;
+        this.subtotalNoGravado = Constantes.cero;
+        this.iva = Constantes.cero;
+        this.total = Constantes.cero;
         this.comentario = Constantes.vacio;
         this.notaCreditoCompraLineas = Collections.emptyList();
     }

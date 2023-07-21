@@ -248,9 +248,9 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         if(notaCreditoCompra.getOperacion() == Constantes.vacio) throw new DatoInvalidoException(Constantes.operacion_devolucion);
 
         double subtotal = Constantes.cero;
-        double subtotalGrabado = Constantes.cero;
-        double subtotalNoGrabado = Constantes.cero;
-        double importeIvaTotal = Constantes.cero;
+        double subtotalGravado = Constantes.cero;
+        double subtotalNoGravado = Constantes.cero;
+        double iva = Constantes.cero;
         for(NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
             validarLinea(notaCreditoCompraLinea);
             double subtotalLinea = Constantes.cero;
@@ -274,35 +274,35 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
             }
             subtotal += subtotalLinea;
             if (notaCreditoCompraLinea.getImpuesto().getPorcentaje() != Constantes.cero){
-                subtotalGrabado += subtotalLinea;
+                subtotalGravado += subtotalLinea;
             } else {
-                subtotalNoGrabado += subtotalLinea;
+                subtotalNoGravado += subtotalLinea;
             }
 
-            double importeIvaLinea = subtotalLinea * notaCreditoCompraLinea.getImpuesto().getPorcentaje() / 100;
-            importeIvaLinea = Math.round(importeIvaLinea * 100.0) / 100.0;
-            notaCreditoCompraLinea.setImporteIvaLinea(importeIvaLinea);
-            importeIvaTotal += importeIvaLinea;
+            double ivaLinea = subtotalLinea * notaCreditoCompraLinea.getImpuesto().getPorcentaje() / 100;
+            ivaLinea = Math.round(ivaLinea * 100.0) / 100.0;
+            notaCreditoCompraLinea.setIvaLinea(ivaLinea);
+            iva += ivaLinea;
 
-            double totalLinea = subtotalLinea + importeIvaLinea;
+            double totalLinea = subtotalLinea + ivaLinea;
             totalLinea = Math.round(totalLinea * 100.0) / 100.0;
             notaCreditoCompraLinea.setTotalLinea(totalLinea);
         }
         subtotal = Math.round(subtotal * 100.0) / 100.0;
         notaCreditoCompra.setSubtotal(subtotal);
 
-        subtotalGrabado = Math.round(subtotalGrabado * 100.0) / 100.0;
-        notaCreditoCompra.setSubtotalGrabado(subtotalGrabado);
+        subtotalGravado = Math.round(subtotalGravado * 100.0) / 100.0;
+        notaCreditoCompra.setSubtotalGravado(subtotalGravado);
 
-        subtotalNoGrabado = Math.round(subtotalNoGrabado * 100.0) / 100.0;
-        notaCreditoCompra.setSubtotalNoGrabado(subtotalNoGrabado);
+        subtotalNoGravado = Math.round(subtotalNoGravado * 100.0) / 100.0;
+        notaCreditoCompra.setSubtotalNoGravado(subtotalNoGravado);
 
-        importeIvaTotal = Math.round(importeIvaTotal * 100.0) / 100.0;
-        notaCreditoCompra.setImporteIvaTotal(importeIvaTotal);
+        iva = Math.round(iva * 100.0) / 100.0;
+        notaCreditoCompra.setIva(iva);
 
-        double valorTotal = subtotalGrabado + subtotalNoGrabado + importeIvaTotal;
-        valorTotal = Math.round(valorTotal * 100.0) / 100.0;
-        notaCreditoCompra.setValorTotal(valorTotal);
+        double total = subtotalGravado + subtotalNoGravado + iva;
+        total = Math.round(total * 100.0) / 100.0;
+        notaCreditoCompra.setTotal(total);
 
         return notaCreditoCompra;
     }
