@@ -41,24 +41,18 @@ public class NotaDebitoCompra extends Entidad {
     private String estadoInterno;
     @Column(name = "estado", nullable = true)
     private String estado;
-    @Column(name = "valor_descuento_total", nullable = true)
-    private double valorDescuentoTotal;
-    @Column(name = "porcentaje_descuento_total", nullable = true)
-    private double porcentajeDescuentoTotal;
-    @Column(name = "subtotal_sin_descuento", nullable = true)
-    private double subtotalSinDescuento;
-    @Column(name = "descuento_total", nullable = true)
-    private double descuentoTotal;
-    @Column(name = "subtotal_base12_sin_descuento", nullable = true)
-    private double subtotalBase12SinDescuento;
-    @Column(name = "subtotal_base0_sin_descuento", nullable = true)
-    private double subtotalBase0SinDescuento;
-    @Column(name = "iva_sin_descuento", nullable = true)
-    private double ivaSinDescuento;
-    @Column(name = "total_sin_descuento", nullable = true)
-    private double totalSinDescuento;
-    @Column(name = "total_con_descuento", nullable = true)
-    private double totalConDescuento;
+    @Column(name = "descuento", nullable = true)
+    private double descuento;
+    @Column(name = "subtotal", nullable = true)
+    private double subtotal;
+    @Column(name = "subtotal_gravado", nullable = true)
+    private double subtotalGravado;
+    @Column(name = "subtotal_no_gravado", nullable = true)
+    private double subtotalNoGravado;
+    @Column(name = "iva", nullable = true)
+    private double iva;
+    @Column(name = "total", nullable = true)
+    private double total;
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -89,15 +83,12 @@ public class NotaDebitoCompra extends Entidad {
         this.fecha = new Date();
         this.estadoInterno = Constantes.vacio;
         this.estado = Constantes.vacio;
-        this.valorDescuentoTotal = Constantes.cero;
-        this.porcentajeDescuentoTotal = Constantes.cero;
-        this.subtotalSinDescuento = Constantes.cero;
-        this.descuentoTotal = Constantes.cero;
-        this.subtotalBase12SinDescuento = Constantes.cero;
-        this.subtotalBase0SinDescuento = Constantes.cero;
-        this.ivaSinDescuento = Constantes.cero;
-        this.totalSinDescuento = Constantes.cero;
-        this.totalConDescuento = Constantes.cero;
+        this.descuento = Constantes.cero;
+        this.subtotal = Constantes.cero;
+        this.subtotalGravado = Constantes.cero;
+        this.subtotalNoGravado = Constantes.cero;
+        this.iva = Constantes.cero;
+        this.total = Constantes.cero;
         this.comentario = Constantes.vacio;
         this.notaDebitoCompraLineas = Collections.emptyList();
     }

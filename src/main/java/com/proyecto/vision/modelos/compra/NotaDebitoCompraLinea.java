@@ -7,7 +7,6 @@ import com.proyecto.vision.modelos.inventario.Bodega;
 import com.proyecto.vision.modelos.configuracion.Impuesto;
 import com.proyecto.vision.modelos.inventario.Producto;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,14 +25,14 @@ public class NotaDebitoCompraLinea extends Entidad {
     private long cantidad;
     @Column(name = "costo_unitario", nullable = true)
     private double costoUnitario;
-    @Column(name = "valor_descuento_linea", nullable = true)
-    private double valorDescuentoLinea;
-    @Column(name = "porcentaje_descuento_linea", nullable = true)
-    private double porcentajeDescuentoLinea;
-    @Column(name = "iva_sin_descuento_linea", nullable = true)
-    private double ivaSinDescuentoLinea;
-    @Column(name = "total_sin_descuento", nullable = true)
-    private double totalSinDescuentoLinea;
+    @Column(name = "descuento", nullable = true)
+    private double descuento;
+    @Column(name = "subtotal_linea", nullable = true)
+    private double subtotalLinea;
+    @Column(name = "iva", nullable = true)
+    private double ivaLinea;
+    @Column(name = "total", nullable = true)
+    private double totalLinea;
     @Column(name = "entregado", nullable = true)
     private String entregado;
     @ManyToOne
@@ -58,9 +57,10 @@ public class NotaDebitoCompraLinea extends Entidad {
         this.codigo = Constantes.vacio;
         this.cantidad = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
-        this.valorDescuentoLinea = Constantes.cero;
-        this.porcentajeDescuentoLinea = Constantes.cero;
-        this.totalSinDescuentoLinea = Constantes.cero;
+        this.descuento = Constantes.cero;
+        this.subtotalLinea = Constantes.cero;
+        this.ivaLinea = Constantes.cero;
+        this.totalLinea = Constantes.cero;
         this.entregado = Constantes.no;
     }
 }

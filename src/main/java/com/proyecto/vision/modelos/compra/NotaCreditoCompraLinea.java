@@ -33,8 +33,8 @@ public class NotaCreditoCompraLinea extends Entidad {
     private double costoUnitario;
     @Column(name = "subtotal_linea", nullable = true)
     private double subtotalLinea;
-    @Column(name = "importe_iva_linea", nullable = true)
-    private double importeIvaLinea;
+    @Column(name = "iva_linea", nullable = true)
+    private double ivaLinea;
     @Column(name = "total_linea", nullable = true)
     private double totalLinea;
     @ManyToOne
@@ -62,7 +62,7 @@ public class NotaCreditoCompraLinea extends Entidad {
         this.cantidad = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
         this.subtotalLinea = Constantes.cero;
-        this.importeIvaLinea = Constantes.cero;
+        this.ivaLinea = Constantes.cero;
         this.totalLinea = Constantes.cero;
     }
 }
