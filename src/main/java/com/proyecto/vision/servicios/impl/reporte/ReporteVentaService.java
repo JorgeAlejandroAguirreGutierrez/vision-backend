@@ -118,9 +118,9 @@ public class ReporteVentaService {
             }
             reporteVentaLinea.setTipoVenta(tipoVenta);
 
-            String subtotal0 = String.format("%.2f", factura.getSubtotalNoGrabadoConDescuento());
+            String subtotal0 = String.format("%.2f", factura.getSubtotalNoGravadoConDescuento());
             reporteVentaLinea.setSubtotal0(subtotal0);
-            String subtotal12 = String.format("%.2f", factura.getSubtotalGrabadoConDescuento());
+            String subtotal12 = String.format("%.2f", factura.getSubtotalGravadoConDescuento());
             reporteVentaLinea.setSubtotal12(subtotal12);
             String iva = String.format("%.2f", factura.getImporteIvaTotal());
             reporteVentaLinea.setIva(iva);
@@ -128,8 +128,8 @@ public class ReporteVentaService {
             reporteVentaLinea.setTotal(total);
             reporteVentaLineas.add(reporteVentaLinea);
 
-            total0 = total0 + factura.getSubtotalNoGrabadoConDescuento();
-            total12 = total12 + factura.getSubtotalGrabadoConDescuento();
+            total0 = total0 + factura.getSubtotalNoGravadoConDescuento();
+            total12 = total12 + factura.getSubtotalGravadoConDescuento();
             totalIva = totalIva + factura.getImporteIvaTotal();
             reporteTotal = reporteTotal + factura.getValorTotal();
 

@@ -408,13 +408,13 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
             float [] columnasTablaFactura = {130F, 100F};
             Table tablaFactura = new Table(columnasTablaFactura);
             tablaFactura.addCell("SUBTOTAL SD 12%");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalGrabadoConDescuento());
+            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalGravadoConDescuento());
             tablaFactura.addCell("SUBTOTAL CD 12%");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalGrabadoConDescuento());
+            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalGravadoConDescuento());
             tablaFactura.addCell("SUBTOTAL SD 0%");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalNoGrabadoConDescuento());
+            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalNoGravadoConDescuento());
             tablaFactura.addCell("SUBTOTAL CD 0%");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalNoGrabadoConDescuento());
+            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalNoGravadoConDescuento());
             tablaFactura.addCell("TOTAL SD");
             tablaFactura.addCell("$" + guiaRemision.getFactura().getValorTotal());
             tablaFactura.addCell("TOTAL CD");

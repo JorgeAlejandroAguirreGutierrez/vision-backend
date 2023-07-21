@@ -45,10 +45,10 @@ public class FacturaCompra extends Entidad {
     private double subtotalConDescuento;
     @Column(name = "descuento_total", nullable = true)
     private double descuentoTotal;
-    @Column(name = "subtotal_grabado_con_descuento", nullable = true)
-    private double subtotalGrabadoConDescuento;
-    @Column(name = "subtotal_no_grabado_con_descuento", nullable = true)
-    private double subtotalNoGrabadoConDescuento;
+    @Column(name = "subtotal_gravado_con_descuento", nullable = true)
+    private double subtotalGravadoConDescuento;
+    @Column(name = "subtotal_no_gravado_con_descuento", nullable = true)
+    private double subtotalNoGravadoConDescuento;
     @Column(name = "importe_iva_total", nullable = true)
     private double importeIvaTotal;
     @Column(name = "valor_total", nullable = true)
@@ -100,8 +100,8 @@ public class FacturaCompra extends Entidad {
         this.subtotalSinDescuento = Constantes.cero;
         this.subtotalConDescuento = Constantes.cero;
         this.descuentoTotal = Constantes.cero;
-        this.subtotalGrabadoConDescuento = Constantes.cero;
-        this.subtotalNoGrabadoConDescuento = Constantes.cero;
+        this.subtotalGravadoConDescuento = Constantes.cero;
+        this.subtotalNoGravadoConDescuento = Constantes.cero;
         this.importeIvaTotal = Constantes.cero;
         this.valorTotal = Constantes.cero;
         this.comentario = Constantes.vacio;

@@ -10,4 +10,5 @@ public interface ITipoOperacionService extends IGenericoService<TipoOperacion> {
 	TipoOperacion activar(TipoOperacion tipoGasto);
 	TipoOperacion inactivar(TipoOperacion tipoGasto);
 	List<TipoOperacion> consultarPorEstado(String estado);
+	TipoOperacion obtenerPorAbreviaturaYEstado(String abreviatura, String estado);
 }

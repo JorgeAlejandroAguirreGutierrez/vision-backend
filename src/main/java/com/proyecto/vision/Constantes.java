@@ -16,6 +16,9 @@ public class Constantes {
 	public static final String placa_abreviatura="PL";
 	public static final String pasaporte_abreviatura="E";
 	public static final String tipo_producto_bien="BIEN";
+	public static final String dev_venta = "DEV. VENTA";
+    public static final String dev_compra = "DEV. COMPRA";
+    public static final String compra = "COMPRA";
 	
 	public static final String pendiente="PENDIENTE";
 	public static final String entregado="ENTREGADO";
