@@ -1,4 +1,4 @@
-package com.proyecto.vision.datos.inventario;
+package com.proyecto.vision.datos.configuracion;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;

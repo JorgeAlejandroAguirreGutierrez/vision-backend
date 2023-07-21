@@ -86,8 +86,8 @@ public class ReporteCajaService {
             } else {
                 facturasEmitidas++;
             }
-            total12 = total12 + factura.getSubtotalGrabadoConDescuento();
-            total0 = total0 + factura.getSubtotalNoGrabadoConDescuento();
+            total12 = total12 + factura.getSubtotalGravadoConDescuento();
+            total0 = total0 + factura.getSubtotalNoGravadoConDescuento();
             totalIva = totalIva + factura.getImporteIvaTotal();
 
             totalEfectivo = totalEfectivo + factura.getEfectivo();

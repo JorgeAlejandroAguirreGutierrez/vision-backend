@@ -60,12 +60,13 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         validar(notaCreditoCompra);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito_compra);
         notaCreditoCompra.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_nota_credito_compra, notaCreditoCompra.getEmpresa().getId());
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
+        Optional<String> codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_nota_credito_compra, notaCreditoCompra.getEmpresa().getId());
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
         notaCreditoCompra.setCodigo(codigo.get());
-
+        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaCreditoCompra.getTipoComprobante().getId(), notaCreditoCompra.getSesion().getUsuario().getEstacion().getId());
+        notaCreditoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         notaCreditoCompra.setEstado(Constantes.estadoActivo);
         notaCreditoCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
         calcular(notaCreditoCompra);
@@ -73,6 +74,8 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         actualizarPrecios(notaCreditoCompra);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
+        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
+        secuencialService.actualizar(secuencial);
         return res;
     }
 
@@ -286,7 +289,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         double subtotal = Constantes.cero;
         double subtotalGravado = Constantes.cero;
         double subtotalNoGravado = Constantes.cero;
-        double iva = Constantes.cero;
+        double importeIva = Constantes.cero;
         for(NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
             validarLinea(notaCreditoCompraLinea);
             double subtotalLinea = Constantes.cero;
@@ -320,12 +323,12 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 subtotalNoGravado += subtotalLinea;
             }
 
-            double ivaLinea = subtotalLinea * notaCreditoCompraLinea.getImpuesto().getPorcentaje() / 100;
-            ivaLinea = Math.round(ivaLinea * 100.0) / 100.0;
-            notaCreditoCompraLinea.setIvaLinea(ivaLinea);
-            iva += ivaLinea;
+            double importeIvaLinea = subtotalLinea * notaCreditoCompraLinea.getImpuesto().getPorcentaje() / 100;
+            importeIvaLinea = Math.round(importeIvaLinea * 100.0) / 100.0;
+            notaCreditoCompraLinea.setImporteIvaLinea(importeIvaLinea);
+            importeIva += importeIvaLinea;
 
-            double totalLinea = subtotalLinea + ivaLinea;
+            double totalLinea = subtotalLinea + importeIvaLinea;
             totalLinea = Math.round(totalLinea * 100.0) / 100.0;
             notaCreditoCompraLinea.setTotalLinea(totalLinea);
         }
@@ -338,10 +341,10 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         subtotalNoGravado = Math.round(subtotalNoGravado * 100.0) / 100.0;
         notaCreditoCompra.setSubtotalNoGravado(subtotalNoGravado);
 
-        iva = Math.round(iva * 100.0) / 100.0;
-        notaCreditoCompra.setIva(iva);
+        importeIva = Math.round(importeIva * 100.0) / 100.0;
+        notaCreditoCompra.setImporteIva(importeIva);
 
-        double total = subtotalGravado + subtotalNoGravado + iva;
+        double total = subtotalGravado + subtotalNoGravado + importeIva;
         total = Math.round(total * 100.0) / 100.0;
         notaCreditoCompra.setTotal(total);
 

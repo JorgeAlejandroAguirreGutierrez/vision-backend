@@ -408,27 +408,27 @@ public class FacturaService implements IFacturaService {
     }
 
     private void calcularTotales(Factura factura) {
-        double subtotalGrabadoConDescuento = Constantes.cero;
-        double subtotalNoGrabadoConDescuento = Constantes.cero;
+        double subtotalGravadoConDescuento = Constantes.cero;
+        double subtotalNoGravadoConDescuento = Constantes.cero;
         double importeIvaTotal = Constantes.cero;
         for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
             if (facturaLinea.getImpuesto().getPorcentaje() != Constantes.cero) {
-                subtotalGrabadoConDescuento += facturaLinea.getSubtotalConDescuentoLinea();
+                subtotalGravadoConDescuento += facturaLinea.getSubtotalConDescuentoLinea();
             } else {
-                subtotalNoGrabadoConDescuento += facturaLinea.getSubtotalConDescuentoLinea();
+                subtotalNoGravadoConDescuento += facturaLinea.getSubtotalConDescuentoLinea();
             }
             importeIvaTotal += facturaLinea.getImporteIvaLinea();
         }
-        subtotalGrabadoConDescuento = Math.round(subtotalGrabadoConDescuento * 100.0) / 100.0;
-        factura.setSubtotalGrabadoConDescuento(subtotalGrabadoConDescuento);
+        subtotalGravadoConDescuento = Math.round(subtotalGravadoConDescuento * 100.0) / 100.0;
+        factura.setSubtotalGravadoConDescuento(subtotalGravadoConDescuento);
 
-        subtotalNoGrabadoConDescuento = Math.round(subtotalNoGrabadoConDescuento * 100.0) / 100.0;
-        factura.setSubtotalNoGrabadoConDescuento(subtotalNoGrabadoConDescuento);
+        subtotalNoGravadoConDescuento = Math.round(subtotalNoGravadoConDescuento * 100.0) / 100.0;
+        factura.setSubtotalNoGravadoConDescuento(subtotalNoGravadoConDescuento);
 
         importeIvaTotal = Math.round(importeIvaTotal * 100.0) / 100.0;
         factura.setImporteIvaTotal(importeIvaTotal);
 
-        double valorTotal = subtotalGrabadoConDescuento + subtotalNoGrabadoConDescuento + importeIvaTotal;
+        double valorTotal = subtotalGravadoConDescuento + subtotalNoGravadoConDescuento + importeIvaTotal;
         valorTotal = Math.round(valorTotal * 100.0) / 100.0;
         factura.setValorTotal(valorTotal);
     }
