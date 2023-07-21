@@ -32,7 +32,7 @@ public class Endpoints {
     public static final String pathNotaDebitoCompra="notaDebitoCompra";
     public static final String pathGrupoProveedor="grupoProveedor";
     
-    //COMPROBANTE
+    //VENTAS
     public static final String pathEgreso="egreso";
     public static final String pathFactura="factura";
     public static final String pathFacturaElectronica="facturaElectronica";
@@ -40,6 +40,7 @@ public class Endpoints {
     public static final String pathFacturaDetalle="facturaDetalle";
     public static final String pathPedido="pedido";
     public static final String pathProforma="proforma";
+    public static final String pathCierreCaja="cierreCaja";
     public static final String pathTipoComprobante="tipoComprobante";
     public static final String pathNotaCreditoVenta="notaCreditoVenta";
     public static final String pathNotaDebitoVenta="notaDebitoVenta";

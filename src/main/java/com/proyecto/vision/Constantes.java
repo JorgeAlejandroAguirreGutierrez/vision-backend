@@ -153,7 +153,7 @@ public class Constantes {
     public static final String tabla_nota_debito_compra="nota_debito_compra";
     public static final String tabla_nota_debito_compra_linea="nota_debito_compra_linea";
     
-    //COMPROBANTE
+    //VENTAS
     public static final String tabla_factura_linea="factura_linea";
     public static final String tabla_egreso="egreso";
     public static final String tabla_factura="factura";
@@ -164,6 +164,7 @@ public class Constantes {
     public static final String tabla_nota_credito_venta_linea="nota_credito_venta_linea";
     public static final String tabla_nota_debito_venta="nota_debito_venta";
     public static final String tabla_nota_debito_venta_linea="nota_debito_venta_linea";
+    public static final String tabla_cierre_caja="cierre_caja";
     
     //CONFIGURACION
     public static final String tabla_empresa="empresa";
@@ -343,6 +344,7 @@ public class Constantes {
     public static final String tarjeta_debito="TARJETA DEBITO";
     public static final String transferencia="TRANSFERENCIA";
     public static final String efectivo="EFECTIVO";
+    public static final String cierre_caja="CIERRE CAJA";
     
     //USUARIO
     public static final String establecimiento="ESTABLECIMIENTO";
