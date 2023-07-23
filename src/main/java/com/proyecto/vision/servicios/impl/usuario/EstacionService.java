@@ -93,10 +93,13 @@ public class EstacionService implements IEstacionService {
     public List<Estacion> consultarPorEstablecimiento(long establecimientoId) {
         return rep.consultarPorEstablecimiento(establecimientoId, Constantes.estadoActivo);
     }
-
     @Override
-    public List<Estacion> consultarPorEstablecimientoPuntoVenta(long establecimientoId) {
-        return rep.consultarPorEstablecimientoPuntoVenta(establecimientoId, Constantes.si, Constantes.estadoActivo);
+    public List<Estacion> consultarEstacionesPorEstablecimiento(long establecimientoId) {
+        return rep.consultarEstacionesPorEstablecimiento(establecimientoId, Constantes.estadoActivo);
+    }
+    @Override
+    public List<Estacion> consultarPuntosVentaPorEstablecimiento(long establecimientoId) {
+        return rep.consultarPuntosVentaPorEstablecimiento(establecimientoId, Constantes.si, Constantes.estadoActivo);
     }
 
     @Override
