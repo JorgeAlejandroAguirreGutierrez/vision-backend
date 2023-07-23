@@ -90,10 +90,17 @@ public class EstacionController implements GenericoController<Estacion> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/establecimientoPuntoVenta/{establecimientoId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarEstablecimientoPuntoVenta(@PathVariable("establecimientoId") long establecimientoId) {
-        List<Estacion> estacion=servicio.consultarPorEstablecimientoPuntoVenta(establecimientoId);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, estacion);
+    @GetMapping(value = "/estacionesPorEstablecimiento/{establecimientoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarEstacionesPorEstablecimiento(@PathVariable("establecimientoId") long establecimientoId) {
+        List<Estacion> estaciones=servicio.consultarEstacionesPorEstablecimiento(establecimientoId);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, estaciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/puntosVentaPorEstablecimiento/{establecimientoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPuntosVentaPorEstablecimiento(@PathVariable("establecimientoId") long establecimientoId) {
+        List<Estacion> puntosVenta=servicio.consultarPuntosVentaPorEstablecimiento(establecimientoId);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, puntosVenta);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

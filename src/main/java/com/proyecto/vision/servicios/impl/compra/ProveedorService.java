@@ -129,7 +129,7 @@ public class ProveedorService implements IProveedorService {
         if (identificacion!= null) {
             Optional<Proveedor> res = rep.obtenerPorEmpresaYIdentificacion(empresaId, identificacion, Constantes.estadoActivo);
             if(res.isPresent()) {
-                throw new EntidadExistenteException(Constantes.cliente);
+                throw new EntidadExistenteException(Constantes.proveedor);
             }
             TipoIdentificacion tipoIdentificacion=null;
             TipoContribuyente tipoContribuyente=null;

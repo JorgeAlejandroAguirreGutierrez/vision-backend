@@ -2,11 +2,17 @@ package com.proyecto.vision.servicios.impl.usuario;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.exception.CodigoNoExistenteException;
-import com.proyecto.vision.exception.DatoInvalidoException;
-import com.proyecto.vision.exception.EntidadExistenteException;
-import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.exception.*;
+import com.proyecto.vision.modelos.cliente.ClienteBase;
+import com.proyecto.vision.modelos.cliente.Contribuyente;
+import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
+import com.proyecto.vision.modelos.compra.CelularProveedor;
+import com.proyecto.vision.modelos.compra.CorreoProveedor;
+import com.proyecto.vision.modelos.compra.Proveedor;
+import com.proyecto.vision.modelos.compra.TelefonoProveedor;
 import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.repositorios.cliente.IContribuyenteRepository;
+import com.proyecto.vision.repositorios.configuracion.ITipoIdentificacionRepository;
 import com.proyecto.vision.repositorios.usuario.IEmpresaRepository;
 import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +37,10 @@ import java.util.Optional;
 public class EmpresaService implements IEmpresaService {
     @Autowired
     private IEmpresaRepository rep;
-
+    @Autowired
+    private ITipoIdentificacionRepository repTipoIdentificacion;
+    @Autowired
+    private IContribuyenteRepository repContribuyente;
     private final Path root = Paths.get(Constantes.pathCertificados);
 
     @Override
@@ -117,7 +127,44 @@ public class EmpresaService implements IEmpresaService {
         }
         throw new EntidadNoExistenteException(Constantes.empresa);
     }
-    
+
+    @Override
+    public Empresa validarIdentificacion(String identificacion) {
+        if (identificacion!= null) {
+            Optional<Empresa> res = rep.obtenerPorIdentificacion(identificacion, Constantes.estadoActivo);
+            if(res.isPresent()) {
+                throw new EntidadExistenteException(Constantes.empresa);
+            }
+            TipoIdentificacion tipoIdentificacion=null;
+            if (identificacion.length() != 13) {
+                throw new IdentificacionInvalidaException();
+            } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(11,13))) == 1) {
+                String cedula = identificacion.substring(0,10);
+                boolean bandera = Util.verificarCedula(cedula);
+                if (bandera) {
+                    tipoIdentificacion = repTipoIdentificacion.findByCodigoSri("04");
+                    Empresa empresa = new Empresa();
+                    empresa.setIdentificacion(identificacion);
+                    empresa.setTipoIdentificacion(tipoIdentificacion);
+                    Optional<Contribuyente> contribuyente = repContribuyente.obtenerPorIdentificacion(identificacion);
+                    if(contribuyente.isPresent()) {
+                        empresa.setRazonSocial(contribuyente.get().getRazonSocial());
+                        if (contribuyente.get().getNombreComercial()!=null) {
+                            empresa.setNombreComercial(contribuyente.get().getNombreComercial());
+                        }
+                        if (contribuyente.get().getObligadoContabilidad()!=null) {
+                            empresa.setObligadoContabilidad(contribuyente.get().getObligadoContabilidad());
+                        }
+                    }
+                    return empresa;
+                }
+                throw new IdentificacionInvalidaException();
+            }
+            throw new IdentificacionInvalidaException();
+        }
+        throw new IdentificacionInvalidaException();
+    }
+
     @Override
     public List<Empresa> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
@@ -130,14 +177,19 @@ public class EmpresaService implements IEmpresaService {
 
     @Override
     public Empresa subirCertificado(long empresaId, MultipartFile file) throws IOException {
-        Optional<Empresa> optional = rep.findById(empresaId);
-        if(optional.isEmpty()){
-            throw new EntidadNoExistenteException(Constantes.empresa);
+        if (file!= null) {
+            Optional<Empresa> optional = rep.findById(empresaId);
+            if (optional.isEmpty()) {
+                throw new EntidadNoExistenteException(Constantes.empresa);
+            }
+            Empresa empresa = optional.get();
+            if (file.getOriginalFilename() != null) {
+                Files.copy(file.getInputStream(), this.root.resolve("CertificadoEmpresa"+empresaId+".p12"));
+                empresa.setCertificado("CertificadoEmpresa"+empresaId+".p12");
+            }
+            return rep.save(empresa);
         }
-        Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-        Empresa empresa = optional.get();
-        empresa.setCertificado(file.getOriginalFilename());
-        return rep.save(empresa);
+        throw new IdentificacionInvalidaException();
     }
 
     @Override

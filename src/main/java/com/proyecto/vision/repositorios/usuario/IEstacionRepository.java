@@ -16,6 +16,8 @@ public interface IEstacionRepository extends JpaRepository<Estacion, Long>, JpaS
     List<Estacion> consultarPorEstado(String estado);
     @Query(value = "select e from Estacion e where e.establecimiento.id = :establecimientoId and e.estado = :estado order by e.codigo asc")
     List<Estacion> consultarPorEstablecimiento(long establecimientoId, String estado);
+    @Query(value = "select e from Estacion e where e.establecimiento.id = :establecimientoId and e.estado = :estado order by e.codigo asc")
+    List<Estacion> consultarEstacionesPorEstablecimiento(long establecimientoId, String estado);
     @Query(value = "select e from Estacion e where e.establecimiento.id = :establecimientoId and e.puntoVenta = :puntoVenta and e.estado = :estado order by e.codigo asc")
-    List<Estacion> consultarPorEstablecimientoPuntoVenta(long establecimientoId, String puntoVenta, String estado);
+    List<Estacion> consultarPuntosVentaPorEstablecimiento(long establecimientoId, String puntoVenta, String estado);
 }

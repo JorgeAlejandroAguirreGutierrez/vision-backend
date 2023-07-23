@@ -6,6 +6,7 @@ import static com.proyecto.vision.controladoras.Endpoints.pathEmpresa;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.controladoras.GenericoController;
 import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.compra.Proveedor;
 import com.proyecto.vision.modelos.usuario.Empresa;
 import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,14 @@ public class EmpresaController implements GenericoController<Empresa> {
     public ResponseEntity<?> inactivar(@RequestBody Empresa _empresa) {
     	Empresa empresa=servicio.inactivar(_empresa);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, empresa);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/validarIdentificacion/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> validarIdentificacion(@PathVariable("identificacion") String identificacion) {
+        Empresa empresa = servicio.validarIdentificacion(identificacion);
+        empresa.normalizar();
+        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, empresa);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
