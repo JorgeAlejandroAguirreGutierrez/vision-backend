@@ -31,9 +31,9 @@ public class Establecimiento extends Entidad {
     @Column(name = "direccion", nullable = true)
     private String direccion;
     @Column(name = "latitudgeo", nullable = true)
-    private String latitudgeo;
+    private double latitudgeo;
     @Column(name = "longitudgeo", nullable = true)
-    private String longitudgeo;
+    private double longitudgeo;
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
@@ -67,8 +67,8 @@ public class Establecimiento extends Entidad {
         this.codigoSRI = Constantes.vacio;
         this.descripcion = Constantes.vacio;
         this.direccion = Constantes.vacio;
-        this.latitudgeo = Constantes.vacio;
-        this.longitudgeo = Constantes.vacio;
+        this.latitudgeo = Constantes.latCiudad;
+        this.longitudgeo = Constantes.lngCiudad;
         this.estado = Constantes.estadoActivo;
         this.regimen = new Regimen();
         this.ubicacion = new Ubicacion();

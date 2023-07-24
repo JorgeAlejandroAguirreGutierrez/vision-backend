@@ -35,12 +35,12 @@ public class EstablecimientoData implements ApplicationRunner {
             List<CorreoEstablecimiento> correosEstablecimientos = new ArrayList<>();
             correosEstablecimientos.add(new CorreoEstablecimiento("COE202305000001", "correo@hotmail.com", new Establecimiento(1)));
             //ESTABLECIMIENTOS EMPRESA 1
-            establecimientos.add(new Establecimiento("EST012301000001", "001", "ESTABLECIMIENTO 1", "CALLE 10 CARRERA 15 #27", "1", "1", Constantes.estadoActivo, new Regimen(1), new Ubicacion(1), new Empresa(1), telefonosEstablecimientos, celularesEstablecimientos, correosEstablecimientos));
-            establecimientos.add(new Establecimiento("EST012301000002", "002", "ESTABLECIMIENTO 2", "CALLE 5 CARRERA 60 #50", "1", "1", Constantes.estadoActivo, new Regimen(2), new Ubicacion(2), new Empresa(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
-            establecimientos.add(new Establecimiento("EST012301000003", "003", "ESTABLECIMIENTO 3", "CALLE 8 Y LARREA #27", "1", "1", Constantes.estadoActivo, new Regimen(3), new Ubicacion(3), new Empresa(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            establecimientos.add(new Establecimiento("EST012301000001", "001", "ESTABLECIMIENTO 1", "CALLE 10 CARRERA 15 #27", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Regimen(1), new Ubicacion(1), new Empresa(1), telefonosEstablecimientos, celularesEstablecimientos, correosEstablecimientos));
+            establecimientos.add(new Establecimiento("EST012301000002", "002", "ESTABLECIMIENTO 2", "CALLE 5 CARRERA 60 #50", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Regimen(2), new Ubicacion(2), new Empresa(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            establecimientos.add(new Establecimiento("EST012301000003", "003", "ESTABLECIMIENTO 3", "CALLE 8 Y LARREA #27", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Regimen(3), new Ubicacion(3), new Empresa(1), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
             //ESTABLECIMIENTOS EMPRESA 2
-            establecimientos.add(new Establecimiento("EST022301000001", "001", "ESTABL 1 - EMPRESA 2", "CALLE 10 CARRERA 15 #27", "1", "1", Constantes.estadoActivo, new Regimen(1), new Ubicacion(1), new Empresa(2), telefonosEstablecimientos, celularesEstablecimientos, correosEstablecimientos));
-            establecimientos.add(new Establecimiento("EST022301000002", "002", "ESTABL 2 - EMPRESA 2", "CALLE 5 CARRERA 60 #50", "1", "1", Constantes.estadoActivo, new Regimen(2), new Ubicacion(2), new Empresa(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
+            establecimientos.add(new Establecimiento("EST022301000001", "001", "ESTABL 1 - EMPRESA 2", "CALLE 10 CARRERA 15 #27", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Regimen(1), new Ubicacion(1), new Empresa(2), telefonosEstablecimientos, celularesEstablecimientos, correosEstablecimientos));
+            establecimientos.add(new Establecimiento("EST022301000002", "002", "ESTABL 2 - EMPRESA 2", "CALLE 5 CARRERA 60 #50", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Regimen(2), new Ubicacion(2), new Empresa(2), Collections.emptyList(), Collections.emptyList(), Collections.emptyList()));
             rep.saveAll(establecimientos);
         }
     }
