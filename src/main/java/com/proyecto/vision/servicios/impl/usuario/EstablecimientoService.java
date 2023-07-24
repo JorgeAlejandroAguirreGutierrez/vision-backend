@@ -5,7 +5,9 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.cliente.Correo;
 import com.proyecto.vision.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.modelos.usuario.CorreoEstablecimiento;
 import com.proyecto.vision.modelos.usuario.Establecimiento;
 import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.vision.repositorios.usuario.IEstablecimientoRepository;
@@ -14,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -33,9 +37,9 @@ public class EstablecimientoService implements IEstablecimientoService {
         if(establecimiento.getUbicacion().getCanton().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.canton);
         if(establecimiento.getUbicacion().getParroquia().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.parroquia);
         if(establecimiento.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
-        if(establecimiento.getTelefonosEstablecimiento().isEmpty()) throw new DatoInvalidoException(Constantes.telefono);
-        if(establecimiento.getCelularesEstablecimiento().isEmpty()) throw new DatoInvalidoException(Constantes.celular);
-        if(establecimiento.getCorreosEstablecimiento().isEmpty()) throw new DatoInvalidoException(Constantes.correo);
+        //if(establecimiento.getTelefonosEstablecimiento().isEmpty()) throw new DatoInvalidoException(Constantes.telefono);
+        //if(establecimiento.getCelularesEstablecimiento().isEmpty()) throw new DatoInvalidoException(Constantes.celular);
+        //if(establecimiento.getCorreosEstablecimiento().isEmpty()) throw new DatoInvalidoException(Constantes.correo);
     }
     
     @Override
@@ -49,6 +53,11 @@ public class EstablecimientoService implements IEstablecimientoService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
+        if(establecimiento.getCorreosEstablecimiento().isEmpty()){
+            List<CorreoEstablecimiento> correosEstablecimiento = new ArrayList<>();
+            correosEstablecimiento.add(new CorreoEstablecimiento("", Constantes.correo_predeterminado, establecimiento));
+            establecimiento.setCorreosEstablecimiento(correosEstablecimiento);
+        }
     	establecimiento.setCodigo(codigo.get());
     	establecimiento.setUbicacion(ubicacion.get());
     	establecimiento.setEstado(Constantes.estadoActivo);
@@ -60,6 +69,15 @@ public class EstablecimientoService implements IEstablecimientoService {
     @Override
     public Establecimiento actualizar(Establecimiento establecimiento) {
         validar(establecimiento);
+        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(establecimiento.getUbicacion().getProvincia(),establecimiento.getUbicacion().getCanton(), establecimiento.getUbicacion().getParroquia(), Constantes.estadoActivo);
+        if(ubicacion.isEmpty()) {
+            throw new EntidadNoExistenteException(Constantes.ubicacion);
+        }
+        if(establecimiento.getCorreosEstablecimiento().isEmpty()){
+            List<CorreoEstablecimiento> correosEstablecimiento = new ArrayList<>();
+            correosEstablecimiento.add(new CorreoEstablecimiento("", Constantes.correo_predeterminado, establecimiento));
+            establecimiento.setCorreosEstablecimiento(correosEstablecimiento);
+        }
         Establecimiento res = rep.save(establecimiento);
         res.normalizar();
         return res;

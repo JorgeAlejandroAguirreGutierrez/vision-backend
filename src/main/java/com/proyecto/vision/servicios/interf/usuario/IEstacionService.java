@@ -10,6 +10,7 @@ public interface IEstacionService extends IGenericoService<Estacion> {
 	Estacion activar(Estacion estacion);
 	Estacion inactivar(Estacion estacion);
 	List<Estacion> consultarPorEstado(String estado);
+	List<Estacion> consultarPorEmpresa(long empresaId);
     List<Estacion> consultarPorEstablecimiento(long establecimientoId);
 	List<Estacion> consultarEstacionesPorEstablecimiento(long establecimientoId);
 	List<Estacion> consultarPuntosVentaPorEstablecimiento(long establecimientoId);

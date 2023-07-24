@@ -5,8 +5,6 @@ import static com.proyecto.vision.controladoras.Endpoints.pathEstacion;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.controladoras.GenericoController;
 import com.proyecto.vision.modelos.Respuesta;
-import com.proyecto.vision.modelos.inventario.Bodega;
-import com.proyecto.vision.modelos.usuario.Establecimiento;
 import com.proyecto.vision.modelos.usuario.Estacion;
 import com.proyecto.vision.servicios.interf.usuario.IEstacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +31,6 @@ public class EstacionController implements GenericoController<Estacion> {
         List<Estacion> estaciones=servicio.consultar();
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarActivos(@PathVariable("estado") String estado) {
-	    List<Estacion> estaciones = servicio.consultarPorEstado(estado);
-	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
-	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -82,7 +74,20 @@ public class EstacionController implements GenericoController<Estacion> {
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_inactivar_exitoso, estacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
+
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarActivos(@PathVariable("estado") String estado) {
+        List<Estacion> estaciones = servicio.consultarPorEstado(estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<Estacion> estaciones = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, estaciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
     @GetMapping(value = "/establecimiento/{establecimientoId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarEstablecimiento(@PathVariable("establecimientoId") long establecimientoId) {
         List<Estacion> estacion=servicio.consultarPorEstablecimiento(establecimientoId);
