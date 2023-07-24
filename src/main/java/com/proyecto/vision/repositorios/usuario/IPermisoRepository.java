@@ -16,4 +16,6 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Long>, JpaSpe
     List<Permiso> consultar();
     @Query(value = "select pr from Permiso pr where pr.estado=:estado order by pr.codigo asc")
     List<Permiso> consultarPorEstado(String estado);
+    @Query(value = "select pr from Permiso pr where pr.perfil.id=:perfilId order by pr.menuOpcion.id asc")
+    List<Permiso> consultarPorPerfil(long perfilId);
 }

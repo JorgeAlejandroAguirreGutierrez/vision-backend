@@ -34,20 +34,6 @@ public class PermisoController implements GenericoController<Permiso> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarporEstado(@PathVariable("estado") String estado) {
-        List<Permiso> permisos = servicio.consultarPorEstado(estado);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, permisos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<Permiso> permisos = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, permisos);
-    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         Permiso permiso=servicio.obtener(id);
@@ -80,6 +66,26 @@ public class PermisoController implements GenericoController<Permiso> {
     public ResponseEntity<?> inactivar(@RequestBody Permiso _permiso) {
         Permiso permiso = servicio.inactivar(_permiso);
         Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, permiso);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+        List<Permiso> permisos = servicio.consultarPorEstado(estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, permisos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+    @GetMapping(value = "/consultarPorPerfil/{perfilId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorPerfil(@PathVariable("perfilId") long perfilId) {
+        List<Permiso> permisos = servicio.consultarPorPerfil(perfilId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, permisos);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
+        Page<Permiso> permisos = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, permisos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }
