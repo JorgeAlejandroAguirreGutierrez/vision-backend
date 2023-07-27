@@ -52,9 +52,9 @@ public class FacturaCompraController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorProveedorYEmpresaYEstadoInternoYEstado/{proveedorId}/{empresaId}/{estadoInterno}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorProveedorYEmpresaYEstadoInternoYEstado(@PathVariable("proveedorId") long proveedorId, @PathVariable("empresaId") long empresaId, @PathVariable("estadoInterno") String estadoInterno, @PathVariable("estado") String estado) {
-        List<FacturaCompra> facturasCompras = servicio.consultarPorProveedorYEmpresaYEstadoInternoYEstado(proveedorId, empresaId, estadoInterno, estado);
+    @GetMapping(value = "/consultarPorEmpresaYProveedorYEstado/{empresaId}/{proveedorId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYProveedorYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("proveedorId") long proveedorId, @PathVariable("estado") String estado) {
+        List<FacturaCompra> facturasCompras = servicio.consultarPorEmpresaYProveedorYEstado(empresaId, proveedorId, estado);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

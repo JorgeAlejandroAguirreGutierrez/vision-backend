@@ -129,9 +129,9 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     		throw new CodigoNoExistenteException();
     	}
         notaCreditoVenta.setCodigo(codigo.get());
-        notaCreditoVenta.setSerie(notaCreditoVenta.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCreditoVenta.getSesion().getUsuario().getEstacion().getCodigoSRI());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaCreditoVenta.getTipoComprobante().getId(), notaCreditoVenta.getSesion().getUsuario().getEstacion().getId());
         notaCreditoVenta.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+        notaCreditoVenta.setNumeroComprobante(notaCreditoVenta.getEstablecimiento() + "-" + notaCreditoVenta.getPuntoVenta() + "-" + notaCreditoVenta.getSecuencial());
         notaCreditoVenta.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
         Optional<String> claveAcceso = crearClaveAcceso(notaCreditoVenta);
         if (claveAcceso.isEmpty()) {
@@ -296,7 +296,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
             totalDescuento = totalDescuento + notaCreditoVentaLinea.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
         }
         totalDescuento = Math.round(totalDescuento*100.0)/100.0;
-        notaCreditoVenta.setDescuentoTotal(totalDescuento);
+        notaCreditoVenta.setDescuento(totalDescuento);
     }
     /*
      * FIN CALCULAR DESCUENTOS
@@ -348,7 +348,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         notaCreditoVenta.setTotalSinDescuento(totalSinDescuento);
     }
     private void calcularTotalConDescuento(NotaCreditoVenta notaCreditoVenta){
-        double totalConDescuento = notaCreditoVenta.getSubtotalBase0SinDescuento() + notaCreditoVenta.getSubtotalBase12SinDescuento() + notaCreditoVenta.getIvaSinDescuento() - notaCreditoVenta.getDescuentoTotal();
+        double totalConDescuento = notaCreditoVenta.getSubtotalBase0SinDescuento() + notaCreditoVenta.getSubtotalBase12SinDescuento() + notaCreditoVenta.getIvaSinDescuento() - notaCreditoVenta.getDescuento();
         totalConDescuento = Math.round(totalConDescuento*100.0)/100.0;
         notaCreditoVenta.setTotalConDescuento(totalConDescuento);
     }

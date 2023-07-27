@@ -282,8 +282,8 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarPorClienteYEstadoYEstadoInterno(long facturaId, String estado, String estadoInterno) {
-        return rep.consultarPorClienteYEstadoYEstadoInterno(facturaId, estado, estadoInterno);
+    public List<Factura> consultarPorEmpresaYClienteYEstado(long empresaId, long facturaId, String estado) {
+        return rep.consultarPorEmpresaYClienteYEstado(empresaId, facturaId, estado);
     }
 
     @Override

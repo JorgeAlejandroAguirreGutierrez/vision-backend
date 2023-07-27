@@ -460,7 +460,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			documento.add(tablaFacturaDetalle);
 			documento.add( new Paragraph("\n"));
 			String subtotal = String.format("%.2f", notaCreditoVenta.getTotalConDescuento());
-			String descuento = String.format("%.2f", notaCreditoVenta.getDescuentoTotal());
+			String descuento = String.format("%.2f", notaCreditoVenta.getDescuento());
 			String subtotalBase12ConDescuento = String.format("%.2f", notaCreditoVenta.getSubtotalBase12SinDescuento());
 			String subtotalBase0ConDescuento = String.format("%.2f", notaCreditoVenta.getSubtotalBase0SinDescuento());
 			String iva = String.format("%.2f", notaCreditoVenta.getIvaSinDescuento());
