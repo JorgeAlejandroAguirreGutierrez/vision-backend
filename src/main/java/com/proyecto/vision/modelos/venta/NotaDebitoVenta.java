@@ -51,18 +51,18 @@ public class NotaDebitoVenta extends Entidad {
     private String estado;
     @Column(name = "estado_sri", nullable = true)
     private String estadoSri;
-    @Column(name = "subtotal_sin_descuento", nullable = true)
-    private double subtotalSinDescuento;
-    @Column(name = "descuento_total", nullable = true)
-    private double descuentoTotal;
-    @Column(name = "subtotal_base12_sin_descuento", nullable = true)
-    private double subtotalBase12SinDescuento;
-    @Column(name = "subtotal_base0_sin_descuento", nullable = true)
-    private double subtotalBase0SinDescuento;
-    @Column(name = "iva_sin_descuento", nullable = true)
-    private double ivaSinDescuento;
-    @Column(name = "total_sin_descuento", nullable = true)
-    private double totalSinDescuento;
+    @Column(name = "descuento", nullable = true)
+    private double descuento;
+    @Column(name = "subtotal", nullable = true)
+    private double subtotal;
+    @Column(name = "subtotal_gravado", nullable = true)
+    private double subtotalGravado;
+    @Column(name = "subtotal_no_gravado", nullable = true)
+    private double subtotalNoGravado;
+    @Column(name = "importe_iva", nullable = true)
+    private double importeIva;
+    @Column(name = "total", nullable = true)
+    private double total;
     @Column(name = "total_con_descuento", nullable = true)
     private double totalConDescuento;
     @Column(name = "comentario", nullable = true)
@@ -148,12 +148,12 @@ public class NotaDebitoVenta extends Entidad {
         this.estado = Constantes.estadoActivo;
         this.estadoInterno = Constantes.estadoInternoEmitida;
         this.estadoSri = Constantes.estadoSriPendiente;
-        this.subtotalSinDescuento = Constantes.cero;
-        this.descuentoTotal = Constantes.cero;
-        this.subtotalBase12SinDescuento = Constantes.cero;
-        this.subtotalBase0SinDescuento = Constantes.cero;
-        this.ivaSinDescuento = Constantes.cero;
-        this.totalSinDescuento = Constantes.cero;
+        this.descuento = Constantes.cero;
+        this.subtotal = Constantes.cero;
+        this.subtotalGravado = Constantes.cero;
+        this.subtotalNoGravado = Constantes.cero;
+        this.importeIva = Constantes.cero;
+        this.total = Constantes.cero;
         this.totalConDescuento = Constantes.cero;
         this.comentario = Constantes.vacio;
         this.notaDebitoVentaLineas = Collections.emptyList();
