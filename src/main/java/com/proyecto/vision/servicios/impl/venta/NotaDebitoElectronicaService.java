@@ -118,7 +118,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		infoNotaDebito.setNumDocModificado(numero);
 		String fechaEmisionFactura = dateFormat.format(notaDebitoVenta.getFactura().getFecha());
 		infoNotaDebito.setFechaEmisionDocSustento(fechaEmisionFactura);
-		infoNotaDebito.setTotalSinImpuestos(notaDebitoVenta.getSubtotalSinDescuento());
+		infoNotaDebito.setTotalSinImpuestos(notaDebitoVenta.getSubtotal());
 		Impuestos impuestos = crearImpuestos(notaDebitoVenta);
 		infoNotaDebito.setValorTotal(notaDebitoVenta.getTotalConDescuento());
 		Pagos pagos = crearPagos(notaDebitoVenta);
@@ -500,11 +500,11 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			}
 			documento.add(tablaFacturaDetalle);
 			documento.add( new Paragraph("\n"));
-			String subtotal = String.format("%.2f", notaDebitoVenta.getSubtotalSinDescuento());
-			String descuento = String.format("%.2f", notaDebitoVenta.getDescuentoTotal());
-			String subtotalBase12ConDescuento = String.format("%.2f", notaDebitoVenta.getSubtotalBase12SinDescuento());
-			String subtotalBase0ConDescuento = String.format("%.2f", notaDebitoVenta.getSubtotalBase0SinDescuento());
-			String iva = String.format("%.2f", notaDebitoVenta.getIvaSinDescuento());
+			String subtotal = String.format("%.2f", notaDebitoVenta.getSubtotal());
+			String descuento = String.format("%.2f", notaDebitoVenta.getDescuento());
+			String subtotalBase12ConDescuento = String.format("%.2f", notaDebitoVenta.getSubtotalGravado());
+			String subtotalBase0ConDescuento = String.format("%.2f", notaDebitoVenta.getSubtotalNoGravado());
+			String iva = String.format("%.2f", notaDebitoVenta.getImporteIva());
 			String totalConDescuento = String.format("%.2f", notaDebitoVenta.getTotalConDescuento());
 			float [] columnasTablaFactura = {300F, 300F};
 			Table tablaFactura = new Table(columnasTablaFactura);
