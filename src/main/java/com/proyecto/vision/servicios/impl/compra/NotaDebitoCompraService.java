@@ -233,11 +233,11 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     private void calcularImporteIva(NotaDebitoCompra notaDebitoCompra){
         double iva = (notaDebitoCompra.getSubtotalGravado() * Constantes.iva12) / 100;
         iva = Math.round(iva*100.0)/100.0;
-        notaDebitoCompra.setIva(iva);
+        notaDebitoCompra.setImporteIva(iva);
     }
 
     private void calcularTotal(NotaDebitoCompra notaDebitoCompra){
-        double total = notaDebitoCompra.getSubtotalGravado() + notaDebitoCompra.getSubtotalNoGravado() + notaDebitoCompra.getIva() - notaDebitoCompra.getDescuento();
+        double total = notaDebitoCompra.getSubtotalGravado() + notaDebitoCompra.getSubtotalNoGravado() + notaDebitoCompra.getImporteIva() - notaDebitoCompra.getDescuento();
         total = Math.round(total*100.0)/100.0;
         notaDebitoCompra.setTotal(total);
     }

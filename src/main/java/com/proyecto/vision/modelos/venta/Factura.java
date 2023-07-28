@@ -27,10 +27,14 @@ import static com.proyecto.vision.Constantes.tabla_factura;
 public class Factura extends Entidad {
 	@Column(name = "codigo", nullable = true)
 	private String codigo;
-	@Column(name = "serie", nullable = true)
-	private String serie;
+	@Column(name = "establecimiento", nullable = true)
+	private String establecimiento;
+	@Column(name = "punto_venta", nullable = true)
+	private String puntoVenta;
 	@Column(name = "secuencial", nullable = true)
 	private String secuencial;
+	@Column(name = "numero_comprobante", nullable = true)
+	private String numeroComprobante;
 	@Column(name = "codigo_numerico", nullable = true)
 	private String codigoNumerico;
 	@Column(name = "fecha", nullable = true)
@@ -142,7 +146,10 @@ public class Factura extends Entidad {
 	public Factura() {
 		super();
 		this.codigo = Constantes.vacio;
+		this.establecimiento = Constantes.vacio;
+		this.puntoVenta = Constantes.vacio;
 		this.secuencial = Constantes.vacio;
+		this.numeroComprobante = Constantes.vacio;
 		this.codigoNumerico = Constantes.vacio;
 		this.fecha = new Date();
 		this.claveAcceso = Constantes.vacio;

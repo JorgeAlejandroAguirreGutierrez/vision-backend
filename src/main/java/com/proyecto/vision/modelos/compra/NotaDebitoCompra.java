@@ -49,14 +49,14 @@ public class NotaDebitoCompra extends Entidad {
     private double subtotalGravado;
     @Column(name = "subtotal_no_gravado", nullable = true)
     private double subtotalNoGravado;
-    @Column(name = "iva", nullable = true)
-    private double iva;
+    @Column(name = "importe_iva", nullable = true)
+    private double importeIva;
     @Column(name = "total", nullable = true)
     private double total;
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "factura_coompra_id", nullable = true)
+    @JoinColumn(name = "factura_compra_id", nullable = true)
     private FacturaCompra facturaCompra;
     @ManyToOne
     @JoinColumn(name = "sesion_id", nullable = true)
@@ -87,7 +87,7 @@ public class NotaDebitoCompra extends Entidad {
         this.subtotal = Constantes.cero;
         this.subtotalGravado = Constantes.cero;
         this.subtotalNoGravado = Constantes.cero;
-        this.iva = Constantes.cero;
+        this.importeIva = Constantes.cero;
         this.total = Constantes.cero;
         this.comentario = Constantes.vacio;
         this.notaDebitoCompraLineas = Collections.emptyList();

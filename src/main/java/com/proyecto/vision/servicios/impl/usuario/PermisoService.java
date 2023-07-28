@@ -4,6 +4,7 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.compra.NotaCreditoCompraLinea;
 import com.proyecto.vision.modelos.usuario.Perfil;
 import com.proyecto.vision.modelos.usuario.Permiso;
 import com.proyecto.vision.repositorios.usuario.IPermisoRepository;
@@ -53,6 +54,7 @@ public class PermisoService implements IPermisoService {
 
     @Override
     public Permiso inactivar(Permiso permiso) {
+        //for (Permiso permiso : perfil.getPermiso()) {
         permiso.setEstado(Constantes.estadoInactivo);
         Permiso res = rep.save(permiso);
         return res;
@@ -66,6 +68,10 @@ public class PermisoService implements IPermisoService {
     @Override
     public List<Permiso> consultarPorEstado(String estado){
         return rep.consultarPorEstado(estado);
+    }
+
+    public List<Permiso> consultarPorPerfil(long perfilId){
+        return rep.consultarPorPerfil(perfilId);
     }
 
     @Override

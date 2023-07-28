@@ -10,4 +10,5 @@ public interface IPermisoService extends IGenericoService<Permiso> {
     Permiso activar(Permiso permiso);
     Permiso inactivar(Permiso permiso);
     List<Permiso> consultarPorEstado(String estado);
+    List<Permiso> consultarPorPerfil(long perfilId);
 }

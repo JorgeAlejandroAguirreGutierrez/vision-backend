@@ -126,7 +126,7 @@ public class FacturaService implements IFacturaService {
         String tipoComprobante = Constantes.factura_sri;
         String numeroRuc = factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
         String tipoAmbiente = Constantes.pruebas_sri;
-        String serie = factura.getSerie();
+        String serie = factura.getEstablecimiento() + factura.getPuntoVenta();
         String numeroComprobante = factura.getSecuencial();
         String codigoNumerico = factura.getCodigoNumerico();
         String tipoEmision = Constantes.emision_normal_sri;
@@ -166,9 +166,9 @@ public class FacturaService implements IFacturaService {
     		throw new CodigoNoExistenteException();
     	}
     	factura.setCodigo(codigo.get());
-    	factura.setSerie(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + factura.getSesion().getUsuario().getEstacion().getCodigoSRI());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(factura.getTipoComprobante().getId(), factura.getSesion().getUsuario().getEstacion().getId());
     	factura.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+        factura.setNumeroComprobante(factura.getEstablecimiento() + "-" + factura.getPuntoVenta() + "-" + factura.getSecuencial());
     	factura.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
     	Optional<String> claveAcceso = crearClaveAcceso(factura);
     	if (claveAcceso.isEmpty()) {
@@ -282,8 +282,8 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarPorClienteYEstadoYEstadoInterno(long facturaId, String estado, String estadoInterno) {
-        return rep.consultarPorClienteYEstadoYEstadoInterno(facturaId, estado, estadoInterno);
+    public List<Factura> consultarPorEmpresaYClienteYEstado(long empresaId, long facturaId, String estado) {
+        return rep.consultarPorEmpresaYClienteYEstado(empresaId, facturaId, estado);
     }
 
     @Override
