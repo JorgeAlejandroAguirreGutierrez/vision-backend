@@ -125,7 +125,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         if(notaCreditoVenta.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
 
         for (NotaCreditoVentaLinea notaCreditoVentaLinea : notaCreditoVenta.getNotaCreditoVentaLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaCreditoVentaLinea.getBodega().getId(), notaCreditoVentaLinea.getProducto().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaCreditoVentaLinea.getProducto().getId(), notaCreditoVentaLinea.getBodega().getId());
             double entrada = Constantes.cero;
             double saldo = Constantes.cero;
             double costoTotal = Constantes.cero;
@@ -173,7 +173,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     private void actualizarKardex(NotaCreditoVenta notaCreditoVenta) {
         for (NotaCreditoVentaLinea notaCreditoVentaLinea : notaCreditoVenta.getNotaCreditoVentaLineas()) {
             int ultimoIndiceKardex = notaCreditoVentaLinea.getProducto().getKardexs().size() - 1;
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaCreditoVentaLinea.getBodega().getId(), notaCreditoVentaLinea.getProducto().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaCreditoVentaLinea.getProducto().getId(), notaCreditoVentaLinea.getBodega().getId());
             double entrada = Constantes.cero;
             double saldo = Constantes.cero;
             double costoTotal = Constantes.cero;

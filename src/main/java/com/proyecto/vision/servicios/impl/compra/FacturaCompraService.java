@@ -81,7 +81,7 @@ public class FacturaCompraService implements IFacturaCompraService {
 
     private void crearKardex(FacturaCompra facturaCompra) {
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId());
             double saldo, costoTotal, costoUnitario, costoPromedio;
             if (ultimoKardex != null) {
                 saldo = ultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
@@ -122,7 +122,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     private void actualizarKardex(FacturaCompra facturaCompra) {
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
             int ultimoIndiceKardex = facturaCompraLinea.getProducto().getKardexs().size() - 1;
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId());
             double saldo = Constantes.cero;
             double costoTotal = Constantes.cero;
             double costoUnitario = Constantes.cero;
@@ -147,7 +147,7 @@ public class FacturaCompraService implements IFacturaCompraService {
 
     private void actualizarPrecios(FacturaCompra facturaCompra) {
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaCompraLinea.getBodega().getId(), facturaCompraLinea.getProducto().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId());
             for (Precio precio : facturaCompraLinea.getProducto().getPrecios()) {
                 precio.setCosto(ultimoKardex.getCostoPromedio());
                 double precioSinIva = ultimoKardex.getCostoPromedio() + (ultimoKardex.getCostoPromedio() * precio.getMargenGanancia() / 100);

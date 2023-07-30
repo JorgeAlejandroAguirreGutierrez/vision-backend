@@ -57,8 +57,8 @@ public class KardexService implements IKardexService {
         return rep.consultarPorProducto(productoId);
     }
     @Override
-    public Kardex obtenerUltimoPorBodega(long bodegaId, long productoId) {
-        Optional<Kardex> res = rep.obtenerUltimoPorBodegaYProducto(bodegaId, productoId);
+    public Kardex obtenerUltimoPorProductoYBodega(long productoId, long bodegaId) {
+        Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodega(productoId, bodegaId);
         if(res.isEmpty()){
             return null;
         }
