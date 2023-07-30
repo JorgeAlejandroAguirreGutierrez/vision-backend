@@ -4,6 +4,7 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.modelos.inventario.CategoriaProducto;
 import com.proyecto.vision.modelos.inventario.GrupoProducto;
@@ -45,7 +46,12 @@ public class GrupoProductoService implements IGrupoProductoService {
     @Override
     public GrupoProducto crear(GrupoProducto grupoProducto) {
     	validar(grupoProducto);
-        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_grupo_producto, grupoProducto.getEmpresa().getId());
+    	Optional<GrupoProducto> grupoProductoExiste = rep.ObtenterPorGrupoYSubgrupoYSeccionYLineaYSublineaYPresentacion(grupoProducto.getGrupo(), grupoProducto.getSubgrupo(),
+                grupoProducto.getSeccion(), grupoProducto.getLinea(), grupoProducto.getSublinea(), grupoProducto.getPresentacion());
+        if(grupoProductoExiste.isPresent()){
+            throw new EntidadExistenteException(Constantes.grupo_producto);
+        }
+        Optional<String>codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_grupo_producto, grupoProducto.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
