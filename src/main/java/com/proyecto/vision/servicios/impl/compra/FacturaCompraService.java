@@ -5,7 +5,6 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.compra.FacturaCompra;
 import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
-import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.modelos.inventario.Precio;
 import com.proyecto.vision.servicios.interf.inventario.IPrecioService;
@@ -23,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +57,10 @@ public class FacturaCompraService implements IFacturaCompraService {
     @Override
     public FacturaCompra crear(FacturaCompra facturaCompra) {
         validar(facturaCompra);
+        Optional<FacturaCompra> facturaCompraExiste = rep.obtenerPorEstableciminetoYEstacionYSecuencialYProveedor(facturaCompra.getEstablecimiento(), facturaCompra.getPuntoVenta(), facturaCompra.getSecuencial(), facturaCompra.getProveedor().getId());
+        if(facturaCompraExiste.isPresent()){
+            throw new DatoInvalidoException(Constantes.secuencial);
+        }
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
         facturaCompra.setTipoComprobante(tipoComprobante);
         Optional<String> codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
@@ -66,16 +68,12 @@ public class FacturaCompraService implements IFacturaCompraService {
             throw new CodigoNoExistenteException();
         }
         facturaCompra.setCodigo(codigo.get());
-        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(facturaCompra.getTipoComprobante().getId(), facturaCompra.getSesion().getUsuario().getEstacion().getId());
-        facturaCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         crearKardex(facturaCompra);
         actualizarPrecios(facturaCompra);
         facturaCompra.setEstado(Constantes.estadoActivo);
         facturaCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
-        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
-        secuencialService.actualizar(secuencial);
         return res;
     }
 

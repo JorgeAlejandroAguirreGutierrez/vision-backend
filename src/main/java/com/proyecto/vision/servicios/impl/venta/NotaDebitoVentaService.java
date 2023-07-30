@@ -160,14 +160,14 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         validar(notaDebitoVenta);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito_venta);
         notaDebitoVenta.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_nota_debito_venta, notaDebitoVenta.getEmpresa().getId());
+        Optional<String> codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_nota_debito_venta, notaDebitoVenta.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }
         notaDebitoVenta.setCodigo(codigo.get());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaDebitoVenta.getTipoComprobante().getId(), notaDebitoVenta.getSesion().getUsuario().getEstacion().getId());
         notaDebitoVenta.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
-        notaDebitoVenta.setNumeroComprobante(notaDebitoVenta.getEstablecimiento() + "-" + notaDebitoVenta.getPuntoVenta() + "-" + notaDebitoVenta.getSecuencial());
+        notaDebitoVenta.setNumeroComprobante(notaDebitoVenta.getEstablecimiento() + Constantes.guion + notaDebitoVenta.getPuntoVenta() + Constantes.guion + notaDebitoVenta.getSecuencial());
         notaDebitoVenta.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
         Optional<String> claveAcceso = crearClaveAcceso(notaDebitoVenta);
         if (claveAcceso.isEmpty()) {

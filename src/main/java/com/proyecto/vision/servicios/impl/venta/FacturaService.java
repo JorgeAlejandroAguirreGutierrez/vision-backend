@@ -170,7 +170,7 @@ public class FacturaService implements IFacturaService {
     	factura.setCodigo(codigo.get());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(factura.getTipoComprobante().getId(), factura.getSesion().getUsuario().getEstacion().getId());
     	factura.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
-        factura.setNumeroComprobante(factura.getEstablecimiento() + "-" + factura.getPuntoVenta() + "-" + factura.getSecuencial());
+        factura.setNumeroComprobante(factura.getEstablecimiento() + Constantes.guion + factura.getPuntoVenta() + Constantes.guion + factura.getSecuencial());
     	factura.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
     	Optional<String> claveAcceso = crearClaveAcceso(factura);
     	if (claveAcceso.isEmpty()) {
