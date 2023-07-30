@@ -110,7 +110,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
                 throw new DatoInvalidoException(Constantes.kardex);
             }
             double saldo = ultimoKardex.getSaldo() - notaDebitoVentaLinea.getCantidad();
-            Kardex kardex = new Kardex(null, new Date(), notaDebitoVenta.getSecuencial(), Constantes.cero, notaDebitoVentaLinea.getCantidad(),
+            Kardex kardex = new Kardex(null, notaDebitoVenta.getFecha(), notaDebitoVenta.getSecuencial(), Constantes.cero, notaDebitoVentaLinea.getCantidad(),
                     saldo, Constantes.cero, notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
                     notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual(), notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
                     tipoComprobante, tipoOperacion, notaDebitoVentaLinea.getBodega(), notaDebitoVentaLinea.getProducto());

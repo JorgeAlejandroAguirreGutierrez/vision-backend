@@ -110,7 +110,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
-            Kardex kardex = new Kardex(null, new Date(),
+            Kardex kardex = new Kardex(null, notaCreditoCompra.getFecha(),
                     notaCreditoCompra.getNumeroComprobante(), entrada, Constantes.cero, saldo,
                     costoUnitario, Constantes.cero, costoPromedio, costoTotal, new TipoComprobante(9),
                     new TipoOperacion(tipoOperacionId), notaCreditoCompraLinea.getBodega(), notaCreditoCompraLinea.getProducto());
@@ -156,6 +156,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
+            ultimoKardex.setFecha(notaCreditoCompra.getFecha());
             ultimoKardex.setEntrada(entrada);
             ultimoKardex.setSaldo(saldo);
             ultimoKardex.setDebe(costoUnitario);

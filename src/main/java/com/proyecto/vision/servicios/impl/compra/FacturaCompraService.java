@@ -100,7 +100,7 @@ public class FacturaCompraService implements IFacturaCompraService {
             }
             TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
             TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.compra, Constantes.estadoActivo);
-            Kardex kardex = new Kardex(null, new Date(),
+            Kardex kardex = new Kardex(null, facturaCompra.getFecha(),
                     facturaCompra.getNumeroComprobante(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
                     costoUnitario, Constantes.cero, costoPromedio, costoTotal, tipoComprobante,
                     tipoOperacion, facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
@@ -135,6 +135,7 @@ public class FacturaCompraService implements IFacturaCompraService {
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
+            ultimoKardex.setFecha(facturaCompra.getFecha());
             ultimoKardex.setEntrada(facturaCompraLinea.getCantidad());
             ultimoKardex.setSaldo(saldo);
             ultimoKardex.setDebe(costoUnitario);

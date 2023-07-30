@@ -25,20 +25,20 @@ import static com.proyecto.vision.Constantes.tabla_nota_credito_venta_linea;
 public class NotaCreditoVentaLinea extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "cantidad_venta", nullable = true)
+    private long cantidadVenta;
+    @Column(name = "costo_unitario_venta", nullable = true)
+    private double costoUnitarioVenta;
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
-    @Column(name = "devolucion", nullable = true)
-    private long devolucion;
     @Column(name = "costo_unitario", nullable = true)
     private double costoUnitario;
-    @Column(name = "valor_descuento_linea", nullable = true)
-    private double valorDescuentoLinea;
-    @Column(name = "porcentaje_descuento_linea", nullable = true)
-    private double porcentajeDescuentoLinea;
-    @Column(name = "iva_sin_descuento_linea", nullable = true)
-    private double ivaSinDescuentoLinea;
-    @Column(name = "total_sin_descuento", nullable = true)
-    private double totalSinDescuentoLinea;
+    @Column(name = "subtotal_linea", nullable = true)
+    private double subtotalLinea;
+    @Column(name = "importe_iva_linea", nullable = true)
+    private double importeIvaLinea;
+    @Column(name = "total_linea", nullable = true)
+    private double totalLinea;
     @ManyToOne
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
@@ -63,11 +63,12 @@ public class NotaCreditoVentaLinea extends Entidad {
     public NotaCreditoVentaLinea() {
         super();
         this.codigo = Constantes.vacio;
+        this.cantidadVenta = Constantes.ceroId;
+        this.costoUnitarioVenta = Constantes.cero;
         this.cantidad = Constantes.ceroId;
-        this.devolucion = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
-        this.valorDescuentoLinea = Constantes.cero;
-        this.porcentajeDescuentoLinea = Constantes.cero;
-        this.totalSinDescuentoLinea = Constantes.cero;
+        this.subtotalLinea = Constantes.cero;
+        this.importeIvaLinea = Constantes.cero;
+        this.totalLinea = Constantes.cero;
     }
 }

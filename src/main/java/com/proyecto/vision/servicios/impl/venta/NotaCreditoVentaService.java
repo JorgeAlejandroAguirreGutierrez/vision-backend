@@ -2,6 +2,10 @@ package com.proyecto.vision.servicios.impl.venta;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
+import com.proyecto.vision.modelos.compra.FacturaCompra;
+import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
+import com.proyecto.vision.modelos.compra.NotaCreditoCompra;
+import com.proyecto.vision.modelos.compra.NotaCreditoCompraLinea;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
@@ -48,75 +52,6 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         if(notaCreditoVenta.getNotaCreditoVentaLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_credito_venta_linea);
     }
 
-    private void facturar(NotaCreditoVenta notaCreditoVenta) {
-        if (notaCreditoVenta.getEstado().equals(Constantes.estadoInactivo))
-            throw new DatoInvalidoException(Constantes.estado);
-        if (notaCreditoVenta.getEstadoInterno().equals(Constantes.estadoInternoAnulada))
-            throw new DatoInvalidoException(Constantes.estado);
-        if (notaCreditoVenta.getEstadoSri().equals(Constantes.estadoSriAutorizada))
-            throw new DatoInvalidoException(Constantes.estado);
-        if (notaCreditoVenta.getEstadoSri().equals(Constantes.estadoSriAnulada))
-            throw new DatoInvalidoException(Constantes.estado);
-        List<NotaCreditoVenta> notasCreditoVentaAnt = rep.consultarPorFacturaYEstadoSriYEstadoInternoYEstado(notaCreditoVenta.getFactura().getId(), Constantes.estadoSriAutorizada, Constantes.estadoInternoRecaudada, Constantes.estadoActivo);
-        List<Long> cantidadesDevueltas = new ArrayList();
-        for(int i = 0; i < notaCreditoVenta.getNotaCreditoVentaLineas().size(); i++ ) {
-            cantidadesDevueltas.add(Constantes.ceroId);
-        }
-        for(int i = 0; i < notasCreditoVentaAnt.size(); i++ ){
-            for(int j = 0; j < notasCreditoVentaAnt.get(i).getNotaCreditoVentaLineas().size(); j++){
-                cantidadesDevueltas.set(j, cantidadesDevueltas.get(j) + notasCreditoVentaAnt.get(i).getNotaCreditoVentaLineas().get(j).getDevolucion());
-            }
-        }
-        for(int i = 0; i<notaCreditoVenta.getNotaCreditoVentaLineas().size(); i++){
-            if(notaCreditoVenta.getNotaCreditoVentaLineas().get(i).getDevolucion() + cantidadesDevueltas.get(i) > notaCreditoVenta.getNotaCreditoVentaLineas().get(i).getCantidad()){
-                throw new DatoInvalidoException(Constantes.devolucion);
-            }
-        }
-        //kardexService.eliminar(4, Constantes.operacion_conjunta, notaCreditoVenta.getSecuencial());
-        //kardexService.eliminar(4, Constantes.operacion_devolucion, notaCreditoVenta.getSecuencial());
-        kardexService.eliminar(4, 7, notaCreditoVenta.getSecuencial());
-        if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_conjunta)){
-            for(NotaCreditoVentaLinea notaCreditoVentaLinea : notaCreditoVenta.getNotaCreditoVentaLineas()) {
-                Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaCreditoVentaLinea.getBodega().getId(), notaCreditoVentaLinea.getProducto().getId());
-                if (ultimoKardex != null) {
-                    double saldo = ultimoKardex.getSaldo() + notaCreditoVentaLinea.getDevolucion();
-                    Kardex kardex = new Kardex(null, new Date(), notaCreditoVenta.getSecuencial(),
-                            notaCreditoVentaLinea.getDevolucion(), Constantes.cero, saldo,
-                            notaCreditoVentaLinea.getTotalSinDescuentoLinea(), Constantes.cero,
-                            notaCreditoVentaLinea.getCostoUnitario(), notaCreditoVentaLinea.getTotalSinDescuentoLinea(),
-                            new TipoComprobante(4), new TipoOperacion(7), ultimoKardex.getBodega(), ultimoKardex.getProducto());
-                    kardexService.crear(kardex);
-                }
-            }
-        }
-        if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_devolucion)){
-            for(NotaCreditoVentaLinea notaCreditoVentaLinea : notaCreditoVenta.getNotaCreditoVentaLineas()) {
-                Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaCreditoVentaLinea.getBodega().getId(), notaCreditoVentaLinea.getProducto().getId());
-                if (ultimoKardex != null) {
-                    double saldo = ultimoKardex.getSaldo() + notaCreditoVentaLinea.getDevolucion();
-                    Kardex kardex = new Kardex(null, new Date(),
-                            notaCreditoVenta.getSecuencial(), notaCreditoVentaLinea.getDevolucion(), Constantes.cero, saldo,
-                            notaCreditoVentaLinea.getTotalSinDescuentoLinea(), Constantes.cero,
-                            notaCreditoVentaLinea.getCostoUnitario(), notaCreditoVentaLinea.getTotalSinDescuentoLinea(),
-                            new TipoComprobante(4), new TipoOperacion(7), ultimoKardex.getBodega(), ultimoKardex.getProducto());
-                    kardexService.crear(kardex);
-                }
-            }
-        }
-        if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_descuento)){
-            kardexService.eliminar(4, 7, notaCreditoVenta.getSecuencial());
-            for(NotaCreditoVentaLinea notaCreditoCompraLinea : notaCreditoVenta.getNotaCreditoVentaLineas()) {
-                Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaCreditoCompraLinea.getBodega().getId(), notaCreditoCompraLinea.getProducto().getId());
-                if(ultimoKardex != null){
-                    Kardex kardex = new Kardex(null, new Date(), notaCreditoVenta.getSecuencial(), Constantes.cero,
-                            ultimoKardex.getSalida(), ultimoKardex.getSaldo(), Constantes.cero, notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
-                            notaCreditoCompraLinea.getCostoUnitario(), notaCreditoCompraLinea.getTotalSinDescuentoLinea(),
-                            new TipoComprobante(4), new TipoOperacion(7), ultimoKardex.getBodega(), ultimoKardex.getProducto());
-                    kardexService.crear(kardex);
-                }
-            }
-        }
-    }
 
     @Transactional
     @Override
@@ -125,9 +60,9 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito_venta);
         notaCreditoVenta.setTipoComprobante(tipoComprobante);
         Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_nota_credito_venta, notaCreditoVenta.getEmpresa().getId());
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
         notaCreditoVenta.setCodigo(codigo.get());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaCreditoVenta.getTipoComprobante().getId(), notaCreditoVenta.getSesion().getUsuario().getEstacion().getId());
         notaCreditoVenta.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
@@ -142,7 +77,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         notaCreditoVenta.setEstadoInterno(Constantes.estadoInternoEmitida);
         notaCreditoVenta.setEstado(Constantes.estadoActivo);
         calcular(notaCreditoVenta);
-        facturar(notaCreditoVenta);
+        crearKardex(notaCreditoVenta);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
         res.normalizar();
         secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
@@ -185,15 +120,90 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         String claveAcceso=cadenaVerificacion+digitoVerificador;
         return Optional.of(claveAcceso);
     }
+    private void crearKardex(NotaCreditoVenta notaCreditoVenta) {
+        if(notaCreditoVenta.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaCreditoVenta.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+
+        for (NotaCreditoVentaLinea notaCreditoVentaLinea : notaCreditoVenta.getNotaCreditoVentaLineas()) {
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaCreditoVentaLinea.getBodega().getId(), notaCreditoVentaLinea.getProducto().getId());
+            double entrada = Constantes.cero;
+            double saldo = Constantes.cero;
+            double costoTotal = Constantes.cero;
+            double costoUnitario = Constantes.cero;
+            double costoPromedio = Constantes.cero;
+            long tipoOperacionId = Constantes.ceroId;
+            if (ultimoKardex != null) {
+                entrada = notaCreditoVentaLinea.getCantidad();
+                if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_devolucion)) {
+                    saldo = ultimoKardex.getSaldo() + entrada;
+                    tipoOperacionId = 7;
+                }
+                if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_descuento)) {
+                    saldo = ultimoKardex.getSaldo();
+                    tipoOperacionId = 9;
+                }
+                costoUnitario = ultimoKardex.getCostoPromedio();
+                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+
+                costoTotal = ultimoKardex.getCostoTotal() + (notaCreditoVentaLinea.getCantidad() * costoUnitario);
+                costoTotal = Math.round(costoTotal * 100.0) / 100.0;
+
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+            }
+            Kardex kardex = new Kardex(null, notaCreditoVenta.getFecha(),
+                    notaCreditoVenta.getNumeroComprobante(), entrada, Constantes.cero, saldo,
+                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, new TipoComprobante(4),
+                    new TipoOperacion(tipoOperacionId), notaCreditoVentaLinea.getBodega(), notaCreditoVentaLinea.getProducto());
+
+            kardexService.crear(kardex);
+        }
+    }
 
     @Override
     public NotaCreditoVenta actualizar(NotaCreditoVenta notaCreditoVenta) {
         validar(notaCreditoVenta);
         calcular(notaCreditoVenta);
-        facturar(notaCreditoVenta);
         NotaCreditoVenta res = rep.save(notaCreditoVenta);
+        actualizarKardex(notaCreditoVenta);
         res.normalizar();
         return res;
+    }
+
+    private void actualizarKardex(NotaCreditoVenta notaCreditoVenta) {
+        for (NotaCreditoVentaLinea notaCreditoVentaLinea : notaCreditoVenta.getNotaCreditoVentaLineas()) {
+            int ultimoIndiceKardex = notaCreditoVentaLinea.getProducto().getKardexs().size() - 1;
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaCreditoVentaLinea.getBodega().getId(), notaCreditoVentaLinea.getProducto().getId());
+            double entrada = Constantes.cero;
+            double saldo = Constantes.cero;
+            double costoTotal = Constantes.cero;
+            double costoUnitario = Constantes.cero;
+            double costoPromedio = Constantes.cero;
+            if (ultimoIndiceKardex > Constantes.cero) {
+                entrada = notaCreditoVentaLinea.getCantidad();
+                if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_devolucion)) {
+                    saldo = notaCreditoVentaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getSaldo() + entrada;
+                }
+                if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_descuento)) {
+                    saldo = notaCreditoVentaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getSaldo();
+                }
+                costoUnitario = notaCreditoVentaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoPromedio();
+                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+
+                costoTotal = notaCreditoVentaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoTotal() + (notaCreditoVentaLinea.getCantidad() * costoUnitario);;
+                costoTotal = Math.round(costoTotal * 100.0) / 100.0;
+
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+            }
+            ultimoKardex.setFecha(notaCreditoVenta.getFecha());
+            ultimoKardex.setEntrada(entrada);
+            ultimoKardex.setSaldo(saldo);
+            ultimoKardex.setDebe(costoUnitario);
+            ultimoKardex.setCostoPromedio(costoPromedio);
+            ultimoKardex.setCostoTotal(costoTotal);
+            kardexService.actualizar(ultimoKardex);
+        }
     }
 
     @Override
@@ -226,6 +236,30 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     }
 
     @Override
+    public NotaCreditoVenta obtenerPorFactura(long facturaId){
+        NotaCreditoVenta notaCreditoVenta = new NotaCreditoVenta();
+        Factura factura = facturaService.obtener(facturaId);
+        notaCreditoVenta.setFactura(factura);
+        notaCreditoVenta.setOperacion(Constantes.operacion_devolucion);
+        notaCreditoVenta.setNotaCreditoVentaLineas(new ArrayList<>());
+        for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
+            NotaCreditoVentaLinea notaCreditoVentaLinea = new NotaCreditoVentaLinea();
+            notaCreditoVentaLinea.setImpuesto(facturaLinea.getImpuesto());
+            notaCreditoVentaLinea.setProducto(facturaLinea.getProducto());
+            notaCreditoVentaLinea.setBodega(facturaLinea.getBodega());
+            notaCreditoVentaLinea.setCantidadVenta(facturaLinea.getCantidad());
+
+            double costoUnitarioCompra = facturaLinea.getSubtotalConDescuentoLinea() / facturaLinea.getCantidad();
+            costoUnitarioCompra = Math.round(costoUnitarioCompra * 100.0) / 100.0;
+            notaCreditoVentaLinea.setCostoUnitarioVenta(costoUnitarioCompra);
+            notaCreditoVentaLinea.setCostoUnitario(costoUnitarioCompra);
+
+            notaCreditoVenta.getNotaCreditoVentaLineas().add(notaCreditoVentaLinea);
+        }
+        return notaCreditoVenta;
+    }
+
+    @Override
     public List<NotaCreditoVenta> consultar() {
         return rep.consultar();
     }
@@ -251,137 +285,85 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
     }
 
     @Override
-    public NotaCreditoVenta calcular(NotaCreditoVenta notaCreditoVenta) {
-        this.calcularTotalSinDescuentoLinea(notaCreditoVenta);
-        this.calcularIvaSinDescuentoLinea(notaCreditoVenta);
-        this.calcularSubtotalSinDescuento(notaCreditoVenta);
-        this.calcularSubtotalBase12SinDescuento(notaCreditoVenta);
-        this.calcularSubtotalBase0SinDescuento(notaCreditoVenta);
-        this.calcularIvaSinDescuento(notaCreditoVenta);
-        this.calcularDescuentoTotal(notaCreditoVenta);
-        this.calcularTotalSinDescuento(notaCreditoVenta);
-        this.calcularTotalConDescuento(notaCreditoVenta);
-        return notaCreditoVenta;
+    public void validarLinea(NotaCreditoVentaLinea notaCreditoVentaLinea) {
+        if(notaCreditoVentaLinea.getCantidadVenta() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
+        if(notaCreditoVentaLinea.getCostoUnitarioVenta() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
+        if(notaCreditoVentaLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.devolucion);
+        if(notaCreditoVentaLinea.getCostoUnitario() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
+        if(notaCreditoVentaLinea.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
+        if(notaCreditoVentaLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
+        if(notaCreditoVentaLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
+        if(notaCreditoVentaLinea.getCantidad() > notaCreditoVentaLinea.getCantidadVenta()) throw new DatoInvalidoException(Constantes.devolucion);
     }
+
     /*
      * CALCULOS CON NOTA CREDITO VENTA LINEA
      */
-    private void calcularTotalSinDescuentoLinea(NotaCreditoVenta notaCreditoVenta) {
-    	for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()) {
-            validarLinea(notaCreditoVentaLinea);
-    		double totalSinDescuentoLinea = (notaCreditoVentaLinea.getDevolucion()) * notaCreditoVentaLinea.getCostoUnitario();
-        	totalSinDescuentoLinea=Math.round(totalSinDescuentoLinea*100.0)/100.0;
-            notaCreditoVentaLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
-    	}
-    }
-    private void calcularIvaSinDescuentoLinea(NotaCreditoVenta notaCreditoVenta) {
-        for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()) {
-            validarLinea(notaCreditoVentaLinea);
-            double ivaSinDescuentoLinea = notaCreditoVentaLinea.getTotalSinDescuentoLinea() * notaCreditoVentaLinea.getImpuesto().getPorcentaje()/100;
-            ivaSinDescuentoLinea = Math.round(ivaSinDescuentoLinea*100.0)/100.0;
-            notaCreditoVentaLinea.setIvaSinDescuentoLinea(ivaSinDescuentoLinea);
-        }
-    }
-    /*
-     * FIN CALCULO NOTA CREDITO VENTA LINEA
-     */
-    
-    /*
-     * CALCULAR DESCUENTOS
-     */
-    private void calcularDescuentoTotal(NotaCreditoVenta notaCreditoVenta) {
-        double totalDescuento = Constantes.cero;
-        for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()) {
-            double valorDescuentoPorcentajeLinea = (notaCreditoVentaLinea.getTotalSinDescuentoLinea() * notaCreditoVentaLinea.getPorcentajeDescuentoLinea()) / 100;
-            totalDescuento = totalDescuento + notaCreditoVentaLinea.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
-        }
-        totalDescuento = Math.round(totalDescuento*100.0)/100.0;
-        notaCreditoVenta.setDescuento(totalDescuento);
-    }
-    /*
-     * FIN CALCULAR DESCUENTOS
-     */
-    
-    /*
-     * CALCULOS CON FACTURA
-     */
-    private void calcularSubtotalSinDescuento(NotaCreditoVenta notaCreditoVenta) {
-    	double subtotalSinDescuento = Constantes.cero;
-        for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()){
-          subtotalSinDescuento += notaCreditoVentaLinea.getTotalSinDescuentoLinea();
-        }
-        subtotalSinDescuento=Math.round(subtotalSinDescuento*100.0)/100.0;
-        notaCreditoVenta.setSubtotal(subtotalSinDescuento);
-    }
-    
-    private void calcularSubtotalBase12SinDescuento(NotaCreditoVenta notaCreditoVenta) {
-    	double subtotalBase12SinDescuento = Constantes.cero;
-    	for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()){
-          if (notaCreditoVentaLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva12){
-            subtotalBase12SinDescuento += notaCreditoVentaLinea.getTotalSinDescuentoLinea();
-          }
-    	}
-        subtotalBase12SinDescuento= Math.round(subtotalBase12SinDescuento*100.0)/100.0;
-        notaCreditoVenta.setSubtotalGravado(subtotalBase12SinDescuento);
-    }
-    
-    private void calcularSubtotalBase0SinDescuento(NotaCreditoVenta notaCreditoVenta) {
-    	double subtotalBase0SinDescuento = Constantes.cero;
-    	for(NotaCreditoVentaLinea notaCreditoVentaLinea: notaCreditoVenta.getNotaCreditoVentaLineas()){
-          if (notaCreditoVentaLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva0){
-            subtotalBase0SinDescuento += notaCreditoVentaLinea.getTotalSinDescuentoLinea();
-          }
-        }
-        subtotalBase0SinDescuento = Math.round(subtotalBase0SinDescuento*100.0)/100.0;
-        notaCreditoVenta.setSubtotalNoGravado(subtotalBase0SinDescuento);
-    }
-
-    private void calcularIvaSinDescuento(NotaCreditoVenta notaCreditoVenta){
-        double ivaSinDescuento=(notaCreditoVenta.getSubtotalGravado() * Constantes.iva12) / 100;
-        ivaSinDescuento=Math.round(ivaSinDescuento*100.0)/100.0;
-        notaCreditoVenta.setImporteIva(ivaSinDescuento);
-    }
-
-    private void calcularTotalSinDescuento(NotaCreditoVenta notaCreditoVenta){
-        double totalSinDescuento = notaCreditoVenta.getSubtotalNoGravado() + notaCreditoVenta.getSubtotalGravado();
-        totalSinDescuento=Math.round(totalSinDescuento*100.0)/100.0;
-        notaCreditoVenta.setTotal(totalSinDescuento);
-    }
-    private void calcularTotalConDescuento(NotaCreditoVenta notaCreditoVenta){
-        double totalConDescuento = notaCreditoVenta.getSubtotalNoGravado() + notaCreditoVenta.getSubtotalGravado() + notaCreditoVenta.getImporteIva() - notaCreditoVenta.getDescuento();
-        totalConDescuento = Math.round(totalConDescuento*100.0)/100.0;
-        notaCreditoVenta.setTotalConDescuento(totalConDescuento);
-    }
     @Override
-    public void validarLinea(NotaCreditoVentaLinea notaCreditoVentaLinea) {
-        if(notaCreditoVentaLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
-        if(notaCreditoVentaLinea.getDevolucion() < Constantes.cero) throw new DatoInvalidoException(Constantes.devolucion);
-        if(notaCreditoVentaLinea.getCostoUnitario() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
-        if(notaCreditoVentaLinea.getValorDescuentoLinea() < Constantes.cero) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
-        if(notaCreditoVentaLinea.getPorcentajeDescuentoLinea() < Constantes.cero) throw new DatoInvalidoException(Constantes.porcentajeDescuentoLinea);
-        if(notaCreditoVentaLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
-        if(notaCreditoVentaLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
-        if(notaCreditoVentaLinea.getDevolucion() > notaCreditoVentaLinea.getCantidad()) throw new DatoInvalidoException(Constantes.devolucion);
-        if(notaCreditoVentaLinea.getValorDescuentoLinea() > notaCreditoVentaLinea.getCostoUnitario()) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
-        if(notaCreditoVentaLinea.getPorcentajeDescuentoLinea() > 100) throw new DatoInvalidoException(Constantes.porcentajeDescuentoLinea);
-    }
+    public NotaCreditoVenta calcular(NotaCreditoVenta notaCreditoVenta) {
+        if(notaCreditoVenta.getOperacion() == Constantes.vacio) throw new DatoInvalidoException(Constantes.operacion_devolucion);
+        double subtotal = Constantes.cero;
+        double subtotalGravado = Constantes.cero;
+        double subtotalNoGravado = Constantes.cero;
+        double importeIva = Constantes.cero;
+        for(NotaCreditoVentaLinea notaCreditoVentaLinea : notaCreditoVenta.getNotaCreditoVentaLineas()) {
+            validarLinea(notaCreditoVentaLinea);
+            double subtotalLinea = Constantes.cero;
+            if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_devolucion)){
+                subtotalLinea = notaCreditoVentaLinea.getCantidad() * notaCreditoVentaLinea.getCostoUnitario();
+                subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
+                notaCreditoVentaLinea.setSubtotalLinea(subtotalLinea);
 
-    @Override
-    public NotaCreditoVenta obtenerPorFactura(long facturaId){
-        NotaCreditoVenta notaCreditoVenta = new NotaCreditoVenta();
-        Factura factura = facturaService.obtener(facturaId);
-        notaCreditoVenta.setFactura(factura);
-        notaCreditoVenta.setNotaCreditoVentaLineas(new ArrayList<>());
-        for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
-            NotaCreditoVentaLinea notaCreditoVentaLinea = new NotaCreditoVentaLinea();
-            notaCreditoVentaLinea.setPrecio(facturaLinea.getPrecio());
-            notaCreditoVentaLinea.setImpuesto(facturaLinea.getImpuesto());
-            notaCreditoVentaLinea.setBodega(facturaLinea.getBodega());
-            notaCreditoVentaLinea.setProducto(facturaLinea.getProducto());
-            notaCreditoVentaLinea.setCostoUnitario(facturaLinea.getPrecioUnitario());
-            notaCreditoVentaLinea.setCantidad(facturaLinea.getCantidad());
-            notaCreditoVenta.getNotaCreditoVentaLineas().add(notaCreditoVentaLinea);
+            }
+            if(notaCreditoVenta.getOperacion().equals(Constantes.operacion_descuento)) {
+                if(notaCreditoVenta.getDescuento() <= Constantes.cero) throw new DatoInvalidoException(Constantes.operacion_descuento);
+
+                double costoTotal = Constantes.cero;
+                for(NotaCreditoVentaLinea notaCreditoVentaCosto : notaCreditoVenta.getNotaCreditoVentaLineas()) {
+                    costoTotal += notaCreditoVentaCosto.getCantidadVenta() * notaCreditoVentaCosto.getCostoUnitarioVenta();
+                }
+
+                double ponderacion = (notaCreditoVentaLinea.getCantidadVenta() * notaCreditoVentaLinea.getCostoUnitarioVenta()) / costoTotal;
+                subtotalLinea = (notaCreditoVenta.getDescuento() * ponderacion) * 100 / (100 + notaCreditoVentaLinea.getImpuesto().getPorcentaje());
+                subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
+                notaCreditoVentaLinea.setSubtotalLinea(subtotalLinea);
+
+                double costoUnitario = subtotalLinea / notaCreditoVentaLinea.getCantidad();
+                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+                notaCreditoVentaLinea.setCostoUnitario(costoUnitario);
+            }
+            subtotal += subtotalLinea;
+            if (notaCreditoVentaLinea.getImpuesto().getPorcentaje() != Constantes.cero){
+                subtotalGravado += subtotalLinea;
+            } else {
+                subtotalNoGravado += subtotalLinea;
+            }
+
+            double importeIvaLinea = subtotalLinea * notaCreditoVentaLinea.getImpuesto().getPorcentaje() / 100;
+            importeIvaLinea = Math.round(importeIvaLinea * 100.0) / 100.0;
+            notaCreditoVentaLinea.setImporteIvaLinea(importeIvaLinea);
+            importeIva += importeIvaLinea;
+
+            double totalLinea = subtotalLinea + importeIvaLinea;
+            totalLinea = Math.round(totalLinea * 100.0) / 100.0;
+            notaCreditoVentaLinea.setTotalLinea(totalLinea);
         }
+        subtotal = Math.round(subtotal * 100.0) / 100.0;
+        notaCreditoVenta.setSubtotal(subtotal);
+
+        subtotalGravado = Math.round(subtotalGravado * 100.0) / 100.0;
+        notaCreditoVenta.setSubtotalGravado(subtotalGravado);
+
+        subtotalNoGravado = Math.round(subtotalNoGravado * 100.0) / 100.0;
+        notaCreditoVenta.setSubtotalNoGravado(subtotalNoGravado);
+
+        importeIva = Math.round(importeIva * 100.0) / 100.0;
+        notaCreditoVenta.setImporteIva(importeIva);
+
+        double total = subtotalGravado + subtotalNoGravado + importeIva;
+        total = Math.round(total * 100.0) / 100.0;
+        notaCreditoVenta.setTotal(total);
+
         return notaCreditoVenta;
     }
 }

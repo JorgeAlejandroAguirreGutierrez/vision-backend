@@ -4,6 +4,8 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.cliente.*;
+import com.proyecto.vision.modelos.compra.FacturaCompra;
+import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
 import com.proyecto.vision.modelos.venta.Factura;
@@ -110,8 +112,8 @@ public class FacturaService implements IFacturaService {
                 double saldo = ultimoKardex.getSaldo() - facturaLinea.getCantidad();
                 double costoTotal = ultimoKardex.getCostoTotal() - (facturaLinea.getCantidad() * ultimoKardex.getCostoPromedio());
                 costoTotal = Math.round(costoTotal * 100.0) / 100.0;
-                Kardex kardex = new Kardex(null, new Date(),
-                        factura.getSecuencial(), Constantes.cero, facturaLinea.getCantidad(), saldo,
+                Kardex kardex = new Kardex(null, factura.getFecha(),
+                        factura.getNumeroComprobante(), Constantes.cero, facturaLinea.getCantidad(), saldo,
                         Constantes.cero, ultimoKardex.getCostoPromedio(),
                         ultimoKardex.getCostoPromedio(), costoTotal,
                         new TipoComprobante(2), new TipoOperacion(2), facturaLinea.getBodega(), facturaLinea.getProducto());
@@ -193,7 +195,6 @@ public class FacturaService implements IFacturaService {
         validar(factura);
         calcular(factura);
         calcularRecaudacion(factura);
-        crearKardex(factura);
         if(factura.getTotalRecaudacion() != factura.getValorTotal()){
             factura.setEstadoInterno(Constantes.estadoInternoEmitida);
         }
@@ -201,8 +202,36 @@ public class FacturaService implements IFacturaService {
             factura.setEstadoInterno(Constantes.estadoInternoRecaudada);
         }
         Factura res = rep.save(factura);
+        actualizarKardex(factura);
         res.normalizar();
         return res;
+    }
+
+    private void actualizarKardex(Factura factura) {
+        for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
+            int ultimoIndiceKardex = facturaLinea.getProducto().getKardexs().size() - 1;
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaLinea.getBodega().getId(), facturaLinea.getProducto().getId());
+            double saldo = Constantes.cero;
+            double costoTotal = Constantes.cero;
+            double costoUnitario = Constantes.cero;
+            double costoPromedio = Constantes.cero;
+            if (ultimoIndiceKardex > Constantes.cero) {
+                saldo = facturaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getSaldo() - facturaLinea.getCantidad();
+                costoUnitario = facturaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoPromedio();
+                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+                costoTotal = facturaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoTotal() - (costoUnitario * facturaLinea.getCantidad());
+                costoTotal = Math.round(costoTotal * 100.0) / 100.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+            }
+            ultimoKardex.setFecha(factura.getFecha());
+            ultimoKardex.setEntrada(facturaLinea.getCantidad());
+            ultimoKardex.setSaldo(saldo);
+            ultimoKardex.setDebe(costoUnitario);
+            ultimoKardex.setCostoPromedio(costoPromedio);
+            ultimoKardex.setCostoTotal(costoTotal);
+            kardexService.actualizar(ultimoKardex);
+        }
     }
 
     @Override
