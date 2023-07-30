@@ -66,7 +66,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         notaCreditoVenta.setCodigo(codigo.get());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(notaCreditoVenta.getTipoComprobante().getId(), notaCreditoVenta.getSesion().getUsuario().getEstacion().getId());
         notaCreditoVenta.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
-        notaCreditoVenta.setNumeroComprobante(notaCreditoVenta.getEstablecimiento() + "-" + notaCreditoVenta.getPuntoVenta() + "-" + notaCreditoVenta.getSecuencial());
+        notaCreditoVenta.setNumeroComprobante(notaCreditoVenta.getEstablecimiento() + Constantes.guion + notaCreditoVenta.getPuntoVenta() + Constantes.guion + notaCreditoVenta.getSecuencial());
         notaCreditoVenta.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
         Optional<String> claveAcceso = crearClaveAcceso(notaCreditoVenta);
         if (claveAcceso.isEmpty()) {
