@@ -62,8 +62,6 @@ public class NotaCreditoVenta extends Entidad {
     private double importeIva;
     @Column(name = "total", nullable = true)
     private double total;
-    @Column(name = "total_con_descuento", nullable = true)
-    private double totalConDescuento;
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -107,7 +105,6 @@ public class NotaCreditoVenta extends Entidad {
         this.subtotalNoGravado = Constantes.cero;
         this.importeIva = Constantes.cero;
         this.total = Constantes.cero;
-        this.totalConDescuento = Constantes.cero;
         this.comentario = Constantes.vacio;
         this.notaCreditoVentaLineas = Collections.emptyList();
     }

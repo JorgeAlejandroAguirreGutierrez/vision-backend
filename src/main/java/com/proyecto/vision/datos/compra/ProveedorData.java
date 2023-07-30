@@ -40,7 +40,7 @@ public class ProveedorData implements ApplicationRunner {
                 celulares.add(new CelularProveedor("CPR011908000002", "0981234563", new Proveedor(1)));
                 List<TelefonoProveedor> telefonos = new ArrayList<>();
                 telefonos.add(new TelefonoProveedor("TEA011908000001", "032964121", new Proveedor(1)));
-                proveedores.add(new Proveedor("PRV110721000001", "0190072002001", "CORALHIPERMERCADOS CIA. LTDA.", "CORAL CENTRO","CALLE SUCRE Y VEGA MUÑOZ", "TRAS LA IGLESIA", -1.6719601146175827, -78.65041698970857, 0, Constantes.si, Constantes.no, Constantes.no, Constantes.no, Constantes.estadoActivo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(1), new Empresa(1), telefonos, celulares, correos));
+                proveedores.add(new Proveedor("PRV012306000001", "0190072002001", "CORALHIPERMERCADOS CIA. LTDA.", "CORAL CENTRO","CALLE SUCRE Y VEGA MUÑOZ", "TRAS LA IGLESIA", -1.6719601146175827, -78.65041698970857, 0, Constantes.si, Constantes.no, Constantes.no, Constantes.no, Constantes.estadoActivo, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoProveedor(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(1), new Empresa(1), telefonos, celulares, correos));
                 List<CorreoProveedor> correos2 = new ArrayList<>();
                 correos2.add(new CorreoProveedor("COA011909000003", "AUXILIAR2@GMAIL.COM", new Proveedor(2)));
                 correos2.add(new CorreoProveedor("COA011909000004", "AUXILIAR3@GMAIL.COM", new Proveedor(2)));
