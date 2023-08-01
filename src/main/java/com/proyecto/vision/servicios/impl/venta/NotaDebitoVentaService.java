@@ -102,7 +102,7 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.dev_venta, Constantes.estadoActivo);
         kardexService.eliminar(tipoComprobante.getId(), tipoOperacion.getId(), notaDebitoVenta.getSecuencial());
         for(NotaDebitoVentaLinea notaDebitoVentaLinea : notaDebitoVenta.getNotaDebitoVentaLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaDebitoVentaLinea.getBodega().getId(), notaDebitoVentaLinea.getProducto().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaDebitoVentaLinea.getProducto().getId(), notaDebitoVentaLinea.getBodega().getId());
             if(ultimoKardex == null){
                 throw new DatoInvalidoException(Constantes.kardex);
             }

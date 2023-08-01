@@ -56,7 +56,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.dev_compra, Constantes.estadoActivo);
         kardexService.eliminar(tipoComprobante.getId(), tipoOperacion.getId(), notaDebitoCompra.getSecuencial());
         for(NotaDebitoCompraLinea notaDebitoCompraLinea : notaDebitoCompra.getNotaDebitoCompraLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(notaDebitoCompraLinea.getBodega().getId(), notaDebitoCompraLinea.getProducto().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaDebitoCompraLinea.getProducto().getId(), notaDebitoCompraLinea.getBodega().getId());
             if (ultimoKardex != null) {
                 double saldo = ultimoKardex.getSaldo() - notaDebitoCompraLinea.getCantidad();
                 Kardex kardex = new Kardex(null, new Date(),

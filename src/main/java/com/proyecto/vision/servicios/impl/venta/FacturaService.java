@@ -102,7 +102,7 @@ public class FacturaService implements IFacturaService {
         kardexService.eliminar(2, 2, factura.getSecuencial());
         for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
             if(facturaLinea.getProducto().getCategoriaProducto().getDescripcion().equals(Constantes.bien)) {
-                Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaLinea.getBodega().getId(), facturaLinea.getProducto().getId());
+                Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId());
                 if (ultimoKardex == null) {
                     throw new DatoInvalidoException(Constantes.kardex);
                 }
@@ -210,7 +210,7 @@ public class FacturaService implements IFacturaService {
     private void actualizarKardex(Factura factura) {
         for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
             int ultimoIndiceKardex = facturaLinea.getProducto().getKardexs().size() - 1;
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorBodega(facturaLinea.getBodega().getId(), facturaLinea.getProducto().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId());
             double saldo = Constantes.cero;
             double costoTotal = Constantes.cero;
             double costoUnitario = Constantes.cero;
