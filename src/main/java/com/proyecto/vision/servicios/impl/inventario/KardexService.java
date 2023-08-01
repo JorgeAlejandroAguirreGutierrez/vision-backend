@@ -4,9 +4,12 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.repositorios.inventario.IKardexRepository;
+import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
 import com.proyecto.vision.servicios.interf.inventario.IKardexService;
+import com.proyecto.vision.servicios.interf.inventario.ITipoOperacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +21,10 @@ import java.util.Optional;
 public class KardexService implements IKardexService {
     @Autowired
     private IKardexRepository rep;
+    @Autowired
+    private ITipoComprobanteService tipoComprobanteService;
+    @Autowired
+    private ITipoOperacionService tipoOperacionService;
     
     @Override
     public Kardex crear(Kardex kardex) {
@@ -59,6 +66,15 @@ public class KardexService implements IKardexService {
     @Override
     public Kardex obtenerUltimoPorProductoYBodega(long productoId, long bodegaId) {
         Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodega(productoId, bodegaId);
+        if(res.isEmpty()){
+            return null;
+        }
+        return res.get();
+    }
+    @Override
+    public Kardex obtenerUltimoPorProductoYBodegaYTablaTipoComprobante(long productoId, long bodegaId, String tablaTipoComprobante) {
+        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(tablaTipoComprobante);
+        Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodegaYTablaTipoComprobante(productoId, bodegaId, tipoComprobante.getId());
         if(res.isEmpty()){
             return null;
         }

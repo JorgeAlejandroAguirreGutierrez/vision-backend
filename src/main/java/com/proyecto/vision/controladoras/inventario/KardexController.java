@@ -55,6 +55,13 @@ public class KardexController implements GenericoController<Kardex> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/obtenerUltimoPorProductoYBodegaYTablaTipoComprobante/{productoId}/{bodegaId}/{tablaTipoComprobante}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerUltimoPorProductoYBodegaYTablaTipoComprobante(@PathVariable("productoId") long productoId, @PathVariable("bodegaId") long bodegaId, @PathVariable("tablaTipoComprobante") String tablaTipoComprobante) {
+        Kardex kardex = servicio.obtenerUltimoPorProductoYBodegaYTablaTipoComprobante(productoId, bodegaId, tablaTipoComprobante);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
         List<Kardex> kardexs=servicio.consultar();
