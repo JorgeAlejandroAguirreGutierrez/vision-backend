@@ -100,7 +100,8 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     		throw new CodigoNoExistenteException();
     	}
 		guiaRemision.setCodigo(codigo.get());
-		Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(guiaRemision.getTipoComprobante().getId(), guiaRemision.getSesion().getUsuario().getEstacion().getId());
+		Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(guiaRemision.getTipoComprobante().getId(),
+				guiaRemision.getSesion().getUsuario().getEstacion().getId(), guiaRemision.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
 		guiaRemision.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
 		guiaRemision.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
 		Optional<String> claveAcceso = crearClaveAcceso(guiaRemision);

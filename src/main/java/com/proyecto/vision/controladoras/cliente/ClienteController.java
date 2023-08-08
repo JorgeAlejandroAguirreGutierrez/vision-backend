@@ -96,15 +96,15 @@ public class ClienteController implements GenericoController<Cliente> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/identificacion/{identificacion}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerIdentificacion(@PathVariable("identificacion") String identificacion) {
-        Cliente cliente = servicio.obtenerPorIdentificacion(identificacion);
+    @GetMapping(value = "/obtenerIdentificacionYEmpresaYEstado/{identificacion}/{empresaId}/{estado}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerIdentificacionYEmpresaYEstado(@PathVariable("identificacion") String identificacion, @PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        Cliente cliente = servicio.obtenerPorIdentificacionYEmpresaYEstado(identificacion, empresaId, estado);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    @GetMapping(value = "/razonSocial/{razonSocial}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerRazonSocial(@PathVariable("razonSocial") String razonSocial) {
-        Cliente cliente=servicio.obtenerPorRazonSocial(razonSocial);
+    @GetMapping(value = "/obtenerRazonSocialYEmpresaYEstado/{razonSocial}/{empresaId}/{estado}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerPorRazonSocialYEmpresaYEstado(@PathVariable("razonSocial") String razonSocial, @PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        Cliente cliente=servicio.obtenerPorRazonSocialYEmpresaYEstado(razonSocial, empresaId, estado);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_obtener_exitoso, cliente);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
