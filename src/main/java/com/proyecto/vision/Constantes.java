@@ -3,6 +3,7 @@ package com.proyecto.vision;
 public class Constantes {
 	
 	public static final String identificacion_consumidor_final="9999999999999";
+    public static final String consumidor_final="CONSUMIDOR FINAL";
 	public static final String tipo_contribuyente_natural="NATURAL";
 	public static final String tipo_contribuyente_juridica="JURIDICA";
 	public static final String tipo_contribuyente_publica="PUBLICA";
@@ -526,6 +527,7 @@ public class Constantes {
     public static final int nueve = 9;
     public static final int diez = 10;
     public static final int once= 11;
+    public static final double ciencuenta = 50;
     
     public static final String urlFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline";
     public static final String urlConsultaFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline";

@@ -15,6 +15,7 @@ import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.modelos.recaudacion.*;
 import com.proyecto.vision.repositorios.cliente.IClienteBaseRepository;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
+import com.proyecto.vision.servicios.interf.cliente.IClienteService;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
@@ -43,9 +44,13 @@ public class FacturaService implements IFacturaService {
     private ISecuencialService secuencialService;
     @Autowired
     private IClienteBaseRepository repClienteBase;
+    @Autowired
+    private IClienteService clienteService;
 
     @Override
     public void validar(Factura factura) {
+        Cliente consumidorFinal = clienteService.obtenerPorIdentificacion(Constantes.identificacion_consumidor_final);
+        if(factura.getCliente().getId() == consumidorFinal.getId() && factura.getValorTotal() > Constantes.ciencuenta) throw new DatoInvalidoException(Constantes.consumidor_final);
         if(factura.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
