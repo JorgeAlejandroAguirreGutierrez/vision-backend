@@ -104,7 +104,7 @@ public class ClienteService implements IClienteService {
     }
     @Override
     public Cliente obtenerPorIdentificacion(String identificacion) {
-        Optional<Cliente> cliente = rep.obtenerPorRazonSocial(identificacion, Constantes.estadoActivo);
+        Optional<Cliente> cliente = rep.obtenerPorIdentificacion(identificacion, Constantes.estadoActivo);
         if(cliente.isPresent()){
         	Cliente res = cliente.get();
             res.normalizar();

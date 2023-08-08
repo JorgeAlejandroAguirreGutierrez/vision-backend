@@ -25,4 +25,6 @@ public interface IClienteRepository extends IGenericoRepository<Cliente> {
     Optional<Cliente> obtenerPorEmpresaYIdentificacion(long empresaId, String identificacion, String estado);
 	@Query(value = "select c from Cliente c where c.razonSocial=:razonSocial and c.estado=:estado order by c.codigo asc")
     Optional<Cliente> obtenerPorRazonSocial(String razonSocial, String estado);
+    @Query(value = "select c from Cliente c where c.identificacion = :identificacion and c.estado = :estado order by c.codigo asc")
+    Optional<Cliente> obtenerPorIdentificacion(String identificacion, String estado);
 }
