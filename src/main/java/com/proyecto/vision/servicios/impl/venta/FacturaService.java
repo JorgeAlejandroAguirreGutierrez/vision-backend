@@ -49,7 +49,7 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public void validar(Factura factura) {
-        Cliente consumidorFinal = clienteService.obtenerPorIdentificacion(Constantes.identificacion_consumidor_final);
+        Cliente consumidorFinal = clienteService.obtenerPorIdentificacionYEmpresaYEstado(Constantes.identificacion_consumidor_final, factura.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
         if(factura.getCliente().getId() == consumidorFinal.getId() && factura.getValorTotal() > Constantes.ciencuenta) throw new DatoInvalidoException(Constantes.consumidor_final);
         if(factura.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
@@ -67,25 +67,25 @@ public class FacturaService implements IFacturaService {
         for(Cheque cheque : factura.getCheques()){
             if(cheque.getNumero().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero);
             if(cheque.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.dato_tipo);
-            if(cheque.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(cheque.getValor() <= Constantes.cero) throw new DatoInvalidoException(Constantes.valor);
             if(cheque.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
         }
         for(Deposito deposito : factura.getDepositos()){
             if(deposito.getComprobante().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.comprobante);
-            if(deposito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(deposito.getValor() <= Constantes.cero) throw new DatoInvalidoException(Constantes.valor);
             if(deposito.getCuentaPropia().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cuenta_propia);
         }
         for(Transferencia transferencia : factura.getTransferencias()){
             if(transferencia.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo_transaccion);
             if(transferencia.getComprobante().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero_transaccion);
-            if(transferencia.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(transferencia.getValor() <= Constantes.cero) throw new DatoInvalidoException(Constantes.valor);
             if(transferencia.getCuentaPropia().getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
         }
         for(TarjetaDebito tarjetaDebito : factura.getTarjetasDebitos()){
             if(tarjetaDebito.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
             if(tarjetaDebito.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre_titular);
             if(tarjetaDebito.getLote().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.lote);
-            if(tarjetaDebito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(tarjetaDebito.getValor() <= Constantes.cero) throw new DatoInvalidoException(Constantes.valor);
             if(tarjetaDebito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
             if(tarjetaDebito.getOperadorTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.operador_tarjeta);
             if(tarjetaDebito.getFranquiciaTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.franquicia_tarjeta);
@@ -96,7 +96,7 @@ public class FacturaService implements IFacturaService {
             if(tarjetaCredito.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
             if(tarjetaCredito.getNombre().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre_titular);
             if(tarjetaCredito.getLote().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.lote);
-            if(tarjetaCredito.getValor() <= 0) throw new DatoInvalidoException(Constantes.valor);
+            if(tarjetaCredito.getValor() <= Constantes.cero) throw new DatoInvalidoException(Constantes.valor);
             if(tarjetaCredito.getBanco().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.banco);
             if(tarjetaCredito.getOperadorTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.operador_tarjeta);
             if(tarjetaCredito.getFranquiciaTarjeta().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.franquicia_tarjeta);
@@ -173,7 +173,8 @@ public class FacturaService implements IFacturaService {
     		throw new CodigoNoExistenteException();
     	}
     	factura.setCodigo(codigo.get());
-        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacion(factura.getTipoComprobante().getId(), factura.getSesion().getUsuario().getEstacion().getId());
+        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(factura.getTipoComprobante().getId(),
+                factura.getSesion().getUsuario().getEstacion().getId(), factura.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
     	factura.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         factura.setNumeroComprobante(factura.getEstablecimiento() + Constantes.guion + factura.getPuntoVenta() + Constantes.guion + factura.getSecuencial());
     	factura.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));

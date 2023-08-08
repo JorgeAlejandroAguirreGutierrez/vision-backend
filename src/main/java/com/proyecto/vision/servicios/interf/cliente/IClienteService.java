@@ -11,11 +11,11 @@ public interface IClienteService extends IGenericoService<Cliente> {
     List<Cliente> consultarPorEmpresa(long empresaId);
     List<Cliente> consultarPorEstado(String estado);
     List<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado);
-	Cliente activar(Cliente cliente);
+    Cliente obtenerPorIdentificacionYEmpresaYEstado(String identificacion, long empresaId, String estado);
+    Cliente obtenerPorRazonSocialYEmpresaYEstado(String razonSocial, long empresaId, String estado);
+    Cliente activar(Cliente cliente);
 	Cliente inactivar(Cliente cliente);
     String existe(Cliente cliente);
-    Cliente obtenerPorIdentificacion(String identificacion);
-    Cliente obtenerPorRazonSocial(String razonSocial);
     List<Cliente> buscar(Cliente cliente);
     Cliente validarIdentificacionPorEmpresa(long empresaId, String identificacion);
     Cliente buscarClienteBase(Cliente cliente);

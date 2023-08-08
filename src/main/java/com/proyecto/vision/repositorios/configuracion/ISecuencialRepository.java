@@ -18,6 +18,6 @@ public interface ISecuencialRepository extends JpaRepository<Secuencial, Long>, 
     List<Secuencial> consultar();
     @Query(value = "select s from Secuencial s where s.estado=:estado order by s.codigo asc")
     List<Secuencial> consultarPorEstado(String estado);
-    @Query(value = "select s from Secuencial s where s.tipoComprobante.id = :tipoComprobanteId and s.estacion.id = :estacionId")
-    Optional<Secuencial> obtenerPorTipoComprobanteYEstacion(long tipoComprobanteId, long estacionId);
+    @Query(value = "select s from Secuencial s where s.tipoComprobante.id = :tipoComprobanteId and s.estacion.id = :estacionId and s.estacion.establecimiento.empresa.id = :empresaId and s.estado = :estado")
+    Optional<Secuencial> obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(long tipoComprobanteId, long estacionId, long empresaId, String estado);
 }
