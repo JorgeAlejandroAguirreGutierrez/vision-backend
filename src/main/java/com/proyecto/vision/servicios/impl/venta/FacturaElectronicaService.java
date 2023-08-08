@@ -506,20 +506,20 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
             for (int i = 0; i <factura.getFacturaLineas().size(); i++)
             {
-				String precioSinIva = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecio().getPrecioSinIva());
+				String precioUnitario = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecioUnitario());
 				String valorDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getValorDescuentoLinea());
 				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getCodigo()));
                 tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
                 tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getNombre()));
-                tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioSinIva));
+                tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
                 tablaFacturaDetalle.addCell(getCellFilaFactura("$"+valorDescuentoLinea));
                 tablaFacturaDetalle.addCell(getCellFilaFactura("$"+subtotalConDescuentoLinea));
             }
 			documento.add(tablaFacturaDetalle);
 			documento.add( new Paragraph("\n"));
-			String subtotal = String.format("%.2f", factura.getSubtotalConDescuento());
+			String subtotal = String.format("%.2f", factura.getSubtotalSinDescuento());
 			String descuento = String.format("%.2f", factura.getDescuentoTotal());
 			String subtotalGravadoConDescuento = String.format("%.2f", factura.getSubtotalGravadoConDescuento());
 			String subtotalNoGravadoConDescuento = String.format("%.2f", factura.getSubtotalNoGravadoConDescuento());
@@ -828,12 +828,12 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaFacturaDetalle.addCell(getCellColumnaFacturaTicket("SUBTOTAL"));
 			for (int i = 0; i <factura.getFacturaLineas().size(); i++)
 			{
-				String precioSinIva = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecio().getPrecioSinIva());
+				String precioUnitario = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecioUnitario());
 				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getProducto().getNombre()));
-				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$"+precioSinIva));
+				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$"+precioUnitario));
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$"+subtotalConDescuentoLinea));
 			}
 
