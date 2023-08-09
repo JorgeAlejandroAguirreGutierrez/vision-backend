@@ -257,11 +257,11 @@ public class FacturaCompraService implements IFacturaCompraService {
         subtotalConDescuentoLinea = Math.round(subtotalConDescuentoLinea * 100.0) / 100.0;
         facturaCompraLinea.setSubtotalConDescuentoLinea(subtotalConDescuentoLinea);
 
-        double valorIvaLinea = (subtotalConDescuentoLinea * (facturaCompraLinea.getImpuesto().getPorcentaje() / 100));
-        valorIvaLinea = Math.round(valorIvaLinea * 100.0) / 100.0;
-        facturaCompraLinea.setImporteIvaLinea(valorIvaLinea);
+        double importeIvaLinea = (subtotalConDescuentoLinea * facturaCompraLinea.getImpuesto().getPorcentaje()) / 100;
+        importeIvaLinea = Math.round(importeIvaLinea * 100.0) / 100.0;
+        facturaCompraLinea.setImporteIvaLinea(importeIvaLinea);
 
-        double totalLinea = subtotalConDescuentoLinea + valorIvaLinea;
+        double totalLinea = subtotalConDescuentoLinea + importeIvaLinea;
         totalLinea = Math.round(totalLinea * 100.0) / 100.0;
         facturaCompraLinea.setTotalLinea(totalLinea);
 
