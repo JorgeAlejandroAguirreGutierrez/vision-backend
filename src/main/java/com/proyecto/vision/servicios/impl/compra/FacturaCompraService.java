@@ -110,6 +110,11 @@ public class FacturaCompraService implements IFacturaCompraService {
     @Override
     public FacturaCompra actualizar(FacturaCompra facturaCompra) {
         validar(facturaCompra);
+        for(FacturaCompraLinea facturaCompraLinea: facturaCompra.getFacturaCompraLineas()){
+            validarLinea(facturaCompraLinea);
+            calcularLinea(facturaCompraLinea);
+        }
+        calcular(facturaCompra);
         FacturaCompra res = rep.save(facturaCompra);
         actualizarKardex(facturaCompra);
         actualizarPrecios(facturaCompra);
