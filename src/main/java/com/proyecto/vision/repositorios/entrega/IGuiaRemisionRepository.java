@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IGuiaRemisionRepository extends JpaRepository<GuiaRemision, Long>, JpaSpecificationExecutor<GuiaRemision> {
-    @Query(value = "select gr from GuiaRemision gr order by gr.codigo asc")
+    @Query(value = "select gr from GuiaRemision gr order by gr.codigo desc")
     List<GuiaRemision> consultar();
-    @Query(value = "select gr from GuiaRemision gr where gr.estado= :estado order by gr.codigo asc")
+    @Query(value = "select gr from GuiaRemision gr where gr.estado= :estado order by gr.codigo desc")
     List<GuiaRemision> consultarPorEstado(String estado);
-    @Query(value = "select gr from GuiaRemision gr where gr.factura.id = :facturaId order by gr.codigo asc")
+    @Query(value = "select gr from GuiaRemision gr where gr.factura.id = :facturaId order by gr.codigo desc")
     Optional<GuiaRemision> obtenerPorFactura(long facturaId);
 }

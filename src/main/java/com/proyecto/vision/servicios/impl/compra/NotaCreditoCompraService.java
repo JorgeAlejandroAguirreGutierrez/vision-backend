@@ -28,7 +28,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -235,7 +234,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
             notaCreditoCompraLinea.setBodega(facturaCompraLinea.getBodega());
             notaCreditoCompraLinea.setCantidadCompra(facturaCompraLinea.getCantidad());
 
-            double costoUnitarioCompra = facturaCompraLinea.getSubtotalConDescuentoLinea() / facturaCompraLinea.getCantidad();
+            double costoUnitarioCompra = facturaCompraLinea.getSubtotalLinea() / facturaCompraLinea.getCantidad();
             costoUnitarioCompra = Math.round(costoUnitarioCompra * 100.0) / 100.0;
             notaCreditoCompraLinea.setCostoUnitarioCompra(costoUnitarioCompra);
             notaCreditoCompraLinea.setCostoUnitario(costoUnitarioCompra);

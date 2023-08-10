@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface ITipoRetencionRepository extends JpaRepository<TipoRetencion, Long>, JpaSpecificationExecutor<TipoRetencion> {
-    @Query(value = "select tr from TipoRetencion tr order by tr.codigo asc")
+    @Query(value = "select tr from TipoRetencion tr order by tr.codigo desc")
     List<TipoRetencion> consultar();
-    @Query(value = "select tr from TipoRetencion tr where tr.estado = :estado order by tr.codigo asc")
+    @Query(value = "select tr from TipoRetencion tr where tr.estado = :estado order by tr.codigo desc")
     List<TipoRetencion> consultarPorEstado(String estado);
-	@Query(value = "select tr from TipoRetencion tr where tr.impuestoRetencion = :impuestoRetencion and tr.tipoRetencion = :tipoRetencion and tr.estado = :estado order by tr.codigo asc")
+	@Query(value = "select tr from TipoRetencion tr where tr.impuestoRetencion = :impuestoRetencion and tr.tipoRetencion = :tipoRetencion and tr.estado = :estado order by tr.codigo desc")
     List<TipoRetencion> findByImpuestoAndTipo(String impuestoRetencion, String tipoRetencion, String estado);
 }

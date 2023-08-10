@@ -39,10 +39,8 @@ public class FacturaCompra extends Entidad {
     private String estadoInterno;
     @Column(name = "estado", nullable = true)
     private String estado;
-    @Column(name = "subtotal_sin_descuento", nullable = true)
-    private double subtotalSinDescuento;
-    @Column(name = "subtotal_con_descuento", nullable = true)
-    private double subtotalConDescuento;
+    @Column(name = "subtotal", nullable = true)
+    private double subtotal;
     @Column(name = "descuento_total", nullable = true)
     private double descuentoTotal;
     @Column(name = "subtotal_gravado_con_descuento", nullable = true)
@@ -51,8 +49,8 @@ public class FacturaCompra extends Entidad {
     private double subtotalNoGravadoConDescuento;
     @Column(name = "importe_iva_total", nullable = true)
     private double importeIvaTotal;
-    @Column(name = "valor_total", nullable = true)
-    private double valorTotal;
+    @Column(name = "total", nullable = true)
+    private double total;
     @Column(name = "valor_distribuido_total", nullable = true)
     private double valorDistribuidoTotal;
     @Column(name = "valor_descuento_total", nullable = true)
@@ -97,13 +95,12 @@ public class FacturaCompra extends Entidad {
         this.valorDescuentoTotal = Constantes.cero;
         this.porcentajeDescuentoTotal = Constantes.cero;
         this.valorPorcentajeDescuentoTotal = Constantes.cero;
-        this.subtotalSinDescuento = Constantes.cero;
-        this.subtotalConDescuento = Constantes.cero;
+        this.subtotal = Constantes.cero;
         this.descuentoTotal = Constantes.cero;
         this.subtotalGravadoConDescuento = Constantes.cero;
         this.subtotalNoGravadoConDescuento = Constantes.cero;
         this.importeIvaTotal = Constantes.cero;
-        this.valorTotal = Constantes.cero;
+        this.total = Constantes.cero;
         this.comentario = Constantes.vacio;
         this.facturaCompraLineas = Collections.emptyList();
     }

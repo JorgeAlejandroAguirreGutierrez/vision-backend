@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ITipoIdentificacionRepository extends JpaRepository<TipoIdentificacion, Long>, JpaSpecificationExecutor<TipoIdentificacion> {
-	@Query(value="select * from tipo_identificacion u where u.codigo_sri = :codigoSri order by u.codigo asc", nativeQuery = true)
-    TipoIdentificacion findByCodigoSri(String codigoSri);
+	@Query(value="select * from tipo_identificacion u where u.codigo_sri = :codigoSri", nativeQuery = true)
+    Optional<TipoIdentificacion> findByCodigoSri(String codigoSri);
 }

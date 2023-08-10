@@ -12,7 +12,6 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface IContribuyenteRepository extends IGenericoRepository<Contribuyente> {
-	
 	@Query(value = "select co from Contribuyente co where co.identificacion=:identificacion")
     Optional<Contribuyente> obtenerPorIdentificacion(String identificacion);
 	

@@ -11,12 +11,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IPlazoCreditoRepository extends JpaRepository<PlazoCredito, Long>, JpaSpecificationExecutor<PlazoCredito> {
-    @Query(value = "select pc from PlazoCredito pc order by pc.codigo asc")
+    @Query(value = "select pc from PlazoCredito pc order by pc.codigo desc")
     List<PlazoCredito> consultar();
-    @Query(value = "select pc from PlazoCredito pc where pc.empresa.id=:empresaId order by pc.codigo asc")
+    @Query(value = "select pc from PlazoCredito pc where pc.empresa.id=:empresaId order by pc.codigo desc")
     List<PlazoCredito> consultarPorEmpresa(long empresaId);
-    @Query(value = "select pc from PlazoCredito pc where pc.estado=:estado order by pc.codigo asc")
+    @Query(value = "select pc from PlazoCredito pc where pc.estado=:estado order by pc.codigo desc")
     List<PlazoCredito> consultarPorEstado(String estado);
-    @Query(value = "select pc from PlazoCredito pc where pc.empresa.id = :empresaId and pc.estado = :estado order by pc.codigo asc")
+    @Query(value = "select pc from PlazoCredito pc where pc.empresa.id = :empresaId and pc.estado = :estado order by pc.codigo desc")
     List<PlazoCredito> consultarPorEmpresaYEstado(long empresaId, String estado);
 }

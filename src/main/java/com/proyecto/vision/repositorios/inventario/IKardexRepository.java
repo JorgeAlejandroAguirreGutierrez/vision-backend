@@ -25,6 +25,6 @@ public interface IKardexRepository extends JpaRepository<Kardex, Long>, JpaSpeci
     @Transactional
     @Query(value = "delete from kardex k where k.tipo_comprobante_id = :tipoComprobanteId and k.tipo_operacion_id = :tipoOperacionId and k.referencia = :referencia", nativeQuery = true)
     void eliminar(long tipoComprobanteId, long tipoOperacionId, String referencia);
-    @Query(value = "select k from Kardex k where date(k.fecha) between :fechaInicio and :fechaFinal and k.producto.id = :productoId order by k.codigo asc")
+    @Query(value = "select k from Kardex k where date(k.fecha) between :fechaInicio and :fechaFinal and k.producto.id = :productoId order by k.codigo desc")
     List<Kardex> consultarPorFechaInicioYFechaFinalYProducto(Date fechaInicio, Date fechaFinal, long productoId);
 }

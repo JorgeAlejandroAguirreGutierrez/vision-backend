@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IEstadoCivilRepository extends JpaRepository<EstadoCivil, Long>, JpaSpecificationExecutor<EstadoCivil> {
-	@Query(value = "select ec from EstadoCivil ec order by ec.codigo asc")
+	@Query(value = "select ec from EstadoCivil ec order by ec.codigo desc")
 	List<EstadoCivil> consultar();
-	@Query(value = "select ec from EstadoCivil ec where ec.estado=:estado order by ec.codigo asc")
+	@Query(value = "select ec from EstadoCivil ec where ec.estado=:estado order by ec.codigo desc")
     List<EstadoCivil> consultarPorEstado(String estado);
-	@Query(value = "select ec from EstadoCivil ec where ec.codigo like '%'||:codigo||'%' and ec.descripcion like '%'||:descripcion||'%' and ec.abreviatura like '%'||:abreviatura||'%' order by ec.codigo asc")
+	@Query(value = "select ec from EstadoCivil ec where ec.codigo like '%'||:codigo||'%' and ec.descripcion like '%'||:descripcion||'%' and ec.abreviatura like '%'||:abreviatura||'%' order by ec.codigo desc")
 	List<EstadoCivil> buscar(String codigo, String descripcion, String abreviatura);
 }
