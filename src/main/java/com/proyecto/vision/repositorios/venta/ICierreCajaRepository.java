@@ -10,12 +10,12 @@ import java.util.List;
 
 @Repository
 public interface ICierreCajaRepository extends JpaRepository<CierreCaja, Long>, JpaSpecificationExecutor<CierreCaja> {
-    @Query(value = "select cc from CierreCaja cc order by cc.codigo asc")
+    @Query(value = "select cc from CierreCaja cc order by cc.codigo desc")
     List<CierreCaja> consultar();
-    @Query(value = "select cc from CierreCaja cc where cc.empresa.id=:empresaId order by cc.codigo asc")
+    @Query(value = "select cc from CierreCaja cc where cc.empresa.id=:empresaId order by cc.codigo desc")
     List<CierreCaja> consultarPorEmpresa(long empresaId);
-    @Query(value = "select cc from CierreCaja cc where cc.estado=:estado order by cc.codigo asc")
+    @Query(value = "select cc from CierreCaja cc where cc.estado=:estado order by cc.codigo desc")
     List<CierreCaja> consultarPorEstado(String estado);
-    @Query(value = "select cc from CierreCaja cc where cc.empresa.id=:empresaId and cc.estado=:estado order by cc.codigo asc")
+    @Query(value = "select cc from CierreCaja cc where cc.empresa.id=:empresaId and cc.estado=:estado order by cc.codigo desc")
     List<CierreCaja> consultarPorEmpresaYEstado(long empresaId, String estado);
 }

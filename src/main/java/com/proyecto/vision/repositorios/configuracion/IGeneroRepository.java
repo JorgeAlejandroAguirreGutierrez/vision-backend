@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IGeneroRepository extends JpaRepository<Genero, Long>, JpaSpecificationExecutor<Genero> {
 
-    @Query(value = "select g from Genero g order by g.codigo asc")
+    @Query(value = "select g from Genero g order by g.codigo desc")
     List<Genero> consultar();
-    @Query(value = "select g from Genero g where g.estado=:estado order by g.codigo asc")
+    @Query(value = "select g from Genero g where g.estado=:estado order by g.codigo desc")
     List<Genero> consultarPorEstado(String estado);
-	@Query(value = "select g from Genero g where g.codigo like '%'||:codigo||'%' and g.descripcion like '%'||:descripcion||'%' and g.abreviatura like '%'||:abreviatura||'%' order by g.codigo asc")
+	@Query(value = "select g from Genero g where g.codigo like '%'||:codigo||'%' and g.descripcion like '%'||:descripcion||'%' and g.abreviatura like '%'||:abreviatura||'%' order by g.codigo desc")
     List<Genero> buscar(String codigo, String descripcion, String abreviatura);
 }

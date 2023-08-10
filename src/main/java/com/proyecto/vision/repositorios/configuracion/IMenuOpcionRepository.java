@@ -13,18 +13,18 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface IMenuOpcionRepository extends JpaRepository<MenuOpcion, Long>, JpaSpecificationExecutor<MenuOpcion> {
-    @Query(value = "select m from MenuOpcion m order by m.codigo asc")
+    @Query(value = "select m from MenuOpcion m order by m.codigo desc")
     List<MenuOpcion> consultar();
-    @Query(value = "select m from MenuOpcion m where m.estado=:estado order by m.codigo asc")
+    @Query(value = "select m from MenuOpcion m where m.estado=:estado order by m.codigo desc")
     List<MenuOpcion> consultarPorEstado(String estado);
-    @Query(value = "select distinct m.modulo from MenuOpcion m where m.estado = :estado order by m.modulo asc")
+    @Query(value = "select distinct m.modulo from MenuOpcion m where m.estado = :estado order by m.modulo desc")
     List<String> consultarModulos(String estado);
-    @Query(value = "select m from MenuOpcion m where m.modulo = :modulo and m.menu = :menu and m.estado = :estado order by m.opcion asc")
+    @Query(value = "select m from MenuOpcion m where m.modulo = :modulo and m.menu = :menu and m.estado = :estado order by m.opcion desc")
     List<MenuOpcion> consultarPorModulo(String modulo, String menu, String estado);
-    @Query(value = "select m from MenuOpcion m where m.modulo = :modulo and m.menu = :menu and m.estado = :estado order by m.opcion asc")
+    @Query(value = "select m from MenuOpcion m where m.modulo = :modulo and m.menu = :menu and m.estado = :estado order by m.opcion desc")
     List<MenuOpcion> consultarOpciones(String modulo,String estado);
-    @Query(value = "select m from MenuOpcion m where m.operacion = :operacion and m.estado = :estado order by m.codigo asc")
+    @Query(value = "select m from MenuOpcion m where m.operacion = :operacion and m.estado = :estado order by m.codigo desc")
     Optional<MenuOpcion> findByOperacion(String operacion, String estado);
-    @Query(value = "select m from MenuOpcion m where m.tabla = :tabla and m.operacion = :operacion and m.estado = :estado order by m.codigo asc")
+    @Query(value = "select m from MenuOpcion m where m.tabla = :tabla and m.operacion = :operacion and m.estado = :estado order by m.codigo desc")
     Optional<MenuOpcion> findByTablaAndOperacion(String tabla, String operacion, String estado);
 }

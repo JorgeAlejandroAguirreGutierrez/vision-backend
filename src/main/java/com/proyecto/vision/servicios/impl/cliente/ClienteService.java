@@ -125,7 +125,7 @@ public class ClienteService implements IClienteService {
             if (identificacion.length() == 10 && Integer.parseInt((identificacion.substring(2,3))) != 6 && Integer.parseInt((identificacion.substring(2,3))) != 9) {
                 boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("05");
+                	tipoIdentificacion = repTipoIdentificacion.findByCodigoSri("05").get();
                 	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
@@ -136,7 +136,7 @@ public class ClienteService implements IClienteService {
                 }
                 throw new IdentificacionInvalidaException();
             } else if (identificacion.equals(Constantes.identificacion_consumidor_final)) {
-            	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("07");
+            	tipoIdentificacion = repTipoIdentificacion.findByCodigoSri("07").get();
             	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
                 Cliente cliente=new Cliente();
                 cliente.setIdentificacion(identificacion);
@@ -146,7 +146,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
                 boolean bandera = Util.verificarSociedadesPublicas(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
+                	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04").get();
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
@@ -160,7 +160,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 9) {
                 boolean bandera = Util.verificarSociedadesPrivadas(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
+                	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04").get();
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PRIVADA");
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
@@ -174,7 +174,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 13 && (Integer.parseInt(identificacion.substring(2,3)) != 6 || Integer.parseInt(identificacion.substring(2,3)) != 9)) {
                 boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
+                	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04").get();
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
@@ -188,7 +188,7 @@ public class ClienteService implements IClienteService {
             }else if (identificacion.length() == 13) {
                 boolean bandera = Util.verificarPersonaNatural(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04");
+                	tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("04").get();
                 	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PUBLICA");
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
@@ -202,7 +202,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 7) {
                 boolean bandera = Util.verificarPlaca(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("07");
+                    tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("07").get();
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
@@ -214,7 +214,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 6) {
                 boolean bandera = Util.verificarPlacaMoto(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("07");
+                    tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("07").get();
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
@@ -226,7 +226,7 @@ public class ClienteService implements IClienteService {
             else if (identificacion.length() >=8) {
                 boolean bandera = Util.verificarPasaporte(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("06");
+                    tipoIdentificacion= repTipoIdentificacion.findByCodigoSri("06").get();
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);

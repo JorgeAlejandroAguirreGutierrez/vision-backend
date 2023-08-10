@@ -11,13 +11,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IVehiculoRepository extends JpaRepository<Vehiculo, Long>, JpaSpecificationExecutor<Vehiculo> {
-    @Query(value = "select v from Vehiculo v order by v.codigo asc")
+    @Query(value = "select v from Vehiculo v order by v.codigo desc")
     List<Vehiculo> consultar();
-    @Query(value = "select v from Vehiculo v where v.empresa.id=:empresaId order by v.codigo asc")
+    @Query(value = "select v from Vehiculo v where v.empresa.id=:empresaId order by v.codigo desc")
     List<Vehiculo> consultarPorEmpresa(long empresaId);
-    @Query(value = "select v from Vehiculo v where v.estado=:estado order by v.codigo asc")
+    @Query(value = "select v from Vehiculo v where v.estado=:estado order by v.codigo desc")
     List<Vehiculo> consultarPorEstado(String estado);
-    @Query(value = "select v from Vehiculo v where v.empresa.id=:empresaId and v.estado=:estado order by v.codigo asc")
+    @Query(value = "select v from Vehiculo v where v.empresa.id=:empresaId and v.estado=:estado order by v.codigo desc")
     List<Vehiculo> consultarPorEmpresaYEstado(long empresaId, String estado);
 
 }

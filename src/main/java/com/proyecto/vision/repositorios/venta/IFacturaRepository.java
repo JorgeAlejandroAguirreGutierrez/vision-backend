@@ -12,23 +12,23 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IFacturaRepository extends JpaRepository<Factura, Long>, JpaSpecificationExecutor<Factura> {
-    @Query(value = "select f from Factura f order by f.codigo asc")
+    @Query(value = "select f from Factura f order by f.codigo desc")
     List<Factura> consultar();
-    @Query(value = "select f from Factura f where f.estado=:estado order by f.codigo asc")
+    @Query(value = "select f from Factura f where f.estado=:estado order by f.codigo desc")
     List<Factura> consultarPorEstado(String estado);
-    @Query(value = "select f from Factura f where f.empresa.id = :empresaId order by f.codigo asc")
+    @Query(value = "select f from Factura f where f.empresa.id = :empresaId order by f.codigo desc")
     List<Factura> consultarPorEmpresa(long empresaId);
-    @Query(value = "select f from Factura f where f.empresa.id = :empresaId and f.estado = :estado order by f.codigo asc")
+    @Query(value = "select f from Factura f where f.empresa.id = :empresaId and f.estado = :estado order by f.codigo desc")
     List<Factura> consultarPorEmpresaYEstado(long empresaId, String estado);
-    @Query(value = "select f from Factura f where f.cliente.id = :clienteId order by f.codigo asc")
+    @Query(value = "select f from Factura f where f.cliente.id = :clienteId order by f.codigo desc")
     List<Factura> consultarPorCliente(long clienteId);
-    @Query(value = "select f from Factura f where f.cliente.id = :clienteId and f.estado = :estado order by f.codigo asc")
+    @Query(value = "select f from Factura f where f.cliente.id = :clienteId and f.estado = :estado order by f.codigo desc")
     List<Factura> consultarPorClienteYEstado(long clienteId, String estado);
-    @Query(value = "select f from Factura f where f.empresa.id = :empresaId and f.cliente.id = :clienteId and f.estado = :estado order by f.codigo asc")
+    @Query(value = "select f from Factura f where f.empresa.id = :empresaId and f.cliente.id = :clienteId and f.estado = :estado order by f.codigo desc")
     List<Factura> consultarPorEmpresaYClienteYEstado(long empresaId, long clienteId, String estado);
-    @Query(value = "select f from Factura f where f.cliente.id = :clienteId and f.estado = :estado and f.estadoInterno = :estadoInterno and f.estadoSri = :estadoSri order by f.codigo asc")
+    @Query(value = "select f from Factura f where f.cliente.id = :clienteId and f.estado = :estado and f.estadoInterno = :estadoInterno and f.estadoSri = :estadoSri order by f.codigo desc")
     List<Factura> consultarPorClienteYEstadoYEstadoInternoYEstadoSri(long clienteId, String estado, String estadoInterno, String estadoSri);
-    @Query(value = "select f from Factura f where date(f.fecha) between :fechaInicio and :fechaFinal and f.empresa.id = :empresaId order by f.codigo asc")
+    @Query(value = "select f from Factura f where date(f.fecha) between :fechaInicio and :fechaFinal and f.empresa.id = :empresaId order by f.codigo desc")
     List<Factura> consultarPorFechaInicioYFechaFinal(Date fechaInicio, Date fechaFinal, long empresaId);
 
 }

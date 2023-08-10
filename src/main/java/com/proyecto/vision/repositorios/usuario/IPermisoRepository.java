@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface IPermisoRepository extends JpaRepository<Permiso, Long>, JpaSpecificationExecutor<Permiso> {
-    @Query(value = "select pr from Permiso pr order by pr.codigo asc")
+    @Query(value = "select pr from Permiso pr order by pr.codigo desc")
     List<Permiso> consultar();
-    @Query(value = "select pr from Permiso pr where pr.estado=:estado order by pr.codigo asc")
+    @Query(value = "select pr from Permiso pr where pr.estado=:estado order by pr.codigo desc")
     List<Permiso> consultarPorEstado(String estado);
-    @Query(value = "select pr from Permiso pr where pr.perfil.id=:perfilId order by pr.menuOpcion.id asc")
+    @Query(value = "select pr from Permiso pr where pr.perfil.id=:perfilId order by pr.menuOpcion.id desc")
     List<Permiso> consultarPorPerfil(long perfilId);
 }
