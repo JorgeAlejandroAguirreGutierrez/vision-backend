@@ -16,7 +16,7 @@ public interface INotaCreditoCompraRepository extends JpaRepository<NotaCreditoC
     List<NotaCreditoCompra> consultarPorEstado(String estado);
     @Query(value = "select ncc from NotaCreditoCompra ncc where ncc.empresa.id = :empresaId order by ncc.codigo desc")
     List<NotaCreditoCompra> consultarPorEmpresa(long empresaId);
-    @Query(value = "select ncc from NotaCreditoCompra ncc where ncc.empresa.id = :empresaId and ncc.estado = :estado order by ncc.codigo desc")
+    @Query(value = "select ncc from NotaCreditoCompra ncc where ncc.empresa.id = :empresaId and ncc.estado = :estado order by ncc.codigo asc")
     List<NotaCreditoCompra> consultarPorEmpresaYEstado(long empresaId, String estado);
     @Query(value = "select ncc from NotaCreditoCompra ncc where ncc.facturaCompra.id = :facturaCompraId and ncc.estadoInterno = :estadoInterno and ncc.estado = :estado order by ncc.codigo desc")
     List<NotaCreditoCompra> consultarPorFacturaCompraYEstadoInternoYEstado(long facturaCompraId, String estadoInterno, String estado);

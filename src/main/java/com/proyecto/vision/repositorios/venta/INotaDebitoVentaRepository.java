@@ -16,7 +16,7 @@ public interface INotaDebitoVentaRepository extends JpaRepository<NotaDebitoVent
     List<NotaDebitoVenta> consultarPorEstado(String estado);
     @Query(value = "select ndv from NotaDebitoVenta ndv where ndv.empresa.id = :empresaId order by ndv.codigo desc")
     List<NotaDebitoVenta> consultarPorEmpresa(long empresaId);
-    @Query(value = "select ndv from NotaDebitoVenta ndv where ndv.empresa.id = :empresaId and ndv.estado = :estado order by ndv.codigo desc")
+    @Query(value = "select ndv from NotaDebitoVenta ndv where ndv.empresa.id = :empresaId and ndv.estado = :estado order by ndv.codigo asc")
     List<NotaDebitoVenta> consultarPorEmpresaYEstado(long empresaId, String estado);
 
 }

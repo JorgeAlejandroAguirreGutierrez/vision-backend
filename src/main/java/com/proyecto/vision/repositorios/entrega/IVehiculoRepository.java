@@ -17,7 +17,7 @@ public interface IVehiculoRepository extends JpaRepository<Vehiculo, Long>, JpaS
     List<Vehiculo> consultarPorEmpresa(long empresaId);
     @Query(value = "select v from Vehiculo v where v.estado=:estado order by v.codigo desc")
     List<Vehiculo> consultarPorEstado(String estado);
-    @Query(value = "select v from Vehiculo v where v.empresa.id=:empresaId and v.estado=:estado order by v.codigo desc")
+    @Query(value = "select v from Vehiculo v where v.empresa.id=:empresaId and v.estado=:estado order by v.codigo asc")
     List<Vehiculo> consultarPorEmpresaYEstado(long empresaId, String estado);
 
 }

@@ -17,6 +17,6 @@ public interface IMovimientoContableRepository extends JpaRepository<MovimientoC
     List<MovimientoContable> consultarPorEstado(String estado);
     @Query(value = "select mc from MovimientoContable mc where mc.empresa.id = :empresaId order by mc.codigo desc")
     List<MovimientoContable> consultarPorEmpresa(long empresaId);
-    @Query(value = "select mc from MovimientoContable mc where mc.empresa.id = :empresaId and mc.estado = :estado order by mc.codigo desc")
+    @Query(value = "select mc from MovimientoContable mc where mc.empresa.id = :empresaId and mc.estado = :estado order by mc.codigo asc")
     List<MovimientoContable> consultarPorEmpresaYEstado(long empresaId, String estado);
 }

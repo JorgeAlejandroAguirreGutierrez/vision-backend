@@ -19,7 +19,7 @@ public interface IProveedorRepository extends JpaRepository<Proveedor, Long>, Jp
     List<Proveedor> consultarPorEstado(String estado);
     @Query(value = "select p from Proveedor p where p.empresa.id=:empresaId order by p.codigo desc")
     List<Proveedor> consultarPorEmpresa(long empresaId);
-    @Query(value = "select p from Proveedor p where p.empresa.id=:empresaId and p.estado = :estado order by p.codigo desc")
+    @Query(value = "select p from Proveedor p where p.empresa.id=:empresaId and p.estado = :estado order by p.codigo asc")
     List<Proveedor> consultarPorEmpresaYEstado(long empresaId, String estado);
     @Query(value = "select p from Proveedor p where p.empresa.id=:empresaId and p.identificacion=:identificacion and p.estado=:estado order by p.codigo desc")
     Optional<Proveedor> obtenerPorEmpresaYIdentificacion(long empresaId, String identificacion, String estado);

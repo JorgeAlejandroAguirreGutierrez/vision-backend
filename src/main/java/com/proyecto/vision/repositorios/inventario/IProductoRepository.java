@@ -19,7 +19,7 @@ public interface IProductoRepository extends JpaRepository<Producto, Long>, JpaS
     List<Producto> consultarPorEstado(String estado);
     @Query(value = "select p from Producto p where p.empresa.id=:empresaId order by p.codigo desc")
     List<Producto> consultarPorEmpresa(long empresaId);
-    @Query(value = "select p from Producto p where p.empresa.id=:empresaId and p.estado = :estado order by p.codigo desc")
+    @Query(value = "select p from Producto p where p.empresa.id=:empresaId and p.estado = :estado order by p.codigo asc")
     List<Producto> consultarPorEmpresaYEstado(long empresaId, String estado);
     @Query(value = "select p from Producto p where p.proveedor.id = :proveedorId and p.estado = :estado order by p.codigo desc")
     List<Producto> consultarPorProveedor(long proveedorId, String estado);

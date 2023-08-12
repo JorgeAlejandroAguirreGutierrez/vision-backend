@@ -16,6 +16,6 @@ public interface INotaDebitoCompraRepository extends JpaRepository<NotaDebitoCom
     List<NotaDebitoCompra> consultarPorEstado(String estado);
     @Query(value = "select ndc from NotaDebitoCompra ndc where ndc.empresa.id = :empresaId order by ndc.codigo desc")
     List<NotaDebitoCompra> consultarPorEmpresa(long empresaId);
-    @Query(value = "select ndc from NotaDebitoCompra ndc where ndc.empresa.id = :empresaId and ndc.estado = :estado order by ndc.codigo desc")
+    @Query(value = "select ndc from NotaDebitoCompra ndc where ndc.empresa.id = :empresaId and ndc.estado = :estado order by ndc.codigo asc")
     List<NotaDebitoCompra> consultarPorEmpresaYEstado(long empresaId, String estado);
 }
