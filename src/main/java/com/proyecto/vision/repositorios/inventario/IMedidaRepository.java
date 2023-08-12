@@ -17,6 +17,6 @@ public interface IMedidaRepository extends JpaRepository<Medida, Long>, JpaSpeci
     List<Medida> consultarPorEstado(String estado);
     @Query(value = "select m from Medida m where m.empresa.id = :empresaId order by m.codigo desc")
     List<Medida> consultarPorEmpresa(long empresaId);
-    @Query(value = "select m from Medida m where m.empresa.id = :empresaId and m.estado=:estado order by m.codigo desc")
+    @Query(value = "select m from Medida m where m.empresa.id = :empresaId and m.estado=:estado order by m.codigo asc")
     List<Medida> consultarPorEmpresaYEstado(long empresaId, String estado);
 }

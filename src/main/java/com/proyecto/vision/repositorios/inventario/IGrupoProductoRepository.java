@@ -19,7 +19,7 @@ public interface IGrupoProductoRepository extends JpaRepository<GrupoProducto, L
     List<GrupoProducto> consultarPorEstado(String estado);
     @Query(value = "select gp from GrupoProducto gp where gp.empresa.id = :empresaId order by gp.codigo desc")
     List<GrupoProducto> consultarPorEmpresa(long empresaId);
-    @Query(value = "select gp from GrupoProducto gp where gp.empresa.id =:empresaId and gp.estado=:estado order by gp.codigo desc")
+    @Query(value = "select gp from GrupoProducto gp where gp.empresa.id =:empresaId and gp.estado=:estado order by gp.codigo asc")
     List<GrupoProducto> consultarPorEmpresaYEstado(long empresaId, String estado);
 	@Query(value = "select distinct gp.grupo from grupo_producto gp where gp.empresa_id=:empresaId and gp.estado=:estado", nativeQuery = true)
     List<String> findGrupos(long empresaId, String estado);

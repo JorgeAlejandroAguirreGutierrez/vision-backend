@@ -17,6 +17,6 @@ public interface IPlazoCreditoRepository extends JpaRepository<PlazoCredito, Lon
     List<PlazoCredito> consultarPorEmpresa(long empresaId);
     @Query(value = "select pc from PlazoCredito pc where pc.estado=:estado order by pc.codigo desc")
     List<PlazoCredito> consultarPorEstado(String estado);
-    @Query(value = "select pc from PlazoCredito pc where pc.empresa.id = :empresaId and pc.estado = :estado order by pc.codigo desc")
+    @Query(value = "select pc from PlazoCredito pc where pc.empresa.id = :empresaId and pc.estado = :estado order by pc.codigo asc")
     List<PlazoCredito> consultarPorEmpresaYEstado(long empresaId, String estado);
 }

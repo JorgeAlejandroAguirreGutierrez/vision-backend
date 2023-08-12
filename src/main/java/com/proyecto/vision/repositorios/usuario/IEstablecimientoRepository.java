@@ -19,6 +19,6 @@ public interface IEstablecimientoRepository extends JpaRepository<Establecimient
     List<Establecimiento> consultarPorEstado(String estado);
 	@Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId order by e.codigo desc")
     List<Establecimiento> consultarPorEmpresa(long empresaId);
-    @Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId and e.estado=:estado order by e.codigo desc")
+    @Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId and e.estado=:estado order by e.codigo asc")
     List<Establecimiento> consultarPorEmpresaYEstado(long empresaId, String estado);
 }
