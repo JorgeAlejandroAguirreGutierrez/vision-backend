@@ -389,10 +389,8 @@ public class FacturaService implements IFacturaService {
         return facturaLinea;
     }
 
-    /*
-     * CALCULOS TOTALES FACTURA DE VENTA
-     */
     public Factura calcular(Factura factura) {
+        this.validar(factura);
         this.calcularSubtotalSinDescuento(factura);
         this.calcularDescuentoTotalSinPorcentajeDescuentoTotal(factura);
         this.calcularTotales(factura);
@@ -403,6 +401,9 @@ public class FacturaService implements IFacturaService {
         return factura;
     }
 
+    /*
+     * CALCULOS TOTALES FACTURA DE VENTA
+     */
     private void calcularSubtotalSinDescuento(Factura factura) {
     	double subtotalSinDescuento = Constantes.cero;
         for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
