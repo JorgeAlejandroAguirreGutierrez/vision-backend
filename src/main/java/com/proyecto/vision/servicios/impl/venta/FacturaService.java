@@ -47,8 +47,6 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public void validar(Factura factura) {
-        Cliente consumidorFinal = clienteService.obtenerPorIdentificacionYEmpresaYEstado(Constantes.identificacion_consumidor_final, factura.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
-        if(factura.getCliente().getId() == consumidorFinal.getId() && factura.getValorTotal() > Constantes.ciencuenta) throw new DatoInvalidoException(Constantes.consumidor_final);
         if(factura.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
         if(factura.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
@@ -57,9 +55,12 @@ public class FacturaService implements IFacturaService {
         if(factura.getCliente().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cliente);
         if(factura.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(factura.getFacturaLineas().isEmpty()) throw new DatoInvalidoException(Constantes.factura_detalle);
-
+        Cliente consumidorFinal = clienteService.obtenerPorIdentificacionYEmpresaYEstado(Constantes.identificacion_consumidor_final, factura.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
+        double valorTotal = Constantes.cero;
         for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
             validarLinea(facturaLinea);
+            valorTotal += facturaLinea.getTotalLinea();
+            if(factura.getCliente().getId() == consumidorFinal.getId() && valorTotal > Constantes.ciencuenta) throw new DatoInvalidoException(Constantes.consumidor_final);
         }
 
         for(Cheque cheque : factura.getCheques()){
