@@ -4,8 +4,6 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.cliente.*;
-import com.proyecto.vision.modelos.compra.FacturaCompra;
-import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
 import com.proyecto.vision.modelos.venta.Factura;
@@ -366,23 +364,19 @@ public class FacturaService implements IFacturaService {
     public FacturaLinea calcularLinea(FacturaLinea facturaLinea) {
         validarLinea(facturaLinea);
 
-        double subtotalSinDescuentoLinea = facturaLinea.getCantidad() * facturaLinea.getPrecioUnitario();
-        subtotalSinDescuentoLinea = Math.round(subtotalSinDescuentoLinea * 10000.0) / 10000.0;
-        facturaLinea.setSubtotalSinDescuentoLinea(subtotalSinDescuentoLinea);
-
-        double valorPorcentajeDescuentoLinea = (subtotalSinDescuentoLinea * facturaLinea.getPorcentajeDescuentoLinea() / 100);
+        double valorPorcentajeDescuentoLinea = (facturaLinea.getPrecioUnitario() * facturaLinea.getPorcentajeDescuentoLinea() / 100);
         valorPorcentajeDescuentoLinea = Math.round(valorPorcentajeDescuentoLinea * 10000.0) / 10000.0;
         facturaLinea.setValorPorcentajeDescuentoLinea(valorPorcentajeDescuentoLinea);
 
-        double subtotalConDescuentoLinea = subtotalSinDescuentoLinea - facturaLinea.getValorDescuentoLinea() - valorPorcentajeDescuentoLinea;
-        subtotalConDescuentoLinea = Math.round(subtotalConDescuentoLinea * 10000.0) / 10000.0;
-        facturaLinea.setSubtotalConDescuentoLinea(subtotalConDescuentoLinea);
+        double subtotalLinea = (facturaLinea.getPrecioUnitario() - facturaLinea.getValorDescuentoLinea() - valorPorcentajeDescuentoLinea) * facturaLinea.getCantidad();
+        subtotalLinea = Math.round(subtotalLinea * 10000.0) / 10000.0;
+        facturaLinea.setSubtotalLinea(subtotalLinea);
 
-        double valorIvaLinea = (subtotalConDescuentoLinea * (facturaLinea.getImpuesto().getPorcentaje() / 100));
+        double valorIvaLinea = (subtotalLinea * (facturaLinea.getImpuesto().getPorcentaje() / 100));
         valorIvaLinea = Math.round(valorIvaLinea * 100.0) / 100.0;
         facturaLinea.setImporteIvaLinea(valorIvaLinea);
 
-        double totalLinea = subtotalConDescuentoLinea + valorIvaLinea;
+        double totalLinea = subtotalLinea + valorIvaLinea;
         totalLinea = Math.round(totalLinea * 100.0) / 100.0;
         facturaLinea.setTotalLinea(totalLinea);
 
@@ -391,54 +385,33 @@ public class FacturaService implements IFacturaService {
 
     public Factura calcular(Factura factura) {
         this.validar(factura);
-        this.calcularSubtotalSinDescuento(factura);
-        this.calcularDescuentoTotalSinPorcentajeDescuentoTotal(factura);
-        this.calcularTotales(factura);
-        if (factura.getPorcentajeDescuentoTotal() != Constantes.cero) {
-            this.calcularDescuentoTotalConPorcentajeDescuentoTotal(factura);
-            this.calcularTotales(factura);
+        for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
+            calcularLinea(facturaLinea);
         }
+        this.calcularSubtotal(factura);
+        this.calcularDescuento(factura);
+        this.calcularTotales(factura);
         return factura;
     }
 
     /*
      * CALCULOS TOTALES FACTURA DE VENTA
      */
-    private void calcularSubtotalSinDescuento(Factura factura) {
-    	double subtotalSinDescuento = Constantes.cero;
+    private void calcularSubtotal(Factura factura) {
+    	double subtotal = Constantes.cero;
         for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
-          subtotalSinDescuento+= facturaLinea.getSubtotalSinDescuentoLinea();
+          subtotal += facturaLinea.getSubtotalLinea();
         }
-        subtotalSinDescuento = Math.round(subtotalSinDescuento * 10000.0) / 10000.0;
-        factura.setSubtotalSinDescuento(subtotalSinDescuento);
+        subtotal = Math.round(subtotal * 10000.0) / 10000.0;
+        factura.setSubtotal(subtotal);
     }
 
-    private void calcularDescuentoTotalSinPorcentajeDescuentoTotal(Factura factura) {
-        double valorTotalDescuentoLinea = Constantes.cero;
-        double valorTotalDescuentoTotalLinea = Constantes.cero;
+    private void calcularDescuento(Factura factura) {
+        double descuentoTotal = Constantes.cero;
+
         for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
-            valorTotalDescuentoLinea += facturaLinea.getValorDescuentoLinea() + facturaLinea.getValorPorcentajeDescuentoLinea();
-
-            double ponderacion = facturaLinea.getSubtotalSinDescuentoLinea() / factura.getSubtotalSinDescuento();
-            double valorDescuentoTotalLinea = (factura.getValorDescuentoTotal() * ponderacion) * 100 / (100 + facturaLinea.getImpuesto().getPorcentaje());
-            valorDescuentoTotalLinea = Math.round(valorDescuentoTotalLinea * 10000.0) / 10000.0;
-            facturaLinea.setValorDescuentoTotalLinea(valorDescuentoTotalLinea);
-            valorTotalDescuentoTotalLinea += valorDescuentoTotalLinea;
-
-            double subtotalConDescuentoLinea = facturaLinea.getSubtotalSinDescuentoLinea() - facturaLinea.getValorDescuentoLinea() -
-                    facturaLinea.getValorPorcentajeDescuentoLinea() - valorDescuentoTotalLinea;
-            subtotalConDescuentoLinea = Math.round(subtotalConDescuentoLinea * 10000.0) / 10000.0;
-            facturaLinea.setSubtotalConDescuentoLinea(subtotalConDescuentoLinea);
-
-            double valorIvaLinea = (subtotalConDescuentoLinea * (facturaLinea.getImpuesto().getPorcentaje() / 100));
-            valorIvaLinea = Math.round(valorIvaLinea * 100.0) / 100.0;
-            facturaLinea.setImporteIvaLinea(valorIvaLinea);
-
-            double totalLinea = subtotalConDescuentoLinea + valorIvaLinea;
-            totalLinea = Math.round(totalLinea * 100.0) / 100.0;
-            facturaLinea.setTotalLinea(totalLinea);
+            descuentoTotal += facturaLinea.getValorDescuentoLinea() + facturaLinea.getPorcentajeDescuentoLinea();
         }
-        double descuentoTotal = valorTotalDescuentoLinea + valorTotalDescuentoTotalLinea;
         descuentoTotal = Math.round(descuentoTotal * 100.0) / 100.0;
         factura.setDescuentoTotal(descuentoTotal);
     }
@@ -447,11 +420,12 @@ public class FacturaService implements IFacturaService {
         double subtotalGravadoConDescuento = Constantes.cero;
         double subtotalNoGravadoConDescuento = Constantes.cero;
         double importeIvaTotal = Constantes.cero;
+        double valorTotal = Constantes.cero;
         for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
             if (facturaLinea.getImpuesto().getPorcentaje() != Constantes.cero) {
-                subtotalGravadoConDescuento += facturaLinea.getSubtotalConDescuentoLinea();
+                subtotalGravadoConDescuento += facturaLinea.getSubtotalLinea();
             } else {
-                subtotalNoGravadoConDescuento += facturaLinea.getSubtotalConDescuentoLinea();
+                subtotalNoGravadoConDescuento += facturaLinea.getSubtotalLinea();
             }
             importeIvaTotal += facturaLinea.getImporteIvaLinea();
         }
@@ -464,46 +438,11 @@ public class FacturaService implements IFacturaService {
         importeIvaTotal = Math.round(importeIvaTotal * 100.0) / 100.0;
         factura.setImporteIvaTotal(importeIvaTotal);
 
-        double valorTotal = subtotalGravadoConDescuento + subtotalNoGravadoConDescuento + importeIvaTotal;
+        valorTotal = subtotalGravadoConDescuento + subtotalNoGravadoConDescuento + importeIvaTotal;
         valorTotal = Math.round(valorTotal * 100.0) / 100.0;
         factura.setValorTotal(valorTotal);
     }
 
-    private void calcularDescuentoTotalConPorcentajeDescuentoTotal(Factura factura) {
-        double valorTotalDescuentoLinea = Constantes.cero;
-        double valorTotalDescuentoTotalLinea = Constantes.cero;
-        double valorTotalPorcentajeDescuentoTotalLinea = Constantes.cero;
-        double valorTotalPorcentajeDescuentoTotal = (factura.getValorTotal() * (factura.getPorcentajeDescuentoTotal() / 100));
-        valorTotalPorcentajeDescuentoTotal = Math.round(valorTotalPorcentajeDescuentoTotal * 10000.0) / 10000.0;
-        factura.setValorPorcentajeDescuentoTotal(valorTotalPorcentajeDescuentoTotal);
-
-        for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
-            valorTotalDescuentoLinea += facturaLinea.getValorDescuentoLinea() + facturaLinea.getValorPorcentajeDescuentoLinea();
-            valorTotalDescuentoTotalLinea += facturaLinea.getValorDescuentoTotalLinea();
-
-            double ponderacion = facturaLinea.getSubtotalSinDescuentoLinea() / factura.getSubtotalSinDescuento();
-            double valorPorcentajeDescuentoTotalLinea = (valorTotalPorcentajeDescuentoTotal * ponderacion) * 100 / (100 + facturaLinea.getImpuesto().getPorcentaje());
-            valorPorcentajeDescuentoTotalLinea = Math.round(valorPorcentajeDescuentoTotalLinea * 10000.0) / 10000.0;
-            facturaLinea.setValorPorcentajeDescuentoTotalLinea(valorPorcentajeDescuentoTotalLinea);
-            valorTotalPorcentajeDescuentoTotalLinea += valorPorcentajeDescuentoTotalLinea;
-
-            double subtotalConDescuentoLinea = facturaLinea.getSubtotalSinDescuentoLinea() - facturaLinea.getValorDescuentoLinea() - facturaLinea.getValorPorcentajeDescuentoLinea() -
-                    facturaLinea.getValorDescuentoTotalLinea() - valorPorcentajeDescuentoTotalLinea;
-            subtotalConDescuentoLinea = Math.round(subtotalConDescuentoLinea * 10000.0) / 10000.0;
-            facturaLinea.setSubtotalConDescuentoLinea(subtotalConDescuentoLinea);
-
-            double valorIvaLinea = (subtotalConDescuentoLinea * facturaLinea.getImpuesto().getPorcentaje() / 100);
-            valorIvaLinea = Math.round(valorIvaLinea * 100.0) / 100.0;
-            facturaLinea.setImporteIvaLinea(valorIvaLinea);
-
-            double totalLinea = subtotalConDescuentoLinea + valorIvaLinea;
-            totalLinea = Math.round(totalLinea * 100.0) / 100.0;
-            facturaLinea.setTotalLinea(totalLinea);
-        }
-        double descuentoTotal = valorTotalDescuentoLinea + valorTotalDescuentoTotalLinea + valorTotalPorcentajeDescuentoTotalLinea;
-        descuentoTotal = Math.round(descuentoTotal * 100.0) / 100.0;
-        factura.setDescuentoTotal(descuentoTotal);
-    }
     /*
      * FIN CALCULOS TOTALES FACTURA VENTA
      */

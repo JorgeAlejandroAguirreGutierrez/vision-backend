@@ -250,7 +250,7 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
             notaCreditoVentaLinea.setBodega(facturaLinea.getBodega());
             notaCreditoVentaLinea.setCantidadVenta(facturaLinea.getCantidad());
 
-            double costoUnitarioCompra = facturaLinea.getSubtotalConDescuentoLinea() / facturaLinea.getCantidad();
+            double costoUnitarioCompra = facturaLinea.getSubtotalLinea() / facturaLinea.getCantidad();
             costoUnitarioCompra = Math.round(costoUnitarioCompra * 100.0) / 100.0;
             notaCreditoVentaLinea.setCostoUnitarioVenta(costoUnitarioCompra);
             notaCreditoVentaLinea.setCostoUnitario(costoUnitarioCompra);

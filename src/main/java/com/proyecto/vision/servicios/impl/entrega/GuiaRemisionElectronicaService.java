@@ -401,7 +401,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
                 tablaFacturaDetalle.addCell(facturaLinea.getProducto().getNombre());
                 tablaFacturaDetalle.addCell("$" + facturaLinea.getPrecio().getPrecioVentaPublicoManual());
                 tablaFacturaDetalle.addCell("$" + facturaLinea.getValorDescuentoLinea());
-                tablaFacturaDetalle.addCell("$" + facturaLinea.getSubtotalConDescuentoLinea());
+                tablaFacturaDetalle.addCell("$" + facturaLinea.getSubtotalLinea());
             }
             documento.add(tablaFacturaDetalle);
             documento.add( new Paragraph("\n"));
