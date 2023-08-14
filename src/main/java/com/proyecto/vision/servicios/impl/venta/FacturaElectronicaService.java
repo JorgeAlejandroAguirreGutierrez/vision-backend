@@ -115,7 +115,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
     	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
     	infoFactura.setDireccionComprador(factura.getCliente().getDireccion());
-    	infoFactura.setTotalSinImpuestos(Math.round(factura.getSubtotalSinDescuento() * 100.0)/100.0);
+    	infoFactura.setTotalSinImpuestos(Math.round(factura.getSubtotal() * 100.0)/100.0);
     	infoFactura.setTotalDescuento(factura.getDescuentoTotal());
     	infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
     	infoFactura.setPropina(Constantes.cero);
@@ -141,8 +141,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
         	TotalImpuesto totalImpuesto = new TotalImpuesto();
     		totalImpuesto.setCodigo(Constantes.iva_sri);
         	totalImpuesto.setCodigoPorcentaje(factura.getFacturaLineas().get(i).getImpuesto().getCodigoSRI());
-        	totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getValorDescuentoTotalLinea());
-        	totalImpuesto.setBaseImponible(Math.round(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea()*100.0)/100.0);
+        	totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
+        	totalImpuesto.setBaseImponible(Math.round(factura.getFacturaLineas().get(i).getSubtotalLinea()*100.0)/100.0);
         	totalImpuesto.setValor(factura.getFacturaLineas().get(i).getImporteIvaLinea());
         	totalImpuestos.add(totalImpuesto);
     	}
@@ -207,7 +207,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     }
     
     private Detalles crearDetalles(Factura factura) {
-    	Detalles detalles=new Detalles();
+    	Detalles detalles = new Detalles();
     	List<Detalle> detalleLista = new ArrayList<>();
     	for(int i = 0; i<factura.getFacturaLineas().size(); i++) {
     		Detalle detalle = new Detalle();
@@ -215,8 +215,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     		detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
     		detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
     		detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
-    		detalle.setDescuento(Math.round(factura.getFacturaLineas().get(i).getValorDescuentoTotalLinea()*100.0)/100.0);
-    		detalle.setPrecioTotalSinImpuesto(Math.round(factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea()*100.0)/100.0);
+    		detalle.setDescuento(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
+    		detalle.setPrecioTotalSinImpuesto(factura.getFacturaLineas().get(i).getSubtotalLinea());
     		detalle.setImpuestos(crearImpuestos(factura.getFacturaLineas().get(i)));
     		detalleLista.add(detalle);
     	}
@@ -231,7 +231,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	impuesto.setCodigo(Constantes.iva_sri);
     	impuesto.setCodigoPorcentaje(facturaLinea.getImpuesto().getCodigoSRI());
     	impuesto.setTarifa(facturaLinea.getImpuesto().getPorcentaje());
-    	impuesto.setBaseImponible(Math.round(facturaLinea.getSubtotalConDescuentoLinea()*100.0)/100.0);
+    	impuesto.setBaseImponible(facturaLinea.getSubtotalLinea());
     	impuesto.setValor(facturaLinea.getImporteIvaLinea());
     	impuestoLista.add(impuesto);
     	impuestos.setImpuesto(impuestoLista);
@@ -508,7 +508,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             {
 				String precioUnitario = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecioUnitario());
 				String valorDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getValorDescuentoLinea());
-				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
+				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getCodigo()));
                 tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
@@ -519,7 +519,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             }
 			documento.add(tablaFacturaDetalle);
 			documento.add( new Paragraph("\n"));
-			String subtotal = String.format("%.2f", factura.getSubtotalSinDescuento());
+			String subtotal = String.format("%.2f", factura.getSubtotal());
 			String descuento = String.format("%.2f", factura.getDescuentoTotal());
 			String subtotalGravadoConDescuento = String.format("%.2f", factura.getSubtotalGravadoConDescuento());
 			String subtotalNoGravadoConDescuento = String.format("%.2f", factura.getSubtotalNoGravadoConDescuento());
@@ -829,7 +829,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			for (int i = 0; i <factura.getFacturaLineas().size(); i++)
 			{
 				String precioUnitario = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecioUnitario());
-				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalConDescuentoLinea());
+				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getProducto().getNombre()));
