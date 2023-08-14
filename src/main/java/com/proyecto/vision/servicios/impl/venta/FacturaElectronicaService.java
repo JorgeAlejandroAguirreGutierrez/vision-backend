@@ -231,7 +231,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	impuesto.setCodigo(Constantes.iva_sri);
     	impuesto.setCodigoPorcentaje(facturaLinea.getImpuesto().getCodigoSRI());
     	impuesto.setTarifa(facturaLinea.getImpuesto().getPorcentaje());
-    	impuesto.setBaseImponible(facturaLinea.getSubtotalLinea());
+    	impuesto.setBaseImponible(Math.round(facturaLinea.getSubtotalLinea()*100.0)/100.0);
     	impuesto.setValor(facturaLinea.getImporteIvaLinea());
     	impuestoLista.add(impuesto);
     	impuestos.setImpuesto(impuestoLista);
