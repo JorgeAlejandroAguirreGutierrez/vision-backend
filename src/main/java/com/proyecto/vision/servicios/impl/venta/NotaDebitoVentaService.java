@@ -97,27 +97,6 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         }
     }
 
-    private void facturar(NotaDebitoVenta notaDebitoVenta) {
-        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito_compra);
-        TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.dev_venta, Constantes.estadoActivo);
-        kardexService.eliminar(tipoComprobante.getId(), tipoOperacion.getId(), notaDebitoVenta.getSecuencial());
-        for(NotaDebitoVentaLinea notaDebitoVentaLinea : notaDebitoVenta.getNotaDebitoVentaLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaDebitoVentaLinea.getProducto().getId(), notaDebitoVentaLinea.getBodega().getId());
-            if(ultimoKardex == null){
-                throw new DatoInvalidoException(Constantes.kardex);
-            }
-            if(ultimoKardex.getSaldo() < notaDebitoVentaLinea.getCantidad()){
-                throw new DatoInvalidoException(Constantes.kardex);
-            }
-            double saldo = ultimoKardex.getSaldo() - notaDebitoVentaLinea.getCantidad();
-            Kardex kardex = new Kardex(null, notaDebitoVenta.getFecha(), notaDebitoVenta.getSecuencial(), Constantes.cero, notaDebitoVentaLinea.getCantidad(),
-                    saldo, Constantes.cero, notaDebitoVentaLinea.getTotalLinea(),
-                    notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual(), notaDebitoVentaLinea.getTotalLinea(),
-                    tipoComprobante, tipoOperacion, notaDebitoVentaLinea.getBodega(), notaDebitoVentaLinea.getProducto());
-            kardexService.crear(kardex);
-        }
-    }
-
     private Optional<String> crearClaveAcceso(NotaDebitoVenta notaDebitoVenta) {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         String fechaEmision = dateFormat.format(notaDebitoVenta.getFecha());
@@ -179,7 +158,6 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         notaDebitoVenta.setEstadoInterno(Constantes.estadoInternoEmitida);
         notaDebitoVenta.setEstado(Constantes.estadoActivo);
         calcular(notaDebitoVenta);
-        facturar(notaDebitoVenta);
         calcularRecaudacion(notaDebitoVenta);
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
@@ -192,7 +170,6 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
     public NotaDebitoVenta actualizar(NotaDebitoVenta notaDebitoVenta) {
         validar(notaDebitoVenta);
         calcular(notaDebitoVenta);
-        facturar(notaDebitoVenta);
         calcularRecaudacion(notaDebitoVenta);
         NotaDebitoVenta res = rep.save(notaDebitoVenta);
         res.normalizar();
