@@ -86,9 +86,9 @@ public class ReporteCajaService {
             } else {
                 facturasEmitidas++;
             }
-            total12 = total12 + factura.getSubtotalGravadoConDescuento();
-            total0 = total0 + factura.getSubtotalNoGravadoConDescuento();
-            totalIva = totalIva + factura.getImporteIvaTotal();
+            total12 = total12 + factura.getSubtotalGravado();
+            total0 = total0 + factura.getSubtotalNoGravado();
+            totalIva = totalIva + factura.getImporteIva();
 
             totalEfectivo = totalEfectivo + factura.getEfectivo();
             for (Cheque cheque : factura.getCheques()) {

@@ -111,8 +111,8 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
             }
             double saldo = ultimoKardex.getSaldo() - notaDebitoVentaLinea.getCantidad();
             Kardex kardex = new Kardex(null, notaDebitoVenta.getFecha(), notaDebitoVenta.getSecuencial(), Constantes.cero, notaDebitoVentaLinea.getCantidad(),
-                    saldo, Constantes.cero, notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
-                    notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual(), notaDebitoVentaLinea.getTotalSinDescuentoLinea(),
+                    saldo, Constantes.cero, notaDebitoVentaLinea.getTotalLinea(),
+                    notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual(), notaDebitoVentaLinea.getTotalLinea(),
                     tipoComprobante, tipoOperacion, notaDebitoVentaLinea.getBodega(), notaDebitoVentaLinea.getProducto());
             kardexService.crear(kardex);
         }
@@ -289,17 +289,17 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         notaDebitoVenta.setTotalTransferencias(totalTransferencias);
         notaDebitoVenta.setTotalTarjetasDebitos(totalTarjetasDebitos);
         notaDebitoVenta.setTotalTarjetasCreditos(totalTarjetasCreditos);
-        if(total >= notaDebitoVenta.getTotalConDescuento()){
-            double cambio = total - notaDebitoVenta.getTotalConDescuento();
+        if(total >= notaDebitoVenta.getTotal()){
+            double cambio = total - notaDebitoVenta.getTotal();
             cambio = Math.round(cambio*100.0)/100.0;
             notaDebitoVenta.setCambio(cambio);
         } else {
             notaDebitoVenta.setCambio(Constantes.cero);
         }
-        if(total >= notaDebitoVenta.getTotalConDescuento()){
-            total = notaDebitoVenta.getTotalConDescuento();
+        if(total >= notaDebitoVenta.getTotal()){
+            total = notaDebitoVenta.getTotal();
         }
-        double porPagar = notaDebitoVenta.getTotalConDescuento() - total;
+        double porPagar = notaDebitoVenta.getTotal() - total;
         porPagar = Math.round(porPagar*100.0)/100.0;
         if(porPagar < 0) {
             porPagar = 0;
@@ -309,118 +309,97 @@ public class NotaDebitoVentaService implements INotaDebitoVentaService {
         return notaDebitoVenta;
     }
 
-    @Override
-    public NotaDebitoVenta calcular(NotaDebitoVenta notaDebitoVenta) {
-        this.calcularTotalSinDescuentoLinea(notaDebitoVenta);
-        this.calcularIvaSinDescuentoLinea(notaDebitoVenta);
-        this.calcularSubtotalSinDescuento(notaDebitoVenta);
-        this.calcularSubtotalBase12SinDescuento(notaDebitoVenta);
-        this.calcularSubtotalBase0SinDescuento(notaDebitoVenta);
-        this.calcularIvaSinDescuento(notaDebitoVenta);
-        this.calcularDescuentoTotal(notaDebitoVenta);
-        this.calcularTotalSinDescuento(notaDebitoVenta);
-        this.calcularTotalConDescuento(notaDebitoVenta);
-        return notaDebitoVenta;
-    }
     /*
      * CALCULOS CON NOTA DEBITO VENTA LINEA
      */
     @Override
     public NotaDebitoVentaLinea calcularLinea(NotaDebitoVentaLinea notaDebitoVentaLinea) {
         validarLinea(notaDebitoVentaLinea);
-        double impuesto = notaDebitoVentaLinea.getCantidad() * notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual() * notaDebitoVentaLinea.getImpuesto().getPorcentaje() / 100;
-        double totalSinDescuentoLinea = notaDebitoVentaLinea.getCantidad() * notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual() + impuesto;
-        totalSinDescuentoLinea = Math.round(totalSinDescuentoLinea*100.0)/100.0;
-        notaDebitoVentaLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
+
+        double valorPorcentajeDescuentoLinea = (notaDebitoVentaLinea.getPrecioUnitario() * notaDebitoVentaLinea.getPorcentajeDescuentoLinea() / 100);
+        valorPorcentajeDescuentoLinea = Math.round(valorPorcentajeDescuentoLinea * 10000.0) / 10000.0;
+        notaDebitoVentaLinea.setValorPorcentajeDescuentoLinea(valorPorcentajeDescuentoLinea);
+
+        double subtotalLinea = (notaDebitoVentaLinea.getPrecioUnitario() - notaDebitoVentaLinea.getValorDescuentoLinea() - valorPorcentajeDescuentoLinea) * notaDebitoVentaLinea.getCantidad();
+        subtotalLinea = Math.round(subtotalLinea * 10000.0) / 10000.0;
+        notaDebitoVentaLinea.setSubtotalLinea(subtotalLinea);
+
+        double valorIvaLinea = (subtotalLinea * (notaDebitoVentaLinea.getImpuesto().getPorcentaje() / 100));
+        valorIvaLinea = Math.round(valorIvaLinea * 100.0) / 100.0;
+        notaDebitoVentaLinea.setImporteIvaLinea(valorIvaLinea);
+
+        double totalLinea = subtotalLinea + valorIvaLinea;
+        totalLinea = Math.round(totalLinea * 100.0) / 100.0;
+        notaDebitoVentaLinea.setTotalLinea(totalLinea);
+
         return notaDebitoVentaLinea;
-    }
-    private void calcularTotalSinDescuentoLinea(NotaDebitoVenta notaDebitoVenta) {
-        for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
-            validarLinea(notaDebitoVentaLinea);
-            double totalSinDescuentoLinea = (notaDebitoVentaLinea.getCantidad()) * notaDebitoVentaLinea.getPrecio().getPrecioVentaPublicoManual();
-            totalSinDescuentoLinea=Math.round(totalSinDescuentoLinea*100.0)/100.0;
-            notaDebitoVentaLinea.setTotalSinDescuentoLinea(totalSinDescuentoLinea);
-        }
-    }
-    private void calcularIvaSinDescuentoLinea(NotaDebitoVenta notaDebitoVenta) {
-        for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
-            validarLinea(notaDebitoVentaLinea);
-            double ivaSinDescuentoLinea = notaDebitoVentaLinea.getTotalSinDescuentoLinea() * notaDebitoVentaLinea.getImpuesto().getPorcentaje() / 100;
-            ivaSinDescuentoLinea = Math.round(ivaSinDescuentoLinea*100.0)/100.0;
-            notaDebitoVentaLinea.setIvaSinDescuentoLinea(ivaSinDescuentoLinea);
-        }
     }
     /*
      * FIN CALCULO CON NOTA DEBITO VENTA LINEA
      */
 
-    /*
-     * CALCULAR DESCUENTOS
-     */
-    private void calcularDescuentoTotal(NotaDebitoVenta notaDebitoVenta) {
-        double totalDescuento = Constantes.cero;
-        for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
-            double valorDescuentoPorcentajeLinea = (notaDebitoVentaLinea.getTotalSinDescuentoLinea() * notaDebitoVentaLinea.getPorcentajeDescuentoLinea()) / 100;
-            totalDescuento = totalDescuento + notaDebitoVentaLinea.getValorDescuentoLinea() + valorDescuentoPorcentajeLinea;
-        }
-        totalDescuento = Math.round(totalDescuento*100.0)/100.0;
-        notaDebitoVenta.setDescuento(totalDescuento);
-    }
-    /*
-     * FIN CALCULAR DESCUENTOS
-     */
-
-    /*
-     * CALCULOS CON FACTURA
-     */
-    private void calcularSubtotalSinDescuento(NotaDebitoVenta notaDebitoVenta) {
-        double subtotalSinDescuento = Constantes.cero;
+    public NotaDebitoVenta calcular(NotaDebitoVenta notaDebitoVenta) {
+        this.validar(notaDebitoVenta);
         for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()){
-            subtotalSinDescuento += notaDebitoVentaLinea.getTotalSinDescuentoLinea();
+            calcularLinea(notaDebitoVentaLinea);
         }
-        subtotalSinDescuento = Math.round(subtotalSinDescuento * 100.0) / 100.0;
-        notaDebitoVenta.setSubtotal(subtotalSinDescuento);
+        this.calcularSubtotal(notaDebitoVenta);
+        this.calcularDescuento(notaDebitoVenta);
+        this.calcularTotales(notaDebitoVenta);
+        return notaDebitoVenta;
     }
 
-    private void calcularSubtotalBase12SinDescuento(NotaDebitoVenta notaDebitoVenta) {
-        double subtotalBase12SinDescuento = Constantes.cero;
-        for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()){
-            if (notaDebitoVentaLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva12){
-                subtotalBase12SinDescuento += notaDebitoVentaLinea.getTotalSinDescuentoLinea();
+    /*
+     * CALCULOS TOTALES FACTURA DE VENTA
+     */
+    private void calcularSubtotal(NotaDebitoVenta notaDebitoVenta) {
+        double subtotal = Constantes.cero;
+        for(NotaDebitoVentaLinea notaDebitoVentaLinea : notaDebitoVenta.getNotaDebitoVentaLineas()){
+            subtotal += notaDebitoVentaLinea.getSubtotalLinea();
+        }
+        subtotal = Math.round(subtotal * 10000.0) / 10000.0;
+        notaDebitoVenta.setSubtotal(subtotal);
+    }
+
+    private void calcularDescuento(NotaDebitoVenta notaDebitoVenta) {
+        double descuento = Constantes.cero;
+        for (NotaDebitoVentaLinea notaDebitoVentaLinea : notaDebitoVenta.getNotaDebitoVentaLineas()) {
+            descuento += notaDebitoVentaLinea.getValorDescuentoLinea() + notaDebitoVentaLinea.getPorcentajeDescuentoLinea();
+        }
+        descuento = Math.round(descuento * 100.0) / 100.0;
+        notaDebitoVenta.setDescuento(descuento);
+    }
+
+    private void calcularTotales(NotaDebitoVenta notaDebitoVenta) {
+        double subtotalGravado = Constantes.cero;
+        double subtotalNoGravado = Constantes.cero;
+        double importeIva = Constantes.cero;
+        double total = Constantes.cero;
+        for (NotaDebitoVentaLinea notaDebitoVentaLinea : notaDebitoVenta.getNotaDebitoVentaLineas()) {
+            if (notaDebitoVentaLinea.getImpuesto().getPorcentaje() != Constantes.cero) {
+                subtotalGravado += notaDebitoVentaLinea.getSubtotalLinea();
+            } else {
+                subtotalNoGravado += notaDebitoVentaLinea.getSubtotalLinea();
             }
+            importeIva += notaDebitoVentaLinea.getImporteIvaLinea();
         }
-        subtotalBase12SinDescuento= Math.round(subtotalBase12SinDescuento*100.0)/100.0;
-        notaDebitoVenta.setSubtotalGravado(subtotalBase12SinDescuento);
+        subtotalGravado = Math.round(subtotalGravado * 100.0) / 100.0;
+        notaDebitoVenta.setSubtotalGravado(subtotalGravado);
+
+        subtotalNoGravado = Math.round(subtotalNoGravado * 100.0) / 100.0;
+        notaDebitoVenta.setSubtotalNoGravado(subtotalNoGravado);
+
+        importeIva = Math.round(importeIva * 100.0) / 100.0;
+        notaDebitoVenta.setImporteIva(importeIva);
+
+        total = subtotalGravado + subtotalNoGravado + importeIva;
+        total = Math.round(total * 100.0) / 100.0;
+        notaDebitoVenta.setTotal(total);
     }
 
-    private void calcularSubtotalBase0SinDescuento(NotaDebitoVenta notaDebitoVenta) {
-        double subtotalBase0SinDescuento = Constantes.cero;
-        for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()){
-            if (notaDebitoVentaLinea.getProducto().getImpuesto().getPorcentaje() == Constantes.iva0){
-                subtotalBase0SinDescuento += notaDebitoVentaLinea.getTotalSinDescuentoLinea();
-            }
-        }
-        subtotalBase0SinDescuento = Math.round(subtotalBase0SinDescuento*100.0)/100.0;
-        notaDebitoVenta.setSubtotalNoGravado(subtotalBase0SinDescuento);
-    }
-
-    private void calcularIvaSinDescuento(NotaDebitoVenta notaDebitoVenta){
-        double ivaSinDescuento=(notaDebitoVenta.getSubtotalGravado() * Constantes.iva12) / 100;
-        ivaSinDescuento=Math.round(ivaSinDescuento*100.0)/100.0;
-        notaDebitoVenta.setImporteIva(ivaSinDescuento);
-    }
-
-    private void calcularTotalSinDescuento(NotaDebitoVenta notaDebitoVenta){
-        double totalSinDescuento = notaDebitoVenta.getSubtotalNoGravado() + notaDebitoVenta.getSubtotalGravado() + notaDebitoVenta.getImporteIva();
-        totalSinDescuento=Math.round(totalSinDescuento*100.0)/100.0;
-        notaDebitoVenta.setTotal(totalSinDescuento);
-    }
-
-    private void calcularTotalConDescuento(NotaDebitoVenta notaDebitoVenta){
-        double totalConDescuento = notaDebitoVenta.getSubtotalNoGravado() + notaDebitoVenta.getSubtotalGravado() + notaDebitoVenta.getImporteIva() - notaDebitoVenta.getDescuento();
-        totalConDescuento = Math.round(totalConDescuento*100.0)/100.0;
-        notaDebitoVenta.setTotalConDescuento(totalConDescuento);
-    }
+    /*
+     * FIN CALCULOS TOTALES FACTURA VENTA
+     */
 
     @Override
     public void validarLinea(NotaDebitoVentaLinea notaDebitoVentaLinea) {

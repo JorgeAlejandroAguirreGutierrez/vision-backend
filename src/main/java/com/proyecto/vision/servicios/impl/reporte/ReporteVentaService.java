@@ -118,20 +118,20 @@ public class ReporteVentaService {
             }
             reporteVentaLinea.setTipoVenta(tipoVenta);
 
-            String subtotal0 = String.format("%.2f", factura.getSubtotalNoGravadoConDescuento());
+            String subtotal0 = String.format("%.2f", factura.getSubtotalNoGravado());
             reporteVentaLinea.setSubtotal0(subtotal0);
-            String subtotal12 = String.format("%.2f", factura.getSubtotalGravadoConDescuento());
+            String subtotal12 = String.format("%.2f", factura.getSubtotalGravado());
             reporteVentaLinea.setSubtotal12(subtotal12);
-            String iva = String.format("%.2f", factura.getImporteIvaTotal());
+            String iva = String.format("%.2f", factura.getImporteIva());
             reporteVentaLinea.setIva(iva);
-            String total = String.format("%.2f", factura.getValorTotal());
+            String total = String.format("%.2f", factura.getTotal());
             reporteVentaLinea.setTotal(total);
             reporteVentaLineas.add(reporteVentaLinea);
 
-            total0 = total0 + factura.getSubtotalNoGravadoConDescuento();
-            total12 = total12 + factura.getSubtotalGravadoConDescuento();
-            totalIva = totalIva + factura.getImporteIvaTotal();
-            reporteTotal = reporteTotal + factura.getValorTotal();
+            total0 = total0 + factura.getSubtotalNoGravado();
+            total12 = total12 + factura.getSubtotalGravado();
+            totalIva = totalIva + factura.getImporteIva();
+            reporteTotal = reporteTotal + factura.getTotal();
 
             if(factura.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
                 facturasAnuladas++;
