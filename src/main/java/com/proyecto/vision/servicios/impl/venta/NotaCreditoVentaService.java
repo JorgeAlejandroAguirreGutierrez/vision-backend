@@ -2,10 +2,6 @@ package com.proyecto.vision.servicios.impl.venta;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.modelos.compra.FacturaCompra;
-import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
-import com.proyecto.vision.modelos.compra.NotaCreditoCompra;
-import com.proyecto.vision.modelos.compra.NotaCreditoCompraLinea;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
@@ -51,7 +47,6 @@ public class NotaCreditoVentaService implements INotaCreditoVentaService {
         if(notaCreditoVenta.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaCreditoVenta.getNotaCreditoVentaLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_credito_venta_linea);
     }
-
 
     @Transactional
     @Override

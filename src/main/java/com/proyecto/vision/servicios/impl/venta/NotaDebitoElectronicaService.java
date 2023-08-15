@@ -120,7 +120,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		infoNotaDebito.setFechaEmisionDocSustento(fechaEmisionFactura);
 		infoNotaDebito.setTotalSinImpuestos(notaDebitoVenta.getSubtotal());
 		Impuestos impuestos = crearImpuestos(notaDebitoVenta);
-		infoNotaDebito.setValorTotal(notaDebitoVenta.getTotalConDescuento());
+		infoNotaDebito.setValorTotal(notaDebitoVenta.getTotal());
 		Pagos pagos = crearPagos(notaDebitoVenta);
 		Motivos motivos = crearMotivos(notaDebitoVenta);
 
@@ -143,8 +143,8 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			impuesto.setCodigo(Constantes.iva_sri);
 			impuesto.setCodigoPorcentaje(notaDebitoVentaLinea.getImpuesto().getCodigoSRI());
 			impuesto.setTarifa(notaDebitoVentaLinea.getImpuesto().getPorcentaje());
-			impuesto.setBaseImponible(notaDebitoVentaLinea.getTotalSinDescuentoLinea());
-			impuesto.setValor(notaDebitoVentaLinea.getIvaSinDescuentoLinea());
+			impuesto.setBaseImponible(notaDebitoVentaLinea.getTotalLinea());
+			impuesto.setValor(notaDebitoVentaLinea.getImporteIvaLinea());
 			impuestoLista.add(impuesto);
 		}
 		impuestos.setImpuesto(impuestoLista);
@@ -212,7 +212,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		for(NotaDebitoVentaLinea notaDebitoVentaLinea: notaDebitoVenta.getNotaDebitoVentaLineas()) {
 			Motivo motivo = new Motivo();
 			motivo.setRazon(notaDebitoVentaLinea.getProducto().getNombre());
-			motivo.setValor(notaDebitoVentaLinea.getTotalSinDescuentoLinea());
+			motivo.setValor(notaDebitoVentaLinea.getTotalLinea());
 			motivoLista.add(motivo);
 		}
 		motivos.setMotivo(motivoLista);
@@ -251,7 +251,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		}
 		CampoAdicional campoAdicional = new CampoAdicional();
 		campoAdicional.setNombre(Constantes.valor);
-		campoAdicional.setValor(notaDebitoVenta.getFactura().getValorTotal() + Constantes.vacio);
+		campoAdicional.setValor(notaDebitoVenta.getFactura().getTotal() + Constantes.vacio);
 		camposAdicionales.add(campoAdicional);
 		InfoAdicional infoAdicional = new InfoAdicional();
 		infoAdicional.setCampoAdicional(camposAdicionales);
@@ -489,7 +489,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			{
 				String precioSinIva = String.format("%.2f", notaDebitoVenta.getNotaDebitoVentaLineas().get(i).getPrecio().getPrecioSinIva());
 				String valorDescuentoLinea = String.format("%.2f", notaDebitoVenta.getNotaDebitoVentaLineas().get(i).getValorDescuentoLinea());
-				String subtotalConDescuentoLinea = String.format("%.2f", notaDebitoVenta.getNotaDebitoVentaLineas().get(i).getTotalSinDescuentoLinea());
+				String subtotalConDescuentoLinea = String.format("%.2f", notaDebitoVenta.getNotaDebitoVentaLineas().get(i).getTotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebitoVenta.getNotaDebitoVentaLineas().get(i).getProducto().getCodigo()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebitoVenta.getNotaDebitoVentaLineas().get(i).getCantidad() + Constantes.vacio));
@@ -505,7 +505,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			String subtotalBase12ConDescuento = String.format("%.2f", notaDebitoVenta.getSubtotalGravado());
 			String subtotalBase0ConDescuento = String.format("%.2f", notaDebitoVenta.getSubtotalNoGravado());
 			String iva = String.format("%.2f", notaDebitoVenta.getImporteIva());
-			String totalConDescuento = String.format("%.2f", notaDebitoVenta.getTotalConDescuento());
+			String totalConDescuento = String.format("%.2f", notaDebitoVenta.getTotal());
 			float [] columnasTablaFactura = {300F, 300F};
 			Table tablaFactura = new Table(columnasTablaFactura);
 			tablaFactura.addCell(getCellFilaFactura("SUBTOTAL"));

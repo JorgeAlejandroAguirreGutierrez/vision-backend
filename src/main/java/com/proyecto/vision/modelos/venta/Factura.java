@@ -49,18 +49,20 @@ public class Factura extends Entidad {
 	private String estado;
 	@Column(name = "estado_sri", nullable = true)
 	private String estadoSri;
+
 	@Column(name = "subtotal", nullable = true)
 	private double subtotal;
-	@Column(name = "descuento_total", nullable = true)
-	private double descuentoTotal;
-	@Column(name = "subtotal_gravado_con_descuento", nullable = true)
-	private double subtotalGravadoConDescuento;
-	@Column(name = "subtotal_no_gravado_con_descuento", nullable = true)
-	private double subtotalNoGravadoConDescuento;
-	@Column(name = "importe_iva_total", nullable = true)
-	private double importeIvaTotal;
-	@Column(name = "valor_total", nullable = true)
-	private double valorTotal;
+	@Column(name = "descuento", nullable = true)
+	private double descuento;
+	@Column(name = "subtotal_gravado", nullable = true)
+	private double subtotalGravado;
+	@Column(name = "subtotal_no_gravado", nullable = true)
+	private double subtotalNoGravado;
+	@Column(name = "importe_iva", nullable = true)
+	private double importeIva;
+	@Column(name = "total", nullable = true)
+	private double total;
+
 	@Column(name = "comentario", nullable = true)
 	private String comentario;
 	@ManyToOne
@@ -142,11 +144,11 @@ public class Factura extends Entidad {
 		this.estado = Constantes.estadoActivo;
 		this.estadoInterno = Constantes.estadoInternoEmitida;
 		this.estadoSri = Constantes.estadoSriPendiente;
-		this.descuentoTotal = Constantes.cero;
-		this.subtotalGravadoConDescuento = Constantes.cero;
-		this.subtotalNoGravadoConDescuento = Constantes.cero;
-		this.importeIvaTotal = Constantes.cero;
-		this.valorTotal = Constantes.cero;
+		this.descuento = Constantes.cero;
+		this.subtotalGravado = Constantes.cero;
+		this.subtotalNoGravado = Constantes.cero;
+		this.importeIva = Constantes.cero;
+		this.total = Constantes.cero;
 
 		this.comentario = Constantes.vacio;
 		this.facturaLineas = Collections.emptyList();

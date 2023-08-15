@@ -30,16 +30,20 @@ public class NotaDebitoVentaLinea extends Entidad {
     private String consignacion;
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
+    @Column(name = "precio_unitario", nullable = true)
+    private double precioUnitario;
     @Column(name = "valor_descuento_linea", nullable = true)
     private double valorDescuentoLinea;
     @Column(name = "porcentaje_descuento_linea", nullable = true)
     private double porcentajeDescuentoLinea;
-    @Column(name = "iva_sin_descuento_linea", nullable = true)
-    private double ivaSinDescuentoLinea;
-    @Column(name = "total_sin_descuento_linea", nullable = true)
-    private double totalSinDescuentoLinea;
-    @Column(name = "total_con_descuento_linea", nullable = true)
-    private double totalConDescuentoLinea;
+    @Column(name = "valor_porcentaje_descuento_linea", nullable = true)
+    private double valorPorcentajeDescuentoLinea;
+    @Column(name = "subtotal_linea", nullable = true)
+    private double subtotalLinea;
+    @Column(name = "importe_iva_linea", nullable = true)
+    private double importeIvaLinea;
+    @Column(name = "total_linea", nullable = true)
+    private double totalLinea;
     @ManyToOne
     @JoinColumn(name = "impuesto_id", nullable = true)
     private Impuesto impuesto;
@@ -69,7 +73,8 @@ public class NotaDebitoVentaLinea extends Entidad {
         this.cantidad = Constantes.ceroId;
         this.valorDescuentoLinea = Constantes.cero;
         this.porcentajeDescuentoLinea = Constantes.cero;
-        this.totalSinDescuentoLinea = Constantes.cero;
-        this.totalConDescuentoLinea = Constantes.cero;
+        this.valorPorcentajeDescuentoLinea = Constantes.cero;
+        this.subtotalLinea = Constantes.cero;
+        this.totalLinea = Constantes.cero;
     }
 }

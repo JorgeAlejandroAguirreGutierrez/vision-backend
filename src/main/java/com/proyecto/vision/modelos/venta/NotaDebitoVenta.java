@@ -39,8 +39,6 @@ public class NotaDebitoVenta extends Entidad {
     private String codigoNumerico;
     @Column(name = "clave_acceso", nullable = true)
     private String claveAcceso;
-    @Column(name = "operacion", nullable = true)
-    private String operacion;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
     @Column(name = "fecha_autorizacion", nullable = true)
@@ -63,8 +61,6 @@ public class NotaDebitoVenta extends Entidad {
     private double importeIva;
     @Column(name = "total", nullable = true)
     private double total;
-    @Column(name = "total_con_descuento", nullable = true)
-    private double totalConDescuento;
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -142,7 +138,6 @@ public class NotaDebitoVenta extends Entidad {
         this.secuencial = Constantes.vacio;
         this.numeroComprobante = Constantes.vacio;
         this.claveAcceso = Constantes.vacio;
-        this.operacion = Constantes.vacio;
         this.fecha = new Date();
         this.fechaAutorizacion = null;
         this.estado = Constantes.estadoActivo;
@@ -154,7 +149,6 @@ public class NotaDebitoVenta extends Entidad {
         this.subtotalNoGravado = Constantes.cero;
         this.importeIva = Constantes.cero;
         this.total = Constantes.cero;
-        this.totalConDescuento = Constantes.cero;
         this.comentario = Constantes.vacio;
         this.notaDebitoVentaLineas = Collections.emptyList();
 
