@@ -16,14 +16,14 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static com.proyecto.vision.Constantes.tabla_nota_credito_venta;
+import static com.proyecto.vision.Constantes.tabla_nota_credito;
 
 @Entity
-@Table(name = tabla_nota_credito_venta)
+@Table(name = tabla_nota_credito)
 @Getter
 @Setter
 @AllArgsConstructor
-public class NotaCreditoVenta extends Entidad {
+public class NotaCredito extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @Column(name = "establecimiento", nullable = true)
@@ -80,12 +80,12 @@ public class NotaCreditoVenta extends Entidad {
     @JsonManagedReference
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
     @JoinColumn(name = "nota_credito_venta_id", nullable = true)
-    private List<NotaCreditoVentaLinea> notaCreditoVentaLineas;
+    private List<NotaCreditoLinea> notaCreditoLineas;
 
-    public NotaCreditoVenta(long id){
+    public NotaCredito(long id){
         super(id);
     }
-    public NotaCreditoVenta(){
+    public NotaCredito(){
         super();
         this.codigo = Constantes.vacio;
         this.establecimiento = Constantes.vacio;
@@ -106,13 +106,13 @@ public class NotaCreditoVenta extends Entidad {
         this.importeIva = Constantes.cero;
         this.total = Constantes.cero;
         this.comentario = Constantes.vacio;
-        this.notaCreditoVentaLineas = Collections.emptyList();
+        this.notaCreditoLineas = Collections.emptyList();
     }
 
     public void normalizar(){
         if(this.fecha == null) this.fecha = new Date();
         if(this.sesion == null) this.sesion = new Sesion();
         if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
-        if(this.notaCreditoVentaLineas.isEmpty()) this.notaCreditoVentaLineas = Collections.emptyList();
+        if(this.notaCreditoLineas.isEmpty()) this.notaCreditoLineas = Collections.emptyList();
     }
 }

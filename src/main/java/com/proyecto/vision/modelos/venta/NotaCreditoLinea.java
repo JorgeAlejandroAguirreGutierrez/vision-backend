@@ -1,6 +1,7 @@
 package com.proyecto.vision.modelos.venta;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.inventario.Bodega;
@@ -12,32 +13,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import static com.proyecto.vision.Constantes.tabla_nota_debito_venta_linea;
+
+import static com.proyecto.vision.Constantes.tabla_nota_credito_linea;
 
 @Entity
-@Table(name = tabla_nota_debito_venta_linea)
+@Table(name = tabla_nota_credito_linea)
 @Getter
 @Setter
 @AllArgsConstructor
-public class NotaDebitoVentaLinea extends Entidad {
+public class NotaCreditoLinea extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "posicion", nullable = true)
-    private long posicion;
-    @Column(name = "entregado", nullable = true)
-    private String entregado;
-    @Column(name = "consignacion", nullable = true)
-    private String consignacion;
+    @Column(name = "cantidad_venta", nullable = true)
+    private long cantidadVenta;
+    @Column(name = "costo_unitario_venta", nullable = true)
+    private double costoUnitarioVenta;
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
-    @Column(name = "precio_unitario", nullable = true)
-    private double precioUnitario;
-    @Column(name = "valor_descuento_linea", nullable = true)
-    private double valorDescuentoLinea;
-    @Column(name = "porcentaje_descuento_linea", nullable = true)
-    private double porcentajeDescuentoLinea;
-    @Column(name = "valor_porcentaje_descuento_linea", nullable = true)
-    private double valorPorcentajeDescuentoLinea;
+    @Column(name = "costo_unitario", nullable = true)
+    private double costoUnitario;
     @Column(name = "subtotal_linea", nullable = true)
     private double subtotalLinea;
     @Column(name = "importe_iva_linea", nullable = true)
@@ -50,7 +44,8 @@ public class NotaDebitoVentaLinea extends Entidad {
     @ManyToOne
     @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
-    @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
     @ManyToOne
@@ -58,23 +53,21 @@ public class NotaDebitoVentaLinea extends Entidad {
     private Bodega bodega;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nota_debito_venta_id", nullable = true)
-    private NotaDebitoVenta notaDebitoVentaLinea;
+    @JoinColumn(name = "nota_credito_compra_id", nullable = true)
+    private NotaCredito notaCreditoLinea;
 
-    public NotaDebitoVentaLinea(long id){
+    public NotaCreditoLinea(long id){
         super(id);
     }
-    public NotaDebitoVentaLinea() {
+    public NotaCreditoLinea() {
         super();
         this.codigo = Constantes.vacio;
-        this.posicion = Constantes.ceroId;
-        this.entregado = Constantes.no;
-        this.consignacion = Constantes.no;
+        this.cantidadVenta = Constantes.ceroId;
+        this.costoUnitarioVenta = Constantes.cero;
         this.cantidad = Constantes.ceroId;
-        this.valorDescuentoLinea = Constantes.cero;
-        this.porcentajeDescuentoLinea = Constantes.cero;
-        this.valorPorcentajeDescuentoLinea = Constantes.cero;
+        this.costoUnitario = Constantes.cero;
         this.subtotalLinea = Constantes.cero;
+        this.importeIvaLinea = Constantes.cero;
         this.totalLinea = Constantes.cero;
     }
 }

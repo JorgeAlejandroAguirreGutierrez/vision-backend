@@ -17,14 +17,14 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static com.proyecto.vision.Constantes.tabla_nota_debito_venta;
+import static com.proyecto.vision.Constantes.tabla_nota_debito;
 
 @Entity
-@Table(name = tabla_nota_debito_venta)
+@Table(name = tabla_nota_debito)
 @Getter
 @Setter
 @AllArgsConstructor
-public class NotaDebitoVenta extends Entidad {
+public class NotaDebito extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @Column(name = "establecimiento", nullable = true)
@@ -79,7 +79,7 @@ public class NotaDebitoVenta extends Entidad {
     @JsonManagedReference
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
     @JoinColumn(name = "nota_debito_venta_id", nullable = true)
-    private List<NotaDebitoVentaLinea> notaDebitoVentaLineas;
+    private List<NotaDebitoLinea> notaDebitoLineas;
 
     //RECAUDACION
     @Column(name = "total_recaudacion", nullable = true)
@@ -105,32 +105,32 @@ public class NotaDebitoVenta extends Entidad {
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "cheque_id", nullable = true)
-    private List<NotaDebitoVentaCheque> cheques;
+    private List<NDCheque> cheques;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "deposito_id", nullable = true)
-    private List<NotaDebitoVentaDeposito> depositos;
+    private List<NDDeposito> depositos;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "transferencia_id", nullable = true)
-    private List<NotaDebitoVentaTransferencia> transferencias;
+    private List<NDTransferencia> transferencias;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "tarjeta_debito_id", nullable = true)
-    private List<NotaDebitoVentaTarjetaDebito> tarjetasDebitos;
+    private List<NDTarjetaDebito> tarjetasDebitos;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "tarjeta_credito_id", nullable = true)
-    private List<NotaDebitoVentaTarjetaCredito> tarjetasCreditos;
+    private List<NDTarjetaCredito> tarjetasCreditos;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "credito_id", nullable = true)
-    private NotaDebitoVentaCredito credito;
+    private NDCredito credito;
 
-    public NotaDebitoVenta(long id){
+    public NotaDebito(long id){
         super(id);
     }
-    public NotaDebitoVenta(){
+    public NotaDebito(){
         super();
         this.codigo = Constantes.vacio;
         this.establecimiento = Constantes.vacio;
@@ -150,7 +150,7 @@ public class NotaDebitoVenta extends Entidad {
         this.importeIva = Constantes.cero;
         this.total = Constantes.cero;
         this.comentario = Constantes.vacio;
-        this.notaDebitoVentaLineas = Collections.emptyList();
+        this.notaDebitoLineas = Collections.emptyList();
 
         //RECAUDACION
         this.porPagar = Constantes.cero;
@@ -173,8 +173,8 @@ public class NotaDebitoVenta extends Entidad {
         if(this.fecha == null) this.fecha = new Date();
         if(this.sesion == null) this.sesion = new Sesion();
         if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
-        if(this.credito == null) this.credito = new NotaDebitoVentaCredito();
-        if(this.notaDebitoVentaLineas.isEmpty()) this.notaDebitoVentaLineas = Collections.emptyList();
+        if(this.credito == null) this.credito = new NDCredito();
+        if(this.notaDebitoLineas.isEmpty()) this.notaDebitoLineas = Collections.emptyList();
 
         if(cheques.isEmpty()) this.cheques = Collections.emptyList();
         if(depositos.isEmpty()) this.depositos = Collections.emptyList();
