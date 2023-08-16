@@ -58,10 +58,10 @@ public class MenuOpcionData implements ApplicationRunner {
             opciones.add(new MenuOpcion("MEN202305000028", "COMPRAS", "NOTAS DE DÉBITO COMPRA","CREAR", Constantes.no, "nota_debito_compra_linea", "NDCL", Constantes.estadoActivo));
             //VENTAS
             opciones.add(new MenuOpcion("MEN202305000029", "VENTAS", "FACTURAS","CREAR", Constantes.si, "factura", "FAC", Constantes.estadoActivo));
-            opciones.add(new MenuOpcion("MEN202305000030", "VENTAS", "NOTAS DE DÉBITO VENTA","CREAR", Constantes.si, "nota_debito_venta", "NDV", Constantes.estadoActivo));
-            opciones.add(new MenuOpcion("MEN202305000031", "VENTAS", "NOTAS DE DÉBITO VENTA","CREAR", Constantes.no, "nota_debito_venta_linea", "NDVL", Constantes.estadoActivo));
-            opciones.add(new MenuOpcion("MEN202305000032", "VENTAS", "NOTAS DE CRÉDITO VENTA","CREAR", Constantes.si, "nota_credito_venta", "NCV", Constantes.estadoActivo));
-            opciones.add(new MenuOpcion("MEN202305000033", "VENTAS", "NOTAS DE CRÉDITO VENTA","CREAR", Constantes.no, "nota_credito_venta_linea", "NCVE", Constantes.estadoActivo));
+            opciones.add(new MenuOpcion("MEN202305000030", "VENTAS", "NOTAS DE DÉBITO","CREAR", Constantes.si, "nota_debito", "ND", Constantes.estadoActivo));
+            opciones.add(new MenuOpcion("MEN202305000031", "VENTAS", "NOTAS DE DÉBITO","CREAR", Constantes.no, "nota_debito_linea", "NDL", Constantes.estadoActivo));
+            opciones.add(new MenuOpcion("MEN202305000032", "VENTAS", "NOTAS DE CRÉDITO","CREAR", Constantes.si, "nota_credito", "NC", Constantes.estadoActivo));
+            opciones.add(new MenuOpcion("MEN202305000033", "VENTAS", "NOTAS DE CRÉDITO","CREAR", Constantes.no, "nota_credito_linea", "NCL", Constantes.estadoActivo));
             opciones.add(new MenuOpcion("MEN202305000034", "VENTAS", "PEDIDO","CREAR", Constantes.si, "pedido", "PED", Constantes.estadoActivo));
             opciones.add(new MenuOpcion("MEN202305000035", "VENTAS", "PROFORMA","CREAR", Constantes.si, "proforma", "PRF", Constantes.estadoActivo));
             opciones.add(new MenuOpcion("MEN202305000036", "VENTAS", "EGRESO","CREAR", Constantes.si, "egreso", "EGR", Constantes.estadoActivo));

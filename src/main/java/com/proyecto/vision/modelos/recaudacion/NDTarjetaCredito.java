@@ -3,21 +3,21 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.cajaBanco.Banco;
-import com.proyecto.vision.modelos.venta.NotaDebitoVenta;
+import com.proyecto.vision.modelos.venta.NotaDebito;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.vision.Constantes.tabla_nota_debito_venta_tarjeta_credito;
+import static com.proyecto.vision.Constantes.tabla_nd_tarjeta_credito;
 
 @Entity
-@Table(name = tabla_nota_debito_venta_tarjeta_credito)
+@Table(name = tabla_nd_tarjeta_credito)
 @Getter
 @Setter
 @AllArgsConstructor
-public class NotaDebitoVentaTarjetaCredito extends Entidad {
+public class NDTarjetaCredito extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @Column(name = "diferido", nullable = true)
@@ -44,12 +44,12 @@ public class NotaDebitoVentaTarjetaCredito extends Entidad {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nota_debito_venta_id", nullable = true)
-    private NotaDebitoVenta notaDebitoVenta;
+    private NotaDebito notaDebito;
 
-    public NotaDebitoVentaTarjetaCredito(long id){
+    public NDTarjetaCredito(long id){
         super(id);
     }
-    public NotaDebitoVentaTarjetaCredito(){
+    public NDTarjetaCredito(){
         super();
         this.codigo = Constantes.vacio;
         this.diferido = Constantes.no;

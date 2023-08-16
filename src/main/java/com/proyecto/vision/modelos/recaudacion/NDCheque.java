@@ -1,9 +1,10 @@
 package com.proyecto.vision.modelos.recaudacion;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.cajaBanco.Banco;
-import com.proyecto.vision.modelos.venta.NotaDebitoVenta;
+import com.proyecto.vision.modelos.venta.NotaDebito;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,23 +12,25 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-import static com.proyecto.vision.Constantes.tabla_nota_debito_venta_transferencia;
+import static com.proyecto.vision.Constantes.tabla_nd_cheque;
 
 @Entity
-@Table(name = tabla_nota_debito_venta_transferencia)
+@Table(name = tabla_nd_cheque)
 @Getter
 @Setter
 @AllArgsConstructor
-public class NotaDebitoVentaTransferencia extends Entidad {
+public class NDCheque extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "numero", nullable = true)
+    private String numero;
+    @Column(name = "tipo", nullable = true)
+    private String tipo;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
-    @Column(name = "tipo_transaccion", nullable = true)
-    private String tipoTransaccion;
-    @Column(name = "numero_transaccion", nullable = true)
-    private String numeroTransaccion;
-    @Column(name = "valor", nullable = true)
+    @Column(name = "fecha_efectivizacion", nullable = true)
+    private Date fechaEfectivizacion;
+	@Column(name = "valor", nullable = true)
     private double valor;
     @ManyToOne
     @JoinColumn(name = "banco_id", nullable = true)
@@ -35,21 +38,25 @@ public class NotaDebitoVentaTransferencia extends Entidad {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nota_debito_venta_id", nullable = true)
-    private NotaDebitoVenta notaDebitoVenta;
+    private NotaDebito notaDebito;
 
-    public NotaDebitoVentaTransferencia(long id){
+    public NDCheque(long id){
         super(id);
     }
-    public NotaDebitoVentaTransferencia(){
+    public NDCheque(){
         super();
         this.codigo = Constantes.vacio;
+        this.numero = Constantes.vacio;
+        this.tipo = Constantes.vacio;
         this.fecha = new Date();
-        this.tipoTransaccion = Constantes.vacio;
-        this.numeroTransaccion = Constantes.vacio;
+        this.fechaEfectivizacion = new Date();
         this.valor = Constantes.cero;
     }
+
     public void normalizar(){
         if(this.fecha == null) this.fecha = new Date();
+        if(this.fechaEfectivizacion == null) this.fechaEfectivizacion = new Date();
         if(this.banco == null) this.banco = new Banco();
     }
+
 }

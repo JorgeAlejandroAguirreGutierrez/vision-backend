@@ -2,7 +2,7 @@ package com.proyecto.vision.controladoras.venta;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Respuesta;
-import com.proyecto.vision.modelos.venta.NotaCreditoVenta;
+import com.proyecto.vision.modelos.venta.NotaCredito;
 import com.proyecto.vision.servicios.interf.venta.INotaCreditoElectronicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -26,8 +26,8 @@ public class NotaCreditoEletronicaController {
 
     @GetMapping(value = "/{notaCreditoVentaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> enviar(@PathVariable("notaCreditoVentaId") long notaCreditoVentaId) throws MalformedURLException {
-        NotaCreditoVenta notaCreditoVenta = servicio.enviar(notaCreditoVentaId);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_nota_credito_electronica_exitosa + Constantes.espacio + notaCreditoVenta.getClaveAcceso(), notaCreditoVenta);
+        NotaCredito notaCredito = servicio.enviar(notaCreditoVentaId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_nota_credito_electronica_exitosa + Constantes.espacio + notaCredito.getClaveAcceso(), notaCredito);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

@@ -27,8 +27,8 @@ public class TipoComprobanteData implements ApplicationRunner {
             tiposComprobantes.add(new TipoComprobante("TCO000001","NA", "PROCESO INTERNO", "PROCESO INTERNO", null, Constantes.no, Constantes.estadoActivo));
             tiposComprobantes.add(new TipoComprobante("TCO000002","01", "FACTURA", "FACTURA VENTA", "factura", Constantes.si, Constantes.estadoActivo));
             tiposComprobantes.add(new TipoComprobante("TCO000003","03", "LIQUIDACIÓN DE COMPRA DE BIENES Y PRESTACIÓN DE SERVICIOS", "LIQUIDACIÓN COMPRA", "liquidacion_compra", Constantes.si, Constantes.estadoActivo));
-            tiposComprobantes.add(new TipoComprobante("TCO000004","04", "NOTA DE CRÉDITO VENTA", "N. CRÉDITO VENTA", "nota_credito_venta", Constantes.si, Constantes.estadoActivo));
-            tiposComprobantes.add(new TipoComprobante("TCO000005","05", "NOTA DE DÉBITO VENTA", "N. DÉBITO VENTA", "nota_debito_venta", Constantes.si, Constantes.estadoActivo));
+            tiposComprobantes.add(new TipoComprobante("TCO000004","04", "NOTA DE CRÉDITO VENTA", "N. CRÉDITO VENTA", "nota_credito", Constantes.si, Constantes.estadoActivo));
+            tiposComprobantes.add(new TipoComprobante("TCO000005","05", "NOTA DE DÉBITO VENTA", "N. DÉBITO VENTA", "nota_debito", Constantes.si, Constantes.estadoActivo));
             tiposComprobantes.add(new TipoComprobante("TCO000006","06", "GUÍA DE REMISIÓN", "GUÍA REMISIÓN", "guia_remision", Constantes.si, Constantes.estadoActivo));
             tiposComprobantes.add(new TipoComprobante("TCO000007","07", "COMPROBANTE DE RETENCIÓN", "RETENCIÓN VENTA", "retencion", Constantes.si, Constantes.estadoActivo));
             tiposComprobantes.add(new TipoComprobante("TCO000008","NA", "FACTURA DE COMPRA", "FACTURA COMPRA", "factura_compra", Constantes.no, Constantes.estadoActivo));

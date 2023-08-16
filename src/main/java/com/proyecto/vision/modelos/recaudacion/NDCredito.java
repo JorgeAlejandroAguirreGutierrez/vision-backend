@@ -11,14 +11,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import static com.proyecto.vision.Constantes.tabla_nota_debito_venta_credito;
+import static com.proyecto.vision.Constantes.tabla_nd_credito;
 
 @Entity
-@Table(name = tabla_nota_debito_venta_credito)
+@Table(name = tabla_nd_credito)
 @Getter
 @Setter
 @AllArgsConstructor
-public class NotaDebitoVentaCredito extends Entidad {
+public class NDCredito extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @Column(name = "saldo", nullable = true)
@@ -28,10 +28,10 @@ public class NotaDebitoVentaCredito extends Entidad {
     @Column(name = "plazo", nullable = true)
     private long plazo;
 
-    public NotaDebitoVentaCredito(long id){
+    public NDCredito(long id){
         super(id);
     }
-    public NotaDebitoVentaCredito(){
+    public NDCredito(){
         super();
         this.codigo = Constantes.vacio;
         this.saldo = Constantes.cero;
