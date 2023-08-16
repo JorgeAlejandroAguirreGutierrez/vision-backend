@@ -330,20 +330,6 @@ public class FacturaService implements IFacturaService {
     	return rep.findAll(pageable);
     }
 
-    @Override
-    public List<Factura> buscar(Factura factura) {
-        return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
-		    List<Predicate> predicates = new ArrayList<>();
-		    if (!factura.getSecuencial().equals(Constantes.vacio)) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("codigo"), "%"+factura.getSecuencial()+"%")));
-		    }
-		    if (!factura.getCliente().getRazonSocial().equals(Constantes.vacio)) {
-		        predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("cliente").get("razonSocial"), "%"+factura.getCliente().getRazonSocial()+"%")));
-		    }
-		    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-		});
-    }
-
     /*
      * CALCULOS CON FACTURA VENTA LINEAS
      */
@@ -470,8 +456,8 @@ public class FacturaService implements IFacturaService {
         throw new IdentificacionInvalidaException();
     }
 
-    @Override
-    public Factura calcularRecaudacion(Factura factura){
+
+    private Factura calcularRecaudacion(Factura factura){
         double total = Constantes.cero;
         total = total + factura.getEfectivo();
 

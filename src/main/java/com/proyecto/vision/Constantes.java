@@ -31,8 +31,6 @@ public class Constantes {
     public static final String guia_remision = "GUIA DE REMISION";
     public static final String nota_credito_venta = "NOTA CREDITO DE VENTA";
     public static final String nota_credito_venta_linea = "NOTA CREDITO DE VENTA LINEA";
-    public static final String nota_debito_venta = "NOTA DEBITO DE VENTA";
-    public static final String nota_debito_venta_linea = "NOTA DEBITO DE VENTA LINEA";
     public static final String nota_debito_compra = "NOTA DEBITO DE COMPRA";
     public static final String nota_debito_compra_linea = "NOTA DEBITO DE COMPRA LINEA";
     public static final String operacion_compra = "COMPRA";
@@ -164,10 +162,10 @@ public class Constantes {
     public static final String tabla_pedido="pedido";
     public static final String tabla_proforma="proforma";
     public static final String tabla_tipo_comprobante="tipo_comprobante";
-    public static final String tabla_nota_credito_venta="nota_credito_venta";
-    public static final String tabla_nota_credito_venta_linea="nota_credito_venta_linea";
-    public static final String tabla_nota_debito_venta="nota_debito_venta";
-    public static final String tabla_nota_debito_venta_linea="nota_debito_venta_linea";
+    public static final String tabla_nota_credito="nota_credito";
+    public static final String tabla_nota_credito_linea="nota_credito_linea";
+    public static final String tabla_nota_debito="nota_debito";
+    public static final String tabla_nota_debito_linea="nota_debito_linea";
     public static final String tabla_cierre_caja="cierre_caja";
     
     //CONFIGURACION
@@ -216,19 +214,18 @@ public class Constantes {
     public static final String tabla_franquicia_tarjeta="franquicia_tarjeta";
     public static final String tabla_operador_tarjeta="operador_tarjeta";
     public static final String tabla_recaudacion="recaudacion";
-    public static final String tabla_nota_debito_venta_recaudacion="nota_debito_venta_recaudacion";
     public static final String tabla_cheque="cheque";
     public static final String tabla_deposito="deposito";
     public static final String tabla_tarjeta_credito="tarjeta_credito";
     public static final String tabla_tarjeta_debito="tarjeta_debito";
     public static final String tabla_transferencia="transferencia";
     public static final String tabla_credito="credito";
-    public static final String tabla_nota_debito_venta_cheque="nota_debito_venta_cheque";
-    public static final String tabla_nota_debito_venta_deposito="nota_debito_venta_deposito";
-    public static final String tabla_nota_debito_venta_tarjeta_credito="nota_debito_venta_tarjeta_credito";
-    public static final String tabla_nota_debito_venta_tarjeta_debito="nota_debito_venta_tarjeta_debito";
-    public static final String tabla_nota_debito_venta_transferencia="nota_debito_venta_transferencia";
-    public static final String tabla_nota_debito_venta_credito="nota_debito_venta_credito";
+    public static final String tabla_nd_cheque="nd_cheque";
+    public static final String tabla_nd_deposito="nd_deposito";
+    public static final String tabla_nd_tarjeta_credito="nd_tarjeta_credito";
+    public static final String tabla_nd_tarjeta_debito="nd_tarjeta_debito";
+    public static final String tabla_nd_transferencia="nd_transferencia";
+    public static final String tabla_nd_credito="nd_credito";
     
     //USUARIO
     public static final String tabla_telefono_establecimiento="telefono_establecimiento";
@@ -285,6 +282,7 @@ public class Constantes {
     public static final String factura="FACTURA";
     public static final String nota_credito="NOTA CREDITO";
     public static final String nota_debito="NOTA DEBITO";
+    public static final String nota_debito_linea= "NOTA DEBITO LINEA";
     public static final String factura_electronica="FACTURA ELECTRONICA";
     public static final String pedido="PEDIDO";
     public static final String proforma="PROFORMA";
