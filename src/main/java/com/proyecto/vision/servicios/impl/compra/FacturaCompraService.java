@@ -79,7 +79,7 @@ public class FacturaCompraService implements IFacturaCompraService {
 
     private void crearKardex(FacturaCompra facturaCompra) {
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodegaYFecha(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), facturaCompra.getFecha());
             double saldo, costoTotal, costoUnitario, costoPromedio;
             if (ultimoKardex != null) {
                 saldo = ultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
@@ -104,6 +104,7 @@ public class FacturaCompraService implements IFacturaCompraService {
                     tipoOperacion, facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
 
             kardexService.crear(kardex);
+            kardexService.recalcularPorProductoYBodegaYFecha(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(),facturaCompra.getFecha());
         }
     }
 

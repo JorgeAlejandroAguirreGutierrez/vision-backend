@@ -45,7 +45,7 @@ public class MedidaData implements ApplicationRunner {
             medidas.add(new Medida("MED202301000017", "PESO", "QUINTAL", "CWT", Constantes.estadoInactivo, new Empresa(1)));
             medidas.add(new Medida("MED202301000018", "PESO", "SLUG", "SG", Constantes.estadoInactivo, new Empresa(1)));
             medidas.add(new Medida("MED202301000019", "PESO", "STONE", "STONE", Constantes.estadoInactivo, new Empresa(1)));
-            medidas.add(new Medida("MED202301000020", "PESO", "TONELADA", "TON", Constantes.estadoActivo, new Empresa(1)));
+            medidas.add(new Medida("MED202301000020", "PESO", "TONELADA", "TON", Constantes.estadoInactivo, new Empresa(1)));
             medidas.add(new Medida("MED202301000021", "PESO", "TONELADA LARGA", "UK_TON", Constantes.estadoInactivo, new Empresa(1)));
             medidas.add(new Medida("MED202301000022", "VOLUMEN", "CENTÍMETRO CÚBICO", "CM^3", Constantes.estadoInactivo, new Empresa(1)));
             medidas.add(new Medida("MED202301000023", "VOLUMEN", "CUARTO DE GALÓN", "QT", Constantes.estadoInactivo, new Empresa(1)));
