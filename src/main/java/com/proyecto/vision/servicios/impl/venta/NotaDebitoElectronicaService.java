@@ -485,15 +485,15 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
 			for (int i = 0; i < notaDebito.getNotaDebitoLineas().size(); i++)
 			{
-				String precioSinIva = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getPrecio().getPrecioSinIva());
-				String valorDescuentoLinea = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getValorDescuentoLinea());
+				String precioUnitario = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getPrecioUnitario());
+				String descuentoLinea = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getValorDescuentoLinea() + notaDebito.getNotaDebitoLineas().get(i).getValorPorcentajeDescuentoLinea());
 				String subtotalConDescuentoLinea = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getTotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getProducto().getCodigo()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getCantidad() + Constantes.vacio));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getProducto().getNombre()));
-				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioSinIva));
-				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+valorDescuentoLinea));
+				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
+				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+descuentoLinea));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+subtotalConDescuentoLinea));
 			}
 			documento.add(tablaFacturaDetalle);
