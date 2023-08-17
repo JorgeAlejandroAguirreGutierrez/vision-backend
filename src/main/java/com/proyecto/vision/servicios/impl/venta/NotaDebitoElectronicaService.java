@@ -112,11 +112,11 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		infoNotaDebito.setIdentificacionComprador(notaDebito.getFactura().getCliente().getIdentificacion());
 		infoNotaDebito.setObligadoContabilidad(notaDebito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
 		infoNotaDebito.setCodDocModificado(Constantes.factura_sri);
-		String numero = notaDebito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + "-" + notaDebito.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI() + "-" + notaDebito.getFactura().getSecuencial();
+		String numero = notaDebito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + notaDebito.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + notaDebito.getFactura().getSecuencial();
 		infoNotaDebito.setNumDocModificado(numero);
 		String fechaEmisionFactura = dateFormat.format(notaDebito.getFactura().getFecha());
 		infoNotaDebito.setFechaEmisionDocSustento(fechaEmisionFactura);
-		infoNotaDebito.setTotalSinImpuestos(notaDebito.getSubtotal());
+		infoNotaDebito.setTotalSinImpuestos(Math.round(notaDebito.getSubtotal() * 100.0)/100.0);
 		Impuestos impuestos = crearImpuestos(notaDebito);
 		infoNotaDebito.setValorTotal(notaDebito.getTotal());
 		Pagos pagos = crearPagos(notaDebito);
@@ -137,7 +137,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		Impuestos impuestos=new Impuestos();
 		List<Impuesto> impuestoLista = new ArrayList<>();
 		for(NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()) {
-			Impuesto impuesto=new Impuesto();
+			Impuesto impuesto = new Impuesto();
 			impuesto.setCodigo(Constantes.iva_sri);
 			impuesto.setCodigoPorcentaje(notaDebitoLinea.getImpuesto().getCodigoSRI());
 			impuesto.setTarifa(notaDebitoLinea.getImpuesto().getPorcentaje());
@@ -205,7 +205,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		return pagos;
 	}
 	private Motivos crearMotivos(NotaDebito notaDebito) {
-		Motivos motivos=new Motivos();
+		Motivos motivos = new Motivos();
 		List<Motivo> motivoLista = new ArrayList<>();
 		for(NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()) {
 			Motivo motivo = new Motivo();
