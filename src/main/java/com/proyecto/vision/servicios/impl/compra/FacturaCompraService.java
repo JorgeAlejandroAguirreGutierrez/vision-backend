@@ -22,6 +22,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,14 +87,14 @@ public class FacturaCompraService implements IFacturaCompraService {
                 saldo = ultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
                 costoTotal = ultimoKardex.getCostoTotal() + facturaCompraLinea.getSubtotalLinea();
                 costoUnitario = facturaCompraLinea.getSubtotalLinea() / facturaCompraLinea.getCantidad();
-                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+                costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             } else{
                 saldo = facturaCompraLinea.getCantidad();
                 costoTotal = facturaCompraLinea.getSubtotalLinea();
                 costoUnitario = facturaCompraLinea.getSubtotalLinea() / facturaCompraLinea.getCantidad();
-                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+                costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
@@ -117,6 +119,7 @@ public class FacturaCompraService implements IFacturaCompraService {
         }
         calcular(facturaCompra);
         FacturaCompra res = rep.save(facturaCompra);
+        facturaCompra = obtener(facturaCompra.getId());
         actualizarKardex(facturaCompra);
         actualizarPrecios(facturaCompra);
         res.normalizar();
@@ -125,20 +128,25 @@ public class FacturaCompraService implements IFacturaCompraService {
 
     private void actualizarKardex(FacturaCompra facturaCompra) {
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
-            int ultimoIndiceKardex = facturaCompraLinea.getProducto().getKardexs().size() - 1;
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId());
-            double saldo = Constantes.cero;
-            double costoTotal = Constantes.cero;
-            double costoUnitario = Constantes.cero;
-            double costoPromedio = Constantes.cero;
-            if (ultimoIndiceKardex > Constantes.cero) {
-                saldo = facturaCompraLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getSaldo() + facturaCompraLinea.getCantidad();
-                costoTotal = facturaCompraLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoTotal() + facturaCompraLinea.getSubtotalLinea();
-                costoUnitario = facturaCompraLinea.getSubtotalLinea() / facturaCompraLinea.getCantidad();
-                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
-                costoPromedio = costoTotal / saldo;
-                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+            TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
+            Kardex ultimoKardex = kardexService.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), tipoComprobante.getId(), facturaCompra.getNumeroComprobante(), facturaCompraLinea.getPosicion());
+            if (ultimoKardex == null){
+                //eliminar kardex con posicion
+                return;
             }
+            Kardex penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMismaFechaYId(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), facturaCompra.getFecha(), ultimoKardex.getId());
+            if (penultimoKardex == null){
+                penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMenorFecha(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), facturaCompra.getFecha());
+            }
+            double saldo, costoTotal, costoUnitario, costoPromedio;
+
+            saldo = penultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
+            costoTotal = penultimoKardex.getCostoTotal() + facturaCompraLinea.getSubtotalLinea();
+            costoUnitario = facturaCompraLinea.getSubtotalLinea() / facturaCompraLinea.getCantidad();
+            costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
+            costoPromedio = costoTotal / saldo;
+            costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+
             ultimoKardex.setFecha(facturaCompra.getFecha());
             ultimoKardex.setEntrada(facturaCompraLinea.getCantidad());
             ultimoKardex.setSaldo(saldo);
@@ -146,6 +154,11 @@ public class FacturaCompraService implements IFacturaCompraService {
             ultimoKardex.setCostoPromedio(costoPromedio);
             ultimoKardex.setCostoTotal(costoTotal);
             kardexService.actualizar(ultimoKardex);
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(facturaCompra.getFecha());
+            c.add(c.DAY_OF_YEAR, -1);
+            kardexService.recalcularPorProductoYBodegaYFecha(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), c.getTime());
         }
     }
 
@@ -251,11 +264,15 @@ public class FacturaCompraService implements IFacturaCompraService {
         this.validarLinea(facturaCompraLinea);
         this.distribuirCostoLinea(facturaCompraLinea);
 
-        double valorPorcentajeDescuentoLinea = (facturaCompraLinea.getCostoPromedio() * facturaCompraLinea.getPorcentajeDescuentoLinea() / 100);
+        double subtotalLineaSinDescuento = facturaCompraLinea.getCantidad() * facturaCompraLinea.getCostoUnitario();
+        subtotalLineaSinDescuento = Math.round(subtotalLineaSinDescuento * 10000.0) / 10000.0;
+        facturaCompraLinea.setSubtotalLineaSinDescuento(subtotalLineaSinDescuento);
+
+        double valorPorcentajeDescuentoLinea = (subtotalLineaSinDescuento * facturaCompraLinea.getPorcentajeDescuentoLinea() / 100);
         valorPorcentajeDescuentoLinea = Math.round(valorPorcentajeDescuentoLinea * 100.0) / 100.0;
         facturaCompraLinea.setValorPorcentajeDescuentoLinea(valorPorcentajeDescuentoLinea);
 
-        double subtotalLinea = facturaCompraLinea.getCantidad() * (facturaCompraLinea.getCostoPromedio() - facturaCompraLinea.getValorDescuentoLinea() - valorPorcentajeDescuentoLinea);
+        double subtotalLinea = subtotalLineaSinDescuento - facturaCompraLinea.getValorDescuentoLinea() - valorPorcentajeDescuentoLinea;
         subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
         facturaCompraLinea.setSubtotalLinea(subtotalLinea);
 
@@ -280,38 +297,37 @@ public class FacturaCompraService implements IFacturaCompraService {
      */
     @Override
     public FacturaCompra calcular(FacturaCompra facturaCompra) {
-        this.calcularSubtotal(facturaCompra);
-        this.calcularDescuentoTotalSinPorcentajeDescuentoTotal(facturaCompra);
+        this.calcularSubtotalSinDescuento(facturaCompra);
+        this.calcularValorDescuentoTotal(facturaCompra);
         this.calcularTotales(facturaCompra);
         if (facturaCompra.getPorcentajeDescuentoTotal() != Constantes.cero) {
-            this.calcularDescuentoTotalConPorcentajeDescuentoTotal(facturaCompra);
+            this.calcularPorcentajeDescuentoTotal(facturaCompra);
             this.calcularTotales(facturaCompra);
         }
         return facturaCompra;
     }
 
-    private void calcularSubtotal(FacturaCompra facturaCompra) {
+    private void calcularSubtotalSinDescuento(FacturaCompra facturaCompra) {
         double subtotal = Constantes.cero;
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
-            subtotal += facturaCompraLinea.getSubtotalLinea();
+            subtotal += facturaCompraLinea.getSubtotalLineaSinDescuento();
         }
         subtotal = Math.round(subtotal * 100.0) / 100.0;
         facturaCompra.setSubtotal(subtotal);
     }
 
-    private void calcularDescuentoTotalSinPorcentajeDescuentoTotal(FacturaCompra facturaCompra) {
-        double valorTotalDescuentoLinea = Constantes.cero;
-        double valorTotalDescuentoTotalLinea = Constantes.cero;
+    private void calcularValorDescuentoTotal(FacturaCompra facturaCompra) {
+        double valorTotalDescuentoLinea = Constantes.cero, valorTotalDescuentoTotalLinea = Constantes.cero;
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
             valorTotalDescuentoLinea += facturaCompraLinea.getValorDescuentoLinea() + facturaCompraLinea.getValorPorcentajeDescuentoLinea();
+            double ponderacion = facturaCompraLinea.getSubtotalLineaSinDescuento() / facturaCompra.getSubtotal();
 
-            double ponderacion = facturaCompraLinea.getSubtotalLinea() / facturaCompra.getSubtotal();
             double valorDescuentoTotalLinea = (facturaCompra.getValorDescuentoTotal() * ponderacion) * 100 / (100 + facturaCompraLinea.getImpuesto().getPorcentaje());
             valorDescuentoTotalLinea = Math.round(valorDescuentoTotalLinea * 100.0) / 100.0;
             facturaCompraLinea.setValorDescuentoTotalLinea(valorDescuentoTotalLinea);
             valorTotalDescuentoTotalLinea += valorDescuentoTotalLinea;
 
-            double subtotalLinea = facturaCompraLinea.getSubtotalLinea() - facturaCompraLinea.getValorDescuentoLinea() -
+            double subtotalLinea = facturaCompraLinea.getSubtotalLineaSinDescuento() - facturaCompraLinea.getValorDescuentoLinea() -
                     facturaCompraLinea.getValorPorcentajeDescuentoLinea() - valorDescuentoTotalLinea;
             subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
             facturaCompraLinea.setSubtotalLinea(subtotalLinea);
@@ -330,12 +346,10 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     private void calcularTotales(FacturaCompra facturaCompra) {
-        double subtotalConDescuento = Constantes.cero;
-        double subtotalGravadoConDescuento = Constantes.cero;
-        double subtotalNoGravadoConDescuento = Constantes.cero;
-        double importeIvaTotal = Constantes.cero;
+        double subtotalConDescuento = Constantes.cero, subtotalGravadoConDescuento = Constantes.cero;
+        double subtotalNoGravadoConDescuento = Constantes.cero, importeIvaTotal = Constantes.cero;
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
-            subtotalConDescuento += facturaCompraLinea.getSubtotalLinea();
+            //subtotalConDescuento += facturaCompraLinea.getSubtotalLinea();
             if (facturaCompraLinea.getImpuesto().getPorcentaje() != Constantes.cero) {
                 subtotalGravadoConDescuento += facturaCompraLinea.getSubtotalLinea();
             } else {
@@ -343,8 +357,8 @@ public class FacturaCompraService implements IFacturaCompraService {
             }
             importeIvaTotal += facturaCompraLinea.getImporteIvaLinea();
         }
-        subtotalConDescuento = Math.round(subtotalConDescuento * 100.0) / 100.0;
-        facturaCompra.setSubtotal(subtotalConDescuento);
+        //subtotalConDescuento = Math.round(subtotalConDescuento * 100.0) / 100.0;
+        //facturaCompra.setSubtotal(subtotalConDescuento);
 
         subtotalGravadoConDescuento = Math.round(subtotalGravadoConDescuento * 100.0) / 100.0;
         facturaCompra.setSubtotalGravadoConDescuento(subtotalGravadoConDescuento);
@@ -360,9 +374,8 @@ public class FacturaCompraService implements IFacturaCompraService {
         facturaCompra.setTotal(total);
     }
 
-    private void calcularDescuentoTotalConPorcentajeDescuentoTotal(FacturaCompra facturaCompra) {
-        double valorTotalDescuentoLinea = Constantes.cero;
-        double valorTotalDescuentoTotalLinea = Constantes.cero;
+    private void calcularPorcentajeDescuentoTotal(FacturaCompra facturaCompra) {
+        double valorTotalDescuentoLinea = Constantes.cero, valorTotalDescuentoTotalLinea = Constantes.cero;
         double valorTotalPorcentajeDescuentoTotalLinea = Constantes.cero;
         double valorTotalPorcentajeDescuentoTotal = (facturaCompra.getTotal() * (facturaCompra.getPorcentajeDescuentoTotal() / 100));
         valorTotalPorcentajeDescuentoTotal = Math.round(valorTotalPorcentajeDescuentoTotal * 100.0) / 100.0;
@@ -372,13 +385,13 @@ public class FacturaCompraService implements IFacturaCompraService {
             valorTotalDescuentoLinea += facturaCompraLinea.getValorDescuentoLinea() + facturaCompraLinea.getValorPorcentajeDescuentoLinea();
             valorTotalDescuentoTotalLinea += facturaCompraLinea.getValorDescuentoTotalLinea();
 
-            double ponderacion = facturaCompraLinea.getSubtotalLinea() / facturaCompra.getSubtotal();
+            double ponderacion = facturaCompraLinea.getSubtotalLineaSinDescuento() / facturaCompra.getSubtotal();
             double valorPorcentajeDescuentoTotalLinea = (valorTotalPorcentajeDescuentoTotal * ponderacion) * 100 / (100 + facturaCompraLinea.getImpuesto().getPorcentaje());
             valorPorcentajeDescuentoTotalLinea = Math.round(valorPorcentajeDescuentoTotalLinea * 100.0) / 100.0;
             facturaCompraLinea.setValorPorcentajeDescuentoTotalLinea(valorPorcentajeDescuentoTotalLinea);
             valorTotalPorcentajeDescuentoTotalLinea += valorPorcentajeDescuentoTotalLinea;
 
-            double subtotalLinea = facturaCompraLinea.getSubtotalLinea() - facturaCompraLinea.getValorDescuentoLinea() - facturaCompraLinea.getValorPorcentajeDescuentoLinea() -
+            double subtotalLinea = facturaCompraLinea.getSubtotalLineaSinDescuento() - facturaCompraLinea.getValorDescuentoLinea() - facturaCompraLinea.getValorPorcentajeDescuentoLinea() -
                     facturaCompraLinea.getValorDescuentoTotalLinea() - valorPorcentajeDescuentoTotalLinea;
             subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
             facturaCompraLinea.setSubtotalLinea(subtotalLinea);
