@@ -42,6 +42,7 @@ public class NotaDebitoService implements INotaDebitoService {
         if(notaDebito.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaDebito.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
         if(notaDebito.getEstadoSri().equals(Constantes.estadoSriAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaDebito.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
         if(notaDebito.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaDebito.getFactura().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.factura);
         if(notaDebito.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);

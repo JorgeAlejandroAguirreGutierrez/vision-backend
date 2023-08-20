@@ -6,7 +6,6 @@ import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
-import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.vision.repositorios.entrega.IGuiaRemisionRepository;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
@@ -37,6 +36,8 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		if(guiaRemision.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
 		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
 		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
+		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAnulada)) throw new DatoInvalidoException(Constantes.estado);
+		if(guiaRemision.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
 		if(guiaRemision.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
 		if(guiaRemision.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
 		if(guiaRemision.getTransportista().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.transportista);
