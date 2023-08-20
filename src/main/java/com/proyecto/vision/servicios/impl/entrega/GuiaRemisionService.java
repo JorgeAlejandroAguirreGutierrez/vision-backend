@@ -6,6 +6,7 @@ import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
+import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.vision.repositorios.entrega.IGuiaRemisionRepository;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
@@ -166,4 +167,14 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     public Page<GuiaRemision> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
+
+	@Override
+	public List<GuiaRemision> consultarPorEmpresa(long empresaId){
+		return rep.consultarPorEmpresa(empresaId);
+	}
+
+	@Override
+	public List<GuiaRemision> consultarPorEmpresaYEstado(long empresaId, String estado){
+		return rep.consultarPorEmpresaYEstado(empresaId, estado);
+	}
 }
