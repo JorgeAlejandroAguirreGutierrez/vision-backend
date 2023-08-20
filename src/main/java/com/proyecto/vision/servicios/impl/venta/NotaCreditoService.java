@@ -42,6 +42,10 @@ public class NotaCreditoService implements INotaCreditoService {
     @Override
     public void validar(NotaCredito notaCredito) {
         if(notaCredito.getEstado().equals(Constantes.estado)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaCredito.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaCredito.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaCredito.getEstadoSri().equals(Constantes.estadoSriAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaCredito.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
         if(notaCredito.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaCredito.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaCredito.getNotaCreditoLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_credito_venta_linea);
