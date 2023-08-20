@@ -1,5 +1,6 @@
 package com.proyecto.vision.modelos.entrega;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.usuario.Empresa;
@@ -73,6 +74,7 @@ public class GuiaRemision extends Entidad {
     @ManyToOne
     @JoinColumn(name = "vehiculo_transporte_id", nullable = true)
     private Vehiculo vehiculo;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
