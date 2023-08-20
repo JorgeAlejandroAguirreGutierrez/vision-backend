@@ -41,6 +41,12 @@ public class FacturaLinea extends Entidad {
     private double porcentajeDescuentoLinea;
     @Column(name = "valor_porcentaje_descuento_linea", nullable = true)
     private double valorPorcentajeDescuentoLinea;
+    @Column(name = "valor_descuento_total_linea", nullable = true)
+    private double valorDescuentoTotalLinea;
+    @Column(name = "valor_porcentaje_descuento_total_linea", nullable = true)
+    private double valorPorcentajeDescuentoTotalLinea;
+    @Column(name = "subtotal_linea_sin_descuento", nullable = true)
+    private double subtotalLineaSinDescuento;
     @Column(name = "subtotal_linea", nullable = true)
     private double subtotalLinea;
     @Column(name = "importe_iva_linea", nullable = true)
@@ -79,6 +85,9 @@ public class FacturaLinea extends Entidad {
         this.valorDescuentoLinea = Constantes.cero;
         this.porcentajeDescuentoLinea = Constantes.cero;
         this.valorPorcentajeDescuentoLinea = Constantes.cero;
+        this.valorDescuentoTotalLinea = Constantes.cero;
+        this.valorPorcentajeDescuentoTotalLinea = Constantes.cero;
+        this.subtotalLineaSinDescuento = Constantes.cero;
         this.subtotalLinea = Constantes.cero;
         this.importeIvaLinea = Constantes.cero;
         this.totalLinea = Constantes.cero;

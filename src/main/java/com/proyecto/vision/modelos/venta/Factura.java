@@ -49,7 +49,18 @@ public class Factura extends Entidad {
 	private String estado;
 	@Column(name = "estado_sri", nullable = true)
 	private String estadoSri;
-
+	@Column(name = "valor_descuento_total", nullable = true)
+	private double valorDescuentoTotal;
+	@Column(name = "porcentaje_descuento_total", nullable = true)
+	private double porcentajeDescuentoTotal;
+	@Column(name = "valor_porcentaje_descuento_total", nullable = true)
+	private double valorPorcentajeDescuentoTotal;
+	@Column(name = "valor_descuento_subtotal", nullable = true)
+	private double valorDescuentoSubtotal;
+	@Column(name = "porcentaje_descuento_subtotal", nullable = true)
+	private double porcentajeDescuentoSubtotal;
+	@Column(name = "valor_porcentaje_descuento_subtotal", nullable = true)
+	private double valorPorcentajeDescuentoSubtotal;
 	@Column(name = "subtotal", nullable = true)
 	private double subtotal;
 	@Column(name = "descuento", nullable = true)
@@ -62,7 +73,6 @@ public class Factura extends Entidad {
 	private double importeIva;
 	@Column(name = "total", nullable = true)
 	private double total;
-
 	@Column(name = "comentario", nullable = true)
 	private String comentario;
 	@ManyToOne
@@ -144,6 +154,15 @@ public class Factura extends Entidad {
 		this.estado = Constantes.estadoActivo;
 		this.estadoInterno = Constantes.estadoInternoEmitida;
 		this.estadoSri = Constantes.estadoSriPendiente;
+
+		this.valorDescuentoTotal = Constantes.cero;
+		this.porcentajeDescuentoTotal = Constantes.cero;
+		this.valorPorcentajeDescuentoTotal = Constantes.cero;
+		this.valorDescuentoSubtotal = Constantes.cero;
+		this.porcentajeDescuentoSubtotal = Constantes.cero;
+		this.valorPorcentajeDescuentoSubtotal = Constantes.cero;
+
+		this.subtotal = Constantes.cero;
 		this.descuento = Constantes.cero;
 		this.subtotalGravado = Constantes.cero;
 		this.subtotalNoGravado = Constantes.cero;
