@@ -457,8 +457,8 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 				imagenCodigoBarras = new Image(objetoCodigoBarras);
 			}
 			tabla.addCell(getCellFactura("RUC: " + notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
-					"FACTURA"+"\n"+
-					"No. " + notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + notaDebito.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + notaDebito.getSecuencial() + "\n" +
+					"NOTA DEBITO"+"\n"+
+					"No. " + notaDebito.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion+ "\n" +
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
