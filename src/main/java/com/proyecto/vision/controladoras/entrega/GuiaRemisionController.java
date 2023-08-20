@@ -8,6 +8,7 @@ import com.proyecto.vision.controladoras.GenericoController;
 import com.proyecto.vision.modelos.Respuesta;
 import com.proyecto.vision.modelos.cajaBanco.Banco;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
+import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.servicios.interf.entrega.IGuiaRemisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,20 @@ public class GuiaRemisionController implements GenericoController<GuiaRemision> 
     	Page<GuiaRemision> entregas = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
     	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, entregas);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<GuiaRemision> guiasRemisiones = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, guiasRemisiones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<GuiaRemision> guiasRemisiones = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, guiasRemisiones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
