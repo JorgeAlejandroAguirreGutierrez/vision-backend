@@ -67,6 +67,15 @@ public class KardexService implements IKardexService {
         throw new EntidadNoExistenteException(Constantes.kardex);
     }
     @Override
+    public Kardex obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(long productoId, long bodegaId, long tipoComprobanteId, String comprobante, long posicion) {
+        Optional<Kardex> res = rep.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(productoId, bodegaId, tipoComprobanteId, comprobante);
+        if(res.isEmpty()){
+            return null;
+        }
+        //Aqui falta validar por posicion si hay 2 registros del mismo producto en la misma factura
+        return res.get();
+    }
+    @Override
     public Kardex obtenerUltimoPorProductoYBodega(long productoId, long bodegaId) {
         Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodega(productoId, bodegaId);
         if(res.isEmpty()){
@@ -93,6 +102,22 @@ public class KardexService implements IKardexService {
         return res.get();
     }
     @Override
+    public Kardex obtenerPenultimoPorProductoYBodegaYMismaFechaYId(long productoId, long bodegaId, Date fecha, long id) {
+        Optional<Kardex> res = rep.obtenerPenultimoPorProductoYBodegaYMismaFechaYId(productoId, bodegaId, fecha, id);
+        if(res.isEmpty()){
+            return null;
+        }
+        return res.get();
+    }
+    @Override
+    public Kardex obtenerPenultimoPorProductoYBodegaYMenorFecha(long productoId, long bodegaId, Date fecha) {
+        Optional<Kardex> res = rep.obtenerPenultimoPorProductoYBodegaYMenorFecha(productoId, bodegaId, fecha);
+        if(res.isEmpty()){
+            return null;
+        }
+        return res.get();
+    }
+    @Override
     public void eliminar(long tipoComprobanteId, long tipoOperacionId,String referencia) {
         rep.eliminar(tipoComprobanteId, tipoOperacionId, referencia);
     }
@@ -112,7 +137,8 @@ public class KardexService implements IKardexService {
             if (kardex.getTipoComprobante().getId() == 8){
 
                 saldo = ultimoKardex.getSaldo() + kardex.getEntrada();
-                costoTotal = ultimoKardex.getCostoTotal() + (kardex.getEntrada()*kardex.getDebe());
+                costoTotal = ultimoKardex.getCostoTotal() + (kardex.getEntrada() * kardex.getDebe());
+                costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
 

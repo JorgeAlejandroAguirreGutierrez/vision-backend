@@ -23,6 +23,8 @@ import static com.proyecto.vision.Constantes.tabla_factura_compra_linea;
 public class FacturaCompraLinea extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "posicion", nullable = true)
+    private long posicion;
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
     @Column(name = "costo_unitario", nullable = true)
@@ -41,6 +43,8 @@ public class FacturaCompraLinea extends Entidad {
     private double valorDescuentoTotalLinea;
     @Column(name = "valor_porcentaje_descuento_total_linea", nullable = true)
     private double valorPorcentajeDescuentoTotalLinea;
+    @Column(name = "subtotal_linea_sin_descuento", nullable = true)
+    private double subtotalLineaSinDescuento;
     @Column(name = "subtotal_linea", nullable = true)
     private double subtotalLinea;
     @Column(name = "importe_iva_linea", nullable = true)
@@ -67,6 +71,7 @@ public class FacturaCompraLinea extends Entidad {
     public FacturaCompraLinea() {
         super();
         this.codigo = Constantes.vacio;
+        this.posicion = Constantes.ceroId;
         this.cantidad = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
         this.costoDistribuido = Constantes.cero;
@@ -76,6 +81,7 @@ public class FacturaCompraLinea extends Entidad {
         this.valorPorcentajeDescuentoLinea = Constantes.cero;
         this.valorDescuentoTotalLinea = Constantes.cero;
         this.valorPorcentajeDescuentoTotalLinea = Constantes.cero;
+        this.subtotalLineaSinDescuento = Constantes.cero;
         this.subtotalLinea = Constantes.cero;
         this.importeIvaLinea = Constantes.cero;
         this.totalLinea = Constantes.cero;

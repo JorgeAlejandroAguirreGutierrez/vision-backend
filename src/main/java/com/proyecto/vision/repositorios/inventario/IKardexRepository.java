@@ -21,12 +21,18 @@ public interface IKardexRepository extends JpaRepository<Kardex, Long>, JpaSpeci
     List<Kardex> consultarPorFechaInicioYFechaFinalYProducto(Date fechaInicio, Date fechaFinal, long productoId);
     @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and k.fecha > :fecha order by k.fecha asc, k.id", nativeQuery = true)
     List<Kardex> consultarPorProductoYBodegaYFechaMayor(long productoId, long bodegaId, Date fecha);
+    @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and k.tipo_comprobante_id = :tipoComprobanteId and k.referencia = :comprobante order by k.fecha desc limit 1", nativeQuery = true)
+    Optional<Kardex> obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(long productoId, long bodegaId, long tipoComprobanteId, String comprobante);
     @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId order by k.fecha desc limit 1", nativeQuery = true)
     Optional<Kardex> obtenerUltimoPorProductoYBodega(long productoId, long bodegaId);
     @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and date(k.fecha) <= :fecha order by date(k.fecha) desc, k.id desc limit 1", nativeQuery = true)
     Optional<Kardex> obtenerUltimoPorProductoYBodegaYFecha(long productoId, long bodegaId, Date fecha);
-    @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and k.tipo_comprobante_id = :tipoComprobanteId order by k.fecha desc limit 1", nativeQuery = true)
+    @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and k.tipo_comprobante_id = :tipoComprobanteId order by date(k.fecha) desc, k.id desc desc limit 1", nativeQuery = true)
     Optional<Kardex> obtenerUltimoPorProductoYBodegaYTablaTipoComprobante(long productoId, long bodegaId, long tipoComprobanteId);
+    @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and date(k.fecha) = :fecha and k.id < :id order by date(k.fecha) desc, k.id desc limit 1", nativeQuery = true)
+    Optional<Kardex> obtenerPenultimoPorProductoYBodegaYMismaFechaYId(long productoId, long bodegaId, Date fecha, long id);
+    @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and date(k.fecha) < :fecha order by date(k.fecha) desc, k.id desc limit 1", nativeQuery = true)
+    Optional<Kardex> obtenerPenultimoPorProductoYBodegaYMenorFecha(long productoId, long bodegaId, Date fecha);
     @Modifying
     @Transactional
     @Query(value = "delete from kardex k where k.tipo_comprobante_id = :tipoComprobanteId and k.tipo_operacion_id = :tipoOperacionId and k.referencia = :referencia", nativeQuery = true)
