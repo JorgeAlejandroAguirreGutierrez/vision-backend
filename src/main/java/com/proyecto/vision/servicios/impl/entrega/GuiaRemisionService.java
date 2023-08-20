@@ -116,7 +116,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		res.normalizar();
 		secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
 		secuencialService.actualizar(secuencial);
-    	return rep.save(guiaRemision);
+    	return res;
     }
 
     @Override
