@@ -93,7 +93,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     @Override
     public GuiaRemision crear(GuiaRemision guiaRemision) {
 		validar(guiaRemision);
-		TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito);
+		TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_guia_remision);
 		guiaRemision.setTipoComprobante(tipoComprobante);
 		Optional<String>codigo = Util.generarCodigo(Constantes.tabla_guia_remision);
     	if (codigo.isEmpty()) {
