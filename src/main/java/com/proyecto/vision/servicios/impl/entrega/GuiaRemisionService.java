@@ -105,6 +105,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(guiaRemision.getTipoComprobante().getId(),
 				guiaRemision.getSesion().getUsuario().getEstacion().getId(), guiaRemision.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
 		guiaRemision.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+		guiaRemision.setNumeroComprobante(guiaRemision.getEstablecimiento() + Constantes.guion + guiaRemision.getPuntoVenta() + Constantes.guion + guiaRemision.getSecuencial());
 		guiaRemision.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
 		Optional<String> claveAcceso = crearClaveAcceso(guiaRemision);
 		if (claveAcceso.isEmpty()) {
