@@ -420,7 +420,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 				razonSocialDestinatario = guiaRemision.getFactura().getCliente().getRazonSocial();
 				direccionDestinatario = guiaRemision.getFactura().getCliente().getDireccion();
 			}
-			if(guiaRemision.getOpcionGuia().equals(Constantes.cliente_direccion)){
+			if(guiaRemision.getOpcionGuia().equals(Constantes.nueva_direccion)){
 				identificacionDestinatario = guiaRemision.getIdentificacionDestinatario();
 				razonSocialDestinatario = guiaRemision.getRazonSocialDestinatario();
 				direccionDestinatario = guiaRemision.getDireccionDestinatario();
@@ -428,29 +428,29 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			float [] columnasDestinatario = {300F, 300F};
 			Table tablaDestinatario = new Table(columnasDestinatario);
 			tablaDestinatario.addCell(getCellDestinatario("IDENTIFICACION DESTINATARIO:", TextAlignment.LEFT));
-			tablaDestinatario.addCell(getCellDestinatario(identificacionDestinatario, TextAlignment.RIGHT));
+			tablaDestinatario.addCell(getCellDestinatario(identificacionDestinatario, TextAlignment.LEFT));
 			tablaDestinatario.addCell(getCellDestinatario("RAZON SOCIAL DESTINATARIO:", TextAlignment.LEFT));
-			tablaDestinatario.addCell(getCellDestinatario(razonSocialDestinatario, TextAlignment.RIGHT));
+			tablaDestinatario.addCell(getCellDestinatario(razonSocialDestinatario, TextAlignment.LEFT));
 			tablaDestinatario.addCell(getCellDestinatario("DIRECCION DESTINATARIO:", TextAlignment.LEFT));
-			tablaDestinatario.addCell(getCellDestinatario(direccionDestinatario, TextAlignment.RIGHT));
+			tablaDestinatario.addCell(getCellDestinatario(direccionDestinatario, TextAlignment.LEFT));
 			documento.add(tablaDestinatario);
 			documento.add( new Paragraph("\n"));
 			float [] columnasGuiaRemision = {300F, 300F};
 			Table tablaGuiaRemision = new Table(columnasGuiaRemision);
 			tablaGuiaRemision.addCell(getCellGuiaRemision("IDENTIFICACION TRANSPORTISTA:", TextAlignment.LEFT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getTransportista().getIdentificacion(), TextAlignment.RIGHT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getTransportista().getIdentificacion(), TextAlignment.LEFT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision("RAZON SOCIAL TRANSPORTISTA:", TextAlignment.LEFT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getTransportista().getNombre(), TextAlignment.RIGHT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getTransportista().getNombre(), TextAlignment.LEFT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision("PLACA:", TextAlignment.LEFT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getVehiculo().getPlaca(), TextAlignment.RIGHT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getVehiculo().getPlaca(), TextAlignment.LEFT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision("MOTIVO TRASLADO:", TextAlignment.LEFT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getMotivoTraslado(), TextAlignment.RIGHT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getMotivoTraslado(), TextAlignment.LEFT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision("RUTA:", TextAlignment.LEFT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getRuta(), TextAlignment.RIGHT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getRuta(), TextAlignment.LEFT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision("FECHA INICIO DE TRTANSPORTE:", TextAlignment.LEFT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getFechaInicioTransporte().toString(), TextAlignment.RIGHT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision("FECHA FIN DE TRANSPORTE:", TextAlignment.RIGHT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getFechaFinTransporte().toString(), TextAlignment.RIGHT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getFechaInicioTransporte().toString(), TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision("FECHA FIN DE TRANSPORTE:", TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getFechaFinTransporte().toString(), TextAlignment.LEFT));
 			documento.add(tablaGuiaRemision);
 			documento.add( new Paragraph("\n"));
 			float [] columnasTablaFacturaDetalle = {200F, 200F, 200F};
@@ -532,7 +532,9 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		cell.add(parrafo);
 		cell.setTextAlignment(alignment);
 		cell.setFontSize(Constantes.fontSize10);
-		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		cell.setBorder(Border.NO_BORDER);
+		cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
+		cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
 		return cell;
 	}
 	private Cell getCellDestinatario(String text, TextAlignment alignment) {
@@ -541,7 +543,9 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		cell.add(parrafo);
 		cell.setTextAlignment(alignment);
 		cell.setFontSize(Constantes.fontSize10);
-		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		cell.setBorder(Border.NO_BORDER);
+		cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
+		cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
 		return cell;
 	}
     
