@@ -106,7 +106,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoTributaria.setSecuencial(factura.getSecuencial());
     	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
     	
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
+    	DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
     	String fechaEmision = dateFormat.format(factura.getFecha());
     	infoFactura.setFechaEmision(fechaEmision);
 		infoFactura.setDirEstablecimiento(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
@@ -479,7 +479,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			}
 			tabla.addCell(getCellFactura("RUC: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"FACTURA"+"\n"+
-					"No. " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + factura.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + factura.getSecuencial() + "\n" +
+					"No. " + factura.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
@@ -507,14 +507,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
             for (int i = 0; i <factura.getFacturaLineas().size(); i++)
             {
 				String precioUnitario = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecioUnitario());
-				String valorDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getValorDescuentoLinea());
+				String descuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
 				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getCodigo()));
                 tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
                 tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getNombre()));
                 tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
-                tablaFacturaDetalle.addCell(getCellFilaFactura("$"+valorDescuentoLinea));
+                tablaFacturaDetalle.addCell(getCellFilaFactura("$"+descuentoLinea));
                 tablaFacturaDetalle.addCell(getCellFilaFactura("$"+subtotalConDescuentoLinea));
             }
 			documento.add(tablaFacturaDetalle);

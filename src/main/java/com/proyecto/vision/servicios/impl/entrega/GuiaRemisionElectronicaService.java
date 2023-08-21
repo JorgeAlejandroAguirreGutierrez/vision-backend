@@ -2,25 +2,31 @@ package com.proyecto.vision.servicios.impl.entrega;
 
 import ayungan.com.signature.ConvertFile;
 import ayungan.com.signature.SignatureXAdESBES;
+import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.HorizontalAlignment;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CertificadoNoExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.modelos.recaudacion.*;
+import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
 import com.proyecto.vision.modelos.venta.electronico.guiaremision.*;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
@@ -108,7 +114,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		infoGuiaRemision.setRucTransportista(guiaRemision.getTransportista().getIdentificacion());
 		infoGuiaRemision.setObligadoContabilidad(guiaRemision.getFactura().getCliente().getObligadoContabilidad());
 		infoGuiaRemision.setContribuyenteEspecial(null);
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
 		String fechaInicioTransporte = dateFormat.format(guiaRemision.getFechaInicioTransporte());
 		infoGuiaRemision.setFechaIniTransporte(fechaInicioTransporte);
 		String fechaFinTransporte = dateFormat.format(guiaRemision.getFechaFinTransporte());
@@ -139,17 +145,30 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		destinatario.setMotivoTraslado(guiaRemision.getMotivoTraslado());
 		destinatario.setRuta(guiaRemision.getRuta());
 		destinatario.setCodDocSustento(Constantes.factura_sri);
-		String numDocSustento = guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI()
-				+ Constantes.guion + guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion
-				+ guiaRemision.getFactura().getSecuencial();
-		destinatario.setNumDocSustento(numDocSustento);
+		destinatario.setNumDocSustento(guiaRemision.getFactura().getNumeroComprobante());
 		destinatario.setNumAutDocSustento(guiaRemision.getFactura().getClaveAcceso());
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		destinatario.setFechaEmisionDocSustento(dateFormat.format(guiaRemision.getFactura().getFecha()));
+		DateFormat fechaFormato = new SimpleDateFormat(Constantes.fechaCortaSri);
+		destinatario.setFechaEmisionDocSustento(fechaFormato.format(guiaRemision.getFactura().getFecha()));
+		destinatario.setDetalles(crearDetalles(guiaRemision));
 		destinatariosLista.add(destinatario);
 		destinatarios.setDestinatario(destinatariosLista);
 		return destinatarios;
 	}
+
+	private Detalles crearDetalles(GuiaRemision guiaRemision){
+    	Detalles detalles = new Detalles();
+    	List<Detalle> detalleLista = new ArrayList<>();
+    	for (FacturaLinea facturaLinea: guiaRemision.getFactura().getFacturaLineas()){
+    		Detalle detalle = new Detalle();
+    		detalle.setCodigoInterno(facturaLinea.getProducto().getCodigo());
+    		detalle.setDescripcion(facturaLinea.getProducto().getNombre());
+    		detalle.setCantidad(facturaLinea.getCantidad()+Constantes.vacio);
+    		detalleLista.add(detalle);
+		}
+    	detalles.setDetalle(detalleLista);
+    	return detalles;
+	}
+
 	private InfoAdicional crearInfoAdicional(GuiaRemision guiaRemision) {
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
 		if(!guiaRemision.getFactura().getCliente().getTelefonos().isEmpty()) {
@@ -193,15 +212,15 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 	public GuiaRemision enviar(long guiaRemisionId) throws MalformedURLException {
 		Optional<GuiaRemision> opcional= rep.findById(guiaRemisionId);
 		if(opcional.isEmpty()) {
-			throw new EntidadNoExistenteException(Constantes.factura);
+			throw new EntidadNoExistenteException(Constantes.guia_remision);
 		}
 		GuiaRemision guiaRemision = opcional.get();
 		Resource certificado = empresaService.bajarCertificado(guiaRemision.getEmpresa().getId());
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
 		}
-		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
-			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
+		if(guiaRemision.getEstado().equals(Constantes.estadoInactivo)){
+			throw new EstadoInvalidoException(Constantes.estadoInactivo);
 		}
 		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
 			throw new EstadoInvalidoException(Constantes.estadoInternoAnulada);
@@ -346,93 +365,209 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		}
 	}
 
-    public ByteArrayInputStream crearPDF(GuiaRemision guiaRemision) {
-    	try {
-            ByteArrayOutputStream salida = new ByteArrayOutputStream();
-            PdfWriter writer = new PdfWriter(salida);
-            PdfDocument pdf = new PdfDocument(writer);
-            // Initialize document
-            Document documento = new Document(pdf, PageSize.A4);
-            documento.setMargins(20, 20, 20, 20);
-            // 4. Add content
-            PdfFont font = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
-            documento.setFont(font);
-            documento.add(new Paragraph(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+"\n"+
-                    "DIRECCION MATRIZ: "+ guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion()+"\n"+
-            		"OBLIGADO A LLEVAR CONTABILIDAD: "+ guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad()).setBorder(new SolidBorder(1)));
-            documento.add( new Paragraph("\n"));
-            documento.add(new Paragraph("RUC: "+ guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
-                    "NOTA DE DEBITO"+"\n"+
-                    "No. " + guiaRemision.getSecuencial() + "\n" +
-                    "NÚMERO DE AUTORIZACIÓN: " + guiaRemision.getClaveAcceso()+ "\n" +
-                    "FECHA: " + guiaRemision.getFecha().toString() + "\n" +
-                    "AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
-                    "EMISIÓN: " + Constantes.facturaFisicaEmisionValor).setBorder(new SolidBorder(1)));
-            
-            documento.add( new Paragraph("\n"));
-            
-            String telefonoCliente="";
-            String correoCliente="";
-            if (!guiaRemision.getFactura().getCliente().getTelefonos().isEmpty()){
-                telefonoCliente = guiaRemision.getFactura().getCliente().getTelefonos().get(0).getNumero();
-            }
-            if (!guiaRemision.getFactura().getCliente().getCorreos().isEmpty()){
-                correoCliente = guiaRemision.getFactura().getCliente().getCorreos().get(0).getEmail();
-            }
-            documento.add( new Paragraph("RAZÓN SOCIAL: "+ guiaRemision.getFactura().getCliente().getRazonSocial()+"\n"+
-                    "IDENTIFICACIÓN: " + guiaRemision.getFactura().getCliente().getIdentificacion()+"\n"+
-                    "FECHA EMISIÓN: " + guiaRemision.getFactura().getFecha().toString()+"\n"+
-                    "DIRECCIÓN: " + guiaRemision.getFactura().getCliente().getDireccion() + "\n" +
-                    "TELÉFONO: " + telefonoCliente + "\n" +
-                    "CORREO: " + correoCliente).setBorder(new SolidBorder(1)));
-            documento.add( new Paragraph("\n"));
-            float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
-            Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
-            tablaFacturaDetalle.addCell("CÓDIGO");
-            tablaFacturaDetalle.addCell("CANT");
-            tablaFacturaDetalle.addCell("DESCRIPCION");
-            tablaFacturaDetalle.addCell("PRECIO U");
-            tablaFacturaDetalle.addCell("DSCTO");
-            tablaFacturaDetalle.addCell("TOTAL");
-            for (FacturaLinea facturaLinea : guiaRemision.getFactura().getFacturaLineas())
-            {
-                tablaFacturaDetalle.addCell(facturaLinea.getProducto().getCodigo());
-                tablaFacturaDetalle.addCell(facturaLinea.getCantidad() + Constantes.vacio);
-                tablaFacturaDetalle.addCell(facturaLinea.getProducto().getNombre());
-                tablaFacturaDetalle.addCell("$" + facturaLinea.getPrecio().getPrecioVentaPublicoManual());
-                tablaFacturaDetalle.addCell("$" + facturaLinea.getValorDescuentoLinea());
-                tablaFacturaDetalle.addCell("$" + facturaLinea.getSubtotalLinea());
-            }
-            documento.add(tablaFacturaDetalle);
-            documento.add( new Paragraph("\n"));
-            float [] columnasTablaFactura = {130F, 100F};
-            Table tablaFactura = new Table(columnasTablaFactura);
-            tablaFactura.addCell("SUBTOTAL");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotal());
-            tablaFactura.addCell("DESCUENTO");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getDescuento());
-            tablaFactura.addCell("SUBTOTAL GRAVADO");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalGravado());
-            tablaFactura.addCell("SUBTOTAL NO GRAVADO");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getSubtotalNoGravado());
-            tablaFactura.addCell("IMPORTE IVA");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getImporteIva());
-            tablaFactura.addCell("TOTAL");
-            tablaFactura.addCell("$" + guiaRemision.getFactura().getTotal());
-            tablaFactura.setTextAlignment(TextAlignment.RIGHT);
-            tablaFactura.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-            documento.add(tablaFactura);
-            
-            documento.add(new Paragraph("INFORMACION ADICIONAL"+"\n" +
-                    "COMENTARIO: " + guiaRemision.getFactura().getComentario()).setBorder(new SolidBorder(1)).setWidth(300).setVerticalAlignment(VerticalAlignment.TOP).setHorizontalAlignment(HorizontalAlignment.LEFT));
-            documento.add( new Paragraph("\n"));
-            // 5. Close document
-            documento.close();
-            return new ByteArrayInputStream(salida.toByteArray());
-        } catch(Exception e){
-            return null;
-        }
-    }
+	public ByteArrayInputStream crearPDF(GuiaRemision guiaRemision) {
+		try {
+			DateFormat formatoFecha = new SimpleDateFormat(Constantes.fechaCorta);
+			ByteArrayOutputStream salida = new ByteArrayOutputStream();
+			PdfWriter writer = new PdfWriter(salida);
+			PdfDocument pdf = new PdfDocument(writer);
+			// Initialize document
+			Document documento = new Document(pdf, PageSize.A4);
+			documento.setMargins(0,0,0,0);
+			// 4. Add content
+			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+			documento.setFont(font);
+			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			String regimen = Constantes.vacio;
+			if(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
+				regimen = guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
+			}
+			if(guiaRemision.getSesion().getUsuario().getEstacion().getRegimen() != null) {
+				regimen = guiaRemision.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			}
+			float [] columnas = {320F, 280F};
+			Table tabla = new Table(columnas);
+			tabla.addCell(getCellEmpresa(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
+					"DIRECCIÓN MATRIZ: " + guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
+					"DIRECCIÓN SUCURSAL: " + guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
+					regimen + "\n" + "\n" +
+					"CONTIRUYENTE ESPECIAL: " + guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
+					"AGENTE RETENCION RESOLUCIÓN: " + guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+			String numeroAutorizacion = Constantes.vacio;
+			String fechaAutorizacion = Constantes.vacio;
+			Image imagenCodigoBarras = null;
+			if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
+				numeroAutorizacion = guiaRemision.getClaveAcceso();
+				fechaAutorizacion = guiaRemision.getFechaAutorizacion().toString();
+				Barcode128 codigoBarras = new Barcode128(pdf);
+				codigoBarras.setCodeType(Barcode128.CODE128);
+				codigoBarras.setCode(guiaRemision.getClaveAcceso());
+				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
+				imagenCodigoBarras = new Image(objetoCodigoBarras);
+			}
+			tabla.addCell(getCellFactura("RUC: "+ guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+					"FACTURA"+"\n"+
+					"No. " + guiaRemision.getNumeroComprobante() + "\n" +
+					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
+					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
+					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
+					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
+					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
+			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
+			tabla.setHorizontalBorderSpacing(3);
+			documento.add(tabla);
+			documento.add(new Paragraph("\n"));
+			float [] columnasCliente = {300F, 300F};
+			Table tablaCliente = new Table(columnasCliente);
+			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + guiaRemision.getFactura().getCliente().getIdentificacion(), TextAlignment.LEFT));
+			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+ guiaRemision.getFactura().getCliente().getRazonSocial(), TextAlignment.LEFT));
+			tablaCliente.addCell(getCellCliente("DIRECCION: "+ guiaRemision.getFactura().getCliente().getDireccion(), TextAlignment.LEFT));
+			tablaCliente.addCell(getCellCliente("FECHA EMISIÓN: " + guiaRemision.getFecha().toString(), TextAlignment.LEFT));
+			documento.add(tablaCliente);
+			documento.add( new Paragraph("\n"));
+			String identificacionDestinatario = Constantes.vacio;
+			String razonSocialDestinatario = Constantes.vacio;
+			String direccionDestinatario = Constantes.vacio;
+			if(guiaRemision.getOpcionGuia().equals(Constantes.cliente_direccion)){
+				identificacionDestinatario = guiaRemision.getFactura().getCliente().getIdentificacion();
+				razonSocialDestinatario = guiaRemision.getFactura().getCliente().getRazonSocial();
+				direccionDestinatario = guiaRemision.getFactura().getCliente().getDireccion();
+			}
+			if(guiaRemision.getOpcionGuia().equals(Constantes.nueva_direccion)){
+				identificacionDestinatario = guiaRemision.getIdentificacionDestinatario();
+				razonSocialDestinatario = guiaRemision.getRazonSocialDestinatario();
+				direccionDestinatario = guiaRemision.getDireccionDestinatario();
+			}
+			float [] columnasDestinatario = {300F, 300F};
+			Table tablaDestinatario = new Table(columnasDestinatario);
+			tablaDestinatario.addCell(getCellDestinatario("IDENTIFICACION DESTINATARIO:", TextAlignment.LEFT));
+			tablaDestinatario.addCell(getCellDestinatario(identificacionDestinatario, TextAlignment.LEFT));
+			tablaDestinatario.addCell(getCellDestinatario("RAZON SOCIAL DESTINATARIO:", TextAlignment.LEFT));
+			tablaDestinatario.addCell(getCellDestinatario(razonSocialDestinatario, TextAlignment.LEFT));
+			tablaDestinatario.addCell(getCellDestinatario("DIRECCION DESTINATARIO:", TextAlignment.LEFT));
+			tablaDestinatario.addCell(getCellDestinatario(direccionDestinatario, TextAlignment.LEFT));
+			tablaDestinatario.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+			tablaDestinatario.setBorderTopLeftRadius(new BorderRadius(5));
+			tablaDestinatario.setBorderTopRightRadius(new BorderRadius(5));
+			tablaDestinatario.setBorderBottomLeftRadius(new BorderRadius(5));
+			tablaDestinatario.setBorderBottomRightRadius(new BorderRadius(5));
+			documento.add(tablaDestinatario);
+			documento.add( new Paragraph("\n"));
+			float [] columnasGuiaRemision = {300F, 300F};
+			Table tablaGuiaRemision = new Table(columnasGuiaRemision);
+			tablaGuiaRemision.addCell(getCellGuiaRemision("IDENTIFICACION TRANSPORTISTA:", TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getTransportista().getIdentificacion(), TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision("RAZON SOCIAL TRANSPORTISTA:", TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getTransportista().getNombre(), TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision("PLACA:", TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getVehiculo().getPlaca(), TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision("MOTIVO TRASLADO:", TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getMotivoTraslado(), TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision("RUTA:", TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getRuta(), TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision("FECHA INICIO DE TRANSPORTE:", TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(formatoFecha.format(guiaRemision.getFechaInicioTransporte()), TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision("FECHA FIN DE TRANSPORTE:", TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(formatoFecha.format(guiaRemision.getFechaFinTransporte()), TextAlignment.LEFT));
+			tablaGuiaRemision.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+			tablaGuiaRemision.setBorderTopLeftRadius(new BorderRadius(5));
+			tablaGuiaRemision.setBorderTopRightRadius(new BorderRadius(5));
+			tablaGuiaRemision.setBorderBottomLeftRadius(new BorderRadius(5));
+			tablaGuiaRemision.setBorderBottomRightRadius(new BorderRadius(5));
+			documento.add(tablaGuiaRemision);
+			documento.add( new Paragraph("\n"));
+			float [] columnasTablaFacturaDetalle = {200F, 200F, 200F};
+			Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("CÓDIGO"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("CANT"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("DESCRIPCION"));
+			for (int i = 0; i < guiaRemision.getFactura().getFacturaLineas().size(); i++)
+			{
+				tablaFacturaDetalle.addCell(getCellFilaFactura(guiaRemision.getFactura().getFacturaLineas().get(i).getProducto().getCodigo()));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(guiaRemision.getFactura().getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(guiaRemision.getFactura().getFacturaLineas().get(i).getProducto().getNombre()));
+			}
+			documento.add(tablaFacturaDetalle);
+			// 5. Close document
+			documento.close();
+			return new ByteArrayInputStream(salida.toByteArray());
+		} catch(Exception e){
+			return null;
+		}
+	}
+
+	private Cell getCellEmpresa(String text, TextAlignment alignment) {
+		Cell cell = new Cell().add(new Paragraph(text));
+		cell.setTextAlignment(alignment);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+		cell.setBorderTopLeftRadius(new BorderRadius(5));
+		cell.setBorderTopRightRadius(new BorderRadius(5));
+		cell.setBorderBottomLeftRadius(new BorderRadius(5));
+		cell.setBorderBottomRightRadius(new BorderRadius(5));
+		cell.setFontSize(Constantes.fontSize10);
+		return cell;
+	}
+	private Cell getCellFactura(String text, TextAlignment alignment, Image imagenCodigoBarras) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		if(imagenCodigoBarras != null){
+			cell.add(imagenCodigoBarras);
+		}
+		cell.setTextAlignment(alignment);
+		cell.setFontSize(Constantes.fontSize10);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+		cell.setBorderTopLeftRadius(new BorderRadius(5));
+		cell.setBorderTopRightRadius(new BorderRadius(5));
+		cell.setBorderBottomLeftRadius(new BorderRadius(5));
+		cell.setBorderBottomRightRadius(new BorderRadius(5));
+		return cell;
+	}
+	private Cell getCellCliente(String text, TextAlignment alignment) {
+		Cell cell = new Cell().add(new Paragraph(text));
+		cell.setTextAlignment(alignment);
+		cell.setBorder(Border.NO_BORDER);
+		cell.setFontSize(Constantes.fontSize10);
+		cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
+		cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
+		return cell;
+	}
+	private Cell getCellColumnaFactura(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize10);
+		cell.setBackgroundColor(ColorConstants.BLUE).setFontColor(ColorConstants.WHITE);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		return cell;
+	}
+	private Cell getCellFilaFactura(String text) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setFontSize(Constantes.fontSize10);
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
+		return cell;
+	}
+	private Cell getCellGuiaRemision(String text, TextAlignment alignment) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setTextAlignment(alignment);
+		cell.setFontSize(Constantes.fontSize10);
+		cell.setBorder(Border.NO_BORDER);
+		return cell;
+	}
+	private Cell getCellDestinatario(String text, TextAlignment alignment) {
+		Paragraph parrafo = new Paragraph(text);
+		Cell cell = new Cell();
+		cell.add(parrafo);
+		cell.setTextAlignment(alignment);
+		cell.setFontSize(Constantes.fontSize10);
+		cell.setBorder(Border.NO_BORDER);
+		return cell;
+	}
     
     private ByteArrayInputStream crearXML(GuiaRemisionElectronica guiaRemisionElectronica) {
     	try {

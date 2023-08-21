@@ -104,7 +104,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
     	infoTributaria.setSecuencial(notaCredito.getSecuencial());
     	infoTributaria.setDirMatriz(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
     	
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    	DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
     	String fechaEmision = dateFormat.format(notaCredito.getFecha());
 		InfoNotaCredito infoNotaCredito = new InfoNotaCredito();
 		infoNotaCredito.setFechaEmision(fechaEmision);
@@ -416,8 +416,8 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 				imagenCodigoBarras = new Image(objetoCodigoBarras);
 			}
 			tabla.addCell(getCellFactura("RUC: "+ notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
-					"FACTURA"+"\n"+
-					"No. " + notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + notaCredito.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + notaCredito.getSecuencial() + "\n" +
+					"NOTA CREDITO"+"\n"+
+					"No. " + notaCredito.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion+ "\n" +
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +

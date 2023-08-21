@@ -36,6 +36,8 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		if(guiaRemision.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
 		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
 		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
+		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAnulada)) throw new DatoInvalidoException(Constantes.estado);
+		if(guiaRemision.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
 		if(guiaRemision.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
 		if(guiaRemision.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
 		if(guiaRemision.getTransportista().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.transportista);
@@ -93,7 +95,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     @Override
     public GuiaRemision crear(GuiaRemision guiaRemision) {
 		validar(guiaRemision);
-		TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito);
+		TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_guia_remision);
 		guiaRemision.setTipoComprobante(tipoComprobante);
 		Optional<String>codigo = Util.generarCodigo(Constantes.tabla_guia_remision);
     	if (codigo.isEmpty()) {
@@ -103,6 +105,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(guiaRemision.getTipoComprobante().getId(),
 				guiaRemision.getSesion().getUsuario().getEstacion().getId(), guiaRemision.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
 		guiaRemision.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+		guiaRemision.setNumeroComprobante(guiaRemision.getEstablecimiento() + Constantes.guion + guiaRemision.getPuntoVenta() + Constantes.guion + guiaRemision.getSecuencial());
 		guiaRemision.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
 		Optional<String> claveAcceso = crearClaveAcceso(guiaRemision);
 		if (claveAcceso.isEmpty()) {
@@ -116,7 +119,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		res.normalizar();
 		secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
 		secuencialService.actualizar(secuencial);
-    	return rep.save(guiaRemision);
+    	return res;
     }
 
     @Override
@@ -166,4 +169,14 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     public Page<GuiaRemision> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
+
+	@Override
+	public List<GuiaRemision> consultarPorEmpresa(long empresaId){
+		return rep.consultarPorEmpresa(empresaId);
+	}
+
+	@Override
+	public List<GuiaRemision> consultarPorEmpresaYEstado(long empresaId, String estado){
+		return rep.consultarPorEmpresaYEstado(empresaId, estado);
+	}
 }

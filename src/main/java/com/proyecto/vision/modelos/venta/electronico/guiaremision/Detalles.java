@@ -6,9 +6,9 @@ import lombok.Setter;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement(name = "destinatarios")
+@XmlRootElement(name = "detalles")
 @Getter
 @Setter
-public class Destinatarios {
-	private List<Destinatario> destinatario;
+public class Detalles {
+	private List<Detalle> detalle;
 }

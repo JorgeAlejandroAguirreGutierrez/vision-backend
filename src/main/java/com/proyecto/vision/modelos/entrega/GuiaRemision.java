@@ -1,5 +1,6 @@
 package com.proyecto.vision.modelos.entrega;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.usuario.Empresa;
@@ -23,8 +24,14 @@ import static com.proyecto.vision.Constantes.tabla_guia_remision;
 public class GuiaRemision extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "establecimiento", nullable = true)
+    private String establecimiento;
+    @Column(name = "punto_venta", nullable = true)
+    private String puntoVenta;
     @Column(name = "secuencial", nullable = true)
     private String secuencial;
+    @Column(name = "numero_comprobante", nullable = true)
+    private String numeroComprobante;
     @Column(name = "codigo_numerico", nullable = true)
     private String codigoNumerico;
     @Column(name = "clave_acceso", nullable = true)
@@ -73,6 +80,7 @@ public class GuiaRemision extends Entidad {
     @ManyToOne
     @JoinColumn(name = "vehiculo_transporte_id", nullable = true)
     private Vehiculo vehiculo;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;

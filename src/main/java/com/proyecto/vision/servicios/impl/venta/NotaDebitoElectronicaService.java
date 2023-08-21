@@ -102,7 +102,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		infoTributaria.setSecuencial(notaDebito.getSecuencial());
 		infoTributaria.setDirMatriz(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
 
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
 		String fechaEmision = dateFormat.format(notaDebito.getFecha());
 		InfoNotaDebito infoNotaDebito = new InfoNotaDebito();
 		infoNotaDebito.setFechaEmision(fechaEmision);
@@ -112,11 +112,11 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		infoNotaDebito.setIdentificacionComprador(notaDebito.getFactura().getCliente().getIdentificacion());
 		infoNotaDebito.setObligadoContabilidad(notaDebito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
 		infoNotaDebito.setCodDocModificado(Constantes.factura_sri);
-		String numero = notaDebito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + "-" + notaDebito.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI() + "-" + notaDebito.getFactura().getSecuencial();
+		String numero = notaDebito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + notaDebito.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + notaDebito.getFactura().getSecuencial();
 		infoNotaDebito.setNumDocModificado(numero);
 		String fechaEmisionFactura = dateFormat.format(notaDebito.getFactura().getFecha());
 		infoNotaDebito.setFechaEmisionDocSustento(fechaEmisionFactura);
-		infoNotaDebito.setTotalSinImpuestos(notaDebito.getSubtotal());
+		infoNotaDebito.setTotalSinImpuestos(Math.round(notaDebito.getSubtotal() * 100.0)/100.0);
 		Impuestos impuestos = crearImpuestos(notaDebito);
 		infoNotaDebito.setValorTotal(notaDebito.getTotal());
 		Pagos pagos = crearPagos(notaDebito);
@@ -137,7 +137,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		Impuestos impuestos=new Impuestos();
 		List<Impuesto> impuestoLista = new ArrayList<>();
 		for(NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()) {
-			Impuesto impuesto=new Impuesto();
+			Impuesto impuesto = new Impuesto();
 			impuesto.setCodigo(Constantes.iva_sri);
 			impuesto.setCodigoPorcentaje(notaDebitoLinea.getImpuesto().getCodigoSRI());
 			impuesto.setTarifa(notaDebitoLinea.getImpuesto().getPorcentaje());
@@ -205,7 +205,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		return pagos;
 	}
 	private Motivos crearMotivos(NotaDebito notaDebito) {
-		Motivos motivos=new Motivos();
+		Motivos motivos = new Motivos();
 		List<Motivo> motivoLista = new ArrayList<>();
 		for(NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()) {
 			Motivo motivo = new Motivo();
@@ -457,8 +457,8 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 				imagenCodigoBarras = new Image(objetoCodigoBarras);
 			}
 			tabla.addCell(getCellFactura("RUC: " + notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
-					"FACTURA"+"\n"+
-					"No. " + notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + notaDebito.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + notaDebito.getSecuencial() + "\n" +
+					"NOTA DEBITO"+"\n"+
+					"No. " + notaDebito.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion+ "\n" +
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
 					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
@@ -485,15 +485,15 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
 			for (int i = 0; i < notaDebito.getNotaDebitoLineas().size(); i++)
 			{
-				String precioSinIva = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getPrecio().getPrecioSinIva());
-				String valorDescuentoLinea = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getValorDescuentoLinea());
+				String precioUnitario = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getPrecioUnitario());
+				String descuentoLinea = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getValorDescuentoLinea() + notaDebito.getNotaDebitoLineas().get(i).getValorPorcentajeDescuentoLinea());
 				String subtotalConDescuentoLinea = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getTotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getProducto().getCodigo()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getCantidad() + Constantes.vacio));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getProducto().getNombre()));
-				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioSinIva));
-				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+valorDescuentoLinea));
+				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
+				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+descuentoLinea));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+subtotalConDescuentoLinea));
 			}
 			documento.add(tablaFacturaDetalle);

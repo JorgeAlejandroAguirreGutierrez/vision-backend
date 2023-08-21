@@ -1,6 +1,5 @@
 package com.proyecto.vision.modelos.venta.electronico.guiaremision;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "destinatario")
-@XmlType(propOrder={"identificacionDestinatario", "razonSocialDestinatario", "dirDestinatario", "motivoTraslado", "ruta", "codDocSustento", "numDocSustento", "numAutDocSustento", "fechaEmisionDocSustento"})
+@XmlType(propOrder={"identificacionDestinatario", "razonSocialDestinatario", "dirDestinatario", "motivoTraslado", "ruta", "codDocSustento", "numDocSustento", "numAutDocSustento", "fechaEmisionDocSustento", "detalles"})
 @Getter
 @Setter
 public class Destinatario {
@@ -21,4 +20,5 @@ public class Destinatario {
 	private String numDocSustento;
 	private String numAutDocSustento;
 	private String fechaEmisionDocSustento;
+	private Detalles detalles;
 }
