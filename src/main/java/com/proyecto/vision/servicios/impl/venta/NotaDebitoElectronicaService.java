@@ -102,7 +102,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		infoTributaria.setSecuencial(notaDebito.getSecuencial());
 		infoTributaria.setDirMatriz(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
 
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
 		String fechaEmision = dateFormat.format(notaDebito.getFecha());
 		InfoNotaDebito infoNotaDebito = new InfoNotaDebito();
 		infoNotaDebito.setFechaEmision(fechaEmision);

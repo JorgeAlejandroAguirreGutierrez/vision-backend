@@ -114,7 +114,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		infoGuiaRemision.setRucTransportista(guiaRemision.getTransportista().getIdentificacion());
 		infoGuiaRemision.setObligadoContabilidad(guiaRemision.getFactura().getCliente().getObligadoContabilidad());
 		infoGuiaRemision.setContribuyenteEspecial(null);
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
 		String fechaInicioTransporte = dateFormat.format(guiaRemision.getFechaInicioTransporte());
 		infoGuiaRemision.setFechaIniTransporte(fechaInicioTransporte);
 		String fechaFinTransporte = dateFormat.format(guiaRemision.getFechaFinTransporte());
@@ -147,7 +147,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		destinatario.setCodDocSustento(Constantes.factura_sri);
 		destinatario.setNumDocSustento(guiaRemision.getFactura().getNumeroComprobante());
 		destinatario.setNumAutDocSustento(guiaRemision.getFactura().getClaveAcceso());
-		DateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat fechaFormato = new SimpleDateFormat(Constantes.fechaCortaSri);
 		destinatario.setFechaEmisionDocSustento(fechaFormato.format(guiaRemision.getFactura().getFecha()));
 		destinatario.setDetalles(crearDetalles(guiaRemision));
 		destinatariosLista.add(destinatario);
@@ -165,7 +165,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
     		detalle.setCantidad(facturaLinea.getCantidad()+Constantes.vacio);
     		detalleLista.add(detalle);
 		}
-    	detalles.setDetalles(detalleLista);
+    	detalles.setDetalle(detalleLista);
     	return detalles;
 	}
 
