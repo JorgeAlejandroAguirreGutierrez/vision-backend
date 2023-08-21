@@ -4,9 +4,8 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.cliente.*;
-import com.proyecto.vision.modelos.compra.FacturaCompra;
-import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
+import com.proyecto.vision.modelos.inventario.Precio;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
@@ -17,6 +16,7 @@ import com.proyecto.vision.repositorios.cliente.IClienteBaseRepository;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
 import com.proyecto.vision.servicios.interf.cliente.IClienteService;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
+import com.proyecto.vision.servicios.interf.inventario.IPrecioService;
 import com.proyecto.vision.servicios.interf.inventario.ITipoOperacionService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
@@ -28,10 +28,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class FacturaService implements IFacturaService {
@@ -39,6 +36,8 @@ public class FacturaService implements IFacturaService {
     private IFacturaRepository rep;
     @Autowired
     private IKardexService kardexService;
+    @Autowired
+    private IPrecioService precioService;
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
     @Autowired
@@ -132,8 +131,9 @@ public class FacturaService implements IFacturaService {
     	factura.setEstadoInterno(Constantes.estadoInternoEmitida);
     	factura.setEstadoSri(Constantes.estadoSriPendiente);
         calcular(factura);
-        calcularRecaudacion(factura);
+        //calcularRecaudacion(factura);
         crearKardex(factura);
+        actualizarPrecios(factura);
         Factura res = rep.save(factura);
         res.normalizar();
         secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
@@ -210,7 +210,7 @@ public class FacturaService implements IFacturaService {
     public Factura actualizar(Factura factura) {
         validar(factura);
         calcular(factura);
-        calcularRecaudacion(factura);
+        //calcularRecaudacion(factura);
         if(factura.getTotalRecaudacion() != factura.getTotal()){
             factura.setEstadoInterno(Constantes.estadoInternoEmitida);
         }
@@ -218,34 +218,66 @@ public class FacturaService implements IFacturaService {
             factura.setEstadoInterno(Constantes.estadoInternoRecaudada);
         }
         Factura res = rep.save(factura);
+        factura = obtener(factura.getId());
         actualizarKardex(factura);
+        actualizarPrecios(factura);
         res.normalizar();
         return res;
     }
     private void actualizarKardex(Factura factura) {
         for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
-            int ultimoIndiceKardex = facturaLinea.getProducto().getKardexs().size() - 1;
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId());
-            double saldo = Constantes.cero;
-            double costoTotal = Constantes.cero;
-            double costoUnitario = Constantes.cero;
-            double costoPromedio = Constantes.cero;
-            if (ultimoIndiceKardex > Constantes.cero) {
-                saldo = facturaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getSaldo() - facturaLinea.getCantidad();
-                costoUnitario = facturaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoPromedio();
-                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
-                costoTotal = facturaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoTotal() - (costoUnitario * facturaLinea.getCantidad());
-                costoTotal = Math.round(costoTotal * 100.0) / 100.0;
-                costoPromedio = costoTotal / saldo;
-                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+            TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
+            Kardex ultimoKardex = kardexService.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), tipoComprobante.getId(), factura.getNumeroComprobante(), facturaLinea.getPosicion());
+            if (ultimoKardex == null){
+                //eliminar kardex con posicion
+                return;
             }
+            Kardex penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMismaFechaYId(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), factura.getFecha(), ultimoKardex.getId());
+            if (penultimoKardex == null){
+                penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMenorFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), factura.getFecha());
+            }
+            double saldo, costoTotal, costoUnitario, costoPromedio;
+
+            saldo = penultimoKardex.getSaldo() - facturaLinea.getCantidad();
+            costoTotal = penultimoKardex.getCostoTotal() - (facturaLinea.getCantidad() * penultimoKardex.getCostoPromedio());
+            costoUnitario = penultimoKardex.getCostoPromedio();
+            costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
+            costoPromedio = costoTotal / saldo;
+            costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+
             ultimoKardex.setFecha(factura.getFecha());
-            ultimoKardex.setEntrada(facturaLinea.getCantidad());
+            ultimoKardex.setSalida(facturaLinea.getCantidad());
             ultimoKardex.setSaldo(saldo);
-            ultimoKardex.setDebe(costoUnitario);
+            ultimoKardex.setHaber(costoUnitario);
             ultimoKardex.setCostoPromedio(costoPromedio);
             ultimoKardex.setCostoTotal(costoTotal);
             kardexService.actualizar(ultimoKardex);
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(factura.getFecha());
+            c.add(c.DAY_OF_YEAR, -1);
+            kardexService.recalcularPorProductoYBodegaYFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), c.getTime());
+        }
+    }
+
+    private void actualizarPrecios(Factura factura) {
+        for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId());
+            for (Precio precio : facturaLinea.getProducto().getPrecios()) {
+                precio.setCosto(ultimoKardex.getCostoPromedio());
+                double precioSinIva = ultimoKardex.getCostoPromedio() + (ultimoKardex.getCostoPromedio() * precio.getMargenGanancia() / 100);
+                precioSinIva = Math.round(precioSinIva * 10000.0) / 10000.0;
+                precio.setPrecioSinIva(precioSinIva);
+                double pvp = precioSinIva + (precioSinIva * precio.getProducto().getImpuesto().getPorcentaje() / 100);
+                pvp = Math.round(pvp * 100.0) / 100.0;
+                precio.setPrecioVentaPublico(pvp);
+                //precio.setPrecioVentaPublicoManual(pvp);
+                double utilidad = precioSinIva - ultimoKardex.getCostoPromedio();
+                utilidad = Math.round(utilidad * 10000.0) / 10000.0;
+                precio.setUtilidad(utilidad);
+                precio.setUtilidadPorcentaje(precio.getMargenGanancia());
+                precioService.actualizar(precio);
+            }
         }
     }
 
