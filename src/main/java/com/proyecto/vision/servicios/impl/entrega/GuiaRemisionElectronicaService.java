@@ -433,6 +433,11 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			tablaDestinatario.addCell(getCellDestinatario(razonSocialDestinatario, TextAlignment.LEFT));
 			tablaDestinatario.addCell(getCellDestinatario("DIRECCION DESTINATARIO:", TextAlignment.LEFT));
 			tablaDestinatario.addCell(getCellDestinatario(direccionDestinatario, TextAlignment.LEFT));
+			tablaDestinatario.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+			tablaDestinatario.setBorderTopLeftRadius(new BorderRadius(5));
+			tablaDestinatario.setBorderTopRightRadius(new BorderRadius(5));
+			tablaDestinatario.setBorderBottomLeftRadius(new BorderRadius(5));
+			tablaDestinatario.setBorderBottomRightRadius(new BorderRadius(5));
 			documento.add(tablaDestinatario);
 			documento.add( new Paragraph("\n"));
 			float [] columnasGuiaRemision = {300F, 300F};
@@ -451,6 +456,11 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getFechaInicioTransporte().toString(), TextAlignment.LEFT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision("FECHA FIN DE TRANSPORTE:", TextAlignment.LEFT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getFechaFinTransporte().toString(), TextAlignment.LEFT));
+			tablaGuiaRemision.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+			tablaGuiaRemision.setBorderTopLeftRadius(new BorderRadius(5));
+			tablaGuiaRemision.setBorderTopRightRadius(new BorderRadius(5));
+			tablaGuiaRemision.setBorderBottomLeftRadius(new BorderRadius(5));
+			tablaGuiaRemision.setBorderBottomRightRadius(new BorderRadius(5));
 			documento.add(tablaGuiaRemision);
 			documento.add( new Paragraph("\n"));
 			float [] columnasTablaFacturaDetalle = {200F, 200F, 200F};
@@ -533,8 +543,6 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		cell.setTextAlignment(alignment);
 		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(Border.NO_BORDER);
-		cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
-		cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
 		return cell;
 	}
 	private Cell getCellDestinatario(String text, TextAlignment alignment) {
@@ -544,8 +552,6 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		cell.setTextAlignment(alignment);
 		cell.setFontSize(Constantes.fontSize10);
 		cell.setBorder(Border.NO_BORDER);
-		cell.setBorderBottom(new SolidBorder(ColorConstants.BLUE,1));
-		cell.setBorderTop(new SolidBorder(ColorConstants.BLUE, 1));
 		return cell;
 	}
     
