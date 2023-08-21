@@ -145,17 +145,30 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		destinatario.setMotivoTraslado(guiaRemision.getMotivoTraslado());
 		destinatario.setRuta(guiaRemision.getRuta());
 		destinatario.setCodDocSustento(Constantes.factura_sri);
-		String numDocSustento = guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI()
-				+ Constantes.guion + guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion
-				+ guiaRemision.getFactura().getSecuencial();
-		destinatario.setNumDocSustento(numDocSustento);
+		destinatario.setNumDocSustento(guiaRemision.getFactura().getNumeroComprobante());
 		destinatario.setNumAutDocSustento(guiaRemision.getFactura().getClaveAcceso());
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		destinatario.setFechaEmisionDocSustento(dateFormat.format(guiaRemision.getFactura().getFecha()));
+		DateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
+		destinatario.setFechaEmisionDocSustento(fechaFormato.format(guiaRemision.getFactura().getFecha()));
+		destinatario.setDetalles(crearDetalles(guiaRemision));
 		destinatariosLista.add(destinatario);
 		destinatarios.setDestinatario(destinatariosLista);
 		return destinatarios;
 	}
+
+	private Detalles crearDetalles(GuiaRemision guiaRemision){
+    	Detalles detalles = new Detalles();
+    	List<Detalle> detalleLista = new ArrayList<>();
+    	for (FacturaLinea facturaLinea: guiaRemision.getFactura().getFacturaLineas()){
+    		Detalle detalle = new Detalle();
+    		detalle.setCodigoInterno(facturaLinea.getProducto().getCodigo());
+    		detalle.setDescripcion(facturaLinea.getProducto().getNombre());
+    		detalle.setCantidad(facturaLinea.getCantidad()+Constantes.vacio);
+    		detalleLista.add(detalle);
+		}
+    	detalles.setDetalles(detalleLista);
+    	return detalles;
+	}
+
 	private InfoAdicional crearInfoAdicional(GuiaRemision guiaRemision) {
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
 		if(!guiaRemision.getFactura().getCliente().getTelefonos().isEmpty()) {
