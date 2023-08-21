@@ -133,20 +133,30 @@ public class KardexService implements IKardexService {
             return;
         }
         for (Kardex kardex : kardexs) {
-            double saldo, costoTotal, costoPromedio;
-            if (kardex.getTipoComprobante().getId() == 8){
-
+            double saldo = Constantes.cero, costoTotal = Constantes.cero, costoPromedio = Constantes.cero;
+            if (kardex.getTipoComprobante().getId() == 8){ // Factura de Compra
                 saldo = ultimoKardex.getSaldo() + kardex.getEntrada();
+                saldo = Math.round(saldo * 10000.0) / 10000.0;
                 costoTotal = ultimoKardex.getCostoTotal() + (kardex.getEntrada() * kardex.getDebe());
                 costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
-
-                kardex.setSaldo(saldo);
-                kardex.setCostoPromedio(costoPromedio);
-                kardex.setCostoTotal(costoTotal);
-                ultimoKardex = kardex;
             }
+            if (kardex.getTipoComprobante().getId() == 2){ // Factura de Venta
+                saldo = ultimoKardex.getSaldo() - kardex.getSalida();
+                saldo = Math.round(saldo * 10000.0) / 10000.0;
+                costoTotal = ultimoKardex.getCostoTotal() - (kardex.getSalida() * ultimoKardex.getCostoPromedio());
+                costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+                kardex.setHaber(ultimoKardex.getCostoPromedio());
+            }
+
+            kardex.setSaldo(saldo);
+            kardex.setCostoPromedio(costoPromedio);
+            kardex.setCostoTotal(costoTotal);
+            ultimoKardex = kardex;
+
             rep.save(kardex);
         }
     }

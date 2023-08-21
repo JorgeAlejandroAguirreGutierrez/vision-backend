@@ -27,7 +27,7 @@ public interface IKardexRepository extends JpaRepository<Kardex, Long>, JpaSpeci
     Optional<Kardex> obtenerUltimoPorProductoYBodega(long productoId, long bodegaId);
     @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and date(k.fecha) <= :fecha order by date(k.fecha) desc, k.id desc limit 1", nativeQuery = true)
     Optional<Kardex> obtenerUltimoPorProductoYBodegaYFecha(long productoId, long bodegaId, Date fecha);
-    @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and k.tipo_comprobante_id = :tipoComprobanteId order by date(k.fecha) desc, k.id desc desc limit 1", nativeQuery = true)
+    @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and k.tipo_comprobante_id = :tipoComprobanteId order by date(k.fecha) desc, k.id desc limit 1", nativeQuery = true)
     Optional<Kardex> obtenerUltimoPorProductoYBodegaYTablaTipoComprobante(long productoId, long bodegaId, long tipoComprobanteId);
     @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and date(k.fecha) = :fecha and k.id < :id order by date(k.fecha) desc, k.id desc limit 1", nativeQuery = true)
     Optional<Kardex> obtenerPenultimoPorProductoYBodegaYMismaFechaYId(long productoId, long bodegaId, Date fecha, long id);

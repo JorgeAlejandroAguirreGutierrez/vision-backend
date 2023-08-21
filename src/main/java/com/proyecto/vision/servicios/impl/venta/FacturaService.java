@@ -4,6 +4,8 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.cliente.*;
+import com.proyecto.vision.modelos.compra.FacturaCompra;
+import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
 import com.proyecto.vision.modelos.venta.Factura;
@@ -15,6 +17,7 @@ import com.proyecto.vision.repositorios.cliente.IClienteBaseRepository;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
 import com.proyecto.vision.servicios.interf.cliente.IClienteService;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
+import com.proyecto.vision.servicios.interf.inventario.ITipoOperacionService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
 import com.proyecto.vision.servicios.interf.inventario.IKardexService;
@@ -38,6 +41,8 @@ public class FacturaService implements IFacturaService {
     private IKardexService kardexService;
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
+    @Autowired
+    private ITipoOperacionService tipoOperacionService;
     @Autowired
     private ISecuencialService secuencialService;
     @Autowired
@@ -103,30 +108,38 @@ public class FacturaService implements IFacturaService {
         }
     }
 
-    private void crearKardex(Factura factura) {
-        kardexService.eliminar(2, 2, factura.getSecuencial());
-        for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
-            if(facturaLinea.getProducto().getCategoriaProducto().getDescripcion().equals(Constantes.bien)) {
-                Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId());
-                if (ultimoKardex == null) {
-                    throw new DatoInvalidoException(Constantes.kardex);
-                }
-                if (ultimoKardex.getSaldo() < facturaLinea.getCantidad()) {
-                    throw new DatoInvalidoException(Constantes.kardex);
-                }
-                double saldo = ultimoKardex.getSaldo() - facturaLinea.getCantidad();
-                double costoTotal = ultimoKardex.getCostoTotal() - (facturaLinea.getCantidad() * ultimoKardex.getCostoPromedio());
-                costoTotal = Math.round(costoTotal * 100.0) / 100.0;
-                Kardex kardex = new Kardex(null, factura.getFecha(),
-                        factura.getNumeroComprobante(), Constantes.cero, facturaLinea.getCantidad(), saldo,
-                        Constantes.cero, ultimoKardex.getCostoPromedio(),
-                        ultimoKardex.getCostoPromedio(), costoTotal,
-                        new TipoComprobante(2), new TipoOperacion(2), facturaLinea.getBodega(), facturaLinea.getProducto());
-                kardexService.crear(kardex);
-            }
-        }
+    @Override
+    public Factura crear(Factura factura) {
+        validar(factura);
+        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
+        factura.setTipoComprobante(tipoComprobante);
+        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_factura,factura.getEmpresa().getId());
+    	if (codigo.isEmpty()) {
+    		throw new CodigoNoExistenteException();
+    	}
+    	factura.setCodigo(codigo.get());
+        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(factura.getTipoComprobante().getId(),
+                factura.getSesion().getUsuario().getEstacion().getId(), factura.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
+    	factura.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+        factura.setNumeroComprobante(factura.getEstablecimiento() + Constantes.guion + factura.getPuntoVenta() + Constantes.guion + factura.getSecuencial());
+    	factura.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
+    	Optional<String> claveAcceso = crearClaveAcceso(factura);
+    	if (claveAcceso.isEmpty()) {
+    		throw new ClaveAccesoNoExistenteException();
+    	}
+    	factura.setClaveAcceso(claveAcceso.get());
+    	factura.setEstado(Constantes.estadoActivo);
+    	factura.setEstadoInterno(Constantes.estadoInternoEmitida);
+    	factura.setEstadoSri(Constantes.estadoSriPendiente);
+        calcular(factura);
+        calcularRecaudacion(factura);
+        crearKardex(factura);
+        Factura res = rep.save(factura);
+        res.normalizar();
+        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
+        secuencialService.actualizar(secuencial);
+        return res;
     }
-
     private Optional<String> crearClaveAcceso(Factura factura) {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         String fechaEmision = dateFormat.format(factura.getFecha());
@@ -162,38 +175,35 @@ public class FacturaService implements IFacturaService {
         String claveAcceso=cadenaVerificacion+digitoVerificador;
         return Optional.of(claveAcceso);
     }
+    private void crearKardex(Factura factura) {
+        for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
+            if(facturaLinea.getProducto().getCategoriaProducto().getDescripcion().equals(Constantes.bien)) {
+                Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodegaYFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), factura.getFecha());
+                double saldo, costoTotal, costoUnitario, costoPromedio;
+                if (ultimoKardex != null) {
+                    if (ultimoKardex.getSaldo() < facturaLinea.getCantidad()) {
+                        throw new DatoInvalidoException(Constantes.kardex);
+                    }
+                    saldo = ultimoKardex.getSaldo() - facturaLinea.getCantidad();
+                    costoTotal = ultimoKardex.getCostoTotal() - (facturaLinea.getCantidad() * ultimoKardex.getCostoPromedio());
+                    costoUnitario = ultimoKardex.getCostoPromedio();
+                    costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
+                    costoPromedio = costoTotal / saldo;
+                    costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+                } else{
+                    throw new DatoInvalidoException(Constantes.kardex);
+                }
+                TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
+                TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.venta, Constantes.estadoActivo);
+                Kardex kardex = new Kardex(null, factura.getFecha(),
+                        factura.getNumeroComprobante(), Constantes.cero, facturaLinea.getCantidad(), saldo,
+                        Constantes.cero, costoUnitario, costoPromedio, costoTotal,
+                        tipoComprobante, tipoOperacion, facturaLinea.getBodega(), facturaLinea.getProducto());
 
-    @Override
-    public Factura crear(Factura factura) {
-        validar(factura);
-        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
-        factura.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_factura,factura.getEmpresa().getId());
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
-    	factura.setCodigo(codigo.get());
-        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(factura.getTipoComprobante().getId(),
-                factura.getSesion().getUsuario().getEstacion().getId(), factura.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
-    	factura.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
-        factura.setNumeroComprobante(factura.getEstablecimiento() + Constantes.guion + factura.getPuntoVenta() + Constantes.guion + factura.getSecuencial());
-    	factura.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
-    	Optional<String> claveAcceso = crearClaveAcceso(factura);
-    	if (claveAcceso.isEmpty()) {
-    		throw new ClaveAccesoNoExistenteException();
-    	}
-    	factura.setClaveAcceso(claveAcceso.get());
-    	factura.setEstado(Constantes.estadoActivo);
-    	factura.setEstadoInterno(Constantes.estadoInternoEmitida);
-    	factura.setEstadoSri(Constantes.estadoSriPendiente);
-        calcular(factura);
-        calcularRecaudacion(factura);
-        crearKardex(factura);
-        Factura res = rep.save(factura);
-        res.normalizar();
-        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
-        secuencialService.actualizar(secuencial);
-        return res;
+                kardexService.crear(kardex);
+                kardexService.recalcularPorProductoYBodegaYFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(),factura.getFecha());
+            }
+        }
     }
 
     @Override
@@ -212,7 +222,6 @@ public class FacturaService implements IFacturaService {
         res.normalizar();
         return res;
     }
-
     private void actualizarKardex(Factura factura) {
         for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
             int ultimoIndiceKardex = facturaLinea.getProducto().getKardexs().size() - 1;
@@ -352,12 +361,17 @@ public class FacturaService implements IFacturaService {
     public FacturaLinea calcularLinea(FacturaLinea facturaLinea) {
         validarLinea(facturaLinea);
 
-        double valorPorcentajeDescuentoLinea = (facturaLinea.getPrecioUnitario() * facturaLinea.getPorcentajeDescuentoLinea() / 100);
+        double subtotalLineaSinDescuento = facturaLinea.getCantidad() * facturaLinea.getPrecioUnitario();
+        subtotalLineaSinDescuento = Math.round(subtotalLineaSinDescuento * 10000.0) / 10000.0;
+        facturaLinea.setSubtotalLineaSinDescuento(subtotalLineaSinDescuento);
+
+        double valorPorcentajeDescuentoLinea = (subtotalLineaSinDescuento * facturaLinea.getPorcentajeDescuentoLinea() / 100);
         valorPorcentajeDescuentoLinea = Math.round(valorPorcentajeDescuentoLinea * 10000.0) / 10000.0;
         facturaLinea.setValorPorcentajeDescuentoLinea(valorPorcentajeDescuentoLinea);
 
-        double subtotalLinea = (facturaLinea.getPrecioUnitario() - facturaLinea.getValorDescuentoLinea() - valorPorcentajeDescuentoLinea) * facturaLinea.getCantidad();
-        subtotalLinea = Math.round(subtotalLinea * 10000.0) / 10000.0;
+        double subtotalLinea = subtotalLineaSinDescuento - facturaLinea.getValorDescuentoLinea() - facturaLinea.getValorPorcentajeDescuentoLinea() -
+                facturaLinea.getValorDescuentoTotalLinea() - facturaLinea.getValorPorcentajeDescuentoTotalLinea();
+        subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
         facturaLinea.setSubtotalLinea(subtotalLinea);
 
         double valorIvaLinea = (subtotalLinea * (facturaLinea.getImpuesto().getPorcentaje() / 100));
@@ -373,12 +387,21 @@ public class FacturaService implements IFacturaService {
 
     public Factura calcular(Factura factura) {
         this.validar(factura);
+        this.calcularSubtotal(factura);
+        if (factura.getValorDescuentoTotal() != Constantes.cero) {
+            this.calcularValorDescuentoTotal(factura);
+        }
         for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
             calcularLinea(facturaLinea);
         }
-        this.calcularSubtotal(factura);
-        this.calcularDescuento(factura);
         this.calcularTotales(factura);
+        if (factura.getPorcentajeDescuentoTotal() != Constantes.cero) {
+            this.calcularPorcentajeDescuentoTotal(factura);
+            for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
+                calcularLinea(facturaLinea);
+            }
+            this.calcularTotales(factura);
+        }
         return factura;
     }
 
@@ -388,28 +411,42 @@ public class FacturaService implements IFacturaService {
     private void calcularSubtotal(Factura factura) {
     	double subtotal = Constantes.cero;
         for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
-          subtotal += facturaLinea.getSubtotalLinea();
+          subtotal += facturaLinea.getSubtotalLineaSinDescuento();
         }
         subtotal = Math.round(subtotal * 10000.0) / 10000.0;
         factura.setSubtotal(subtotal);
     }
 
-    private void calcularDescuento(Factura factura) {
-        double descuento = Constantes.cero;
-
+    private void calcularValorDescuentoTotal(Factura factura) {
         for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
-            descuento += facturaLinea.getValorDescuentoLinea() + facturaLinea.getPorcentajeDescuentoLinea();
+            double ponderacion = facturaLinea.getSubtotalLineaSinDescuento() / factura.getSubtotal();
+
+            double valorDescuentoTotalLinea = (factura.getValorDescuentoTotal() * ponderacion) * 100 / (100 + facturaLinea.getImpuesto().getPorcentaje());
+            valorDescuentoTotalLinea = Math.round(valorDescuentoTotalLinea * 100.0) / 100.0;
+            facturaLinea.setValorDescuentoTotalLinea(valorDescuentoTotalLinea);
         }
-        descuento = Math.round(descuento * 100.0) / 100.0;
-        factura.setDescuento(descuento);
     }
 
-    private void calcularTotales(Factura factura) {
-        double subtotalGravado = Constantes.cero;
-        double subtotalNoGravado = Constantes.cero;
-        double importeIva = Constantes.cero;
-        double total = Constantes.cero;
+    private void calcularPorcentajeDescuentoTotal(Factura factura) {
+
+        double valorTotalPorcentajeDescuentoTotal = (factura.getTotal() * (factura.getPorcentajeDescuentoTotal() / 100));
+        valorTotalPorcentajeDescuentoTotal = Math.round(valorTotalPorcentajeDescuentoTotal * 100.0) / 100.0;
+        factura.setValorPorcentajeDescuentoTotal(valorTotalPorcentajeDescuentoTotal);
+
         for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
+            double ponderacion = facturaLinea.getSubtotalLineaSinDescuento() / factura.getSubtotal();
+
+            double valorPorcentajeDescuentoTotalLinea = (valorTotalPorcentajeDescuentoTotal * ponderacion) * 100 / (100 + facturaLinea.getImpuesto().getPorcentaje());
+            valorPorcentajeDescuentoTotalLinea = Math.round(valorPorcentajeDescuentoTotalLinea * 100.0) / 100.0;
+            facturaLinea.setValorPorcentajeDescuentoTotalLinea(valorPorcentajeDescuentoTotalLinea);
+        }
+    }
+    private void calcularTotales(Factura factura) {
+        double subtotalGravado = Constantes.cero, subtotalNoGravado = Constantes.cero;
+        double importeIva = Constantes.cero, descuentoTotal = Constantes.cero;
+        for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
+            descuentoTotal += facturaLinea.getValorDescuentoLinea() + facturaLinea.getValorPorcentajeDescuentoLinea() +
+                    facturaLinea.getValorDescuentoTotalLinea() + facturaLinea.getValorPorcentajeDescuentoTotalLinea();
             if (facturaLinea.getImpuesto().getPorcentaje() != Constantes.cero) {
                 subtotalGravado += facturaLinea.getSubtotalLinea();
             } else {
@@ -417,6 +454,9 @@ public class FacturaService implements IFacturaService {
             }
             importeIva += facturaLinea.getImporteIvaLinea();
         }
+        descuentoTotal = Math.round(descuentoTotal * 100.0) / 100.0;
+        factura.setDescuento(descuentoTotal);
+
         subtotalGravado = Math.round(subtotalGravado * 100.0) / 100.0;
         factura.setSubtotalGravado(subtotalGravado);
 
@@ -426,7 +466,7 @@ public class FacturaService implements IFacturaService {
         importeIva = Math.round(importeIva * 100.0) / 100.0;
         factura.setImporteIva(importeIva);
 
-        total = subtotalGravado + subtotalNoGravado + importeIva;
+        double total = subtotalGravado + subtotalNoGravado + importeIva;
         total = Math.round(total * 100.0) / 100.0;
         factura.setTotal(total);
     }
