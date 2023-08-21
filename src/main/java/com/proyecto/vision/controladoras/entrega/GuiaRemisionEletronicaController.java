@@ -30,7 +30,7 @@ public class GuiaRemisionEletronicaController {
     @GetMapping(value = "/{guiaRemisionId}" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> enviar(@PathVariable("guiaRemisionId") long guiaRemisionId) throws MalformedURLException {
         GuiaRemision guiaRemision = servicio.enviar(guiaRemisionId);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_crear_nota_debito_electronica_exitosa + Constantes.espacio + guiaRemision.getClaveAcceso(), guiaRemision);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_crear_guia_remision_electronica_exitosa + Constantes.espacio + guiaRemision.getClaveAcceso(), guiaRemision);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

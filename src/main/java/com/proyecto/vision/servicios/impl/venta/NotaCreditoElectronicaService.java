@@ -104,7 +104,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
     	infoTributaria.setSecuencial(notaCredito.getSecuencial());
     	infoTributaria.setDirMatriz(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
     	
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    	DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
     	String fechaEmision = dateFormat.format(notaCredito.getFecha());
 		InfoNotaCredito infoNotaCredito = new InfoNotaCredito();
 		infoNotaCredito.setFechaEmision(fechaEmision);

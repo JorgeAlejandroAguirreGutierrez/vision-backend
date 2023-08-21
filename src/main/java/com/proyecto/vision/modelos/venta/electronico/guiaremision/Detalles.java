@@ -10,5 +10,5 @@ import java.util.List;
 @Getter
 @Setter
 public class Detalles {
-	private List<Detalle> detalles;
+	private List<Detalle> detalle;
 }

@@ -586,6 +586,7 @@ public class Constantes {
     public static final String nombreReporteKardex = "KARDEX DE MERCADERIAS";
     public static final String nombreReporteCaja = "CIERRE DE CAJA";
     public static final String fechaCorta = "dd-MM-yyyy";
+    public static final String fechaCortaSri = "dd/MM/yyyy";
     public static final String fechaYHora = "dd-MM-yyyy hh:mm:ss";
     public static final String hora = "hh:mm:ss";
     public static final String signoDolar= "$";

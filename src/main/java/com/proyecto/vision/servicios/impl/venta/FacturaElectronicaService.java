@@ -106,7 +106,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
     	infoTributaria.setSecuencial(factura.getSecuencial());
     	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
     	
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
+    	DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
     	String fechaEmision = dateFormat.format(factura.getFecha());
     	infoFactura.setFechaEmision(fechaEmision);
 		infoFactura.setDirEstablecimiento(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
