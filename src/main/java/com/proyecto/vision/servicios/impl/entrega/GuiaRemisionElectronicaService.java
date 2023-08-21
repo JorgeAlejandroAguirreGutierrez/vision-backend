@@ -199,15 +199,15 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 	public GuiaRemision enviar(long guiaRemisionId) throws MalformedURLException {
 		Optional<GuiaRemision> opcional= rep.findById(guiaRemisionId);
 		if(opcional.isEmpty()) {
-			throw new EntidadNoExistenteException(Constantes.factura);
+			throw new EntidadNoExistenteException(Constantes.guia_remision);
 		}
 		GuiaRemision guiaRemision = opcional.get();
 		Resource certificado = empresaService.bajarCertificado(guiaRemision.getEmpresa().getId());
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
 		}
-		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
-			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
+		if(guiaRemision.getEstado().equals(Constantes.estadoInactivo)){
+			throw new EstadoInvalidoException(Constantes.estadoInactivo);
 		}
 		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
 			throw new EstadoInvalidoException(Constantes.estadoInternoAnulada);
