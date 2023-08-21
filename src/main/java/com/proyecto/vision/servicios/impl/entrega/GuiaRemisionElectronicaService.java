@@ -354,6 +354,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 
 	public ByteArrayInputStream crearPDF(GuiaRemision guiaRemision) {
 		try {
+			DateFormat formatoFecha = new SimpleDateFormat(Constantes.fechaCorta);
 			ByteArrayOutputStream salida = new ByteArrayOutputStream();
 			PdfWriter writer = new PdfWriter(salida);
 			PdfDocument pdf = new PdfDocument(writer);
@@ -452,10 +453,10 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getMotivoTraslado(), TextAlignment.LEFT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision("RUTA:", TextAlignment.LEFT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getRuta(), TextAlignment.LEFT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision("FECHA INICIO DE TRTANSPORTE:", TextAlignment.LEFT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getFechaInicioTransporte().toString(), TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision("FECHA INICIO DE TRANSPORTE:", TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(formatoFecha.format(guiaRemision.getFechaInicioTransporte()), TextAlignment.LEFT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision("FECHA FIN DE TRANSPORTE:", TextAlignment.LEFT));
-			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getFechaFinTransporte().toString(), TextAlignment.LEFT));
+			tablaGuiaRemision.addCell(getCellGuiaRemision(formatoFecha.format(guiaRemision.getFechaFinTransporte()), TextAlignment.LEFT));
 			tablaGuiaRemision.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
 			tablaGuiaRemision.setBorderTopLeftRadius(new BorderRadius(5));
 			tablaGuiaRemision.setBorderTopRightRadius(new BorderRadius(5));
