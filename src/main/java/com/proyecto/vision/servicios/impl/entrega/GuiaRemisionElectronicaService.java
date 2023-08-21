@@ -433,7 +433,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			tablaDestinatario.addCell(getCellDestinatario(razonSocialDestinatario, TextAlignment.RIGHT));
 			tablaDestinatario.addCell(getCellDestinatario("DIRECCION DESTINATARIO:", TextAlignment.LEFT));
 			tablaDestinatario.addCell(getCellDestinatario(direccionDestinatario, TextAlignment.RIGHT));
-			documento.add(tablaCliente);
+			documento.add(tablaDestinatario);
 			documento.add( new Paragraph("\n"));
 			float [] columnasGuiaRemision = {300F, 300F};
 			Table tablaGuiaRemision = new Table(columnasGuiaRemision);
@@ -451,8 +451,9 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getFechaInicioTransporte().toString(), TextAlignment.RIGHT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision("FECHA FIN DE TRANSPORTE:", TextAlignment.RIGHT));
 			tablaGuiaRemision.addCell(getCellGuiaRemision(guiaRemision.getFechaFinTransporte().toString(), TextAlignment.RIGHT));
-			documento.add(tablaCliente);
-			float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
+			documento.add(tablaGuiaRemision);
+			documento.add( new Paragraph("\n"));
+			float [] columnasTablaFacturaDetalle = {200F, 200F, 200F};
 			Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("CÓDIGO"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("CANT"));
