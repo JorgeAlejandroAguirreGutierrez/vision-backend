@@ -475,7 +475,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + notaDebito.getFactura().getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
 			documento.add( new Paragraph("\n"));
-			float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 50F, 50F, 100F};
+			float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 60F, 60F, 80F};
 			Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("CÓDIGO"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("CANT"));
