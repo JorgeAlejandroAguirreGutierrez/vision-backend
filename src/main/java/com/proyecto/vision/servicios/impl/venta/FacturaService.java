@@ -17,6 +17,7 @@ import com.proyecto.vision.repositorios.cliente.IClienteBaseRepository;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
 import com.proyecto.vision.servicios.interf.cliente.IClienteService;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
+import com.proyecto.vision.servicios.interf.inventario.ITipoOperacionService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
 import com.proyecto.vision.servicios.interf.inventario.IKardexService;
@@ -40,6 +41,8 @@ public class FacturaService implements IFacturaService {
     private IKardexService kardexService;
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
+    @Autowired
+    private ITipoOperacionService tipoOperacionService;
     @Autowired
     private ISecuencialService secuencialService;
     @Autowired
@@ -172,25 +175,32 @@ public class FacturaService implements IFacturaService {
         return Optional.of(claveAcceso);
     }
     private void crearKardex(Factura factura) {
-        kardexService.eliminar(2, 2, factura.getSecuencial());
         for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
             if(facturaLinea.getProducto().getCategoriaProducto().getDescripcion().equals(Constantes.bien)) {
-                Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId());
-                if (ultimoKardex == null) {
+                Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodegaYFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), factura.getFecha());
+                double saldo, costoTotal, costoUnitario, costoPromedio;
+                if (ultimoKardex != null) {
+                    if (ultimoKardex.getSaldo() < facturaLinea.getCantidad()) {
+                        throw new DatoInvalidoException(Constantes.kardex);
+                    }
+                    saldo = ultimoKardex.getSaldo() - facturaLinea.getCantidad();
+                    costoTotal = ultimoKardex.getCostoTotal() - (facturaLinea.getCantidad() * ultimoKardex.getCostoPromedio());
+                    costoUnitario = ultimoKardex.getCostoPromedio();
+                    costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
+                    costoPromedio = costoTotal / saldo;
+                    costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+                } else{
                     throw new DatoInvalidoException(Constantes.kardex);
                 }
-                if (ultimoKardex.getSaldo() < facturaLinea.getCantidad()) {
-                    throw new DatoInvalidoException(Constantes.kardex);
-                }
-                double saldo = ultimoKardex.getSaldo() - facturaLinea.getCantidad();
-                double costoTotal = ultimoKardex.getCostoTotal() - (facturaLinea.getCantidad() * ultimoKardex.getCostoPromedio());
-                costoTotal = Math.round(costoTotal * 100.0) / 100.0;
+                TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
+                TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.venta, Constantes.estadoActivo);
                 Kardex kardex = new Kardex(null, factura.getFecha(),
                         factura.getNumeroComprobante(), Constantes.cero, facturaLinea.getCantidad(), saldo,
-                        Constantes.cero, ultimoKardex.getCostoPromedio(),
-                        ultimoKardex.getCostoPromedio(), costoTotal,
-                        new TipoComprobante(2), new TipoOperacion(2), facturaLinea.getBodega(), facturaLinea.getProducto());
+                        Constantes.cero, costoUnitario, costoPromedio, costoTotal,
+                        tipoComprobante, tipoOperacion, facturaLinea.getBodega(), facturaLinea.getProducto());
+
                 kardexService.crear(kardex);
+                kardexService.recalcularPorProductoYBodegaYFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(),factura.getFecha());
             }
         }
     }
