@@ -4,6 +4,7 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.modelos.venta.CierreCaja;
 import com.proyecto.vision.repositorios.venta.ICierreCajaRepository;
@@ -25,6 +26,7 @@ public class CierreCajaService implements ICierreCajaService {
     public void validar(CierreCaja cierreCaja) {
         if(cierreCaja.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(cierreCaja.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if(cierreCaja.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
     }
     
     @Override
@@ -34,6 +36,10 @@ public class CierreCajaService implements ICierreCajaService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
+    	Optional<CierreCaja> cierreCajaExistente = rep.obtenerPorFechaYEmpresa(cierreCaja.getFecha(), cierreCaja.getEmpresa().getId());
+    	if(cierreCajaExistente.isPresent()){
+    	    throw new EntidadExistenteException(Constantes.cierre_caja);
+        }
         cierreCaja.setCodigo(codigo.get());
         cierreCaja.setEstado(Constantes.estadoActivo);
     	return rep.save(cierreCaja);

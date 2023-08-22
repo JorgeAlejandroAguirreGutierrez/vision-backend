@@ -80,6 +80,7 @@ public class ReporteVentaService {
         double totalTarjetaCredito = Constantes.cero;
         double totalTarjetaDebito = Constantes.cero;
         double totalTransferencia = Constantes.cero;
+        double totalDeposito = Constantes.cero;
         double totalCredito = Constantes.cero;
         DateFormat formatoFecha = new SimpleDateFormat(Constantes.fechaCorta);
         DateFormat formatoHora = new SimpleDateFormat(Constantes.hora);
@@ -152,6 +153,9 @@ public class ReporteVentaService {
             for(Transferencia transferencia: factura.getTransferencias()){
                 totalTransferencia = totalTransferencia + transferencia.getValor();
             }
+            for(Deposito deposito: factura.getDepositos()){
+                totalDeposito = totalDeposito + deposito.getValor();
+            }
             if(factura.getCredito()  != null){
                 totalCredito = totalCredito + factura.getCredito().getSaldo();
             }
@@ -175,8 +179,9 @@ public class ReporteVentaService {
         reporteVenta.setTarjetaCredito(String.format("%.2f", totalTarjetaCredito));
         reporteVenta.setTarjetaDebito(String.format("%.2f", totalTarjetaDebito));
         reporteVenta.setTransferencia(String.format("%.2f", totalTransferencia));
+        reporteVenta.setDeposito(String.format("%.2f", totalDeposito));
         reporteVenta.setCredito(String.format("%.2f", totalCredito));
-        String totalRecaudacion = String.format("%.2f", totalEfectivo + totalCheque + totalTarjetaCredito + totalTarjetaDebito + totalTransferencia + totalCredito);
+        String totalRecaudacion = String.format("%.2f", totalEfectivo + totalCheque + totalTarjetaCredito + totalTarjetaDebito + totalTransferencia + totalDeposito + totalCredito);
         reporteVenta.setTotalRecaudacion(totalRecaudacion);
 
         //FIRMAS DE RESPONSABILIDAD
