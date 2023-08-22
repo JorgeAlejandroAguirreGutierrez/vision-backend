@@ -34,6 +34,8 @@ public class CierreCaja extends Entidad {
     private double billete10;
     @Column(name = "billete_5", nullable = true)
     private double billete5;
+    @Column(name = "billete_2", nullable = true)
+    private double billete2;
     @Column(name = "billete_1", nullable = true)
     private double billete1;
     @Column(name = "moneda_100", nullable = true)
@@ -75,6 +77,7 @@ public class CierreCaja extends Entidad {
         this.billete20 = Constantes.cero;
         this.billete10 = Constantes.cero;
         this.billete5 = Constantes.cero;
+        this.billete2 = Constantes.cero;
         this.billete1 = Constantes.cero;
         this.moneda100 = Constantes.cero;
         this.moneda50 = Constantes.cero;

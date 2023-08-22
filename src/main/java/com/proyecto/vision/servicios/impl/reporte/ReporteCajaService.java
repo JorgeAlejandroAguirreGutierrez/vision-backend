@@ -19,8 +19,10 @@ import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.modelos.recaudacion.*;
 import com.proyecto.vision.modelos.reporte.*;
 import com.proyecto.vision.modelos.usuario.Usuario;
+import com.proyecto.vision.modelos.venta.CierreCaja;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.repositorios.usuario.IUsuarioRepository;
+import com.proyecto.vision.repositorios.venta.ICierreCajaRepository;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,13 +42,15 @@ public class ReporteCajaService {
     private IFacturaRepository facturaRepository;
 
     @Autowired
+    private ICierreCajaRepository cierreCajaRepository;
+
+    @Autowired
     private IUsuarioRepository usuarioRepository;
 
-    public ReporteCaja obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId,
-                                double billete100, double billete50, double billete20, double billete10, double billete5, double billete2, double billete1,
-                                double moneda1, double moneda050, double moneda025, double moneda010, double moneda005, double moneda001) throws ParseException {
+    public ReporteCaja obtener(String apodo, String fechaInicio, String fechaFinal, long empresaId) throws ParseException {
         Date fechaInicioC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaInicio);
         Date fechaFinalC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaFinal);
+        List<CierreCaja> cierresCajas = cierreCajaRepository.consultarPorFechaInicioYFechaFinYEmpresaYEstado(fechaInicioC, fechaFinalC, empresaId, Constantes.estadoActivo);
         List<Factura> facturas = facturaRepository.consultarPorFechaInicioYFechaFinal(fechaInicioC, fechaFinalC, empresaId);
         Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.estadoActivo);
         if (facturas.isEmpty()) {
@@ -133,6 +137,34 @@ public class ReporteCajaService {
         double totalRecaudacion = totalEfectivo + totalCheque + totalTarjetaCredito + totalTarjetaDebito + totalDeposito + totalTransferencia + totalCredito;
         reporteCaja.setTotalRecaudacion(String.format("%.2f", totalRecaudacion));
 
+        double billete100 = Constantes.cero;
+        double billete50 = Constantes.cero;
+        double billete20 = Constantes.cero;
+        double billete10 = Constantes.cero;
+        double billete5 = Constantes.cero;
+        double billete2 = Constantes.cero;
+        double billete1 = Constantes.cero;
+        double moneda100 = Constantes.cero;
+        double moneda50 = Constantes.cero;
+        double moneda25 = Constantes.cero;
+        double moneda10 = Constantes.cero;
+        double moneda5 = Constantes.cero;
+        double moneda1 = Constantes.cero;
+        for(CierreCaja cierreCaja: cierresCajas){
+            billete100 = billete100 + cierreCaja.getBillete100();
+            billete50 = billete50 + cierreCaja.getBillete50();
+            billete20 = billete20 + cierreCaja.getBillete20();
+            billete10 = billete10 + cierreCaja.getBillete10();
+            billete5 = billete5 + cierreCaja.getBillete5();
+            billete2 = billete2 + cierreCaja.getBillete2();
+            billete1 = billete1 + cierreCaja.getBillete1();
+            moneda100 = moneda100 + cierreCaja.getMoneda100();
+            moneda50 = moneda50 + cierreCaja.getMoneda50();
+            moneda25 = moneda25 + cierreCaja.getMoneda25();
+            moneda10 = moneda10 + cierreCaja.getMoneda10();
+            moneda5 = moneda5 + cierreCaja.getMoneda5();
+            moneda1 = moneda1 + cierreCaja.getMoneda1();
+        }
         reporteCaja.setCantidadBillete100(String.format("%.2f", billete100));
         reporteCaja.setDenominacionBillete100(String.format("%.2f", Constantes.billete100));
         double totalBillete100 = billete100 * Constantes.billete100;
@@ -165,39 +197,39 @@ public class ReporteCajaService {
         double totalBilletes = totalBillete100 + totalBillete50 + totalBillete20 + totalBillete10 + totalBillete5 + totalBillete2 + totalBillete1;
         reporteCaja.setTotalBilletes(String.format("%.2f", totalBilletes));
 
+        reporteCaja.setCantidadMoneda100(String.format("%.2f", moneda100));
+        reporteCaja.setDenominacionMoneda100(String.format("%.2f", Constantes.moneda100));
+        double totalMoneda100 = moneda100 * Constantes.moneda100;
+        reporteCaja.setTotalMoneda100(String.format("%.2f", totalMoneda100));
+        reporteCaja.setCantidadMoneda50(String.format("%.2f", moneda50));
+        reporteCaja.setDenominacionMoneda50(String.format("%.2f", Constantes.moneda50));
+        double totalMoneda50 = moneda50 * Constantes.moneda50;
+        reporteCaja.setTotalMoneda50(String.format("%.2f", totalMoneda50));
+        reporteCaja.setCantidadMoneda25(String.format("%.2f", moneda25));
+        reporteCaja.setDenominacionMoneda25(String.format("%.2f", Constantes.moneda25));
+        double totalMoneda25 = moneda25 * Constantes.moneda25;
+        reporteCaja.setTotalMoneda25(String.format("%.2f", totalMoneda25));
+        reporteCaja.setCantidadMoneda10(String.format("%.2f", moneda10));
+        reporteCaja.setDenominacionMoneda10(String.format("%.2f", Constantes.moneda10));
+        double totalMoneda10 = moneda10 * Constantes.moneda10;
+        reporteCaja.setTotalMoneda10(String.format("%.2f", totalMoneda10));
+        reporteCaja.setCantidadMoneda5(String.format("%.2f", moneda5));
+        reporteCaja.setDenominacionMoneda5(String.format("%.2f", Constantes.moneda5));
+        double totalMoneda5 = moneda5 * Constantes.moneda5;
+        reporteCaja.setTotalMoneda5(String.format("%.2f", totalMoneda5));
         reporteCaja.setCantidadMoneda1(String.format("%.2f", moneda1));
         reporteCaja.setDenominacionMoneda1(String.format("%.2f", Constantes.moneda1));
         double totalMoneda1 = moneda1 * Constantes.moneda1;
         reporteCaja.setTotalMoneda1(String.format("%.2f", totalMoneda1));
-        reporteCaja.setCantidadMoneda050(String.format("%.2f", moneda050));
-        reporteCaja.setDenominacionMoneda050(String.format("%.2f", Constantes.moneda050));
-        double totalMoneda050 = moneda050 * Constantes.moneda050;
-        reporteCaja.setTotalMoneda050(String.format("%.2f", totalMoneda050));
-        reporteCaja.setCantidadMoneda025(String.format("%.2f", moneda025));
-        reporteCaja.setDenominacionMoneda025(String.format("%.2f", Constantes.moneda025));
-        double totalMoneda025 = moneda025 * Constantes.moneda025;
-        reporteCaja.setTotalMoneda025(String.format("%.2f", totalMoneda025));
-        reporteCaja.setCantidadMoneda010(String.format("%.2f", moneda010));
-        reporteCaja.setDenominacionMoneda010(String.format("%.2f", Constantes.moneda010));
-        double totalMoneda010 = moneda010 * Constantes.moneda010;
-        reporteCaja.setTotalMoneda010(String.format("%.2f", totalMoneda010));
-        reporteCaja.setCantidadMoneda005(String.format("%.2f", moneda005));
-        reporteCaja.setDenominacionMoneda005(String.format("%.2f", Constantes.moneda005));
-        double totalMoneda005 = moneda005 * Constantes.moneda005;
-        reporteCaja.setTotalMoneda005(String.format("%.2f", totalMoneda005));
-        reporteCaja.setCantidadMoneda001(String.format("%.2f", moneda001));
-        reporteCaja.setDenominacionMoneda001(String.format("%.2f", Constantes.moneda001));
-        double totalMoneda001 = moneda001 * Constantes.moneda001;
-        reporteCaja.setTotalMoneda001(String.format("%.2f", totalMoneda001));
 
-        double totalMonedas = totalMoneda1 + totalMoneda050 + totalMoneda025 + totalMoneda010 + totalMoneda005 + totalMoneda001;
+        double totalMonedas = totalMoneda100 + totalMoneda50 + totalMoneda25 + totalMoneda10 + totalMoneda5 + totalMoneda1;
         reporteCaja.setTotalMonedas(String.format("%.2f", totalMonedas));
 
         double totalCaja = totalBilletes + totalMonedas;
         reporteCaja.setTotalCaja(String.format("%.2f", totalCaja));
 
         double diferencia = totalEfectivo - totalCaja;
-        if(diferencia > 0){
+        if(diferencia > Constantes.cero){
             reporteCaja.setFaltante(String.format("%.2f", diferencia));
             reporteCaja.setSobrante(String.format("%.2f", Constantes.cero));
         } else {
@@ -215,12 +247,8 @@ public class ReporteCajaService {
         return reporteCaja;
     }
 
-    public ByteArrayInputStream pdf(String apodo, String fechaInicio, String fechaFinal, long empresaId,
-                                    double billete100, double billete50, double billete20, double billete10, double billete5, double billete2, double billete1,
-                                    double moneda1, double moneda050, double moneda025, double moneda010, double moneda005, double moneda001) throws ParseException {
-        ReporteCaja reporteCaja = obtener(apodo, fechaInicio, fechaFinal, empresaId,
-                billete100, billete50, billete20, billete10, billete5, billete2, billete1,
-                moneda1, moneda050, moneda025, moneda010, moneda005, moneda001);
+    public ByteArrayInputStream pdf(String apodo, String fechaInicio, String fechaFinal, long empresaId) throws ParseException {
+        ReporteCaja reporteCaja = obtener(apodo, fechaInicio, fechaFinal, empresaId);
         //GENERACION DEL PDF
         try {
             ByteArrayOutputStream salida = new ByteArrayOutputStream();
@@ -360,24 +388,24 @@ public class ReporteCajaService {
             tablaMoneda.addCell(getCellMoneda("CANTIDAD"));
             tablaMoneda.addCell(getCellMoneda("DENOMINACION"));
             tablaMoneda.addCell(getCellMoneda("TOTAL"));
+            tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda100()));
+            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda100()));
+            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda100()));
+            tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda50()));
+            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda50()));
+            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda50()));
+            tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda25()));
+            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda25()));
+            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda25()));
+            tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda10()));
+            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda10()));
+            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda10()));
+            tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda5()));
+            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda5()));
+            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda5()));
             tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda1()));
             tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda1()));
             tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda1()));
-            tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda050()));
-            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda050()));
-            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda050()));
-            tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda025()));
-            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda025()));
-            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda025()));
-            tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda010()));
-            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda010()));
-            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda010()));
-            tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda005()));
-            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda005()));
-            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda005()));
-            tablaMoneda.addCell(getCellMoneda(reporteCaja.getCantidadMoneda001()));
-            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getDenominacionMoneda001()));
-            tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMoneda001()));
             tablaMoneda.addCell(getCellSinBorde(Constantes.vacio));
             tablaMoneda.addCell(getCellMoneda("TOTAL MONEDAS"));
             tablaMoneda.addCell(getCellMoneda(Constantes.signoDolar + reporteCaja.getTotalMonedas()));

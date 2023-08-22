@@ -599,12 +599,12 @@ public class Constantes {
     public static final double billete2 = 2.00;
     public static final double billete1 = 1.00;
 
-    public static final double moneda1 = 1.00;
-    public static final double moneda050 = 0.50;
-    public static final double moneda025 = 0.25;
-    public static final double moneda010 = 0.10;
-    public static final double moneda005 = 0.05;
-    public static final double moneda001 = 0.01;
+    public static final double moneda100 = 1.00;
+    public static final double moneda50 = 0.50;
+    public static final double moneda25 = 0.25;
+    public static final double moneda10 = 0.10;
+    public static final double moneda5 = 0.05;
+    public static final double moneda1 = 0.01;
 
     
 }
