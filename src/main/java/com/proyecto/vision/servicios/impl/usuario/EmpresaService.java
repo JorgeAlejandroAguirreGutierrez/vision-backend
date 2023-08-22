@@ -29,6 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -184,8 +185,8 @@ public class EmpresaService implements IEmpresaService {
             }
             Empresa empresa = optional.get();
             if (file.getOriginalFilename() != null) {
-                Files.copy(file.getInputStream(), this.root.resolve("CertificadoEmpresa"+empresaId+".p12"));
-                empresa.setCertificado("CertificadoEmpresa"+empresaId+".p12");
+                Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+                empresa.setCertificado(file.getOriginalFilename());
             }
             return rep.save(empresa);
         }
