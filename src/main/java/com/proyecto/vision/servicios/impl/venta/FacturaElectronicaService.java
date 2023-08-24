@@ -496,18 +496,20 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
 			documento.add( new Paragraph("\n"));
-            float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
+            float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 60F, 60F, 80F};
             Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
             tablaFacturaDetalle.addCell(getCellColumnaFactura("CÓDIGO"));
             tablaFacturaDetalle.addCell(getCellColumnaFactura("CANT"));
             tablaFacturaDetalle.addCell(getCellColumnaFactura("DESCRIPCION"));
             tablaFacturaDetalle.addCell(getCellColumnaFactura("PRECIO U"));
             tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO %"));
             tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
             for (int i = 0; i <factura.getFacturaLineas().size(); i++)
             {
 				String precioUnitario = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecioUnitario());
-				String descuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
+				String descuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getValorDescuentoLinea());
+				String porcentajeDescuentoLinea = factura.getFacturaLineas().get(i).getPorcentajeDescuentoLinea() + Constantes.vacio;
 				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getCodigo()));
@@ -515,6 +517,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
                 tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getNombre()));
                 tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
                 tablaFacturaDetalle.addCell(getCellFilaFactura("$"+descuentoLinea));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(porcentajeDescuentoLinea+"%"));
                 tablaFacturaDetalle.addCell(getCellFilaFactura("$"+subtotalConDescuentoLinea));
             }
 			documento.add(tablaFacturaDetalle);
@@ -574,9 +577,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			Table tablaFormaPago = new Table(columnasTablaFormaPago);
 			tablaFormaPago.addCell(getCellFormaPago("FORMA DE PAGO"));
 			tablaFormaPago.addCell(getCellFormaPago("VALOR"));
-			if(factura.getEfectivo()>0) {
+			if(factura.getEfectivo() > Constantes.cero) {
 				tablaFormaPago.addCell(getCellFormaPago(Constantes.sin_utilizacion_del_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_sin_utilizacion_del_sistema_financiero));
-				String valor = String.format("%.2f", factura.getEfectivo());
+				String valor = String.format("%.2f", factura.getEfectivo() - factura.getCambio());
 				tablaFormaPago.addCell(getCellFormaPago(valor));
 			}
 			for(Cheque cheque: factura.getCheques()) {

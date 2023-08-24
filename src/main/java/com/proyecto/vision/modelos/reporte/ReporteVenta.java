@@ -36,6 +36,7 @@ public class ReporteVenta {
     private String tarjetaCredito;
     private String tarjetaDebito;
     private String transferencia;
+    private String deposito;
     private String credito;
     private String totalRecaudacion;
     //FIRMAS DE RESPONSABILIDAD

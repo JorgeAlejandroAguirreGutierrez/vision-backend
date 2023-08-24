@@ -475,18 +475,20 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + notaDebito.getFactura().getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
 			documento.add( new Paragraph("\n"));
-			float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
+			float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 60F, 60F, 80F};
 			Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("CÓDIGO"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("CANT"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("DESCRIPCION"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("PRECIO U"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO %"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
 			for (int i = 0; i < notaDebito.getNotaDebitoLineas().size(); i++)
 			{
 				String precioUnitario = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getPrecioUnitario());
-				String descuentoLinea = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getValorDescuentoLinea() + notaDebito.getNotaDebitoLineas().get(i).getValorPorcentajeDescuentoLinea());
+				String descuentoLinea = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getValorDescuentoLinea());
+				String porcentajeDescuentoLinea = notaDebito.getNotaDebitoLineas().get(i).getPorcentajeDescuentoLinea() + Constantes.vacio;
 				String subtotalConDescuentoLinea = String.format("%.2f", notaDebito.getNotaDebitoLineas().get(i).getTotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getProducto().getCodigo()));
@@ -494,6 +496,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getProducto().getNombre()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+descuentoLinea));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(porcentajeDescuentoLinea+"%"));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+subtotalConDescuentoLinea));
 			}
 			documento.add(tablaFacturaDetalle);
@@ -553,9 +556,9 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			Table tablaFormaPago = new Table(columnasTablaFormaPago);
 			tablaFormaPago.addCell(getCellFormaPago("FORMA DE PAGO"));
 			tablaFormaPago.addCell(getCellFormaPago("VALOR"));
-			if(notaDebito.getEfectivo()>0) {
+			if(notaDebito.getEfectivo() > Constantes.cero) {
 				tablaFormaPago.addCell(getCellFormaPago(Constantes.sin_utilizacion_del_sistema_financiero + Constantes.espacio + Constantes.guion + Constantes.espacio + Constantes.texto_sin_utilizacion_del_sistema_financiero));
-				String valor = String.format("%.2f", notaDebito.getEfectivo());
+				String valor = String.format("%.2f", notaDebito.getEfectivo() - notaDebito.getCambio());
 				tablaFormaPago.addCell(getCellFormaPago(valor));
 			}
 			for(NDCheque cheque: notaDebito.getCheques()) {
