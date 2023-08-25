@@ -2,6 +2,7 @@ package com.proyecto.vision.servicios.impl.compra;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
@@ -67,8 +68,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(notaCreditoCompra.getTipoComprobante().getId(),
                 notaCreditoCompra.getSesion().getUsuario().getEstacion().getId(), notaCreditoCompra.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
         notaCreditoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
-        notaCreditoCompra.setEstado(Constantes.estadoActivo);
-        notaCreditoCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
+        notaCreditoCompra.setProceso(Constantes.procesoPorPagar);
         calcular(notaCreditoCompra);
         crearKardex(notaCreditoCompra);
         actualizarPrecios(notaCreditoCompra);
@@ -80,8 +80,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     }
 
     private void crearKardex(NotaCreditoCompra notaCreditoCompra) {
-        if(notaCreditoCompra.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaCreditoCompra.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaCreditoCompra.getProceso().equals(Constantes.procesoAnulada)) throw new EstadoInvalidoException(Constantes.procesoAnulada);
 
         for (NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId());
@@ -192,18 +191,9 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     }
 
     @Override
-    public NotaCreditoCompra activar(NotaCreditoCompra notaCreditoCompra) {
+    public NotaCreditoCompra anular(NotaCreditoCompra notaCreditoCompra) {
         validar(notaCreditoCompra);
-        notaCreditoCompra.setEstado(Constantes.estadoActivo);
-        NotaCreditoCompra res = rep.save(notaCreditoCompra);
-        res.normalizar();
-        return res;
-    }
-
-    @Override
-    public NotaCreditoCompra inactivar(NotaCreditoCompra notaCreditoCompra) {
-        validar(notaCreditoCompra);
-        notaCreditoCompra.setEstado(Constantes.estadoInactivo);
+        notaCreditoCompra.setProceso(Constantes.procesoAnulada);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
         return res;
@@ -250,8 +240,8 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     }
     
     @Override
-    public List<NotaCreditoCompra> consultarPorEstado(String estado){
-    	return rep.consultarPorEstado(estado);
+    public List<NotaCreditoCompra> consultarPorProceso(String proceso){
+    	return rep.consultarPorProceso(proceso);
     }
 
     @Override
@@ -265,8 +255,8 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     }
 
     @Override
-    public List<NotaCreditoCompra> consultarPorEmpresaYEstado(long empresaId, String estado){
-        return rep.consultarPorEmpresaYEstado(empresaId, estado);
+    public List<NotaCreditoCompra> consultarPorEmpresaYProceso(long empresaId, String proceso){
+        return rep.consultarPorEmpresaYProceso(empresaId, proceso);
     }
 
     /*

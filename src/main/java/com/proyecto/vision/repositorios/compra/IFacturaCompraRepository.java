@@ -13,16 +13,14 @@ import java.util.Optional;
 public interface IFacturaCompraRepository extends JpaRepository<FacturaCompra, Long>, JpaSpecificationExecutor<FacturaCompra> {
 	@Query(value = "select fc from FacturaCompra fc order by fc.codigo desc")
     List<FacturaCompra> consultar();
-    @Query(value = "select fc from FacturaCompra fc where fc.estado = :estado order by fc.codigo desc")
-    List<FacturaCompra> consultarPorEstado(String estado);
+    @Query(value = "select fc from FacturaCompra fc where fc.proceso = :proceso order by fc.codigo desc")
+    List<FacturaCompra> consultarPorProceso(String proceso);
     @Query(value = "select fc from FacturaCompra fc where fc.empresa.id = :empresaId order by fc.codigo desc")
     List<FacturaCompra> consultarPorEmpresa(long empresaId);
-    @Query(value = "select fc from FacturaCompra fc where fc.empresa.id = :empresaId and fc.estado = :estado order by fc.codigo asc")
-    List<FacturaCompra> consultarPorEmpresaYEstado(long empresaId, String estado);
-    @Query(value = "select fc from FacturaCompra fc where fc.empresa.id = :empresaId and fc.estadoInterno = :estadoInterno and fc.estado = :estado order by fc.codigo desc")
-    List<FacturaCompra> consultarPorEmpresaYEstadoInternoYEstado(long empresaId, String estadoInterno, String estado);
-    @Query(value = "select fc from FacturaCompra fc where fc.empresa.id = :empresaId and fc.proveedor.id = :proveedorId and fc.estado = :estado order by fc.codigo desc")
-    List<FacturaCompra> consultarPorEmpresaYProveedorYEstado(long empresaId, long proveedorId, String estado);
+    @Query(value = "select fc from FacturaCompra fc where fc.empresa.id = :empresaId and fc.proceso = :proceso order by fc.codigo asc")
+    List<FacturaCompra> consultarPorEmpresaYProceso(long empresaId, String proceso);
+    @Query(value = "select fc from FacturaCompra fc where fc.empresa.id = :empresaId and fc.proveedor.id = :proveedorId and fc.proceso = :proceso order by fc.codigo desc")
+    List<FacturaCompra> consultarPorEmpresaYProveedorYProceso(long empresaId, long proveedorId, String proceso);
     @Query(value = "select fc from FacturaCompra fc where fc.establecimiento = :establecimiento and fc.puntoVenta = :puntoVenta and fc.secuencial = :secuencial and fc.proveedor.id = :proveedorId")
     Optional<FacturaCompra> obtenerPorEstableciminetoYEstacionYSecuencialYProveedor(String establecimiento, String puntoVenta, String secuencial, long proveedorId);
 }

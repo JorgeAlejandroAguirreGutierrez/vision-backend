@@ -6,9 +6,7 @@ import static com.proyecto.vision.controladoras.Endpoints.pathGuiaRemision;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.controladoras.GenericoController;
 import com.proyecto.vision.modelos.Respuesta;
-import com.proyecto.vision.modelos.cajaBanco.Banco;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
-import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.servicios.interf.entrega.IGuiaRemisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,9 +47,9 @@ public class GuiaRemisionController implements GenericoController<GuiaRemision> 
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
-        List<GuiaRemision> guiasRemisiones = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+    @GetMapping(value = "/consultarPorEmpresaYEstadoSRI/{empresaId}/{estadoSRI}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstadoSRI(@PathVariable("empresaId") long empresaId, @PathVariable("estadoSRI") String estadoSRI) {
+        List<GuiaRemision> guiasRemisiones = servicio.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, guiasRemisiones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -77,21 +75,14 @@ public class GuiaRemisionController implements GenericoController<GuiaRemision> 
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> activar(@RequestBody GuiaRemision _guiaRemision) {
-        GuiaRemision guiaRemision = servicio.activar(_guiaRemision);
+    @PatchMapping(value = "/anular", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> anular(@RequestBody GuiaRemision _guiaRemision) {
+        GuiaRemision guiaRemision = servicio.anular(_guiaRemision);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_activar_exitoso, guiaRemision);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> inactivar(@RequestBody GuiaRemision _guiaRemision) {
-        GuiaRemision guiaRemision = servicio.inactivar(_guiaRemision);
-        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, guiaRemision);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
     
-    @GetMapping(value = "/factura/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/obtenerPorFactura/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerPorFactura(@PathVariable("id") long id) {
         Optional<GuiaRemision> entrega=servicio.obtenerPorFactura(id);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, entrega);

@@ -270,17 +270,14 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		if(notaDebito.getEmpresa().getContrasena().equals(Constantes.vacio)){
 			throw new FacturaElectronicaInvalidaException(Constantes.contrasena);
 		}
-		if(notaDebito.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
-			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
+		if(notaDebito.getProceso().equals(Constantes.procesoEmitida)){
+			throw new EstadoInvalidoException(Constantes.procesoEmitida);
 		}
-		if(notaDebito.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
-			throw new EstadoInvalidoException(Constantes.estadoInternoAnulada);
+		if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
+			throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
 		}
-		if(notaDebito.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
-			throw new EstadoInvalidoException(Constantes.estadoSriAutorizada);
-		}
-		if(notaDebito.getEstadoSri().equals(Constantes.estadoSriAnulada)){
-			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
+		if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
 		}
 		NotaDebitoElectronica notaDebitoElectronica = crear(notaDebito);
 		List<String> estadoRecepcion = recepcion(notaDebitoElectronica, notaDebito.getEmpresa().getCertificado(), notaDebito.getEmpresa().getContrasena());
@@ -291,7 +288,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
-		notaDebito.setEstadoSri(Constantes.estadoSriAutorizada);
+		notaDebito.setEstadoSRI(Constantes.estadoSRIAutorizada);
 		notaDebito.setFechaAutorizacion(new Date());
 		enviarCorreo(notaDebito, notaDebitoElectronica);
 		NotaDebito facturada = rep.save(notaDebito);
@@ -447,7 +444,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(notaDebito.getEstadoSri().equals(Constantes.estadoSriAutorizada)) {
+			if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) {
 				numeroAutorizacion = notaDebito.getClaveAcceso();
 				fechaAutorizacion = notaDebito.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);

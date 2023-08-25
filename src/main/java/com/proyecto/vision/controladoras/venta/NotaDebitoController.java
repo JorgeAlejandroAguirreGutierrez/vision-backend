@@ -32,9 +32,9 @@ public class NotaDebitoController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
-        List<NotaDebito> notasDebitos = servicio.consultarPorEstado(estado);
+    @GetMapping(value = "/consultarPorEstadoSRI/{estadoSRI}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstadoSRI(@PathVariable("estadoSRI") String estadoSRI) {
+        List<NotaDebito> notasDebitos = servicio.consultarPorEstadoSRI(estadoSRI);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -46,9 +46,9 @@ public class NotaDebitoController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
-        List<NotaDebito> notasDebitos = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+    @GetMapping(value = "/consultarPorEmpresaYEstadoSRI/{empresaId}/{estadoSRI}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstadoSRI(@PathVariable("empresaId") long empresaId, @PathVariable("estadoSRI") String estadoSRI) {
+        List<NotaDebito> notasDebitos = servicio.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -88,17 +88,10 @@ public class NotaDebitoController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> activar(@RequestBody NotaDebito _notaDebito) {
-        NotaDebito notaDebito = servicio.activar(_notaDebito);
+    @PatchMapping(value = "/anular", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> anular(@RequestBody NotaDebito _notaDebito) {
+        NotaDebito notaDebito = servicio.anular(_notaDebito);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_activar_exitoso, notaDebito);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> inactivar(@RequestBody NotaDebito _notaDebito) {
-        NotaDebito notaDebito = servicio.inactivar(_notaDebito);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_inactivar_exitoso, notaDebito);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
