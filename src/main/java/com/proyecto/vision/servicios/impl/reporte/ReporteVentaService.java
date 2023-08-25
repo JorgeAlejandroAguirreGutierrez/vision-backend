@@ -134,10 +134,10 @@ public class ReporteVentaService {
             totalIva = totalIva + factura.getImporteIva();
             reporteTotal = reporteTotal + factura.getTotal();
 
-            if(factura.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
+            if(factura.getProceso().equals(Constantes.procesoAnulada) || factura.getEstadoSRI().equals(Constantes.estadoSRIAnulada)){
                 facturasAnuladas++;
             }
-            if(factura.getEstadoInterno().equals(Constantes.estadoInternoEmitida) || factura.getEstadoInterno().equals(Constantes.estadoInternoRecaudada)) {
+            if(factura.getProceso().equals(Constantes.procesoEmitida) || factura.getProceso().equals(Constantes.procesoRecaudada)) {
                 facturasEmitidas++;
             }
             totalEfectivo = totalEfectivo + factura.getEfectivo();

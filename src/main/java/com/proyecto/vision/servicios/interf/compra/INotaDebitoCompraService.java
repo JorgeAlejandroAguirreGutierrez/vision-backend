@@ -8,11 +8,10 @@ import java.util.List;
 
 public interface INotaDebitoCompraService extends IGenericoService<NotaDebitoCompra> {
 	void validar(NotaDebitoCompra notaCreditoCompra);
-	NotaDebitoCompra activar(NotaDebitoCompra notaCreditoCompra);
-	NotaDebitoCompra inactivar(NotaDebitoCompra notaCreditoCompra);
-	List<NotaDebitoCompra> consultarPorEstado(String estado);
+	NotaDebitoCompra anular(NotaDebitoCompra notaCreditoCompra);
+	List<NotaDebitoCompra> consultarPorProceso(String estado);
 	List<NotaDebitoCompra> consultarPorEmpresa(long empresaId);
-	List<NotaDebitoCompra> consultarPorEmpresaYEstado(long empresaId, String estado);
+	List<NotaDebitoCompra> consultarPorEmpresaYProceso(long empresaId, String estado);
 	NotaDebitoCompra calcular(NotaDebitoCompra notaDebitoCompra);
 	void validarLinea(NotaDebitoCompraLinea notaDebitoCompraLinea);
 	NotaDebitoCompraLinea calcularLinea(NotaDebitoCompraLinea notaDebitoCompraLinea);

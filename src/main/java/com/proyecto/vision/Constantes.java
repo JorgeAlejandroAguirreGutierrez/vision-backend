@@ -38,9 +38,6 @@ public class Constantes {
     public static final String operacion_devolucion = "DEVOLUCION";
     public static final String operacion_descuento = "DESCUENTO";
     public static final String operacion_conjunta = "CONJUNTA";
-	
-	public static final String estadoActivo="ACTIVO";
-	public static final String estadoInactivo="INACTIVO";
 
     public static final String mensaje_exitoso="Exito";
     public static final String mensaje_consultar_exitoso="Exito en la consulta";
@@ -67,6 +64,7 @@ public class Constantes {
     public static final String mensaje_exportacion_fallido="Error al exportar";
     public static final String mensaje_activar_fallido="Error al activar";
     public static final String mensaje_inactivar_fallido="Error al inactivar";
+    public static final String mensaje_anular_exitoso="Exito al anular";
 
     public static final String mensaje_validacion_not_blank=" no debe estar en blanco";
     public static final String mensaje_validacion_not_null=" se debe registrar";
@@ -541,18 +539,22 @@ public class Constantes {
     public static final String autorizadoSri = "AUTORIZADO";
     public static final String noAutorizadoSri = "NO AUTORIZADO";
     public static final String devueltaSri = "DEVUELTA";
+
+    //ESTADOS DEL SISTEMA
+    public static final String estadoActivo="ACTIVO";
+    public static final String estadoInactivo="INACTIVO";
     
     //ESTADOS VENTAS
-    public static final String estadoInternoRecaudada = "RECAUDADA";
-    public static final String estadoInternoEmitida = "EMITIDA";
-    public static final String estadoInternoAnulada = "ANULADA";
-    public static final String estadoSriPendiente = "PENDIENTE";
-    public static final String estadoSriAutorizada = "AUTORIZADA";
-    public static final String estadoSriAnulada = "ANULADA";
+    public static final String procesoEmitida = "EMITIDA";
+    public static final String procesoRecaudada = "RECAUDADA";
+    public static final String procesoAnulada = "ANULADA";
+    public static final String estadoSRIPendiente = "PENDIENTE";
+    public static final String estadoSRIAutorizada = "AUTORIZADA";
+    public static final String estadoSRIAnulada = "ANULADA";
 
     //ESTADOS COMPRAS
-    public static final String estadoInternoPagada = "PAGADA";
-    public static final String estadoInternoPorPagar = "POR PAGAR";
+    public static final String procesoPagada = "PAGADA";
+    public static final String procesoPorPagar = "POR PAGAR";
     
     //CONSTANTES PARA FACTURA FISICA
     public static final String facturaFisicaAmbienteValor = "PRUEBAS";

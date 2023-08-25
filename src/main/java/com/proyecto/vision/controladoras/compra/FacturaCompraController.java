@@ -31,9 +31,9 @@ public class FacturaCompraController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
-        List<FacturaCompra> facturasCompras = servicio.consultarPorEstado(estado);
+    @GetMapping(value = "/consultarPorProceso/{proceso}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("proceso") String proceso) {
+        List<FacturaCompra> facturasCompras = servicio.consultarPorProceso(proceso);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -45,16 +45,16 @@ public class FacturaCompraController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEmpresaYEstadoInternoYEstado/{empresaId}/{estadoInterno}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresaYEstadoInternoYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estadoInterno") String estadoInterno, @PathVariable("estado") String estado) {
-        List<FacturaCompra> facturasCompras = servicio.consultarPorEmpresaYEstadoInternoYEstado(empresaId, estadoInterno, estado);
+    @GetMapping(value = "/consultarPorEmpresaYProceso/{empresaId}/{proceso}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYProceso(@PathVariable("empresaId") long empresaId, @PathVariable("proceso") String proceso) {
+        List<FacturaCompra> facturasCompras = servicio.consultarPorEmpresaYProceso(empresaId, proceso);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEmpresaYProveedorYEstado/{empresaId}/{proveedorId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresaYProveedorYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("proveedorId") long proveedorId, @PathVariable("estado") String estado) {
-        List<FacturaCompra> facturasCompras = servicio.consultarPorEmpresaYProveedorYEstado(empresaId, proveedorId, estado);
+    @GetMapping(value = "/consultarPorEmpresaYProveedorYProceso/{empresaId}/{proveedorId}/{proceso}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYProveedorYProceso(@PathVariable("empresaId") long empresaId, @PathVariable("proveedorId") long proveedorId, @PathVariable("proceso") String proceso) {
+        List<FacturaCompra> facturasCompras = servicio.consultarPorEmpresaYProveedorYProceso(empresaId, proveedorId, proceso);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturasCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -87,17 +87,10 @@ public class FacturaCompraController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> activar(@RequestBody FacturaCompra _facturaCompra) {
-        FacturaCompra facturaCompra = servicio.activar(_facturaCompra);
+    @PatchMapping(value = "/anular", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> anular(@RequestBody FacturaCompra _facturaCompra) {
+        FacturaCompra facturaCompra = servicio.anular(_facturaCompra);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, facturaCompra);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> inactivar(@RequestBody FacturaCompra _facturaCompra) {
-        FacturaCompra facturaCompra = servicio.inactivar(_facturaCompra);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, facturaCompra);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

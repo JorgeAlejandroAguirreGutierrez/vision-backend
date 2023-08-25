@@ -2,7 +2,6 @@ package com.proyecto.vision.controladoras.compra;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Respuesta;
-import com.proyecto.vision.modelos.cajaBanco.Banco;
 import com.proyecto.vision.modelos.compra.NotaDebitoCompra;
 import com.proyecto.vision.modelos.compra.NotaDebitoCompraLinea;
 import com.proyecto.vision.servicios.interf.compra.INotaDebitoCompraService;
@@ -33,9 +32,9 @@ public class NotaDebitoCompraController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultar/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
-        List<NotaDebitoCompra> notasDebitosCompras = servicio.consultarPorEstado(estado);
+    @GetMapping(value = "/consultarPorProceso/{proceso}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorProceso(@PathVariable("estado") String proceso) {
+        List<NotaDebitoCompra> notasDebitosCompras = servicio.consultarPorProceso(proceso);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -82,17 +81,10 @@ public class NotaDebitoCompraController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> activar(@RequestBody NotaDebitoCompra _notaDebitoCompra) {
-        NotaDebitoCompra notaDebitoCompra = servicio.activar(_notaDebitoCompra);
+    @PatchMapping(value = "/anular", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> anular(@RequestBody NotaDebitoCompra _notaDebitoCompra) {
+        NotaDebitoCompra notaDebitoCompra = servicio.anular(_notaDebitoCompra);
         Respuesta respuesta= new Respuesta(true, Constantes.mensaje_activar_exitoso, notaDebitoCompra);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> inactivar(@RequestBody NotaDebitoCompra _notaDebitoCompra) {
-        NotaDebitoCompra notaDebitoCompra = servicio.inactivar(_notaDebitoCompra);
-        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, notaDebitoCompra);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

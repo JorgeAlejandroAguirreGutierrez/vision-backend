@@ -12,11 +12,11 @@ import java.util.List;
 public interface INotaDebitoRepository extends JpaRepository<NotaDebito, Long>, JpaSpecificationExecutor<NotaDebito> {
     @Query(value = "select nd from NotaDebito nd order by nd.codigo desc")
     List<NotaDebito> consultar();
-    @Query(value = "select nd from NotaDebito nd where nd.estado = :estado order by nd.codigo desc")
-    List<NotaDebito> consultarPorEstado(String estado);
+    @Query(value = "select nd from NotaDebito nd where nd.estadoSRI = :estadoSRI order by nd.codigo desc")
+    List<NotaDebito> consultarPorEstadoSRI(String estadoSRI);
     @Query(value = "select nd from NotaDebito nd where nd.empresa.id = :empresaId order by nd.codigo desc")
     List<NotaDebito> consultarPorEmpresa(long empresaId);
-    @Query(value = "select nd from NotaDebito nd where nd.empresa.id = :empresaId and nd.estado = :estado order by nd.codigo asc")
-    List<NotaDebito> consultarPorEmpresaYEstado(long empresaId, String estado);
+    @Query(value = "select nd from NotaDebito nd where nd.empresa.id = :empresaId and nd.estadoSRI = :estadoSRI order by nd.codigo asc")
+    List<NotaDebito> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI);
 
 }
