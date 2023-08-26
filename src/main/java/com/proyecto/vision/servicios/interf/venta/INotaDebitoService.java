@@ -12,6 +12,7 @@ public interface INotaDebitoService extends IGenericoService<NotaDebito> {
 	List<NotaDebito> consultarPorEstadoSRI(String estadoSRI);
 	List<NotaDebito> consultarPorEmpresa(long empresaId);
 	List<NotaDebito> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI);
+	List<NotaDebito> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI);
 	NotaDebito calcular(NotaDebito notaDebito);
 	void validarLinea(NotaDebitoLinea notaDebitoLinea);
 	NotaDebitoLinea calcularLinea(NotaDebitoLinea notaDebitoLinea);
