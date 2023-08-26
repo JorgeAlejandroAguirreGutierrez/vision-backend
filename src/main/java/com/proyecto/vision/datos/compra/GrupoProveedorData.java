@@ -30,8 +30,7 @@ public class GrupoProveedorData implements ApplicationRunner {
 			gruposProveedores.add(new GrupoProveedor("GPR012306000001", "PROVEEDORES NACIONALES", "NAC", Constantes.estadoActivo, new CuentaContable(4), new Empresa(1)));
 			gruposProveedores.add(new GrupoProveedor("GPR012306000002", "PROVEEDORES INTERNACIONALES", "INTER", Constantes.estadoActivo, new CuentaContable(5), new Empresa(1)));
 
-			gruposProveedores.add(new GrupoProveedor("GPR022306000001", "PROVEEDORES INTERNOS", "INT", Constantes.estadoActivo, new CuentaContable(4), new Empresa(2)));
-			gruposProveedores.add(new GrupoProveedor("GPR022306000002", "PROVEEDORES EXTERNOS", "EXT", Constantes.estadoActivo, new CuentaContable(5), new Empresa(2)));
+			gruposProveedores.add(new GrupoProveedor("GPR022308000001", "PROVEEDOR GENERAL", "PRG", Constantes.estadoActivo, new CuentaContable(4), new Empresa(2)));
 
 			rep.saveAll(gruposProveedores);
 		}

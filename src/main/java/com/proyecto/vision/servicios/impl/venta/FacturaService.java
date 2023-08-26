@@ -186,6 +186,7 @@ public class FacturaService implements IFacturaService {
                     }
                     saldo = ultimoKardex.getSaldo() - facturaLinea.getCantidad();
                     costoTotal = ultimoKardex.getCostoTotal() - (facturaLinea.getCantidad() * ultimoKardex.getCostoPromedio());
+                    costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
                     costoUnitario = ultimoKardex.getCostoPromedio();
                     costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
                     costoPromedio = costoTotal / saldo;

@@ -25,23 +25,23 @@ public class TipoOperacionData implements ApplicationRunner {
         Optional<TipoOperacion> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<TipoOperacion> tiposOperaciones = new ArrayList<>();
-            tiposOperaciones.add(new TipoOperacion("TOP011907000001", "SALDO INICIAL","SALDO INICIAL", Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000002", "VENTA","VENTA",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000003", "COMPRA","COMPRA",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000004", "CONSIGNACIÓN RECIBIDA","CONSIG. RECIBIDA",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000005", "CONSIGNACIÓN ENTREGADA","CONSIG. ENTREGADA",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000006", "DEVOLUCIÓN EN COMPRAS","DEV. COMPRA",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000007", "DEVOLUCIÓN EN VENTAS","DEV. VENTA",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000008", "DESCUENTO EN COMPRAS","DES. COMPRA",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000009", "DESCUENTO EN VENTAS","DES. VENTA",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000010", "PROMOCIÓN","PROMO",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000011", "DONACIÓN","DONACIÓN",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000012", "SALIDA A PRODUCCIÓN","PRODUCCIÓN",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000013", "TRANSFERENCIA ENTRE ALMACENES","TRANS. ALMACEN",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000014", "TRANSFERENCIA ENTRE BODEGAS","TRANS. BODEGA",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000015", "RETIRO","RETIRO",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000016", "MERMAS","MERMAS",Constantes.estadoActivo));
-            tiposOperaciones.add(new TipoOperacion("TOP011907000017", "DESTRUCCIÓN","DESTRUCCIÓN",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000001", "SALDO INICIAL","SALDO INICIAL", Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000002", "VENTA","VENTA",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000003", "COMPRA","COMPRA",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000004", "CONSIGNACIÓN RECIBIDA","CONSIG. RECIBIDA",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000005", "CONSIGNACIÓN ENTREGADA","CONSIG. ENTREGADA",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000006", "DEVOLUCIÓN EN COMPRAS","DEV. COMPRA",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000007", "DEVOLUCIÓN EN VENTAS","DEV. VENTA",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000008", "DESCUENTO EN COMPRAS","DES. COMPRA",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000009", "DESCUENTO EN VENTAS","DES. VENTA",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000010", "PROMOCIÓN","PROMO",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000011", "DONACIÓN","DONACIÓN",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000012", "SALIDA A PRODUCCIÓN","PRODUCCIÓN",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000013", "TRANSFERENCIA ENTRE ALMACENES","TRANS. ALMACEN",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000014", "TRANSFERENCIA ENTRE BODEGAS","TRANS. BODEGA",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000015", "RETIRO","RETIRO",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000016", "MERMAS","MERMAS",Constantes.estadoActivo));
+            tiposOperaciones.add(new TipoOperacion("TOP202301000017", "DESTRUCCIÓN","DESTRUCCIÓN",Constantes.estadoActivo));
 
             rep.saveAll(tiposOperaciones);
         }
