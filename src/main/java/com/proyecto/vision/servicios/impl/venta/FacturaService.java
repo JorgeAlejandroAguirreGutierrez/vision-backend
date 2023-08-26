@@ -5,26 +5,34 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.cliente.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
+import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.modelos.recaudacion.*;
+import com.proyecto.vision.modelos.venta.NotaCredito;
+import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.repositorios.cliente.IClienteBaseRepository;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
 import com.proyecto.vision.servicios.interf.cliente.IClienteService;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
+import com.proyecto.vision.servicios.interf.entrega.IGuiaRemisionService;
 import com.proyecto.vision.servicios.interf.inventario.ITipoOperacionService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
 import com.proyecto.vision.servicios.interf.inventario.IKardexService;
+import com.proyecto.vision.servicios.interf.venta.INotaCreditoService;
+import com.proyecto.vision.servicios.interf.venta.INotaDebitoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +52,12 @@ public class FacturaService implements IFacturaService {
     private IClienteBaseRepository repClienteBase;
     @Autowired
     private IClienteService clienteService;
+    @Autowired
+    private INotaDebitoService notaDebitoService;
+    @Autowired
+    private INotaCreditoService notaCreditoService;
+    @Autowired
+    private IGuiaRemisionService guiaRemisionService;
 
     @Override
     public void validar(Factura factura) {
@@ -245,8 +259,27 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura anular(Factura factura) {
         validar(factura);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        Date fechaCierreCaja = calendar.getTime();
+        if(factura.getFecha().after(fechaCierreCaja)){
+            throw new ErrorInternoException(Constantes.mensaje_error_cierre_caja);
+        }
+        List<NotaDebito> notasDebitos = notaDebitoService.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoSRIAnulada);
+        if(!notasDebitos.isEmpty()){
+            throw new ErrorInternoException(Constantes.mensaje_error_nota_debito_existente);
+        }
+        List<NotaCredito> notasCreditos = notaCreditoService.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoSRIAnulada);
+        if(!notasCreditos.isEmpty()){
+            throw new ErrorInternoException(Constantes.mensaje_error_nota_credito_existente);
+        }
+        List<GuiaRemision> guiasRemisiones = guiaRemisionService.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoSRIAnulada);
+        if(!guiasRemisiones.isEmpty()){
+            throw new ErrorInternoException(Constantes.mensaje_error_guia_remision_existente);
+        }
         factura.setProceso(Constantes.procesoAnulada);
-        factura.setEstadoSRI(Constantes.estadoActivo);
+        factura.setEstadoSRI(Constantes.estadoSRIAnulada);
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -306,8 +339,13 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarPorClienteYEmpresaYEstadoSRI(long empresaId, long facturaId, String estadoSRI) {
-        return rep.consultarPorClienteYEmpresaYEstadoSRI(empresaId, facturaId, estadoSRI);
+    public List<Factura> consultarPorClienteYEmpresaYProceso(long empresaId, long facturaId, String proceso) {
+        return rep.consultarPorClienteYEmpresaYProceso(empresaId, facturaId, proceso);
+    }
+
+    @Override
+    public List<Factura> consultarPorClienteYEmpresaYEstadoSRI(long clienteId, long empresaId, String estadoSRI) {
+        return rep.consultarPorClienteYEmpresaYEstadoSRI(clienteId, empresaId, estadoSRI);
     }
 
     @Override

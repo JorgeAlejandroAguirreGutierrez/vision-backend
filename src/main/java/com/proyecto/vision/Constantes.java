@@ -285,6 +285,10 @@ public class Constantes {
     public static final String pedido="PEDIDO";
     public static final String proforma="PROFORMA";
     public static final String tipo_comprobante="TIPO COMPROBANTE";
+    public static final String mensaje_error_cierre_caja = "CIERRE DE CAJA EXISTENTE";
+    public static final String mensaje_error_nota_debito_existente = "NOTA DE DEBITO EXISTENTE";
+    public static final String mensaje_error_nota_credito_existente = "NOTA DE CREDITO EXISTENTE";
+    public static final String mensaje_error_guia_remision_existente = "GUIA DE REMISION EXISTENTE";
     
     //CONFIGURACION
     public static final String empresa="EMPRESA";

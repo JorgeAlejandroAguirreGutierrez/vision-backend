@@ -270,6 +270,11 @@ public class NotaCreditoService implements INotaCreditoService {
     }
 
     @Override
+    public List<NotaCredito> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI){
+        return rep.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(facturaId, empresaId, estadoSRI);
+    }
+
+    @Override
     public Page<NotaCredito> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }

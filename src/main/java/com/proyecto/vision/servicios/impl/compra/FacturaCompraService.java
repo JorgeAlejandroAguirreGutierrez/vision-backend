@@ -389,6 +389,6 @@ public class FacturaCompraService implements IFacturaCompraService {
             facturada.normalizar();
             return facturada;
         }
-        throw new ErrorInternoException();
+        throw new ErrorInternoException(Constantes.vacio);
     }
 }
