@@ -7,7 +7,6 @@ import com.proyecto.vision.modelos.compra.FacturaCompra;
 import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.modelos.inventario.Precio;
-import com.proyecto.vision.modelos.venta.FacturaLinea;
 import com.proyecto.vision.servicios.interf.inventario.IPrecioService;
 import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.servicios.interf.inventario.IKardexService;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,8 +71,7 @@ public class FacturaCompraService implements IFacturaCompraService {
         facturaCompra.setCodigo(codigo.get());
         crearKardex(facturaCompra);
         actualizarPrecios(facturaCompra);
-        facturaCompra.setEstado(Constantes.estadoActivo);
-        facturaCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
+        facturaCompra.setEstado(Constantes.estadoPorPagar);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -180,18 +177,9 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
-    public FacturaCompra activar(FacturaCompra facturaCompra) {
+    public FacturaCompra anular(FacturaCompra facturaCompra) {
         validar(facturaCompra);
-        facturaCompra.setEstado(Constantes.estadoActivo);
-        FacturaCompra res = rep.save(facturaCompra);
-        res.normalizar();
-        return res;
-    }
-
-    @Override
-    public FacturaCompra inactivar(FacturaCompra facturaCompra) {
-        validar(facturaCompra);
-        facturaCompra.setEstado(Constantes.estadoInactivo);
+        facturaCompra.setEstado(Constantes.estadoAnulada);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -229,14 +217,20 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
+    public List<FacturaCompra> consultarPorEmpresaYEstado(long empresaId, String estado) {
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
+    }
+    @Override
     public List<FacturaCompra> consultarPorEmpresaYProveedorYEstado(long empresaId, long proveedorId, String estado){
         return rep.consultarPorEmpresaYProveedorYEstado(empresaId, proveedorId, estado);
     }
 
     @Override
-    public List<FacturaCompra> consultarPorEmpresaYEstadoInternoYEstado(long empresaId, String estadoInterno, String estado) {
-        return rep.consultarPorEmpresaYEstadoInternoYEstado(empresaId, estadoInterno, estado);
+    public List<FacturaCompra> consultarPorEmpresaYProveedorYEstadoDiferente(long empresaId, long proveedorId, String estado){
+        return rep.consultarPorEmpresaYProveedorYEstadoDiferente(empresaId, proveedorId, estado);
     }
+
+
 
     /*
      * CALCULOS CON FACTURA COMPRA LINEAS
@@ -386,12 +380,12 @@ public class FacturaCompraService implements IFacturaCompraService {
         }
         FacturaCompra facturaCompra = optional.get();
         validar(facturaCompra);
-        if(facturaCompra.getEstado().equals(Constantes.estadoInactivo))
-            throw new EstadoInvalidoException(Constantes.estado);
-        if(facturaCompra.getEstadoInterno().equals(Constantes.estadoInternoPagada))
-            throw new EstadoInvalidoException(Constantes.estado);
-        if(facturaCompra.getEstadoInterno().equals(Constantes.estadoInternoPorPagar)){
-            facturaCompra.setEstadoInterno(Constantes.estadoInternoPagada);
+        if(facturaCompra.getEstado().equals(Constantes.estadoAnulada))
+            throw new EstadoInvalidoException(Constantes.estadoAnulada);
+        if(facturaCompra.getEstado().equals(Constantes.estadoPagada))
+            throw new EstadoInvalidoException(Constantes.estadoPagada);
+        if(facturaCompra.getEstado().equals(Constantes.estadoPorPagar)){
+            facturaCompra.setEstado(Constantes.estadoPagada);
             FacturaCompra facturada = rep.save(facturaCompra);
             facturada.normalizar();
             return facturada;

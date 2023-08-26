@@ -219,17 +219,14 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
 		}
-		if(guiaRemision.getEstado().equals(Constantes.estadoInactivo)){
+		if(guiaRemision.getEstado().equals(Constantes.estadoAnulada)){
 			throw new EstadoInvalidoException(Constantes.estadoInactivo);
 		}
-		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
-			throw new EstadoInvalidoException(Constantes.estadoInternoAnulada);
+		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
+			throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
 		}
-		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
-			throw new EstadoInvalidoException(Constantes.estadoSriAutorizada);
-		}
-		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAnulada)){
-			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
+		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
 		}
 		GuiaRemisionElectronica guiaRemisionElectronica = crear(guiaRemision);
 		List<String> estadoRecepcion = recepcion(guiaRemisionElectronica, guiaRemision.getEmpresa().getCertificado(), guiaRemision.getEmpresa().getContrasena());
@@ -240,7 +237,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
-		guiaRemision.setEstadoSri(Constantes.estadoSriAutorizada);
+		guiaRemision.setEstadoSRI(Constantes.estadoSRIAutorizada);
 		guiaRemision.setFechaAutorizacion(new Date());
 		enviarCorreo(guiaRemision, guiaRemisionElectronica);
 		GuiaRemision facturada = rep.save(guiaRemision);
@@ -397,7 +394,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
+			if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
 				numeroAutorizacion = guiaRemision.getClaveAcceso();
 				fechaAutorizacion = guiaRemision.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);

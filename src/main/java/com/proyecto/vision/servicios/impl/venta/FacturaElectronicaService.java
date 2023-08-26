@@ -291,17 +291,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		if(factura.getEmpresa().getContrasena().equals(Constantes.vacio)){
 			throw new FacturaElectronicaInvalidaException(Constantes.contrasena);
 		}
-		if(factura.getEstadoInterno().equals(Constantes.estadoInternoEmitida)){
-			throw new EstadoInvalidoException(Constantes.estadoInternoEmitida);
+		if(factura.getEstado().equals(Constantes.estadoEmitida)){
+			throw new EstadoInvalidoException(Constantes.estadoEmitida);
 		}
-		if(factura.getEstadoInterno().equals(Constantes.estadoInternoAnulada)){
-			throw new EstadoInvalidoException(Constantes.estadoInternoAnulada);
+		if(factura.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
+			throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
 		}
-		if(factura.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
-			throw new EstadoInvalidoException(Constantes.estadoSriAutorizada);
-		}
-		if(factura.getEstadoSri().equals(Constantes.estadoSriAnulada)){
-			throw new EstadoInvalidoException(Constantes.estadoSriAnulada);
+		if(factura.getEstadoSRI().equals(Constantes.estadoSRIAnulada)){
+			throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
 		}
 		FacturaElectronica facturaElectronica = crear(factura);
 		List<String> estadoRecepcion = recepcion(facturaElectronica, factura.getEmpresa().getCertificado(), factura.getEmpresa().getContrasena());
@@ -312,7 +309,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
-		factura.setEstadoSri(Constantes.estadoSriAutorizada);
+		factura.setEstadoSRI(Constantes.estadoSRIAutorizada);
 		factura.setFechaAutorizacion(new Date());
 		enviarCorreo(factura, facturaElectronica);
 		Factura facturada = rep.save(factura);
@@ -468,7 +465,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(factura.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
+			if(factura.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
 				numeroAutorizacion = factura.getClaveAcceso();
 				fechaAutorizacion = factura.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);
@@ -779,7 +776,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(factura.getEstadoSri().equals(Constantes.estadoSriAutorizada)){
+			if(factura.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
 				numeroAutorizacion = factura.getClaveAcceso();
 				fechaAutorizacion = factura.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);

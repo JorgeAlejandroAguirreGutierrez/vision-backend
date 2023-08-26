@@ -38,15 +38,15 @@ public class Constantes {
     public static final String operacion_devolucion = "DEVOLUCION";
     public static final String operacion_descuento = "DESCUENTO";
     public static final String operacion_conjunta = "CONJUNTA";
-	
-	public static final String estadoActivo="ACTIVO";
-	public static final String estadoInactivo="INACTIVO";
 
     public static final String mensaje_exitoso="Exito";
     public static final String mensaje_consultar_exitoso="Exito en la consulta";
     public static final String mensaje_obtener_exitoso="Exito en la consulta";
     public static final String mensaje_crear_exitoso="Exito al procesar";
     public static final String mensaje_actualizar_exitoso="Exito al actualizar";
+    public static final String mensaje_activar_exitoso="Exito al activar";
+    public static final String mensaje_inactivar_exitoso="Exito al inactivar";
+    public static final String mensaje_pagar_exitoso="Pago exitoso";
     public static final String mensaje_eliminar_exitoso="Exito al eliminar";
     public static final String mensaje_crear_factura_electronica_exitosa="Exito factura electronica con clave de acceso";
     public static final String mensaje_crear_nota_debito_electronica_exitosa="Exito nota debito electronica con clave de acceso";
@@ -55,8 +55,7 @@ public class Constantes {
     public static final String mensaje_importacion_exitoso="Exito al importar";
     public static final String mensaje_exportacion_exitoso="Exito al exportar";
     public static final String mensaje_calcular_exitoso="Exito al calcular";
-    public static final String mensaje_activar_exitoso="Exito al activar";
-    public static final String mensaje_inactivar_exitoso="Exito al inactivar";
+
     public static final String mensaje_recaudacion_exitosa="Exito al recaudar";
     public static final String mensaje_consulta_fallido="Error en la consulta los objetos";
     public static final String mensaje_obtener_fallido="Error al obtener un objeto";
@@ -67,6 +66,7 @@ public class Constantes {
     public static final String mensaje_exportacion_fallido="Error al exportar";
     public static final String mensaje_activar_fallido="Error al activar";
     public static final String mensaje_inactivar_fallido="Error al inactivar";
+    public static final String mensaje_anular_exitoso="Exito al anular";
 
     public static final String mensaje_validacion_not_blank=" no debe estar en blanco";
     public static final String mensaje_validacion_not_null=" se debe registrar";
@@ -541,18 +541,22 @@ public class Constantes {
     public static final String autorizadoSri = "AUTORIZADO";
     public static final String noAutorizadoSri = "NO AUTORIZADO";
     public static final String devueltaSri = "DEVUELTA";
+
+    //ESTADOS DEL SISTEMA
+    public static final String estadoActivo="ACTIVO";
+    public static final String estadoInactivo="INACTIVO";
     
     //ESTADOS VENTAS
-    public static final String estadoInternoRecaudada = "RECAUDADA";
-    public static final String estadoInternoEmitida = "EMITIDA";
-    public static final String estadoInternoAnulada = "ANULADA";
-    public static final String estadoSriPendiente = "PENDIENTE";
-    public static final String estadoSriAutorizada = "AUTORIZADA";
-    public static final String estadoSriAnulada = "ANULADA";
+    public static final String estadoEmitida = "EMITIDA";
+    public static final String estadoRecaudada = "RECAUDADA";
+    public static final String estadoAnulada = "ANULADA";
+    public static final String estadoSRIPendiente = "PENDIENTE";
+    public static final String estadoSRIAutorizada = "AUTORIZADA";
+    public static final String estadoSRIAnulada = "ANULADA";
 
     //ESTADOS COMPRAS
-    public static final String estadoInternoPagada = "PAGADA";
-    public static final String estadoInternoPorPagar = "POR PAGAR";
+    public static final String estadoPagada = "PAGADA";
+    public static final String estadoPorPagar = "POR PAGAR";
     
     //CONSTANTES PARA FACTURA FISICA
     public static final String facturaFisicaAmbienteValor = "PRUEBAS";

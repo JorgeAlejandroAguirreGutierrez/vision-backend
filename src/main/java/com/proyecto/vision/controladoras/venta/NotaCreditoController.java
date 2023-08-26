@@ -32,8 +32,8 @@ public class NotaCreditoController {
     }
 
     @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
-        List<NotaCredito> notasCreditos = servicio.consultarPorEstado(estado);
+    public ResponseEntity<?> consultarPorEstadoSRI(@PathVariable("estado") String estado) {
+        List<NotaCredito> notasCreditos = servicio.consultarPorEstadoSRI(estado);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasCreditos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -45,9 +45,9 @@ public class NotaCreditoController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
-        List<NotaCredito> notasCreditos = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+    @GetMapping(value = "/consultarPorEmpresaYEstadoSRI/{empresaId}/{estadoSRI}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstadoSRI(@PathVariable("empresaId") long empresaId, @PathVariable("estadoSRI") String estadoSRI) {
+        List<NotaCredito> notasCreditos = servicio.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasCreditos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -80,17 +80,10 @@ public class NotaCreditoController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> activar(@RequestBody NotaCredito _notaCredito) {
-        NotaCredito notaCredito = servicio.activar(_notaCredito);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_activar_exitoso, notaCredito);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> inactivar(@RequestBody NotaCredito _notaCredito) {
-        NotaCredito notaCredito = servicio.inactivar(_notaCredito);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_inactivar_exitoso, notaCredito);
+    @PatchMapping(value = "/anular", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> anular(@RequestBody NotaCredito _notaCredito) {
+        NotaCredito notaCredito = servicio.anular(_notaCredito);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_anular_exitoso, notaCredito);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

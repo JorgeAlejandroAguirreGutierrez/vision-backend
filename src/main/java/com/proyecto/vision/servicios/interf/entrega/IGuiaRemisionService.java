@@ -8,8 +8,7 @@ import com.proyecto.vision.servicios.interf.IGenericoService;
 public interface IGuiaRemisionService extends IGenericoService<GuiaRemision> {
 	Optional<GuiaRemision> obtenerPorFactura(long facturaId);
 	void validar(GuiaRemision guiaRemision);
-	GuiaRemision activar(GuiaRemision guiaRemision);
-	GuiaRemision inactivar(GuiaRemision guiaRemision);
+	GuiaRemision anular(GuiaRemision guiaRemision);
 	List<GuiaRemision> consultarPorEmpresa(long empresaId);
-	List<GuiaRemision> consultarPorEmpresaYEstado(long empresaId, String estado);
+	List<GuiaRemision> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI);
 }

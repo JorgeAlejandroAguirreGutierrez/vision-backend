@@ -41,10 +41,9 @@ public class NotaCreditoService implements INotaCreditoService {
 
     @Override
     public void validar(NotaCredito notaCredito) {
-        if(notaCredito.getEstado().equals(Constantes.estado)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaCredito.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaCredito.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaCredito.getEstadoSri().equals(Constantes.estadoSriAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaCredito.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
+        if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
+        if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
         if(notaCredito.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
         if(notaCredito.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaCredito.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
@@ -72,9 +71,8 @@ public class NotaCreditoService implements INotaCreditoService {
             throw new ClaveAccesoNoExistenteException();
         }
         notaCredito.setClaveAcceso(claveAcceso.get());
-        notaCredito.setEstadoSri(Constantes.estadoSriPendiente);
-        notaCredito.setEstadoInterno(Constantes.estadoInternoEmitida);
-        notaCredito.setEstado(Constantes.estadoActivo);
+        notaCredito.setEstado(Constantes.estadoEmitida);
+        notaCredito.setEstadoSRI(Constantes.estadoSRIPendiente);
         calcular(notaCredito);
         crearKardex(notaCredito);
         NotaCredito res = rep.save(notaCredito);
@@ -120,8 +118,9 @@ public class NotaCreditoService implements INotaCreditoService {
         return Optional.of(claveAcceso);
     }
     private void crearKardex(NotaCredito notaCredito) {
-        if(notaCredito.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaCredito.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaCredito.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
+        if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
+        if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
 
         for (NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaCreditoLinea.getProducto().getId(), notaCreditoLinea.getBodega().getId());
@@ -189,7 +188,7 @@ public class NotaCreditoService implements INotaCreditoService {
                 costoUnitario = notaCreditoLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoPromedio();
                 costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
 
-                costoTotal = notaCreditoLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoTotal() + (notaCreditoLinea.getCantidad() * costoUnitario);;
+                costoTotal = notaCreditoLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoTotal() + (notaCreditoLinea.getCantidad() * costoUnitario);
                 costoTotal = Math.round(costoTotal * 100.0) / 100.0;
 
                 costoPromedio = costoTotal / saldo;
@@ -206,18 +205,10 @@ public class NotaCreditoService implements INotaCreditoService {
     }
 
     @Override
-    public NotaCredito activar(NotaCredito notaCredito) {
+    public NotaCredito anular(NotaCredito notaCredito) {
         validar(notaCredito);
-        notaCredito.setEstado(Constantes.estadoActivo);
-        NotaCredito res = rep.save(notaCredito);
-        res.normalizar();
-        return res;
-    }
-
-    @Override
-    public NotaCredito inactivar(NotaCredito notaCredito) {
-        validar(notaCredito);
-        notaCredito.setEstado(Constantes.estadoInactivo);
+        notaCredito.setEstado(Constantes.estadoAnulada);
+        notaCredito.setEstadoSRI(Constantes.estadoSRIAnulada);
         NotaCredito res = rep.save(notaCredito);
         res.normalizar();
         return res;
@@ -264,8 +255,8 @@ public class NotaCreditoService implements INotaCreditoService {
     }
     
     @Override
-    public List<NotaCredito> consultarPorEstado(String estado){
-    	return rep.consultarPorEstado(estado);
+    public List<NotaCredito> consultarPorEstadoSRI(String estadoSRI){
+    	return rep.consultarPorEstadoSRI(estadoSRI);
     }
 
     @Override
@@ -274,8 +265,8 @@ public class NotaCreditoService implements INotaCreditoService {
     }
 
     @Override
-    public List<NotaCredito> consultarPorEmpresaYEstado(long empresaId, String estado){
-        return rep.consultarPorEmpresaYEstado(empresaId, estado);
+    public List<NotaCredito> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI){
+        return rep.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
     }
 
     @Override

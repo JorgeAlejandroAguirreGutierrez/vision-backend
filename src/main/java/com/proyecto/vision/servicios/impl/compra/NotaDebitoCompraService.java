@@ -2,6 +2,7 @@ package com.proyecto.vision.servicios.impl.compra;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
+import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
@@ -50,8 +51,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     }
 
     private void facturar(NotaDebitoCompra notaDebitoCompra) {
-        if(notaDebitoCompra.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
-        if(notaDebitoCompra.getEstadoInterno().equals(Constantes.estadoInternoPagada)) throw new DatoInvalidoException(Constantes.estado);
+        if(notaDebitoCompra.getEstado().equals(Constantes.estadoPagada)) throw new EstadoInvalidoException(Constantes.estadoPagada);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito_compra);
         TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.dev_compra, Constantes.estadoActivo);
         kardexService.eliminar(tipoComprobante.getId(), tipoOperacion.getId(), notaDebitoCompra.getSecuencial());
@@ -83,8 +83,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(notaDebitoCompra.getTipoComprobante().getId(),
                 notaDebitoCompra.getSesion().getUsuario().getEstacion().getId(), notaDebitoCompra.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
         notaDebitoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
-        notaDebitoCompra.setEstado(Constantes.estadoActivo);
-        notaDebitoCompra.setEstadoInterno(Constantes.estadoInternoPorPagar);
+        notaDebitoCompra.setEstado(Constantes.estadoPorPagar);
         calcular(notaDebitoCompra);
         facturar(notaDebitoCompra);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
@@ -105,18 +104,9 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     }
 
     @Override
-    public NotaDebitoCompra activar(NotaDebitoCompra notaDebitoCompra) {
+    public NotaDebitoCompra anular(NotaDebitoCompra notaDebitoCompra) {
         validar(notaDebitoCompra);
-        notaDebitoCompra.setEstado(Constantes.estadoActivo);
-        NotaDebitoCompra res = rep.save(notaDebitoCompra);
-        res.normalizar();
-        return res;
-    }
-
-    @Override
-    public NotaDebitoCompra inactivar(NotaDebitoCompra notaDebitoCompra) {
-        validar(notaDebitoCompra);
-        notaDebitoCompra.setEstado(Constantes.estadoInactivo);
+        notaDebitoCompra.setEstado(Constantes.estadoAnulada);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
         res.normalizar();
         return res;
@@ -139,8 +129,18 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     }
     
     @Override
+    public List<NotaDebitoCompra> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
     public List<NotaDebitoCompra> consultarPorEstado(String estado){
-    	return rep.consultarPorEstado(estado);
+        return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<NotaDebitoCompra> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override
@@ -260,13 +260,5 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         return notaDebitoCompra;
     }
 
-    @Override
-    public List<NotaDebitoCompra> consultarPorEmpresa(long empresaId){
-        return rep.consultarPorEmpresa(empresaId);
-    }
 
-    @Override
-    public List<NotaDebitoCompra> consultarPorEmpresaYEstado(long empresaId, String estado){
-        return rep.consultarPorEmpresaYEstado(empresaId, estado);
-    }
 }

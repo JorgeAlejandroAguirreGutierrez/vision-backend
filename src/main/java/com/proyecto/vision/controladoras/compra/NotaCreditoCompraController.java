@@ -2,9 +2,7 @@ package com.proyecto.vision.controladoras.compra;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Respuesta;
-import com.proyecto.vision.modelos.cajaBanco.Banco;
 import com.proyecto.vision.modelos.compra.NotaCreditoCompra;
-import com.proyecto.vision.modelos.compra.NotaCreditoCompraLinea;
 import com.proyecto.vision.servicios.interf.compra.INotaCreditoCompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -82,17 +80,10 @@ public class NotaCreditoCompraController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> activar(@RequestBody NotaCreditoCompra _notaCreditoCompra) {
-        NotaCreditoCompra notaCreditoCompra = servicio.activar(_notaCreditoCompra);
-        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_activar_exitoso, notaCreditoCompra);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
-    @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> inactivar(@RequestBody NotaCreditoCompra _notaCreditoCompra) {
-        NotaCreditoCompra notaCreditoCompra = servicio.inactivar(_notaCreditoCompra);
-        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, notaCreditoCompra);
+    @PatchMapping(value = "/anular", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> anular(@RequestBody NotaCreditoCompra _notaCreditoCompra) {
+        NotaCreditoCompra notaCreditoCompra = servicio.anular(_notaCreditoCompra);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_anular_exitoso, notaCreditoCompra);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

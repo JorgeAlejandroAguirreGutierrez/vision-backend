@@ -33,10 +33,9 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 
 	@Override
 	public void validar(GuiaRemision guiaRemision) {
-		if(guiaRemision.getEstado().equals(Constantes.estadoInactivo)) throw new DatoInvalidoException(Constantes.estado);
-		if(guiaRemision.getEstadoInterno().equals(Constantes.estadoInternoAnulada)) throw new DatoInvalidoException(Constantes.estado);
-		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAutorizada)) throw new DatoInvalidoException(Constantes.estado);
-		if(guiaRemision.getEstadoSri().equals(Constantes.estadoSriAnulada)) throw new DatoInvalidoException(Constantes.estado);
+		if(guiaRemision.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
+		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
+		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
 		if(guiaRemision.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
 		if(guiaRemision.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
 		if(guiaRemision.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
@@ -112,9 +111,8 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 			throw new ClaveAccesoNoExistenteException();
 		}
 		guiaRemision.setClaveAcceso(claveAcceso.get());
-        guiaRemision.setEstado(Constantes.estadoActivo);
-        guiaRemision.setEstadoInterno(Constantes.estadoInternoEmitida);
-        guiaRemision.setEstadoSri(Constantes.estadoSriPendiente);
+        guiaRemision.setEstado(Constantes.estadoEmitida);
+        guiaRemision.setEstadoSRI(Constantes.estadoSRIPendiente);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();
 		secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
@@ -129,18 +127,10 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     }
 
 	@Override
-	public GuiaRemision activar(GuiaRemision guiaRemision) {
+	public GuiaRemision anular(GuiaRemision guiaRemision) {
 		validar(guiaRemision);
-		guiaRemision.setEstado(Constantes.estadoActivo);
-		GuiaRemision res = rep.save(guiaRemision);
-		res.normalizar();
-		return res;
-	}
-
-	@Override
-	public GuiaRemision inactivar(GuiaRemision guiaRemision) {
-		validar(guiaRemision);
-		guiaRemision.setEstado(Constantes.estadoInactivo);
+		guiaRemision.setEstado(Constantes.estadoAnulada);
+		guiaRemision.setEstadoSRI(Constantes.estadoSRIAnulada);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();
 		return res;
@@ -176,7 +166,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	}
 
 	@Override
-	public List<GuiaRemision> consultarPorEmpresaYEstado(long empresaId, String estado){
-		return rep.consultarPorEmpresaYEstado(empresaId, estado);
+	public List<GuiaRemision> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI){
+		return rep.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
 	}
 }

@@ -35,8 +35,6 @@ public class FacturaCompra extends Entidad {
     private String numeroComprobante;
     @Column(name = "fecha", nullable = true)
     private Date fecha;
-    @Column(name = "estado_interno", nullable = true)
-    private String estadoInterno;
     @Column(name = "estado", nullable = true)
     private String estado;
     @Column(name = "valor_distribuido_total", nullable = true)
@@ -90,7 +88,6 @@ public class FacturaCompra extends Entidad {
         this.secuencial = Constantes.vacio;
         this.numeroComprobante = Constantes.vacio;
         this.fecha = new Date();
-        this.estadoInterno = Constantes.vacio;
         this.estado = Constantes.vacio;
         this.valorDistribuidoTotal = Constantes.cero;
         this.valorDescuentoTotal = Constantes.cero;
