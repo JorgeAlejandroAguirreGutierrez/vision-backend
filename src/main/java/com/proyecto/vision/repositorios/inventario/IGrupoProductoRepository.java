@@ -36,6 +36,6 @@ public interface IGrupoProductoRepository extends JpaRepository<GrupoProducto, L
     @Query(value = "select * from grupo_producto gp WHERE gp.grupo=:grupo AND gp.subgrupo=:subgrupo AND gp.seccion=:seccion AND gp.linea=:linea AND gp.sublinea=:sublinea AND gp.presentacion=:presentacion and gp.estado=:estado order by gp.codigo desc", nativeQuery = true)
     Optional<GrupoProducto> findGrupoProducto(String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion, String estado);
     @Query(value = "select gp from GrupoProducto gp where gp.grupo = :grupo and gp.subgrupo = :subgrupo and gp.seccion = :seccion and gp.linea = :linea and gp.sublinea = :sublinea and gp.presentacion = :presentacion")
-    Optional<GrupoProducto> ObtenterPorGrupoYSubgrupoYSeccionYLineaYSublineaYPresentacion(String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion);
+    Optional<GrupoProducto> ObtenerPorGrupoYSubgrupoYSeccionYLineaYSublineaYPresentacion(String grupo, String subgrupo, String seccion, String linea, String sublinea, String presentacion);
 
 }

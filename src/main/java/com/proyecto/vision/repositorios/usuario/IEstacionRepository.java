@@ -2,6 +2,7 @@ package com.proyecto.vision.repositorios.usuario;
 
 import com.proyecto.vision.modelos.usuario.Estacion;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -22,4 +23,6 @@ public interface IEstacionRepository extends JpaRepository<Estacion, Long>, JpaS
     List<Estacion> consultarEstacionesPorEstablecimiento(long establecimientoId, String estado);
     @Query(value = "select e from Estacion e where e.establecimiento.id = :establecimientoId and e.puntoVenta = :puntoVenta and e.estado = :estado order by e.codigo desc")
     List<Estacion> consultarPuntosVentaPorEstablecimiento(long establecimientoId, String puntoVenta, String estado);
+    @Query(value = "select e from Estacion e where e.establecimiento.empresa.id = :empresaId and e.establecimiento.id = :establecimientoId and e.codigoSRI=:codigoSri")
+    Optional<Estacion> ObtenerPorEmpresaYEstablecimientoYCodigoSri(long empresaId, long establecimientoId, String codigoSri);
 }

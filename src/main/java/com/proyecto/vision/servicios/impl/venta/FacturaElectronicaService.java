@@ -291,8 +291,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		if(factura.getEmpresa().getContrasena().equals(Constantes.vacio)){
 			throw new FacturaElectronicaInvalidaException(Constantes.contrasena);
 		}
-		if(factura.getProceso().equals(Constantes.procesoEmitida)){
-			throw new EstadoInvalidoException(Constantes.procesoEmitida);
+		if(factura.getEstado().equals(Constantes.estadoEmitida)){
+			throw new EstadoInvalidoException(Constantes.estadoEmitida);
 		}
 		if(factura.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
 			throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);

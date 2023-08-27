@@ -34,7 +34,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 
 	@Override
 	public void validar(GuiaRemision guiaRemision) {
-		if(guiaRemision.getProceso().equals(Constantes.procesoAnulada)) throw new EstadoInvalidoException(Constantes.procesoAnulada);
+		if(guiaRemision.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
 		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
 		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
 		if(guiaRemision.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
@@ -112,7 +112,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 			throw new ClaveAccesoNoExistenteException();
 		}
 		guiaRemision.setClaveAcceso(claveAcceso.get());
-		guiaRemision.setProceso(Constantes.procesoEmitida);
+		guiaRemision.setEstado(Constantes.estadoEmitida);
 		guiaRemision.setEstadoSRI(Constantes.estadoSRIPendiente);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();
@@ -130,7 +130,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	@Override
 	public GuiaRemision anular(GuiaRemision guiaRemision) {
 		validar(guiaRemision);
-		guiaRemision.setProceso(Constantes.procesoAnulada);
+		guiaRemision.setEstado(Constantes.estadoAnulada);
 		guiaRemision.setEstadoSRI(Constantes.estadoSRIAnulada);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();

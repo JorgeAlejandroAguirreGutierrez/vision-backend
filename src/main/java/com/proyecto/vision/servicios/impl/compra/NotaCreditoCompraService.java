@@ -68,7 +68,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(notaCreditoCompra.getTipoComprobante().getId(),
                 notaCreditoCompra.getSesion().getUsuario().getEstacion().getId(), notaCreditoCompra.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
         notaCreditoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
-        notaCreditoCompra.setProceso(Constantes.procesoPorPagar);
+        notaCreditoCompra.setEstado(Constantes.estadoPorPagar);
         calcular(notaCreditoCompra);
         crearKardex(notaCreditoCompra);
         actualizarPrecios(notaCreditoCompra);
@@ -80,7 +80,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     }
 
     private void crearKardex(NotaCreditoCompra notaCreditoCompra) {
-        if(notaCreditoCompra.getProceso().equals(Constantes.procesoAnulada)) throw new EstadoInvalidoException(Constantes.procesoAnulada);
+        if(notaCreditoCompra.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
 
         for (NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId());
@@ -109,9 +109,10 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
-            Kardex kardex = new Kardex(null, notaCreditoCompra.getFecha(),
-                    notaCreditoCompra.getNumeroComprobante(), entrada, Constantes.cero, saldo,
-                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, new TipoComprobante(9),
+            TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito_compra);
+            Kardex kardex = new Kardex(null, notaCreditoCompra.getFecha(), notaCreditoCompra.getNumeroComprobante(),
+                    notaCreditoCompraLinea.getId(), entrada, Constantes.cero, saldo,
+                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, tipoComprobante,
                     new TipoOperacion(tipoOperacionId), notaCreditoCompraLinea.getBodega(), notaCreditoCompraLinea.getProducto());
 
             kardexService.crear(kardex);
@@ -193,7 +194,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     @Override
     public NotaCreditoCompra anular(NotaCreditoCompra notaCreditoCompra) {
         validar(notaCreditoCompra);
-        notaCreditoCompra.setProceso(Constantes.procesoAnulada);
+        notaCreditoCompra.setEstado(Constantes.estadoAnulada);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
         return res;
@@ -240,8 +241,8 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     }
 
     @Override
-    public List<NotaCreditoCompra> consultarPorProceso(String proceso){
-        return rep.consultarPorProceso(proceso);
+    public List<NotaCreditoCompra> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
     }
 
     @Override
@@ -255,8 +256,8 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     }
 
     @Override
-    public List<NotaCreditoCompra> consultarPorEmpresaYProceso(long empresaId, String proceso){
-        return rep.consultarPorEmpresaYProceso(empresaId, proceso);
+    public List<NotaCreditoCompra> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     /*

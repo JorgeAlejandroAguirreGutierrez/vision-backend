@@ -549,16 +549,16 @@ public class Constantes {
     public static final String estadoInactivo="INACTIVO";
 
     //ESTADOS VENTAS
-    public static final String procesoEmitida = "EMITIDA";
-    public static final String procesoRecaudada = "RECAUDADA";
-    public static final String procesoAnulada = "ANULADA";
+    public static final String estadoEmitida = "EMITIDA";
+    public static final String estadoRecaudada = "RECAUDADA";
+    public static final String estadoAnulada = "ANULADA";
     public static final String estadoSRIPendiente = "PENDIENTE";
     public static final String estadoSRIAutorizada = "AUTORIZADA";
     public static final String estadoSRIAnulada = "ANULADA";
 
     //ESTADOS COMPRAS
-    public static final String procesoPagada = "PAGADA";
-    public static final String procesoPorPagar = "POR PAGAR";
+    public static final String estadoPagada = "PAGADA";
+    public static final String estadoPorPagar = "POR PAGAR";
 
     //CONSTANTES PARA FACTURA FISICA
     public static final String facturaFisicaAmbienteValor = "PRUEBAS";

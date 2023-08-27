@@ -9,10 +9,11 @@ import java.util.List;
 public interface IFacturaCompraService extends IGenericoService<FacturaCompra> {
 	void validar(FacturaCompra facturaCompra);
 	FacturaCompra anular(FacturaCompra facturaCompra);
-	List<FacturaCompra> consultarPorProceso(String estado);
+	List<FacturaCompra> consultarPorEstado(String estado);
 	List<FacturaCompra> consultarPorEmpresa(long empresaId);
-	List<FacturaCompra> consultarPorEmpresaYProceso(long empresaId, String proceso);
-	List<FacturaCompra> consultarPorEmpresaYProveedorYProceso(long empresaId, long proveedorId, String proceso);
+	List<FacturaCompra> consultarPorEmpresaYEstado(long empresaId, String estado);
+	List<FacturaCompra> consultarPorEmpresaYProveedorYEstado(long empresaId, long proveedorId, String estado);
+	List<FacturaCompra> consultarPorEmpresaYProveedorYEstadoDiferente(long empresaId, long proveedorId, String estado);
 	FacturaCompra calcular(FacturaCompra facturaCompra);
 	void validarLinea(FacturaCompraLinea facturaCompraLinea);
 	FacturaCompraLinea calcularLinea(FacturaCompraLinea facturaCompraLinea);

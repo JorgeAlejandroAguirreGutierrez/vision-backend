@@ -270,8 +270,8 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		if(notaDebito.getEmpresa().getContrasena().equals(Constantes.vacio)){
 			throw new FacturaElectronicaInvalidaException(Constantes.contrasena);
 		}
-		if(notaDebito.getProceso().equals(Constantes.procesoEmitida)){
-			throw new EstadoInvalidoException(Constantes.procesoEmitida);
+		if(notaDebito.getEstado().equals(Constantes.estadoEmitida)){
+			throw new EstadoInvalidoException(Constantes.estadoEmitida);
 		}
 		if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
 			throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);

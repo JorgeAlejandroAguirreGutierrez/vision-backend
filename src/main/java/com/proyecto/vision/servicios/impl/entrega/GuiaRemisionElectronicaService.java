@@ -219,7 +219,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
 		}
-		if(guiaRemision.getProceso().equals(Constantes.procesoAnulada)){
+		if(guiaRemision.getEstado().equals(Constantes.estadoAnulada)){
 			throw new EstadoInvalidoException(Constantes.estadoInactivo);
 		}
 		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){

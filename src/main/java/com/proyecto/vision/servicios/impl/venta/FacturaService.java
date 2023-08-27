@@ -61,7 +61,7 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public void validar(Factura factura) {
-        if(factura.getProceso().equals(Constantes.procesoAnulada)) throw new EstadoInvalidoException(Constantes.procesoAnulada);
+        if(factura.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
         if(factura.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
         if(factura.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
         if(factura.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
@@ -136,7 +136,7 @@ public class FacturaService implements IFacturaService {
             throw new ClaveAccesoNoExistenteException();
         }
         factura.setClaveAcceso(claveAcceso.get());
-        factura.setProceso(Constantes.procesoEmitida);
+        factura.setEstado(Constantes.estadoEmitida);
         factura.setEstadoSRI(Constantes.estadoSRIPendiente);
         calcular(factura);
         calcularRecaudacion(factura);
@@ -202,8 +202,8 @@ public class FacturaService implements IFacturaService {
                 }
                 TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
                 TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.venta, Constantes.estadoActivo);
-                Kardex kardex = new Kardex(null, factura.getFecha(),
-                        factura.getNumeroComprobante(), Constantes.cero, facturaLinea.getCantidad(), saldo,
+                Kardex kardex = new Kardex(null, factura.getFecha(), factura.getNumeroComprobante(),
+                        facturaLinea.getId(), Constantes.cero, facturaLinea.getCantidad(), saldo,
                         Constantes.cero, costoUnitario, costoPromedio, costoTotal,
                         tipoComprobante, tipoOperacion, facturaLinea.getBodega(), facturaLinea.getProducto());
 
@@ -219,10 +219,10 @@ public class FacturaService implements IFacturaService {
         calcular(factura);
         calcularRecaudacion(factura);
         if(factura.getTotalRecaudacion() != factura.getTotal()){
-            factura.setProceso(Constantes.procesoEmitida);
+            factura.setEstado(Constantes.estadoEmitida);
         }
         if(factura.getTotalRecaudacion() == factura.getTotal()){
-            factura.setProceso(Constantes.procesoRecaudada);
+            factura.setEstado(Constantes.estadoRecaudada);
         }
         Factura res = rep.save(factura);
         actualizarKardex(factura);
@@ -278,7 +278,7 @@ public class FacturaService implements IFacturaService {
         if(!guiasRemisiones.isEmpty()){
             throw new ErrorInternoException(Constantes.mensaje_error_guia_remision_existente);
         }
-        factura.setProceso(Constantes.procesoAnulada);
+        factura.setEstado(Constantes.estadoAnulada);
         factura.setEstadoSRI(Constantes.estadoSRIAnulada);
         Factura res = rep.save(factura);
         res.normalizar();
@@ -303,10 +303,10 @@ public class FacturaService implements IFacturaService {
         calcularRecaudacion(factura);
         crearKardex(factura);
         if(factura.getTotalRecaudacion() != factura.getTotal()){
-            factura.setProceso(Constantes.procesoEmitida);
+            factura.setEstado(Constantes.estadoEmitida);
         }
         if(factura.getTotalRecaudacion() == factura.getTotal()){
-            factura.setProceso(Constantes.procesoRecaudada);
+            factura.setEstado(Constantes.estadoRecaudada);
         }
         Factura res = rep.save(factura);
         res.normalizar();
@@ -339,8 +339,8 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarPorClienteYEmpresaYProceso(long empresaId, long facturaId, String proceso) {
-        return rep.consultarPorClienteYEmpresaYProceso(empresaId, facturaId, proceso);
+    public List<Factura> consultarPorClienteYEmpresaYEstado(long empresaId, long facturaId, String estado) {
+        return rep.consultarPorClienteYEmpresaYEstado(empresaId, facturaId, estado);
     }
 
     @Override
