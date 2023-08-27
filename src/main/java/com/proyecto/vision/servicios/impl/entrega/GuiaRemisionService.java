@@ -6,6 +6,7 @@ import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
+import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.vision.repositorios.entrega.IGuiaRemisionRepository;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
@@ -169,4 +170,10 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	public List<GuiaRemision> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI){
 		return rep.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
 	}
+
+	@Override
+	public List<GuiaRemision> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI){
+		return rep.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(facturaId, empresaId, estadoSRI);
+	}
+
 }

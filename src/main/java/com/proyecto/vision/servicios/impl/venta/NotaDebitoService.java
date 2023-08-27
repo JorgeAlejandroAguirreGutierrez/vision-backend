@@ -228,7 +228,10 @@ public class NotaDebitoService implements INotaDebitoService {
     public List<NotaDebito> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI){
         return rep.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
     }
-
+    @Override
+    public List<NotaDebito> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI){
+        return rep.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(facturaId, empresaId, estadoSRI);
+    }
     @Override
     public Page<NotaDebito> consultarPagina(Pageable pageable){
         return rep.findAll(pageable);

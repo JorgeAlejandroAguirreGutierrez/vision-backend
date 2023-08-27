@@ -83,14 +83,14 @@ public class FacturaController implements GenericoController<Factura> {
     }
 
     @GetMapping(value = "/consultarPorEstadoSRI/{estadoSRI}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstado(@PathVariable("estadoSRI") String estadoSRI) {
+    public ResponseEntity<?> consultarPorEstadoSRI(@PathVariable("estadoSRI") String estadoSRI) {
         List<Factura> facturas= servicio.consultarPorEstadoSRI(estadoSRI);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/consultarPorEmpresaYEstadoSRI/{empresaId}/{estadoSRI}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estadoSRI") String estadoSRI) {
+    public ResponseEntity<?> consultarPorEmpresaYEstadoSRI(@PathVariable("empresaId") long empresaId, @PathVariable("estadoSRI") String estadoSRI) {
         List<Factura> facturas = servicio.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
@@ -103,9 +103,16 @@ public class FacturaController implements GenericoController<Factura> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEmpresaYClienteYEstado/{empresaId}/{clienteId}/{estadoSRI}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresaYClienteYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("clienteId") long clienteId, @PathVariable("estadoSRI") String estadoSRI) {
-        List<Factura> facturas = servicio.consultarPorClienteYEmpresaYEstadoSRI(empresaId, clienteId, estadoSRI);
+    @GetMapping(value = "/consultarPorClienteYEmpresaYProceso/{clienteId}/{empresaId}/{proceso}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorClienteYEmpresaYProceso(@PathVariable("clienteId") long clienteId, @PathVariable("empresaId") long empresaId, @PathVariable("proceso") String proceso) {
+        List<Factura> facturas = servicio.consultarPorClienteYEmpresaYProceso(clienteId, empresaId, proceso);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturas);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorClienteYEmpresaYEstadoSRI/{clienteId}/{empresaId}/{estadoSRI}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorClienteYEmpresaYEstadoSRI(@PathVariable("clienteId") long clienteId, @PathVariable("empresaId") long empresaId, @PathVariable("estadoSRI") String estadoSRI) {
+        List<Factura> facturas = servicio.consultarPorClienteYEmpresaYEstadoSRI(clienteId, empresaId, estadoSRI);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, facturas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
