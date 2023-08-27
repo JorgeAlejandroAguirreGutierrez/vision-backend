@@ -85,7 +85,7 @@ public class ReporteCajaService {
         double totalTransferencia = Constantes.cero;
         double totalCredito = Constantes.cero;
         for (Factura factura : facturas) {
-            if (factura.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) {
+            if (factura.getProcesoSRI().equals(Constantes.procesoSRIAnulada)) {
                 facturasAnuladas++;
             } else {
                 facturasEmitidas++;

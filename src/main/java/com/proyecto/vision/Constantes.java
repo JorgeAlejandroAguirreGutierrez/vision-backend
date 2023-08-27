@@ -552,9 +552,9 @@ public class Constantes {
     public static final String estadoEmitida = "EMITIDA";
     public static final String estadoRecaudada = "RECAUDADA";
     public static final String estadoAnulada = "ANULADA";
-    public static final String estadoSRIPendiente = "PENDIENTE";
-    public static final String estadoSRIAutorizada = "AUTORIZADA";
-    public static final String estadoSRIAnulada = "ANULADA";
+    public static final String procesoSRIPendiente = "PENDIENTE";
+    public static final String procesoSRIAutorizada = "AUTORIZADA";
+    public static final String procesoSRIAnulada = "ANULADA";
 
     //ESTADOS COMPRAS
     public static final String estadoPagada = "PAGADA";

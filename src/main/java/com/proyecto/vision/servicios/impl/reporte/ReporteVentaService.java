@@ -134,7 +134,7 @@ public class ReporteVentaService {
             totalIva = totalIva + factura.getImporteIva();
             reporteTotal = reporteTotal + factura.getTotal();
 
-            if(factura.getEstado().equals(Constantes.estadoAnulada) || factura.getEstadoSRI().equals(Constantes.estadoSRIAnulada)){
+            if(factura.getEstado().equals(Constantes.estadoAnulada) || factura.getProcesoSRI().equals(Constantes.procesoSRIAnulada)){
                 facturasAnuladas++;
             }
             if(factura.getEstado().equals(Constantes.estadoEmitida) || factura.getEstado().equals(Constantes.estadoRecaudada)) {

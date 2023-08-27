@@ -64,8 +64,8 @@ public class GuiaRemision extends Entidad {
     private String opcionGuia;
     @Column(name = "estado", nullable = true)
     private String estado;
-    @Column(name = "estado_sri", nullable = true)
-    private String estadoSRI;
+    @Column(name = "proceso_sri", nullable = true)
+    private String procesoSRI;
     @ManyToOne
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipoComprobante;
@@ -107,7 +107,7 @@ public class GuiaRemision extends Entidad {
         this.correoDestinatario = Constantes.vacio;
         this.opcionGuia = Constantes.vacio;
         this.estado = Constantes.vacio;
-        this.estadoSRI =  Constantes.vacio;
+        this.procesoSRI =  Constantes.vacio;
     }
 
     public void normalizar(){

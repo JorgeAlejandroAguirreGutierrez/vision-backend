@@ -62,8 +62,8 @@ public class FacturaService implements IFacturaService {
     @Override
     public void validar(Factura factura) {
         if(factura.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
-        if(factura.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
-        if(factura.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
+        if(factura.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.procesoSRIAutorizada);
+        if(factura.getProcesoSRI().equals(Constantes.procesoSRIAnulada)) throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
         if(factura.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
         if(factura.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(factura.getCliente().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cliente);
@@ -137,7 +137,7 @@ public class FacturaService implements IFacturaService {
         }
         factura.setClaveAcceso(claveAcceso.get());
         factura.setEstado(Constantes.estadoEmitida);
-        factura.setEstadoSRI(Constantes.estadoSRIPendiente);
+        factura.setProcesoSRI(Constantes.procesoSRIPendiente);
         calcular(factura);
         calcularRecaudacion(factura);
         crearKardex(factura);
@@ -266,20 +266,20 @@ public class FacturaService implements IFacturaService {
         if(factura.getFecha().after(fechaCierreCaja)){
             throw new ErrorInternoException(Constantes.mensaje_error_cierre_caja);
         }
-        List<NotaDebito> notasDebitos = notaDebitoService.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoSRIAnulada);
+        List<NotaDebito> notasDebitos = notaDebitoService.consultarPorFacturaYEmpresaYEstadoDiferente(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoAnulada);
         if(!notasDebitos.isEmpty()){
             throw new ErrorInternoException(Constantes.mensaje_error_nota_debito_existente);
         }
-        List<NotaCredito> notasCreditos = notaCreditoService.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoSRIAnulada);
+        List<NotaCredito> notasCreditos = notaCreditoService.consultarPorFacturaYEmpresaYEstadoDiferente(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoAnulada);
         if(!notasCreditos.isEmpty()){
             throw new ErrorInternoException(Constantes.mensaje_error_nota_credito_existente);
         }
-        List<GuiaRemision> guiasRemisiones = guiaRemisionService.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoSRIAnulada);
+        List<GuiaRemision> guiasRemisiones = guiaRemisionService.consultarPorFacturaYEmpresaYEstadoDiferente(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoAnulada);
         if(!guiasRemisiones.isEmpty()){
             throw new ErrorInternoException(Constantes.mensaje_error_guia_remision_existente);
         }
         factura.setEstado(Constantes.estadoAnulada);
-        factura.setEstadoSRI(Constantes.estadoSRIAnulada);
+        factura.setProcesoSRI(Constantes.procesoSRIAnulada);
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -319,8 +319,13 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarPorEstadoSRI(String estadoSRI){
-        return rep.consultarPorEstadoSRI(estadoSRI);
+    public List<Factura> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<Factura> consultarPorProcesoSRI(String procesoSRI){
+        return rep.consultarPorProcesoSRI(procesoSRI);
     }
 
     @Override
@@ -329,8 +334,8 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI){
-        return rep.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
+    public List<Factura> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override
@@ -344,13 +349,8 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarPorClienteYEmpresaYEstadoSRI(long clienteId, long empresaId, String estadoSRI) {
-        return rep.consultarPorClienteYEmpresaYEstadoSRI(clienteId, empresaId, estadoSRI);
-    }
-
-    @Override
-    public List<Factura> consultarPorClienteYEstadoSRI(long facturaId, String estadoSRI) {
-        return rep.consultarPorClienteYEstadoSRI(facturaId, estadoSRI);
+    public List<Factura> consultarPorClienteYEstado(long facturaId, String estado) {
+        return rep.consultarPorClienteYEstado(facturaId, estado);
     }
 
     @Override

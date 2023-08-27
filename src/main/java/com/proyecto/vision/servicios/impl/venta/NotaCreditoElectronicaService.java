@@ -232,11 +232,11 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		if(notaCredito.getEmpresa().getContrasena().equals(Constantes.vacio)){
 			throw new FacturaElectronicaInvalidaException(Constantes.contrasena);
 		}
-		if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
-			throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
+		if(notaCredito.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
+			throw new EstadoInvalidoException(Constantes.procesoSRIAutorizada);
 		}
-		if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)){
-			throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
+		if(notaCredito.getProcesoSRI().equals(Constantes.procesoSRIAnulada)){
+			throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
 		}
 		NotaCreditoElectronica notaCreditoElectronica = crear(notaCredito);
 		List<String> estadoRecepcion = recepcion(notaCreditoElectronica, notaCredito.getEmpresa().getCertificado(), notaCredito.getEmpresa().getContrasena());
@@ -247,7 +247,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
-		notaCredito.setEstadoSRI(Constantes.estadoSRIAutorizada);
+		notaCredito.setProcesoSRI(Constantes.procesoSRIAutorizada);
 		notaCredito.setFechaAutorizacion(new Date());
 		enviarCorreo(notaCredito, notaCreditoElectronica);
 		NotaCredito facturada = rep.save(notaCredito);
@@ -403,7 +403,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
+			if(notaCredito.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
 				numeroAutorizacion = notaCredito.getClaveAcceso();
 				fechaAutorizacion = notaCredito.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);

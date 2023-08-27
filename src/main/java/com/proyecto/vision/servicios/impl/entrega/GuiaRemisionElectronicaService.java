@@ -222,11 +222,11 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		if(guiaRemision.getEstado().equals(Constantes.estadoAnulada)){
 			throw new EstadoInvalidoException(Constantes.estadoInactivo);
 		}
-		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
-			throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
+		if(guiaRemision.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
+			throw new EstadoInvalidoException(Constantes.procesoSRIAutorizada);
 		}
-		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAnulada)){
-			throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
+		if(guiaRemision.getProcesoSRI().equals(Constantes.procesoSRIAnulada)){
+			throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
 		}
 		GuiaRemisionElectronica guiaRemisionElectronica = crear(guiaRemision);
 		List<String> estadoRecepcion = recepcion(guiaRemisionElectronica, guiaRemision.getEmpresa().getCertificado(), guiaRemision.getEmpresa().getContrasena());
@@ -237,7 +237,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
-		guiaRemision.setEstadoSRI(Constantes.estadoSRIAutorizada);
+		guiaRemision.setProcesoSRI(Constantes.procesoSRIAutorizada);
 		guiaRemision.setFechaAutorizacion(new Date());
 		enviarCorreo(guiaRemision, guiaRemisionElectronica);
 		GuiaRemision facturada = rep.save(guiaRemision);
@@ -394,7 +394,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
+			if(guiaRemision.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
 				numeroAutorizacion = guiaRemision.getClaveAcceso();
 				fechaAutorizacion = guiaRemision.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);

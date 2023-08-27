@@ -42,8 +42,8 @@ public class NotaCreditoService implements INotaCreditoService {
     @Override
     public void validar(NotaCredito notaCredito) {
         if(notaCredito.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
-        if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
-        if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
+        if(notaCredito.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.procesoSRIAutorizada);
+        if(notaCredito.getProcesoSRI().equals(Constantes.procesoSRIAnulada)) throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
         if(notaCredito.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
         if(notaCredito.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaCredito.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
@@ -72,7 +72,7 @@ public class NotaCreditoService implements INotaCreditoService {
         }
         notaCredito.setClaveAcceso(claveAcceso.get());
         notaCredito.setEstado(Constantes.estadoEmitida);
-        notaCredito.setEstadoSRI(Constantes.estadoSRIPendiente);
+        notaCredito.setProcesoSRI(Constantes.procesoSRIPendiente);
         calcular(notaCredito);
         crearKardex(notaCredito);
         NotaCredito res = rep.save(notaCredito);
@@ -119,8 +119,8 @@ public class NotaCreditoService implements INotaCreditoService {
     }
     private void crearKardex(NotaCredito notaCredito) {
         if(notaCredito.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
-        if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
-        if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
+        if(notaCredito.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.procesoSRIAutorizada);
+        if(notaCredito.getProcesoSRI().equals(Constantes.procesoSRIAnulada)) throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
 
         for (NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaCreditoLinea.getProducto().getId(), notaCreditoLinea.getBodega().getId());
@@ -208,7 +208,7 @@ public class NotaCreditoService implements INotaCreditoService {
     public NotaCredito anular(NotaCredito notaCredito) {
         validar(notaCredito);
         notaCredito.setEstado(Constantes.estadoAnulada);
-        notaCredito.setEstadoSRI(Constantes.estadoSRIAnulada);
+        notaCredito.setProcesoSRI(Constantes.procesoSRIAnulada);
         NotaCredito res = rep.save(notaCredito);
         res.normalizar();
         return res;
@@ -255,8 +255,8 @@ public class NotaCreditoService implements INotaCreditoService {
     }
 
     @Override
-    public List<NotaCredito> consultarPorEstadoSRI(String estadoSRI){
-        return rep.consultarPorEstadoSRI(estadoSRI);
+    public List<NotaCredito> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
     }
 
     @Override
@@ -265,13 +265,13 @@ public class NotaCreditoService implements INotaCreditoService {
     }
 
     @Override
-    public List<NotaCredito> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI){
-        return rep.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
+    public List<NotaCredito> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override
-    public List<NotaCredito> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI){
-        return rep.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(facturaId, empresaId, estadoSRI);
+    public List<NotaCredito> consultarPorFacturaYEmpresaYEstadoDiferente(long facturaId, long empresaId, String estado){
+        return rep.consultarPorFacturaYEmpresaYEstadoDiferente(facturaId, empresaId, estado);
     }
 
     @Override

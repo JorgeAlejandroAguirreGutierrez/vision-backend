@@ -62,7 +62,7 @@ public class CuentaPropiaController implements GenericoController<CuentaPropia> 
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/consultarPorBancoYEmpresa/{banco}/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarPorBancoYEmpresa/{banco}/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorBancoYEmpresa (@PathVariable("banco") String banco, @PathVariable("empresaId") long empresaId) {
         List<CuentaPropia> cuentasPropias = servicio.consultarPorBancoYEmpresa(banco, empresaId);
         Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, cuentasPropias);

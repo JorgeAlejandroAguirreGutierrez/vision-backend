@@ -9,10 +9,10 @@ import java.util.List;
 public interface INotaDebitoService extends IGenericoService<NotaDebito> {
 	void validar(NotaDebito notaDebito);
 	NotaDebito anular(NotaDebito notaDebito);
-	List<NotaDebito> consultarPorEstadoSRI(String estadoSRI);
+	List<NotaDebito> consultarPorEstado(String estado);
 	List<NotaDebito> consultarPorEmpresa(long empresaId);
-	List<NotaDebito> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI);
-	List<NotaDebito> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI);
+	List<NotaDebito> consultarPorEmpresaYEstado(long empresaId, String estado);
+	List<NotaDebito> consultarPorFacturaYEmpresaYEstadoDiferente(long facturaId, long empresaId, String estado);
 	NotaDebito calcular(NotaDebito notaDebito);
 	void validarLinea(NotaDebitoLinea notaDebitoLinea);
 	NotaDebitoLinea calcularLinea(NotaDebitoLinea notaDebitoLinea);
