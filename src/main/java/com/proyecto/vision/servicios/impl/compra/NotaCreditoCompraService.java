@@ -112,8 +112,8 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 throw new DatoInvalidoException(Constantes.kardex);
             }
             TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito_compra);
-            Kardex kardex = new Kardex(null, notaCreditoCompra.getFecha(),
-                    notaCreditoCompra.getNumeroComprobante(), entrada, Constantes.cero, saldo,
+            Kardex kardex = new Kardex(null, notaCreditoCompra.getFecha(), notaCreditoCompra.getNumeroComprobante(),
+                    notaCreditoCompraLinea.getId(), entrada, Constantes.cero, saldo,
                     costoUnitario, Constantes.cero, costoPromedio, costoTotal, tipoComprobante,
                     tipoOperacion, notaCreditoCompraLinea.getBodega(), notaCreditoCompraLinea.getProducto());
 

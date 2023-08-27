@@ -18,6 +18,8 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpe
     List<Usuario> consultar();
     @Query(value = "select u from Usuario u where u.estado=:estado order by u.codigo desc")
     List<Usuario> consultarPorEstado(String estado);
+    @Query(value = "select u from Usuario u where u.estacion.establecimiento.empresa.id = :empresaId order by u.codigo desc")
+    List<Usuario> consultarPorEmpresa(long empresaId);
     @Query(value = "select u from Usuario u where u.apodo = :apodo and u.estado = :estado order by u.codigo desc")
     Optional<Usuario> obtenerPorApodoYEstado(String apodo, String estado);
     @Query(value = "select u from Usuario u where u.apodo = :apodo and u.contrasena = :contrasena and u.estado = :estado order by u.codigo desc")

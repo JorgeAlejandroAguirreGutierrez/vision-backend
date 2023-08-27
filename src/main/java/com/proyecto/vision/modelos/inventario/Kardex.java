@@ -25,6 +25,8 @@ public class Kardex extends Entidad {
     private Date fecha;
     @Column(name = "referencia", nullable = true)
     private String referencia;
+    @Column(name = "id_linea", nullable = true)
+    private long idLinea;
     @Column(name = "entrada", nullable = true)
     private double entrada;
     @Column(name = "salida", nullable = true)
@@ -61,6 +63,7 @@ public class Kardex extends Entidad {
         this.codigo = Constantes.vacio;
         this.fecha = new Date();
         this.referencia = Constantes.vacio;
+        this.idLinea = Constantes.ceroId;
         this.entrada = Constantes.cero;
         this.salida = Constantes.cero;
         this.saldo = Constantes.cero;

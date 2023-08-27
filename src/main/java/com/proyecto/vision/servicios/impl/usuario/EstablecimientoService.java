@@ -4,9 +4,11 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.modelos.cliente.Correo;
 import com.proyecto.vision.modelos.configuracion.Ubicacion;
+import com.proyecto.vision.modelos.inventario.GrupoProducto;
 import com.proyecto.vision.modelos.usuario.CorreoEstablecimiento;
 import com.proyecto.vision.modelos.usuario.Establecimiento;
 import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
@@ -45,11 +47,15 @@ public class EstablecimientoService implements IEstablecimientoService {
     @Override
     public Establecimiento crear(Establecimiento establecimiento) {
         validar(establecimiento);
+        Optional<Establecimiento> establecimientoExiste = rep.ObtenerPorEmpresaYCodigoSri(establecimiento.getEmpresa().getId(), establecimiento.getCodigoSRI());
+        if(establecimientoExiste.isPresent()){
+            throw new EntidadExistenteException(Constantes.establecimiento);
+        }
     	Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(establecimiento.getUbicacion().getProvincia(),establecimiento.getUbicacion().getCanton(), establecimiento.getUbicacion().getParroquia(), Constantes.estadoActivo);
     	if(ubicacion.isEmpty()) {
     		throw new EntidadNoExistenteException(Constantes.ubicacion);
     	}
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_establecimiento);
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_establecimiento, establecimiento.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

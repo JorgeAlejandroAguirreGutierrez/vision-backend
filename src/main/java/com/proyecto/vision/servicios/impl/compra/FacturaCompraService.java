@@ -69,10 +69,13 @@ public class FacturaCompraService implements IFacturaCompraService {
             throw new CodigoNoExistenteException();
         }
         facturaCompra.setCodigo(codigo.get());
-        crearKardex(facturaCompra);
-        actualizarPrecios(facturaCompra);
+        //crearKardex(facturaCompra);
+        //actualizarPrecios(facturaCompra);
         facturaCompra.setEstado(Constantes.estadoPorPagar);
         FacturaCompra res = rep.save(facturaCompra);
+        facturaCompra = obtener(facturaCompra.getId());
+        actualizarKardex(facturaCompra);
+        actualizarPrecios(facturaCompra);
         res.normalizar();
         return res;
     }
@@ -93,8 +96,8 @@ public class FacturaCompraService implements IFacturaCompraService {
             }
             TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
             TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.compra, Constantes.estadoActivo);
-            Kardex kardex = new Kardex(null, facturaCompra.getFecha(),
-                    facturaCompra.getNumeroComprobante(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
+            Kardex kardex = new Kardex(null, facturaCompra.getFecha(), facturaCompra.getNumeroComprobante(),
+                    facturaCompraLinea.getId(), facturaCompraLinea.getCantidad(), Constantes.cero, saldo,
                     costoUnitario, Constantes.cero, costoPromedio, costoTotal, tipoComprobante,
                     tipoOperacion, facturaCompraLinea.getBodega(), facturaCompraLinea.getProducto());
 

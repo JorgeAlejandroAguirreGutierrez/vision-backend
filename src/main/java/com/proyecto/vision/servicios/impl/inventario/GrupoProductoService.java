@@ -46,7 +46,7 @@ public class GrupoProductoService implements IGrupoProductoService {
     @Override
     public GrupoProducto crear(GrupoProducto grupoProducto) {
     	validar(grupoProducto);
-    	Optional<GrupoProducto> grupoProductoExiste = rep.ObtenterPorGrupoYSubgrupoYSeccionYLineaYSublineaYPresentacion(grupoProducto.getGrupo(), grupoProducto.getSubgrupo(),
+    	Optional<GrupoProducto> grupoProductoExiste = rep.ObtenerPorGrupoYSubgrupoYSeccionYLineaYSublineaYPresentacion(grupoProducto.getGrupo(), grupoProducto.getSubgrupo(),
                 grupoProducto.getSeccion(), grupoProducto.getLinea(), grupoProducto.getSublinea(), grupoProducto.getPresentacion());
         if(grupoProductoExiste.isPresent()){
             throw new EntidadExistenteException(Constantes.grupo_producto);

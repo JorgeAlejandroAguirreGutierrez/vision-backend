@@ -111,7 +111,12 @@ public class UsuarioService implements IUsuarioService {
         }
         throw new EntidadNoExistenteException(Constantes.empresa);
     }
-    
+
+    @Override
+    public List<Usuario> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
     @Override
     public List<Usuario> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);

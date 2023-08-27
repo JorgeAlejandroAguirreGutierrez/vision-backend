@@ -184,8 +184,8 @@ public class PermisoData implements ApplicationRunner {
             permisos.add(new Permiso("PER022306000051", Constantes.estadoInactivo, new MenuOpcion(90), new Perfil(2)));
             permisos.add(new Permiso("PER022306000052", Constantes.estadoInactivo, new MenuOpcion(91), new Perfil(2)));
             //Accesos
-            permisos.add(new Permiso("PER022306000053", Constantes.estadoInactivo, new MenuOpcion(92), new Perfil(2)));
-            permisos.add(new Permiso("PER022306000054", Constantes.estadoInactivo, new MenuOpcion(93), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000053", Constantes.estadoActivo, new MenuOpcion(92), new Perfil(2)));
+            permisos.add(new Permiso("PER022306000054", Constantes.estadoActivo, new MenuOpcion(93), new Perfil(2)));
             permisos.add(new Permiso("PER022306000055", Constantes.estadoActivo, new MenuOpcion(94), new Perfil(2)));
             permisos.add(new Permiso("PER022306000056", Constantes.estadoActivo, new MenuOpcion(98), new Perfil(2)));
             permisos.add(new Permiso("PER022306000057", Constantes.estadoInactivo, new MenuOpcion(100), new Perfil(2)));

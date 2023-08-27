@@ -59,8 +59,8 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
             Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaDebitoCompraLinea.getProducto().getId(), notaDebitoCompraLinea.getBodega().getId());
             if (ultimoKardex != null) {
                 double saldo = ultimoKardex.getSaldo() - notaDebitoCompraLinea.getCantidad();
-                Kardex kardex = new Kardex(null, new Date(),
-                        notaDebitoCompra.getSecuencial(), notaDebitoCompraLinea.getCantidad(), Constantes.cero, saldo,
+                Kardex kardex = new Kardex(null, new Date(), notaDebitoCompra.getNumeroComprobante(),
+                        notaDebitoCompraLinea.getId(), notaDebitoCompraLinea.getCantidad(), Constantes.cero, saldo,
                         notaDebitoCompraLinea.getTotalLinea(), Constantes.cero,
                         notaDebitoCompraLinea.getCostoUnitario(), notaDebitoCompraLinea.getTotalLinea(),
                         new TipoComprobante(tipoComprobante.getId()), tipoOperacion, ultimoKardex.getBodega(), ultimoKardex.getProducto());

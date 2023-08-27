@@ -4,7 +4,9 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.usuario.Establecimiento;
 import com.proyecto.vision.modelos.usuario.Estacion;
 import com.proyecto.vision.repositorios.usuario.IEstacionRepository;
 import com.proyecto.vision.servicios.interf.usuario.IEstacionService;
@@ -31,6 +33,12 @@ public class EstacionService implements IEstacionService {
     @Override
     public Estacion crear(Estacion estacion) {
         validar(estacion);
+        if (estacion.getPuntoVenta().equals(Constantes.si)) {
+            Optional<Estacion> estacionExiste = rep.ObtenerPorEmpresaYEstablecimientoYCodigoSri(estacion.getEstablecimiento().getEmpresa().getId(), estacion.getEstablecimiento().getId(), estacion.getCodigoSRI());
+            if (estacionExiste.isPresent()) {
+                throw new EntidadExistenteException(Constantes.estacion);
+            }
+        }
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_estacion);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();

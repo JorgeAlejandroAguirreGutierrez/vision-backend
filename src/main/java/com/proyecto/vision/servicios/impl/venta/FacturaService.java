@@ -195,8 +195,8 @@ public class FacturaService implements IFacturaService {
                 }
                 TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
                 TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.venta, Constantes.estadoActivo);
-                Kardex kardex = new Kardex(null, factura.getFecha(),
-                        factura.getNumeroComprobante(), Constantes.cero, facturaLinea.getCantidad(), saldo,
+                Kardex kardex = new Kardex(null, factura.getFecha(), factura.getNumeroComprobante(),
+                        facturaLinea.getId(), Constantes.cero, facturaLinea.getCantidad(), saldo,
                         Constantes.cero, costoUnitario, costoPromedio, costoTotal,
                         tipoComprobante, tipoOperacion, facturaLinea.getBodega(), facturaLinea.getProducto());
 
