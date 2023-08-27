@@ -1,29 +1,29 @@
 package com.proyecto.vision;
 
 public class Constantes {
-	
-	public static final String identificacion_consumidor_final="9999999999999";
-    public static final String consumidor_final="CONSUMIDOR FINAL";
-	public static final String tipo_contribuyente_natural="NATURAL";
-	public static final String tipo_contribuyente_juridica="JURIDICA";
-	public static final String tipo_contribuyente_publica="PUBLICA";
 
-	public static final String pathCertificados = "certificados";
-	public static final String slash = "/";
-	
-	public static final String cedula_abreviatura="C";
-	public static final String consumidor_final_abreviatura="CF";
-	public static final String ruc_abreviatura="R";
-	public static final String placa_abreviatura="PL";
-	public static final String pasaporte_abreviatura="E";
-	public static final String tipo_producto_bien="BIEN";
-	public static final String dev_venta = "DEV. VENTA";
+    public static final String identificacion_consumidor_final="9999999999999";
+    public static final String consumidor_final="CONSUMIDOR FINAL";
+    public static final String tipo_contribuyente_natural="NATURAL";
+    public static final String tipo_contribuyente_juridica="JURIDICA";
+    public static final String tipo_contribuyente_publica="PUBLICA";
+
+    public static final String pathCertificados = "certificados";
+    public static final String slash = "/";
+
+    public static final String cedula_abreviatura="C";
+    public static final String consumidor_final_abreviatura="CF";
+    public static final String ruc_abreviatura="R";
+    public static final String placa_abreviatura="PL";
+    public static final String pasaporte_abreviatura="E";
+    public static final String tipo_producto_bien="BIEN";
+    public static final String dev_venta = "DEV. VENTA";
     public static final String dev_compra = "DEV. COMPRA";
-    public static final String des_compra = "DES. COMPRA";
     public static final String compra = "COMPRA";
-	public static final String pendiente="PENDIENTE";
-	public static final String entregado="ENTREGADO";
-	public static final String sinGuia="SIN GUIA";
+
+    public static final String pendiente="PENDIENTE";
+    public static final String entregado="ENTREGADO";
+    public static final String sinGuia="SIN GUIA";
     public static final String factura_compra = "FACTURA DE COMPRA";
     public static final String factura_compra_linea = "FACTURA DE COMPRA LINEA";
     public static final String nota_credito_compra = "NOTA CREDITO DE COMPRA";
@@ -44,9 +44,6 @@ public class Constantes {
     public static final String mensaje_obtener_exitoso="Exito en la consulta";
     public static final String mensaje_crear_exitoso="Exito al procesar";
     public static final String mensaje_actualizar_exitoso="Exito al actualizar";
-    public static final String mensaje_activar_exitoso="Exito al activar";
-    public static final String mensaje_inactivar_exitoso="Exito al inactivar";
-    public static final String mensaje_pagar_exitoso="Pago exitoso";
     public static final String mensaje_eliminar_exitoso="Exito al eliminar";
     public static final String mensaje_crear_factura_electronica_exitosa="Exito factura electronica con clave de acceso";
     public static final String mensaje_crear_nota_debito_electronica_exitosa="Exito nota debito electronica con clave de acceso";
@@ -55,7 +52,8 @@ public class Constantes {
     public static final String mensaje_importacion_exitoso="Exito al importar";
     public static final String mensaje_exportacion_exitoso="Exito al exportar";
     public static final String mensaje_calcular_exitoso="Exito al calcular";
-
+    public static final String mensaje_activar_exitoso="Exito al activar";
+    public static final String mensaje_inactivar_exitoso="Exito al inactivar";
     public static final String mensaje_recaudacion_exitosa="Exito al recaudar";
     public static final String mensaje_consulta_fallido="Error en la consulta los objetos";
     public static final String mensaje_obtener_fallido="Error al obtener un objeto";
@@ -75,17 +73,17 @@ public class Constantes {
     public static final String tabla_amortizacion_francesa="FRANCESA";
     public static final String periodo_mensual="MENSUAL";
     public static final String periodo_trimestral="TRIMESTRAL";
-    
+
     public static final String vacio="";
     public static final String espacio=" ";
     public static final String guion = "-";
     public static final String salto = "\n";
     public static final String si = "SI";
     public static final String no = "NO";
-    
+
     public static String error_registro_existente="REGISTRO EXISTENTE";
     public static String error_registro_no_existente="REGISTRO NO EXISTENTE";
-    
+
     public static String error_codigo_generico="4000";
     public static String error_codigo_modelo_existente="4001";
     public static String error_codigo_modelo_no_existente="4002";
@@ -101,7 +99,7 @@ public class Constantes {
     public static String error_codigo_dato_invalido="4011";
     public static String error_codigo_factura_electronica_invalida="4012";
     public static String error_codigo_certificado_no_existente="4013";
-    
+
     public static String error_generico="ERROR INTERNO DE SERVIDOR";
     public static String error_entidad_existente="ERROR ENTIDAD YA EXISTE";
     public static String error_entidad_no_existente="ERROR ENTIDAD NO EXISTENTE";
@@ -115,10 +113,10 @@ public class Constantes {
     public static String error_estado_invalido="ERROR ESTADO INVALIDO";
     public static String error_dato_invalido="ERROR DATO INVALIDO";
     public static String error_certificado_no_existente="ERROR CERTIFICADO PARA SRI NO EXISTENTE";
-    
+
     //CODIGO PARA CREAR
     public static final String operacion="CREAR";
-    
+
     //TABLAS
     //CLIENTE
     public static final String tabla_modelo="modelo";
@@ -154,7 +152,7 @@ public class Constantes {
     public static final String tabla_nota_credito_compra_linea="nota_credito_compra_linea";
     public static final String tabla_nota_debito_compra="nota_debito_compra";
     public static final String tabla_nota_debito_compra_linea="nota_debito_compra_linea";
-    
+
     //VENTAS
     public static final String tabla_factura_linea="factura_linea";
     public static final String tabla_egreso="egreso";
@@ -167,7 +165,7 @@ public class Constantes {
     public static final String tabla_nota_debito="nota_debito";
     public static final String tabla_nota_debito_linea="nota_debito_linea";
     public static final String tabla_cierre_caja="cierre_caja";
-    
+
     //CONFIGURACION
     public static final String tabla_empresa="empresa";
     public static final String tabla_parametro="parametro";
@@ -176,12 +174,12 @@ public class Constantes {
     public static final String tabla_tipo_identificacion="tipo_identificacion";
     public static final String tabla_secuencial="secuencial";
     public static final String tabla_menu_opcion="menu_opcion";
-    
+
     //ENTREGA
     public static final String tabla_guia_remision="guia_remision";
     public static final String tabla_transportista="transportista";
     public static final String tabla_vehiculo_transporte="vehiculo_transporte";
-    
+
     //INVENTARIO
     public static final String tabla_bodega="bodega";
     public static final String tabla_caracteristica="caracteristica";
@@ -226,7 +224,7 @@ public class Constantes {
     public static final String tabla_nd_tarjeta_debito="nd_tarjeta_debito";
     public static final String tabla_nd_transferencia="nd_transferencia";
     public static final String tabla_nd_credito="nd_credito";
-    
+
     //USUARIO
     public static final String tabla_telefono_establecimiento="telefono_establecimiento";
     public static final String tabla_celular_establecimiento="celular_establecimiento";
@@ -244,7 +242,7 @@ public class Constantes {
     public static final String tabla_afectacion_contable="afectacion_contable";
     public static final String tabla_movimiento_contable="movimiento_contable";
     public static final String tabla_cuenta_contable="cuenta_contable";
-    
+
     //NOMBRES
     //CLIENTE
     public static final String modelo="MODELO";
@@ -270,7 +268,7 @@ public class Constantes {
     public static final String tipo_contribuyente="TIPO CONTRIBUYENTE";
     public static final String tipo_pago="TIPO PAGO";
     public static final String secuencial = "SECUENCIAL";
-    
+
     //COMPRA
     public static final String retencion_compra="RETENCION COMPRA";
     public static final String grupo_proveedor="GRUPO PROVEEDOR";
@@ -291,7 +289,7 @@ public class Constantes {
     public static final String mensaje_error_nota_debito_existente = "NOTA DE DEBITO EXISTENTE";
     public static final String mensaje_error_nota_credito_existente = "NOTA DE CREDITO EXISTENTE";
     public static final String mensaje_error_guia_remision_existente = "GUIA DE REMISION EXISTENTE";
-    
+
     //CONFIGURACION
     public static final String empresa="EMPRESA";
     public static final String menu_opcion=",MENU OPCION";
@@ -299,7 +297,7 @@ public class Constantes {
     public static final String tipo_retencion="TIPO RETENCION";
     public static final String ubicacion="UBICACION";
     public static final String correo_predeterminado="facturacion@futuristic.com.ec";
-    
+
     //ENTREGA
     public static final String entrega="ENTREGA";
     public static final String transportista="TRANSPORTISTA";
@@ -307,7 +305,7 @@ public class Constantes {
     public static final String cliente_direccion = "CLIENTE DIRECCION";
     public static final String nueva_direccion = "NUEVA DIRECCION";
     public static final String sin_guia = "SIN GUIA";
-    
+
     //INVENTARIO
     public static final String bodega="BODEGA";
     public static final String caracteristica="CARACTERISTICA";
@@ -331,7 +329,7 @@ public class Constantes {
     public static final String tipo_operacion="TIPO OPERACION";
     public static final String producto_proveedor="PRODUCTO Y PROVEEDOR";
     public static final String producto_bodega="PRODUCTO Y BODEGA";
-    
+
     //RECAUDACION
     public static final String amortizacion="AMORTIZACION";
     public static final String banco="BANCO";
@@ -351,7 +349,7 @@ public class Constantes {
     public static final String transferencia="TRANSFERENCIA";
     public static final String efectivo="EFECTIVO";
     public static final String cierre_caja="CIERRE CAJA";
-    
+
     //USUARIO
     public static final String establecimiento="ESTABLECIMIENTO";
     public static final String perfil="PERFIL";
@@ -364,7 +362,7 @@ public class Constantes {
     public static final String correo_establecimiento="CORREO ESTABLECIMIENTO";
     public static final String telefono_establecimiento="TELEFONO ESTABLECIMIENTO";
     public static final String regimen="REGIMEN";
-	
+
     //CONTABILIDAD
     public static final String afectacion_contable="AFECTACION CONTABLE";
     public static final String movimiento_contable="MOVIMIENTO CONTABLE";
@@ -455,19 +453,19 @@ public class Constantes {
     public static final String ruta="RUTA";
     public static final String fechaInicioTransporte="FECHA INICIO TRANSPORTE";
     public static final String fechaFinTransporte="FECHA FIN TRANSPORTE";
-    
+
     //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
     public static final int size=20;
     public static final String order="id";
-    
+
     //CONSTANTES FACTURACION ELECTRONICA
-    
+
     public static final String serie_sri="001001";
     public static final double cero=0;
     public static final long ceroId = 0;
     public static final double iva0 = 0;
     public static final double iva12 = 12;
-    
+
     //TABLA 2
     public static final String emision_normal_sri="1";
     //TABLA 3
@@ -480,7 +478,7 @@ public class Constantes {
     //TABLA 4
     public static final String pruebas_sri="1";
     public static final String produccion_sri="2";
-    
+
     //TABLA 16
     public static final String iva_sri="2";
     public static final String ice_sri="3";
@@ -502,7 +500,7 @@ public class Constantes {
     public static final String texto_tarjeta_de_credito = "tarjeta de credito";
     public static final String texto_otros_con_utilizacion_sistema_financiero = "otros con utilizacion sistema financiero";
     public static final String texto_endoso_titulos = "endoso titulos";
-    
+
     //OTRAS
     public static final String iva= "IVA";
     public static final String renta= "RENTA";
@@ -516,7 +514,7 @@ public class Constantes {
     //COORDENADAS
     public static final double latCiudad = -1.6719601146175727;
     public static final double lngCiudad = -78.65041698970757;
-    
+
     //NUMEROS
     public static final int uno = 1;
     public static final int dos = 2;
@@ -530,7 +528,7 @@ public class Constantes {
     public static final int diez = 10;
     public static final int once= 11;
     public static final double ciencuenta = 50;
-    
+
     public static final String urlFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline";
     public static final String urlConsultaFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline";
     public static final String utf8 = "utf-8";
@@ -549,23 +547,23 @@ public class Constantes {
     //ESTADOS DEL SISTEMA
     public static final String estadoActivo="ACTIVO";
     public static final String estadoInactivo="INACTIVO";
-    
+
     //ESTADOS VENTAS
-    public static final String estadoEmitida = "EMITIDA";
-    public static final String estadoRecaudada = "RECAUDADA";
-    public static final String estadoAnulada = "ANULADA";
+    public static final String procesoEmitida = "EMITIDA";
+    public static final String procesoRecaudada = "RECAUDADA";
+    public static final String procesoAnulada = "ANULADA";
     public static final String estadoSRIPendiente = "PENDIENTE";
     public static final String estadoSRIAutorizada = "AUTORIZADA";
     public static final String estadoSRIAnulada = "ANULADA";
 
     //ESTADOS COMPRAS
-    public static final String estadoPagada = "PAGADA";
-    public static final String estadoPorPagar = "POR PAGAR";
-    
+    public static final String procesoPagada = "PAGADA";
+    public static final String procesoPorPagar = "POR PAGAR";
+
     //CONSTANTES PARA FACTURA FISICA
     public static final String facturaFisicaAmbienteValor = "PRUEBAS";
     public static final String facturaFisicaEmisionValor = "NORMAL";
-    
+
     //CONSTANTES PARA ENVIO DE CORREO
     public static final String mensajeCorreo=" LE ENVIA FACTURA ELECTRONICA: ";
     public static final String mensajeCorreoExitoso="SE ENVIA FACTURA A CORREO EXITOSAMENTE";
@@ -613,6 +611,4 @@ public class Constantes {
     public static final double moneda10 = 0.10;
     public static final double moneda5 = 0.05;
     public static final double moneda1 = 0.01;
-
-    
 }

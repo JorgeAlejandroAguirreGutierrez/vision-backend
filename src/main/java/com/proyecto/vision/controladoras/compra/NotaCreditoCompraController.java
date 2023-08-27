@@ -31,9 +31,9 @@ public class NotaCreditoCompraController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
-        List<NotaCreditoCompra> notasCreditosCompras = servicio.consultarPorEstado(estado);
+    @GetMapping(value = "/consultarPorProceso/{proceso}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorProceso(@PathVariable("proceso") String proceso) {
+        List<NotaCreditoCompra> notasCreditosCompras = servicio.consultarPorProceso(proceso);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasCreditosCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -83,7 +83,7 @@ public class NotaCreditoCompraController {
     @PatchMapping(value = "/anular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> anular(@RequestBody NotaCreditoCompra _notaCreditoCompra) {
         NotaCreditoCompra notaCreditoCompra = servicio.anular(_notaCreditoCompra);
-        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_anular_exitoso, notaCreditoCompra);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_activar_exitoso, notaCreditoCompra);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

@@ -122,5 +122,4 @@ public class CuentaPropiaService implements ICuentaPropiaService {
         return rep.findAll(pageable);
     }
 
-
 }

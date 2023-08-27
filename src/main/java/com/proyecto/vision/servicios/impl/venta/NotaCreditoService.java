@@ -41,7 +41,7 @@ public class NotaCreditoService implements INotaCreditoService {
 
     @Override
     public void validar(NotaCredito notaCredito) {
-        if(notaCredito.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
+        if(notaCredito.getProceso().equals(Constantes.procesoAnulada)) throw new EstadoInvalidoException(Constantes.procesoAnulada);
         if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
         if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
         if(notaCredito.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
@@ -71,7 +71,7 @@ public class NotaCreditoService implements INotaCreditoService {
             throw new ClaveAccesoNoExistenteException();
         }
         notaCredito.setClaveAcceso(claveAcceso.get());
-        notaCredito.setEstado(Constantes.estadoEmitida);
+        notaCredito.setProceso(Constantes.procesoEmitida);
         notaCredito.setEstadoSRI(Constantes.estadoSRIPendiente);
         calcular(notaCredito);
         crearKardex(notaCredito);
@@ -118,7 +118,7 @@ public class NotaCreditoService implements INotaCreditoService {
         return Optional.of(claveAcceso);
     }
     private void crearKardex(NotaCredito notaCredito) {
-        if(notaCredito.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
+        if(notaCredito.getProceso().equals(Constantes.procesoAnulada)) throw new EstadoInvalidoException(Constantes.procesoAnulada);
         if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
         if(notaCredito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
 
@@ -207,7 +207,7 @@ public class NotaCreditoService implements INotaCreditoService {
     @Override
     public NotaCredito anular(NotaCredito notaCredito) {
         validar(notaCredito);
-        notaCredito.setEstado(Constantes.estadoAnulada);
+        notaCredito.setProceso(Constantes.procesoAnulada);
         notaCredito.setEstadoSRI(Constantes.estadoSRIAnulada);
         NotaCredito res = rep.save(notaCredito);
         res.normalizar();
@@ -253,10 +253,10 @@ public class NotaCreditoService implements INotaCreditoService {
     public List<NotaCredito> consultar() {
         return rep.consultar();
     }
-    
+
     @Override
     public List<NotaCredito> consultarPorEstadoSRI(String estadoSRI){
-    	return rep.consultarPorEstadoSRI(estadoSRI);
+        return rep.consultarPorEstadoSRI(estadoSRI);
     }
 
     @Override
@@ -276,7 +276,7 @@ public class NotaCreditoService implements INotaCreditoService {
 
     @Override
     public Page<NotaCredito> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
+        return rep.findAll(pageable);
     }
 
     @Override

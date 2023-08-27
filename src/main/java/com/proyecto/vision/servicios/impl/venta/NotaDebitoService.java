@@ -38,7 +38,7 @@ public class NotaDebitoService implements INotaDebitoService {
 
     @Override
     public void validar(NotaDebito notaDebito) {
-        if(notaDebito.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
+        if(notaDebito.getProceso().equals(Constantes.procesoAnulada)) throw new EstadoInvalidoException(Constantes.procesoAnulada);
         if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
         if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
         if(notaDebito.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
@@ -145,7 +145,7 @@ public class NotaDebitoService implements INotaDebitoService {
             throw new ClaveAccesoNoExistenteException();
         }
         notaDebito.setClaveAcceso(claveAcceso.get());
-        notaDebito.setEstado(Constantes.estadoEmitida);
+        notaDebito.setProceso(Constantes.procesoEmitida);
         notaDebito.setEstadoSRI(Constantes.estadoSRIPendiente);
         calcular(notaDebito);
         calcularRecaudacion(notaDebito);
@@ -162,10 +162,10 @@ public class NotaDebitoService implements INotaDebitoService {
         calcular(notaDebito);
         calcularRecaudacion(notaDebito);
         if(notaDebito.getTotalRecaudacion() != notaDebito.getTotal()){
-            notaDebito.setEstado(Constantes.estadoEmitida);
+            notaDebito.setProceso(Constantes.procesoEmitida);
         }
         if(notaDebito.getTotalRecaudacion() == notaDebito.getTotal()){
-            notaDebito.setEstado(Constantes.estadoRecaudada);
+            notaDebito.setProceso(Constantes.procesoRecaudada);
         }
         NotaDebito res = rep.save(notaDebito);
         res.normalizar();
@@ -175,7 +175,7 @@ public class NotaDebitoService implements INotaDebitoService {
     @Override
     public NotaDebito anular(NotaDebito notaDebito) {
         validar(notaDebito);
-        notaDebito.setEstado(Constantes.estadoAnulada);
+        notaDebito.setProceso(Constantes.procesoAnulada);
         notaDebito.setEstadoSRI(Constantes.estadoSRIAnulada);
         NotaDebito res = rep.save(notaDebito);
         res.normalizar();
@@ -199,10 +199,10 @@ public class NotaDebitoService implements INotaDebitoService {
         calcular(notaDebito);
         calcularRecaudacion(notaDebito);
         if(notaDebito.getTotalRecaudacion() != notaDebito.getTotal()){
-            notaDebito.setEstado(Constantes.estadoEmitida);
+            notaDebito.setProceso(Constantes.procesoEmitida);
         }
         if(notaDebito.getTotalRecaudacion() == notaDebito.getTotal()){
-            notaDebito.setEstado(Constantes.estadoRecaudada);
+            notaDebito.setProceso(Constantes.procesoRecaudada);
         }
         NotaDebito res = rep.save(notaDebito);
         res.normalizar();
