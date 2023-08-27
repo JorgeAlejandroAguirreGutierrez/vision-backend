@@ -6,6 +6,7 @@ import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
+import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.vision.repositorios.entrega.IGuiaRemisionRepository;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
@@ -22,10 +23,10 @@ import java.util.List;
 import java.util.Optional;
 @Service
 public class GuiaRemisionService implements IGuiaRemisionService {
-    @Autowired
-    private IGuiaRemisionRepository rep;
-    @Autowired
-    private IUbicacionRepository repUbicacion;
+	@Autowired
+	private IGuiaRemisionRepository rep;
+	@Autowired
+	private IUbicacionRepository repUbicacion;
 	@Autowired
 	private ITipoComprobanteService tipoComprobanteService;
 	@Autowired
@@ -90,16 +91,16 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		String claveAcceso=cadenaVerificacion+digitoVerificador;
 		return Optional.of(claveAcceso);
 	}
-    
-    @Override
-    public GuiaRemision crear(GuiaRemision guiaRemision) {
+
+	@Override
+	public GuiaRemision crear(GuiaRemision guiaRemision) {
 		validar(guiaRemision);
 		TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_guia_remision);
 		guiaRemision.setTipoComprobante(tipoComprobante);
 		Optional<String>codigo = Util.generarCodigo(Constantes.tabla_guia_remision);
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
+		if (codigo.isEmpty()) {
+			throw new CodigoNoExistenteException();
+		}
 		guiaRemision.setCodigo(codigo.get());
 		Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(guiaRemision.getTipoComprobante().getId(),
 				guiaRemision.getSesion().getUsuario().getEstacion().getId(), guiaRemision.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
@@ -111,20 +112,20 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 			throw new ClaveAccesoNoExistenteException();
 		}
 		guiaRemision.setClaveAcceso(claveAcceso.get());
-        guiaRemision.setEstado(Constantes.estadoEmitida);
-        guiaRemision.setEstadoSRI(Constantes.estadoSRIPendiente);
+		guiaRemision.setEstado(Constantes.estadoEmitida);
+		guiaRemision.setEstadoSRI(Constantes.estadoSRIPendiente);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();
 		secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
 		secuencialService.actualizar(secuencial);
-    	return res;
-    }
+		return res;
+	}
 
-    @Override
-    public GuiaRemision actualizar(GuiaRemision guiaRemision) {
-        validar(guiaRemision);
+	@Override
+	public GuiaRemision actualizar(GuiaRemision guiaRemision) {
+		validar(guiaRemision);
 		return rep.save(guiaRemision);
-    }
+	}
 
 	@Override
 	public GuiaRemision anular(GuiaRemision guiaRemision) {
@@ -136,29 +137,29 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		return res;
 	}
 
-    @Override
-    public GuiaRemision obtener(long id) {
-        Optional<GuiaRemision> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
-        }
-        throw new EntidadNoExistenteException(Constantes.entrega);
-    }
-    
-    @Override
-    public Optional<GuiaRemision> obtenerPorFactura(long facturaId){
-    	return rep.obtenerPorFactura(facturaId);
-    }
+	@Override
+	public GuiaRemision obtener(long id) {
+		Optional<GuiaRemision> res= rep.findById(id);
+		if(res.isPresent()) {
+			return res.get();
+		}
+		throw new EntidadNoExistenteException(Constantes.entrega);
+	}
 
-    @Override
-    public List<GuiaRemision> consultar() {
-        return rep.consultar();
-    }
+	@Override
+	public Optional<GuiaRemision> obtenerPorFactura(long facturaId){
+		return rep.obtenerPorFactura(facturaId);
+	}
 
-    @Override
-    public Page<GuiaRemision> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
+	@Override
+	public List<GuiaRemision> consultar() {
+		return rep.consultar();
+	}
+
+	@Override
+	public Page<GuiaRemision> consultarPagina(Pageable pageable){
+		return rep.findAll(pageable);
+	}
 
 	@Override
 	public List<GuiaRemision> consultarPorEmpresa(long empresaId){
@@ -169,4 +170,10 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	public List<GuiaRemision> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI){
 		return rep.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
 	}
+
+	@Override
+	public List<GuiaRemision> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI){
+		return rep.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(facturaId, empresaId, estadoSRI);
+	}
+
 }

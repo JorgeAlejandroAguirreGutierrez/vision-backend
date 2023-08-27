@@ -113,14 +113,13 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     }
 
     @Override
-    public List<CuentaPropia> consultarPorEmpresaYBanco(long empresaId, String banco) {
-        return rep.consultarPorEmpresaYBanco(empresaId, banco, Constantes.estadoActivo);
+    public List<CuentaPropia> consultarPorBancoYEmpresa(String banco, long empresaId) {
+        return rep.consultarPorBancoYEmpresa(banco, empresaId, Constantes.estadoActivo);
     }
 
     @Override
     public Page<CuentaPropia> consultarPagina(Pageable pageable) {
         return rep.findAll(pageable);
     }
-
 
 }

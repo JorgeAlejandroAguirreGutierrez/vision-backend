@@ -73,170 +73,170 @@ import java.util.List;
 
 @Service
 public class FacturaElectronicaService implements IFacturaElectronicaService{
-    @Autowired
-    private IFacturaRepository rep;
+	@Autowired
+	private IFacturaRepository rep;
 
-    @Autowired
+	@Autowired
 	private IEmpresaService empresaService;
-    
-    @Value("${prefijo.url.imagenes}")
-    private String imagenes;
-    
-    @Value("${correo.usuario}")
-    private String correoUsuario;
-    
-    @Value("${correo.contrasena}")
-    private String correoContrasena;
-    
-    private FacturaElectronica crear(Factura factura) {
-    	//MAPEO A FACTURA ELECTRONICA
-    	FacturaElectronica facturaElectronica = new FacturaElectronica();
-    	InfoTributaria infoTributaria = new InfoTributaria();
-    	InfoFactura infoFactura = new InfoFactura();	 	
-    	  	
-    	infoTributaria.setAmbiente(Constantes.pruebas_sri);
-    	infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
-    	infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
-    	infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
-    	infoTributaria.setRuc(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
-    	infoTributaria.setClaveAcceso(factura.getClaveAcceso());
-    	infoTributaria.setCodDoc(Constantes.factura_sri);
-    	infoTributaria.setEstab(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
-    	infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getEstacion().getCodigoSRI());
-    	infoTributaria.setSecuencial(factura.getSecuencial());
-    	infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
-    	
-    	DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
-    	String fechaEmision = dateFormat.format(factura.getFecha());
-    	infoFactura.setFechaEmision(fechaEmision);
+
+	@Value("${prefijo.url.imagenes}")
+	private String imagenes;
+
+	@Value("${correo.usuario}")
+	private String correoUsuario;
+
+	@Value("${correo.contrasena}")
+	private String correoContrasena;
+
+	private FacturaElectronica crear(Factura factura) {
+		//MAPEO A FACTURA ELECTRONICA
+		FacturaElectronica facturaElectronica = new FacturaElectronica();
+		InfoTributaria infoTributaria = new InfoTributaria();
+		InfoFactura infoFactura = new InfoFactura();
+
+		infoTributaria.setAmbiente(Constantes.pruebas_sri);
+		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
+		infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+		infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+		infoTributaria.setRuc(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
+		infoTributaria.setClaveAcceso(factura.getClaveAcceso());
+		infoTributaria.setCodDoc(Constantes.factura_sri);
+		infoTributaria.setEstab(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
+		infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getEstacion().getCodigoSRI());
+		infoTributaria.setSecuencial(factura.getSecuencial());
+		infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
+
+		DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
+		String fechaEmision = dateFormat.format(factura.getFecha());
+		infoFactura.setFechaEmision(fechaEmision);
 		infoFactura.setDirEstablecimiento(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
-    	infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
-    	infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSRI());
-    	infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
-    	infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
-    	infoFactura.setDireccionComprador(factura.getCliente().getDireccion());
-    	infoFactura.setTotalSinImpuestos(Math.round(factura.getSubtotal() * 100.0)/100.0);
-    	infoFactura.setTotalDescuento(factura.getDescuento());
-    	infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
-    	infoFactura.setPropina(Constantes.cero);
-    	infoFactura.setImporteTotal(factura.getTotal());
-    	infoFactura.setMoneda(Constantes.moneda);
-    	infoFactura.setPagos(crearPagos(factura));
-    	
-    	Detalles detalles=crearDetalles(factura);
+		infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
+		infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSRI());
+		infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
+		infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
+		infoFactura.setDireccionComprador(factura.getCliente().getDireccion());
+		infoFactura.setTotalSinImpuestos(Math.round(factura.getSubtotal() * 100.0)/100.0);
+		infoFactura.setTotalDescuento(factura.getDescuento());
+		infoFactura.setTotalConImpuestos(crearTotalConImpuestos(factura));
+		infoFactura.setPropina(Constantes.cero);
+		infoFactura.setImporteTotal(factura.getTotal());
+		infoFactura.setMoneda(Constantes.moneda);
+		infoFactura.setPagos(crearPagos(factura));
+
+		Detalles detalles=crearDetalles(factura);
 
 		InfoAdicional infoAdicional = crearInfoAdicional(factura);
-    	
-    	facturaElectronica.setInfoTributaria(infoTributaria);
-    	facturaElectronica.setInfoFactura(infoFactura);
-    	facturaElectronica.setDetalles(detalles);
-		facturaElectronica.setInfoAdicional(infoAdicional);
-    	return facturaElectronica;
-    }
 
-    private TotalConImpuestos crearTotalConImpuestos(Factura factura){
-    	TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
-    	List<TotalImpuesto> totalImpuestos = new ArrayList<>();
-    	for(int i = 0; i<factura.getFacturaLineas().size(); i++) {
-        	TotalImpuesto totalImpuesto = new TotalImpuesto();
-    		totalImpuesto.setCodigo(Constantes.iva_sri);
-        	totalImpuesto.setCodigoPorcentaje(factura.getFacturaLineas().get(i).getImpuesto().getCodigoSRI());
-        	totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
-        	totalImpuesto.setBaseImponible(Math.round(factura.getFacturaLineas().get(i).getSubtotalLinea()*100.0)/100.0);
-        	totalImpuesto.setValor(factura.getFacturaLineas().get(i).getImporteIvaLinea());
-        	totalImpuestos.add(totalImpuesto);
-    	}
-    	totalConImpuestos.setTotalImpuesto(totalImpuestos);
-    	return totalConImpuestos;
-    }
-    
-    private Pagos crearPagos(Factura factura) {
-    	Pagos pagos = new Pagos();
-    	List<Pago> pagosLista = new ArrayList<>();
-    	if(factura.getEfectivo()>0) {
-    		Pago pago = new Pago();
-        	pago.setFormaPago(Constantes.sin_utilizacion_del_sistema_financiero);
-        	pago.setTotal(factura.getEfectivo());
-        	pagosLista.add(pago);
-    	}
-    	
-        for(Cheque cheque: factura.getCheques()) {
-        	Pago pago = new Pago();
-        	pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
-        	pago.setTotal(cheque.getValor());
-        	pagosLista.add(pago);
-        }
-        
-        for(Deposito deposito: factura.getDepositos()) {
-        	Pago pago = new Pago();
-        	pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
-        	pago.setTotal(deposito.getValor());
-        	pagosLista.add(pago);
-        }
-        
-        for(Transferencia transferencia: factura.getTransferencias()) {
-        	Pago pago = new Pago();
-        	pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
-        	pago.setTotal(transferencia.getValor());
-        	pagosLista.add(pago);
-        }
-       
-        for(TarjetaDebito tarjetaDebito: factura.getTarjetasDebitos()) {
-        	Pago pago = new Pago();
-        	pago.setFormaPago(Constantes.tarjeta_de_debito);
-        	pago.setTotal(tarjetaDebito.getValor());
-        	pagosLista.add(pago);
-        }
-        
-        for(TarjetaCredito tarjetaCredito: factura.getTarjetasCreditos()) {
-        	Pago pago = new Pago();
-        	pago.setFormaPago(Constantes.tarjeta_de_credito);
-        	pago.setTotal(tarjetaCredito.getValor());
-        	pagosLista.add(pago);
-        }
-        if(factura.getCredito() != null && factura.getCredito().getSaldo() > Constantes.cero) {
-        	Pago pago = new Pago();
-        	pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
-        	pago.setTotal(factura.getCredito().getSaldo());
-        	pago.setUnidadTiempo(factura.getCredito().getUnidadTiempo());
-        	pago.setPlazo(factura.getCredito().getPlazo());
-        	pagosLista.add(pago);
-        }
-    	pagos.setPago(pagosLista);
-    	return pagos;
-    }
-    
-    private Detalles crearDetalles(Factura factura) {
-    	Detalles detalles = new Detalles();
-    	List<Detalle> detalleLista = new ArrayList<>();
-    	for(int i = 0; i<factura.getFacturaLineas().size(); i++) {
-    		Detalle detalle = new Detalle();
-    		detalle.setCodigoPrincipal(factura.getFacturaLineas().get(i).getProducto().getCodigo());
-    		detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
-    		detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
-    		detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
-    		detalle.setDescuento(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
-    		detalle.setPrecioTotalSinImpuesto(Math.round(factura.getFacturaLineas().get(i).getSubtotalLinea()*100.0)/100.0);
-    		detalle.setImpuestos(crearImpuestos(factura.getFacturaLineas().get(i)));
-    		detalleLista.add(detalle);
-    	}
-    	detalles.setDetalle(detalleLista);
-    	return detalles;
-    }
-    
-    private Impuestos crearImpuestos(FacturaLinea facturaLinea) {
-    	Impuestos impuestos = new Impuestos();
-    	List<Impuesto> impuestoLista = new ArrayList<>();
-    	Impuesto impuesto=new Impuesto();
-    	impuesto.setCodigo(Constantes.iva_sri);
-    	impuesto.setCodigoPorcentaje(facturaLinea.getImpuesto().getCodigoSRI());
-    	impuesto.setTarifa(facturaLinea.getImpuesto().getPorcentaje());
-    	impuesto.setBaseImponible(Math.round(facturaLinea.getSubtotalLinea()*100.0)/100.0);
-    	impuesto.setValor(facturaLinea.getImporteIvaLinea());
-    	impuestoLista.add(impuesto);
-    	impuestos.setImpuesto(impuestoLista);
-    	return impuestos;
-    }
+		facturaElectronica.setInfoTributaria(infoTributaria);
+		facturaElectronica.setInfoFactura(infoFactura);
+		facturaElectronica.setDetalles(detalles);
+		facturaElectronica.setInfoAdicional(infoAdicional);
+		return facturaElectronica;
+	}
+
+	private TotalConImpuestos crearTotalConImpuestos(Factura factura){
+		TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
+		List<TotalImpuesto> totalImpuestos = new ArrayList<>();
+		for(int i = 0; i<factura.getFacturaLineas().size(); i++) {
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(factura.getFacturaLineas().get(i).getImpuesto().getCodigoSRI());
+			totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
+			totalImpuesto.setBaseImponible(Math.round(factura.getFacturaLineas().get(i).getSubtotalLinea()*100.0)/100.0);
+			totalImpuesto.setValor(factura.getFacturaLineas().get(i).getImporteIvaLinea());
+			totalImpuestos.add(totalImpuesto);
+		}
+		totalConImpuestos.setTotalImpuesto(totalImpuestos);
+		return totalConImpuestos;
+	}
+
+	private Pagos crearPagos(Factura factura) {
+		Pagos pagos = new Pagos();
+		List<Pago> pagosLista = new ArrayList<>();
+		if(factura.getEfectivo()>0) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.sin_utilizacion_del_sistema_financiero);
+			pago.setTotal(factura.getEfectivo());
+			pagosLista.add(pago);
+		}
+
+		for(Cheque cheque: factura.getCheques()) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
+			pago.setTotal(cheque.getValor());
+			pagosLista.add(pago);
+		}
+
+		for(Deposito deposito: factura.getDepositos()) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
+			pago.setTotal(deposito.getValor());
+			pagosLista.add(pago);
+		}
+
+		for(Transferencia transferencia: factura.getTransferencias()) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
+			pago.setTotal(transferencia.getValor());
+			pagosLista.add(pago);
+		}
+
+		for(TarjetaDebito tarjetaDebito: factura.getTarjetasDebitos()) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.tarjeta_de_debito);
+			pago.setTotal(tarjetaDebito.getValor());
+			pagosLista.add(pago);
+		}
+
+		for(TarjetaCredito tarjetaCredito: factura.getTarjetasCreditos()) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.tarjeta_de_credito);
+			pago.setTotal(tarjetaCredito.getValor());
+			pagosLista.add(pago);
+		}
+		if(factura.getCredito() != null && factura.getCredito().getSaldo() > Constantes.cero) {
+			Pago pago = new Pago();
+			pago.setFormaPago(Constantes.otros_con_utilizacion_sistema_financiero);
+			pago.setTotal(factura.getCredito().getSaldo());
+			pago.setUnidadTiempo(factura.getCredito().getUnidadTiempo());
+			pago.setPlazo(factura.getCredito().getPlazo());
+			pagosLista.add(pago);
+		}
+		pagos.setPago(pagosLista);
+		return pagos;
+	}
+
+	private Detalles crearDetalles(Factura factura) {
+		Detalles detalles = new Detalles();
+		List<Detalle> detalleLista = new ArrayList<>();
+		for(int i = 0; i<factura.getFacturaLineas().size(); i++) {
+			Detalle detalle = new Detalle();
+			detalle.setCodigoPrincipal(factura.getFacturaLineas().get(i).getProducto().getCodigo());
+			detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
+			detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
+			detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
+			detalle.setDescuento(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
+			detalle.setPrecioTotalSinImpuesto(Math.round(factura.getFacturaLineas().get(i).getSubtotalLinea()*100.0)/100.0);
+			detalle.setImpuestos(crearImpuestos(factura.getFacturaLineas().get(i)));
+			detalleLista.add(detalle);
+		}
+		detalles.setDetalle(detalleLista);
+		return detalles;
+	}
+
+	private Impuestos crearImpuestos(FacturaLinea facturaLinea) {
+		Impuestos impuestos = new Impuestos();
+		List<Impuesto> impuestoLista = new ArrayList<>();
+		Impuesto impuesto=new Impuesto();
+		impuesto.setCodigo(Constantes.iva_sri);
+		impuesto.setCodigoPorcentaje(facturaLinea.getImpuesto().getCodigoSRI());
+		impuesto.setTarifa(facturaLinea.getImpuesto().getPorcentaje());
+		impuesto.setBaseImponible(Math.round(facturaLinea.getSubtotalLinea()*100.0)/100.0);
+		impuesto.setValor(facturaLinea.getImporteIvaLinea());
+		impuestoLista.add(impuesto);
+		impuestos.setImpuesto(impuestoLista);
+		return impuestos;
+	}
 
 	private InfoAdicional crearInfoAdicional(Factura factura) {
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
@@ -316,44 +316,44 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		facturada.normalizar();
 		return facturada;
 	}
-    
-    private List<String> recepcion(FacturaElectronica facturaElectronica, String certificado, String contrasena) {
-    	try {
-    		JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);            
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
-            jaxbMarshaller.marshal(facturaElectronica, System.out);
-            StringWriter sw = new StringWriter();
-            jaxbMarshaller.marshal(facturaElectronica, sw);
-            String xml = sw.toString();
+
+	private List<String> recepcion(FacturaElectronica facturaElectronica, String certificado, String contrasena) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
+			jaxbMarshaller.marshal(facturaElectronica, System.out);
+			StringWriter sw = new StringWriter();
+			jaxbMarshaller.marshal(facturaElectronica, sw);
+			String xml = sw.toString();
 			Path path = Paths.get(Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
-            byte[] firmado = SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
-            String encode = Base64.getEncoder().encodeToString(firmado);
-            String body = Util.soapFacturacionEletronica(encode);
-            System.out.println(body);
-            HttpClient httpClient = HttpClient.newBuilder()
-                    .version(HttpClient.Version.HTTP_1_1)
-                    .connectTimeout(Duration.ofSeconds(10))
-                    .build();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .POST(BodyPublishers.ofString(body))
-                    .uri(URI.create(Constantes.urlFacturacionEletronicaSri))
-                    .setHeader(Constantes.contentType, Constantes.contenTypeValor)
-                    .build();
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            // print response headers
-            HttpHeaders headers = response.headers();
-            headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
-            // print status code
-            System.out.println(response.statusCode());
-            // print response body
-            System.out.println(response.body());
-            JSONObject json=Util.convertirXmlJson(response.body());
+			byte[] firmado = SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
+			String encode = Base64.getEncoder().encodeToString(firmado);
+			String body = Util.soapFacturacionEletronica(encode);
+			System.out.println(body);
+			HttpClient httpClient = HttpClient.newBuilder()
+					.version(HttpClient.Version.HTTP_1_1)
+					.connectTimeout(Duration.ofSeconds(10))
+					.build();
+			HttpRequest request = HttpRequest.newBuilder()
+					.POST(BodyPublishers.ofString(body))
+					.uri(URI.create(Constantes.urlFacturacionEletronicaSri))
+					.setHeader(Constantes.contentType, Constantes.contenTypeValor)
+					.build();
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+			// print response headers
+			HttpHeaders headers = response.headers();
+			headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
+			// print status code
+			System.out.println(response.statusCode());
+			// print response body
+			System.out.println(response.body());
+			JSONObject json=Util.convertirXmlJson(response.body());
 			List<String> resultado = new ArrayList<>();
-            String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
+			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
 			resultado.add(estado);
 			if(estado.equals(Constantes.devueltaSri)){
 				String informacionAdicional = Constantes.vacio;
@@ -370,11 +370,11 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				resultado.add(informacionAdicional);
 			}
 			return resultado;
-        } catch (JAXBException ex) {
-            System.err.println(ex.getMessage());                        
-        } catch (IOException ex) {
+		} catch (JAXBException ex) {
+			System.err.println(ex.getMessage());
+		} catch (IOException ex) {
 			// TODO Auto-generated catch block
-        	System.err.println(ex.getMessage());   
+			System.err.println(ex.getMessage());
 		} catch (InterruptedException ex) {
 			// TODO Auto-generated catch block
 			System.err.println(ex.getMessage());
@@ -383,7 +383,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			e.printStackTrace();
 		}
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
-    }
+	}
 
 	public List<String> autorizacion(FacturaElectronica facturaElectronica){
 		try {
@@ -433,18 +433,18 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new RuntimeException(e);
 		}
 	}
-    
-    public ByteArrayInputStream crearPDF(Factura factura) {
-    	try {
-            ByteArrayOutputStream salida = new ByteArrayOutputStream();
-            PdfWriter writer = new PdfWriter(salida);
-            PdfDocument pdf = new PdfDocument(writer);
-            // Initialize document
-            Document documento = new Document(pdf, PageSize.A4);
+
+	public ByteArrayInputStream crearPDF(Factura factura) {
+		try {
+			ByteArrayOutputStream salida = new ByteArrayOutputStream();
+			PdfWriter writer = new PdfWriter(salida);
+			PdfDocument pdf = new PdfDocument(writer);
+			// Initialize document
+			Document documento = new Document(pdf, PageSize.A4);
 			documento.setMargins(0,0,0,0);
-            // 4. Add content
-            PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
-            documento.setFont(font);
+			// 4. Add content
+			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+			documento.setFont(font);
 			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
 			String regimen = Constantes.vacio;
 			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
@@ -485,7 +485,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
 			tabla.setHorizontalBorderSpacing(3);
 			documento.add(tabla);
-            documento.add(new Paragraph("\n"));
+			documento.add(new Paragraph("\n"));
 			float [] columnasCliente = {300F, 300F};
 			Table tablaCliente = new Table(columnasCliente);
 			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + factura.getFecha().toString() + "\n" +
@@ -493,30 +493,30 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
 			documento.add( new Paragraph("\n"));
-            float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 60F, 60F, 80F};
-            Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
-            tablaFacturaDetalle.addCell(getCellColumnaFactura("CÓDIGO"));
-            tablaFacturaDetalle.addCell(getCellColumnaFactura("CANT"));
-            tablaFacturaDetalle.addCell(getCellColumnaFactura("DESCRIPCION"));
-            tablaFacturaDetalle.addCell(getCellColumnaFactura("PRECIO U"));
-            tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO"));
+			float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 60F, 60F, 80F};
+			Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("CÓDIGO"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("CANT"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("DESCRIPCION"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("PRECIO U"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO %"));
-            tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
-            for (int i = 0; i <factura.getFacturaLineas().size(); i++)
-            {
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
+			for (int i = 0; i <factura.getFacturaLineas().size(); i++)
+			{
 				String precioUnitario = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecioUnitario());
 				String descuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getValorDescuentoLinea());
 				String porcentajeDescuentoLinea = factura.getFacturaLineas().get(i).getPorcentajeDescuentoLinea() + Constantes.vacio;
 				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getCodigo()));
-                tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
-                tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getNombre()));
-                tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
-                tablaFacturaDetalle.addCell(getCellFilaFactura("$"+descuentoLinea));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getNombre()));
+				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
+				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+descuentoLinea));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(porcentajeDescuentoLinea+"%"));
-                tablaFacturaDetalle.addCell(getCellFilaFactura("$"+subtotalConDescuentoLinea));
-            }
+				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+subtotalConDescuentoLinea));
+			}
 			documento.add(tablaFacturaDetalle);
 			documento.add( new Paragraph("\n"));
 			String subtotal = String.format("%.2f", factura.getSubtotal());
@@ -525,21 +525,21 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			String subtotalNoGravadoConDescuento = String.format("%.2f", factura.getSubtotalNoGravado());
 			String iva = String.format("%.2f", factura.getImporteIva());
 			String totalConDescuento = String.format("%.2f", factura.getTotal());
-            float [] columnasTablaFactura = {300F, 300F};
-            Table tablaFactura = new Table(columnasTablaFactura);
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL"));
-            tablaFactura.addCell(getCellFilaFactura("$" + subtotal));
+			float [] columnasTablaFactura = {300F, 300F};
+			Table tablaFactura = new Table(columnasTablaFactura);
+			tablaFactura.addCell(getCellFilaFactura("SUBTOTAL"));
+			tablaFactura.addCell(getCellFilaFactura("$" + subtotal));
 			tablaFactura.addCell(getCellFilaFactura("DESCUENTO"));
 			tablaFactura.addCell(getCellFilaFactura("$" + descuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL GRAVADO"));
-            tablaFactura.addCell(getCellFilaFactura("$" + subtotalGravadoConDescuento));
-            tablaFactura.addCell(getCellFilaFactura("SUBTOTAL NO GRAVADO"));
-            tablaFactura.addCell(getCellFilaFactura("$" + subtotalNoGravadoConDescuento));
+			tablaFactura.addCell(getCellFilaFactura("SUBTOTAL GRAVADO"));
+			tablaFactura.addCell(getCellFilaFactura("$" + subtotalGravadoConDescuento));
+			tablaFactura.addCell(getCellFilaFactura("SUBTOTAL NO GRAVADO"));
+			tablaFactura.addCell(getCellFilaFactura("$" + subtotalNoGravadoConDescuento));
 			tablaFactura.addCell(getCellFilaFactura("IVA"));
 			tablaFactura.addCell(getCellFilaFactura("$" + iva));
-            tablaFactura.addCell(getCellFilaFactura("TOTAL"));
-            tablaFactura.addCell(getCellFilaFactura("$" + totalConDescuento));
-            tablaFactura.setTextAlignment(TextAlignment.RIGHT);
+			tablaFactura.addCell(getCellFilaFactura("TOTAL"));
+			tablaFactura.addCell(getCellFilaFactura("$" + totalConDescuento));
+			tablaFactura.setTextAlignment(TextAlignment.RIGHT);
 			String telefonoCliente = Constantes.vacio;
 			String celularCliente = Constantes.vacio;
 			String correoCliente = Constantes.vacio;
@@ -611,13 +611,13 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			}
 			tablaFormaPago.setHorizontalAlignment(HorizontalAlignment.LEFT);
 			documento.add(tablaFormaPago);
-            // 5. Close document
-            documento.close();
-            return new ByteArrayInputStream(salida.toByteArray());
-        } catch(Exception e){
-            return null;
-        }
-    }
+			// 5. Close document
+			documento.close();
+			return new ByteArrayInputStream(salida.toByteArray());
+		} catch(Exception e){
+			return null;
+		}
+	}
 
 	private Cell getCellEmpresa(String text, TextAlignment alignment) {
 		Cell cell = new Cell().add(new Paragraph(text));
@@ -695,9 +695,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
 	}
-    
-    private ByteArrayInputStream crearXML(FacturaElectronica facturaElectronica) {
-    	try {
+
+	private ByteArrayInputStream crearXML(FacturaElectronica facturaElectronica) {
+		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(FacturaElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -707,53 +707,53 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			jaxbMarshaller.marshal(facturaElectronica, sw);
 			String xml=sw.toString();
 			return new ByteArrayInputStream(xml.getBytes());
-    	} catch(Exception e) {
-    		return null;
-    	}
-    }
-    
-    private void enviarCorreo(Factura factura, FacturaElectronica facturaElectronica) {
-    	try {
-	    	ByteArrayInputStream pdf = crearPDF(factura);
-	    	ByteArrayInputStream xml = crearXML(facturaElectronica);
-	    	ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf); 
-	    	ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml); 
-	        Properties props = System.getProperties();
-	        props.put(Constantes.mailSmtpHost, Constantes.valorMailSmtpHost);
-	        props.put(Constantes.mailSmtpUser, correoUsuario); 
-	        props.put(Constantes.mailSmtpClave, correoContrasena);
-	        props.put(Constantes.mailSmtpAuth, Constantes.valorMailtSmtpAuth);
-	        props.put(Constantes.mailSmtpStarttlsEnable, Constantes.valorMailtSmtpStarttlsEnable);
-	        props.put(Constantes.mailSmtpPort, Constantes.valorMailSmtpPort);
-	
-	        Session session = Session.getDefaultInstance(props);
-	        MimeMessage message = new MimeMessage(session);
-	        
-	        MimeBodyPart parte1 = new MimeBodyPart();
-	        parte1.setDataHandler(new DataHandler(pdfData));
-	        parte1.setFileName(Constantes.factura+factura.getSecuencial()+Constantes.extensionPdf);
-	        MimeBodyPart parte2 = new MimeBodyPart();
-	        parte2.setDataHandler(new DataHandler(xmlData));
-	        parte2.setFileName(Constantes.factura+factura.getSecuencial()+Constantes.extensionXml);
-	        
-	        Multipart multipart = new MimeMultipart();
-	        multipart.addBodyPart(parte1);
-	        multipart.addBodyPart(parte2);
+		} catch(Exception e) {
+			return null;
+		}
+	}
 
-            message.setFrom(new InternetAddress(correoUsuario));
-            message.addRecipients(Message.RecipientType.TO, factura.getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
-            message.setSubject(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + factura.getCodigo());
-            message.setText(Constantes.vacio);
-            message.setContent(multipart);
-            Transport transport = session.getTransport(Constantes.smtp);
-            transport.connect(Constantes.smtpGmailCom, correoUsuario, correoContrasena);
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();   //Si se produce un error
-        }
-    }
+	private void enviarCorreo(Factura factura, FacturaElectronica facturaElectronica) {
+		try {
+			ByteArrayInputStream pdf = crearPDF(factura);
+			ByteArrayInputStream xml = crearXML(facturaElectronica);
+			ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf);
+			ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml);
+			Properties props = System.getProperties();
+			props.put(Constantes.mailSmtpHost, Constantes.valorMailSmtpHost);
+			props.put(Constantes.mailSmtpUser, correoUsuario);
+			props.put(Constantes.mailSmtpClave, correoContrasena);
+			props.put(Constantes.mailSmtpAuth, Constantes.valorMailtSmtpAuth);
+			props.put(Constantes.mailSmtpStarttlsEnable, Constantes.valorMailtSmtpStarttlsEnable);
+			props.put(Constantes.mailSmtpPort, Constantes.valorMailSmtpPort);
+
+			Session session = Session.getDefaultInstance(props);
+			MimeMessage message = new MimeMessage(session);
+
+			MimeBodyPart parte1 = new MimeBodyPart();
+			parte1.setDataHandler(new DataHandler(pdfData));
+			parte1.setFileName(Constantes.factura+factura.getSecuencial()+Constantes.extensionPdf);
+			MimeBodyPart parte2 = new MimeBodyPart();
+			parte2.setDataHandler(new DataHandler(xmlData));
+			parte2.setFileName(Constantes.factura+factura.getSecuencial()+Constantes.extensionXml);
+
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(parte1);
+			multipart.addBodyPart(parte2);
+
+			message.setFrom(new InternetAddress(correoUsuario));
+			message.addRecipients(Message.RecipientType.TO, factura.getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
+			message.setSubject(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + factura.getCodigo());
+			message.setText(Constantes.vacio);
+			message.setContent(multipart);
+			Transport transport = session.getTransport(Constantes.smtp);
+			transport.connect(Constantes.smtpGmailCom, correoUsuario, correoContrasena);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();   //Si se produce un error
+		}
+	}
 
 	public ByteArrayInputStream crearTicket(Factura factura) {
 		try {

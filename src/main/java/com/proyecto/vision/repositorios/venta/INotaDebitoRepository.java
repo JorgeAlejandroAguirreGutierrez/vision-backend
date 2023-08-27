@@ -18,5 +18,7 @@ public interface INotaDebitoRepository extends JpaRepository<NotaDebito, Long>, 
     List<NotaDebito> consultarPorEmpresa(long empresaId);
     @Query(value = "select nd from NotaDebito nd where nd.empresa.id = :empresaId and nd.estadoSRI = :estadoSRI order by nd.codigo asc")
     List<NotaDebito> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI);
+    @Query(value = "select nd from NotaDebito nd where nd.factura.id != :facturaId and nd.empresa.id = :empresaId and nd.estadoSRI != :estadoSRI order by nd.codigo asc")
+    List<NotaDebito> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI);
 
 }

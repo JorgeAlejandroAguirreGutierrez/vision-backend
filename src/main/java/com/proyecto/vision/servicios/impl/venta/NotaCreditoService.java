@@ -253,10 +253,10 @@ public class NotaCreditoService implements INotaCreditoService {
     public List<NotaCredito> consultar() {
         return rep.consultar();
     }
-    
+
     @Override
     public List<NotaCredito> consultarPorEstadoSRI(String estadoSRI){
-    	return rep.consultarPorEstadoSRI(estadoSRI);
+        return rep.consultarPorEstadoSRI(estadoSRI);
     }
 
     @Override
@@ -270,8 +270,13 @@ public class NotaCreditoService implements INotaCreditoService {
     }
 
     @Override
+    public List<NotaCredito> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI){
+        return rep.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(facturaId, empresaId, estadoSRI);
+    }
+
+    @Override
     public Page<NotaCredito> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
+        return rep.findAll(pageable);
     }
 
     @Override

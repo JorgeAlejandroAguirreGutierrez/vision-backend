@@ -44,10 +44,10 @@ public class NotaCredito extends Entidad {
     private Date fecha;
     @Column(name = "fecha_autorizacion", nullable = true)
     private Date fechaAutorizacion;
-    @Column(name = "estado", nullable = true)
-    private String estado;
     @Column(name = "estado_sri", nullable = true)
     private String estadoSRI;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @Column(name = "descuento", nullable = true)
     private double descuento;
     @Column(name = "subtotal", nullable = true)

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface IFacturaCompraRepository extends JpaRepository<FacturaCompra, Long>, JpaSpecificationExecutor<FacturaCompra> {
-	@Query(value = "select fc from FacturaCompra fc order by fc.codigo desc")
+    @Query(value = "select fc from FacturaCompra fc order by fc.codigo desc")
     List<FacturaCompra> consultar();
     @Query(value = "select fc from FacturaCompra fc where fc.estado = :estado order by fc.codigo desc")
     List<FacturaCompra> consultarPorEstado(String estado);

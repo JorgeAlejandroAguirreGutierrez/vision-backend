@@ -74,7 +74,7 @@ public class FacturaCompraService implements IFacturaCompraService {
         facturaCompra.setEstado(Constantes.estadoPorPagar);
         FacturaCompra res = rep.save(facturaCompra);
         facturaCompra = obtener(facturaCompra.getId());
-        actualizarKardex(facturaCompra);
+        crearKardex(facturaCompra);
         actualizarPrecios(facturaCompra);
         res.normalizar();
         return res;
@@ -92,7 +92,12 @@ public class FacturaCompraService implements IFacturaCompraService {
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             } else{
-                throw new DatoInvalidoException(Constantes.kardex);
+                saldo = facturaCompraLinea.getCantidad();
+                costoTotal = facturaCompraLinea.getSubtotalLinea();
+                costoUnitario = facturaCompraLinea.getSubtotalLinea() / facturaCompraLinea.getCantidad();
+                costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
             TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
             TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.compra, Constantes.estadoActivo);
@@ -127,7 +132,7 @@ public class FacturaCompraService implements IFacturaCompraService {
             TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
             Kardex ultimoKardex = kardexService.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), tipoComprobante.getId(), facturaCompra.getNumeroComprobante(), facturaCompraLinea.getPosicion());
             if (ultimoKardex == null){
-                //crear kardex
+                //eliminar kardex con posicion
                 return;
             }
             Kardex penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMismaFechaYId(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), facturaCompra.getFecha(), ultimoKardex.getId());
@@ -220,10 +225,6 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
-    public List<FacturaCompra> consultarPorEmpresaYEstado(long empresaId, String estado) {
-        return rep.consultarPorEmpresaYEstado(empresaId, estado);
-    }
-    @Override
     public List<FacturaCompra> consultarPorEmpresaYProveedorYEstado(long empresaId, long proveedorId, String estado){
         return rep.consultarPorEmpresaYProveedorYEstado(empresaId, proveedorId, estado);
     }
@@ -233,7 +234,10 @@ public class FacturaCompraService implements IFacturaCompraService {
         return rep.consultarPorEmpresaYProveedorYEstadoDiferente(empresaId, proveedorId, estado);
     }
 
-
+    @Override
+    public List<FacturaCompra> consultarPorEmpresaYEstado(long empresaId, String estado) {
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
+    }
 
     /*
      * CALCULOS CON FACTURA COMPRA LINEAS
@@ -393,6 +397,6 @@ public class FacturaCompraService implements IFacturaCompraService {
             facturada.normalizar();
             return facturada;
         }
-        throw new ErrorInternoException();
+        throw new ErrorInternoException(Constantes.vacio);
     }
 }

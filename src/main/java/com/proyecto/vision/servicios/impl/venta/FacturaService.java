@@ -5,22 +5,26 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.cliente.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
-import com.proyecto.vision.modelos.inventario.Precio;
+import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.modelos.recaudacion.*;
+import com.proyecto.vision.modelos.venta.NotaCredito;
+import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.repositorios.cliente.IClienteBaseRepository;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
 import com.proyecto.vision.servicios.interf.cliente.IClienteService;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
-import com.proyecto.vision.servicios.interf.inventario.IPrecioService;
+import com.proyecto.vision.servicios.interf.entrega.IGuiaRemisionService;
 import com.proyecto.vision.servicios.interf.inventario.ITipoOperacionService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
 import com.proyecto.vision.servicios.interf.inventario.IKardexService;
+import com.proyecto.vision.servicios.interf.venta.INotaCreditoService;
+import com.proyecto.vision.servicios.interf.venta.INotaDebitoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +32,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +43,6 @@ public class FacturaService implements IFacturaService {
     @Autowired
     private IKardexService kardexService;
     @Autowired
-    private IPrecioService precioService;
-    @Autowired
     private ITipoComprobanteService tipoComprobanteService;
     @Autowired
     private ITipoOperacionService tipoOperacionService;
@@ -49,6 +52,12 @@ public class FacturaService implements IFacturaService {
     private IClienteBaseRepository repClienteBase;
     @Autowired
     private IClienteService clienteService;
+    @Autowired
+    private INotaDebitoService notaDebitoService;
+    @Autowired
+    private INotaCreditoService notaCreditoService;
+    @Autowired
+    private IGuiaRemisionService guiaRemisionService;
 
     @Override
     public void validar(Factura factura) {
@@ -113,26 +122,25 @@ public class FacturaService implements IFacturaService {
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
         factura.setTipoComprobante(tipoComprobante);
         Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_factura,factura.getEmpresa().getId());
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
-    	factura.setCodigo(codigo.get());
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
+        factura.setCodigo(codigo.get());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(factura.getTipoComprobante().getId(),
                 factura.getSesion().getUsuario().getEstacion().getId(), factura.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
-    	factura.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
+        factura.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         factura.setNumeroComprobante(factura.getEstablecimiento() + Constantes.guion + factura.getPuntoVenta() + Constantes.guion + factura.getSecuencial());
-    	factura.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
-    	Optional<String> claveAcceso = crearClaveAcceso(factura);
-    	if (claveAcceso.isEmpty()) {
-    		throw new ClaveAccesoNoExistenteException();
-    	}
-    	factura.setClaveAcceso(claveAcceso.get());
-    	factura.setEstado(Constantes.estadoEmitida);
-    	factura.setEstadoSRI(Constantes.estadoSRIPendiente);
+        factura.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
+        Optional<String> claveAcceso = crearClaveAcceso(factura);
+        if (claveAcceso.isEmpty()) {
+            throw new ClaveAccesoNoExistenteException();
+        }
+        factura.setClaveAcceso(claveAcceso.get());
+        factura.setEstado(Constantes.estadoEmitida);
+        factura.setEstadoSRI(Constantes.estadoSRIPendiente);
         calcular(factura);
-        //calcularRecaudacion(factura);
+        calcularRecaudacion(factura);
         crearKardex(factura);
-        actualizarPrecios(factura);
         Factura res = rep.save(factura);
         res.normalizar();
         secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
@@ -185,7 +193,6 @@ public class FacturaService implements IFacturaService {
                     }
                     saldo = ultimoKardex.getSaldo() - facturaLinea.getCantidad();
                     costoTotal = ultimoKardex.getCostoTotal() - (facturaLinea.getCantidad() * ultimoKardex.getCostoPromedio());
-                    costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
                     costoUnitario = ultimoKardex.getCostoPromedio();
                     costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
                     costoPromedio = costoTotal / saldo;
@@ -210,7 +217,7 @@ public class FacturaService implements IFacturaService {
     public Factura actualizar(Factura factura) {
         validar(factura);
         calcular(factura);
-        //calcularRecaudacion(factura);
+        calcularRecaudacion(factura);
         if(factura.getTotalRecaudacion() != factura.getTotal()){
             factura.setEstado(Constantes.estadoEmitida);
         }
@@ -218,74 +225,61 @@ public class FacturaService implements IFacturaService {
             factura.setEstado(Constantes.estadoRecaudada);
         }
         Factura res = rep.save(factura);
-        factura = obtener(factura.getId());
         actualizarKardex(factura);
-        actualizarPrecios(factura);
         res.normalizar();
         return res;
     }
     private void actualizarKardex(Factura factura) {
         for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
-            TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
-            Kardex ultimoKardex = kardexService.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), tipoComprobante.getId(), factura.getNumeroComprobante(), facturaLinea.getPosicion());
-            if (ultimoKardex == null){
-                //eliminar kardex con posicion
-                return;
+            int ultimoIndiceKardex = facturaLinea.getProducto().getKardexs().size() - 1;
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId());
+            double saldo = Constantes.cero;
+            double costoTotal = Constantes.cero;
+            double costoUnitario = Constantes.cero;
+            double costoPromedio = Constantes.cero;
+            if (ultimoIndiceKardex > Constantes.cero) {
+                saldo = facturaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getSaldo() - facturaLinea.getCantidad();
+                costoUnitario = facturaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoPromedio();
+                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+                costoTotal = facturaLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoTotal() - (costoUnitario * facturaLinea.getCantidad());
+                costoTotal = Math.round(costoTotal * 100.0) / 100.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
-            Kardex penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMismaFechaYId(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), factura.getFecha(), ultimoKardex.getId());
-            if (penultimoKardex == null){
-                penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMenorFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), factura.getFecha());
-            }
-            double saldo, costoTotal, costoUnitario, costoPromedio;
-
-            saldo = penultimoKardex.getSaldo() - facturaLinea.getCantidad();
-            costoTotal = penultimoKardex.getCostoTotal() - (facturaLinea.getCantidad() * penultimoKardex.getCostoPromedio());
-            costoUnitario = penultimoKardex.getCostoPromedio();
-            costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
-            costoPromedio = costoTotal / saldo;
-            costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
-
             ultimoKardex.setFecha(factura.getFecha());
-            ultimoKardex.setSalida(facturaLinea.getCantidad());
+            ultimoKardex.setEntrada(facturaLinea.getCantidad());
             ultimoKardex.setSaldo(saldo);
-            ultimoKardex.setHaber(costoUnitario);
+            ultimoKardex.setDebe(costoUnitario);
             ultimoKardex.setCostoPromedio(costoPromedio);
             ultimoKardex.setCostoTotal(costoTotal);
             kardexService.actualizar(ultimoKardex);
-
-            Calendar c = Calendar.getInstance();
-            c.setTime(factura.getFecha());
-            c.add(c.DAY_OF_YEAR, -1);
-            kardexService.recalcularPorProductoYBodegaYFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), c.getTime());
-        }
-    }
-
-    private void actualizarPrecios(Factura factura) {
-        for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId());
-            for (Precio precio : facturaLinea.getProducto().getPrecios()) {
-                precio.setCosto(ultimoKardex.getCostoPromedio());
-                double precioSinIva = ultimoKardex.getCostoPromedio() + (ultimoKardex.getCostoPromedio() * precio.getMargenGanancia() / 100);
-                precioSinIva = Math.round(precioSinIva * 10000.0) / 10000.0;
-                precio.setPrecioSinIva(precioSinIva);
-                double pvp = precioSinIva + (precioSinIva * precio.getProducto().getImpuesto().getPorcentaje() / 100);
-                pvp = Math.round(pvp * 100.0) / 100.0;
-                precio.setPrecioVentaPublico(pvp);
-                //precio.setPrecioVentaPublicoManual(pvp);
-                double utilidad = precioSinIva - ultimoKardex.getCostoPromedio();
-                utilidad = Math.round(utilidad * 10000.0) / 10000.0;
-                precio.setUtilidad(utilidad);
-                precio.setUtilidadPorcentaje(precio.getMargenGanancia());
-                precioService.actualizar(precio);
-            }
         }
     }
 
     @Override
     public Factura anular(Factura factura) {
         validar(factura);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        Date fechaCierreCaja = calendar.getTime();
+        if(factura.getFecha().after(fechaCierreCaja)){
+            throw new ErrorInternoException(Constantes.mensaje_error_cierre_caja);
+        }
+        List<NotaDebito> notasDebitos = notaDebitoService.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoSRIAnulada);
+        if(!notasDebitos.isEmpty()){
+            throw new ErrorInternoException(Constantes.mensaje_error_nota_debito_existente);
+        }
+        List<NotaCredito> notasCreditos = notaCreditoService.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoSRIAnulada);
+        if(!notasCreditos.isEmpty()){
+            throw new ErrorInternoException(Constantes.mensaje_error_nota_credito_existente);
+        }
+        List<GuiaRemision> guiasRemisiones = guiaRemisionService.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoSRIAnulada);
+        if(!guiasRemisiones.isEmpty()){
+            throw new ErrorInternoException(Constantes.mensaje_error_guia_remision_existente);
+        }
         factura.setEstado(Constantes.estadoAnulada);
-        factura.setEstadoSRI(Constantes.estadoActivo);
+        factura.setEstadoSRI(Constantes.estadoSRIAnulada);
         Factura res = rep.save(factura);
         res.normalizar();
         return res;
@@ -295,7 +289,7 @@ public class FacturaService implements IFacturaService {
     public Factura obtener(long id) {
         Optional<Factura> factura = rep.findById(id);
         if(factura.isPresent()) {
-        	Factura res = factura.get();
+            Factura res = factura.get();
             res.normalizar();
             return res;
         }
@@ -323,10 +317,10 @@ public class FacturaService implements IFacturaService {
     public List<Factura> consultar() {
         return rep.consultar();
     }
-    
+
     @Override
     public List<Factura> consultarPorEstadoSRI(String estadoSRI){
-    	return rep.consultarPorEstadoSRI(estadoSRI);
+        return rep.consultarPorEstadoSRI(estadoSRI);
     }
 
     @Override
@@ -345,8 +339,13 @@ public class FacturaService implements IFacturaService {
     }
 
     @Override
-    public List<Factura> consultarPorClienteYEmpresaYEstadoSRI(long empresaId, long facturaId, String estadoSRI) {
-        return rep.consultarPorClienteYEmpresaYEstadoSRI(empresaId, facturaId, estadoSRI);
+    public List<Factura> consultarPorClienteYEmpresaYEstado(long empresaId, long facturaId, String estado) {
+        return rep.consultarPorClienteYEmpresaYEstado(empresaId, facturaId, estado);
+    }
+
+    @Override
+    public List<Factura> consultarPorClienteYEmpresaYEstadoSRI(long clienteId, long empresaId, String estadoSRI) {
+        return rep.consultarPorClienteYEmpresaYEstadoSRI(clienteId, empresaId, estadoSRI);
     }
 
     @Override
@@ -356,7 +355,7 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public Page<Factura> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
+        return rep.findAll(pageable);
     }
 
     /*
@@ -428,9 +427,9 @@ public class FacturaService implements IFacturaService {
      * CALCULOS TOTALES FACTURA DE VENTA
      */
     private void calcularSubtotal(Factura factura) {
-    	double subtotal = Constantes.cero;
+        double subtotal = Constantes.cero;
         for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
-          subtotal += facturaLinea.getSubtotalLineaSinDescuento();
+            subtotal += facturaLinea.getSubtotalLineaSinDescuento();
         }
         subtotal = Math.round(subtotal * 10000.0) / 10000.0;
         factura.setSubtotal(subtotal);

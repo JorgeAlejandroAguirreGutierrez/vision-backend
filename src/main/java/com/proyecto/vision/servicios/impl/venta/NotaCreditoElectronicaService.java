@@ -71,41 +71,41 @@ import java.util.*;
 
 @Service
 public class NotaCreditoElectronicaService implements INotaCreditoElectronicaService {
-    @Autowired
-    private INotaCreditoRepository rep;
+	@Autowired
+	private INotaCreditoRepository rep;
 
 	@Autowired
 	private IEmpresaService empresaService;
-    
-    @Value("${prefijo.url.imagenes}")
-    private String imagenes;
-    
-    @Value("${correo.usuario}")
-    private String correoUsuario;
-    
-    @Value("${correo.contrasena}")
-    private String correoContrasena;
 
-    
-    private NotaCreditoElectronica crear(NotaCredito notaCredito) {
-    	//MAPEO A FACTURA ELECTRONICA
+	@Value("${prefijo.url.imagenes}")
+	private String imagenes;
+
+	@Value("${correo.usuario}")
+	private String correoUsuario;
+
+	@Value("${correo.contrasena}")
+	private String correoContrasena;
+
+
+	private NotaCreditoElectronica crear(NotaCredito notaCredito) {
+		//MAPEO A FACTURA ELECTRONICA
 		NotaCreditoElectronica notaCreditoElectronica = new NotaCreditoElectronica();
-    	InfoTributaria infoTributaria = new InfoTributaria();
-    	  	
-    	infoTributaria.setAmbiente(Constantes.pruebas_sri);
-    	infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
-    	infoTributaria.setRazonSocial(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
-    	infoTributaria.setNombreComercial(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
-    	infoTributaria.setRuc(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
-    	infoTributaria.setClaveAcceso(notaCredito.getClaveAcceso());
-    	infoTributaria.setCodDoc(Constantes.nota_de_credito_sri);
-    	infoTributaria.setEstab(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
-    	infoTributaria.setPtoEmi(notaCredito.getSesion().getUsuario().getEstacion().getCodigoSRI());
-    	infoTributaria.setSecuencial(notaCredito.getSecuencial());
-    	infoTributaria.setDirMatriz(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
-    	
-    	DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
-    	String fechaEmision = dateFormat.format(notaCredito.getFecha());
+		InfoTributaria infoTributaria = new InfoTributaria();
+
+		infoTributaria.setAmbiente(Constantes.pruebas_sri);
+		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
+		infoTributaria.setRazonSocial(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+		infoTributaria.setNombreComercial(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+		infoTributaria.setRuc(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
+		infoTributaria.setClaveAcceso(notaCredito.getClaveAcceso());
+		infoTributaria.setCodDoc(Constantes.nota_de_credito_sri);
+		infoTributaria.setEstab(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
+		infoTributaria.setPtoEmi(notaCredito.getSesion().getUsuario().getEstacion().getCodigoSRI());
+		infoTributaria.setSecuencial(notaCredito.getSecuencial());
+		infoTributaria.setDirMatriz(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
+
+		DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
+		String fechaEmision = dateFormat.format(notaCredito.getFecha());
 		InfoNotaCredito infoNotaCredito = new InfoNotaCredito();
 		infoNotaCredito.setFechaEmision(fechaEmision);
 		infoNotaCredito.setDirEstablecimiento(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
@@ -123,61 +123,61 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		infoNotaCredito.setMoneda(Constantes.moneda);
 		infoNotaCredito.setTotalConImpuestos(crearTotalConImpuestos(notaCredito));
 		infoNotaCredito.setMotivo(notaCredito.getOperacion());
-    	Detalles detalles=crearDetalles(notaCredito);
+		Detalles detalles=crearDetalles(notaCredito);
 		InfoAdicional infoAdicional = crearInfoAdicional(notaCredito);
 		notaCreditoElectronica.setInfoTributaria(infoTributaria);
 		notaCreditoElectronica.setInfoNotaCredito(infoNotaCredito);
 		notaCreditoElectronica.setDetalles(detalles);
 		notaCreditoElectronica.setInfoAdicional(infoAdicional);
-    	return notaCreditoElectronica;
-    }
+		return notaCreditoElectronica;
+	}
 
-    private TotalConImpuestos crearTotalConImpuestos(NotaCredito notaCredito){
-    	TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
-    	List<TotalImpuesto> totalImpuestos = new ArrayList<>();
-    	for(NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
-        	TotalImpuesto totalImpuesto = new TotalImpuesto();
-    		totalImpuesto.setCodigo(Constantes.iva_sri);
-        	totalImpuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
-        	totalImpuesto.setBaseImponible(notaCreditoLinea.getTotalLinea());
-        	totalImpuesto.setValor(notaCreditoLinea.getImporteIvaLinea());
-        	totalImpuestos.add(totalImpuesto);
-    	}
-    	totalConImpuestos.setTotalImpuesto(totalImpuestos);
-    	return totalConImpuestos;
-    }
+	private TotalConImpuestos crearTotalConImpuestos(NotaCredito notaCredito){
+		TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
+		List<TotalImpuesto> totalImpuestos = new ArrayList<>();
+		for(NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
+			totalImpuesto.setBaseImponible(notaCreditoLinea.getTotalLinea());
+			totalImpuesto.setValor(notaCreditoLinea.getImporteIvaLinea());
+			totalImpuestos.add(totalImpuesto);
+		}
+		totalConImpuestos.setTotalImpuesto(totalImpuestos);
+		return totalConImpuestos;
+	}
 
-    private Detalles crearDetalles(NotaCredito notaCredito) {
-    	Detalles detalles=new Detalles();
-    	List<Detalle> detalleLista = new ArrayList<>();
-    	for(NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
-    		Detalle detalle = new Detalle();
-    		detalle.setCodigoInterno(notaCreditoLinea.getProducto().getCodigo());
-    		detalle.setDescripcion(notaCreditoLinea.getProducto().getNombre());
-    		detalle.setCantidad(notaCreditoLinea.getCantidad());
-    		detalle.setPrecioUnitario(Math.round(notaCreditoLinea.getCostoUnitario()*100.0)/100.0);
-    		detalle.setDescuento(notaCreditoLinea.getCostoUnitario());
-    		detalle.setPrecioTotalSinImpuesto(notaCreditoLinea.getTotalLinea());
-    		detalle.setImpuestos(crearImpuestos(notaCreditoLinea));
-    		detalleLista.add(detalle);
-    	}
-    	detalles.setDetalle(detalleLista);
-    	return detalles;
-    }
-    
-    private Impuestos crearImpuestos(NotaCreditoLinea notaCreditoLinea) {
-    	Impuestos impuestos=new Impuestos();
-    	List<Impuesto> impuestoLista = new ArrayList<>();
-    	Impuesto impuesto=new Impuesto();
-    	impuesto.setCodigo(Constantes.iva_sri);
-    	impuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
-    	impuesto.setTarifa(notaCreditoLinea.getImpuesto().getPorcentaje());
-    	impuesto.setBaseImponible(notaCreditoLinea.getSubtotalLinea());
-    	impuesto.setValor(notaCreditoLinea.getImporteIvaLinea());
-    	impuestoLista.add(impuesto);
-    	impuestos.setImpuesto(impuestoLista);
-    	return impuestos;
-    }
+	private Detalles crearDetalles(NotaCredito notaCredito) {
+		Detalles detalles=new Detalles();
+		List<Detalle> detalleLista = new ArrayList<>();
+		for(NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
+			Detalle detalle = new Detalle();
+			detalle.setCodigoInterno(notaCreditoLinea.getProducto().getCodigo());
+			detalle.setDescripcion(notaCreditoLinea.getProducto().getNombre());
+			detalle.setCantidad(notaCreditoLinea.getCantidad());
+			detalle.setPrecioUnitario(Math.round(notaCreditoLinea.getCostoUnitario()*100.0)/100.0);
+			detalle.setDescuento(notaCreditoLinea.getCostoUnitario());
+			detalle.setPrecioTotalSinImpuesto(notaCreditoLinea.getTotalLinea());
+			detalle.setImpuestos(crearImpuestos(notaCreditoLinea));
+			detalleLista.add(detalle);
+		}
+		detalles.setDetalle(detalleLista);
+		return detalles;
+	}
+
+	private Impuestos crearImpuestos(NotaCreditoLinea notaCreditoLinea) {
+		Impuestos impuestos=new Impuestos();
+		List<Impuesto> impuestoLista = new ArrayList<>();
+		Impuesto impuesto=new Impuesto();
+		impuesto.setCodigo(Constantes.iva_sri);
+		impuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
+		impuesto.setTarifa(notaCreditoLinea.getImpuesto().getPorcentaje());
+		impuesto.setBaseImponible(notaCreditoLinea.getSubtotalLinea());
+		impuesto.setValor(notaCreditoLinea.getImporteIvaLinea());
+		impuestoLista.add(impuesto);
+		impuestos.setImpuesto(impuestoLista);
+		return impuestos;
+	}
 
 	private InfoAdicional crearInfoAdicional(NotaCredito notaCredito) {
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
@@ -254,42 +254,42 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		facturada.normalizar();
 		return facturada;
 	}
-    
-    private List<String> recepcion(NotaCreditoElectronica notaCreditoElectronica, String certificado, String contrasena) {
-    	try {
-    		JAXBContext jaxbContext = JAXBContext.newInstance(NotaCreditoElectronica.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
-            jaxbMarshaller.marshal(notaCreditoElectronica, System.out);
-            StringWriter sw = new StringWriter();
-            jaxbMarshaller.marshal(notaCreditoElectronica, sw);
-            String xml=sw.toString();
+
+	private List<String> recepcion(NotaCreditoElectronica notaCreditoElectronica, String certificado, String contrasena) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(NotaCreditoElectronica.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
+			jaxbMarshaller.marshal(notaCreditoElectronica, System.out);
+			StringWriter sw = new StringWriter();
+			jaxbMarshaller.marshal(notaCreditoElectronica, sw);
+			String xml=sw.toString();
 			Path path = Paths.get(Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
-            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
-            String encode=Base64.getEncoder().encodeToString(firmado);
-            String body=Util.soapFacturacionEletronica(encode);
-            System.out.println(body);
-            HttpClient httpClient = HttpClient.newBuilder()
-                    .version(HttpClient.Version.HTTP_1_1)
-                    .connectTimeout(Duration.ofSeconds(10))
-                    .build();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .POST(BodyPublishers.ofString(body))
-                    .uri(URI.create(Constantes.urlFacturacionEletronicaSri))
-                    .setHeader(Constantes.contentType, Constantes.contenTypeValor)
-                    .build();
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            // print response headers
-            HttpHeaders headers = response.headers();
-            headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
-            // print status code
-            System.out.println(response.statusCode());
-            // print response body
-            System.out.println(response.body());
-            JSONObject json=Util.convertirXmlJson(response.body());
+			byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
+			String encode=Base64.getEncoder().encodeToString(firmado);
+			String body=Util.soapFacturacionEletronica(encode);
+			System.out.println(body);
+			HttpClient httpClient = HttpClient.newBuilder()
+					.version(HttpClient.Version.HTTP_1_1)
+					.connectTimeout(Duration.ofSeconds(10))
+					.build();
+			HttpRequest request = HttpRequest.newBuilder()
+					.POST(BodyPublishers.ofString(body))
+					.uri(URI.create(Constantes.urlFacturacionEletronicaSri))
+					.setHeader(Constantes.contentType, Constantes.contenTypeValor)
+					.build();
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+			// print response headers
+			HttpHeaders headers = response.headers();
+			headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
+			// print status code
+			System.out.println(response.statusCode());
+			// print response body
+			System.out.println(response.body());
+			JSONObject json=Util.convertirXmlJson(response.body());
 			List<String> resultado = new ArrayList<>();
 			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
 			resultado.add(estado);
@@ -308,11 +308,11 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 				resultado.add(informacionAdicional);
 			}
 			return resultado;
-        } catch (JAXBException ex) {
-            System.err.println(ex.getMessage());                        
-        } catch (IOException ex) {
+		} catch (JAXBException ex) {
+			System.err.println(ex.getMessage());
+		} catch (IOException ex) {
 			// TODO Auto-generated catch block
-        	System.err.println(ex.getMessage());   
+			System.err.println(ex.getMessage());
 		} catch (InterruptedException ex) {
 			// TODO Auto-generated catch block
 			System.err.println(ex.getMessage());
@@ -321,7 +321,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			e.printStackTrace();
 		}
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
-    }
+	}
 
 	public List<String> autorizacion(NotaCreditoElectronica notaCreditoElectronica){
 		try {
@@ -580,9 +580,9 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		cell.setBorder(Border.NO_BORDER);
 		return cell;
 	}
-    
-    private ByteArrayInputStream crearXML(NotaCreditoElectronica notaCreditoElectronica) {
-    	try {
+
+	private ByteArrayInputStream crearXML(NotaCreditoElectronica notaCreditoElectronica) {
+		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(NotaCreditoElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -592,53 +592,53 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			jaxbMarshaller.marshal(notaCreditoElectronica, sw);
 			String xml=sw.toString();
 			return new ByteArrayInputStream(xml.getBytes());
-    	} catch(Exception e) {
-    		return null;
-    	}
-    }
-    
-    private void enviarCorreo(NotaCredito notaCredito, NotaCreditoElectronica notaCreditoElectronica) {
-    	try {
-	    	ByteArrayInputStream pdf = crearPDF(notaCredito);
-	    	ByteArrayInputStream xml = crearXML(notaCreditoElectronica);
-	    	ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf); 
-	    	ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml); 
-	        Properties props = System.getProperties();
-	        props.put(Constantes.mailSmtpHost, Constantes.valorMailSmtpHost);
-	        props.put(Constantes.mailSmtpUser, correoUsuario); 
-	        props.put(Constantes.mailSmtpClave, correoContrasena);
-	        props.put(Constantes.mailSmtpAuth, Constantes.valorMailtSmtpAuth);
-	        props.put(Constantes.mailSmtpStarttlsEnable, Constantes.valorMailtSmtpStarttlsEnable);
-	        props.put(Constantes.mailSmtpPort, Constantes.valorMailSmtpPort);
-	
-	        Session session = Session.getDefaultInstance(props);
-	        MimeMessage message = new MimeMessage(session);
-	        
-	        MimeBodyPart parte1 = new MimeBodyPart();
-	        parte1.setDataHandler(new DataHandler(pdfData));
-	        parte1.setFileName(Constantes.nota_credito + notaCredito.getSecuencial()+Constantes.extensionPdf);
-	        MimeBodyPart parte2 = new MimeBodyPart();
-	        parte2.setDataHandler(new DataHandler(xmlData));
-	        parte2.setFileName(Constantes.nota_credito + notaCredito.getSecuencial()+Constantes.extensionXml);
-	        
-	        Multipart multipart = new MimeMultipart();
-	        multipart.addBodyPart(parte1);
-	        multipart.addBodyPart(parte2);
+		} catch(Exception e) {
+			return null;
+		}
+	}
 
-            message.setFrom(new InternetAddress(correoUsuario));
-            message.addRecipients(Message.RecipientType.TO, notaCredito.getFactura().getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
-            message.setSubject(notaCredito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + notaCredito.getCodigo());
-            message.setText(Constantes.vacio);
-            message.setContent(multipart);
-            Transport transport = session.getTransport(Constantes.smtp);
-            transport.connect(Constantes.smtpGmailCom, correoUsuario, correoContrasena);
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();   //Si se produce un error
-        }
-    }
+	private void enviarCorreo(NotaCredito notaCredito, NotaCreditoElectronica notaCreditoElectronica) {
+		try {
+			ByteArrayInputStream pdf = crearPDF(notaCredito);
+			ByteArrayInputStream xml = crearXML(notaCreditoElectronica);
+			ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf);
+			ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml);
+			Properties props = System.getProperties();
+			props.put(Constantes.mailSmtpHost, Constantes.valorMailSmtpHost);
+			props.put(Constantes.mailSmtpUser, correoUsuario);
+			props.put(Constantes.mailSmtpClave, correoContrasena);
+			props.put(Constantes.mailSmtpAuth, Constantes.valorMailtSmtpAuth);
+			props.put(Constantes.mailSmtpStarttlsEnable, Constantes.valorMailtSmtpStarttlsEnable);
+			props.put(Constantes.mailSmtpPort, Constantes.valorMailSmtpPort);
+
+			Session session = Session.getDefaultInstance(props);
+			MimeMessage message = new MimeMessage(session);
+
+			MimeBodyPart parte1 = new MimeBodyPart();
+			parte1.setDataHandler(new DataHandler(pdfData));
+			parte1.setFileName(Constantes.nota_credito + notaCredito.getSecuencial()+Constantes.extensionPdf);
+			MimeBodyPart parte2 = new MimeBodyPart();
+			parte2.setDataHandler(new DataHandler(xmlData));
+			parte2.setFileName(Constantes.nota_credito + notaCredito.getSecuencial()+Constantes.extensionXml);
+
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(parte1);
+			multipart.addBodyPart(parte2);
+
+			message.setFrom(new InternetAddress(correoUsuario));
+			message.addRecipients(Message.RecipientType.TO, notaCredito.getFactura().getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
+			message.setSubject(notaCredito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + notaCredito.getCodigo());
+			message.setText(Constantes.vacio);
+			message.setContent(multipart);
+			Transport transport = session.getTransport(Constantes.smtp);
+			transport.connect(Constantes.smtpGmailCom, correoUsuario, correoContrasena);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();   //Si se produce un error
+		}
+	}
 
 	@Override
 	public ByteArrayInputStream obtenerPDF(long notaCreditoVentaId){

@@ -118,7 +118,7 @@ public class FacturaCompraController {
     @GetMapping(value = "/pagar/{facturaCompraId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> pagar(@PathVariable("facturaCompraId") long facturaCompraId) {
         FacturaCompra facturasCompra = servicio.pagar(facturaCompraId);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_pagar_exitoso, facturasCompra);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_actualizar_exitoso, facturasCompra);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }
