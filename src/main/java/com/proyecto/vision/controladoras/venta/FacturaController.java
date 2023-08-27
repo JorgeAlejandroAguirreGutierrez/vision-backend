@@ -53,14 +53,14 @@ public class FacturaController implements GenericoController<Factura> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_recaudacion_exitosa, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
+
     @PatchMapping(value = "/anular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> anular(@RequestBody Factura _factura) {
-    	Factura factura = servicio.anular(_factura);
+        Factura factura = servicio.anular(_factura);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_anular_exitoso, factura);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
+
     @PostMapping(value = "/calcular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> calcular(@RequestBody Factura _factura) {
         Factura factura=servicio.calcular(_factura);

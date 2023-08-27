@@ -43,8 +43,8 @@ public class Factura extends Entidad {
 	private String claveAcceso;
 	@Column(name = "fecha_autorizacion", nullable = true)
 	private Date fechaAutorizacion;
-	@Column(name = "estado", nullable = true)
-	private String estado;
+	@Column(name = "proceso", nullable = true)
+	private String proceso;
 	@Column(name = "estado_sri", nullable = true)
 	private String estadoSRI;
 	@Column(name = "valor_descuento_total", nullable = true)
@@ -150,7 +150,7 @@ public class Factura extends Entidad {
 		this.claveAcceso = Constantes.vacio;
 		this.fechaAutorizacion = null;
 		this.estadoSRI = Constantes.vacio;
-		this.estado = Constantes.vacio;
+		this.proceso = Constantes.vacio;
 
 		this.valorDescuentoTotal = Constantes.cero;
 		this.porcentajeDescuentoTotal = Constantes.cero;

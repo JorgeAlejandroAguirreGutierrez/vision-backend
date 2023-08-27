@@ -62,8 +62,8 @@ public class GuiaRemision extends Entidad {
     private String correoDestinatario;
     @Column(name = "opcion_guia", nullable = true)
     private String opcionGuia;
-    @Column(name = "estado", nullable = true)
-    private String estado;
+    @Column(name = "proceso", nullable = true)
+    private String proceso;
     @Column(name = "estado_sri", nullable = true)
     private String estadoSRI;
     @ManyToOne
@@ -106,7 +106,7 @@ public class GuiaRemision extends Entidad {
         this.celularDestinatario = Constantes.vacio;
         this.correoDestinatario = Constantes.vacio;
         this.opcionGuia = Constantes.vacio;
-        this.estado = Constantes.vacio;
+        this.proceso = Constantes.vacio;
         this.estadoSRI =  Constantes.vacio;
     }
 

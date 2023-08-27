@@ -71,7 +71,7 @@ public class FacturaCompraService implements IFacturaCompraService {
         facturaCompra.setCodigo(codigo.get());
         crearKardex(facturaCompra);
         actualizarPrecios(facturaCompra);
-        facturaCompra.setEstado(Constantes.estadoPorPagar);
+        facturaCompra.setProceso(Constantes.procesoPorPagar);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -89,7 +89,12 @@ public class FacturaCompraService implements IFacturaCompraService {
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             } else{
-                throw new DatoInvalidoException(Constantes.kardex);
+                saldo = facturaCompraLinea.getCantidad();
+                costoTotal = facturaCompraLinea.getSubtotalLinea();
+                costoUnitario = facturaCompraLinea.getSubtotalLinea() / facturaCompraLinea.getCantidad();
+                costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
             TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
             TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.compra, Constantes.estadoActivo);
@@ -124,7 +129,7 @@ public class FacturaCompraService implements IFacturaCompraService {
             TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
             Kardex ultimoKardex = kardexService.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), tipoComprobante.getId(), facturaCompra.getNumeroComprobante(), facturaCompraLinea.getPosicion());
             if (ultimoKardex == null){
-                //crear kardex
+                //eliminar kardex con posicion
                 return;
             }
             Kardex penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMismaFechaYId(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), facturaCompra.getFecha(), ultimoKardex.getId());
@@ -179,7 +184,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     @Override
     public FacturaCompra anular(FacturaCompra facturaCompra) {
         validar(facturaCompra);
-        facturaCompra.setEstado(Constantes.estadoAnulada);
+        facturaCompra.setProceso(Constantes.procesoAnulada);
         FacturaCompra res = rep.save(facturaCompra);
         res.normalizar();
         return res;
@@ -202,8 +207,8 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
-    public List<FacturaCompra> consultarPorEstado(String estado) {
-        return rep.consultarPorEstado(estado);
+    public List<FacturaCompra> consultarPorProceso(String proceso) {
+        return rep.consultarPorProceso(proceso);
     }
 
     @Override
@@ -217,20 +222,14 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
-    public List<FacturaCompra> consultarPorEmpresaYEstado(long empresaId, String estado) {
-        return rep.consultarPorEmpresaYEstado(empresaId, estado);
-    }
-    @Override
-    public List<FacturaCompra> consultarPorEmpresaYProveedorYEstado(long empresaId, long proveedorId, String estado){
-        return rep.consultarPorEmpresaYProveedorYEstado(empresaId, proveedorId, estado);
+    public List<FacturaCompra> consultarPorEmpresaYProveedorYProceso(long empresaId, long proveedorId, String proceso){
+        return rep.consultarPorEmpresaYProveedorYProceso(empresaId, proveedorId, proceso);
     }
 
     @Override
-    public List<FacturaCompra> consultarPorEmpresaYProveedorYEstadoDiferente(long empresaId, long proveedorId, String estado){
-        return rep.consultarPorEmpresaYProveedorYEstadoDiferente(empresaId, proveedorId, estado);
+    public List<FacturaCompra> consultarPorEmpresaYProceso(long empresaId, String proceso) {
+        return rep.consultarPorEmpresaYProceso(empresaId, proceso);
     }
-
-
 
     /*
      * CALCULOS CON FACTURA COMPRA LINEAS
@@ -380,12 +379,12 @@ public class FacturaCompraService implements IFacturaCompraService {
         }
         FacturaCompra facturaCompra = optional.get();
         validar(facturaCompra);
-        if(facturaCompra.getEstado().equals(Constantes.estadoAnulada))
-            throw new EstadoInvalidoException(Constantes.estadoAnulada);
-        if(facturaCompra.getEstado().equals(Constantes.estadoPagada))
-            throw new EstadoInvalidoException(Constantes.estadoPagada);
-        if(facturaCompra.getEstado().equals(Constantes.estadoPorPagar)){
-            facturaCompra.setEstado(Constantes.estadoPagada);
+        if(facturaCompra.getProceso().equals(Constantes.procesoAnulada))
+            throw new EstadoInvalidoException(Constantes.procesoAnulada);
+        if(facturaCompra.getProceso().equals(Constantes.procesoPagada))
+            throw new EstadoInvalidoException(Constantes.procesoPagada);
+        if(facturaCompra.getProceso().equals(Constantes.procesoPorPagar)){
+            facturaCompra.setProceso(Constantes.procesoPagada);
             FacturaCompra facturada = rep.save(facturaCompra);
             facturada.normalizar();
             return facturada;

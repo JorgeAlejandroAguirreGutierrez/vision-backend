@@ -73,38 +73,38 @@ import java.util.*;
 
 @Service
 public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaService {
-    @Autowired
-    private IGuiaRemisionRepository rep;
+	@Autowired
+	private IGuiaRemisionRepository rep;
 
 	@Autowired
 	private IEmpresaService empresaService;
-    
-    @Value("${prefijo.url.imagenes}")
-    private String imagenes;
-    
-    @Value("${correo.usuario}")
-    private String correoUsuario;
-    
-    @Value("${correo.contrasena}")
-    private String correoContrasena;
 
-    
-    private GuiaRemisionElectronica crear(GuiaRemision guiaRemision) {
-    	//MAPEO A FACTURA ELECTRONICA
+	@Value("${prefijo.url.imagenes}")
+	private String imagenes;
+
+	@Value("${correo.usuario}")
+	private String correoUsuario;
+
+	@Value("${correo.contrasena}")
+	private String correoContrasena;
+
+
+	private GuiaRemisionElectronica crear(GuiaRemision guiaRemision) {
+		//MAPEO A FACTURA ELECTRONICA
 		GuiaRemisionElectronica guiaRemisionElectronica = new GuiaRemisionElectronica();
-    	InfoTributaria infoTributaria = new InfoTributaria();
-    	  	
-    	infoTributaria.setAmbiente(Constantes.pruebas_sri);
-    	infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
-    	infoTributaria.setRazonSocial(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
-    	infoTributaria.setNombreComercial(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
-    	infoTributaria.setRuc(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
-    	infoTributaria.setClaveAcceso(guiaRemision.getClaveAcceso());
-    	infoTributaria.setCodDoc(Constantes.guia_de_remision_sri);
-    	infoTributaria.setEstab(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
-    	infoTributaria.setPtoEmi(guiaRemision.getSesion().getUsuario().getEstacion().getCodigoSRI());
-    	infoTributaria.setSecuencial(guiaRemision.getSecuencial());
-    	infoTributaria.setDirMatriz(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
+		InfoTributaria infoTributaria = new InfoTributaria();
+
+		infoTributaria.setAmbiente(Constantes.pruebas_sri);
+		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
+		infoTributaria.setRazonSocial(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+		infoTributaria.setNombreComercial(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+		infoTributaria.setRuc(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
+		infoTributaria.setClaveAcceso(guiaRemision.getClaveAcceso());
+		infoTributaria.setCodDoc(Constantes.guia_de_remision_sri);
+		infoTributaria.setEstab(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
+		infoTributaria.setPtoEmi(guiaRemision.getSesion().getUsuario().getEstacion().getCodigoSRI());
+		infoTributaria.setSecuencial(guiaRemision.getSecuencial());
+		infoTributaria.setDirMatriz(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
 
 		InfoGuiaRemision infoGuiaRemision = new InfoGuiaRemision();
 		infoGuiaRemision.setDirEstablecimiento(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
@@ -126,8 +126,8 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		guiaRemisionElectronica.setInfoGuiaRemision(infoGuiaRemision);
 		guiaRemisionElectronica.setDestinatarios(destinatarios);
 		guiaRemisionElectronica.setInfoAdicional(infoAdicional);
-    	return guiaRemisionElectronica;
-    }
+		return guiaRemisionElectronica;
+	}
 	private Destinatarios crearDestinatarios(GuiaRemision guiaRemision) {
 		Destinatarios destinatarios = new Destinatarios();
 		List<Destinatario> destinatariosLista = new ArrayList<>();
@@ -156,17 +156,17 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 	}
 
 	private Detalles crearDetalles(GuiaRemision guiaRemision){
-    	Detalles detalles = new Detalles();
-    	List<Detalle> detalleLista = new ArrayList<>();
-    	for (FacturaLinea facturaLinea: guiaRemision.getFactura().getFacturaLineas()){
-    		Detalle detalle = new Detalle();
-    		detalle.setCodigoInterno(facturaLinea.getProducto().getCodigo());
-    		detalle.setDescripcion(facturaLinea.getProducto().getNombre());
-    		detalle.setCantidad(facturaLinea.getCantidad()+Constantes.vacio);
-    		detalleLista.add(detalle);
+		Detalles detalles = new Detalles();
+		List<Detalle> detalleLista = new ArrayList<>();
+		for (FacturaLinea facturaLinea: guiaRemision.getFactura().getFacturaLineas()){
+			Detalle detalle = new Detalle();
+			detalle.setCodigoInterno(facturaLinea.getProducto().getCodigo());
+			detalle.setDescripcion(facturaLinea.getProducto().getNombre());
+			detalle.setCantidad(facturaLinea.getCantidad()+Constantes.vacio);
+			detalleLista.add(detalle);
 		}
-    	detalles.setDetalle(detalleLista);
-    	return detalles;
+		detalles.setDetalle(detalleLista);
+		return detalles;
 	}
 
 	private InfoAdicional crearInfoAdicional(GuiaRemision guiaRemision) {
@@ -219,7 +219,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
 		}
-		if(guiaRemision.getEstado().equals(Constantes.estadoAnulada)){
+		if(guiaRemision.getProceso().equals(Constantes.procesoAnulada)){
 			throw new EstadoInvalidoException(Constantes.estadoInactivo);
 		}
 		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
@@ -244,42 +244,42 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		facturada.normalizar();
 		return facturada;
 	}
-    
-    private List<String> recepcion(GuiaRemisionElectronica guiaRemisionElectronica, String certificado, String contrasena) {
-    	try {
-    		JAXBContext jaxbContext = JAXBContext.newInstance(GuiaRemisionElectronica.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
-            jaxbMarshaller.marshal(guiaRemisionElectronica, System.out);
-            StringWriter sw = new StringWriter();
-            jaxbMarshaller.marshal(guiaRemisionElectronica, sw);
-            String xml=sw.toString();
+
+	private List<String> recepcion(GuiaRemisionElectronica guiaRemisionElectronica, String certificado, String contrasena) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(GuiaRemisionElectronica.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, Constantes.utf8);
+			jaxbMarshaller.marshal(guiaRemisionElectronica, System.out);
+			StringWriter sw = new StringWriter();
+			jaxbMarshaller.marshal(guiaRemisionElectronica, sw);
+			String xml=sw.toString();
 			Path path = Paths.get(Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
-            byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
-            String encode=Base64.getEncoder().encodeToString(firmado);
-            String body=Util.soapFacturacionEletronica(encode);
-            System.out.println(body);
-            HttpClient httpClient = HttpClient.newBuilder()
-                    .version(HttpClient.Version.HTTP_1_1)
-                    .connectTimeout(Duration.ofSeconds(10))
-                    .build();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .POST(BodyPublishers.ofString(body))
-                    .uri(URI.create(Constantes.urlFacturacionEletronicaSri))
-                    .setHeader(Constantes.contentType, Constantes.contenTypeValor)
-                    .build();
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            // print response headers
-            HttpHeaders headers = response.headers();
-            headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
-            // print status code
-            System.out.println(response.statusCode());
-            // print response body
-            System.out.println(response.body());
-            JSONObject json=Util.convertirXmlJson(response.body());
+			byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
+			String encode=Base64.getEncoder().encodeToString(firmado);
+			String body=Util.soapFacturacionEletronica(encode);
+			System.out.println(body);
+			HttpClient httpClient = HttpClient.newBuilder()
+					.version(HttpClient.Version.HTTP_1_1)
+					.connectTimeout(Duration.ofSeconds(10))
+					.build();
+			HttpRequest request = HttpRequest.newBuilder()
+					.POST(BodyPublishers.ofString(body))
+					.uri(URI.create(Constantes.urlFacturacionEletronicaSri))
+					.setHeader(Constantes.contentType, Constantes.contenTypeValor)
+					.build();
+			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+			// print response headers
+			HttpHeaders headers = response.headers();
+			headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
+			// print status code
+			System.out.println(response.statusCode());
+			// print response body
+			System.out.println(response.body());
+			JSONObject json=Util.convertirXmlJson(response.body());
 			List<String> resultado = new ArrayList<>();
 			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
 			resultado.add(estado);
@@ -298,11 +298,11 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 				resultado.add(informacionAdicional);
 			}
 			return resultado;
-        } catch (JAXBException ex) {
-            System.err.println(ex.getMessage());                        
-        } catch (IOException ex) {
+		} catch (JAXBException ex) {
+			System.err.println(ex.getMessage());
+		} catch (IOException ex) {
 			// TODO Auto-generated catch block
-        	System.err.println(ex.getMessage());   
+			System.err.println(ex.getMessage());
 		} catch (InterruptedException ex) {
 			// TODO Auto-generated catch block
 			System.err.println(ex.getMessage());
@@ -311,7 +311,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			e.printStackTrace();
 		}
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
-    }
+	}
 
 	public List<String> autorizacion(GuiaRemisionElectronica guiaRemisionElectronica){
 		try {
@@ -565,9 +565,9 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		cell.setBorder(Border.NO_BORDER);
 		return cell;
 	}
-    
-    private ByteArrayInputStream crearXML(GuiaRemisionElectronica guiaRemisionElectronica) {
-    	try {
+
+	private ByteArrayInputStream crearXML(GuiaRemisionElectronica guiaRemisionElectronica) {
+		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(GuiaRemisionElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -577,53 +577,53 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			jaxbMarshaller.marshal(guiaRemisionElectronica, sw);
 			String xml = sw.toString();
 			return new ByteArrayInputStream(xml.getBytes());
-    	} catch(Exception e) {
-    		return null;
-    	}
-    }
-    
-    private void enviarCorreo(GuiaRemision guiaRemision, GuiaRemisionElectronica guiaRemisionElectronica) {
-    	try {
-	    	ByteArrayInputStream pdf = crearPDF(guiaRemision);
-	    	ByteArrayInputStream xml = crearXML(guiaRemisionElectronica);
-	    	ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf); 
-	    	ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml); 
-	        Properties props = System.getProperties();
-	        props.put(Constantes.mailSmtpHost, Constantes.valorMailSmtpHost);
-	        props.put(Constantes.mailSmtpUser, correoUsuario); 
-	        props.put(Constantes.mailSmtpClave, correoContrasena);
-	        props.put(Constantes.mailSmtpAuth, Constantes.valorMailtSmtpAuth);
-	        props.put(Constantes.mailSmtpStarttlsEnable, Constantes.valorMailtSmtpStarttlsEnable);
-	        props.put(Constantes.mailSmtpPort, Constantes.valorMailSmtpPort);
-	
-	        Session session = Session.getDefaultInstance(props);
-	        MimeMessage message = new MimeMessage(session);
-	        
-	        MimeBodyPart parte1 = new MimeBodyPart();
-	        parte1.setDataHandler(new DataHandler(pdfData));
-	        parte1.setFileName(Constantes.nota_credito + guiaRemision.getSecuencial()+Constantes.extensionPdf);
-	        MimeBodyPart parte2 = new MimeBodyPart();
-	        parte2.setDataHandler(new DataHandler(xmlData));
-	        parte2.setFileName(Constantes.nota_credito + guiaRemision.getSecuencial()+Constantes.extensionXml);
-	        
-	        Multipart multipart = new MimeMultipart();
-	        multipart.addBodyPart(parte1);
-	        multipart.addBodyPart(parte2);
+		} catch(Exception e) {
+			return null;
+		}
+	}
 
-            message.setFrom(new InternetAddress(correoUsuario));
-            message.addRecipients(Message.RecipientType.TO, guiaRemision.getFactura().getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
-            message.setSubject(guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + guiaRemision.getCodigo());
-            message.setText(Constantes.vacio);
-            message.setContent(multipart);
-            Transport transport = session.getTransport(Constantes.smtp);
-            transport.connect(Constantes.smtpGmailCom, correoUsuario, correoContrasena);
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();   //Si se produce un error
-        }
-    }
+	private void enviarCorreo(GuiaRemision guiaRemision, GuiaRemisionElectronica guiaRemisionElectronica) {
+		try {
+			ByteArrayInputStream pdf = crearPDF(guiaRemision);
+			ByteArrayInputStream xml = crearXML(guiaRemisionElectronica);
+			ByteArrayDataSource pdfData= new ByteArrayDataSource(pdf, Constantes.applicationPdf);
+			ByteArrayDataSource xmlData = new ByteArrayDataSource(xml, Constantes.textXml);
+			Properties props = System.getProperties();
+			props.put(Constantes.mailSmtpHost, Constantes.valorMailSmtpHost);
+			props.put(Constantes.mailSmtpUser, correoUsuario);
+			props.put(Constantes.mailSmtpClave, correoContrasena);
+			props.put(Constantes.mailSmtpAuth, Constantes.valorMailtSmtpAuth);
+			props.put(Constantes.mailSmtpStarttlsEnable, Constantes.valorMailtSmtpStarttlsEnable);
+			props.put(Constantes.mailSmtpPort, Constantes.valorMailSmtpPort);
+
+			Session session = Session.getDefaultInstance(props);
+			MimeMessage message = new MimeMessage(session);
+
+			MimeBodyPart parte1 = new MimeBodyPart();
+			parte1.setDataHandler(new DataHandler(pdfData));
+			parte1.setFileName(Constantes.nota_credito + guiaRemision.getSecuencial()+Constantes.extensionPdf);
+			MimeBodyPart parte2 = new MimeBodyPart();
+			parte2.setDataHandler(new DataHandler(xmlData));
+			parte2.setFileName(Constantes.nota_credito + guiaRemision.getSecuencial()+Constantes.extensionXml);
+
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(parte1);
+			multipart.addBodyPart(parte2);
+
+			message.setFrom(new InternetAddress(correoUsuario));
+			message.addRecipients(Message.RecipientType.TO, guiaRemision.getFactura().getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
+			message.setSubject(guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + guiaRemision.getCodigo());
+			message.setText(Constantes.vacio);
+			message.setContent(multipart);
+			Transport transport = session.getTransport(Constantes.smtp);
+			transport.connect(Constantes.smtpGmailCom, correoUsuario, correoContrasena);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();   //Si se produce un error
+		}
+	}
 
 	@Override
 	public ByteArrayInputStream obtenerPDF(long guiaRemisionId){
