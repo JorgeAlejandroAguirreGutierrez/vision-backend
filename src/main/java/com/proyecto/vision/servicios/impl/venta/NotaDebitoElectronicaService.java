@@ -273,11 +273,11 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		if(notaDebito.getEstado().equals(Constantes.estadoEmitida)){
 			throw new EstadoInvalidoException(Constantes.estadoEmitida);
 		}
-		if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)){
-			throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
+		if(notaDebito.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
+			throw new EstadoInvalidoException(Constantes.procesoSRIAutorizada);
 		}
-		if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)){
-			throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
+		if(notaDebito.getProcesoSRI().equals(Constantes.procesoSRIAnulada)){
+			throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
 		}
 		NotaDebitoElectronica notaDebitoElectronica = crear(notaDebito);
 		List<String> estadoRecepcion = recepcion(notaDebitoElectronica, notaDebito.getEmpresa().getCertificado(), notaDebito.getEmpresa().getContrasena());
@@ -288,7 +288,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
-		notaDebito.setEstadoSRI(Constantes.estadoSRIAutorizada);
+		notaDebito.setProcesoSRI(Constantes.procesoSRIAutorizada);
 		notaDebito.setFechaAutorizacion(new Date());
 		enviarCorreo(notaDebito, notaDebitoElectronica);
 		NotaDebito facturada = rep.save(notaDebito);
@@ -444,7 +444,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
-			if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) {
+			if(notaDebito.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)) {
 				numeroAutorizacion = notaDebito.getClaveAcceso();
 				fechaAutorizacion = notaDebito.getFechaAutorizacion().toString();
 				Barcode128 codigoBarras = new Barcode128(pdf);

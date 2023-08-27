@@ -35,8 +35,8 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	@Override
 	public void validar(GuiaRemision guiaRemision) {
 		if(guiaRemision.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
-		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
-		if(guiaRemision.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
+		if(guiaRemision.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.procesoSRIAutorizada);
+		if(guiaRemision.getProcesoSRI().equals(Constantes.procesoSRIAnulada)) throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
 		if(guiaRemision.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
 		if(guiaRemision.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
 		if(guiaRemision.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
@@ -113,7 +113,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		}
 		guiaRemision.setClaveAcceso(claveAcceso.get());
 		guiaRemision.setEstado(Constantes.estadoEmitida);
-		guiaRemision.setEstadoSRI(Constantes.estadoSRIPendiente);
+		guiaRemision.setProcesoSRI(Constantes.procesoSRIPendiente);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();
 		secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
@@ -131,7 +131,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	public GuiaRemision anular(GuiaRemision guiaRemision) {
 		validar(guiaRemision);
 		guiaRemision.setEstado(Constantes.estadoAnulada);
-		guiaRemision.setEstadoSRI(Constantes.estadoSRIAnulada);
+		guiaRemision.setProcesoSRI(Constantes.procesoSRIAnulada);
 		GuiaRemision res = rep.save(guiaRemision);
 		res.normalizar();
 		return res;
@@ -167,13 +167,18 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	}
 
 	@Override
-	public List<GuiaRemision> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI){
-		return rep.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
+	public List<GuiaRemision> consultarPorEmpresaYEstado(long empresaId, String estado){
+		return rep.consultarPorEmpresaYEstado(empresaId, estado);
 	}
 
 	@Override
-	public List<GuiaRemision> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI){
-		return rep.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(facturaId, empresaId, estadoSRI);
+	public List<GuiaRemision> consultarPorFacturaYEmpresaYEstado(long facturaId, long empresaId, String estado){
+		return rep.consultarPorFacturaYEmpresaYEstado(facturaId, empresaId, estado);
+	}
+
+	@Override
+	public List<GuiaRemision> consultarPorFacturaYEmpresaYEstadoDiferente(long facturaId, long empresaId, String estado){
+		return rep.consultarPorFacturaYEmpresaYEstadoDiferente(facturaId, empresaId, estado);
 	}
 
 }

@@ -39,8 +39,8 @@ public class NotaDebitoService implements INotaDebitoService {
     @Override
     public void validar(NotaDebito notaDebito) {
         if(notaDebito.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
-        if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.estadoSRIAutorizada);
-        if(notaDebito.getEstadoSRI().equals(Constantes.estadoSRIAnulada)) throw new EstadoInvalidoException(Constantes.estadoSRIAnulada);
+        if(notaDebito.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.procesoSRIAutorizada);
+        if(notaDebito.getProcesoSRI().equals(Constantes.procesoSRIAnulada)) throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
         if(notaDebito.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
         if(notaDebito.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaDebito.getFactura().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.factura);
@@ -146,7 +146,7 @@ public class NotaDebitoService implements INotaDebitoService {
         }
         notaDebito.setClaveAcceso(claveAcceso.get());
         notaDebito.setEstado(Constantes.estadoEmitida);
-        notaDebito.setEstadoSRI(Constantes.estadoSRIPendiente);
+        notaDebito.setProcesoSRI(Constantes.procesoSRIPendiente);
         calcular(notaDebito);
         calcularRecaudacion(notaDebito);
         NotaDebito res = rep.save(notaDebito);
@@ -176,7 +176,7 @@ public class NotaDebitoService implements INotaDebitoService {
     public NotaDebito anular(NotaDebito notaDebito) {
         validar(notaDebito);
         notaDebito.setEstado(Constantes.estadoAnulada);
-        notaDebito.setEstadoSRI(Constantes.estadoSRIAnulada);
+        notaDebito.setProcesoSRI(Constantes.procesoSRIAnulada);
         NotaDebito res = rep.save(notaDebito);
         res.normalizar();
         return res;
@@ -215,8 +215,8 @@ public class NotaDebitoService implements INotaDebitoService {
     }
 
     @Override
-    public List<NotaDebito> consultarPorEstadoSRI(String estadoSRI){
-        return rep.consultarPorEstadoSRI(estadoSRI);
+    public List<NotaDebito> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
     }
 
     @Override
@@ -225,13 +225,15 @@ public class NotaDebitoService implements INotaDebitoService {
     }
 
     @Override
-    public List<NotaDebito> consultarPorEmpresaYEstadoSRI(long empresaId, String estadoSRI){
-        return rep.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
+    public List<NotaDebito> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
+
     @Override
-    public List<NotaDebito> consultarPorFacturaYEmpresaYNoIgualEstadoSRI(long facturaId, long empresaId, String estadoSRI){
-        return rep.consultarPorFacturaYEmpresaYNoIgualEstadoSRI(facturaId, empresaId, estadoSRI);
+    public List<NotaDebito> consultarPorFacturaYEmpresaYEstadoDiferente(long facturaId, long empresaId, String estado){
+        return rep.consultarPorFacturaYEmpresaYEstadoDiferente(facturaId, empresaId, estado);
     }
+
     @Override
     public Page<NotaDebito> consultarPagina(Pageable pageable){
         return rep.findAll(pageable);

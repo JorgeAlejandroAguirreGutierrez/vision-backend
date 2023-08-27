@@ -47,9 +47,16 @@ public class GuiaRemisionController implements GenericoController<GuiaRemision> 
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEmpresaYEstadoSRI/{empresaId}/{estadoSRI}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresaYEstadoSRI(@PathVariable("empresaId") long empresaId, @PathVariable("estadoSRI") String estadoSRI) {
-        List<GuiaRemision> guiasRemisiones = servicio.consultarPorEmpresaYEstadoSRI(empresaId, estadoSRI);
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<GuiaRemision> guiasRemisiones = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, guiasRemisiones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorFacturaYEmpresaYEstado/{facturaId}/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorFacturaYEmpresaYEstado(@PathVariable("facturaId") long facturaId, @PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        List<GuiaRemision> guiasRemisiones = servicio.consultarPorFacturaYEmpresaYEstado(facturaId, empresaId, estado);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, guiasRemisiones);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
