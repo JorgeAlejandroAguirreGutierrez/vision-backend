@@ -25,9 +25,9 @@ public class TipoContribuyenteData implements ApplicationRunner {
         Optional<TipoContribuyente> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<TipoContribuyente> tiposContribuyentes = new ArrayList<>();
-            tiposContribuyentes.add(new TipoContribuyente("TCO011907000001", "NATURAL", "NATURAL", Constantes.no));
-            tiposContribuyentes.add(new TipoContribuyente("TCO011908000002", "JURIDICA", "PUBLICA", Constantes.si));
-            tiposContribuyentes.add(new TipoContribuyente("TCO011909000003", "JURIDICA", "PRIVADA", Constantes.si));
+            tiposContribuyentes.add(new TipoContribuyente("TCO202301000001", "NATURAL", "NATURAL", Constantes.no));
+            tiposContribuyentes.add(new TipoContribuyente("TCO202301000002", "JURIDICA", "PUBLICA", Constantes.si));
+            tiposContribuyentes.add(new TipoContribuyente("TCO202301000003", "JURIDICA", "PRIVADA", Constantes.si));
             rep.saveAll(tiposContribuyentes);
         }
     }

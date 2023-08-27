@@ -44,10 +44,10 @@ public class NotaCredito extends Entidad {
     private Date fecha;
     @Column(name = "fecha_autorizacion", nullable = true)
     private Date fechaAutorizacion;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @Column(name = "estado_sri", nullable = true)
     private String estadoSRI;
-    @Column(name = "proceso", nullable = true)
-    private String proceso;
     @Column(name = "descuento", nullable = true)
     private double descuento;
     @Column(name = "subtotal", nullable = true)
@@ -94,7 +94,7 @@ public class NotaCredito extends Entidad {
         this.operacion = Constantes.vacio;
         this.fecha = new Date();
         this.fechaAutorizacion = null;
-        this.proceso = Constantes.vacio;
+        this.estado = Constantes.vacio;
         this.estadoSRI = Constantes.vacio;
         this.descuento = Constantes.cero;
         this.subtotal = Constantes.cero;

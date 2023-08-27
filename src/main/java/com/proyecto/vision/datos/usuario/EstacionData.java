@@ -35,9 +35,9 @@ public class EstacionData implements ApplicationRunner {
             estaciones.add(new Estacion("ESN012301000006", "001", "TESORERO", "PC", "192.168.1.7", Constantes.no, Constantes.estadoActivo, new Regimen(3), new Establecimiento(3)));
             estaciones.add(new Estacion("ESN012301000007", "002", "VENTAS2", "PORTATIL", "192.168.1.6", Constantes.si, Constantes.estadoActivo, new Regimen(1), new Establecimiento(3)));
             //ESTACIONES EMPRESA 2
-            estaciones.add(new Estacion("ESN022301000001", "001", "GERENTE-EMP2", "PC", "192.168.2.1", Constantes.si, Constantes.estadoActivo, new Regimen(1), new Establecimiento(4)));
-            estaciones.add(new Estacion("ESN022301000004", "001", "VENTAS1-EMP2", "TABLET", "192.168.2.2", Constantes.si, Constantes.estadoActivo, null, new Establecimiento(5)));
-            estaciones.add(new Estacion("ESN022301000005", "002", "CONTADOR-EMP2", "PC", "192.168.2.3", Constantes.no, Constantes.estadoActivo, new Regimen(2), new Establecimiento(5)));
+            estaciones.add(new Estacion("ESN022308000001", "001", "CAJA1", "PC", "192.168.2.1", Constantes.si, Constantes.estadoActivo, null, new Establecimiento(5)));
+            estaciones.add(new Estacion("ESN022308000002", "002", "CAJA2", "PC", "192.168.2.2", Constantes.si, Constantes.estadoActivo, null, new Establecimiento(5)));
+            estaciones.add(new Estacion("ESN022308000003", "", "GERENTE", "PC", "192.168.2.3", Constantes.no, Constantes.estadoActivo, null, new Establecimiento(5)));
 
             rep.saveAll(estaciones);
         }

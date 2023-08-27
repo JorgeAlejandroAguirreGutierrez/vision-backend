@@ -19,8 +19,8 @@ public class Constantes {
 	public static final String tipo_producto_bien="BIEN";
 	public static final String dev_venta = "DEV. VENTA";
     public static final String dev_compra = "DEV. COMPRA";
+    public static final String des_compra = "DES. COMPRA";
     public static final String compra = "COMPRA";
-	
 	public static final String pendiente="PENDIENTE";
 	public static final String entregado="ENTREGADO";
 	public static final String sinGuia="SIN GUIA";
@@ -44,6 +44,9 @@ public class Constantes {
     public static final String mensaje_obtener_exitoso="Exito en la consulta";
     public static final String mensaje_crear_exitoso="Exito al procesar";
     public static final String mensaje_actualizar_exitoso="Exito al actualizar";
+    public static final String mensaje_activar_exitoso="Exito al activar";
+    public static final String mensaje_inactivar_exitoso="Exito al inactivar";
+    public static final String mensaje_pagar_exitoso="Pago exitoso";
     public static final String mensaje_eliminar_exitoso="Exito al eliminar";
     public static final String mensaje_crear_factura_electronica_exitosa="Exito factura electronica con clave de acceso";
     public static final String mensaje_crear_nota_debito_electronica_exitosa="Exito nota debito electronica con clave de acceso";
@@ -52,8 +55,7 @@ public class Constantes {
     public static final String mensaje_importacion_exitoso="Exito al importar";
     public static final String mensaje_exportacion_exitoso="Exito al exportar";
     public static final String mensaje_calcular_exitoso="Exito al calcular";
-    public static final String mensaje_activar_exitoso="Exito al activar";
-    public static final String mensaje_inactivar_exitoso="Exito al inactivar";
+
     public static final String mensaje_recaudacion_exitosa="Exito al recaudar";
     public static final String mensaje_consulta_fallido="Error en la consulta los objetos";
     public static final String mensaje_obtener_fallido="Error al obtener un objeto";
@@ -549,16 +551,16 @@ public class Constantes {
     public static final String estadoInactivo="INACTIVO";
     
     //ESTADOS VENTAS
-    public static final String procesoEmitida = "EMITIDA";
-    public static final String procesoRecaudada = "RECAUDADA";
-    public static final String procesoAnulada = "ANULADA";
+    public static final String estadoEmitida = "EMITIDA";
+    public static final String estadoRecaudada = "RECAUDADA";
+    public static final String estadoAnulada = "ANULADA";
     public static final String estadoSRIPendiente = "PENDIENTE";
     public static final String estadoSRIAutorizada = "AUTORIZADA";
     public static final String estadoSRIAnulada = "ANULADA";
 
     //ESTADOS COMPRAS
-    public static final String procesoPagada = "PAGADA";
-    public static final String procesoPorPagar = "POR PAGAR";
+    public static final String estadoPagada = "PAGADA";
+    public static final String estadoPorPagar = "POR PAGAR";
     
     //CONSTANTES PARA FACTURA FISICA
     public static final String facturaFisicaAmbienteValor = "PRUEBAS";

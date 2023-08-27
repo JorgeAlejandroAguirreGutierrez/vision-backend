@@ -60,8 +60,6 @@ public class Kardex extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.fecha = new Date();
-        //this.documento = Constantes.vacio;
-        //this.operacion = Constantes.vacio;
         this.referencia = Constantes.vacio;
         this.entrada = Constantes.cero;
         this.salida = Constantes.cero;

@@ -51,7 +51,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     }
 
     private void facturar(NotaDebitoCompra notaDebitoCompra) {
-        if(notaDebitoCompra.getProceso().equals(Constantes.procesoPagada)) throw new EstadoInvalidoException(Constantes.procesoPagada);
+        if(notaDebitoCompra.getEstado().equals(Constantes.estadoPagada)) throw new EstadoInvalidoException(Constantes.estadoPagada);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito_compra);
         TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.dev_compra, Constantes.estadoActivo);
         kardexService.eliminar(tipoComprobante.getId(), tipoOperacion.getId(), notaDebitoCompra.getSecuencial());
@@ -83,7 +83,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(notaDebitoCompra.getTipoComprobante().getId(),
                 notaDebitoCompra.getSesion().getUsuario().getEstacion().getId(), notaDebitoCompra.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
         notaDebitoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
-        notaDebitoCompra.setProceso(Constantes.procesoPorPagar);
+        notaDebitoCompra.setEstado(Constantes.estadoPorPagar);
         calcular(notaDebitoCompra);
         facturar(notaDebitoCompra);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
@@ -106,7 +106,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     @Override
     public NotaDebitoCompra anular(NotaDebitoCompra notaDebitoCompra) {
         validar(notaDebitoCompra);
-        notaDebitoCompra.setProceso(Constantes.procesoAnulada);
+        notaDebitoCompra.setEstado(Constantes.estadoAnulada);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
         res.normalizar();
         return res;
@@ -129,8 +129,18 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     }
     
     @Override
-    public List<NotaDebitoCompra> consultarPorProceso(String proceso){
-    	return rep.consultarPorProceso(proceso);
+    public List<NotaDebitoCompra> consultarPorEmpresa(long empresaId){
+        return rep.consultarPorEmpresa(empresaId);
+    }
+
+    @Override
+    public List<NotaDebitoCompra> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
+    }
+
+    @Override
+    public List<NotaDebitoCompra> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
     @Override
@@ -250,13 +260,5 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         return notaDebitoCompra;
     }
 
-    @Override
-    public List<NotaDebitoCompra> consultarPorEmpresa(long empresaId){
-        return rep.consultarPorEmpresa(empresaId);
-    }
 
-    @Override
-    public List<NotaDebitoCompra> consultarPorEmpresaYProceso(long empresaId, String proceso){
-        return rep.consultarPorEmpresaYProceso(empresaId, proceso);
-    }
 }

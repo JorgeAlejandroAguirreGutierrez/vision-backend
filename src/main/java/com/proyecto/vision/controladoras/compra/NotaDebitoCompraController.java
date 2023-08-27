@@ -32,9 +32,9 @@ public class NotaDebitoCompraController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorProceso/{proceso}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorProceso(@PathVariable("estado") String proceso) {
-        List<NotaDebitoCompra> notasDebitosCompras = servicio.consultarPorProceso(proceso);
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
+        List<NotaDebitoCompra> notasDebitosCompras = servicio.consultarPorEstado(estado);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasDebitosCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -84,7 +84,7 @@ public class NotaDebitoCompraController {
     @PatchMapping(value = "/anular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> anular(@RequestBody NotaDebitoCompra _notaDebitoCompra) {
         NotaDebitoCompra notaDebitoCompra = servicio.anular(_notaDebitoCompra);
-        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_activar_exitoso, notaDebitoCompra);
+        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_anular_exitoso, notaDebitoCompra);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

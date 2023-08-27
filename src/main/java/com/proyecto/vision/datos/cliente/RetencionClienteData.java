@@ -27,18 +27,18 @@ public class RetencionClienteData implements ApplicationRunner {
         Optional<RetencionCliente> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<RetencionCliente> retenciones_clientes = new ArrayList<>();
-            retenciones_clientes.add(new RetencionCliente("RCL011907000001", new TipoRetencion(1), new Cliente(1)));
-            retenciones_clientes.add(new RetencionCliente("RCL011907000002", new TipoRetencion(9), new Cliente(1)));
-            retenciones_clientes.add(new RetencionCliente("RCL011907000003", new TipoRetencion(2), new Cliente(1)));
-            retenciones_clientes.add(new RetencionCliente("RCL011907000004", new TipoRetencion(13), new Cliente(1)));
-            retenciones_clientes.add(new RetencionCliente("RCL011907000005", new TipoRetencion(1), new Cliente(2)));
-            retenciones_clientes.add(new RetencionCliente("RCL011908000006", new TipoRetencion(9), new Cliente(2)));
-            retenciones_clientes.add(new RetencionCliente("RCL011908000007", new TipoRetencion(2), new Cliente(2)));
-            retenciones_clientes.add(new RetencionCliente("RCL011908000008", new TipoRetencion(13), new Cliente(2)));
-            retenciones_clientes.add(new RetencionCliente("RCL011908000009", new TipoRetencion(1), new Cliente(3)));
-            retenciones_clientes.add(new RetencionCliente("RCL011908000010", new TipoRetencion(9), new Cliente(3)));
-            retenciones_clientes.add(new RetencionCliente("RCL011908000011", new TipoRetencion(2), new Cliente(3)));
-            retenciones_clientes.add(new RetencionCliente("RCL011908000012", new TipoRetencion(13), new Cliente(3)));
+            retenciones_clientes.add(new RetencionCliente("RCL012307000001", new TipoRetencion(1), new Cliente(1)));
+            retenciones_clientes.add(new RetencionCliente("RCL012307000002", new TipoRetencion(9), new Cliente(1)));
+            retenciones_clientes.add(new RetencionCliente("RCL012307000003", new TipoRetencion(2), new Cliente(1)));
+            retenciones_clientes.add(new RetencionCliente("RCL012307000004", new TipoRetencion(13), new Cliente(1)));
+            retenciones_clientes.add(new RetencionCliente("RCL012307000005", new TipoRetencion(1), new Cliente(2)));
+            retenciones_clientes.add(new RetencionCliente("RCL012308000006", new TipoRetencion(9), new Cliente(2)));
+            retenciones_clientes.add(new RetencionCliente("RCL012308000007", new TipoRetencion(2), new Cliente(2)));
+            retenciones_clientes.add(new RetencionCliente("RCL012308000008", new TipoRetencion(13), new Cliente(2)));
+            retenciones_clientes.add(new RetencionCliente("RCL012308000009", new TipoRetencion(1), new Cliente(3)));
+            retenciones_clientes.add(new RetencionCliente("RCL012308000010", new TipoRetencion(9), new Cliente(3)));
+            retenciones_clientes.add(new RetencionCliente("RCL012308000011", new TipoRetencion(2), new Cliente(3)));
+            retenciones_clientes.add(new RetencionCliente("RCL012308000012", new TipoRetencion(13), new Cliente(3)));
             rep.saveAll(retenciones_clientes);
         }
     }

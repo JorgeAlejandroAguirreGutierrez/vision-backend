@@ -83,7 +83,7 @@ public class NotaCreditoController {
     @PatchMapping(value = "/anular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> anular(@RequestBody NotaCredito _notaCredito) {
         NotaCredito notaCredito = servicio.anular(_notaCredito);
-        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_activar_exitoso, notaCredito);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_anular_exitoso, notaCredito);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

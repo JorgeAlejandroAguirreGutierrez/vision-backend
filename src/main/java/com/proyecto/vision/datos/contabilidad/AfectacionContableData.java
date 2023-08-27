@@ -25,10 +25,10 @@ public class AfectacionContableData implements ApplicationRunner {
         Optional<AfectacionContable> ant=rep.findById((long) 1);
         if (!ant.isPresent()) {
             List<AfectacionContable> afectacionesContables = new ArrayList<>();
-            afectacionesContables.add(new AfectacionContable("AFC011907000001","INVENTARIO","I", Constantes.estadoActivo));
-            afectacionesContables.add(new AfectacionContable("AFC011907000002","CONSUMOS - SUMINISTROS OFICINA","C",Constantes.estadoActivo));
-            afectacionesContables.add(new AfectacionContable("AFC011907000003","INVENTARIOS EN CONSIGNACIÓN","IC",Constantes.estadoActivo));
-            afectacionesContables.add(new AfectacionContable("AFC011907000004","ACTIVO FIJO","AF",Constantes.estadoActivo));
+            afectacionesContables.add(new AfectacionContable("AFC202301000001","INVENTARIO","I", Constantes.estadoActivo));
+            afectacionesContables.add(new AfectacionContable("AFC202301000002","CONSUMOS - SUMINISTROS OFICINA","C",Constantes.estadoActivo));
+            afectacionesContables.add(new AfectacionContable("AFC202301000003","INVENTARIOS EN CONSIGNACIÓN","IC",Constantes.estadoActivo));
+            afectacionesContables.add(new AfectacionContable("AFC202301000004","ACTIVO FIJO","AF",Constantes.estadoActivo));
             rep.saveAll(afectacionesContables);
         }
     }
