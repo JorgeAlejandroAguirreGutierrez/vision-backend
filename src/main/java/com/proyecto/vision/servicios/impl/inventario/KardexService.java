@@ -57,6 +57,10 @@ public class KardexService implements IKardexService {
     public List<Kardex> consultarPorProducto(long productoId) {
         return rep.consultarPorProducto(productoId);
     }
+    @Override
+    public List<Kardex> consultarPorTipoComprobanteYReferencia(long tipoComprobanteId, String referencia) {
+        return rep.consultarPorTipoComprobanteYReferencia(tipoComprobanteId, referencia);
+    }
 
     @Override
     public Kardex obtener(long id) {
@@ -67,17 +71,25 @@ public class KardexService implements IKardexService {
         throw new EntidadNoExistenteException(Constantes.kardex);
     }
     @Override
-    public Kardex obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(long productoId, long bodegaId, long tipoComprobanteId, String comprobante, long posicion) {
-        Optional<Kardex> res = rep.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(productoId, bodegaId, tipoComprobanteId, comprobante);
+    public Kardex obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYIdLinea(long productoId, long bodegaId, long tipoComprobanteId, String comprobante, long idLinea) {
+        Optional<Kardex> res = rep.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYIdLinea(productoId, bodegaId, tipoComprobanteId, comprobante, idLinea);
         if(res.isEmpty()){
             return null;
         }
-        //Aqui falta validar por posicion si hay 2 registros del mismo producto en la misma factura
         return res.get();
     }
     @Override
     public Kardex obtenerUltimoPorProductoYBodega(long productoId, long bodegaId) {
         Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodega(productoId, bodegaId);
+        if(res.isEmpty()){
+            return null;
+        }
+        return res.get();
+    }
+
+    @Override
+    public Kardex obtenerSaldoInicialPorProductoYBodega(long productoId, long bodegaId) {
+        Optional<Kardex> res = rep.obtenerSaldoInicialPorProductoYBodega(1, productoId, bodegaId);
         if(res.isEmpty()){
             return null;
         }
@@ -152,10 +164,12 @@ public class KardexService implements IKardexService {
                 kardex.setHaber(ultimoKardex.getCostoPromedio());
             }
 
-            kardex.setSaldo(saldo);
-            kardex.setCostoPromedio(costoPromedio);
-            kardex.setCostoTotal(costoTotal);
-            ultimoKardex = kardex;
+            if (kardex.getTipoComprobante().getId() != 1) {
+                kardex.setSaldo(saldo);
+                kardex.setCostoPromedio(costoPromedio);
+                kardex.setCostoTotal(costoTotal);
+                ultimoKardex = kardex;
+            }
 
             rep.save(kardex);
         }
