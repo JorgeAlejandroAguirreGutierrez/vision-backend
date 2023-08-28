@@ -28,8 +28,8 @@ public class NotaCreditoLinea extends Entidad {
     private long cantidadVenta;
     @Column(name = "costo_unitario_venta", nullable = true)
     private double costoUnitarioVenta;
-    @Column(name = "cantidad_credito", nullable = true)
-    private double cantidadCredito;
+    @Column(name = "cantidad", nullable = true)
+    private double cantidad;
     @Column(name = "costo_unitario", nullable = true)
     private double costoUnitario;
     @Column(name = "subtotal_linea", nullable = true)
@@ -64,7 +64,7 @@ public class NotaCreditoLinea extends Entidad {
         this.codigo = Constantes.vacio;
         this.cantidadVenta = Constantes.ceroId;
         this.costoUnitarioVenta = Constantes.cero;
-        this.cantidadCredito = Constantes.cero;
+        this.cantidad = Constantes.cero;
         this.costoUnitario = Constantes.cero;
         this.subtotalLinea = Constantes.cero;
         this.importeIvaLinea = Constantes.cero;
