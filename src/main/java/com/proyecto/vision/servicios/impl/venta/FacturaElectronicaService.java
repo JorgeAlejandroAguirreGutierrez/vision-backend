@@ -763,7 +763,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			PdfWriter writer = new PdfWriter(salida);
 			PdfDocument pdf = new PdfDocument(writer);
 			// Initialize document
-			Document documento = new Document(pdf, PageSize.A6);
+			Document documento = new Document(pdf, PageSize.A7);
 			documento.setMargins(0,0,0,0);
 			// 4. Add content
 			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
@@ -777,26 +777,17 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			documento.add(tabla);
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
-			Image imagenCodigoBarras = null;
 			if(factura.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
 				numeroAutorizacion = factura.getClaveAcceso();
 				fechaAutorizacion = formatoFecha.format(factura.getFechaAutorizacion());
-				Barcode128 codigoBarras = new Barcode128(pdf);
-				codigoBarras.setCodeType(Barcode128.CODE128);
-				codigoBarras.setCode(factura.getClaveAcceso());
-				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
-				imagenCodigoBarras = new Image(objetoCodigoBarras);
 			}
 			float [] columnasFactura = {600F};
 			Table tablaFactura = new Table(columnasFactura);
-			tablaFactura.addCell(getCellFacturaTicket("RUC: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+			tablaFactura.addCell(getCellFacturaTicket(
 					"FACTURA" + "\n" +
-					"No. " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + factura.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + factura.getSecuencial() + "\n" +
+					"No. " + factura.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
-					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
-					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
-					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
-					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
+					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" , TextAlignment.LEFT));
 			documento.add(tablaFactura);
 			String regimen = Constantes.vacio;
 			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
@@ -954,13 +945,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		cell.setFontSize(Constantes.fontSize6);
 		return cell;
 	}
-	private Cell getCellFacturaTicket(String text, TextAlignment alignment, Image imagenCodigoBarras) {
+	private Cell getCellFacturaTicket(String text, TextAlignment alignment) {
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		if(imagenCodigoBarras != null){
-			cell.add(imagenCodigoBarras);
-		}
 		cell.setTextAlignment(alignment);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
 		cell.setBorderTopLeftRadius(new BorderRadius(5));
