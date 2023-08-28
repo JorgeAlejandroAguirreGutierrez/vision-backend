@@ -436,6 +436,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 	public ByteArrayInputStream crearPDF(Factura factura) {
 		try {
+			DateFormat formatoFecha = new SimpleDateFormat(Constantes.fechaYHora);
 			ByteArrayOutputStream salida = new ByteArrayOutputStream();
 			PdfWriter writer = new PdfWriter(salida);
 			PdfDocument pdf = new PdfDocument(writer);
@@ -467,7 +468,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			Image imagenCodigoBarras = null;
 			if(factura.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
 				numeroAutorizacion = factura.getClaveAcceso();
-				fechaAutorizacion = factura.getFechaAutorizacion().toString();
+				fechaAutorizacion = formatoFecha.format(factura.getFechaAutorizacion());
 				Barcode128 codigoBarras = new Barcode128(pdf);
 				codigoBarras.setCodeType(Barcode128.CODE128);
 				codigoBarras.setCode(factura.getClaveAcceso());
@@ -488,7 +489,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			documento.add(new Paragraph("\n"));
 			float [] columnasCliente = {300F, 300F};
 			Table tablaCliente = new Table(columnasCliente);
-			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + factura.getFecha().toString() + "\n" +
+			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + formatoFecha.format(factura.getFecha()) + "\n" +
 					"DIRECCION: " + factura.getCliente().getDireccion() + "\n", TextAlignment.LEFT));
 			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
@@ -757,6 +758,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 	public ByteArrayInputStream crearTicket(Factura factura) {
 		try {
+			DateFormat formatoFecha = new SimpleDateFormat(Constantes.fechaYHora);
 			ByteArrayOutputStream salida = new ByteArrayOutputStream();
 			PdfWriter writer = new PdfWriter(salida);
 			PdfDocument pdf = new PdfDocument(writer);
@@ -778,7 +780,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			Image imagenCodigoBarras = null;
 			if(factura.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
 				numeroAutorizacion = factura.getClaveAcceso();
-				fechaAutorizacion = factura.getFechaAutorizacion().toString();
+				fechaAutorizacion = formatoFecha.format(factura.getFechaAutorizacion());
 				Barcode128 codigoBarras = new Barcode128(pdf);
 				codigoBarras.setCodeType(Barcode128.CODE128);
 				codigoBarras.setCode(factura.getClaveAcceso());
@@ -816,7 +818,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			float [] columnasCliente = {600F};
 			Table tablaCliente = new Table(columnasCliente);
 			tablaCliente.addCell(getCellClienteTicket("RAZÓN SOCIAL: "+factura.getCliente().getRazonSocial()+"\n" +
-					"FECHA EMISIÓN: " + factura.getFecha().toString() + "\n" +
+					"FECHA EMISIÓN: " + formatoFecha.format(factura.getFecha()) + "\n" +
 					"DIRECCION: " + factura.getCliente().getDireccion() + "\n" +
 					"IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion(), TextAlignment.LEFT));
 			documento.add(tablaCliente);
