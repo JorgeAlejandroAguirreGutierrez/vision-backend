@@ -77,7 +77,7 @@ public class NotaCredito extends Entidad {
     private Empresa empresa;
     @JsonManagedReference
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
-    @JoinColumn(name = "nota_credito_venta_id", nullable = true)
+    @JoinColumn(name = "nota_credito_id", nullable = true)
     private List<NotaCreditoLinea> notaCreditoLineas;
 
     public NotaCredito(long id){

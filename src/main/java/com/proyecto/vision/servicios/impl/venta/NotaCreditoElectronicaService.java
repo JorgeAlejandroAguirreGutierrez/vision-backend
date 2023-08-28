@@ -154,7 +154,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			Detalle detalle = new Detalle();
 			detalle.setCodigoInterno(notaCreditoLinea.getProducto().getCodigo());
 			detalle.setDescripcion(notaCreditoLinea.getProducto().getNombre());
-			detalle.setCantidad(notaCreditoLinea.getCantidad());
+			detalle.setCantidad(notaCreditoLinea.getCantidadCredito());
 			detalle.setPrecioUnitario(Math.round(notaCreditoLinea.getCostoUnitario()*100.0)/100.0);
 			detalle.setDescuento(notaCreditoLinea.getCostoUnitario());
 			detalle.setPrecioTotalSinImpuesto(notaCreditoLinea.getTotalLinea());
@@ -447,7 +447,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 				String subtotalConDescuentoLinea = String.format("%.2f", notaCredito.getNotaCreditoLineas().get(i).getSubtotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaCredito.getNotaCreditoLineas().get(i).getProducto().getCodigo()));
-				tablaFacturaDetalle.addCell(getCellFilaFactura(notaCredito.getNotaCreditoLineas().get(i).getCantidad() + Constantes.vacio));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(notaCredito.getNotaCreditoLineas().get(i).getCantidadCredito() + Constantes.vacio));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaCredito.getNotaCreditoLineas().get(i).getProducto().getNombre()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioSinIva));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+valorDescuentoLinea));

@@ -131,7 +131,7 @@ public class NotaCreditoService implements INotaCreditoService {
             double costoPromedio = Constantes.cero;
             long tipoOperacionId = Constantes.ceroId;
             if (ultimoKardex != null) {
-                entrada = notaCreditoLinea.getCantidad();
+                entrada = notaCreditoLinea.getCantidadCredito();
                 if(notaCredito.getOperacion().equals(Constantes.operacion_devolucion)) {
                     saldo = ultimoKardex.getSaldo() + entrada;
                     tipoOperacionId = 7;
@@ -143,7 +143,7 @@ public class NotaCreditoService implements INotaCreditoService {
                 costoUnitario = ultimoKardex.getCostoPromedio();
                 costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
 
-                costoTotal = ultimoKardex.getCostoTotal() + (notaCreditoLinea.getCantidad() * costoUnitario);
+                costoTotal = ultimoKardex.getCostoTotal() + (notaCreditoLinea.getCantidadCredito() * costoUnitario);
                 costoTotal = Math.round(costoTotal * 100.0) / 100.0;
 
                 costoPromedio = costoTotal / saldo;
@@ -178,7 +178,7 @@ public class NotaCreditoService implements INotaCreditoService {
             double costoUnitario = Constantes.cero;
             double costoPromedio = Constantes.cero;
             if (ultimoIndiceKardex > Constantes.cero) {
-                entrada = notaCreditoLinea.getCantidad();
+                entrada = notaCreditoLinea.getCantidadCredito();
                 if(notaCredito.getOperacion().equals(Constantes.operacion_devolucion)) {
                     saldo = notaCreditoLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getSaldo() + entrada;
                 }
@@ -188,7 +188,7 @@ public class NotaCreditoService implements INotaCreditoService {
                 costoUnitario = notaCreditoLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoPromedio();
                 costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
 
-                costoTotal = notaCreditoLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoTotal() + (notaCreditoLinea.getCantidad() * costoUnitario);
+                costoTotal = notaCreditoLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getCostoTotal() + (notaCreditoLinea.getCantidadCredito() * costoUnitario);
                 costoTotal = Math.round(costoTotal * 100.0) / 100.0;
 
                 costoPromedio = costoTotal / saldo;
@@ -283,20 +283,17 @@ public class NotaCreditoService implements INotaCreditoService {
     public void validarLinea(NotaCreditoLinea notaCreditoLinea) {
         if(notaCreditoLinea.getCantidadVenta() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
         if(notaCreditoLinea.getCostoUnitarioVenta() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
-        if(notaCreditoLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.devolucion);
+        if(notaCreditoLinea.getCantidadCredito() < Constantes.cero) throw new DatoInvalidoException(Constantes.devolucion);
         if(notaCreditoLinea.getCostoUnitario() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
         if(notaCreditoLinea.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
         if(notaCreditoLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
         if(notaCreditoLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
-        if(notaCreditoLinea.getCantidad() > notaCreditoLinea.getCantidadVenta()) throw new DatoInvalidoException(Constantes.devolucion);
+        if(notaCreditoLinea.getCantidadCredito() > notaCreditoLinea.getCantidadVenta()) throw new DatoInvalidoException(Constantes.devolucion);
     }
 
-    /*
-     * CALCULOS CON NOTA CREDITO VENTA LINEA
-     */
     @Override
     public NotaCredito calcular(NotaCredito notaCredito) {
-        if(notaCredito.getOperacion() == Constantes.vacio) throw new DatoInvalidoException(Constantes.operacion_devolucion);
+        if(notaCredito.getOperacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.operacion_devolucion);
         double subtotal = Constantes.cero;
         double subtotalGravado = Constantes.cero;
         double subtotalNoGravado = Constantes.cero;
@@ -305,10 +302,9 @@ public class NotaCreditoService implements INotaCreditoService {
             validarLinea(notaCreditoLinea);
             double subtotalLinea = Constantes.cero;
             if(notaCredito.getOperacion().equals(Constantes.operacion_devolucion)){
-                subtotalLinea = notaCreditoLinea.getCantidad() * notaCreditoLinea.getCostoUnitario();
+                subtotalLinea = notaCreditoLinea.getCantidadCredito() * notaCreditoLinea.getCostoUnitario();
                 subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
                 notaCreditoLinea.setSubtotalLinea(subtotalLinea);
-
             }
             if(notaCredito.getOperacion().equals(Constantes.operacion_descuento)) {
                 if(notaCredito.getDescuento() <= Constantes.cero) throw new DatoInvalidoException(Constantes.operacion_descuento);
@@ -323,7 +319,7 @@ public class NotaCreditoService implements INotaCreditoService {
                 subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
                 notaCreditoLinea.setSubtotalLinea(subtotalLinea);
 
-                double costoUnitario = subtotalLinea / notaCreditoLinea.getCantidad();
+                double costoUnitario = subtotalLinea / notaCreditoLinea.getCantidadCredito();
                 costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
                 notaCreditoLinea.setCostoUnitario(costoUnitario);
             }
