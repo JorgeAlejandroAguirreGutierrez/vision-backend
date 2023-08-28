@@ -763,7 +763,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			PdfWriter writer = new PdfWriter(salida);
 			PdfDocument pdf = new PdfDocument(writer);
 			// Initialize document
-			Document documento = new Document(pdf, PageSize.A7);
+			Document documento = new Document(pdf, PageSize.A6);
 			documento.setMargins(0,0,0,0);
 			// 4. Add content
 			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
