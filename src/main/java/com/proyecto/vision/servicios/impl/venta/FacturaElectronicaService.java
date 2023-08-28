@@ -789,7 +789,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			}
 			float [] columnasFactura = {600F};
 			Table tablaFactura = new Table(columnasFactura);
-			tabla.addCell(getCellFacturaTicket("RUC: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+			tablaFactura.addCell(getCellFacturaTicket("RUC: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"FACTURA" + "\n" +
 					"No. " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + factura.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + factura.getSecuencial() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
