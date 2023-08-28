@@ -76,7 +76,7 @@ public class NotaDebito extends Entidad {
     private Empresa empresa;
     @JsonManagedReference
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE })
-    @JoinColumn(name = "nota_debito_venta_id", nullable = true)
+    @JoinColumn(name = "nota_debito_id", nullable = true)
     private List<NotaDebitoLinea> notaDebitoLineas;
 
     //RECAUDACION

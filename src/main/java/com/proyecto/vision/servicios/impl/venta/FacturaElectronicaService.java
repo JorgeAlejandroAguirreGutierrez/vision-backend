@@ -789,8 +789,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			}
 			float [] columnasFactura = {600F};
 			Table tablaFactura = new Table(columnasFactura);
-			tabla.addCell(getCellFacturaTicket("RUC: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
-					"FACTURA"+"\n"+
+			tabla.addCell(getCellFacturaTicket("RUC: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+					"FACTURA" + "\n" +
 					"No. " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + factura.getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + factura.getSecuencial() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
@@ -807,13 +807,12 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			}
 			float [] columnasEmpresa = {600F};
 			Table tablaEmpresa = new Table(columnasEmpresa);
-			tablaEmpresa.addCell(getCellEmpresaTicket(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" +
+			tablaEmpresa.addCell(getCellEmpresaTicket(
 					"DIRECCIÓN MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" +
 					"DIRECCIÓN SUCURSAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
 					regimen + "\n" +
 					"CONTIRUYENTE ESPECIAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" +
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" +
-					"AGENTE RETENCION RESOLUCIÓN: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
 			documento.add(tablaEmpresa);
 			float [] columnasCliente = {600F};
 			Table tablaCliente = new Table(columnasCliente);

@@ -28,8 +28,8 @@ public class NotaCreditoLinea extends Entidad {
     private long cantidadVenta;
     @Column(name = "costo_unitario_venta", nullable = true)
     private double costoUnitarioVenta;
-    @Column(name = "cantidad", nullable = true)
-    private long cantidad;
+    @Column(name = "cantidad_credito", nullable = true)
+    private double cantidadCredito;
     @Column(name = "costo_unitario", nullable = true)
     private double costoUnitario;
     @Column(name = "subtotal_linea", nullable = true)
@@ -53,7 +53,7 @@ public class NotaCreditoLinea extends Entidad {
     private Bodega bodega;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nota_credito_compra_id", nullable = true)
+    @JoinColumn(name = "nota_credito_id", nullable = true)
     private NotaCredito notaCreditoLinea;
 
     public NotaCreditoLinea(long id){
@@ -64,7 +64,7 @@ public class NotaCreditoLinea extends Entidad {
         this.codigo = Constantes.vacio;
         this.cantidadVenta = Constantes.ceroId;
         this.costoUnitarioVenta = Constantes.cero;
-        this.cantidad = Constantes.ceroId;
+        this.cantidadCredito = Constantes.cero;
         this.costoUnitario = Constantes.cero;
         this.subtotalLinea = Constantes.cero;
         this.importeIvaLinea = Constantes.cero;

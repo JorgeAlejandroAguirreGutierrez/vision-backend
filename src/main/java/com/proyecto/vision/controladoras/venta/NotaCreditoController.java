@@ -26,7 +26,7 @@ public class NotaCreditoController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar() {
-        List<NotaCredito> notasCreditos=servicio.consultar();
+        List<NotaCredito> notasCreditos = servicio.consultar();
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, notasCreditos);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
