@@ -8,8 +8,10 @@ import java.util.List;
 
 public interface IKardexService extends IGenericoService<Kardex> {
     List<Kardex> consultarPorProducto(long productoId);
-    Kardex obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYPosicion(long productoId, long bodegaId, long tipoComprobanteId, String comprobante, long posicion);
+    List<Kardex> consultarPorTipoComprobanteYReferencia(long tipoComprobanteId, String referencia);
+    Kardex obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYIdLinea(long productoId, long bodegaId, long tipoComprobanteId, String comprobante, long idLinea);
     Kardex obtenerUltimoPorProductoYBodega(long productoId, long bodegaId);
+    Kardex obtenerSaldoInicialPorProductoYBodega(long productoId, long bodegaId);
     Kardex obtenerUltimoPorProductoYBodegaYFecha(long productoId, long bodegaId, Date fecha);
     Kardex obtenerUltimoPorProductoYBodegaYTablaTipoComprobante(long productoId, long bodegaId, String tablaTipoComprobante);
     Kardex obtenerPenultimoPorProductoYBodegaYMismaFechaYId(long productoId, long bodegaId, Date fecha, long id);

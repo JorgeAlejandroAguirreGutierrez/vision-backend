@@ -51,7 +51,7 @@ public class Kardex extends Entidad {
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
 
