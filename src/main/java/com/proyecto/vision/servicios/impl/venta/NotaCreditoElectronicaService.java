@@ -374,6 +374,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 
 	public ByteArrayInputStream crearPDF(NotaCredito notaCredito) {
 		try {
+			DateFormat formatoFecha = new SimpleDateFormat(Constantes.fechaYHora);
 			ByteArrayOutputStream salida = new ByteArrayOutputStream();
 			PdfWriter writer = new PdfWriter(salida);
 			PdfDocument pdf = new PdfDocument(writer);
@@ -405,7 +406,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			Image imagenCodigoBarras = null;
 			if(notaCredito.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
 				numeroAutorizacion = notaCredito.getClaveAcceso();
-				fechaAutorizacion = notaCredito.getFechaAutorizacion().toString();
+				fechaAutorizacion = formatoFecha.format(notaCredito.getFechaAutorizacion());
 				Barcode128 codigoBarras = new Barcode128(pdf);
 				codigoBarras.setCodeType(Barcode128.CODE128);
 				codigoBarras.setCode(notaCredito.getClaveAcceso());
@@ -426,7 +427,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			documento.add(new Paragraph("\n"));
 			float [] columnasCliente = {300F, 300F};
 			Table tablaCliente = new Table(columnasCliente);
-			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+ notaCredito.getFactura().getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + notaCredito.getFecha().toString() + "\n" +
+			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+ notaCredito.getFactura().getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + formatoFecha.format(notaCredito.getFecha()) + "\n" +
 					"DIRECCION: " + notaCredito.getFactura().getCliente().getDireccion() + "\n", TextAlignment.LEFT));
 			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + notaCredito.getFactura().getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
