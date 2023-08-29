@@ -2,6 +2,7 @@ package com.proyecto.vision.servicios.impl.venta;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
+import com.proyecto.vision.modelos.compra.NotaCreditoCompraLinea;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
@@ -238,12 +239,10 @@ public class NotaCreditoService implements INotaCreditoService {
             notaCreditoLinea.setProducto(facturaLinea.getProducto());
             notaCreditoLinea.setBodega(facturaLinea.getBodega());
             notaCreditoLinea.setCantidadVenta(facturaLinea.getCantidad());
-
             double costoUnitarioCompra = facturaLinea.getSubtotalLinea() / facturaLinea.getCantidad();
             costoUnitarioCompra = Math.round(costoUnitarioCompra * 100.0) / 100.0;
             notaCreditoLinea.setCostoUnitarioVenta(costoUnitarioCompra);
             notaCreditoLinea.setCostoUnitario(costoUnitarioCompra);
-
             notaCredito.getNotaCreditoLineas().add(notaCreditoLinea);
         }
         return notaCredito;
@@ -293,7 +292,7 @@ public class NotaCreditoService implements INotaCreditoService {
 
     @Override
     public NotaCredito calcular(NotaCredito notaCredito) {
-        if(notaCredito.getOperacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.operacion_devolucion);
+        if(notaCredito.getOperacion() == Constantes.vacio) throw new DatoInvalidoException(Constantes.operacion_devolucion);
         double subtotal = Constantes.cero;
         double subtotalGravado = Constantes.cero;
         double subtotalNoGravado = Constantes.cero;
@@ -305,13 +304,13 @@ public class NotaCreditoService implements INotaCreditoService {
                 subtotalLinea = notaCreditoLinea.getCantidad() * notaCreditoLinea.getCostoUnitario();
                 subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
                 notaCreditoLinea.setSubtotalLinea(subtotalLinea);
+
             }
             if(notaCredito.getOperacion().equals(Constantes.operacion_descuento)) {
                 if(notaCredito.getDescuento() <= Constantes.cero) throw new DatoInvalidoException(Constantes.operacion_descuento);
-
                 double costoTotal = Constantes.cero;
-                for(NotaCreditoLinea notaCreditoVentaCosto : notaCredito.getNotaCreditoLineas()) {
-                    costoTotal += notaCreditoVentaCosto.getCantidadVenta() * notaCreditoVentaCosto.getCostoUnitarioVenta();
+                for(NotaCreditoLinea notaCreditoCompraCosto : notaCredito.getNotaCreditoLineas()) {
+                    costoTotal += notaCreditoCompraCosto.getCantidadVenta() * notaCreditoCompraCosto.getCostoUnitarioVenta();
                 }
 
                 double ponderacion = (notaCreditoLinea.getCantidadVenta() * notaCreditoLinea.getCostoUnitarioVenta()) / costoTotal;
