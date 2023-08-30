@@ -55,6 +55,10 @@ public class NotaCreditoService implements INotaCreditoService {
     @Override
     public NotaCredito crear(NotaCredito notaCredito) {
         validar(notaCredito);
+        Optional<NotaCredito> notaCreditoExistente = rep.obtenerPorFacturaYEmpresaYEstadoDiferente(notaCredito.getFactura().getId(), notaCredito.getEmpresa().getId(), Constantes.estadoAnulada);
+        if(notaCreditoExistente.isPresent()){
+            throw new EntidadExistenteException(Constantes.nota_credito);
+        }
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito);
         notaCredito.setTipoComprobante(tipoComprobante);
         Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_nota_credito, notaCredito.getEmpresa().getId());
@@ -292,7 +296,7 @@ public class NotaCreditoService implements INotaCreditoService {
 
     @Override
     public NotaCredito calcular(NotaCredito notaCredito) {
-        if(notaCredito.getOperacion() == Constantes.vacio) throw new DatoInvalidoException(Constantes.operacion_devolucion);
+        if(notaCredito.getOperacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.operacion);
         double subtotal = Constantes.cero;
         double subtotalGravado = Constantes.cero;
         double subtotalNoGravado = Constantes.cero;
@@ -304,10 +308,8 @@ public class NotaCreditoService implements INotaCreditoService {
                 subtotalLinea = notaCreditoLinea.getCantidad() * notaCreditoLinea.getCostoUnitario();
                 subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
                 notaCreditoLinea.setSubtotalLinea(subtotalLinea);
-
             }
-            if(notaCredito.getOperacion().equals(Constantes.operacion_descuento)) {
-                if(notaCredito.getDescuento() <= Constantes.cero) throw new DatoInvalidoException(Constantes.operacion_descuento);
+            if(notaCredito.getOperacion().equals(Constantes.operacion_descuento) && notaCredito.getDescuento() > Constantes.cero) {
                 double costoTotal = Constantes.cero;
                 for(NotaCreditoLinea notaCreditoCompraCosto : notaCredito.getNotaCreditoLineas()) {
                     costoTotal += notaCreditoCompraCosto.getCantidadVenta() * notaCreditoCompraCosto.getCostoUnitarioVenta();
@@ -321,6 +323,11 @@ public class NotaCreditoService implements INotaCreditoService {
                 double costoUnitario = subtotalLinea / notaCreditoLinea.getCantidad();
                 costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
                 notaCreditoLinea.setCostoUnitario(costoUnitario);
+            }
+            if(notaCredito.getOperacion().equals(Constantes.operacion_descuento) && notaCredito.getDescuento() <= Constantes.cero){
+                subtotalLinea = notaCreditoLinea.getCantidad() * notaCreditoLinea.getCostoUnitario();
+                subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
+                notaCreditoLinea.setSubtotalLinea(subtotalLinea);
             }
             subtotal += subtotalLinea;
             if (notaCreditoLinea.getImpuesto().getPorcentaje() != Constantes.cero){

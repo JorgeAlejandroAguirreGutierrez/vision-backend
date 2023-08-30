@@ -3,6 +3,8 @@ package com.proyecto.vision.servicios.interf.venta;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
 import com.proyecto.vision.servicios.interf.IGenericoService;
+
+import java.util.Date;
 import java.util.List;
 
 public interface IFacturaService extends IGenericoService<Factura> {
@@ -20,4 +22,5 @@ public interface IFacturaService extends IGenericoService<Factura> {
 	List<Factura> consultarPorClienteYEstado(long clienteId, String estado);
 	List<Factura> consultarPorClienteYEmpresaYEstado(long clienteId, long empresaId, String estado);
 	String validarIdentificacion(String identificacion);
+	List<Factura> consultarPorFechaYEmpresaYEstadoEmitidaYEstadoRecaudada(Date fecha, long empresaId, String estadoEmitida, String recaudada);
 }

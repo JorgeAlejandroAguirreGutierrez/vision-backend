@@ -277,7 +277,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
 
     @Override
     public NotaCreditoCompra calcular(NotaCreditoCompra notaCreditoCompra) {
-        if(notaCreditoCompra.getOperacion() == Constantes.vacio) throw new DatoInvalidoException(Constantes.operacion_devolucion);
+        if(notaCreditoCompra.getOperacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.operacion_devolucion);
         double subtotal = Constantes.cero;
         double subtotalGravado = Constantes.cero;
         double subtotalNoGravado = Constantes.cero;
@@ -291,7 +291,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 notaCreditoCompraLinea.setSubtotalLinea(subtotalLinea);
 
             }
-            if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_descuento)) {
+            if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_descuento) && notaCreditoCompra.getDescuento() > Constantes.cero) {
                 if(notaCreditoCompra.getDescuento() <= Constantes.cero) throw new DatoInvalidoException(Constantes.operacion_descuento);
 
                 double costoTotal = Constantes.cero;
@@ -307,6 +307,11 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 double costoUnitario = subtotalLinea / notaCreditoCompraLinea.getCantidad();
                 costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
                 notaCreditoCompraLinea.setCostoUnitario(costoUnitario);
+            }
+            if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_descuento) && notaCreditoCompra.getDescuento() <= Constantes.cero){
+                subtotalLinea = notaCreditoCompraLinea.getCantidad() * notaCreditoCompraLinea.getCostoUnitario();
+                subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
+                notaCreditoCompraLinea.setSubtotalLinea(subtotalLinea);
             }
             subtotal += subtotalLinea;
             if (notaCreditoCompraLinea.getImpuesto().getPorcentaje() != Constantes.cero){
