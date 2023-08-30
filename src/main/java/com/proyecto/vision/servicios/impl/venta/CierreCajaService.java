@@ -7,8 +7,11 @@ import com.proyecto.vision.exception.DatoInvalidoException;
 import com.proyecto.vision.exception.EntidadExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.modelos.venta.CierreCaja;
+import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.repositorios.venta.ICierreCajaRepository;
+import com.proyecto.vision.repositorios.venta.IFacturaRepository;
 import com.proyecto.vision.servicios.interf.venta.ICierreCajaService;
+import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +24,8 @@ import java.util.Optional;
 public class CierreCajaService implements ICierreCajaService {
 	@Autowired
     private ICierreCajaRepository rep;
-
+	@Autowired
+    private IFacturaRepository facturaRep;
     @Override
     public void validar(CierreCaja cierreCaja) {
         if(cierreCaja.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
@@ -41,6 +45,11 @@ public class CierreCajaService implements ICierreCajaService {
     	    throw new EntidadExistenteException(Constantes.cierre_caja);
         }
         cierreCaja.setCodigo(codigo.get());
+    	List<Factura> facturas = facturaRep.consultarPorFechaYEmpresaYEstadoEmitidaYEstadoRecaudada(cierreCaja.getFecha(), cierreCaja.getEmpresa().getId(), Constantes.estadoEmitida, Constantes.estadoRecaudada);
+    	for(Factura factura: facturas){
+    	    factura.setEstado(Constantes.estadoCerrada);
+    	    facturaRep.save(factura);
+        }
         cierreCaja.setEstado(Constantes.estadoActivo);
     	return rep.save(cierreCaja);
     }

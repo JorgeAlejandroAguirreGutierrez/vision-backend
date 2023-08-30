@@ -259,12 +259,8 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura anular(Factura factura) {
         validar(factura);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_YEAR, -1);
-        Date fechaCierreCaja = calendar.getTime();
-        if(factura.getFecha().after(fechaCierreCaja)){
-            throw new ErrorInternoException(Constantes.mensaje_error_cierre_caja);
+        if(factura.getEstado().equals(Constantes.estadoCerrada)){
+            throw new ErrorInternoException(Constantes.mensaje_error_factura_cerrada);
         }
         List<NotaDebito> notasDebitos = notaDebitoService.consultarPorFacturaYEmpresaYEstadoDiferente(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoAnulada);
         if(!notasDebitos.isEmpty()){
@@ -351,6 +347,11 @@ public class FacturaService implements IFacturaService {
     @Override
     public List<Factura> consultarPorClienteYEstado(long facturaId, String estado) {
         return rep.consultarPorClienteYEstado(facturaId, estado);
+    }
+
+    @Override
+    public List<Factura> consultarPorFechaYEmpresaYEstadoEmitidaYEstadoRecaudada(Date fecha, long facturaId, String estadoEmitida, String estadoRecaudada){
+        return rep.consultarPorFechaYEmpresaYEstadoEmitidaYEstadoRecaudada(fecha, facturaId, estadoEmitida, estadoRecaudada);
     }
 
     @Override

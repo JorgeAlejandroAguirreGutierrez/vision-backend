@@ -115,7 +115,7 @@ public class Constantes {
     public static String error_certificado_no_existente="ERROR CERTIFICADO PARA SRI NO EXISTENTE";
 
     //CODIGO PARA CREAR
-    public static final String operacion="CREAR";
+    public static final String operacionCrear = "CREAR";
 
     //TABLAS
     //CLIENTE
@@ -154,6 +154,7 @@ public class Constantes {
     public static final String tabla_nota_debito_compra_linea="nota_debito_compra_linea";
 
     //VENTAS
+    public static final String operacion = "OPERACION";
     public static final String tabla_factura_linea="factura_linea";
     public static final String tabla_egreso="egreso";
     public static final String tabla_factura="factura";
@@ -289,6 +290,7 @@ public class Constantes {
     public static final String mensaje_error_nota_debito_existente = "NOTA DE DEBITO EXISTENTE";
     public static final String mensaje_error_nota_credito_existente = "NOTA DE CREDITO EXISTENTE";
     public static final String mensaje_error_guia_remision_existente = "GUIA DE REMISION EXISTENTE";
+    public static final String mensaje_error_factura_cerrada = "FACTURA CERRADA";
 
     //CONFIGURACION
     public static final String empresa="EMPRESA";
@@ -552,6 +554,7 @@ public class Constantes {
     public static final String estadoEmitida = "EMITIDA";
     public static final String estadoRecaudada = "RECAUDADA";
     public static final String estadoAnulada = "ANULADA";
+    public static final String estadoCerrada = "CERRADA";
     public static final String procesoSRIPendiente = "PENDIENTE";
     public static final String procesoSRIAutorizada = "AUTORIZADA";
     public static final String procesoSRIAnulada = "ANULADA";
