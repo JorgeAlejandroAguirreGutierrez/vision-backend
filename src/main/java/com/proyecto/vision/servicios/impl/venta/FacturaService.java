@@ -4,6 +4,8 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.cliente.*;
+import com.proyecto.vision.modelos.compra.FacturaCompra;
+import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
@@ -256,6 +258,31 @@ public class FacturaService implements IFacturaService {
         }
     }
 
+    private void eliminarKardex(Factura factura) {
+        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
+        List<Kardex> kardexs = kardexService.consultarPorTipoComprobanteYReferencia(tipoComprobante.getId(), factura.getNumeroComprobante());
+        if (kardexs.isEmpty()) {
+            return;
+        }
+        for (Kardex kardex : kardexs) {
+            Boolean lineaEncontrada = false;
+            for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
+                if (kardex.getIdLinea() == facturaLinea.getId()) {
+                    lineaEncontrada = true;
+                }
+            }
+            if (!lineaEncontrada) {
+                long productoEliminadoId = kardex.getProducto().getId();
+                kardex.setProducto(null);
+                kardexService.actualizar(kardex);
+                Calendar c = Calendar.getInstance();
+                c.setTime(factura.getFecha());
+                c.add(c.DAY_OF_YEAR, -1);
+                kardexService.recalcularPorProductoYBodegaYFecha(productoEliminadoId, kardex.getBodega().getId(), c.getTime());
+            }
+        }
+    }
+
     @Override
     public Factura anular(Factura factura) {
         validar(factura);
@@ -274,6 +301,7 @@ public class FacturaService implements IFacturaService {
         if(!guiasRemisiones.isEmpty()){
             throw new ErrorInternoException(Constantes.mensaje_error_guia_remision_existente);
         }
+        eliminarKardex(factura);
         factura.setEstado(Constantes.estadoAnulada);
         factura.setProcesoSRI(Constantes.procesoSRIAnulada);
         Factura res = rep.save(factura);
@@ -508,7 +536,7 @@ public class FacturaService implements IFacturaService {
                 }
                 throw new IdentificacionInvalidaException();
             } else if (identificacion.equals(Constantes.identificacion_consumidor_final)) {
-                return "CONSUMIDOR FINAL";
+                return Constantes.consumidor_final;
             } else {
                 throw new IdentificacionInvalidaException();
             }

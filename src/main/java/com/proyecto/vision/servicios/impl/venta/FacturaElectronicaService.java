@@ -309,9 +309,11 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
+		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			enviarCorreo(factura, facturaElectronica);
+		}
 		factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
 		factura.setFechaAutorizacion(new Date());
-		enviarCorreo(factura, facturaElectronica);
 		Factura facturada = rep.save(factura);
 		facturada.normalizar();
 		return facturada;
@@ -385,7 +387,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
 	}
 
-	public List<String> autorizacion(FacturaElectronica facturaElectronica){
+	private List<String> autorizacion(FacturaElectronica facturaElectronica){
 		try {
 			String body = Util.soapConsultaFacturacionEletronica(facturaElectronica.getInfoTributaria().getClaveAcceso());
 			HttpClient httpClient = HttpClient.newBuilder()
@@ -732,18 +734,18 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 			MimeBodyPart parte1 = new MimeBodyPart();
 			parte1.setDataHandler(new DataHandler(pdfData));
-			parte1.setFileName(Constantes.factura+factura.getSecuencial()+Constantes.extensionPdf);
+			parte1.setFileName(Constantes.factura + factura.getSecuencial() + Constantes.extensionPdf);
 			MimeBodyPart parte2 = new MimeBodyPart();
 			parte2.setDataHandler(new DataHandler(xmlData));
-			parte2.setFileName(Constantes.factura+factura.getSecuencial()+Constantes.extensionXml);
+			parte2.setFileName(Constantes.factura + factura.getSecuencial() + Constantes.extensionXml);
 
 			Multipart multipart = new MimeMultipart();
 			multipart.addBodyPart(parte1);
 			multipart.addBodyPart(parte2);
 
 			message.setFrom(new InternetAddress(correoUsuario));
-			message.addRecipients(Message.RecipientType.TO, factura.getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
-			message.setSubject(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + factura.getCodigo());
+			message.addRecipients(Message.RecipientType.TO, factura.getCliente().getCorreos().get(0).getEmail());
+			message.setSubject(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + factura.getNumeroComprobante());
 			message.setText(Constantes.vacio);
 			message.setContent(multipart);
 			Transport transport = session.getTransport(Constantes.smtp);
@@ -752,7 +754,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			transport.close();
 		}
 		catch (Exception e) {
-			e.printStackTrace();   //Si se produce un error
+			e.printStackTrace();
 		}
 	}
 
