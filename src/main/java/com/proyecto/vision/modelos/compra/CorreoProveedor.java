@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +17,6 @@ import static com.proyecto.vision.Constantes.tabla_correo_proveedor;
 @Setter
 @AllArgsConstructor
 public class CorreoProveedor extends Entidad {
-
     @Column(name = "codigo", nullable = true)
     private String codigo;
     @Column(name = "email", nullable = true)
