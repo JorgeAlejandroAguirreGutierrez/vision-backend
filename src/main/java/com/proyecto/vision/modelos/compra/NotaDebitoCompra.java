@@ -53,6 +53,7 @@ public class NotaDebitoCompra extends Entidad {
     private double total;
     @Column(name = "comentario", nullable = true)
     private String comentario;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_compra_id", nullable = true)
     private FacturaCompra facturaCompra;

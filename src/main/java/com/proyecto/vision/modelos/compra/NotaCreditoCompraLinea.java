@@ -7,7 +7,6 @@ import com.proyecto.vision.modelos.inventario.Bodega;
 import com.proyecto.vision.modelos.configuracion.Impuesto;
 import com.proyecto.vision.modelos.inventario.Producto;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

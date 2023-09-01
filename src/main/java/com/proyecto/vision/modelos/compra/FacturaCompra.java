@@ -57,9 +57,9 @@ public class FacturaCompra extends Entidad {
     private double importeIvaTotal;
     @Column(name = "total", nullable = true)
     private double total;
-
     @Column(name = "comentario", nullable = true)
     private String comentario;
+
     @ManyToOne
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
