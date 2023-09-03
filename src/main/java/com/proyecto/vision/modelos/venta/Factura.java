@@ -39,10 +39,10 @@ public class Factura extends Entidad {
 	private String codigoNumerico;
 	@Column(name = "fecha", nullable = true)
 	private Date fecha;
-	@Column(name = "clave_acceso", nullable = true)
-	private String claveAcceso;
 	@Column(name = "fecha_autorizacion", nullable = true)
 	private Date fechaAutorizacion;
+	@Column(name = "clave_acceso", nullable = true)
+	private String claveAcceso;
 	@Column(name = "estado", nullable = true)
 	private String estado;
 	@Column(name = "proceso_sri", nullable = true)

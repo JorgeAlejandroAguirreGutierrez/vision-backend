@@ -3,7 +3,6 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -48,13 +47,13 @@ public class Empresa extends Entidad {
     private String resolucionAgente;
     @Column(name = "estado", nullable = true)
     private String estado;
-    @ManyToOne
-    @JoinColumn(name = "tipo_identificacion_id", nullable = true)
-    private TipoIdentificacion tipoIdentificacion;
     @Column(name = "certificado", nullable = true)
     private String certificado;
     @Column(name = "contrasena", nullable = true)
     private String contrasena;
+    @ManyToOne
+    @JoinColumn(name = "tipo_identificacion_id", nullable = true)
+    private TipoIdentificacion tipoIdentificacion;
 
     public Empresa(long id){
         super(id);

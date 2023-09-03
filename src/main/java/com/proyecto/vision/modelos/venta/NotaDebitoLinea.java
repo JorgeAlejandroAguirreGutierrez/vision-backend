@@ -57,7 +57,7 @@ public class NotaDebitoLinea extends Entidad {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nota_debito_id", nullable = true)
-    private NotaDebito notaDebitoLinea;
+    private NotaDebito notaDebito;
 
     public NotaDebitoLinea(long id){
         super(id);

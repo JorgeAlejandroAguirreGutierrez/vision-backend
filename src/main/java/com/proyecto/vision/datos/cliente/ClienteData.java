@@ -8,7 +8,6 @@ import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
 import com.proyecto.vision.modelos.configuracion.Ubicacion;
 import com.proyecto.vision.modelos.cliente.Segmento;
 import com.proyecto.vision.modelos.usuario.Empresa;
-import com.proyecto.vision.modelos.usuario.Estacion;
 import com.proyecto.vision.repositorios.cliente.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

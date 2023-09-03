@@ -1,6 +1,5 @@
 package com.proyecto.vision.datos.cliente;
 
-import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.cliente.PlazoCredito;
 import com.proyecto.vision.modelos.usuario.Empresa;
 import com.proyecto.vision.repositorios.cliente.IPlazoCreditoRepository;
