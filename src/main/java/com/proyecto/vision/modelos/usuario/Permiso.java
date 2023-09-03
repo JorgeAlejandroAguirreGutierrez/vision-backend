@@ -5,13 +5,10 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.configuracion.MenuOpcion;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-
-import java.util.Collections;
 
 import static com.proyecto.vision.Constantes.tabla_permiso;
 

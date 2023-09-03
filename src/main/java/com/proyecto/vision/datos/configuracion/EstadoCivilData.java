@@ -29,7 +29,7 @@ public class EstadoCivilData implements ApplicationRunner {
             estados_civiles.add(new EstadoCivil("ECV011907000002", "CASADO", "C", Constantes.estadoActivo));
             estados_civiles.add(new EstadoCivil("ECV011908000003", "VIUDO", "V", Constantes.estadoActivo));
             estados_civiles.add(new EstadoCivil("ECV011908000004", "DIVORCIADO", "D", Constantes.estadoActivo));
-            estados_civiles.add(new EstadoCivil("ECV01190900005", "UNION LIBRE", "U", Constantes.estadoActivo));
+            estados_civiles.add(new EstadoCivil("ECV011909000005", "UNION LIBRE", "U", Constantes.estadoActivo));
             rep.saveAll(estados_civiles);
         }
     }
