@@ -39,7 +39,7 @@ public class ClienteData implements ApplicationRunner {
             List<Telefono> telefonos1 = new ArrayList<>();
             telefonos1.add(new Telefono("TEL012306000001", "03-2964-123", new Cliente(1)));
             List<Correo> correos1 = new ArrayList<>();
-            correos1.add(new Correo("COR012306000001", "consumidorfinal@futuristic.com.ec", new Cliente(1)));
+            correos1.add(new Correo("COR012306000001", "facturacion.evoluciontic@gmail.com", new Cliente(1)));
 
             clientes.add(new Cliente("CLI012306000001", "9999999999999", "CONSUMIDOR FINAL", Constantes.no, Constantes.no, Constantes.estadoActivo, "CONSUMIDOR FINAL", "CASA", "", -1.6719601146175827, -78.65041698970857,
                     0, new TipoIdentificacion(4), new TipoContribuyente(2), new GrupoCliente(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(248), new Genero(1),
@@ -67,9 +67,12 @@ public class ClienteData implements ApplicationRunner {
                     0, new TipoIdentificacion(1), new TipoContribuyente(1), new GrupoCliente(1), new FormaPago(1), new PlazoCredito(1), new Ubicacion(10), new Genero(2),
                     new EstadoCivil(2), new CalificacionCliente(1), new OrigenIngreso(1), new Segmento(1), new Empresa(1), Collections.emptyList(), telefonos3, celulares3, correos3, Collections.emptyList()));
 
-            clientes.add(new Cliente("CLI022306000001", "9999999999999", "CONSUMIDOR FINAL", Constantes.no, Constantes.no, Constantes.estadoActivo, "CONSUMIDOR FINAL", "CASA", "", -1.6719601146175827, -78.65041698970857,
+            clientes.add(new Cliente("CLI022308000001", "9999999999999", "CONSUMIDOR FINAL", Constantes.no, Constantes.no, Constantes.estadoActivo, "CONSUMIDOR FINAL", "CASA", "", -1.6719601146175827, -78.65041698970857,
                     0, new TipoIdentificacion(4), new TipoContribuyente(2), new GrupoCliente(6), new FormaPago(1), new PlazoCredito(4), new Ubicacion(248), new Genero(1),
                     new EstadoCivil(1), new CalificacionCliente(6), new OrigenIngreso(2), new Segmento(5), new Empresa(2), Collections.emptyList(), telefonos1, celulares1, correos1, Collections.emptyList()));
+            clientes.add(new Cliente("CLI032309000001", "9999999999999", "CONSUMIDOR FINAL", Constantes.no, Constantes.no, Constantes.estadoActivo, "CONSUMIDOR FINAL", "CASA", "", -1.6719601146175827, -78.65041698970857,
+                    0, new TipoIdentificacion(4), new TipoContribuyente(2), new GrupoCliente(7), new FormaPago(1), new PlazoCredito(5), new Ubicacion(277), new Genero(1),
+                    new EstadoCivil(1), new CalificacionCliente(11), new OrigenIngreso(2), new Segmento(6), new Empresa(3), Collections.emptyList(), telefonos1, celulares1, correos1, Collections.emptyList()));
 
             rep.saveAll(clientes);
         }

@@ -539,8 +539,10 @@ public class Constantes {
     public static final String contenTypeValor = "text/xml;charset=UTF-8";
     public static final String certificadoSri1 = "certificadoMario.p12";
     public static final String certificadoSri2 = "certificadoMayra.p12";
+    public static final String certificadoSri3 = "CertificadoEmpresa3.p12";
     public static final String contrasenaCertificadoSri1 = "mPrimero1981";
     public static final String contrasenaCertificadoSri2 = "locuras2022";
+    public static final String contrasenaCertificadoSri3 = "dmolina1984";
     public static final String recibidaSri = "RECIBIDA";
     public static final String autorizadoSri = "AUTORIZADO";
     public static final String noAutorizadoSri = "NO AUTORIZADO";
