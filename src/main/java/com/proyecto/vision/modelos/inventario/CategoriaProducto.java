@@ -2,7 +2,6 @@ package com.proyecto.vision.modelos.inventario;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
-import com.proyecto.vision.modelos.usuario.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
