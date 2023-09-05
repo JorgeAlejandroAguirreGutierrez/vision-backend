@@ -88,13 +88,22 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	@Value("${correo.contrasena}")
 	private String correoContrasena;
 
+	@Value("${facturacion.produccion}")
+	private String facturacionProduccion;
+
 	private FacturaElectronica crear(Factura factura) {
 		//MAPEO A FACTURA ELECTRONICA
 		FacturaElectronica facturaElectronica = new FacturaElectronica();
 		InfoTributaria infoTributaria = new InfoTributaria();
 		InfoFactura infoFactura = new InfoFactura();
-
-		infoTributaria.setAmbiente(Constantes.pruebas_sri);
+		String ambiente = Constantes.vacio;
+		if(facturacionProduccion.equals(Constantes.si)){
+			ambiente = Constantes.produccion_sri;
+		}
+		if(facturacionProduccion.equals(Constantes.no)){
+			ambiente = Constantes.pruebas_sri;
+		}
+		infoTributaria.setAmbiente(ambiente);
 		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
 		infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
 		infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
