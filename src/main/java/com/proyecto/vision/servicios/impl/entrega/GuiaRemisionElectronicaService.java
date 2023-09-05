@@ -88,13 +88,21 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 	@Value("${correo.contrasena}")
 	private String correoContrasena;
 
+	@Value("${facturacion.produccion}")
+	private String facturacionProduccion;
 
 	private GuiaRemisionElectronica crear(GuiaRemision guiaRemision) {
 		//MAPEO A FACTURA ELECTRONICA
 		GuiaRemisionElectronica guiaRemisionElectronica = new GuiaRemisionElectronica();
 		InfoTributaria infoTributaria = new InfoTributaria();
-
-		infoTributaria.setAmbiente(Constantes.pruebas_sri);
+		String ambiente = Constantes.vacio;
+		if(facturacionProduccion.equals(Constantes.si)){
+			ambiente = Constantes.produccion_sri;
+		}
+		if(facturacionProduccion.equals(Constantes.no)){
+			ambiente = Constantes.pruebas_sri;
+		}
+		infoTributaria.setAmbiente(ambiente);
 		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
 		infoTributaria.setRazonSocial(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
 		infoTributaria.setNombreComercial(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());

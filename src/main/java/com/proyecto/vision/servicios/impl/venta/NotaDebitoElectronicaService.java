@@ -84,13 +84,21 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 	@Value("${correo.contrasena}")
 	private String correoContrasena;
 
+	@Value("${facturacion.produccion}")
+	private String facturacionProduccion;
 
 	private NotaDebitoElectronica crear(NotaDebito notaDebito) {
 		//MAPEO A FACTURA ELECTRONICA
 		NotaDebitoElectronica notaDebitoElectronica = new NotaDebitoElectronica();
 		InfoTributaria infoTributaria = new InfoTributaria();
-
-		infoTributaria.setAmbiente(Constantes.pruebas_sri);
+		String ambiente = Constantes.vacio;
+		if(facturacionProduccion.equals(Constantes.si)){
+			ambiente = Constantes.produccion_sri;
+		}
+		if(facturacionProduccion.equals(Constantes.no)){
+			ambiente = Constantes.pruebas_sri;
+		}
+		infoTributaria.setAmbiente(ambiente);
 		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
 		infoTributaria.setRazonSocial(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
 		infoTributaria.setNombreComercial(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
