@@ -179,7 +179,7 @@ public class Constantes {
     //ENTREGA
     public static final String tabla_guia_remision="guia_remision";
     public static final String tabla_transportista="transportista";
-    public static final String tabla_vehiculo_transporte="vehiculo_transporte";
+    public static final String tabla_vehiculo="vehiculo";
 
     //INVENTARIO
     public static final String tabla_bodega="bodega";
