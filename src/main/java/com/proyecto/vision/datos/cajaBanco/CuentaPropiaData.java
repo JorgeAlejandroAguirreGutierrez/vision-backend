@@ -32,6 +32,7 @@ public class CuentaPropiaData implements ApplicationRunner {
             cuentas_propias.add(new CuentaPropia("CTP012305000003","AHORROS", "JORGE HIDALGO","0000000003", Constantes.estadoActivo, new Banco(3), new Empresa(1)));
 
             cuentas_propias.add(new CuentaPropia("CTP022305000001","AHORROS","FUTURISTIC S.A.","0000000004", Constantes.estadoActivo, new Banco(4), new Empresa(2)));
+
             cuentas_propias.add(new CuentaPropia("CTP032309000001","AHORROS","DIANA MOLINA","20001056989", Constantes.estadoActivo, new Banco(11), new Empresa(3)));
             rep.saveAll(cuentas_propias);
         }
