@@ -51,6 +51,16 @@ public class EstablecimientoData implements ApplicationRunner {
             establecimientos.add(new Establecimiento("EST022308000001", "001", "VILLA MARIA", "LOJA 21-27 Y OROZCO", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Regimen(1), new Ubicacion(248), new Empresa(2), Collections.emptyList(), celularesEstablecimientos2, correosEstablecimientos2));
             establecimientos.add(new Establecimiento("EST022308000002", "004", "VILLA MARIA 2", "OROZCO SN Y LOJA", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Regimen(1), new Ubicacion(248), new Empresa(2), Collections.emptyList(), celularesEstablecimientos2, correosEstablecimientos2));
 
+            //ESTABLECIMIENTOS EMPRESA 3
+            List<TelefonoEstablecimiento> telefonosEstablecimientos3 = new ArrayList<>();
+            telefonosEstablecimientos3.add(new TelefonoEstablecimiento("TEE032308000001", "03-296-4123", new Establecimiento(6)));
+            List<CelularEstablecimiento> celularesEstablecimientos3 = new ArrayList<>();
+            celularesEstablecimientos3.add(new CelularEstablecimiento("CEE032308000001", "0987654321", new Establecimiento(6)));
+            List<CorreoEstablecimiento> correosEstablecimientos3 = new ArrayList<>();
+            correosEstablecimientos3.add(new CorreoEstablecimiento("COE032308000001", "catydi_30@hotmail.com", new Establecimiento(6)));
+
+            establecimientos.add(new Establecimiento("EST032309000001", "001", "SERVICIOS PROFESIONALES", "VELOZ Y LOS SAUCES", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Regimen(3), new Ubicacion(277), new Empresa(3), Collections.emptyList(), celularesEstablecimientos3, correosEstablecimientos3));
+            establecimientos.add(new Establecimiento("EST032309000002", "002", "PRODUCTOS FARMACÉUTICOS", "CASIQUE ACHAMBA SN Y VIA A CHUYLLIN", -1.6719601146175827, -78.65041698970857, Constantes.estadoActivo, new Regimen(3), new Ubicacion(277), new Empresa(3), Collections.emptyList(), celularesEstablecimientos3, correosEstablecimientos3));
             rep.saveAll(establecimientos);
         }
     }

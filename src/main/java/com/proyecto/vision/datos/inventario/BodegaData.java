@@ -29,8 +29,10 @@ public class BodegaData implements ApplicationRunner {
             bodegas.add(new Bodega("BOD012301000001","BODEGA MATRIZ", "BM001",Constantes.estadoActivo, new Empresa(1)));
             bodegas.add(new Bodega("BOD012301000002","BODEGA LOCAL 1", "BL001",Constantes.estadoActivo, new Empresa(1)));
             bodegas.add(new Bodega("BOD012301000003","BODEGA LOCAL 2", "BL002",Constantes.estadoActivo, new Empresa(1)));
-
-            bodegas.add(new Bodega("BOD022301000001","BODEGA MATRIZ", "BM001",Constantes.estadoActivo, new Empresa(2)));
+            // EMPRESA 2
+            bodegas.add(new Bodega("BOD022308000001","BODEGA MATRIZ", "BM001",Constantes.estadoActivo, new Empresa(2)));
+            // EMPRESA 3
+            bodegas.add(new Bodega("BOD032309000001","BODEGA MATRIZ", "BM001",Constantes.estadoActivo, new Empresa(3)));
 
             rep.saveAll(bodegas);
         }

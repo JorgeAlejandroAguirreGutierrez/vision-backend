@@ -30,8 +30,10 @@ public class SegmentoData implements ApplicationRunner {
             segmentos.add(new Segmento("SEG012301000002", 2, "MAYORISTA" ,"MAY", Constantes.estadoActivo, new Empresa(1)));
             segmentos.add(new Segmento("SEG012301000003", 3, "DISTRIBUIDOR", "DIST", Constantes.estadoActivo, new Empresa(1)));
             segmentos.add(new Segmento("SEG012301000004", 10, "TARJETA DE CREDITO", "TCR", Constantes.estadoActivo, new Empresa(1)));
-
+            // EMPRESA 2
             segmentos.add(new Segmento("SEG022308000001", 6, "CLIENTE FINAL", "CLF", Constantes.estadoActivo, new Empresa(2)));
+            // EMPRESA 3
+            segmentos.add(new Segmento("SEG032309000001", 10, "CLIENTE FINAL", "CLF", Constantes.estadoActivo, new Empresa(3)));
 
             rep.saveAll(segmentos);
         }

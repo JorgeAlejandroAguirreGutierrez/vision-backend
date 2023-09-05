@@ -32,8 +32,10 @@ public class GrupoClienteData implements ApplicationRunner {
             gruposClientes.add(new GrupoCliente("GCL012306000003", "HONORARIOS", "HON", Constantes.estadoActivo, new CuentaContable(8), new Empresa(1)));
             gruposClientes.add(new GrupoCliente("GCL012306000004", "ASESORIAS", "ASES", Constantes.estadoActivo, new CuentaContable(11), new Empresa(1)));
             gruposClientes.add(new GrupoCliente("GCL012306000005", "SERVICIOS", "SRV", Constantes.estadoActivo, new CuentaContable(13), new Empresa(1)));
-
+            // EMPRESA 2
             gruposClientes.add(new GrupoCliente("GCL022308000001", "CLIENTE GENERAL", "CLG", Constantes.estadoActivo, new CuentaContable(323), new Empresa(2)));
+            // EMPRESA 3
+            gruposClientes.add(new GrupoCliente("GCL032309000001", "CLIENTE GENERAL", "CLG", Constantes.estadoActivo, new CuentaContable(641), new Empresa(3)));
 
             rep.saveAll(gruposClientes);
         }

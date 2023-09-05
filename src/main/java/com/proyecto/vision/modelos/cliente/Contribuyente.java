@@ -57,8 +57,6 @@ public class Contribuyente extends Entidad {
     private String parroquia;
     @Column(name = "codigo_ciiu", nullable = true)
     private String codigoCiiu;
-    @Column(name = "actividad_economica", nullable = true)
-    private String actividadEconomica;
     @ManyToOne
     @JoinColumn(name = "tipo_contribuyente_id", nullable = true)
     private TipoContribuyente tipoContribuyente;
@@ -89,7 +87,6 @@ public class Contribuyente extends Entidad {
         this.canton = Constantes.vacio;
         this.parroquia = Constantes.vacio;
         this.codigoCiiu = Constantes.vacio;
-        this.actividadEconomica = Constantes.vacio;
     }
       
     public void normalizar(){
