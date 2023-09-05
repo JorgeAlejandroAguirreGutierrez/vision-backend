@@ -9,10 +9,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import static com.proyecto.vision.Constantes.tabla_vehiculo_transporte;
+import static com.proyecto.vision.Constantes.tabla_vehiculo;
 
 @Entity
-@Table(name = tabla_vehiculo_transporte)
+@Table(name = tabla_vehiculo)
 @Getter
 @Setter
 @AllArgsConstructor

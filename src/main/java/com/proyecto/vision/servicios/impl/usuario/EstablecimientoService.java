@@ -47,7 +47,7 @@ public class EstablecimientoService implements IEstablecimientoService {
     @Override
     public Establecimiento crear(Establecimiento establecimiento) {
         validar(establecimiento);
-        Optional<Establecimiento> establecimientoExiste = rep.ObtenerPorEmpresaYCodigoSri(establecimiento.getEmpresa().getId(), establecimiento.getCodigoSRI());
+        Optional<Establecimiento> establecimientoExiste = rep.ObtenerPorEmpresaYCodigoSRI(establecimiento.getEmpresa().getId(), establecimiento.getCodigoSRI());
         if(establecimientoExiste.isPresent()){
             throw new EntidadExistenteException(Constantes.establecimiento);
         }

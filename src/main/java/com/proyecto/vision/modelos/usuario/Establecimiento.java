@@ -24,7 +24,7 @@ import static com.proyecto.vision.Constantes.tabla_establecimiento;
 public class Establecimiento extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
-    @Column(name = "codigoSRI", nullable = true)
+    @Column(name = "codigo_sri", nullable = true)
     private String codigoSRI;
     @Column(name = "descripcion", nullable = true)
     private String descripcion;

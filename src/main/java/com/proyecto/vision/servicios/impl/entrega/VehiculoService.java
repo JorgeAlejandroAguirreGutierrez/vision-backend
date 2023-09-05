@@ -21,7 +21,7 @@ public class VehiculoService implements IVehiculoService {
     
     @Override
     public Vehiculo crear(Vehiculo vehiculo) {
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_vehiculo_transporte, vehiculo.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_vehiculo, vehiculo.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
