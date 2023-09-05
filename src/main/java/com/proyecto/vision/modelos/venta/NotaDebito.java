@@ -102,23 +102,23 @@ public class NotaDebito extends Entidad {
     private double totalCredito;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "cheque_id", nullable = true)
+    @JoinColumn(name = "nota_debito_id", nullable = true)
     private List<NDCheque> cheques;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "deposito_id", nullable = true)
+    @JoinColumn(name = "nota_debito_id", nullable = true)
     private List<NDDeposito> depositos;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "transferencia_id", nullable = true)
+    @JoinColumn(name = "nota_debito_id", nullable = true)
     private List<NDTransferencia> transferencias;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "tarjeta_debito_id", nullable = true)
+    @JoinColumn(name = "nota_debito_id", nullable = true)
     private List<NDTarjetaDebito> tarjetasDebitos;
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "tarjeta_credito_id", nullable = true)
+    @JoinColumn(name = "nota_debito_id", nullable = true)
     private List<NDTarjetaCredito> tarjetasCreditos;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
