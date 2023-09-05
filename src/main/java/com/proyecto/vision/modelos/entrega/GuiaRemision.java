@@ -76,7 +76,7 @@ public class GuiaRemision extends Entidad {
     @JoinColumn(name = "transportista_id", nullable = true)
     private Transportista transportista;
     @ManyToOne
-    @JoinColumn(name = "vehiculo_transporte_id", nullable = true)
+    @JoinColumn(name = "vehiculo_id", nullable = true)
     private Vehiculo vehiculo;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)

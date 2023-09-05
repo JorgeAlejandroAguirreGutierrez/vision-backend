@@ -59,11 +59,11 @@ public class CierreCaja extends Entidad {
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
-    @JoinColumn(name = "empresa_id", nullable = true)
-    private Empresa empresa;
-    @ManyToOne
     @JoinColumn(name = "sesion_id", nullable = true)
     private Sesion sesion;
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
 
     public CierreCaja(long id){
         super(id);
