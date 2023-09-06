@@ -296,9 +296,11 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
-		notaDebito.setProcesoSRI(Constantes.procesoSRIAutorizada);
-		notaDebito.setFechaAutorizacion(new Date());
-		enviarCorreo(notaDebito, notaDebitoElectronica);
+		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			notaDebito.setProcesoSRI(Constantes.procesoSRIAutorizada);
+			notaDebito.setFechaAutorizacion(new Date());
+			enviarCorreo(notaDebito, notaDebitoElectronica);
+		}
 		NotaDebito facturada = rep.save(notaDebito);
 		facturada.normalizar();
 		return facturada;
