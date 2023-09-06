@@ -131,7 +131,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	public final ResponseEntity<RestExceptionMessage> handleErrorInternoException(
 			ErrorInternoException ex, WebRequest req) {
 		RestExceptionMessage exceptionResponse = new RestExceptionMessage(Constantes.error_codigo_generico,
-				Constantes.error_generico + Constantes.vacio + ex.getMensaje(),
+				Constantes.error_generico + Constantes.espacio + ex.getMensaje(),
 				null
 		);
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
