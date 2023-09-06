@@ -42,7 +42,7 @@ public class NDTarjetaDebito extends Entidad {
     private FranquiciaTarjeta franquiciaTarjeta;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nota_debito_venta_id", nullable = true)
+    @JoinColumn(name = "nota_debito_id", nullable = true)
     private NotaDebito notaDebito;
 
     public NDTarjetaDebito(long id){

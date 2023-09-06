@@ -37,7 +37,7 @@ public class NDCheque extends Entidad {
     private Banco banco;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nota_debito_venta_id", nullable = true)
+    @JoinColumn(name = "nota_debito_id", nullable = true)
     private NotaDebito notaDebito;
 
     public NDCheque(long id){
