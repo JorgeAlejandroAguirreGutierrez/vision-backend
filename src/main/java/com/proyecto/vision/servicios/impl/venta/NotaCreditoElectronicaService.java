@@ -255,9 +255,11 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
-		notaCredito.setProcesoSRI(Constantes.procesoSRIAutorizada);
-		notaCredito.setFechaAutorizacion(new Date());
-		enviarCorreo(notaCredito, notaCreditoElectronica);
+		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			notaCredito.setProcesoSRI(Constantes.procesoSRIAutorizada);
+			notaCredito.setFechaAutorizacion(new Date());
+			enviarCorreo(notaCredito, notaCreditoElectronica);
+		}
 		NotaCredito facturada = rep.save(notaCredito);
 		facturada.normalizar();
 		return facturada;

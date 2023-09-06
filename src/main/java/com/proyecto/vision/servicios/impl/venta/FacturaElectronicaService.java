@@ -319,10 +319,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
+			factura.setFechaAutorizacion(new Date());
 			enviarCorreo(factura, facturaElectronica);
 		}
-		factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
-		factura.setFechaAutorizacion(new Date());
 		Factura facturada = rep.save(factura);
 		facturada.normalizar();
 		return facturada;
