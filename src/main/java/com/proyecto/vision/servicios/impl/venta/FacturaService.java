@@ -216,10 +216,6 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura actualizar(Factura factura) {
         validar(factura);
-        List<NotaDebito> notasDebitos = notaDebitoService.consultarPorFacturaYEmpresaYEstadoDiferente(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoAnulada);
-        if(!notasDebitos.isEmpty()){
-            throw new ErrorInternoException(Constantes.mensaje_error_nota_debito_existente);
-        }
         List<NotaCredito> notasCreditos = notaCreditoService.consultarPorFacturaYEmpresaYEstadoDiferente(factura.getId(), factura.getEmpresa().getId(), Constantes.estadoAnulada);
         if(!notasCreditos.isEmpty()){
             throw new ErrorInternoException(Constantes.mensaje_error_nota_credito_existente);
