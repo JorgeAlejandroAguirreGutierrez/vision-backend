@@ -354,7 +354,6 @@ public class FacturaService implements IFacturaService {
         validar(factura);
         calcular(factura);
         calcularRecaudacion(factura);
-        crearKardex(factura);
         if(factura.getTotalRecaudacion() != factura.getTotal()){
             factura.setEstado(Constantes.estadoEmitida);
         }
