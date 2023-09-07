@@ -357,6 +357,7 @@ public class Constantes {
     public static final String perfil="PERFIL";
     public static final String permiso="PERMISO";
     public static final String estacion="ESTACION";
+    public static final String punto_venta="PUNTO VENTA";
     public static final String sesion="SESION";
     public static final String usuario="USUARIO";
     public static final String estacion_usuario= "ESTACION USUARIO";

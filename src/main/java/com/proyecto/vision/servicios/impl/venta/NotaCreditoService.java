@@ -55,8 +55,8 @@ public class NotaCreditoService implements INotaCreditoService {
     @Override
     public NotaCredito crear(NotaCredito notaCredito) {
         validar(notaCredito);
-        Optional<NotaCredito> notaCreditoExistente = rep.obtenerPorFacturaYEmpresaYEstadoDiferente(notaCredito.getFactura().getId(), notaCredito.getEmpresa().getId(), Constantes.estadoAnulada);
-        if(notaCreditoExistente.isPresent()){
+        List<NotaCredito> notaCreditoExistente = rep.consultarPorFacturaYEmpresaYEstadoDiferente(notaCredito.getFactura().getId(), notaCredito.getEmpresa().getId(), Constantes.estadoAnulada);
+        if(!notaCreditoExistente.isEmpty()){
             throw new EntidadExistenteException(Constantes.nota_credito);
         }
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito);

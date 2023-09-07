@@ -22,6 +22,4 @@ public interface INotaCreditoRepository extends JpaRepository<NotaCredito, Long>
     List<NotaCredito> consultarPorEmpresaYEstado(long empresaId, String estado);
     @Query(value = "select nc from NotaCredito nc where nc.factura.id = :facturaId and nc.empresa.id = :empresaId and nc.estado != :estado order by nc.codigo asc")
     List<NotaCredito> consultarPorFacturaYEmpresaYEstadoDiferente(long facturaId, long empresaId, String estado);
-    @Query(value = "select nc from NotaCredito nc where nc.factura.id = :facturaId and nc.empresa.id = :empresaId and nc.estado != :estado order by nc.codigo asc")
-    Optional<NotaCredito> obtenerPorFacturaYEmpresaYEstadoDiferente(long facturaId, long empresaId, String estado);
 }
