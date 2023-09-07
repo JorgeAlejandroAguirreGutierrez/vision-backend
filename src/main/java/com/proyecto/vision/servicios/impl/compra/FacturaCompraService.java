@@ -5,9 +5,11 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.compra.FacturaCompra;
 import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
+import com.proyecto.vision.modelos.compra.NotaCreditoCompra;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
-import com.proyecto.vision.modelos.inventario.Bodega;
 import com.proyecto.vision.modelos.inventario.Precio;
+import com.proyecto.vision.modelos.venta.NotaCredito;
+import com.proyecto.vision.servicios.interf.compra.INotaCreditoCompraService;
 import com.proyecto.vision.servicios.interf.inventario.IPrecioService;
 import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.servicios.interf.inventario.IKardexService;
@@ -17,6 +19,7 @@ import com.proyecto.vision.repositorios.compra.IFacturaCompraRepository;
 import com.proyecto.vision.servicios.interf.compra.IFacturaCompraService;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
+import com.proyecto.vision.servicios.interf.venta.INotaCreditoService;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,9 +44,8 @@ public class FacturaCompraService implements IFacturaCompraService {
     private IKardexService kardexService;
     @Autowired
     private IPrecioService precioService;
-
     @Autowired
-    private ISecuencialService secuencialService;
+    private INotaCreditoCompraService notaCreditoCompraService;
 
     @Override
     public void validar(FacturaCompra facturaCompra) {
@@ -118,6 +120,10 @@ public class FacturaCompraService implements IFacturaCompraService {
     @Override
     public FacturaCompra actualizar(FacturaCompra facturaCompra) {
         validar(facturaCompra);
+        List<NotaCreditoCompra> notasCreditosCompras = notaCreditoCompraService.consultarPorFacturaCompraYEmpresaYEstadoDiferente(facturaCompra.getId(), facturaCompra.getEmpresa().getId(), Constantes.estadoAnulada);
+        if(!notasCreditosCompras.isEmpty()){
+            throw new ErrorInternoException(Constantes.mensaje_error_nota_credito_existente);
+        }
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
             validarLinea(facturaCompraLinea);
             Kardex registroInicial = kardexService.obtenerSaldoInicialPorProductoYBodega(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId());
@@ -276,13 +282,13 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
-    public List<FacturaCompra> consultarPorEmpresaYProveedorYEstado(long empresaId, long proveedorId, String estado){
-        return rep.consultarPorEmpresaYProveedorYEstado(empresaId, proveedorId, estado);
+    public List<FacturaCompra> consultarPorProveedorYEmpresaYEstado(long proveedorId, long empresaId, String estado){
+        return rep.consultarPorProveedorYEmpresaYEstado(proveedorId, empresaId, estado);
     }
 
     @Override
-    public List<FacturaCompra> consultarPorEmpresaYProveedorYEstadoDiferente(long empresaId, long proveedorId, String estado){
-        return rep.consultarPorEmpresaYProveedorYEstadoDiferente(empresaId, proveedorId, estado);
+    public List<FacturaCompra> consultarPorProveedorYEmpresaYEstadoDiferente(long proveedorId, long empresaId, String estado){
+        return rep.consultarPorProveedorYEmpresaYEstadoDiferente(proveedorId, empresaId, estado);
     }
 
     @Override

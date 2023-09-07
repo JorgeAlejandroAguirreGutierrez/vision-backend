@@ -80,16 +80,11 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
             throw new CodigoNoExistenteException();
         }
         notaDebitoCompra.setCodigo(codigo.get());
-        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(notaDebitoCompra.getTipoComprobante().getId(),
-                notaDebitoCompra.getSesion().getUsuario().getEstacion().getId(), notaDebitoCompra.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
-        notaDebitoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         notaDebitoCompra.setEstado(Constantes.estadoPorPagar);
         calcular(notaDebitoCompra);
         facturar(notaDebitoCompra);
         NotaDebitoCompra res = rep.save(notaDebitoCompra);
         res.normalizar();
-        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
-        secuencialService.actualizar(secuencial);
         return res;
     }
 
@@ -157,7 +152,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         validarLinea(notaDebitoCompraLinea);
         double subtotalLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario();
         double impuesto = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() * notaDebitoCompraLinea.getImpuesto().getPorcentaje() / 100;
-        double totalLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() + impuesto - notaDebitoCompraLinea.getDescuento();
+        double totalLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() + impuesto - notaDebitoCompraLinea.getValorDescuentoLinea();
         subtotalLinea = Math.round(subtotalLinea * 100.0)/100.0;
         notaDebitoCompraLinea.setSubtotalLinea(subtotalLinea);
         totalLinea = Math.round(totalLinea * 100.0)/100.0;
@@ -172,7 +167,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
             validarLinea(notaDebitoCompraLinea);
             double ivaLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() * notaDebitoCompraLinea.getImpuesto().getPorcentaje() / 100;
             ivaLinea = Math.round(ivaLinea * 100.0)/100.0;
-            notaDebitoCompraLinea.setIvaLinea(ivaLinea);
+            notaDebitoCompraLinea.setImporteIvaLinea(ivaLinea);
         }
     }
     private void calcularSubtotalLinea(NotaDebitoCompra notaDebitoCompra){
@@ -186,7 +181,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     private void calcularTotalLinea(NotaDebitoCompra notaDebitoCompra) {
         for(NotaDebitoCompraLinea notaDebitoCompraLinea: notaDebitoCompra.getNotaDebitoCompraLineas()) {
             validarLinea(notaDebitoCompraLinea);
-            double totalLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() + notaDebitoCompraLinea.getIvaLinea() - notaDebitoCompraLinea.getDescuento();
+            double totalLinea = notaDebitoCompraLinea.getCantidad() * notaDebitoCompraLinea.getCostoUnitario() + notaDebitoCompraLinea.getImporteIvaLinea() - notaDebitoCompraLinea.getValorDescuentoLinea();
             totalLinea=Math.round(totalLinea*100.0)/100.0;
             notaDebitoCompraLinea.setTotalLinea(totalLinea);
         }
@@ -237,8 +232,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     public void validarLinea(NotaDebitoCompraLinea notaDebitoCompraLinea) {
         if(notaDebitoCompraLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
         if(notaDebitoCompraLinea.getCostoUnitario() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
-        if(notaDebitoCompraLinea.getDescuento() < Constantes.cero) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
-        if(notaDebitoCompraLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
+        if(notaDebitoCompraLinea.getValorDescuentoLinea() < Constantes.cero) throw new DatoInvalidoException(Constantes.valorDescuentoLinea);
         if(notaDebitoCompraLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
     }
 

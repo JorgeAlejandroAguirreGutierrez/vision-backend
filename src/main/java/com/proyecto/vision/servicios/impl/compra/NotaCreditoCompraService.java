@@ -11,7 +11,6 @@ import com.proyecto.vision.modelos.compra.FacturaCompra;
 import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.compra.NotaCreditoCompra;
 import com.proyecto.vision.modelos.compra.NotaCreditoCompraLinea;
-import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.modelos.inventario.Precio;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
@@ -65,17 +64,12 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
             throw new CodigoNoExistenteException();
         }
         notaCreditoCompra.setCodigo(codigo.get());
-        Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(notaCreditoCompra.getTipoComprobante().getId(),
-                notaCreditoCompra.getSesion().getUsuario().getEstacion().getId(), notaCreditoCompra.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
-        notaCreditoCompra.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         notaCreditoCompra.setEstado(Constantes.estadoPorPagar);
         calcular(notaCreditoCompra);
         crearKardex(notaCreditoCompra);
         actualizarPrecios(notaCreditoCompra);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
-        secuencial.setNumeroSiguiente(secuencial.getNumeroSiguiente()+1);
-        secuencialService.actualizar(secuencial);
         return res;
     }
 
@@ -233,6 +227,10 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
             notaCreditoCompra.getNotaCreditoCompraLineas().add(notaCreditoCompraLinea);
         }
         return notaCreditoCompra;
+    }
+
+    public List<NotaCreditoCompra> consultarPorFacturaCompraYEmpresaYEstadoDiferente(long facturaCompraId, long empresaId, String estado){
+        return rep.consultarPorFacturaCompraYEmpresaYEstadoDiferente(facturaCompraId, empresaId, estado);
     }
 
     @Override
