@@ -68,7 +68,7 @@ public class SecuencialService implements ISecuencialService {
 
     @Override
     public Secuencial obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(long tipoComprobanteId, long estacionId, long empresaId, String estado) {
-        Optional<Secuencial> res= rep.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(tipoComprobanteId, estacionId, empresaId, estado);
+        Optional<Secuencial> res = rep.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(tipoComprobanteId, estacionId, empresaId, estado);
         if(res.isPresent()) {
             return res.get();
         }

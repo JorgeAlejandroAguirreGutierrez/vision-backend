@@ -25,12 +25,12 @@ public class NotaDebitoCompraLinea extends Entidad {
     private long cantidad;
     @Column(name = "costo_unitario", nullable = true)
     private double costoUnitario;
-    @Column(name = "descuento", nullable = true)
-    private double descuento;
+    @Column(name = "valor_descuento_linea", nullable = true)
+    private double valorDescuentoLinea;
     @Column(name = "subtotal_linea", nullable = true)
     private double subtotalLinea;
-    @Column(name = "iva", nullable = true)
-    private double ivaLinea;
+    @Column(name = "importe_iva_linea", nullable = true)
+    private double importeIvaLinea;
     @Column(name = "total", nullable = true)
     private double totalLinea;
     @Column(name = "entregado", nullable = true)
@@ -57,9 +57,9 @@ public class NotaDebitoCompraLinea extends Entidad {
         this.codigo = Constantes.vacio;
         this.cantidad = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
-        this.descuento = Constantes.cero;
+        this.valorDescuentoLinea = Constantes.cero;
         this.subtotalLinea = Constantes.cero;
-        this.ivaLinea = Constantes.cero;
+        this.importeIvaLinea = Constantes.cero;
         this.totalLinea = Constantes.cero;
         this.entregado = Constantes.no;
     }

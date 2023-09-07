@@ -1,6 +1,7 @@
 package com.proyecto.vision.repositorios.compra;
 
 import com.proyecto.vision.modelos.compra.NotaCreditoCompra;
+import com.proyecto.vision.modelos.venta.NotaCredito;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,6 @@ public interface INotaCreditoCompraRepository extends JpaRepository<NotaCreditoC
     List<NotaCreditoCompra> consultarPorEmpresa(long empresaId);
     @Query(value = "select ncc from NotaCreditoCompra ncc where ncc.empresa.id = :empresaId and ncc.estado = :estado order by ncc.codigo asc")
     List<NotaCreditoCompra> consultarPorEmpresaYEstado(long empresaId, String estado);
-    @Query(value = "select ncc from NotaCreditoCompra ncc where ncc.facturaCompra.id = :facturaCompraId and ncc.estado = :estado order by ncc.codigo desc")
-    List<NotaCreditoCompra> consultarPorFacturaCompraYEstado(long facturaCompraId, String estado);
+    @Query(value = "select ncc from NotaCreditoCompra ncc where ncc.facturaCompra.id = :facturaCompraId and ncc.empresa.id = :empresaId and ncc.estado != :estado order by ncc.codigo asc")
+    List<NotaCreditoCompra> consultarPorFacturaCompraYEmpresaYEstadoDiferente(long facturaCompraId, long empresaId, String estado);
 }
