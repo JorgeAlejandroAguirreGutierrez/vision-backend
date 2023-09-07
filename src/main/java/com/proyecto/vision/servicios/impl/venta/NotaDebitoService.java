@@ -267,11 +267,11 @@ public class NotaDebitoService implements INotaDebitoService {
         subtotalLinea = Math.round(subtotalLinea * 10000.0) / 10000.0;
         notaDebitoLinea.setSubtotalLinea(subtotalLinea);
 
-        double valorIvaLinea = (subtotalLinea * (notaDebitoLinea.getImpuesto().getPorcentaje() / 100));
-        valorIvaLinea = Math.round(valorIvaLinea * 100.0) / 100.0;
-        notaDebitoLinea.setImporteIvaLinea(valorIvaLinea);
+        double importeIvaLinea = (subtotalLinea * (notaDebitoLinea.getImpuesto().getPorcentaje() / 100));
+        importeIvaLinea = Math.round(importeIvaLinea * 100.0) / 100.0;
+        notaDebitoLinea.setImporteIvaLinea(importeIvaLinea);
 
-        double totalLinea = subtotalLinea + valorIvaLinea;
+        double totalLinea = subtotalLinea + importeIvaLinea;
         totalLinea = Math.round(totalLinea * 100.0) / 100.0;
         notaDebitoLinea.setTotalLinea(totalLinea);
 
@@ -294,8 +294,8 @@ public class NotaDebitoService implements INotaDebitoService {
      */
     private void calcularSubtotal(NotaDebito notaDebito) {
         double subtotal = Constantes.cero;
-        for(NotaDebitoLinea facturaLinea : notaDebito.getNotaDebitoLineas()){
-            subtotal += facturaLinea.getSubtotalLinea();
+        for(NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()){
+            subtotal += notaDebitoLinea.getSubtotalLinea();
         }
         subtotal = Math.round(subtotal * 10000.0) / 10000.0;
         notaDebito.setSubtotal(subtotal);
@@ -304,7 +304,7 @@ public class NotaDebitoService implements INotaDebitoService {
     private void calcularDescuento(NotaDebito notaDebito) {
         double descuento = Constantes.cero;
         for (NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()) {
-            descuento += notaDebitoLinea.getValorDescuentoLinea() + notaDebitoLinea.getPorcentajeDescuentoLinea();
+            descuento += notaDebitoLinea.getValorDescuentoLinea() + notaDebitoLinea.getValorPorcentajeDescuentoLinea();
         }
         descuento = Math.round(descuento * 100.0) / 100.0;
         notaDebito.setDescuento(descuento);

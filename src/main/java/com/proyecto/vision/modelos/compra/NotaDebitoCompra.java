@@ -1,5 +1,6 @@
 package com.proyecto.vision.modelos.compra;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
@@ -53,7 +54,7 @@ public class NotaDebitoCompra extends Entidad {
     private double total;
     @Column(name = "comentario", nullable = true)
     private String comentario;
-
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_compra_id", nullable = true)
     private FacturaCompra facturaCompra;

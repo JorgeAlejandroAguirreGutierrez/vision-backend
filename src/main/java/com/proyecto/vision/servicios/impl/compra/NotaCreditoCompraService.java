@@ -2,11 +2,8 @@ package com.proyecto.vision.servicios.impl.compra;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.exception.EstadoInvalidoException;
+import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
-import com.proyecto.vision.exception.CodigoNoExistenteException;
-import com.proyecto.vision.exception.DatoInvalidoException;
-import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.modelos.compra.FacturaCompra;
 import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.compra.NotaCreditoCompra;
@@ -14,6 +11,7 @@ import com.proyecto.vision.modelos.compra.NotaCreditoCompraLinea;
 import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.modelos.inventario.Precio;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
+import com.proyecto.vision.modelos.venta.NotaCredito;
 import com.proyecto.vision.repositorios.compra.INotaCreditoCompraRepository;
 import com.proyecto.vision.servicios.interf.compra.IFacturaCompraService;
 import com.proyecto.vision.servicios.interf.compra.INotaCreditoCompraService;
@@ -48,6 +46,9 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
 
     @Override
     public void validar(NotaCreditoCompra notaCreditoCompra) {
+        if(notaCreditoCompra.getEstablecimiento().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.establecimiento);
+        if(notaCreditoCompra.getPuntoVenta().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.punto_venta);
+        if(notaCreditoCompra.getSecuencial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.secuencial);
         if(notaCreditoCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaCreditoCompra.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaCreditoCompra.getNotaCreditoCompraLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_credito_compra_linea);
@@ -57,6 +58,10 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     @Override
     public NotaCreditoCompra crear(NotaCreditoCompra notaCreditoCompra) {
         validar(notaCreditoCompra);
+        List<NotaCreditoCompra> notaCreditoExistente = rep.consultarPorFacturaCompraYEmpresaYEstadoDiferente(notaCreditoCompra.getFacturaCompra().getId(), notaCreditoCompra.getEmpresa().getId(), Constantes.estadoAnulada);
+        if(!notaCreditoExistente.isEmpty()){
+            throw new EntidadExistenteException(Constantes.nota_credito_compra);
+        }
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito_compra);
         notaCreditoCompra.setTipoComprobante(tipoComprobante);
         Optional<String> codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_nota_credito_compra, notaCreditoCompra.getEmpresa().getId());
@@ -64,6 +69,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
             throw new CodigoNoExistenteException();
         }
         notaCreditoCompra.setCodigo(codigo.get());
+        notaCreditoCompra.setNumeroComprobante(notaCreditoCompra.getEstablecimiento() + Constantes.guion + notaCreditoCompra.getPuntoVenta() + Constantes.guion + notaCreditoCompra.getSecuencial());
         notaCreditoCompra.setEstado(Constantes.estadoPorPagar);
         calcular(notaCreditoCompra);
         crearKardex(notaCreditoCompra);
@@ -116,6 +122,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     @Override
     public NotaCreditoCompra actualizar(NotaCreditoCompra notaCreditoCompra) {
         validar(notaCreditoCompra);
+        notaCreditoCompra.setNumeroComprobante(notaCreditoCompra.getEstablecimiento() + Constantes.guion + notaCreditoCompra.getPuntoVenta() + Constantes.guion + notaCreditoCompra.getSecuencial());
         calcular(notaCreditoCompra);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         actualizarKardex(notaCreditoCompra);

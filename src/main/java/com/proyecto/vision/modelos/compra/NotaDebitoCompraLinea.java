@@ -31,7 +31,7 @@ public class NotaDebitoCompraLinea extends Entidad {
     private double subtotalLinea;
     @Column(name = "importe_iva_linea", nullable = true)
     private double importeIvaLinea;
-    @Column(name = "total", nullable = true)
+    @Column(name = "total_linea", nullable = true)
     private double totalLinea;
     @Column(name = "entregado", nullable = true)
     private String entregado;
@@ -41,9 +41,6 @@ public class NotaDebitoCompraLinea extends Entidad {
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = true)
     private Producto producto;
-    @ManyToOne
-    @JoinColumn(name = "bodega_id", nullable = true)
-    private Bodega bodega;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nota_debito_compra_id", nullable = true)
