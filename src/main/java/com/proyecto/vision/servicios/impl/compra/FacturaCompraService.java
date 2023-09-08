@@ -68,14 +68,14 @@ public class FacturaCompraService implements IFacturaCompraService {
         if(facturaCompraExiste.isPresent()){
             throw new DatoInvalidoException(Constantes.secuencial);
         }
-        for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
+        /*for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
             Kardex registroInicial = kardexService.obtenerSaldoInicialPorProductoYBodega(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId());
             Date fechaCompra = DateUtils.truncate(facturaCompra.getFecha(), Calendar.DAY_OF_MONTH);
             Date fechaInicio = DateUtils.truncate(registroInicial.getFecha(), Calendar.DAY_OF_MONTH);
             if (fechaCompra.before(fechaInicio)) {
                 throw new DatoInvalidoException(Constantes.fecha);
             }
-        }
+        }*/
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
         facturaCompra.setTipoComprobante(tipoComprobante);
         Optional<String> codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
@@ -98,13 +98,14 @@ public class FacturaCompraService implements IFacturaCompraService {
             if (ultimoKardex != null) {
                 saldo = ultimoKardex.getSaldo() + facturaCompraLinea.getCantidad();
                 costoTotal = ultimoKardex.getCostoTotal() + facturaCompraLinea.getSubtotalLinea();
-                costoUnitario = facturaCompraLinea.getSubtotalLinea() / facturaCompraLinea.getCantidad();
-                costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
-                costoPromedio = costoTotal / saldo;
-                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             } else{
-                throw new DatoInvalidoException(Constantes.kardex);
+                saldo = facturaCompraLinea.getCantidad();
+                costoTotal = facturaCompraLinea.getSubtotalLinea();
             }
+            costoUnitario = facturaCompraLinea.getSubtotalLinea() / facturaCompraLinea.getCantidad();
+            costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
+            costoPromedio = costoTotal / saldo;
+            costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
             TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.compra, Constantes.estadoActivo);
             Kardex kardex = new Kardex(null, facturaCompra.getFecha(), facturaCompra.getNumeroComprobante(),
