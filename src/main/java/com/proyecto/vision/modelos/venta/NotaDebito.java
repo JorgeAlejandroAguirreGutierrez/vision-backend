@@ -7,7 +7,7 @@ import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.recaudacion.*;
 import com.proyecto.vision.modelos.usuario.Empresa;
-import com.proyecto.vision.modelos.usuario.Sesion;
+import com.proyecto.vision.modelos.usuario.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -66,8 +66,8 @@ public class NotaDebito extends Entidad {
     @JoinColumn(name = "factura_id", nullable = true)
     private Factura factura;
     @ManyToOne
-    @JoinColumn(name = "sesion_id", nullable = true)
-    private Sesion sesion;
+    @JoinColumn(name = "usuario_id", nullable = true)
+    private Usuario usuario;
     @ManyToOne
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipoComprobante;
@@ -168,7 +168,7 @@ public class NotaDebito extends Entidad {
 
     public void normalizar(){
         if(this.fecha == null) this.fecha = new Date();
-        if(this.sesion == null) this.sesion = new Sesion();
+        if(this.usuario == null) this.usuario = new Usuario();
         if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
         if(this.credito == null) this.credito = new NDCredito();
         if(this.notaDebitoLineas.isEmpty()) this.notaDebitoLineas = Collections.emptyList();

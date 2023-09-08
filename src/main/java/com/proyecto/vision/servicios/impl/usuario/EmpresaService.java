@@ -3,13 +3,8 @@ package com.proyecto.vision.servicios.impl.usuario;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
-import com.proyecto.vision.modelos.cliente.ClienteBase;
 import com.proyecto.vision.modelos.cliente.Contribuyente;
 import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
-import com.proyecto.vision.modelos.compra.CelularProveedor;
-import com.proyecto.vision.modelos.compra.CorreoProveedor;
-import com.proyecto.vision.modelos.compra.Proveedor;
-import com.proyecto.vision.modelos.compra.TelefonoProveedor;
 import com.proyecto.vision.modelos.usuario.Empresa;
 import com.proyecto.vision.repositorios.cliente.IContribuyenteRepository;
 import com.proyecto.vision.repositorios.configuracion.ITipoIdentificacionRepository;
@@ -30,7 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +36,9 @@ public class EmpresaService implements IEmpresaService {
     private ITipoIdentificacionRepository repTipoIdentificacion;
     @Autowired
     private IContribuyenteRepository repContribuyente;
-    private final Path root = Paths.get(Constantes.pathCertificados);
+
+    private final Path certificados = Paths.get(Constantes.pathRecursos +  Constantes.pathCertificados);
+    private final Path logos = Paths.get(Constantes.pathRecursos +  Constantes.pathLogos);
 
     @Override
     public void validar(Empresa empresa) {
@@ -66,8 +62,6 @@ public class EmpresaService implements IEmpresaService {
     		throw new CodigoNoExistenteException();
     	}
     	empresa.setCodigo(codigo.get());
-        byte[] logoBytes = empresa.getLogo64().getBytes(StandardCharsets.UTF_8);
-        empresa.setLogo(logoBytes);
     	empresa.setEstado(Constantes.estadoActivo);
     	Empresa res = rep.save(empresa);
         res.normalizar();
@@ -77,7 +71,6 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Empresa actualizar(Empresa empresa) {
         validar(empresa);
-        empresa.setLogo(empresa.getLogo64().getBytes(StandardCharsets.UTF_8));
         Empresa res = rep.save(empresa);
         res.normalizar();
         return res;
@@ -104,29 +97,17 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Empresa obtener(long id) {
         Optional<Empresa> empresa = rep.findById(id);
-        if(empresa.isPresent()) {
-        	Empresa res = empresa.get();
-        	if(res.getLogo() != null) {
-        	    res.setLogo64(new String(res.getLogo(), StandardCharsets.UTF_8));
-        	}
-            res.normalizar();
-            return res;
+        if(empresa.isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.empresa);
         }
-        throw new EntidadNoExistenteException(Constantes.empresa);
+        Empresa res = empresa.get();
+        res.normalizar();
+        return res;
     }
 
     @Override
     public List<Empresa> consultar() {
-        List<Empresa> empresas = rep.consultar();
-        if(!empresas.isEmpty()) {
-            for (Empresa empresa : empresas){
-                if(empresa.getLogo() != null) {
-                    empresa.setLogo64(new String(empresa.getLogo(), StandardCharsets.UTF_8));
-                }
-            }
-            return empresas;
-        }
-        throw new EntidadNoExistenteException(Constantes.empresa);
+        return rep.consultar();
     }
 
     @Override
@@ -185,7 +166,7 @@ public class EmpresaService implements IEmpresaService {
             }
             Empresa empresa = optional.get();
             if (file.getOriginalFilename() != null) {
-                Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(file.getInputStream(), this.certificados.resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
                 empresa.setCertificado(file.getOriginalFilename());
             }
             return rep.save(empresa);
@@ -200,7 +181,19 @@ public class EmpresaService implements IEmpresaService {
             throw new EntidadNoExistenteException(Constantes.empresa);
         }
         Empresa empresa = optional.get();
-        Path file = this.root.resolve(empresa.getCertificado());
+        Path file = this.certificados.resolve(empresa.getCertificado());
+        Resource resource = new UrlResource(file.toUri());
+        return resource;
+    }
+
+    @Override
+    public Resource bajarLogo(long empresaId) throws MalformedURLException {
+        Optional<Empresa> optional = rep.findById(empresaId);
+        if(optional.isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.empresa);
+        }
+        Empresa empresa = optional.get();
+        Path file = this.logos.resolve(empresa.getCertificado());
         Resource resource = new UrlResource(file.toUri());
         return resource;
     }

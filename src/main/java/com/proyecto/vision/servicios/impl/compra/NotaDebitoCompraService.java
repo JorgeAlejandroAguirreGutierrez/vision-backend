@@ -2,17 +2,11 @@ package com.proyecto.vision.servicios.impl.compra;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.modelos.compra.*;
-import com.proyecto.vision.modelos.configuracion.Secuencial;
-import com.proyecto.vision.modelos.inventario.Kardex;
-import com.proyecto.vision.modelos.inventario.TipoOperacion;
-import com.proyecto.vision.modelos.venta.NotaDebito;
-import com.proyecto.vision.modelos.venta.NotaDebitoLinea;
 import com.proyecto.vision.repositorios.compra.INotaDebitoCompraRepository;
 import com.proyecto.vision.servicios.interf.compra.IFacturaCompraService;
 import com.proyecto.vision.servicios.interf.compra.INotaDebitoCompraService;
@@ -26,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +44,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         if(notaDebitoCompra.getPuntoVenta().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.punto_venta);
         if(notaDebitoCompra.getSecuencial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.secuencial);
         if(notaDebitoCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
-        if(notaDebitoCompra.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if(notaDebitoCompra.getUsuario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.usuario);
         if(notaDebitoCompra.getNotaDebitoCompraLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_debito_compra_linea);
     }
 

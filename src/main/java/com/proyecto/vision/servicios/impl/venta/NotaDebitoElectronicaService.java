@@ -100,27 +100,27 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		}
 		infoTributaria.setAmbiente(ambiente);
 		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
-		infoTributaria.setRazonSocial(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
-		infoTributaria.setNombreComercial(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
-		infoTributaria.setRuc(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
+		infoTributaria.setRazonSocial(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+		infoTributaria.setNombreComercial(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+		infoTributaria.setRuc(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
 		infoTributaria.setClaveAcceso(notaDebito.getClaveAcceso());
 		infoTributaria.setCodDoc(Constantes.nota_de_debito_sri);
-		infoTributaria.setEstab(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
-		infoTributaria.setPtoEmi(notaDebito.getSesion().getUsuario().getEstacion().getCodigoSRI());
+		infoTributaria.setEstab(notaDebito.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
+		infoTributaria.setPtoEmi(notaDebito.getUsuario().getEstacion().getCodigoSRI());
 		infoTributaria.setSecuencial(notaDebito.getSecuencial());
-		infoTributaria.setDirMatriz(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
+		infoTributaria.setDirMatriz(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
 
 		DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
 		String fechaEmision = dateFormat.format(notaDebito.getFecha());
 		InfoNotaDebito infoNotaDebito = new InfoNotaDebito();
 		infoNotaDebito.setFechaEmision(fechaEmision);
-		infoNotaDebito.setDirEstablecimiento(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
+		infoNotaDebito.setDirEstablecimiento(notaDebito.getUsuario().getEstacion().getEstablecimiento().getDireccion());
 		infoNotaDebito.setTipoIdentificacionComprador(notaDebito.getFactura().getCliente().getTipoIdentificacion().getCodigoSRI());
 		infoNotaDebito.setRazonSocialComprador(notaDebito.getFactura().getCliente().getRazonSocial());
 		infoNotaDebito.setIdentificacionComprador(notaDebito.getFactura().getCliente().getIdentificacion());
-		infoNotaDebito.setObligadoContabilidad(notaDebito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
+		infoNotaDebito.setObligadoContabilidad(notaDebito.getFactura().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
 		infoNotaDebito.setCodDocModificado(Constantes.factura_sri);
-		String numero = notaDebito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + notaDebito.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + notaDebito.getFactura().getSecuencial();
+		String numero = notaDebito.getFactura().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + Constantes.guion + notaDebito.getFactura().getUsuario().getEstacion().getCodigoSRI() + Constantes.guion + notaDebito.getFactura().getSecuencial();
 		infoNotaDebito.setNumDocModificado(numero);
 		String fechaEmisionFactura = dateFormat.format(notaDebito.getFactura().getFecha());
 		infoNotaDebito.setFechaEmisionDocSustento(fechaEmisionFactura);
@@ -437,21 +437,21 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			documento.setFont(font);
 			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
 			String regimen = Constantes.vacio;
-			if(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
-				regimen = notaDebito.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			if(notaDebito.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
+				regimen = notaDebito.getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
-			if(notaDebito.getSesion().getUsuario().getEstacion().getRegimen() != null) {
-				regimen = notaDebito.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			if(notaDebito.getUsuario().getEstacion().getRegimen() != null) {
+				regimen = notaDebito.getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
 			float [] columnas = {320F, 280F};
 			Table tabla = new Table(columnas);
-			tabla.addCell(getCellEmpresa(notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
-					"DIRECCIÓN MATRIZ: " + notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
-					"DIRECCIÓN SUCURSAL: " + notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
+			tabla.addCell(getCellEmpresa(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
+					"DIRECCIÓN MATRIZ: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
+					"DIRECCIÓN SUCURSAL: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
 					regimen + "\n" + "\n" +
-					"CONTIRUYENTE ESPECIAL: " + notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
-					"AGENTE RETENCION RESOLUCIÓN: " + notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+					"CONTIRUYENTE ESPECIAL: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
+					"AGENTE RETENCION RESOLUCIÓN: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
@@ -464,7 +464,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
 				imagenCodigoBarras = new Image(objetoCodigoBarras);
 			}
-			tabla.addCell(getCellFactura("RUC: " + notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+			tabla.addCell(getCellFactura("RUC: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"NOTA DEBITO"+"\n"+
 					"No. " + notaDebito.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion+ "\n" +
@@ -732,7 +732,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 
 			message.setFrom(new InternetAddress(correoUsuario));
 			message.addRecipients(Message.RecipientType.TO, notaDebito.getFactura().getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
-			message.setSubject(notaDebito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + notaDebito.getCodigo());
+			message.setSubject(notaDebito.getFactura().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + notaDebito.getCodigo());
 			message.setText(Constantes.vacio);
 			message.setContent(multipart);
 			Transport transport = session.getTransport(Constantes.smtp);

@@ -102,9 +102,15 @@ public class EmpresaController implements GenericoController<Empresa> {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/bajarCertificado/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/bajarCertificado/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> bajarCertificado(@PathVariable("empresaId") long empresaId) throws MalformedURLException {
         Resource file = servicio.bajarCertificado(empresaId);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    @GetMapping(value = "/bajarLogo/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> bajarLogo(@PathVariable("empresaId") long empresaId) throws MalformedURLException {
+        Resource file = servicio.bajarLogo(empresaId);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 }

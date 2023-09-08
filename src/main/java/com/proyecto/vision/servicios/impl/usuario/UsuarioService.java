@@ -9,11 +9,16 @@ import com.proyecto.vision.modelos.usuario.Usuario;
 import com.proyecto.vision.repositorios.usuario.IUsuarioRepository;
 import com.proyecto.vision.servicios.interf.usuario.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +26,8 @@ import java.util.Optional;
 public class UsuarioService implements IUsuarioService {
     @Autowired
     private IUsuarioRepository rep;
+
+    private final Path avatares = Paths.get(Constantes.pathRecursos +  Constantes.pathAvatares);
 
     @Override
     public void validar(Usuario usuario) {
@@ -49,7 +56,6 @@ public class UsuarioService implements IUsuarioService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-    	usuario.setAvatar(usuario.getAvatar64().getBytes(StandardCharsets.UTF_8));
     	usuario.setCodigo(codigo.get());
     	usuario.setEstado(Constantes.estadoActivo);
     	Usuario res = rep.save(usuario);
@@ -60,7 +66,6 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public Usuario actualizar(Usuario usuario) {
         validar(usuario);
-        usuario.setAvatar(usuario.getAvatar64().getBytes(StandardCharsets.UTF_8));
         Usuario res = rep.save(usuario);
         res.normalizar();
         return res;
@@ -87,29 +92,18 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public Usuario obtener(long id) {
         Optional<Usuario> usuario = rep.findById(id);
-        if(usuario.isPresent()) {
-            Usuario res = usuario.get();
-            if(res.getAvatar() != null) {
-                res.setAvatar64(new String(res.getAvatar(), StandardCharsets.UTF_8));
-            }
-            res.normalizar();
-            return res;
+        if(usuario.isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.usuario);
         }
-        throw new EntidadNoExistenteException(Constantes.usuario);
+        Usuario res = usuario.get();
+        res.normalizar();
+        return res;
+
     }
 
     @Override
     public List<Usuario> consultar() {
-        List<Usuario> usuarios = rep.consultar();
-        if(!usuarios.isEmpty()) {
-            for (Usuario usuario : usuarios){
-                if(usuario.getAvatar() != null) {
-                    usuario.setAvatar64(new String(usuario.getAvatar(), StandardCharsets.UTF_8));
-                }
-            }
-            return usuarios;
-        }
-        throw new EntidadNoExistenteException(Constantes.empresa);
+        return rep.consultar();
     }
 
     @Override
@@ -130,14 +124,23 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public Usuario obtenerPorApodoYEstado(String apodo, String estado) {
     	Optional<Usuario> usuario = rep.obtenerPorApodoYEstado(apodo, estado);
-    	if(usuario.isPresent()) {
-    		Usuario res = usuario.get();
-            if(res.getAvatar() != null) {
-                res.setAvatar64(new String(res.getAvatar(), StandardCharsets.UTF_8));
-            }
-            res.normalizar();
-            return res;
-    	}
-    	throw new EntidadNoExistenteException(Constantes.usuario);
+    	if(usuario.isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.usuario);
+        }
+        Usuario res = usuario.get();
+        res.normalizar();
+        return res;
+    }
+
+    @Override
+    public Resource bajarAvatar(long usuarioId) throws MalformedURLException {
+        Optional<Usuario> optional = rep.findById(usuarioId);
+        if(optional.isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.empresa);
+        }
+        Usuario usuario = optional.get();
+        Path file = this.avatares.resolve(usuario.getAvatar());
+        Resource resource = new UrlResource(file.toUri());
+        return resource;
     }
 }

@@ -5,7 +5,7 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.modelos.usuario.Empresa;
-import com.proyecto.vision.modelos.usuario.Sesion;
+import com.proyecto.vision.modelos.usuario.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -64,8 +64,8 @@ public class FacturaCompra extends Entidad {
     @JoinColumn(name = "proveedor_id", nullable = true)
     private Proveedor proveedor;
     @ManyToOne
-    @JoinColumn(name = "sesion_id", nullable = true)
-    private Sesion sesion;
+    @JoinColumn(name = "usuario_id", nullable = true)
+    private Usuario usuario;
     @ManyToOne
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipoComprobante;
@@ -106,7 +106,7 @@ public class FacturaCompra extends Entidad {
     public void normalizar(){
         if(this.fecha == null) this.fecha = new Date();
         if(this.proveedor == null) this.proveedor = new Proveedor();
-        if(this.sesion == null) this.sesion = new Sesion();
+        if(this.usuario == null) this.usuario = new Usuario();
         if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
         if(this.facturaCompraLineas.isEmpty()) this.facturaCompraLineas = Collections.emptyList();
     }
