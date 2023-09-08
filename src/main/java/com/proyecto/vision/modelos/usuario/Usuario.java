@@ -34,11 +34,8 @@ public class Usuario extends Entidad {
     private String contrasena;
 	@Column(name = "confirmar_contrasena", nullable = true)
     private String confirmarContrasena;
-    @Transient
-    private String avatar64;
-    @Lob
     @Column(name = "avatar", nullable = true )
-    private byte[] avatar;
+    private String avatar;
     @Column(name = "cambiarContrasena", nullable = true)
     private String cambiarContrasena;
     @Column(name = "pregunta", nullable = true)

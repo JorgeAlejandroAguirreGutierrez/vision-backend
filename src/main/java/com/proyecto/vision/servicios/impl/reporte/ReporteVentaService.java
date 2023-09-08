@@ -89,12 +89,12 @@ public class ReporteVentaService {
             reporteVentaLinea.setFecha(formatoFecha.format(factura.getFecha()));
             reporteVentaLinea.setHora(formatoHora.format(factura.getFecha()));
             reporteVentaLinea.setDocumento(factura.getTipoComprobante().getAbreviatura());
-            reporteVentaLinea.setEstablecimiento(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
-            reporteVentaLinea.setEstacion(factura.getSesion().getUsuario().getEstacion().getCodigoSRI());
+            reporteVentaLinea.setEstablecimiento(factura.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
+            reporteVentaLinea.setEstacion(factura.getUsuario().getEstacion().getCodigoSRI());
             reporteVentaLinea.setSecuencia(factura.getSecuencial());
             reporteVentaLinea.setCliente(factura.getCliente().getRazonSocial());
             reporteVentaLinea.setIdentificacion(factura.getCliente().getIdentificacion());
-            reporteVentaLinea.setVendedor(factura.getSesion().getUsuario().getApodo());
+            reporteVentaLinea.setVendedor(factura.getUsuario().getApodo());
             String tipoVenta = Constantes.vacio;
             if(factura.getEfectivo() > Constantes.cero){
                 tipoVenta = Constantes.efectivo;

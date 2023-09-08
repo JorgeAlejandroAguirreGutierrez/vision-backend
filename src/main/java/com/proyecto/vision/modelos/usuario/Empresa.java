@@ -28,11 +28,8 @@ public class Empresa extends Entidad {
     private String representanteLegal;
     @Column(name = "cargo_representante_legal", nullable = true)
     private String cargoRepresentanteLegal;
-    @Transient
-    private String logo64;
-    @Lob
     @Column(name = "logo", nullable = true)
-    private byte[] logo;
+    private String logo;
     @Column(name = "direccion", nullable = true)
     private String direccion;
     @Column(name = "obligado_contabilidad", nullable = true)
@@ -66,8 +63,7 @@ public class Empresa extends Entidad {
         this.nombreComercial = Constantes.vacio;
         this.representanteLegal = Constantes.vacio;
         this.cargoRepresentanteLegal = Constantes.vacio;
-        this.logo64 = Constantes.vacio;
-        this.logo = null;
+        this.logo = Constantes.vacio;
         this.direccion = Constantes.vacio;
         this.obligadoContabilidad = Constantes.no;
         this.especial = Constantes.no;

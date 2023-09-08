@@ -2,7 +2,6 @@ package com.proyecto.vision.servicios.impl.venta;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.modelos.compra.NotaCreditoCompraLinea;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
@@ -47,7 +46,7 @@ public class NotaCreditoService implements INotaCreditoService {
         if(notaCredito.getProcesoSRI().equals(Constantes.procesoSRIAnulada)) throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
         if(notaCredito.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
         if(notaCredito.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
-        if(notaCredito.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if(notaCredito.getUsuario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.usuario);
         if(notaCredito.getNotaCreditoLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_credito_venta_linea);
     }
 
@@ -67,7 +66,7 @@ public class NotaCreditoService implements INotaCreditoService {
         }
         notaCredito.setCodigo(codigo.get());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(notaCredito.getTipoComprobante().getId(),
-                notaCredito.getSesion().getUsuario().getEstacion().getId(), notaCredito.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
+                notaCredito.getUsuario().getEstacion().getId(), notaCredito.getEmpresa().getId(), Constantes.estadoActivo);
         notaCredito.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         notaCredito.setNumeroComprobante(notaCredito.getEstablecimiento() + Constantes.guion + notaCredito.getPuntoVenta() + Constantes.guion + notaCredito.getSecuencial());
         notaCredito.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
@@ -91,9 +90,9 @@ public class NotaCreditoService implements INotaCreditoService {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         String fechaEmision = dateFormat.format(notaCredito.getFecha());
         String tipoComprobante = Constantes.nota_de_credito_sri;
-        String numeroRuc = notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
+        String numeroRuc = notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
         String tipoAmbiente = Constantes.pruebas_sri;
-        String serie = notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCredito.getSesion().getUsuario().getEstacion().getCodigoSRI();
+        String serie = notaCredito.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCredito.getUsuario().getEstacion().getCodigoSRI();
         String numeroComprobante = notaCredito.getSecuencial();
         String codigoNumerico = notaCredito.getCodigoNumerico();
         String tipoEmision = Constantes.emision_normal_sri;

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.modelos.usuario.Usuario;
 import com.proyecto.vision.modelos.venta.Factura;
-import com.proyecto.vision.modelos.usuario.Sesion;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -70,8 +70,8 @@ public class GuiaRemision extends Entidad {
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipoComprobante;
     @ManyToOne
-    @JoinColumn(name = "sesion_id", nullable = true)
-    private Sesion sesion;
+    @JoinColumn(name = "usuario_id", nullable = true)
+    private Usuario usuario;
     @ManyToOne
     @JoinColumn(name = "transportista_id", nullable = true)
     private Transportista transportista;
@@ -114,6 +114,7 @@ public class GuiaRemision extends Entidad {
         if(this.fecha == null) this.fecha = new Date();
         if(this.fechaInicioTransporte == null) this.fechaInicioTransporte = new Date();
         if(this.fechaFinTransporte == null) this.fechaFinTransporte = new Date();
+        if(this.usuario == null) this.usuario = new Usuario();
         if(this.factura == null) this.factura = new Factura();
         if(this.transportista == null) this.transportista = new Transportista();
     }

@@ -105,21 +105,21 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		}
 		infoTributaria.setAmbiente(ambiente);
 		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
-		infoTributaria.setRazonSocial(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
-		infoTributaria.setNombreComercial(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
-		infoTributaria.setRuc(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
+		infoTributaria.setRazonSocial(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+		infoTributaria.setNombreComercial(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+		infoTributaria.setRuc(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
 		infoTributaria.setClaveAcceso(factura.getClaveAcceso());
 		infoTributaria.setCodDoc(Constantes.factura_sri);
-		infoTributaria.setEstab(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
-		infoTributaria.setPtoEmi(factura.getSesion().getUsuario().getEstacion().getCodigoSRI());
+		infoTributaria.setEstab(factura.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
+		infoTributaria.setPtoEmi(factura.getUsuario().getEstacion().getCodigoSRI());
 		infoTributaria.setSecuencial(factura.getSecuencial());
-		infoTributaria.setDirMatriz(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
+		infoTributaria.setDirMatriz(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
 
 		DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
 		String fechaEmision = dateFormat.format(factura.getFecha());
 		infoFactura.setFechaEmision(fechaEmision);
-		infoFactura.setDirEstablecimiento(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
-		infoFactura.setObligadoContabilidad(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
+		infoFactura.setDirEstablecimiento(factura.getUsuario().getEstacion().getEstablecimiento().getDireccion());
+		infoFactura.setObligadoContabilidad(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
 		infoFactura.setTipoIdentificacionComprador(factura.getCliente().getTipoIdentificacion().getCodigoSRI());
 		infoFactura.setRazonSocialComprador(factura.getCliente().getRazonSocial());
 		infoFactura.setIdentificacionComprador(factura.getCliente().getIdentificacion());
@@ -459,21 +459,21 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			documento.setFont(font);
 			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
 			String regimen = Constantes.vacio;
-			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
-				regimen = factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
+			if(factura.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
+				regimen = factura.getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
 			}
-			if(factura.getSesion().getUsuario().getEstacion().getRegimen() != null) {
-				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			if(factura.getUsuario().getEstacion().getRegimen() != null) {
+				regimen = factura.getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
 			float [] columnas = {320F, 280F};
 			Table tabla = new Table(columnas);
-			tabla.addCell(getCellEmpresa(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
-					"DIRECCIÓN MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
-					"DIRECCIÓN SUCURSAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
+			tabla.addCell(getCellEmpresa(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
+					"DIRECCIÓN MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
+					"DIRECCIÓN SUCURSAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
 					regimen + "\n" + "\n" +
-					"CONTIRUYENTE ESPECIAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
-					"AGENTE RETENCION RESOLUCIÓN: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+					"CONTIRUYENTE ESPECIAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
+					"AGENTE RETENCION RESOLUCIÓN: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
@@ -486,7 +486,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
 				imagenCodigoBarras = new Image(objetoCodigoBarras);
 			}
-			tabla.addCell(getCellFactura("RUC: "+factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+			tabla.addCell(getCellFactura("RUC: "+factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"FACTURA"+"\n"+
 					"No. " + factura.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
@@ -754,7 +754,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 			message.setFrom(new InternetAddress(correoUsuario));
 			message.addRecipients(Message.RecipientType.TO, factura.getCliente().getCorreos().get(0).getEmail());
-			message.setSubject(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + factura.getNumeroComprobante());
+			message.setSubject(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + factura.getNumeroComprobante());
 			message.setText(Constantes.vacio);
 			message.setContent(multipart);
 			Transport transport = session.getTransport(Constantes.smtp);
@@ -801,20 +801,20 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" , TextAlignment.LEFT));
 			documento.add(tablaFactura);
 			String regimen = Constantes.vacio;
-			if(factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
-				regimen = factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
+			if(factura.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
+				regimen = factura.getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
 			}
-			if(factura.getSesion().getUsuario().getEstacion().getRegimen() != null) {
-				regimen = factura.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			if(factura.getUsuario().getEstacion().getRegimen() != null) {
+				regimen = factura.getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
 			float [] columnasEmpresa = {600F};
 			Table tablaEmpresa = new Table(columnasEmpresa);
 			tablaEmpresa.addCell(getCellEmpresaTicket(
-					"DIRECCIÓN MATRIZ: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" +
-					"DIRECCIÓN SUCURSAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
+					"DIRECCIÓN MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" +
+					"DIRECCIÓN SUCURSAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
 					regimen + "\n" +
-					"CONTIRUYENTE ESPECIAL: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" +
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
+					"CONTIRUYENTE ESPECIAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" +
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad(), TextAlignment.LEFT));
 			documento.add(tablaEmpresa);
 			float [] columnasCliente = {600F};
 			Table tablaCliente = new Table(columnasCliente);

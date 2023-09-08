@@ -9,13 +9,17 @@ import com.proyecto.vision.modelos.Respuesta;
 import com.proyecto.vision.modelos.usuario.Usuario;
 import com.proyecto.vision.servicios.interf.usuario.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.MalformedURLException;
 import java.util.List;
 
 @RestController
@@ -93,5 +97,11 @@ public class UsuarioController implements GenericoController<Usuario> {
     	Usuario usuario = servicio.inactivar(_usuario);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_inactivar_exitoso, usuario);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/bajarAvatar/{usuarioId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> bajarAvatar(@PathVariable("usuarioId") long usuarioId) throws MalformedURLException {
+        Resource file = servicio.bajarAvatar(usuarioId);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 }

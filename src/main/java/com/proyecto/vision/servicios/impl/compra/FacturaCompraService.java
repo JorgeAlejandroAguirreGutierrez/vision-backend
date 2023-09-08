@@ -49,7 +49,7 @@ public class FacturaCompraService implements IFacturaCompraService {
         if (facturaCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if (facturaCompra.getProveedor().getId() == Constantes.ceroId)
             throw new DatoInvalidoException(Constantes.proveedor);
-        if (facturaCompra.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if (facturaCompra.getUsuario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.usuario);
         if (facturaCompra.getFacturaCompraLineas().isEmpty())
             throw new DatoInvalidoException(Constantes.factura_compra_linea);
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
