@@ -65,14 +65,6 @@ public class FacturaCompraService implements IFacturaCompraService {
         if(facturaCompraExiste.isPresent()){
             throw new DatoInvalidoException(Constantes.secuencial);
         }
-        /*for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
-            Kardex registroInicial = kardexService.obtenerSaldoInicialPorProductoYBodega(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId());
-            Date fechaCompra = DateUtils.truncate(facturaCompra.getFecha(), Calendar.DAY_OF_MONTH);
-            Date fechaInicio = DateUtils.truncate(registroInicial.getFecha(), Calendar.DAY_OF_MONTH);
-            if (fechaCompra.before(fechaInicio)) {
-                throw new DatoInvalidoException(Constantes.fecha);
-            }
-        }*/
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
         facturaCompra.setTipoComprobante(tipoComprobante);
         Optional<String> codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
