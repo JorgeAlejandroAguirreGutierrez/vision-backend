@@ -43,6 +43,9 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
         if(notaDebitoCompra.getEstablecimiento().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.establecimiento);
         if(notaDebitoCompra.getPuntoVenta().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.punto_venta);
         if(notaDebitoCompra.getSecuencial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.secuencial);
+        if(notaDebitoCompra.getEstablecimiento().length() > 3) throw new DatoInvalidoException(Constantes.establecimiento);
+        if(notaDebitoCompra.getPuntoVenta().length() > 3) throw new DatoInvalidoException(Constantes.punto_venta);
+        if(notaDebitoCompra.getSecuencial().length() > 9) throw new DatoInvalidoException(Constantes.punto_venta);
         if(notaDebitoCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaDebitoCompra.getUsuario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.usuario);
         if(notaDebitoCompra.getNotaDebitoCompraLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_debito_compra_linea);

@@ -457,11 +457,11 @@ public class FacturaService implements IFacturaService {
         subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
         facturaLinea.setSubtotalLinea(subtotalLinea);
 
-        double valorIvaLinea = (subtotalLinea * (facturaLinea.getImpuesto().getPorcentaje() / 100));
-        valorIvaLinea = Math.round(valorIvaLinea * 100.0) / 100.0;
-        facturaLinea.setImporteIvaLinea(valorIvaLinea);
+        double importeIvaLinea = (subtotalLinea * (facturaLinea.getImpuesto().getPorcentaje() / 100));
+        importeIvaLinea = Math.round(importeIvaLinea * 100.0) / 100.0;
+        facturaLinea.setImporteIvaLinea(importeIvaLinea);
 
-        double totalLinea = subtotalLinea + valorIvaLinea;
+        double totalLinea = subtotalLinea + importeIvaLinea;
         totalLinea = Math.round(totalLinea * 100.0) / 100.0;
         facturaLinea.setTotalLinea(totalLinea);
 
