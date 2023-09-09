@@ -46,6 +46,8 @@ public class FacturaCompraService implements IFacturaCompraService {
 
     @Override
     public void validar(FacturaCompra facturaCompra) {
+        if(facturaCompra.getEstablecimiento().length() > 3) throw new DatoInvalidoException(Constantes.establecimiento);
+        if(facturaCompra.getPuntoVenta().length() > 3) throw new DatoInvalidoException(Constantes.punto_venta);
         if (facturaCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if (facturaCompra.getProveedor().getId() == Constantes.ceroId)
             throw new DatoInvalidoException(Constantes.proveedor);
