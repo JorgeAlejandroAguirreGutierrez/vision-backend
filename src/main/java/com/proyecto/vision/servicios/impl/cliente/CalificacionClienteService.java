@@ -32,7 +32,7 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     @Override
     public CalificacionCliente crear(CalificacionCliente calificacionCliente) {
         validar(calificacionCliente);
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_calificacion_cliente, calificacionCliente.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(null, Constantes.tabla_calificacion_cliente, calificacionCliente.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

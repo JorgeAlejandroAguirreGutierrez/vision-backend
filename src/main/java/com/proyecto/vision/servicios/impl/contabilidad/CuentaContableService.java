@@ -40,7 +40,7 @@ public class CuentaContableService implements ICuentaContableService {
     @Override
     public CuentaContable crear(CuentaContable cuentaContable) {
         validar(cuentaContable);
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_cuenta_contable, cuentaContable.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(null, Constantes.tabla_cuenta_contable, cuentaContable.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

@@ -130,7 +130,7 @@ public class NotaDebitoService implements INotaDebitoService {
         validar(notaDebito);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
         notaDebito.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_factura,notaDebito.getEmpresa().getId());
+        Optional<String>codigo = Util.generarCodigoPorEmpresa(notaDebito.getFecha(), Constantes.tabla_factura,notaDebito.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }

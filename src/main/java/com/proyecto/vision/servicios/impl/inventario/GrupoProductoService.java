@@ -51,7 +51,7 @@ public class GrupoProductoService implements IGrupoProductoService {
         if(grupoProductoExiste.isPresent()){
             throw new EntidadExistenteException(Constantes.grupo_producto);
         }
-        Optional<String>codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_grupo_producto, grupoProducto.getEmpresa().getId());
+        Optional<String>codigo = Util.generarCodigoPorEmpresa(null, Constantes.tabla_grupo_producto, grupoProducto.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

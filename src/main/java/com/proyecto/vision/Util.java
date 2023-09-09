@@ -275,23 +275,22 @@ public class Util {
     	}
     }
 
-    public static Optional<String> generarCodigoPorEmpresa(String tabla, long empresaId){
+    public static Optional<String> generarCodigoPorEmpresa(Date fecha, String tabla, long empresaId){
         try {
             Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacionCrear, Constantes.estadoActivo);
             Optional<String> conteo= conteoPorEmpresa(tabla, empresaId);
             if (menuOpcion.isPresent() && conteo.isPresent()) {
                 String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);
                 String empresa = String.format("%02d" , empresaId);
-                Date fecha = new Date();
+                if(fecha == null){
+                    fecha = new Date();
+                }
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(fecha);
                 String año = calendar.get(Calendar.YEAR)+"";
                 año = año.substring(2,4);
                 int mesC=calendar.get(Calendar.MONTH)+1;
-                String mes = String.format("%02d" , mesC);;
-                //if(mesC<10) {
-                //    mes= "0"+mesC;
-                //}
+                String mes = String.format("%02d" , mesC);
                 return Optional.of(menuOpcion.get().getAbreviatura() + empresa + año + mes + rellenoConteo);
             }
             return Optional.ofNullable(null);

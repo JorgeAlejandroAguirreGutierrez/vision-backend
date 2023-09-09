@@ -41,7 +41,7 @@ public class MovimientoContableService implements IMovimientoContableService {
     @Override
     public MovimientoContable crear(MovimientoContable movimientoContable) {
         validar(movimientoContable);
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_movimiento_contable, movimientoContable.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(null, Constantes.tabla_movimiento_contable, movimientoContable.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

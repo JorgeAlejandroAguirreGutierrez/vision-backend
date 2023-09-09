@@ -305,7 +305,7 @@ public class ClienteService implements IClienteService {
     	if(buscarCliente.isPresent()) {
     		throw new EntidadExistenteException(Constantes.cliente);
     	}
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_cliente, cliente.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(null, Constantes.tabla_cliente, cliente.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

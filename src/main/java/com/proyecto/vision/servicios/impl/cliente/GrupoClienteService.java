@@ -32,7 +32,7 @@ public class GrupoClienteService implements IGrupoClienteService {
     @Override
     public GrupoCliente crear(GrupoCliente grupoCliente) {
         validar(grupoCliente);
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_grupo_cliente, grupoCliente.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(null, Constantes.tabla_grupo_cliente, grupoCliente.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

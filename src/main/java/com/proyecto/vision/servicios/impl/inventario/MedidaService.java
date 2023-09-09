@@ -30,7 +30,7 @@ public class MedidaService implements IMedidaService {
     @Override
     public Medida crear(Medida medida) {
         validar(medida);
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_medida, medida.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(null, Constantes.tabla_medida, medida.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
