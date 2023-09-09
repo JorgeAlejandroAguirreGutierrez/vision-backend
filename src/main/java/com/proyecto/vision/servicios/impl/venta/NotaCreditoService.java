@@ -60,7 +60,7 @@ public class NotaCreditoService implements INotaCreditoService {
         }
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito);
         notaCredito.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_nota_credito, notaCredito.getEmpresa().getId());
+        Optional<String>codigo=Util.generarCodigoPorEmpresa(notaCredito.getFecha(), Constantes.tabla_nota_credito, notaCredito.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }

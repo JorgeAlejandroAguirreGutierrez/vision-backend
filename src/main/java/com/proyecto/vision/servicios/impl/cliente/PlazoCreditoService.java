@@ -33,7 +33,7 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     @Override
     public PlazoCredito crear(PlazoCredito plazoCredito) {
         validar(plazoCredito);
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_plazo_credito, plazoCredito.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(null, Constantes.tabla_plazo_credito, plazoCredito.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

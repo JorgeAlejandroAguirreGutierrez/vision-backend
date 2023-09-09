@@ -96,7 +96,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		validar(guiaRemision);
 		TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_guia_remision);
 		guiaRemision.setTipoComprobante(tipoComprobante);
-		Optional<String>codigo = Util.generarCodigo(Constantes.tabla_guia_remision);
+		Optional<String>codigo = Util.generarCodigoPorEmpresa(guiaRemision.getFecha(), Constantes.tabla_guia_remision, guiaRemision.getEmpresa().getId());
 		if (codigo.isEmpty()) {
 			throw new CodigoNoExistenteException();
 		}

@@ -36,7 +36,7 @@ public class CierreCajaService implements ICierreCajaService {
     @Override
     public CierreCaja crear(CierreCaja cierreCaja) {
         validar(cierreCaja);
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_cierre_caja, cierreCaja.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(cierreCaja.getFecha(), Constantes.tabla_cierre_caja, cierreCaja.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

@@ -30,7 +30,7 @@ public class GrupoProveedorService implements IGrupoProveedorService {
     @Override
     public GrupoProveedor crear(GrupoProveedor grupoProveedor) {
         validar(grupoProveedor);
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_grupo_proveedor, grupoProveedor.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(null, Constantes.tabla_grupo_proveedor, grupoProveedor.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
