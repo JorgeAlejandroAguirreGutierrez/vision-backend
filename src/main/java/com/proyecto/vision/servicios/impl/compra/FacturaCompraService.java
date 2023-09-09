@@ -46,6 +46,12 @@ public class FacturaCompraService implements IFacturaCompraService {
 
     @Override
     public void validar(FacturaCompra facturaCompra) {
+        if(facturaCompra.getEstablecimiento().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.establecimiento);
+        if(facturaCompra.getPuntoVenta().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.punto_venta);
+        if(facturaCompra.getSecuencial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.secuencial);
+        if(facturaCompra.getEstablecimiento().length() > 3) throw new DatoInvalidoException(Constantes.establecimiento);
+        if(facturaCompra.getPuntoVenta().length() > 3) throw new DatoInvalidoException(Constantes.punto_venta);
+        if(facturaCompra.getSecuencial().length() > 9) throw new DatoInvalidoException(Constantes.secuencial);
         if (facturaCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if (facturaCompra.getProveedor().getId() == Constantes.ceroId)
             throw new DatoInvalidoException(Constantes.proveedor);

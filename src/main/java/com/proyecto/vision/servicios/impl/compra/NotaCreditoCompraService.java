@@ -48,6 +48,9 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         if(notaCreditoCompra.getEstablecimiento().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.establecimiento);
         if(notaCreditoCompra.getPuntoVenta().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.punto_venta);
         if(notaCreditoCompra.getSecuencial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.secuencial);
+        if(notaCreditoCompra.getEstablecimiento().length() > 3) throw new DatoInvalidoException(Constantes.establecimiento);
+        if(notaCreditoCompra.getPuntoVenta().length() > 3) throw new DatoInvalidoException(Constantes.punto_venta);
+        if(notaCreditoCompra.getSecuencial().length() > 9) throw new DatoInvalidoException(Constantes.secuencial);
         if(notaCreditoCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaCreditoCompra.getUsuario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaCreditoCompra.getNotaCreditoCompraLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_credito_compra_linea);
