@@ -25,8 +25,6 @@ import com.proyecto.vision.exception.CertificadoNoExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.EstadoInvalidoException;
 import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
-import com.proyecto.vision.modelos.recaudacion.*;
-import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
 import com.proyecto.vision.modelos.venta.electronico.guiaremision.*;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
@@ -104,19 +102,19 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 		}
 		infoTributaria.setAmbiente(ambiente);
 		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
-		infoTributaria.setRazonSocial(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
-		infoTributaria.setNombreComercial(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
-		infoTributaria.setRuc(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
+		infoTributaria.setRazonSocial(guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+		infoTributaria.setNombreComercial(guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+		infoTributaria.setRuc(guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
 		infoTributaria.setClaveAcceso(guiaRemision.getClaveAcceso());
 		infoTributaria.setCodDoc(Constantes.guia_de_remision_sri);
-		infoTributaria.setEstab(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
-		infoTributaria.setPtoEmi(guiaRemision.getSesion().getUsuario().getEstacion().getCodigoSRI());
+		infoTributaria.setEstab(guiaRemision.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
+		infoTributaria.setPtoEmi(guiaRemision.getUsuario().getEstacion().getCodigoSRI());
 		infoTributaria.setSecuencial(guiaRemision.getSecuencial());
-		infoTributaria.setDirMatriz(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
+		infoTributaria.setDirMatriz(guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
 
 		InfoGuiaRemision infoGuiaRemision = new InfoGuiaRemision();
-		infoGuiaRemision.setDirEstablecimiento(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
-		infoGuiaRemision.setDirPartida(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
+		infoGuiaRemision.setDirEstablecimiento(guiaRemision.getUsuario().getEstacion().getEstablecimiento().getDireccion());
+		infoGuiaRemision.setDirPartida(guiaRemision.getUsuario().getEstacion().getEstablecimiento().getDireccion());
 		infoGuiaRemision.setRazonSocialTransportista(guiaRemision.getTransportista().getNombre());
 		infoGuiaRemision.setTipoIdentificacionTransportista(guiaRemision.getTransportista().getTipoIdentificacion().getCodigoSRI());
 		infoGuiaRemision.setRucTransportista(guiaRemision.getTransportista().getIdentificacion());
@@ -384,21 +382,21 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 			documento.setFont(font);
 			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
 			String regimen = Constantes.vacio;
-			if(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
-				regimen = guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
+			if(guiaRemision.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
+				regimen = guiaRemision.getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
 			}
-			if(guiaRemision.getSesion().getUsuario().getEstacion().getRegimen() != null) {
-				regimen = guiaRemision.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			if(guiaRemision.getUsuario().getEstacion().getRegimen() != null) {
+				regimen = guiaRemision.getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
 			float [] columnas = {320F, 280F};
 			Table tabla = new Table(columnas);
-			tabla.addCell(getCellEmpresa(guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
-					"DIRECCIÓN MATRIZ: " + guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
-					"DIRECCIÓN SUCURSAL: " + guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
+			tabla.addCell(getCellEmpresa(guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
+					"DIRECCIÓN MATRIZ: " + guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
+					"DIRECCIÓN SUCURSAL: " + guiaRemision.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
 					regimen + "\n" + "\n" +
-					"CONTIRUYENTE ESPECIAL: " + guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
-					"AGENTE RETENCION RESOLUCIÓN: " + guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+					"CONTIRUYENTE ESPECIAL: " + guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
+					"AGENTE RETENCION RESOLUCIÓN: " + guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
@@ -411,7 +409,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
 				imagenCodigoBarras = new Image(objetoCodigoBarras);
 			}
-			tabla.addCell(getCellFactura("RUC: "+ guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+			tabla.addCell(getCellFactura("RUC: "+ guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"FACTURA"+"\n"+
 					"No. " + guiaRemision.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
@@ -620,7 +618,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 
 			message.setFrom(new InternetAddress(correoUsuario));
 			message.addRecipients(Message.RecipientType.TO, guiaRemision.getFactura().getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
-			message.setSubject(guiaRemision.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + guiaRemision.getCodigo());
+			message.setSubject(guiaRemision.getFactura().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + guiaRemision.getCodigo());
 			message.setText(Constantes.vacio);
 			message.setContent(multipart);
 			Transport transport = session.getTransport(Constantes.smtp);

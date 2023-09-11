@@ -8,6 +8,9 @@ public class Constantes {
     public static final String tipo_contribuyente_juridica="JURIDICA";
     public static final String tipo_contribuyente_publica="PUBLICA";
 
+    public static final String pathRecursos = "src/main/resources/";
+    public static final String pathAvatares = "avatares";
+    public static final String pathLogos = "logos";
     public static final String pathCertificados = "certificados";
     public static final String slash = "/";
 

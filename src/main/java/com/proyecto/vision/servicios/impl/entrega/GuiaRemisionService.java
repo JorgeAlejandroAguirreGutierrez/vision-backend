@@ -6,7 +6,6 @@ import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
-import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.vision.repositorios.entrega.IGuiaRemisionRepository;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
@@ -39,7 +38,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		if(guiaRemision.getProcesoSRI().equals(Constantes.procesoSRIAnulada)) throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
 		if(guiaRemision.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
 		if(guiaRemision.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
-		if(guiaRemision.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+		if(guiaRemision.getUsuario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
 		if(guiaRemision.getTransportista().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.transportista);
 		if(guiaRemision.getFactura().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.factura);
 		if(guiaRemision.getMotivoTraslado().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.motivoTraslado);
@@ -60,9 +59,9 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
 		String fechaEmision = dateFormat.format(guiaRemision.getFecha());
 		String tipoComprobante = Constantes.guia_de_remision_sri;
-		String numeroRuc = guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
+		String numeroRuc = guiaRemision.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
 		String tipoAmbiente = Constantes.pruebas_sri;
-		String serie = guiaRemision.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + guiaRemision.getSesion().getUsuario().getEstacion().getCodigoSRI();
+		String serie = guiaRemision.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + guiaRemision.getUsuario().getEstacion().getCodigoSRI();
 		String numeroComprobante = guiaRemision.getSecuencial();
 		String codigoNumerico = guiaRemision.getCodigoNumerico();
 		String tipoEmision = Constantes.emision_normal_sri;
@@ -97,13 +96,13 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 		validar(guiaRemision);
 		TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_guia_remision);
 		guiaRemision.setTipoComprobante(tipoComprobante);
-		Optional<String>codigo = Util.generarCodigo(Constantes.tabla_guia_remision);
+		Optional<String>codigo = Util.generarCodigoPorEmpresa(guiaRemision.getFecha(), Constantes.tabla_guia_remision, guiaRemision.getEmpresa().getId());
 		if (codigo.isEmpty()) {
 			throw new CodigoNoExistenteException();
 		}
 		guiaRemision.setCodigo(codigo.get());
 		Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(guiaRemision.getTipoComprobante().getId(),
-				guiaRemision.getSesion().getUsuario().getEstacion().getId(), guiaRemision.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
+				guiaRemision.getUsuario().getEstacion().getId(), guiaRemision.getEmpresa().getId(), Constantes.estadoActivo);
 		guiaRemision.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
 		guiaRemision.setNumeroComprobante(guiaRemision.getEstablecimiento() + Constantes.guion + guiaRemision.getPuntoVenta() + Constantes.guion + guiaRemision.getSecuencial());
 		guiaRemision.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));

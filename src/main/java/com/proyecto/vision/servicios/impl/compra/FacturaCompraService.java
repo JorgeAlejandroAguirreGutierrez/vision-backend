@@ -8,7 +8,6 @@ import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.compra.NotaCreditoCompra;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.modelos.inventario.Precio;
-import com.proyecto.vision.modelos.venta.NotaCredito;
 import com.proyecto.vision.servicios.interf.compra.INotaCreditoCompraService;
 import com.proyecto.vision.servicios.interf.inventario.IPrecioService;
 import com.proyecto.vision.modelos.inventario.Kardex;
@@ -17,9 +16,7 @@ import com.proyecto.vision.modelos.inventario.TipoOperacion;
 import com.proyecto.vision.servicios.interf.inventario.ITipoOperacionService;
 import com.proyecto.vision.repositorios.compra.IFacturaCompraRepository;
 import com.proyecto.vision.servicios.interf.compra.IFacturaCompraService;
-import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
-import com.proyecto.vision.servicios.interf.venta.INotaCreditoService;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,7 +49,7 @@ public class FacturaCompraService implements IFacturaCompraService {
         if (facturaCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if (facturaCompra.getProveedor().getId() == Constantes.ceroId)
             throw new DatoInvalidoException(Constantes.proveedor);
-        if (facturaCompra.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if (facturaCompra.getUsuario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.usuario);
         if (facturaCompra.getFacturaCompraLineas().isEmpty())
             throw new DatoInvalidoException(Constantes.factura_compra_linea);
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
@@ -68,17 +65,9 @@ public class FacturaCompraService implements IFacturaCompraService {
         if(facturaCompraExiste.isPresent()){
             throw new DatoInvalidoException(Constantes.secuencial);
         }
-        /*for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
-            Kardex registroInicial = kardexService.obtenerSaldoInicialPorProductoYBodega(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId());
-            Date fechaCompra = DateUtils.truncate(facturaCompra.getFecha(), Calendar.DAY_OF_MONTH);
-            Date fechaInicio = DateUtils.truncate(registroInicial.getFecha(), Calendar.DAY_OF_MONTH);
-            if (fechaCompra.before(fechaInicio)) {
-                throw new DatoInvalidoException(Constantes.fecha);
-            }
-        }*/
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
         facturaCompra.setTipoComprobante(tipoComprobante);
-        Optional<String> codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
+        Optional<String> codigo = Util.generarCodigoPorEmpresa(facturaCompra.getFecha(), Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }

@@ -44,7 +44,7 @@ public class NotaDebitoService implements INotaDebitoService {
         if(notaDebito.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
         if(notaDebito.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(notaDebito.getFactura().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.factura);
-        if(notaDebito.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if(notaDebito.getUsuario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaDebito.getNotaDebitoLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_debito_linea);
         for(NotaDebitoLinea notaDebitoLinea: notaDebito.getNotaDebitoLineas()){
             validarLinea(notaDebitoLinea);
@@ -93,7 +93,7 @@ public class NotaDebitoService implements INotaDebitoService {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         String fechaEmision = dateFormat.format(notaDebito.getFecha());
         String tipoComprobante = Constantes.factura_sri;
-        String numeroRuc = notaDebito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
+        String numeroRuc = notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
         String tipoAmbiente = Constantes.pruebas_sri;
         String serie = notaDebito.getEstablecimiento() + notaDebito.getPuntoVenta();
         String numeroComprobante = notaDebito.getSecuencial();
@@ -130,13 +130,13 @@ public class NotaDebitoService implements INotaDebitoService {
         validar(notaDebito);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
         notaDebito.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_factura,notaDebito.getEmpresa().getId());
+        Optional<String>codigo = Util.generarCodigoPorEmpresa(notaDebito.getFecha(), Constantes.tabla_factura,notaDebito.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }
         notaDebito.setCodigo(codigo.get());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(notaDebito.getTipoComprobante().getId(),
-                notaDebito.getSesion().getUsuario().getEstacion().getId(), notaDebito.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
+                notaDebito.getUsuario().getEstacion().getId(), notaDebito.getEmpresa().getId(), Constantes.estadoActivo);
         notaDebito.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         notaDebito.setNumeroComprobante(notaDebito.getEstablecimiento() + Constantes.guion + notaDebito.getPuntoVenta() + Constantes.guion + notaDebito.getSecuencial());
         notaDebito.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));

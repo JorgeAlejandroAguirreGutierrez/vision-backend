@@ -67,9 +67,9 @@ public class FacturaService implements IFacturaService {
         if(factura.getEmpresa().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.empresa);
         if(factura.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
         if(factura.getCliente().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.cliente);
-        if(factura.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if(factura.getUsuario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.usuario);
         if(factura.getFacturaLineas().isEmpty()) throw new DatoInvalidoException(Constantes.factura_detalle);
-        Cliente consumidorFinal = clienteService.obtenerPorIdentificacionYEmpresaYEstado(Constantes.identificacion_consumidor_final, factura.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
+        Cliente consumidorFinal = clienteService.obtenerPorIdentificacionYEmpresaYEstado(Constantes.identificacion_consumidor_final, factura.getEmpresa().getId(), Constantes.estadoActivo);
         double valorTotal = Constantes.cero;
         for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
             validarLinea(facturaLinea);
@@ -121,13 +121,13 @@ public class FacturaService implements IFacturaService {
         validar(factura);
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
         factura.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_factura,factura.getEmpresa().getId());
+        Optional<String>codigo=Util.generarCodigoPorEmpresa(factura.getFecha(), Constantes.tabla_factura,factura.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }
         factura.setCodigo(codigo.get());
         Secuencial secuencial = secuencialService.obtenerPorTipoComprobanteYEstacionYEmpresaYEstado(factura.getTipoComprobante().getId(),
-                factura.getSesion().getUsuario().getEstacion().getId(), factura.getSesion().getEmpresa().getId(), Constantes.estadoActivo);
+                factura.getUsuario().getEstacion().getId(), factura.getEmpresa().getId(), Constantes.estadoActivo);
         factura.setSecuencial(Util.generarSecuencial(secuencial.getNumeroSiguiente()));
         factura.setNumeroComprobante(factura.getEstablecimiento() + Constantes.guion + factura.getPuntoVenta() + Constantes.guion + factura.getSecuencial());
         factura.setCodigoNumerico(Util.generarCodigoNumerico(secuencial.getNumeroSiguiente()));
@@ -151,7 +151,7 @@ public class FacturaService implements IFacturaService {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         String fechaEmision = dateFormat.format(factura.getFecha());
         String tipoComprobante = Constantes.factura_sri;
-        String numeroRuc = factura.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
+        String numeroRuc = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
         String tipoAmbiente = Constantes.pruebas_sri;
         String serie = factura.getEstablecimiento() + factura.getPuntoVenta();
         String numeroComprobante = factura.getSecuencial();

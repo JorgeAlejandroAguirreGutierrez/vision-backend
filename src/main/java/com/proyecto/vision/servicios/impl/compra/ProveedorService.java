@@ -67,7 +67,7 @@ public class ProveedorService implements IProveedorService {
         if(buscarProveedor.isPresent()) {
             throw new EntidadExistenteException(Constantes.proveedor);
         }
-    	Optional<String>codigo=Util.generarCodigoPorEmpresa(Constantes.tabla_proveedor, proveedor.getEmpresa().getId());
+    	Optional<String>codigo=Util.generarCodigoPorEmpresa(null, Constantes.tabla_proveedor, proveedor.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}

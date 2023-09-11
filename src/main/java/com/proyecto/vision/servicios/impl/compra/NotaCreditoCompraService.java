@@ -11,7 +11,6 @@ import com.proyecto.vision.modelos.compra.NotaCreditoCompraLinea;
 import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.modelos.inventario.Precio;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
-import com.proyecto.vision.modelos.venta.NotaCredito;
 import com.proyecto.vision.repositorios.compra.INotaCreditoCompraRepository;
 import com.proyecto.vision.servicios.interf.compra.IFacturaCompraService;
 import com.proyecto.vision.servicios.interf.compra.INotaCreditoCompraService;
@@ -50,7 +49,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         if(notaCreditoCompra.getPuntoVenta().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.punto_venta);
         if(notaCreditoCompra.getSecuencial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.secuencial);
         if(notaCreditoCompra.getFecha() == null) throw new DatoInvalidoException(Constantes.fecha);
-        if(notaCreditoCompra.getSesion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
+        if(notaCreditoCompra.getUsuario().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.sesion);
         if(notaCreditoCompra.getNotaCreditoCompraLineas().isEmpty()) throw new DatoInvalidoException(Constantes.nota_credito_compra_linea);
     }
 
@@ -64,7 +63,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         }
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito_compra);
         notaCreditoCompra.setTipoComprobante(tipoComprobante);
-        Optional<String> codigo = Util.generarCodigoPorEmpresa(Constantes.tabla_nota_credito_compra, notaCreditoCompra.getEmpresa().getId());
+        Optional<String> codigo = Util.generarCodigoPorEmpresa(notaCreditoCompra.getFecha(), Constantes.tabla_nota_credito_compra, notaCreditoCompra.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }

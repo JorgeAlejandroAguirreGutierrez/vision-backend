@@ -102,27 +102,27 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		}
 		infoTributaria.setAmbiente(ambiente);
 		infoTributaria.setTipoEmision(Constantes.emision_normal_sri);
-		infoTributaria.setRazonSocial(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
-		infoTributaria.setNombreComercial(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
-		infoTributaria.setRuc(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
+		infoTributaria.setRazonSocial(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+		infoTributaria.setNombreComercial(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+		infoTributaria.setRuc(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
 		infoTributaria.setClaveAcceso(notaCredito.getClaveAcceso());
 		infoTributaria.setCodDoc(Constantes.nota_de_credito_sri);
-		infoTributaria.setEstab(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
-		infoTributaria.setPtoEmi(notaCredito.getSesion().getUsuario().getEstacion().getCodigoSRI());
+		infoTributaria.setEstab(notaCredito.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
+		infoTributaria.setPtoEmi(notaCredito.getUsuario().getEstacion().getCodigoSRI());
 		infoTributaria.setSecuencial(notaCredito.getSecuencial());
-		infoTributaria.setDirMatriz(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
+		infoTributaria.setDirMatriz(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion());
 
 		DateFormat dateFormat = new SimpleDateFormat(Constantes.fechaCortaSri);
 		String fechaEmision = dateFormat.format(notaCredito.getFecha());
 		InfoNotaCredito infoNotaCredito = new InfoNotaCredito();
 		infoNotaCredito.setFechaEmision(fechaEmision);
-		infoNotaCredito.setDirEstablecimiento(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion());
+		infoNotaCredito.setDirEstablecimiento(notaCredito.getUsuario().getEstacion().getEstablecimiento().getDireccion());
 		infoNotaCredito.setTipoIdentificacionComprador(notaCredito.getFactura().getCliente().getTipoIdentificacion().getCodigoSRI());
 		infoNotaCredito.setRazonSocialComprador(notaCredito.getFactura().getCliente().getRazonSocial());
 		infoNotaCredito.setIdentificacionComprador(notaCredito.getFactura().getCliente().getIdentificacion());
-		infoNotaCredito.setObligadoContabilidad(notaCredito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
+		infoNotaCredito.setObligadoContabilidad(notaCredito.getFactura().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad());
 		infoNotaCredito.setCodDocModificado(Constantes.factura_sri);
-		String numero = notaCredito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI()+Constantes.guion+ notaCredito.getFactura().getSesion().getUsuario().getEstacion().getCodigoSRI()+Constantes.guion+ notaCredito.getFactura().getSecuencial();
+		String numero = notaCredito.getFactura().getUsuario().getEstacion().getEstablecimiento().getCodigoSRI()+Constantes.guion+ notaCredito.getFactura().getUsuario().getEstacion().getCodigoSRI()+Constantes.guion+ notaCredito.getFactura().getSecuencial();
 		infoNotaCredito.setNumDocModificado(numero);
 		String fechaEmisionFactura = dateFormat.format(notaCredito.getFactura().getFecha());
 		infoNotaCredito.setFechaEmisionDocSustento(fechaEmisionFactura);
@@ -396,21 +396,21 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			documento.setFont(font);
 			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
 			String regimen = Constantes.vacio;
-			if(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
-				regimen = notaCredito.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			if(notaCredito.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
+				regimen = notaCredito.getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
-			if(notaCredito.getSesion().getUsuario().getEstacion().getRegimen() != null) {
-				regimen = notaCredito.getSesion().getUsuario().getEstacion().getRegimen().getDescripcion();
+			if(notaCredito.getUsuario().getEstacion().getRegimen() != null) {
+				regimen = notaCredito.getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
 			float [] columnas = {320F, 280F};
 			Table tabla = new Table(columnas);
-			tabla.addCell(getCellEmpresa(notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
-					"DIRECCIÓN MATRIZ: " + notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
-					"DIRECCIÓN SUCURSAL: " + notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
+			tabla.addCell(getCellEmpresa(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
+					"DIRECCIÓN MATRIZ: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
+					"DIRECCIÓN SUCURSAL: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
 					regimen + "\n" + "\n" +
-					"CONTIRUYENTE ESPECIAL: " + notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
-					"AGENTE RETENCION RESOLUCIÓN: " + notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+					"CONTIRUYENTE ESPECIAL: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
+					"AGENTE RETENCION RESOLUCIÓN: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
@@ -423,7 +423,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
 				imagenCodigoBarras = new Image(objetoCodigoBarras);
 			}
-			tabla.addCell(getCellFactura("RUC: "+ notaCredito.getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+			tabla.addCell(getCellFactura("RUC: "+ notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"NOTA CREDITO"+"\n"+
 					"No. " + notaCredito.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion+ "\n" +
@@ -638,7 +638,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 
 			message.setFrom(new InternetAddress(correoUsuario));
 			message.addRecipients(Message.RecipientType.TO, notaCredito.getFactura().getCliente().getCorreos().get(0).getEmail());   //Se podrían añadir varios de la misma manera
-			message.setSubject(notaCredito.getFactura().getSesion().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + notaCredito.getCodigo());
+			message.setSubject(notaCredito.getFactura().getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + notaCredito.getCodigo());
 			message.setText(Constantes.vacio);
 			message.setContent(multipart);
 			Transport transport = session.getTransport(Constantes.smtp);
