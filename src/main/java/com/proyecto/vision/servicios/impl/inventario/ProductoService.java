@@ -2,10 +2,7 @@ package com.proyecto.vision.servicios.impl.inventario;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.exception.DatoInvalidoException;
-import com.proyecto.vision.modelos.compra.FacturaCompra;
-import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.inventario.Kardex;
-import com.proyecto.vision.modelos.inventario.Precio;
 import com.proyecto.vision.modelos.inventario.Producto;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
@@ -52,6 +49,9 @@ public class ProductoService implements IProductoService {
     @Override
     public Producto crear(Producto producto) {
         validar(producto);
+        if(producto.getCategoriaProducto().getAbreviatura().equals(Constantes.abreviatura_servicio)){
+            producto.setProveedor(null);
+        }
         Optional<Producto> getProducto=rep.obtenerPorNombre(producto.getNombre());
         if(getProducto.isPresent()) {
             throw new EntidadExistenteException(Constantes.producto);
