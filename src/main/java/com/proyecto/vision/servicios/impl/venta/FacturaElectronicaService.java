@@ -223,7 +223,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		for(int i = 0; i<factura.getFacturaLineas().size(); i++) {
 			Detalle detalle = new Detalle();
 			detalle.setCodigoPrincipal(factura.getFacturaLineas().get(i).getProducto().getCodigo());
-			detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
+			detalle.setDescripcion(factura.getFacturaLineas().get(i).getNombreProducto());
 			detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
 			detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
 			detalle.setDescuento(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
@@ -533,7 +533,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getCodigo()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
-				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getNombre()));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getNombreProducto()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+descuentoLinea));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(porcentajeDescuentoLinea+"%"));
@@ -845,7 +845,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
-				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getProducto().getNombre()));
+				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getNombreProducto()));
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$"+precioUnitario));
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$"+subtotalConDescuentoLinea));
 			}

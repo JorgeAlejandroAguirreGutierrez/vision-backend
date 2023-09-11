@@ -217,7 +217,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		List<Motivo> motivoLista = new ArrayList<>();
 		for(NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()) {
 			Motivo motivo = new Motivo();
-			motivo.setRazon(notaDebitoLinea.getProducto().getNombre());
+			motivo.setRazon(notaDebitoLinea.getNombreProducto());
 			motivo.setValor(notaDebitoLinea.getTotalLinea());
 			motivoLista.add(motivo);
 		}
@@ -501,7 +501,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getProducto().getCodigo()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getCantidad() + Constantes.vacio));
-				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getProducto().getNombre()));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(notaDebito.getNotaDebitoLineas().get(i).getNombreProducto()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+descuentoLinea));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(porcentajeDescuentoLinea+"%"));

@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import static com.proyecto.vision.Constantes.nombre;
 import static com.proyecto.vision.Constantes.tabla_factura_linea;
 
 @Entity
@@ -24,6 +25,8 @@ public class FacturaLinea extends Entidad {
     private String codigo;
     @Column(name = "posicion", nullable = true)
     private long posicion;
+    @Column(name = "nombre_producto", nullable = true)
+    private String nombreProducto;
     @Column(name = "comentario", nullable = true)
     private String comentario;
     @Column(name = "entregado", nullable = true)
@@ -78,6 +81,7 @@ public class FacturaLinea extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.posicion = Constantes.ceroId;
+        this.nombreProducto = Constantes.vacio;
         this.comentario = Constantes.vacio;
         this.entregado = Constantes.no;
         this.consignacion = Constantes.no;
