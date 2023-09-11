@@ -24,6 +24,8 @@ public class NotaDebitoLinea extends Entidad {
     private String codigo;
     @Column(name = "posicion", nullable = true)
     private long posicion;
+    @Column(name = "nombre_producto", nullable = true)
+    private String nombreProducto;
     @Column(name = "entregado", nullable = true)
     private String entregado;
     @Column(name = "consignacion", nullable = true)
@@ -66,6 +68,7 @@ public class NotaDebitoLinea extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.posicion = Constantes.ceroId;
+        this.nombreProducto = Constantes.vacio;
         this.entregado = Constantes.no;
         this.consignacion = Constantes.no;
         this.cantidad = Constantes.ceroId;
