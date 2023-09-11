@@ -457,11 +457,11 @@ public class FacturaService implements IFacturaService {
         subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
         facturaLinea.setSubtotalLinea(subtotalLinea);
 
-        double valorIvaLinea = (subtotalLinea * (facturaLinea.getImpuesto().getPorcentaje() / 100));
-        valorIvaLinea = Math.round(valorIvaLinea * 100.0) / 100.0;
-        facturaLinea.setImporteIvaLinea(valorIvaLinea);
+        double importeIvaLinea = (subtotalLinea * (facturaLinea.getImpuesto().getPorcentaje() / 100));
+        importeIvaLinea = Math.round(importeIvaLinea * 10000.0) / 10000.0;
+        facturaLinea.setImporteIvaLinea(importeIvaLinea);
 
-        double totalLinea = subtotalLinea + valorIvaLinea;
+        double totalLinea = subtotalLinea + importeIvaLinea;
         totalLinea = Math.round(totalLinea * 100.0) / 100.0;
         facturaLinea.setTotalLinea(totalLinea);
 
@@ -470,7 +470,6 @@ public class FacturaService implements IFacturaService {
 
     public Factura calcular(Factura factura) {
         this.validar(factura);
-        this.calcularSubtotal(factura);
         if (factura.getValorDescuentoTotal() != Constantes.cero) {
             this.calcularValorDescuentoTotal(factura);
         }
@@ -486,18 +485,6 @@ public class FacturaService implements IFacturaService {
             this.calcularTotales(factura);
         }
         return factura;
-    }
-
-    /*
-     * CALCULOS TOTALES FACTURA DE VENTA
-     */
-    private void calcularSubtotal(Factura factura) {
-        double subtotal = Constantes.cero;
-        for(FacturaLinea facturaLinea : factura.getFacturaLineas()){
-            subtotal += facturaLinea.getSubtotalLineaSinDescuento();
-        }
-        subtotal = Math.round(subtotal * 10000.0) / 10000.0;
-        factura.setSubtotal(subtotal);
     }
 
     private void calcularValorDescuentoTotal(Factura factura) {
@@ -548,6 +535,10 @@ public class FacturaService implements IFacturaService {
 
         importeIva = Math.round(importeIva * 100.0) / 100.0;
         factura.setImporteIva(importeIva);
+
+        double subtotal = subtotalGravado + subtotalNoGravado;
+        subtotal = Math.round(subtotal * 100.0) / 100.0;
+        factura.setSubtotal(subtotal);
 
         double total = subtotalGravado + subtotalNoGravado + importeIva;
         total = Math.round(total * 100.0) / 100.0;

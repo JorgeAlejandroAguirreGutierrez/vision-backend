@@ -316,7 +316,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			StringWriter sw = new StringWriter();
 			jaxbMarshaller.marshal(notaDebitoElectronica, sw);
 			String xml=sw.toString();
-			Path path = Paths.get(Constantes.pathCertificados + Constantes.slash + certificado);
+			Path path = Paths.get(Constantes.pathRecursos + Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
 			byte[] firmado=SignatureXAdESBES.firmarByteData(xml.getBytes(), cert, contrasena);
