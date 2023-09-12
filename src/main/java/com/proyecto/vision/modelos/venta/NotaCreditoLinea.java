@@ -24,6 +24,8 @@ import static com.proyecto.vision.Constantes.tabla_nota_credito_linea;
 public class NotaCreditoLinea extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "nombre_producto", nullable = true)
+    private String nombreProducto;
     @Column(name = "cantidad_venta", nullable = true)
     private long cantidadVenta;
     @Column(name = "costo_unitario_venta", nullable = true)
@@ -62,6 +64,7 @@ public class NotaCreditoLinea extends Entidad {
     public NotaCreditoLinea() {
         super();
         this.codigo = Constantes.vacio;
+        this.nombreProducto = Constantes.vacio;
         this.cantidadVenta = Constantes.ceroId;
         this.costoUnitarioVenta = Constantes.cero;
         this.cantidad = Constantes.cero;

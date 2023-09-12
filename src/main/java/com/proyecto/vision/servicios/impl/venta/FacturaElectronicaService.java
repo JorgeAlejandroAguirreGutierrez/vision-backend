@@ -2,6 +2,8 @@ package com.proyecto.vision.servicios.impl.venta;
 
 import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -152,7 +154,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			totalImpuesto.setCodigoPorcentaje(factura.getFacturaLineas().get(i).getImpuesto().getCodigoSRI());
 			totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
 			totalImpuesto.setBaseImponible(Math.round(factura.getFacturaLineas().get(i).getSubtotalLinea()*100.0)/100.0);
-			totalImpuesto.setValor(factura.getFacturaLineas().get(i).getImporteIvaLinea());
+			totalImpuesto.setValor(Math.round(factura.getFacturaLineas().get(i).getImporteIvaLinea()*100.0)/100.0);
 			totalImpuestos.add(totalImpuesto);
 		}
 		totalConImpuestos.setTotalImpuesto(totalImpuestos);
@@ -221,7 +223,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		for(int i = 0; i<factura.getFacturaLineas().size(); i++) {
 			Detalle detalle = new Detalle();
 			detalle.setCodigoPrincipal(factura.getFacturaLineas().get(i).getProducto().getCodigo());
-			detalle.setDescripcion(factura.getFacturaLineas().get(i).getProducto().getNombre());
+			detalle.setDescripcion(factura.getFacturaLineas().get(i).getNombreProducto());
 			detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
 			detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
 			detalle.setDescuento(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
@@ -236,12 +238,12 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	private Impuestos crearImpuestos(FacturaLinea facturaLinea) {
 		Impuestos impuestos = new Impuestos();
 		List<Impuesto> impuestoLista = new ArrayList<>();
-		Impuesto impuesto=new Impuesto();
+		Impuesto impuesto = new Impuesto();
 		impuesto.setCodigo(Constantes.iva_sri);
 		impuesto.setCodigoPorcentaje(facturaLinea.getImpuesto().getCodigoSRI());
 		impuesto.setTarifa(facturaLinea.getImpuesto().getPorcentaje());
 		impuesto.setBaseImponible(Math.round(facturaLinea.getSubtotalLinea()*100.0)/100.0);
-		impuesto.setValor(facturaLinea.getImporteIvaLinea());
+		impuesto.setValor(Math.round(facturaLinea.getImporteIvaLinea()*100.0)/100.0);
 		impuestoLista.add(impuesto);
 		impuestos.setImpuesto(impuestoLista);
 		return impuestos;
@@ -457,7 +459,15 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			// 4. Add content
 			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 			documento.setFont(font);
-			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			if(factura.getEmpresa().getLogo().equals(Constantes.vacio)){
+				documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			}
+			if(!factura.getEmpresa().getLogo().equals(Constantes.vacio)){
+				Path path = Paths.get(Constantes.pathRecursos + Constantes.pathLogos + Constantes.slash + factura.getEmpresa().getLogo());
+				ImageData imageData = ImageDataFactory.create(path.toAbsolutePath().toString());
+				Image image = new Image(imageData).scaleAbsolute(150, 100);
+				documento.add(image);
+			}
 			String regimen = Constantes.vacio;
 			if(factura.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = factura.getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
@@ -523,7 +533,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getCodigo()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
-				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getProducto().getNombre()));
+				tablaFacturaDetalle.addCell(getCellFilaFactura(factura.getFacturaLineas().get(i).getNombreProducto()));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+precioUnitario));
 				tablaFacturaDetalle.addCell(getCellFilaFactura("$"+descuentoLinea));
 				tablaFacturaDetalle.addCell(getCellFilaFactura(porcentajeDescuentoLinea+"%"));
@@ -835,7 +845,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalLinea());
 
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getCantidad() + Constantes.vacio));
-				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getProducto().getNombre()));
+				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket(factura.getFacturaLineas().get(i).getNombreProducto()));
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$"+precioUnitario));
 				tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$"+subtotalConDescuentoLinea));
 			}

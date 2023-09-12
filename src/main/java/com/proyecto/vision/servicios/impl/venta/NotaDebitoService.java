@@ -268,7 +268,7 @@ public class NotaDebitoService implements INotaDebitoService {
         notaDebitoLinea.setSubtotalLinea(subtotalLinea);
 
         double importeIvaLinea = (subtotalLinea * (notaDebitoLinea.getImpuesto().getPorcentaje() / 100));
-        importeIvaLinea = Math.round(importeIvaLinea * 100.0) / 100.0;
+        importeIvaLinea = Math.round(importeIvaLinea * 10000.0) / 10000.0;
         notaDebitoLinea.setImporteIvaLinea(importeIvaLinea);
 
         double totalLinea = subtotalLinea + importeIvaLinea;

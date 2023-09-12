@@ -1,6 +1,5 @@
 package com.proyecto.vision.modelos.venta.electronico.factura;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +15,7 @@ public class FacturaElectronica {
 	@XmlAttribute(name = "id")
     private String id="comprobante";
 	@XmlAttribute(name = "version")
-    private String version="2.1.0";
+    private String version="1.1.0";
 	private InfoTributaria infoTributaria;
 	private InfoFactura infoFactura;
 	private Detalles detalles;
