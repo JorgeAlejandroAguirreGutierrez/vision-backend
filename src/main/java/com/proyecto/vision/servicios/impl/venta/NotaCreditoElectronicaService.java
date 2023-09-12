@@ -423,12 +423,19 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
 				imagenCodigoBarras = new Image(objetoCodigoBarras);
 			}
+			String ambiente = Constantes.vacio;
+			if(facturacionProduccion.equals(Constantes.si)){
+				ambiente = Constantes.facturaFisicaAmbienteProduccionValor;
+			}
+			if(facturacionProduccion.equals(Constantes.no)){
+				ambiente = Constantes.facturaFisicaAmbientePruebasValor;
+			}
 			tabla.addCell(getCellFactura("RUC: "+ notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"NOTA CREDITO"+"\n"+
 					"No. " + notaCredito.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion+ "\n" +
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
-					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
+					"AMBIENTE: " + ambiente + "\n" +
 					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
 					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
 			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
