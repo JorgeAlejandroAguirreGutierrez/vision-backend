@@ -1,6 +1,5 @@
 package com.proyecto.vision.modelos.venta.electronico.factura;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

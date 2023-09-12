@@ -154,7 +154,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			totalImpuesto.setCodigoPorcentaje(factura.getFacturaLineas().get(i).getImpuesto().getCodigoSRI());
 			totalImpuesto.setDescuentoAdicional(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
 			totalImpuesto.setBaseImponible(Math.round(factura.getFacturaLineas().get(i).getSubtotalLinea()*100.0)/100.0);
-			totalImpuesto.setValor(factura.getFacturaLineas().get(i).getImporteIvaLinea());
+			totalImpuesto.setValor(Math.round(factura.getFacturaLineas().get(i).getImporteIvaLinea()*100.0)/100.0);
 			totalImpuestos.add(totalImpuesto);
 		}
 		totalConImpuestos.setTotalImpuesto(totalImpuestos);
@@ -238,12 +238,12 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	private Impuestos crearImpuestos(FacturaLinea facturaLinea) {
 		Impuestos impuestos = new Impuestos();
 		List<Impuesto> impuestoLista = new ArrayList<>();
-		Impuesto impuesto=new Impuesto();
+		Impuesto impuesto = new Impuesto();
 		impuesto.setCodigo(Constantes.iva_sri);
 		impuesto.setCodigoPorcentaje(facturaLinea.getImpuesto().getCodigoSRI());
 		impuesto.setTarifa(facturaLinea.getImpuesto().getPorcentaje());
 		impuesto.setBaseImponible(Math.round(facturaLinea.getSubtotalLinea()*100.0)/100.0);
-		impuesto.setValor(facturaLinea.getImporteIvaLinea());
+		impuesto.setValor(Math.round(facturaLinea.getImporteIvaLinea()*100.0)/100.0);
 		impuestoLista.add(impuesto);
 		impuestos.setImpuesto(impuestoLista);
 		return impuestos;
