@@ -150,7 +150,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			impuesto.setCodigoPorcentaje(notaDebitoLinea.getImpuesto().getCodigoSRI());
 			impuesto.setTarifa(notaDebitoLinea.getImpuesto().getPorcentaje());
 			impuesto.setBaseImponible(notaDebitoLinea.getTotalLinea());
-			impuesto.setValor(notaDebitoLinea.getImporteIvaLinea());
+			impuesto.setValor(Math.round(notaDebitoLinea.getImporteIvaLinea()*100.0)/100.0);
 			impuestoLista.add(impuesto);
 		}
 		impuestos.setImpuesto(impuestoLista);
