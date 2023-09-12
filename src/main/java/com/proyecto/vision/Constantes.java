@@ -538,8 +538,10 @@ public class Constantes {
     public static final int once= 11;
     public static final double ciencuenta = 50;
 
-    public static final String urlFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline";
-    public static final String urlConsultaFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline";
+    public static final String urlPruebasFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline";
+    public static final String urlPruebasConsultaFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline";
+    public static final String urlProduccionFacturacionEletronicaSri = "https://cel.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline";
+    public static final String urlProduccionConsultaFacturacionEletronicaSri = "https://cel.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline";
     public static final String utf8 = "utf-8";
     public static final String contentType = "Content-Type";
     public static final String moneda = "USD";
@@ -573,7 +575,8 @@ public class Constantes {
     public static final String estadoPorPagar = "POR PAGAR";
 
     //CONSTANTES PARA FACTURA FISICA
-    public static final String facturaFisicaAmbienteValor = "PRUEBAS";
+    public static final String facturaFisicaAmbientePruebasValor = "PRUEBAS";
+    public static final String facturaFisicaAmbienteProduccionValor = "PRODUCCION";
     public static final String facturaFisicaEmisionValor = "NORMAL";
 
     //CONSTANTES PARA ENVIO DE CORREO

@@ -308,6 +308,13 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 
 	private List<String> recepcion(NotaDebitoElectronica notaDebitoElectronica, String certificado, String contrasena) {
 		try {
+			String url = Constantes.vacio;
+			if(facturacionProduccion.equals(Constantes.si)){
+				url = Constantes.urlProduccionFacturacionEletronicaSri;
+			}
+			if(facturacionProduccion.equals(Constantes.no)){
+				url = Constantes.urlPruebasFacturacionEletronicaSri;
+			}
 			JAXBContext jaxbContext = JAXBContext.newInstance(NotaDebitoElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -329,7 +336,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 					.build();
 			HttpRequest request = HttpRequest.newBuilder()
 					.POST(BodyPublishers.ofString(body))
-					.uri(URI.create(Constantes.urlFacturacionEletronicaSri))
+					.uri(URI.create(url))
 					.setHeader(Constantes.contentType, Constantes.contenTypeValor)
 					.build();
 			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -376,6 +383,13 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 
 	public List<String> autorizacion(NotaDebitoElectronica notaDebitoElectronica){
 		try {
+			String url = Constantes.vacio;
+			if(facturacionProduccion.equals(Constantes.si)){
+				url = Constantes.urlProduccionConsultaFacturacionEletronicaSri;
+			}
+			if(facturacionProduccion.equals(Constantes.no)){
+				url = Constantes.urlPruebasConsultaFacturacionEletronicaSri;
+			}
 			String body=Util.soapConsultaFacturacionEletronica(notaDebitoElectronica.getInfoTributaria().getClaveAcceso());
 			HttpClient httpClient = HttpClient.newBuilder()
 					.version(HttpClient.Version.HTTP_1_1)
@@ -383,7 +397,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 					.build();
 			HttpRequest request = HttpRequest.newBuilder()
 					.POST(BodyPublishers.ofString(body))
-					.uri(URI.create(Constantes.urlConsultaFacturacionEletronicaSri))
+					.uri(URI.create(url))
 					.setHeader(Constantes.contentType, Constantes.contenTypeValor)
 					.build();
 			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -464,12 +478,19 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 				PdfFormXObject objetoCodigoBarras = codigoBarras.createFormXObject(null, null, pdf);
 				imagenCodigoBarras = new Image(objetoCodigoBarras);
 			}
+			String ambiente = Constantes.vacio;
+			if(facturacionProduccion.equals(Constantes.si)){
+				ambiente = Constantes.facturaFisicaAmbienteProduccionValor;
+			}
+			if(facturacionProduccion.equals(Constantes.no)){
+				ambiente = Constantes.facturaFisicaAmbientePruebasValor;
+			}
 			tabla.addCell(getCellFactura("RUC: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
 					"NOTA DEBITO"+"\n"+
 					"No. " + notaDebito.getNumeroComprobante() + "\n" +
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion+ "\n" +
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
-					"AMBIENTE: " + Constantes.facturaFisicaAmbienteValor + "\n" +
+					"AMBIENTE: " + ambiente + "\n" +
 					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
 					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
 			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
