@@ -253,6 +253,13 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 
 	private List<String> recepcion(GuiaRemisionElectronica guiaRemisionElectronica, String certificado, String contrasena) {
 		try {
+			String url = Constantes.vacio;
+			if(facturacionProduccion.equals(Constantes.si)){
+				url = Constantes.urlProduccionFacturacionEletronicaSri;
+			}
+			if(facturacionProduccion.equals(Constantes.no)){
+				url = Constantes.urlPruebasFacturacionEletronicaSri;
+			}
 			JAXBContext jaxbContext = JAXBContext.newInstance(GuiaRemisionElectronica.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -274,7 +281,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 					.build();
 			HttpRequest request = HttpRequest.newBuilder()
 					.POST(BodyPublishers.ofString(body))
-					.uri(URI.create(Constantes.urlFacturacionEletronicaSri))
+					.uri(URI.create(url))
 					.setHeader(Constantes.contentType, Constantes.contenTypeValor)
 					.build();
 			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -321,6 +328,13 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 
 	public List<String> autorizacion(GuiaRemisionElectronica guiaRemisionElectronica){
 		try {
+			String url = Constantes.vacio;
+			if(facturacionProduccion.equals(Constantes.si)){
+				url = Constantes.urlProduccionConsultaFacturacionEletronicaSri;
+			}
+			if(facturacionProduccion.equals(Constantes.no)){
+				url = Constantes.urlPruebasConsultaFacturacionEletronicaSri;
+			}
 			String body=Util.soapConsultaFacturacionEletronica(guiaRemisionElectronica.getInfoTributaria().getClaveAcceso());
 			HttpClient httpClient = HttpClient.newBuilder()
 					.version(HttpClient.Version.HTTP_1_1)
@@ -328,7 +342,7 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 					.build();
 			HttpRequest request = HttpRequest.newBuilder()
 					.POST(BodyPublishers.ofString(body))
-					.uri(URI.create(Constantes.urlConsultaFacturacionEletronicaSri))
+					.uri(URI.create(url))
 					.setHeader(Constantes.contentType, Constantes.contenTypeValor)
 					.build();
 			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
