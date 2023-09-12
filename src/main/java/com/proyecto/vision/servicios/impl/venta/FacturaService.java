@@ -26,6 +26,7 @@ import com.proyecto.vision.servicios.interf.inventario.IKardexService;
 import com.proyecto.vision.servicios.interf.venta.INotaCreditoService;
 import com.proyecto.vision.servicios.interf.venta.INotaDebitoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,8 @@ public class FacturaService implements IFacturaService {
     private INotaCreditoService notaCreditoService;
     @Autowired
     private IGuiaRemisionService guiaRemisionService;
+    @Value("${facturacion.produccion}")
+    private String facturacionProduccion;
 
     @Override
     public void validar(Factura factura) {
@@ -152,12 +155,18 @@ public class FacturaService implements IFacturaService {
         String fechaEmision = dateFormat.format(factura.getFecha());
         String tipoComprobante = Constantes.factura_sri;
         String numeroRuc = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
-        String tipoAmbiente = Constantes.pruebas_sri;
+        String tipoAmbiente = Constantes.vacio;
+        if(facturacionProduccion.equals(Constantes.si)){
+            tipoAmbiente = Constantes.produccion_sri;
+        }
+        if(facturacionProduccion.equals(Constantes.no)){
+            tipoAmbiente = Constantes.pruebas_sri;
+        }
         String serie = factura.getEstablecimiento() + factura.getPuntoVenta();
         String numeroComprobante = factura.getSecuencial();
         String codigoNumerico = factura.getCodigoNumerico();
         String tipoEmision = Constantes.emision_normal_sri;
-        String cadenaVerificacion = fechaEmision + tipoComprobante+numeroRuc + tipoAmbiente + serie + numeroComprobante + codigoNumerico + tipoEmision;
+        String cadenaVerificacion = fechaEmision + tipoComprobante + numeroRuc + tipoAmbiente + serie + numeroComprobante + codigoNumerico + tipoEmision;
         int[] arreglo=new int[cadenaVerificacion.length()];
         for(int i=0; i<cadenaVerificacion.length(); i++) {
             arreglo[i]= Integer.parseInt(cadenaVerificacion.charAt(i)+Constantes.vacio);
