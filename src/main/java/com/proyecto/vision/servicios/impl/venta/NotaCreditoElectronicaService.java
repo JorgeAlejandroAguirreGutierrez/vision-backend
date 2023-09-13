@@ -143,14 +143,12 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	private TotalConImpuestos crearTotalConImpuestos(NotaCredito notaCredito){
 		TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
 		List<TotalImpuesto> totalImpuestos = new ArrayList<>();
-		for(NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
-			TotalImpuesto totalImpuesto = new TotalImpuesto();
-			totalImpuesto.setCodigo(Constantes.iva_sri);
-			totalImpuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
-			totalImpuesto.setBaseImponible(notaCreditoLinea.getTotalLinea());
-			totalImpuesto.setValor(notaCreditoLinea.getImporteIvaLinea());
-			totalImpuestos.add(totalImpuesto);
-		}
+		TotalImpuesto totalImpuesto = new TotalImpuesto();
+		totalImpuesto.setCodigo(Constantes.iva_sri);
+		totalImpuesto.setCodigoPorcentaje(Constantes.iva_sri);
+		totalImpuesto.setBaseImponible(notaCredito.getSubtotal());
+		totalImpuesto.setValor(notaCredito.getImporteIva());
+		totalImpuestos.add(totalImpuesto);
 		totalConImpuestos.setTotalImpuesto(totalImpuestos);
 		return totalConImpuestos;
 	}
