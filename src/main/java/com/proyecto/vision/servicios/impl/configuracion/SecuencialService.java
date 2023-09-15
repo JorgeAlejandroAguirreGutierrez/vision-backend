@@ -79,6 +79,11 @@ public class SecuencialService implements ISecuencialService {
     public List<Secuencial> consultar() {
         return rep.consultar();
     }
+
+    @Override
+    public List<Secuencial> consultarPorEmpresa(long empresaId) {
+        return rep.consultarPorEmpresa(empresaId);
+    }
     
     @Override
     public List<Secuencial> consultarPorEstado(String estado){

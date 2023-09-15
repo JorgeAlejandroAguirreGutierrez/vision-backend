@@ -143,14 +143,12 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	private TotalConImpuestos crearTotalConImpuestos(NotaCredito notaCredito){
 		TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
 		List<TotalImpuesto> totalImpuestos = new ArrayList<>();
-		for(NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
-			TotalImpuesto totalImpuesto = new TotalImpuesto();
-			totalImpuesto.setCodigo(Constantes.iva_sri);
-			totalImpuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
-			totalImpuesto.setBaseImponible(notaCreditoLinea.getTotalLinea());
-			totalImpuesto.setValor(notaCreditoLinea.getImporteIvaLinea());
-			totalImpuestos.add(totalImpuesto);
-		}
+		TotalImpuesto totalImpuesto = new TotalImpuesto();
+		totalImpuesto.setCodigo(Constantes.iva_sri);
+		totalImpuesto.setCodigoPorcentaje(Constantes.iva_sri);
+		totalImpuesto.setBaseImponible(notaCredito.getSubtotal());
+		totalImpuesto.setValor(notaCredito.getImporteIva());
+		totalImpuestos.add(totalImpuesto);
 		totalConImpuestos.setTotalImpuesto(totalImpuestos);
 		return totalConImpuestos;
 	}
@@ -416,15 +414,29 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			if(notaCredito.getUsuario().getEstacion().getRegimen() != null) {
 				regimen = notaCredito.getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
+			String contribuyenteEspecial = Constantes.vacio;
+			if(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getEspecial().equals(Constantes.si)){
+				contribuyenteEspecial = notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial();
+			}
+			if(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getEspecial().equals(Constantes.no)){
+				contribuyenteEspecial = Constantes.no;
+			}
+			String agenteRetencion = Constantes.vacio;
+			if(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getAgenteRetencion().equals(Constantes.si)){
+				agenteRetencion = notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente();
+			}
+			if(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getAgenteRetencion().equals(Constantes.no)){
+				agenteRetencion = Constantes.no;
+			}
 			float [] columnas = {320F, 280F};
 			Table tabla = new Table(columnas);
 			tabla.addCell(getCellEmpresa(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
 					"DIRECCIÓN MATRIZ: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
 					"DIRECCIÓN SUCURSAL: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
 					regimen + "\n" + "\n" +
-					"CONTIRUYENTE ESPECIAL: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
+					"CONTRIBUYENTE ESPECIAL: " + contribuyenteEspecial + "\n" + "\n" +
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
-					"AGENTE RETENCION RESOLUCIÓN: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+					"AGENTE RETENCION RESOLUCIÓN: " + agenteRetencion, TextAlignment.LEFT));
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;

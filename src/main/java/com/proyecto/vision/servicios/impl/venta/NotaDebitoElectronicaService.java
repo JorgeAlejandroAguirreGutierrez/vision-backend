@@ -457,15 +457,29 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			if(notaDebito.getUsuario().getEstacion().getRegimen() != null) {
 				regimen = notaDebito.getUsuario().getEstacion().getRegimen().getDescripcion();
 			}
+			String contribuyenteEspecial = Constantes.vacio;
+			if(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getEspecial().equals(Constantes.si)){
+				contribuyenteEspecial = notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial();
+			}
+			if(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getEspecial().equals(Constantes.no)){
+				contribuyenteEspecial = Constantes.no;
+			}
+			String agenteRetencion = Constantes.vacio;
+			if(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getAgenteRetencion().equals(Constantes.si)){
+				agenteRetencion = notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente();
+			}
+			if(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getAgenteRetencion().equals(Constantes.no)){
+				agenteRetencion = Constantes.no;
+			}
 			float [] columnas = {320F, 280F};
 			Table tabla = new Table(columnas);
 			tabla.addCell(getCellEmpresa(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
 					"DIRECCIÓN MATRIZ: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
 					"DIRECCIÓN SUCURSAL: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
 					regimen + "\n" + "\n" +
-					"CONTIRUYENTE ESPECIAL: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionEspecial() + "\n" + "\n" +
+					"CONTRIBUYENTE ESPECIAL: " + contribuyenteEspecial + "\n" + "\n" +
 					"OBLIGADO A LLEVAR CONTABILIDAD: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
-					"AGENTE RETENCION RESOLUCIÓN: " + notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getResolucionAgente(), TextAlignment.LEFT));
+					"AGENTE RETENCION RESOLUCIÓN: " + agenteRetencion, TextAlignment.LEFT));
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
