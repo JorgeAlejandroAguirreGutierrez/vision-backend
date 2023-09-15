@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ISecuencialRepository extends JpaRepository<Secuencial, Long>, JpaSpecificationExecutor<Secuencial> {
     @Query(value = "select s from Secuencial s order by s.estacion.establecimiento.empresa, s.estacion.establecimiento, s.estacion")
     List<Secuencial> consultar();
+    @Query(value = "select s from Secuencial s where s.estacion.establecimiento.empresa.id = :empresaId order by s.codigo desc")
+    List<Secuencial> consultarPorEmpresa(long empresaId);
     @Query(value = "select s from Secuencial s where s.estado=:estado order by s.codigo desc")
     List<Secuencial> consultarPorEstado(String estado);
     @Query(value = "select s from Secuencial s where s.tipoComprobante.id = :tipoComprobanteId and s.estacion.id = :estacionId and s.estacion.establecimiento.empresa.id = :empresaId and s.estado = :estado order by s.codigo desc")
