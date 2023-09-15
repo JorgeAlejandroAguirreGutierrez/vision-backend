@@ -6,7 +6,6 @@ import static com.proyecto.vision.controladoras.Endpoints.pathSecuencial;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.controladoras.GenericoController;
 import com.proyecto.vision.modelos.Respuesta;
-import com.proyecto.vision.modelos.cajaBanco.Banco;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,13 @@ public class SecuencialController implements GenericoController<Secuencial> {
     public ResponseEntity<?> consultar() {
         List<Secuencial> secuenciales = servicio.consultar();
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, secuenciales);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<Secuencial> secuenciales = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, secuenciales);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
