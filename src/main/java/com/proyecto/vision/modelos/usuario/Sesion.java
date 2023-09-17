@@ -30,9 +30,6 @@ public class Sesion extends Entidad {
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = true)
     private Usuario usuario;
-    @ManyToOne
-    @JoinColumn(name = "empresa_id", nullable = true)
-    private Empresa empresa;
 
     public Sesion(long id){
         super(id);
