@@ -7,6 +7,7 @@ public class Constantes {
     public static final String tipo_contribuyente_natural="NATURAL";
     public static final String tipo_contribuyente_juridica="JURIDICA";
     public static final String tipo_contribuyente_publica="PUBLICA";
+    public static final String correoPorDefecto="gerencia.evoluciontic@gmail.com";
 
     public static final String pathRecursos = "src/main/resources/";
     public static final String pathAvatares = "avatares";
@@ -241,6 +242,8 @@ public class Constantes {
     public static final String tabla_sesion="sesion";
     public static final String tabla_usuario="usuario";
     public static final String tabla_regimen="regimen";
+    public static final String tabla_suscripcion="suscripcion";
+    public static final String tabla_paquete="paquete";
 
     //CONTABILIDAD
     public static final String tabla_afectacion_contable="afectacion_contable";
@@ -368,6 +371,8 @@ public class Constantes {
     public static final String correo_establecimiento="CORREO ESTABLECIMIENTO";
     public static final String telefono_establecimiento="TELEFONO ESTABLECIMIENTO";
     public static final String regimen="REGIMEN";
+    public static final String suscripcion="SUSCRIPCION";
+    public static final String paquete="PAQUETE";
 
     //CONTABILIDAD
     public static final String afectacion_contable="AFECTACION CONTABLE";
@@ -487,8 +492,10 @@ public class Constantes {
 
     //TABLA 16
     public static final String iva_sri="2";
-    public static final String ice_sri="3";
-    public static final String irbpnr_sri= "5";
+    public static final String iva_0_sri="0";
+    public static final String iva_12_sri="2";
+    public static final String iva_14_sri="3";
+
     //TABLA 24
     public static final String sin_utilizacion_del_sistema_financiero="01";
     public static final String compensacion_de_deudas="15";
