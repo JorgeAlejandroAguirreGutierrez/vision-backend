@@ -1,5 +1,6 @@
 package com.proyecto.vision.modelos.usuario;
 
+import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,6 +52,31 @@ public class Paquete extends Entidad {
     private String tipo;
     @Column(name = "estado", nullable = true)
     private String estado;
+
+    public Paquete(long id){
+        super(id);
+    }
+
+    public Paquete(){
+        super();
+        this.codigo = Constantes.vacio;
+        this.nombre = Constantes.vacio;
+        this.minimo = Constantes.ceroId;
+        this.maximo = Constantes.ceroId;
+        this.valorTotal = Constantes.cero;
+        this.valorAnual = Constantes.cero;
+        this.valorMinimo = Constantes.cero;
+        this.valorMaximo = Constantes.cero;
+        this.valorPuestaInicial = Constantes.cero;
+        this.comision = Constantes.cero;
+        this.cantidadUsuarioRecaudacion = Constantes.ceroId;
+        this.cantidadUsuarioGerente = Constantes.ceroId;
+        this.cantidadUsuarioAdministrador = Constantes.ceroId;
+        this.descripcionPromocion = Constantes.vacio;
+        this.valorPromocion = Constantes.cero;
+        this.tipo = Constantes.vacio;
+        this.estado = Constantes.estadoActivo;
+    }
 
     public void normalizar(){
 
