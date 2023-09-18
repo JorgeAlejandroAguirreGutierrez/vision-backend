@@ -66,6 +66,13 @@ public class PaqueteController implements GenericoController<Paquete> {
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_actualizar_exitoso, paquete);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/calcular", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> calcular(@RequestBody @Valid Paquete _paquete) {
+        Paquete paquete = servicio.calcular(_paquete);
+        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_crear_exitoso, paquete);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
     
     @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> activar(@RequestBody Paquete _paquete) {

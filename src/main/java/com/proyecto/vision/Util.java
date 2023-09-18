@@ -255,7 +255,7 @@ public class Util {
     public static Optional<String> generarCodigo(String tabla){
     	try {
     		Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacionCrear, Constantes.estadoActivo);
-        	Optional<String> conteo= conteo(tabla);
+        	Optional<String> conteo = conteo(tabla);
         	if (menuOpcion.isPresent() && conteo.isPresent()) {
             	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);
                 Date fecha = new Date();
