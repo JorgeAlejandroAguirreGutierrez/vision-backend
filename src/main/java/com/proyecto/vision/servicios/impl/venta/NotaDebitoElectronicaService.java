@@ -4,6 +4,8 @@ import ayungan.com.signature.ConvertFile;
 import ayungan.com.signature.SignatureXAdESBES;
 import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -449,7 +451,15 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			// 4. Add content
 			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 			documento.setFont(font);
-			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			if(notaDebito.getEmpresa().getLogo().equals(Constantes.vacio)){
+				documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			}
+			if(!notaDebito.getEmpresa().getLogo().equals(Constantes.vacio)){
+				Path path = Paths.get(Constantes.pathRecursos + Constantes.pathLogos + Constantes.slash + notaDebito.getEmpresa().getLogo());
+				ImageData imageData = ImageDataFactory.create(path.toAbsolutePath().toString());
+				Image image = new Image(imageData).scaleAbsolute(150, 100);
+				documento.add(image);
+			}
 			String regimen = Constantes.vacio;
 			if(notaDebito.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = notaDebito.getUsuario().getEstacion().getRegimen().getDescripcion();
