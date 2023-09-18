@@ -480,12 +480,12 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("CÓDIGO"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("CANT"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("DESCRIPCION"));
-			tablaFacturaDetalle.addCell(getCellColumnaFactura("PRECIO U"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("COSTO U"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
 			for (int i = 0; i < notaCredito.getNotaCreditoLineas().size(); i++)
 			{
-				String precioSinIva = String.format("%.2f", notaCredito.getNotaCreditoLineas().get(i).getPrecio().getPrecioSinIva());
+				String precioSinIva = String.format("%.2f", notaCredito.getNotaCreditoLineas().get(i).getCostoUnitario());
 				String valorDescuentoLinea = String.format("%.2f", notaCredito.getNotaCreditoLineas().get(i).getCostoUnitario());
 				String subtotalConDescuentoLinea = String.format("%.2f", notaCredito.getNotaCreditoLineas().get(i).getSubtotalLinea());
 
