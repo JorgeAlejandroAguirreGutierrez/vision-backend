@@ -238,6 +238,7 @@ public class NotaCreditoService implements INotaCreditoService {
         notaCredito.setNotaCreditoLineas(new ArrayList<>());
         for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
             NotaCreditoLinea notaCreditoLinea = new NotaCreditoLinea();
+            notaCreditoLinea.setNombreProducto(facturaLinea.getNombreProducto());
             notaCreditoLinea.setImpuesto(facturaLinea.getImpuesto());
             notaCreditoLinea.setProducto(facturaLinea.getProducto());
             notaCreditoLinea.setBodega(facturaLinea.getBodega());
