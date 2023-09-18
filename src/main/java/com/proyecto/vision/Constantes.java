@@ -464,6 +464,13 @@ public class Constantes {
     public static final String ruta="RUTA";
     public static final String fechaInicioTransporte="FECHA INICIO TRANSPORTE";
     public static final String fechaFinTransporte="FECHA FIN TRANSPORTE";
+    public static final String minimoComprobantes="MINIMO DE COMPROBANTES";
+    public static final String maximoComprobantes="MAXIMO DE COMPROBANTES";
+    public static final String valorPuestaInicial="VALOR DE PUESTA INICIAL";
+    public static final String porcentajeComision="PORCENTAJE DE COMISION";
+    public static final String cantidadUsuarioRecaudacion="CANTIDAD DE USUARIOS PARA RECAUDACION";
+    public static final String cantidadUsuarioGerente="CANTIDAD DE USUARIOS PARA GERENTE";
+    public static final String cantidadUsuarioAdministrador="CANTIDAD DE USUARIOS PARA ADMINISTRADOR";
 
     //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
     public static final int size=20;
@@ -588,7 +595,6 @@ public class Constantes {
 
     //CONSTANTES PARA ENVIO DE CORREO
     public static final String mensajeCorreo=" LE ENVIA FACTURA ELECTRONICA: ";
-    public static final String mensajeCorreoExitoso="SE ENVIA FACTURA A CORREO EXITOSAMENTE";
     public static final String mailSmtpHost="mail.smtp.host";
     public static final String mailSmtpUser="mail.smtp.user";
     public static final String mailSmtpClave="mail.smtp.clave";
