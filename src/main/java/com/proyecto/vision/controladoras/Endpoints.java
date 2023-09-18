@@ -56,7 +56,9 @@ public class Endpoints {
     public static final String pathUbicacion="ubicacion";
     public static final String pathTipoIdentificacion="tipoIdentificacion";
     public static final String pathSecuencial="secuencial";
-    
+    public static final String pathSuscripcion="suscripcion";
+    public static final String pathPaquete="paquete";
+
     //ENTREGA
     public static final String pathGuiaRemision="guiaRemision";
     public static final String pathTransportista="transportista";

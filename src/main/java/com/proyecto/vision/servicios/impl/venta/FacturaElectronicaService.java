@@ -148,12 +148,56 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	private TotalConImpuestos crearTotalConImpuestos(Factura factura){
 		TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
 		List<TotalImpuesto> totalImpuestos = new ArrayList<>();
-		TotalImpuesto totalImpuesto = new TotalImpuesto();
-		totalImpuesto.setCodigo(Constantes.iva_sri);
-		totalImpuesto.setCodigoPorcentaje(Constantes.iva_sri);
-		totalImpuesto.setBaseImponible(Math.round(factura.getSubtotal() * 100.0)/100.0);
-		totalImpuesto.setValor(Math.round(factura.getImporteIva()*100.0)/100.0);
-		totalImpuestos.add(totalImpuesto);
+		double baseImponible0 = Constantes.cero;
+		double baseImponible12 = Constantes.cero;
+		double baseImponible14 = Constantes.cero;
+		double iva0 = Constantes.cero;
+		double iva12 = Constantes.cero;
+		double iva14 = Constantes.cero;
+		boolean banderaIva0 = false;
+		boolean banderaIva12 = false;
+		boolean banderaIva14 = false;
+		for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
+			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_0_sri)){
+				banderaIva0 = true;
+				baseImponible0 = baseImponible0 + facturaLinea.getSubtotalLinea();
+				iva0 = iva0 + facturaLinea.getImporteIvaLinea();
+			}
+			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_12_sri)){
+				banderaIva12 = true;
+				baseImponible12 = baseImponible12 + facturaLinea.getSubtotalLinea();
+				iva12 = iva12 + facturaLinea.getImporteIvaLinea();
+			}
+			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_14_sri)){
+				banderaIva14 = true;
+				baseImponible14 = baseImponible14 + facturaLinea.getSubtotalLinea();
+				iva14 = iva14 + facturaLinea.getImporteIvaLinea();
+			}
+		}
+		if(banderaIva0){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_0_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible0 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva0 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva12){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_12_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible12 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva12 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva14){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_14_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible14 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva12 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
 		totalConImpuestos.setTotalImpuesto(totalImpuestos);
 		return totalConImpuestos;
 	}
@@ -217,15 +261,15 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	private Detalles crearDetalles(Factura factura) {
 		Detalles detalles = new Detalles();
 		List<Detalle> detalleLista = new ArrayList<>();
-		for(int i = 0; i<factura.getFacturaLineas().size(); i++) {
+		for(FacturaLinea facturaLinea: factura.getFacturaLineas()) {
 			Detalle detalle = new Detalle();
-			detalle.setCodigoPrincipal(factura.getFacturaLineas().get(i).getProducto().getCodigo());
-			detalle.setDescripcion(factura.getFacturaLineas().get(i).getNombreProducto());
-			detalle.setCantidad(factura.getFacturaLineas().get(i).getCantidad());
-			detalle.setPrecioUnitario(Math.round(factura.getFacturaLineas().get(i).getPrecioUnitario()*100.0)/100.0);
-			detalle.setDescuento(factura.getFacturaLineas().get(i).getValorDescuentoLinea() + factura.getFacturaLineas().get(i).getValorPorcentajeDescuentoLinea());
-			detalle.setPrecioTotalSinImpuesto(Math.round(factura.getFacturaLineas().get(i).getSubtotalLinea()*100.0)/100.0);
-			detalle.setImpuestos(crearImpuestos(factura.getFacturaLineas().get(i)));
+			detalle.setCodigoPrincipal(facturaLinea.getProducto().getCodigo());
+			detalle.setDescripcion(facturaLinea.getNombreProducto());
+			detalle.setCantidad(facturaLinea.getCantidad());
+			detalle.setPrecioUnitario(Math.round(facturaLinea.getPrecioUnitario() * 100.0) / 100.0);
+			detalle.setDescuento(facturaLinea.getValorDescuentoLinea() + facturaLinea.getValorPorcentajeDescuentoLinea());
+			detalle.setPrecioTotalSinImpuesto(Math.round(facturaLinea.getSubtotalLinea() * 100.0) / 100.0);
+			detalle.setImpuestos(crearImpuestos(facturaLinea));
 			detalleLista.add(detalle);
 		}
 		detalles.setDetalle(detalleLista);
@@ -315,6 +359,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		}
 		List<String> estadoAutorizacion = autorizacion(facturaElectronica);
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+		}
+		if(estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
@@ -796,7 +843,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			multipart.addBodyPart(parte2);
 
 			message.setFrom(new InternetAddress(correoUsuario));
-			message.addRecipients(Message.RecipientType.TO, factura.getCliente().getCorreos().get(0).getEmail());
+			String correo = Constantes.vacio;
+			if(factura.getCliente().getCorreos().isEmpty()){
+				correo = Constantes.correoPorDefecto;
+			}
+			if(!factura.getCliente().getCorreos().isEmpty()){
+				correo = factura.getCliente().getCorreos().get(0).getEmail();
+			}
+			message.addRecipients(Message.RecipientType.TO, correo);
 			message.setSubject(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial()+ Constantes.mensajeCorreo + factura.getNumeroComprobante());
 			message.setText(Constantes.vacio);
 			message.setContent(multipart);
