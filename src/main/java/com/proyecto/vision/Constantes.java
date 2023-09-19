@@ -489,8 +489,8 @@ public class Constantes {
     //TABLA 3
     public static final String factura_sri="01";
     public static final String liquidacion_de_compra_bienes_y_prestacion_de_servicios_sri="03";
-    public static final String nota_de_credito_sri="04";
-    public static final String nota_de_debito_sri="05";
+    public static final String nota_credito_sri="04";
+    public static final String nota_debito_sri="05";
     public static final String guia_de_remision_sri="06";
     public static final String comprobante_de_retencion_sri="07";
     //TABLA 4
