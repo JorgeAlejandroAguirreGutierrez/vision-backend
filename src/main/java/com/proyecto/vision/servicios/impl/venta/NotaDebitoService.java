@@ -92,7 +92,7 @@ public class NotaDebitoService implements INotaDebitoService {
     private Optional<String> crearClaveAcceso(NotaDebito notaDebito) {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         String fechaEmision = dateFormat.format(notaDebito.getFecha());
-        String tipoComprobante = Constantes.factura_sri;
+        String tipoComprobante = Constantes.nota_debito_sri;
         String numeroRuc = notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
         String tipoAmbiente = Constantes.pruebas_sri;
         String serie = notaDebito.getEstablecimiento() + notaDebito.getPuntoVenta();

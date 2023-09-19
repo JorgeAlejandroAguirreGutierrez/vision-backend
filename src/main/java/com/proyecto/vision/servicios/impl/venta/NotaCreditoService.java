@@ -89,7 +89,7 @@ public class NotaCreditoService implements INotaCreditoService {
     private Optional<String> crearClaveAcceso(NotaCredito notaCredito) {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         String fechaEmision = dateFormat.format(notaCredito.getFecha());
-        String tipoComprobante = Constantes.nota_de_credito_sri;
+        String tipoComprobante = Constantes.nota_credito_sri;
         String numeroRuc = notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
         String tipoAmbiente = Constantes.pruebas_sri;
         String serie = notaCredito.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCredito.getUsuario().getEstacion().getCodigoSRI();
