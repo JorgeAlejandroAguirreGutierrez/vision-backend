@@ -106,7 +106,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		infoTributaria.setNombreComercial(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
 		infoTributaria.setRuc(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
 		infoTributaria.setClaveAcceso(notaDebito.getClaveAcceso());
-		infoTributaria.setCodDoc(Constantes.nota_de_debito_sri);
+		infoTributaria.setCodDoc(Constantes.nota_debito_sri);
 		infoTributaria.setEstab(notaDebito.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
 		infoTributaria.setPtoEmi(notaDebito.getUsuario().getEstacion().getCodigoSRI());
 		infoTributaria.setSecuencial(notaDebito.getSecuencial());
