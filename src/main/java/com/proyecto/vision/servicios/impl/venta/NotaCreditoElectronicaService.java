@@ -108,7 +108,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		infoTributaria.setNombreComercial(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
 		infoTributaria.setRuc(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
 		infoTributaria.setClaveAcceso(notaCredito.getClaveAcceso());
-		infoTributaria.setCodDoc(Constantes.nota_de_credito_sri);
+		infoTributaria.setCodDoc(Constantes.nota_credito_sri);
 		infoTributaria.setEstab(notaCredito.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
 		infoTributaria.setPtoEmi(notaCredito.getUsuario().getEstacion().getCodigoSRI());
 		infoTributaria.setSecuencial(notaCredito.getSecuencial());
