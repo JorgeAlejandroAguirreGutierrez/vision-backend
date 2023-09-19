@@ -144,14 +144,14 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 	}
 
 	private Impuestos crearImpuestos(NotaDebito notaDebito) {
-		Impuestos impuestos=new Impuestos();
+		Impuestos impuestos = new Impuestos();
 		List<Impuesto> impuestoLista = new ArrayList<>();
 		for(NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()) {
 			Impuesto impuesto = new Impuesto();
 			impuesto.setCodigo(Constantes.iva_sri);
 			impuesto.setCodigoPorcentaje(notaDebitoLinea.getImpuesto().getCodigoSRI());
 			impuesto.setTarifa(notaDebitoLinea.getImpuesto().getPorcentaje());
-			impuesto.setBaseImponible(notaDebitoLinea.getTotalLinea());
+			impuesto.setBaseImponible(Math.round(notaDebitoLinea.getSubtotalLinea()*100.0)/100.0);
 			impuesto.setValor(Math.round(notaDebitoLinea.getImporteIvaLinea()*100.0)/100.0);
 			impuestoLista.add(impuesto);
 		}
@@ -220,7 +220,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		for(NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()) {
 			Motivo motivo = new Motivo();
 			motivo.setRazon(notaDebitoLinea.getNombreProducto());
-			motivo.setValor(notaDebitoLinea.getTotalLinea());
+			motivo.setValor(Math.round(notaDebitoLinea.getSubtotalLinea() * 100.0)/100.0);
 			motivoLista.add(motivo);
 		}
 		motivos.setMotivo(motivoLista);
@@ -299,7 +299,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
-			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
 			notaDebito.setProcesoSRI(Constantes.procesoSRIAutorizada);

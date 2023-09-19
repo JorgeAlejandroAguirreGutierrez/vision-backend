@@ -134,7 +134,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		infoFactura.setMoneda(Constantes.moneda);
 		infoFactura.setPagos(crearPagos(factura));
 
-		Detalles detalles=crearDetalles(factura);
+		Detalles detalles = crearDetalles(factura);
 
 		InfoAdicional infoAdicional = crearInfoAdicional(factura);
 
@@ -378,7 +378,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
-			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
 			factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
