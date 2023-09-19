@@ -500,6 +500,7 @@ public class Constantes {
     //TABLA 16
     public static final String iva_sri="2";
     public static final String iva_0_sri="0";
+    public static final String iva_8_sri="8";
     public static final String iva_12_sri="2";
     public static final String iva_14_sri="3";
 
