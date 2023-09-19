@@ -149,12 +149,15 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
 		List<TotalImpuesto> totalImpuestos = new ArrayList<>();
 		double baseImponible0 = Constantes.cero;
+		double baseImponible8 = Constantes.cero;
 		double baseImponible12 = Constantes.cero;
 		double baseImponible14 = Constantes.cero;
 		double iva0 = Constantes.cero;
+		double iva8 = Constantes.cero;
 		double iva12 = Constantes.cero;
 		double iva14 = Constantes.cero;
 		boolean banderaIva0 = false;
+		boolean banderaIva8 = false;
 		boolean banderaIva12 = false;
 		boolean banderaIva14 = false;
 		for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
@@ -162,6 +165,11 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				banderaIva0 = true;
 				baseImponible0 = baseImponible0 + facturaLinea.getSubtotalLinea();
 				iva0 = iva0 + facturaLinea.getImporteIvaLinea();
+			}
+			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_8_sri)){
+				banderaIva8 = true;
+				baseImponible8 = baseImponible8 + facturaLinea.getSubtotalLinea();
+				iva8 = iva8 + facturaLinea.getImporteIvaLinea();
 			}
 			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_12_sri)){
 				banderaIva12 = true;
@@ -180,6 +188,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			totalImpuesto.setCodigoPorcentaje(Constantes.iva_0_sri);
 			totalImpuesto.setBaseImponible(Math.round(baseImponible0 * 100.0)/100.0);
 			totalImpuesto.setValor(Math.round(iva0 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva8){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_8_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible8 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva8 * 100.0)/100.0);
 			totalImpuestos.add(totalImpuesto);
 		}
 		if(banderaIva12){

@@ -145,18 +145,78 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	private TotalConImpuestos crearTotalConImpuestos(NotaCredito notaCredito){
 		TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
 		List<TotalImpuesto> totalImpuestos = new ArrayList<>();
-		TotalImpuesto totalImpuesto = new TotalImpuesto();
-		totalImpuesto.setCodigo(Constantes.iva_sri);
-		totalImpuesto.setCodigoPorcentaje(Constantes.iva_sri);
-		totalImpuesto.setBaseImponible(notaCredito.getSubtotal());
-		totalImpuesto.setValor(notaCredito.getImporteIva());
-		totalImpuestos.add(totalImpuesto);
+		double baseImponible0 = Constantes.cero;
+		double baseImponible8 = Constantes.cero;
+		double baseImponible12 = Constantes.cero;
+		double baseImponible14 = Constantes.cero;
+		double iva0 = Constantes.cero;
+		double iva8 = Constantes.cero;
+		double iva12 = Constantes.cero;
+		double iva14 = Constantes.cero;
+		boolean banderaIva0 = false;
+		boolean banderaIva8 = false;
+		boolean banderaIva12 = false;
+		boolean banderaIva14 = false;
+		for(NotaCreditoLinea notaCreditoLinea: notaCredito.getNotaCreditoLineas()){
+			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_0_sri)){
+				banderaIva0 = true;
+				baseImponible0 = baseImponible0 + notaCreditoLinea.getSubtotalLinea();
+				iva0 = iva0 + notaCreditoLinea.getImporteIvaLinea();
+			}
+			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_8_sri)){
+				banderaIva8 = true;
+				baseImponible8 = baseImponible8 + notaCreditoLinea.getSubtotalLinea();
+				iva8 = iva8 + notaCreditoLinea.getImporteIvaLinea();
+			}
+			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_12_sri)){
+				banderaIva12 = true;
+				baseImponible12 = baseImponible12 + notaCreditoLinea.getSubtotalLinea();
+				iva12 = iva12 + notaCreditoLinea.getImporteIvaLinea();
+			}
+			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_14_sri)){
+				banderaIva14 = true;
+				baseImponible14 = baseImponible14 + notaCreditoLinea.getSubtotalLinea();
+				iva14 = iva14 + notaCreditoLinea.getImporteIvaLinea();
+			}
+		}
+		if(banderaIva0){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_0_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible0 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva0 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva8){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_8_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible8 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva8 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva12){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_12_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible12 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva12 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva14){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_14_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible14 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva12 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
 		totalConImpuestos.setTotalImpuesto(totalImpuestos);
 		return totalConImpuestos;
 	}
 
 	private Detalles crearDetalles(NotaCredito notaCredito) {
-		Detalles detalles=new Detalles();
+		Detalles detalles = new Detalles();
 		List<Detalle> detalleLista = new ArrayList<>();
 		for(NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
 			Detalle detalle = new Detalle();
@@ -164,7 +224,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			detalle.setDescripcion(notaCreditoLinea.getNombreProducto());
 			detalle.setCantidad(notaCreditoLinea.getCantidad());
 			detalle.setPrecioUnitario(Math.round(notaCreditoLinea.getCostoUnitario()*100.0)/100.0);
-			detalle.setDescuento(notaCreditoLinea.getCostoUnitario());
+			detalle.setDescuento(notaCredito.getDescuento());
 			detalle.setPrecioTotalSinImpuesto(notaCreditoLinea.getTotalLinea());
 			detalle.setImpuestos(crearImpuestos(notaCreditoLinea));
 			detalleLista.add(detalle);
