@@ -40,7 +40,14 @@ public class SuscripcionController implements GenericoController<Suscripcion> {
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresa}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        List<Suscripcion> suscripciones = servicio.consultarPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, suscripciones);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
         List<Suscripcion> suscripciones = servicio.consultarPorEmpresaYEstado(empresaId, estado);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, suscripciones);
@@ -58,6 +65,13 @@ public class SuscripcionController implements GenericoController<Suscripcion> {
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         Suscripcion suscripcion = servicio.obtener(id);
         Respuesta respuesta=new Respuesta(true, Constantes.mensaje_obtener_exitoso, suscripcion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/obtenerUltimoPorEmpresa/{empresaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerultimoPorEmpresa(@PathVariable("empresaId") long empresaId) {
+        Suscripcion suscripcion = servicio.obtenerUltimoPorEmpresa(empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, suscripcion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 

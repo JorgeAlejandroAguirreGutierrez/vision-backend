@@ -18,10 +18,7 @@ import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.exception.CertificadoNoExistenteException;
-import com.proyecto.vision.exception.EntidadNoExistenteException;
-import com.proyecto.vision.exception.EstadoInvalidoException;
-import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
 import com.proyecto.vision.modelos.venta.electronico.factura.*;
@@ -32,6 +29,7 @@ import com.proyecto.vision.modelos.recaudacion.TarjetaDebito;
 import com.proyecto.vision.modelos.recaudacion.Transferencia;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
 import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
+import com.proyecto.vision.servicios.interf.usuario.ISuscripcionService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaElectronicaService;
 
 import ayungan.com.signature.ConvertFile;
@@ -80,6 +78,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 	@Autowired
 	private IEmpresaService empresaService;
+
+	@Autowired
+	private ISuscripcionService suscripcionService;
 
 	@Value("${prefijo.url.imagenes}")
 	private String imagenes;
@@ -352,6 +353,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		Factura factura = opcional.get();
+		boolean banderaSuscripcion = suscripcionService.verificar(factura.getEmpresa().getId());
+		if(!banderaSuscripcion){
+			throw new SuscripcionInvalidaException();
+		}
 		Resource certificado = empresaService.bajarCertificado(factura.getEmpresa().getId());
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
@@ -381,6 +386,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			suscripcionService.aumentarConteo(factura.getEmpresa().getId());
 			factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
 			factura.setFechaAutorizacion(new Date());
 			enviarCorreo(factura, facturaElectronica);
