@@ -59,19 +59,7 @@ public class Constantes {
     public static final String mensaje_activar_exitoso="Exito al activar";
     public static final String mensaje_inactivar_exitoso="Exito al inactivar";
     public static final String mensaje_recaudacion_exitosa="Exito al recaudar";
-    public static final String mensaje_consulta_fallido="Error en la consulta los objetos";
-    public static final String mensaje_obtener_fallido="Error al obtener un objeto";
-    public static final String mensaje_crear_fallido="Error al crear un objeto";
-    public static final String mensaje_actualizar_fallido="Error al actualizar un objeto";
-    public static final String mensaje_eliminar_fallido="Exito al eliminar un objeto";
-    public static final String mensaje_importacion_fallido="Error al importar";
-    public static final String mensaje_exportacion_fallido="Error al exportar";
-    public static final String mensaje_activar_fallido="Error al activar";
-    public static final String mensaje_inactivar_fallido="Error al inactivar";
     public static final String mensaje_anular_exitoso="Exito al anular";
-
-    public static final String mensaje_validacion_not_blank=" no debe estar en blanco";
-    public static final String mensaje_validacion_not_null=" se debe registrar";
 
     public static final String tabla_amortizacion_alemana="ALEMANA";
     public static final String tabla_amortizacion_francesa="FRANCESA";
@@ -103,6 +91,7 @@ public class Constantes {
     public static String error_codigo_dato_invalido="4011";
     public static String error_codigo_factura_electronica_invalida="4012";
     public static String error_codigo_certificado_no_existente="4013";
+    public static String error_codigo_suscripcion_invalida="4014";
 
     public static String error_generico="ERROR INTERNO DE SERVIDOR";
     public static String error_entidad_existente="ERROR ENTIDAD YA EXISTE";
@@ -117,6 +106,7 @@ public class Constantes {
     public static String error_estado_invalido="ERROR ESTADO INVALIDO";
     public static String error_dato_invalido="ERROR DATO INVALIDO";
     public static String error_certificado_no_existente="ERROR CERTIFICADO PARA SRI NO EXISTENTE";
+    public static String error_suscripcion_invalida="ERROR SUSCRIPCION INVALIDA POR FAVOR RENOVAR";
 
     //CODIGO PARA CREAR
     public static final String operacionCrear = "CREAR";
@@ -471,6 +461,8 @@ public class Constantes {
     public static final String cantidadUsuarioRecaudacion="CANTIDAD DE USUARIOS PARA RECAUDACION";
     public static final String cantidadUsuarioGerente="CANTIDAD DE USUARIOS PARA GERENTE";
     public static final String cantidadUsuarioAdministrador="CANTIDAD DE USUARIOS PARA ADMINISTRADOR";
+    public static final String mensual="MENSUAL";
+    public static final String anual="ANUAL";
 
     //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
     public static final int size=20;
