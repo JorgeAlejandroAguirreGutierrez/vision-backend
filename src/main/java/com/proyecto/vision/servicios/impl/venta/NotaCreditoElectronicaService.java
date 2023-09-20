@@ -23,15 +23,13 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.exception.CertificadoNoExistenteException;
-import com.proyecto.vision.exception.EntidadNoExistenteException;
-import com.proyecto.vision.exception.EstadoInvalidoException;
-import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.venta.NotaCredito;
 import com.proyecto.vision.modelos.venta.NotaCreditoLinea;
 import com.proyecto.vision.modelos.venta.electronico.notacredito.*;
 import com.proyecto.vision.repositorios.venta.INotaCreditoRepository;
 import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
+import com.proyecto.vision.servicios.interf.usuario.ISuscripcionService;
 import com.proyecto.vision.servicios.interf.venta.INotaCreditoElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +76,9 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 
 	@Autowired
 	private IEmpresaService empresaService;
+
+	@Autowired
+	private ISuscripcionService suscripcionService;
 
 	@Value("${prefijo.url.imagenes}")
 	private String imagenes;
@@ -293,6 +294,10 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
 		}
 		NotaCredito notaCredito = opcional.get();
+		boolean banderaSuscripcion = suscripcionService.verificar(notaCredito.getEmpresa().getId());
+		if(!banderaSuscripcion){
+			throw new SuscripcionInvalidaException();
+		}
 		Resource certificado = empresaService.bajarCertificado(notaCredito.getEmpresa().getId());
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
@@ -319,6 +324,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			suscripcionService.aumentarConteo(notaCredito.getEmpresa().getId());
 			notaCredito.setProcesoSRI(Constantes.procesoSRIAutorizada);
 			notaCredito.setFechaAutorizacion(new Date());
 			enviarCorreo(notaCredito, notaCreditoElectronica);

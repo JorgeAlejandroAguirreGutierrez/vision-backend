@@ -23,16 +23,14 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.exception.CertificadoNoExistenteException;
-import com.proyecto.vision.exception.EntidadNoExistenteException;
-import com.proyecto.vision.exception.EstadoInvalidoException;
-import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.modelos.venta.NotaDebitoLinea;
 import com.proyecto.vision.modelos.venta.electronico.notadebito.*;
 import com.proyecto.vision.modelos.recaudacion.*;
 import com.proyecto.vision.repositorios.venta.INotaDebitoRepository;
 import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
+import com.proyecto.vision.servicios.interf.usuario.ISuscripcionService;
 import com.proyecto.vision.servicios.interf.venta.INotaDebitoElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +77,9 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 
 	@Autowired
 	private IEmpresaService empresaService;
+
+	@Autowired
+	private ISuscripcionService suscripcionService;
 
 	@Value("${correo.usuario}")
 	private String correoUsuario;
@@ -273,6 +274,10 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			throw new EntidadNoExistenteException(Constantes.nota_debito);
 		}
 		NotaDebito notaDebito = opcional.get();
+		boolean banderaSuscripcion = suscripcionService.verificar(notaDebito.getEmpresa().getId());
+		if(!banderaSuscripcion){
+			throw new SuscripcionInvalidaException();
+		}
 		Resource certificado = empresaService.bajarCertificado(notaDebito.getEmpresa().getId());
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
@@ -302,6 +307,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			suscripcionService.aumentarConteo(notaDebito.getEmpresa().getId());
 			notaDebito.setProcesoSRI(Constantes.procesoSRIAutorizada);
 			notaDebito.setFechaAutorizacion(new Date());
 			enviarCorreo(notaDebito, notaDebitoElectronica);
