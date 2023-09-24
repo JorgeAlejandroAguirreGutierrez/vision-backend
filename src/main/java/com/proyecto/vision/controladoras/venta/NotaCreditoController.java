@@ -87,6 +87,13 @@ public class NotaCreditoController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/calcularOperacion", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> calcularOperacion(@RequestBody NotaCredito _notaCredito) {
+        NotaCredito notaCredito = servicio.calcularOperacion(_notaCredito);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_calcular_exitoso, notaCredito);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/calcular", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> calcular(@RequestBody NotaCredito _notaCredito) {
         NotaCredito notaCredito = servicio.calcular(_notaCredito);

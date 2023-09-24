@@ -243,10 +243,8 @@ public class NotaCreditoService implements INotaCreditoService {
             notaCreditoLinea.setProducto(facturaLinea.getProducto());
             notaCreditoLinea.setBodega(facturaLinea.getBodega());
             notaCreditoLinea.setCantidadVenta(facturaLinea.getCantidad());
-            double costoUnitarioCompra = facturaLinea.getSubtotalLinea() / facturaLinea.getCantidad();
-            costoUnitarioCompra = Math.round(costoUnitarioCompra * 10000.0) / 10000.0;
-            notaCreditoLinea.setCostoUnitarioVenta(costoUnitarioCompra);
-            notaCreditoLinea.setCostoUnitario(costoUnitarioCompra);
+            notaCreditoLinea.setCostoUnitarioVenta(facturaLinea.getPrecioUnitario());
+            notaCreditoLinea.setCostoUnitario(facturaLinea.getPrecioUnitario());
             notaCredito.getNotaCreditoLineas().add(notaCreditoLinea);
         }
         return notaCredito;
@@ -295,13 +293,30 @@ public class NotaCreditoService implements INotaCreditoService {
     }
 
     @Override
-    public NotaCredito calcular(NotaCredito notaCredito) {
+    public NotaCredito calcularOperacion(NotaCredito notaCredito) {
         if(notaCredito.getOperacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.operacion);
         if(notaCredito.getOperacion().equals(Constantes.operacion_devolucion)){
             notaCredito.setValorDescuento(Constantes.cero);
             notaCredito.setPorcentajeDescuento(Constantes.cero);
             notaCredito.setTotalDescuento(Constantes.cero);
+            for(NotaCreditoLinea notaCreditoLinea: notaCredito.getNotaCreditoLineas()){
+                notaCreditoLinea.setCostoUnitario(notaCreditoLinea.getCostoUnitarioVenta());
+                notaCreditoLinea.setCantidad(Constantes.cero);
+            }
         }
+        if(notaCredito.getOperacion().equals(Constantes.operacion_descuento)){
+            for(NotaCreditoLinea notaCreditoLinea: notaCredito.getNotaCreditoLineas()){
+                notaCreditoLinea.setCostoUnitario(notaCreditoLinea.getCostoUnitarioVenta());
+                notaCreditoLinea.setCantidad(notaCreditoLinea.getCantidadVenta());
+            }
+        }
+        calcular(notaCredito);
+        return notaCredito;
+    }
+
+    @Override
+    public NotaCredito calcular(NotaCredito notaCredito) {
+        if(notaCredito.getOperacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.operacion);
         if(notaCredito.getOperacion().equals(Constantes.operacion_descuento)){
             for(NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
                 double valorPorcentajeDescuento = notaCreditoLinea.getCantidadVenta() * notaCredito.getPorcentajeDescuento() / 100;

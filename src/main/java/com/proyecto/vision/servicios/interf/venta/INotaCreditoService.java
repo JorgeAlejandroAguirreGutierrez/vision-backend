@@ -13,6 +13,7 @@ public interface INotaCreditoService extends IGenericoService<NotaCredito> {
 	List<NotaCredito> consultarPorEmpresa(long empresaId);
 	List<NotaCredito> consultarPorEmpresaYEstado(long empresaId, String estado);
 	List<NotaCredito> consultarPorFacturaYEmpresaYEstadoDiferente(long facturaId, long empresaId, String estado);
+	NotaCredito calcularOperacion(NotaCredito notaCredito);
 	NotaCredito calcular(NotaCredito notaCredito);
 	void validarLinea(NotaCreditoLinea notaCreditoLinea);
 	NotaCredito obtenerPorFactura(long facturaId);
