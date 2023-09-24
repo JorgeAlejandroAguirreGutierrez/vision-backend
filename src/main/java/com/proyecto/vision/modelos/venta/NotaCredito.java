@@ -6,7 +6,6 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.usuario.Empresa;
-import com.proyecto.vision.modelos.usuario.Sesion;
 import com.proyecto.vision.modelos.usuario.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,8 +48,12 @@ public class NotaCredito extends Entidad {
     private String estado;
     @Column(name = "proceso_sri", nullable = true)
     private String procesoSRI;
-    @Column(name = "descuento", nullable = true)
-    private double descuento;
+    @Column(name = "total_descuento", nullable = true)
+    private double totalDescuento;
+    @Column(name = "valor_descuento", nullable = true)
+    private double valorDescuento;
+    @Column(name = "porcentaje_descuento", nullable = true)
+    private double porcentajeDescuento;
     @Column(name = "subtotal", nullable = true)
     private double subtotal;
     @Column(name = "subtotal_gravado", nullable = true)
@@ -97,7 +100,9 @@ public class NotaCredito extends Entidad {
         this.fechaAutorizacion = null;
         this.estado = Constantes.vacio;
         this.procesoSRI = Constantes.vacio;
-        this.descuento = Constantes.cero;
+        this.totalDescuento = Constantes.cero;
+        this.valorDescuento = Constantes.cero;
+        this.porcentajeDescuento = Constantes.cero;
         this.subtotal = Constantes.cero;
         this.subtotalGravado = Constantes.cero;
         this.subtotalNoGravado = Constantes.cero;
