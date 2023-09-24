@@ -235,14 +235,14 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	}
 
 	private Impuestos crearImpuestos(NotaCreditoLinea notaCreditoLinea) {
-		Impuestos impuestos=new Impuestos();
+		Impuestos impuestos = new Impuestos();
 		List<Impuesto> impuestoLista = new ArrayList<>();
 		Impuesto impuesto = new Impuesto();
 		impuesto.setCodigo(Constantes.iva_sri);
 		impuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
 		impuesto.setTarifa(notaCreditoLinea.getImpuesto().getPorcentaje());
-		impuesto.setBaseImponible(notaCreditoLinea.getSubtotalLinea());
-		impuesto.setValor(notaCreditoLinea.getImporteIvaLinea());
+		impuesto.setBaseImponible(Math.round(notaCreditoLinea.getSubtotalLinea()*100.0)/100.0);
+		impuesto.setValor(Math.round(notaCreditoLinea.getImporteIvaLinea()*100.0)/100.0);
 		impuestoLista.add(impuesto);
 		impuestos.setImpuesto(impuestoLista);
 		return impuestos;
