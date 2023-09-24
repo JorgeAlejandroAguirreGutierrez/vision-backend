@@ -134,7 +134,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		infoNotaCredito.setMoneda(Constantes.moneda);
 		infoNotaCredito.setTotalConImpuestos(crearTotalConImpuestos(notaCredito));
 		infoNotaCredito.setMotivo(notaCredito.getOperacion());
-		Detalles detalles=crearDetalles(notaCredito);
+		Detalles detalles = crearDetalles(notaCredito);
 		InfoAdicional infoAdicional = crearInfoAdicional(notaCredito);
 		notaCreditoElectronica.setInfoTributaria(infoTributaria);
 		notaCreditoElectronica.setInfoNotaCredito(infoNotaCredito);
@@ -226,7 +226,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			detalle.setCantidad(notaCreditoLinea.getCantidad());
 			detalle.setPrecioUnitario(Math.round(notaCreditoLinea.getCostoUnitario()*100.0)/100.0);
 			detalle.setDescuento(notaCredito.getTotalDescuento());
-			detalle.setPrecioTotalSinImpuesto(notaCreditoLinea.getTotalLinea());
+			detalle.setPrecioTotalSinImpuesto(Math.round(notaCreditoLinea.getSubtotalLinea() * 100.0) / 100.0);
 			detalle.setImpuestos(crearImpuestos(notaCreditoLinea));
 			detalleLista.add(detalle);
 		}
