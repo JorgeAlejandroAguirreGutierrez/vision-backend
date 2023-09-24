@@ -225,7 +225,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			detalle.setDescripcion(notaCreditoLinea.getNombreProducto());
 			detalle.setCantidad(notaCreditoLinea.getCantidad());
 			detalle.setPrecioUnitario(Math.round(notaCreditoLinea.getCostoUnitario()*100.0)/100.0);
-			detalle.setDescuento(notaCredito.getDescuento());
+			detalle.setDescuento(notaCredito.getTotalDescuento());
 			detalle.setPrecioTotalSinImpuesto(notaCreditoLinea.getTotalLinea());
 			detalle.setImpuestos(crearImpuestos(notaCreditoLinea));
 			detalleLista.add(detalle);
@@ -237,7 +237,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	private Impuestos crearImpuestos(NotaCreditoLinea notaCreditoLinea) {
 		Impuestos impuestos=new Impuestos();
 		List<Impuesto> impuestoLista = new ArrayList<>();
-		Impuesto impuesto=new Impuesto();
+		Impuesto impuesto = new Impuesto();
 		impuesto.setCodigo(Constantes.iva_sri);
 		impuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
 		impuesto.setTarifa(notaCreditoLinea.getImpuesto().getPorcentaje());
@@ -578,7 +578,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			documento.add(tablaFacturaDetalle);
 			documento.add( new Paragraph("\n"));
 			String subtotal = String.format("%.2f", notaCredito.getSubtotal());
-			String descuento = String.format("%.2f", notaCredito.getDescuento());
+			String descuento = String.format("%.2f", notaCredito.getTotalDescuento());
 			String subtotalGravado = String.format("%.2f", notaCredito.getSubtotalGravado());
 			String subtotalNoGravado = String.format("%.2f", notaCredito.getSubtotalNoGravado());
 			String iva = String.format("%.2f", notaCredito.getImporteIva());
