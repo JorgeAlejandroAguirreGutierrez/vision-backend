@@ -10,6 +10,7 @@ import com.proyecto.vision.modelos.venta.*;
 import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.repositorios.venta.INotaCreditoRepository;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
+import com.proyecto.vision.servicios.interf.inventario.ITipoOperacionService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import com.proyecto.vision.servicios.interf.venta.INotaCreditoService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
@@ -32,6 +33,8 @@ public class NotaCreditoService implements INotaCreditoService {
     private INotaCreditoRepository rep;
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
+    @Autowired
+    private ITipoOperacionService tipoOperacionService;
     @Autowired
     private IKardexService kardexService;
     @Autowired
@@ -133,16 +136,16 @@ public class NotaCreditoService implements INotaCreditoService {
             double costoTotal = Constantes.cero;
             double costoUnitario = Constantes.cero;
             double costoPromedio = Constantes.cero;
-            long tipoOperacionId = Constantes.ceroId;
+            TipoOperacion tipoOperacion = null;
             if (ultimoKardex != null) {
                 entrada = notaCreditoLinea.getCantidad();
                 if(notaCredito.getOperacion().equals(Constantes.operacion_devolucion)) {
                     saldo = ultimoKardex.getSaldo() + entrada;
-                    tipoOperacionId = 7;
+                    tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.devolucionVenta, Constantes.estadoActivo);
                 }
                 if(notaCredito.getOperacion().equals(Constantes.operacion_descuento)) {
                     saldo = ultimoKardex.getSaldo();
-                    tipoOperacionId = 9;
+                    tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.descuentoVenta, Constantes.estadoActivo);
                 }
                 costoUnitario = ultimoKardex.getCostoPromedio();
                 costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
@@ -156,7 +159,7 @@ public class NotaCreditoService implements INotaCreditoService {
             Kardex kardex = new Kardex(null, notaCredito.getFecha(), notaCredito.getNumeroComprobante(),
                     notaCreditoLinea.getId(), entrada, Constantes.cero, saldo,
                     costoUnitario, Constantes.cero, costoPromedio, costoTotal, new TipoComprobante(4),
-                    new TipoOperacion(tipoOperacionId), notaCreditoLinea.getBodega(), notaCreditoLinea.getProducto());
+                    tipoOperacion, notaCreditoLinea.getBodega(), notaCreditoLinea.getProducto());
 
             kardexService.crear(kardex);
         }

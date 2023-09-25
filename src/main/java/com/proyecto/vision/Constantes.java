@@ -428,8 +428,8 @@ public class Constantes {
     public static final String devolucionCompra="DEVOLUCION COMPRA";
     public static final String descuentoCompra="DESCUENTO COMPRA";
     public static final String venta="VENTA";
-    public static final String devolucionVenta="DEVOLUCION DE VENTA";
-    public static final String descuentoVenta="DESCUENTO DE VENTA";
+    public static final String devolucionVenta="DEV. VENTA";
+    public static final String descuentoVenta="DES. VENTA";
     public static final String devolucionCostoVenta="DEVOLUCION COSTO DE VENTA";
     public static final String cantidad="CANTIDAD";
     public static final String costoUnitario="COSTO UNITARIO";
