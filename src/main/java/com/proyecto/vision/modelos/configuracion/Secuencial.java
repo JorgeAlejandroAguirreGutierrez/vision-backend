@@ -22,8 +22,6 @@ public class Secuencial extends Entidad {
     private String codigo;
     @Column(name = "numero_siguiente", nullable = true)
     private long numeroSiguiente;
-    @Column(name = "maximo", nullable = true)
-    private long maximo;
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
