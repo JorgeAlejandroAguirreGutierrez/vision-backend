@@ -37,7 +37,6 @@ public class Secuencial extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.numeroSiguiente = Constantes.ceroId;
-        this.maximo = Constantes.diez;
         this.estado = Constantes.estadoActivo;
     }
 }
