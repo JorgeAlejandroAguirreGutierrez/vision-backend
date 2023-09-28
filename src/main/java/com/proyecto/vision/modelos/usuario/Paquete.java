@@ -22,10 +22,10 @@ public class Paquete extends Entidad {
     private String codigo;
     @Column(name = "nombre", nullable = true)
     private String nombre;
-    @Column(name = "minimo", nullable = true)
-    private long minimo;
-    @Column(name = "maximo", nullable = true)
-    private long maximo;
+    @Column(name = "minimo_comprobantes", nullable = true)
+    private long minimoComprobantes;
+    @Column(name = "maximo_comprobantes", nullable = true)
+    private long maximoComprobantes;
     @Column(name = "valor_total", nullable = true)
     private double valorTotal;
     @Column(name = "valor_anual", nullable = true)
@@ -36,6 +36,8 @@ public class Paquete extends Entidad {
     private double valorMaximo;
     @Column(name = "valor_puesta_inicial", nullable = true)
     private double valorPuestaInicial;
+    @Column(name = "porcentaje_comision", nullable = true)
+    private double porcentajeComision;
     @Column(name = "comision", nullable = true)
     private double comision;
     @Column(name = "cantidad_usuario_recaudacion", nullable = true)
@@ -44,10 +46,6 @@ public class Paquete extends Entidad {
     private long cantidadUsuarioGerente;
     @Column(name = "cantidad_usuario_administrador", nullable = true)
     private long cantidadUsuarioAdministrador;
-    @Column(name = "descripcion_promocion", nullable = true)
-    private String descripcionPromocion;
-    @Column(name = "valor_promocion", nullable = true)
-    private double valorPromocion;
     @Column(name = "tipo", nullable = true)
     private String tipo;
     @Column(name = "estado", nullable = true)
@@ -61,19 +59,18 @@ public class Paquete extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.nombre = Constantes.vacio;
-        this.minimo = Constantes.ceroId;
-        this.maximo = Constantes.ceroId;
+        this.minimoComprobantes = Constantes.ceroId;
+        this.maximoComprobantes = Constantes.ceroId;
         this.valorTotal = Constantes.cero;
         this.valorAnual = Constantes.cero;
         this.valorMinimo = Constantes.cero;
         this.valorMaximo = Constantes.cero;
         this.valorPuestaInicial = Constantes.cero;
+        this.porcentajeComision = Constantes.cero;
         this.comision = Constantes.cero;
         this.cantidadUsuarioRecaudacion = Constantes.ceroId;
         this.cantidadUsuarioGerente = Constantes.ceroId;
         this.cantidadUsuarioAdministrador = Constantes.ceroId;
-        this.descripcionPromocion = Constantes.vacio;
-        this.valorPromocion = Constantes.cero;
         this.tipo = Constantes.vacio;
         this.estado = Constantes.estadoActivo;
     }

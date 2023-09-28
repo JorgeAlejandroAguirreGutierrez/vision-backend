@@ -10,6 +10,7 @@ import com.proyecto.vision.modelos.venta.*;
 import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.repositorios.venta.INotaCreditoRepository;
 import com.proyecto.vision.servicios.interf.configuracion.ISecuencialService;
+import com.proyecto.vision.servicios.interf.inventario.ITipoOperacionService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaService;
 import com.proyecto.vision.servicios.interf.venta.INotaCreditoService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
@@ -32,6 +33,8 @@ public class NotaCreditoService implements INotaCreditoService {
     private INotaCreditoRepository rep;
     @Autowired
     private ITipoComprobanteService tipoComprobanteService;
+    @Autowired
+    private ITipoOperacionService tipoOperacionService;
     @Autowired
     private IKardexService kardexService;
     @Autowired
@@ -89,7 +92,7 @@ public class NotaCreditoService implements INotaCreditoService {
     private Optional<String> crearClaveAcceso(NotaCredito notaCredito) {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         String fechaEmision = dateFormat.format(notaCredito.getFecha());
-        String tipoComprobante = Constantes.nota_de_credito_sri;
+        String tipoComprobante = Constantes.nota_credito_sri;
         String numeroRuc = notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
         String tipoAmbiente = Constantes.pruebas_sri;
         String serie = notaCredito.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCredito.getUsuario().getEstacion().getCodigoSRI();
@@ -133,16 +136,16 @@ public class NotaCreditoService implements INotaCreditoService {
             double costoTotal = Constantes.cero;
             double costoUnitario = Constantes.cero;
             double costoPromedio = Constantes.cero;
-            long tipoOperacionId = Constantes.ceroId;
+            TipoOperacion tipoOperacion = null;
             if (ultimoKardex != null) {
                 entrada = notaCreditoLinea.getCantidad();
                 if(notaCredito.getOperacion().equals(Constantes.operacion_devolucion)) {
                     saldo = ultimoKardex.getSaldo() + entrada;
-                    tipoOperacionId = 7;
+                    tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.devolucionVenta, Constantes.estadoActivo);
                 }
                 if(notaCredito.getOperacion().equals(Constantes.operacion_descuento)) {
                     saldo = ultimoKardex.getSaldo();
-                    tipoOperacionId = 9;
+                    tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.descuentoVenta, Constantes.estadoActivo);
                 }
                 costoUnitario = ultimoKardex.getCostoPromedio();
                 costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
@@ -156,7 +159,7 @@ public class NotaCreditoService implements INotaCreditoService {
             Kardex kardex = new Kardex(null, notaCredito.getFecha(), notaCredito.getNumeroComprobante(),
                     notaCreditoLinea.getId(), entrada, Constantes.cero, saldo,
                     costoUnitario, Constantes.cero, costoPromedio, costoTotal, new TipoComprobante(4),
-                    new TipoOperacion(tipoOperacionId), notaCreditoLinea.getBodega(), notaCreditoLinea.getProducto());
+                    tipoOperacion, notaCreditoLinea.getBodega(), notaCreditoLinea.getProducto());
 
             kardexService.crear(kardex);
         }
@@ -238,14 +241,13 @@ public class NotaCreditoService implements INotaCreditoService {
         notaCredito.setNotaCreditoLineas(new ArrayList<>());
         for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
             NotaCreditoLinea notaCreditoLinea = new NotaCreditoLinea();
+            notaCreditoLinea.setNombreProducto(facturaLinea.getNombreProducto());
             notaCreditoLinea.setImpuesto(facturaLinea.getImpuesto());
             notaCreditoLinea.setProducto(facturaLinea.getProducto());
             notaCreditoLinea.setBodega(facturaLinea.getBodega());
             notaCreditoLinea.setCantidadVenta(facturaLinea.getCantidad());
-            double costoUnitarioCompra = facturaLinea.getSubtotalLinea() / facturaLinea.getCantidad();
-            costoUnitarioCompra = Math.round(costoUnitarioCompra * 100.0) / 100.0;
-            notaCreditoLinea.setCostoUnitarioVenta(costoUnitarioCompra);
-            notaCreditoLinea.setCostoUnitario(costoUnitarioCompra);
+            notaCreditoLinea.setCostoUnitarioVenta(facturaLinea.getPrecioUnitario());
+            notaCreditoLinea.setCostoUnitario(facturaLinea.getPrecioUnitario());
             notaCredito.getNotaCreditoLineas().add(notaCreditoLinea);
         }
         return notaCredito;
@@ -294,8 +296,37 @@ public class NotaCreditoService implements INotaCreditoService {
     }
 
     @Override
+    public NotaCredito calcularOperacion(NotaCredito notaCredito) {
+        if(notaCredito.getOperacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.operacion);
+        if(notaCredito.getOperacion().equals(Constantes.operacion_devolucion)){
+            notaCredito.setValorDescuento(Constantes.cero);
+            notaCredito.setPorcentajeDescuento(Constantes.cero);
+            notaCredito.setTotalDescuento(Constantes.cero);
+            for(NotaCreditoLinea notaCreditoLinea: notaCredito.getNotaCreditoLineas()){
+                notaCreditoLinea.setCostoUnitario(notaCreditoLinea.getCostoUnitarioVenta());
+                notaCreditoLinea.setCantidad(Constantes.cero);
+            }
+        }
+        if(notaCredito.getOperacion().equals(Constantes.operacion_descuento)){
+            for(NotaCreditoLinea notaCreditoLinea: notaCredito.getNotaCreditoLineas()){
+                notaCreditoLinea.setCostoUnitario(notaCreditoLinea.getCostoUnitarioVenta());
+                notaCreditoLinea.setCantidad(notaCreditoLinea.getCantidadVenta());
+            }
+        }
+        calcular(notaCredito);
+        return notaCredito;
+    }
+
+    @Override
     public NotaCredito calcular(NotaCredito notaCredito) {
         if(notaCredito.getOperacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.operacion);
+        if(notaCredito.getOperacion().equals(Constantes.operacion_descuento)){
+            for(NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
+                double valorPorcentajeDescuento = notaCreditoLinea.getCantidadVenta() * notaCredito.getPorcentajeDescuento() / 100;
+                valorPorcentajeDescuento = Math.round(valorPorcentajeDescuento * 100.0) / 100.0;
+                notaCredito.setTotalDescuento(notaCredito.getValorDescuento() + valorPorcentajeDescuento);
+            }
+        }
         double subtotal = Constantes.cero;
         double subtotalGravado = Constantes.cero;
         double subtotalNoGravado = Constantes.cero;
@@ -305,27 +336,27 @@ public class NotaCreditoService implements INotaCreditoService {
             double subtotalLinea = Constantes.cero;
             if(notaCredito.getOperacion().equals(Constantes.operacion_devolucion)){
                 subtotalLinea = notaCreditoLinea.getCantidad() * notaCreditoLinea.getCostoUnitario();
-                subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
+                subtotalLinea = Math.round(subtotalLinea * 10000.0) / 10000.0;
                 notaCreditoLinea.setSubtotalLinea(subtotalLinea);
             }
-            if(notaCredito.getOperacion().equals(Constantes.operacion_descuento) && notaCredito.getDescuento() > Constantes.cero) {
+            if(notaCredito.getOperacion().equals(Constantes.operacion_descuento) && (notaCredito.getValorDescuento() > Constantes.cero || notaCredito.getPorcentajeDescuento() > Constantes.cero)) {
                 double costoTotal = Constantes.cero;
                 for(NotaCreditoLinea notaCreditoCompraCosto : notaCredito.getNotaCreditoLineas()) {
                     costoTotal += notaCreditoCompraCosto.getCantidadVenta() * notaCreditoCompraCosto.getCostoUnitarioVenta();
                 }
 
                 double ponderacion = (notaCreditoLinea.getCantidadVenta() * notaCreditoLinea.getCostoUnitarioVenta()) / costoTotal;
-                subtotalLinea = (notaCredito.getDescuento() * ponderacion) * 100 / (100 + notaCreditoLinea.getImpuesto().getPorcentaje());
-                subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
+                subtotalLinea = (notaCredito.getTotalDescuento() * ponderacion) * 100 / (100 + notaCreditoLinea.getImpuesto().getPorcentaje());
+                subtotalLinea = Math.round(subtotalLinea * 10000.0) / 10000.0;
                 notaCreditoLinea.setSubtotalLinea(subtotalLinea);
 
                 double costoUnitario = subtotalLinea / notaCreditoLinea.getCantidad();
-                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+                costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
                 notaCreditoLinea.setCostoUnitario(costoUnitario);
             }
-            if(notaCredito.getOperacion().equals(Constantes.operacion_descuento) && notaCredito.getDescuento() <= Constantes.cero){
+            if(notaCredito.getOperacion().equals(Constantes.operacion_descuento) && notaCredito.getValorDescuento() <= Constantes.cero && notaCredito.getPorcentajeDescuento() <= Constantes.cero){
                 subtotalLinea = notaCreditoLinea.getCantidad() * notaCreditoLinea.getCostoUnitario();
-                subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
+                subtotalLinea = Math.round(subtotalLinea * 10000.0) / 10000.0;
                 notaCreditoLinea.setSubtotalLinea(subtotalLinea);
             }
             subtotal += subtotalLinea;
@@ -336,7 +367,7 @@ public class NotaCreditoService implements INotaCreditoService {
             }
 
             double importeIvaLinea = subtotalLinea * notaCreditoLinea.getImpuesto().getPorcentaje() / 100;
-            importeIvaLinea = Math.round(importeIvaLinea * 100.0) / 100.0;
+            importeIvaLinea = Math.round(importeIvaLinea * 10000.0) / 10000.0;
             notaCreditoLinea.setImporteIvaLinea(importeIvaLinea);
             importeIva += importeIvaLinea;
 

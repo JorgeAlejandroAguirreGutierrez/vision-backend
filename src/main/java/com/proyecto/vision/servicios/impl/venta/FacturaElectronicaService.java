@@ -18,10 +18,7 @@ import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.exception.CertificadoNoExistenteException;
-import com.proyecto.vision.exception.EntidadNoExistenteException;
-import com.proyecto.vision.exception.EstadoInvalidoException;
-import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.modelos.venta.FacturaLinea;
 import com.proyecto.vision.modelos.venta.electronico.factura.*;
@@ -32,6 +29,7 @@ import com.proyecto.vision.modelos.recaudacion.TarjetaDebito;
 import com.proyecto.vision.modelos.recaudacion.Transferencia;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
 import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
+import com.proyecto.vision.servicios.interf.usuario.ISuscripcionService;
 import com.proyecto.vision.servicios.interf.venta.IFacturaElectronicaService;
 
 import ayungan.com.signature.ConvertFile;
@@ -80,6 +78,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 	@Autowired
 	private IEmpresaService empresaService;
+
+	@Autowired
+	private ISuscripcionService suscripcionService;
 
 	@Value("${prefijo.url.imagenes}")
 	private String imagenes;
@@ -134,7 +135,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		infoFactura.setMoneda(Constantes.moneda);
 		infoFactura.setPagos(crearPagos(factura));
 
-		Detalles detalles=crearDetalles(factura);
+		Detalles detalles = crearDetalles(factura);
 
 		InfoAdicional infoAdicional = crearInfoAdicional(factura);
 
@@ -149,12 +150,15 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
 		List<TotalImpuesto> totalImpuestos = new ArrayList<>();
 		double baseImponible0 = Constantes.cero;
+		double baseImponible8 = Constantes.cero;
 		double baseImponible12 = Constantes.cero;
 		double baseImponible14 = Constantes.cero;
 		double iva0 = Constantes.cero;
+		double iva8 = Constantes.cero;
 		double iva12 = Constantes.cero;
 		double iva14 = Constantes.cero;
 		boolean banderaIva0 = false;
+		boolean banderaIva8 = false;
 		boolean banderaIva12 = false;
 		boolean banderaIva14 = false;
 		for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
@@ -162,6 +166,11 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				banderaIva0 = true;
 				baseImponible0 = baseImponible0 + facturaLinea.getSubtotalLinea();
 				iva0 = iva0 + facturaLinea.getImporteIvaLinea();
+			}
+			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_8_sri)){
+				banderaIva8 = true;
+				baseImponible8 = baseImponible8 + facturaLinea.getSubtotalLinea();
+				iva8 = iva8 + facturaLinea.getImporteIvaLinea();
 			}
 			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_12_sri)){
 				banderaIva12 = true;
@@ -180,6 +189,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			totalImpuesto.setCodigoPorcentaje(Constantes.iva_0_sri);
 			totalImpuesto.setBaseImponible(Math.round(baseImponible0 * 100.0)/100.0);
 			totalImpuesto.setValor(Math.round(iva0 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva8){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_8_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible8 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva8 * 100.0)/100.0);
 			totalImpuestos.add(totalImpuesto);
 		}
 		if(banderaIva12){
@@ -336,6 +353,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		Factura factura = opcional.get();
+		boolean banderaSuscripcion = suscripcionService.verificar(factura.getEmpresa().getId());
+		if(!banderaSuscripcion){
+			throw new SuscripcionInvalidaException();
+		}
 		Resource certificado = empresaService.bajarCertificado(factura.getEmpresa().getId());
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
@@ -362,9 +383,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
-			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
 		}
 		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			suscripcionService.aumentarConteo(factura.getEmpresa().getId());
 			factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
 			factura.setFechaAutorizacion(new Date());
 			enviarCorreo(factura, facturaElectronica);

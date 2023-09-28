@@ -4,6 +4,8 @@ import ayungan.com.signature.ConvertFile;
 import ayungan.com.signature.SignatureXAdESBES;
 import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -21,16 +23,14 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.exception.CertificadoNoExistenteException;
-import com.proyecto.vision.exception.EntidadNoExistenteException;
-import com.proyecto.vision.exception.EstadoInvalidoException;
-import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.venta.NotaDebito;
 import com.proyecto.vision.modelos.venta.NotaDebitoLinea;
 import com.proyecto.vision.modelos.venta.electronico.notadebito.*;
 import com.proyecto.vision.modelos.recaudacion.*;
 import com.proyecto.vision.repositorios.venta.INotaDebitoRepository;
 import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
+import com.proyecto.vision.servicios.interf.usuario.ISuscripcionService;
 import com.proyecto.vision.servicios.interf.venta.INotaDebitoElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +78,9 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 	@Autowired
 	private IEmpresaService empresaService;
 
+	@Autowired
+	private ISuscripcionService suscripcionService;
+
 	@Value("${correo.usuario}")
 	private String correoUsuario;
 
@@ -104,7 +107,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		infoTributaria.setNombreComercial(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
 		infoTributaria.setRuc(notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
 		infoTributaria.setClaveAcceso(notaDebito.getClaveAcceso());
-		infoTributaria.setCodDoc(Constantes.nota_de_debito_sri);
+		infoTributaria.setCodDoc(Constantes.nota_debito_sri);
 		infoTributaria.setEstab(notaDebito.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
 		infoTributaria.setPtoEmi(notaDebito.getUsuario().getEstacion().getCodigoSRI());
 		infoTributaria.setSecuencial(notaDebito.getSecuencial());
@@ -142,14 +145,14 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 	}
 
 	private Impuestos crearImpuestos(NotaDebito notaDebito) {
-		Impuestos impuestos=new Impuestos();
+		Impuestos impuestos = new Impuestos();
 		List<Impuesto> impuestoLista = new ArrayList<>();
 		for(NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()) {
 			Impuesto impuesto = new Impuesto();
 			impuesto.setCodigo(Constantes.iva_sri);
 			impuesto.setCodigoPorcentaje(notaDebitoLinea.getImpuesto().getCodigoSRI());
 			impuesto.setTarifa(notaDebitoLinea.getImpuesto().getPorcentaje());
-			impuesto.setBaseImponible(notaDebitoLinea.getTotalLinea());
+			impuesto.setBaseImponible(Math.round(notaDebitoLinea.getSubtotalLinea()*100.0)/100.0);
 			impuesto.setValor(Math.round(notaDebitoLinea.getImporteIvaLinea()*100.0)/100.0);
 			impuestoLista.add(impuesto);
 		}
@@ -218,7 +221,7 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		for(NotaDebitoLinea notaDebitoLinea : notaDebito.getNotaDebitoLineas()) {
 			Motivo motivo = new Motivo();
 			motivo.setRazon(notaDebitoLinea.getNombreProducto());
-			motivo.setValor(notaDebitoLinea.getTotalLinea());
+			motivo.setValor(Math.round(notaDebitoLinea.getSubtotalLinea() * 100.0)/100.0);
 			motivoLista.add(motivo);
 		}
 		motivos.setMotivo(motivoLista);
@@ -271,6 +274,10 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			throw new EntidadNoExistenteException(Constantes.nota_debito);
 		}
 		NotaDebito notaDebito = opcional.get();
+		boolean banderaSuscripcion = suscripcionService.verificar(notaDebito.getEmpresa().getId());
+		if(!banderaSuscripcion){
+			throw new SuscripcionInvalidaException();
+		}
 		Resource certificado = empresaService.bajarCertificado(notaDebito.getEmpresa().getId());
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
@@ -296,7 +303,11 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
+		if(estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
+		}
 		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			suscripcionService.aumentarConteo(notaDebito.getEmpresa().getId());
 			notaDebito.setProcesoSRI(Constantes.procesoSRIAutorizada);
 			notaDebito.setFechaAutorizacion(new Date());
 			enviarCorreo(notaDebito, notaDebitoElectronica);
@@ -449,7 +460,15 @@ public class NotaDebitoElectronicaService implements INotaDebitoElectronicaServi
 			// 4. Add content
 			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 			documento.setFont(font);
-			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			if(notaDebito.getEmpresa().getLogo().equals(Constantes.vacio)){
+				documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			}
+			if(!notaDebito.getEmpresa().getLogo().equals(Constantes.vacio)){
+				Path path = Paths.get(Constantes.pathRecursos + Constantes.pathLogos + Constantes.slash + notaDebito.getEmpresa().getLogo());
+				ImageData imageData = ImageDataFactory.create(path.toAbsolutePath().toString());
+				Image image = new Image(imageData).scaleAbsolute(150, 100);
+				documento.add(image);
+			}
 			String regimen = Constantes.vacio;
 			if(notaDebito.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = notaDebito.getUsuario().getEstacion().getRegimen().getDescripcion();

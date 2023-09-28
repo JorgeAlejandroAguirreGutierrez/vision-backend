@@ -4,6 +4,8 @@ import ayungan.com.signature.ConvertFile;
 import ayungan.com.signature.SignatureXAdESBES;
 import com.itextpdf.barcodes.Barcode128;
 import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -21,15 +23,13 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.exception.CertificadoNoExistenteException;
-import com.proyecto.vision.exception.EntidadNoExistenteException;
-import com.proyecto.vision.exception.EstadoInvalidoException;
-import com.proyecto.vision.exception.FacturaElectronicaInvalidaException;
+import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.venta.NotaCredito;
 import com.proyecto.vision.modelos.venta.NotaCreditoLinea;
 import com.proyecto.vision.modelos.venta.electronico.notacredito.*;
 import com.proyecto.vision.repositorios.venta.INotaCreditoRepository;
 import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
+import com.proyecto.vision.servicios.interf.usuario.ISuscripcionService;
 import com.proyecto.vision.servicios.interf.venta.INotaCreditoElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +77,9 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	@Autowired
 	private IEmpresaService empresaService;
 
+	@Autowired
+	private ISuscripcionService suscripcionService;
+
 	@Value("${prefijo.url.imagenes}")
 	private String imagenes;
 
@@ -106,7 +109,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		infoTributaria.setNombreComercial(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
 		infoTributaria.setRuc(notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion());
 		infoTributaria.setClaveAcceso(notaCredito.getClaveAcceso());
-		infoTributaria.setCodDoc(Constantes.nota_de_credito_sri);
+		infoTributaria.setCodDoc(Constantes.nota_credito_sri);
 		infoTributaria.setEstab(notaCredito.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI());
 		infoTributaria.setPtoEmi(notaCredito.getUsuario().getEstacion().getCodigoSRI());
 		infoTributaria.setSecuencial(notaCredito.getSecuencial());
@@ -131,7 +134,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		infoNotaCredito.setMoneda(Constantes.moneda);
 		infoNotaCredito.setTotalConImpuestos(crearTotalConImpuestos(notaCredito));
 		infoNotaCredito.setMotivo(notaCredito.getOperacion());
-		Detalles detalles=crearDetalles(notaCredito);
+		Detalles detalles = crearDetalles(notaCredito);
 		InfoAdicional infoAdicional = crearInfoAdicional(notaCredito);
 		notaCreditoElectronica.setInfoTributaria(infoTributaria);
 		notaCreditoElectronica.setInfoNotaCredito(infoNotaCredito);
@@ -143,18 +146,78 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	private TotalConImpuestos crearTotalConImpuestos(NotaCredito notaCredito){
 		TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
 		List<TotalImpuesto> totalImpuestos = new ArrayList<>();
-		TotalImpuesto totalImpuesto = new TotalImpuesto();
-		totalImpuesto.setCodigo(Constantes.iva_sri);
-		totalImpuesto.setCodigoPorcentaje(Constantes.iva_sri);
-		totalImpuesto.setBaseImponible(notaCredito.getSubtotal());
-		totalImpuesto.setValor(notaCredito.getImporteIva());
-		totalImpuestos.add(totalImpuesto);
+		double baseImponible0 = Constantes.cero;
+		double baseImponible8 = Constantes.cero;
+		double baseImponible12 = Constantes.cero;
+		double baseImponible14 = Constantes.cero;
+		double iva0 = Constantes.cero;
+		double iva8 = Constantes.cero;
+		double iva12 = Constantes.cero;
+		double iva14 = Constantes.cero;
+		boolean banderaIva0 = false;
+		boolean banderaIva8 = false;
+		boolean banderaIva12 = false;
+		boolean banderaIva14 = false;
+		for(NotaCreditoLinea notaCreditoLinea: notaCredito.getNotaCreditoLineas()){
+			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_0_sri)){
+				banderaIva0 = true;
+				baseImponible0 = baseImponible0 + notaCreditoLinea.getSubtotalLinea();
+				iva0 = iva0 + notaCreditoLinea.getImporteIvaLinea();
+			}
+			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_8_sri)){
+				banderaIva8 = true;
+				baseImponible8 = baseImponible8 + notaCreditoLinea.getSubtotalLinea();
+				iva8 = iva8 + notaCreditoLinea.getImporteIvaLinea();
+			}
+			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_12_sri)){
+				banderaIva12 = true;
+				baseImponible12 = baseImponible12 + notaCreditoLinea.getSubtotalLinea();
+				iva12 = iva12 + notaCreditoLinea.getImporteIvaLinea();
+			}
+			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_14_sri)){
+				banderaIva14 = true;
+				baseImponible14 = baseImponible14 + notaCreditoLinea.getSubtotalLinea();
+				iva14 = iva14 + notaCreditoLinea.getImporteIvaLinea();
+			}
+		}
+		if(banderaIva0){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_0_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible0 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva0 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva8){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_8_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible8 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva8 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva12){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_12_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible12 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva12 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva14){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_14_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible14 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva12 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
 		totalConImpuestos.setTotalImpuesto(totalImpuestos);
 		return totalConImpuestos;
 	}
 
 	private Detalles crearDetalles(NotaCredito notaCredito) {
-		Detalles detalles=new Detalles();
+		Detalles detalles = new Detalles();
 		List<Detalle> detalleLista = new ArrayList<>();
 		for(NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
 			Detalle detalle = new Detalle();
@@ -162,8 +225,8 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			detalle.setDescripcion(notaCreditoLinea.getNombreProducto());
 			detalle.setCantidad(notaCreditoLinea.getCantidad());
 			detalle.setPrecioUnitario(Math.round(notaCreditoLinea.getCostoUnitario()*100.0)/100.0);
-			detalle.setDescuento(notaCreditoLinea.getCostoUnitario());
-			detalle.setPrecioTotalSinImpuesto(notaCreditoLinea.getTotalLinea());
+			detalle.setDescuento(notaCredito.getTotalDescuento());
+			detalle.setPrecioTotalSinImpuesto(Math.round(notaCreditoLinea.getSubtotalLinea() * 100.0) / 100.0);
 			detalle.setImpuestos(crearImpuestos(notaCreditoLinea));
 			detalleLista.add(detalle);
 		}
@@ -172,14 +235,14 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	}
 
 	private Impuestos crearImpuestos(NotaCreditoLinea notaCreditoLinea) {
-		Impuestos impuestos=new Impuestos();
+		Impuestos impuestos = new Impuestos();
 		List<Impuesto> impuestoLista = new ArrayList<>();
-		Impuesto impuesto=new Impuesto();
+		Impuesto impuesto = new Impuesto();
 		impuesto.setCodigo(Constantes.iva_sri);
 		impuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
 		impuesto.setTarifa(notaCreditoLinea.getImpuesto().getPorcentaje());
-		impuesto.setBaseImponible(notaCreditoLinea.getSubtotalLinea());
-		impuesto.setValor(notaCreditoLinea.getImporteIvaLinea());
+		impuesto.setBaseImponible(Math.round(notaCreditoLinea.getSubtotalLinea()*100.0)/100.0);
+		impuesto.setValor(Math.round(notaCreditoLinea.getImporteIvaLinea()*100.0)/100.0);
 		impuestoLista.add(impuesto);
 		impuestos.setImpuesto(impuestoLista);
 		return impuestos;
@@ -231,6 +294,10 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			throw new EntidadNoExistenteException(Constantes.nota_credito_venta);
 		}
 		NotaCredito notaCredito = opcional.get();
+		boolean banderaSuscripcion = suscripcionService.verificar(notaCredito.getEmpresa().getId());
+		if(!banderaSuscripcion){
+			throw new SuscripcionInvalidaException();
+		}
 		Resource certificado = empresaService.bajarCertificado(notaCredito.getEmpresa().getId());
 		if(certificado == null){
 			throw new CertificadoNoExistenteException();
@@ -253,7 +320,11 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 		}
+		if(estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
+			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
+		}
 		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			suscripcionService.aumentarConteo(notaCredito.getEmpresa().getId());
 			notaCredito.setProcesoSRI(Constantes.procesoSRIAutorizada);
 			notaCredito.setFechaAutorizacion(new Date());
 			enviarCorreo(notaCredito, notaCreditoElectronica);
@@ -406,7 +477,15 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			// 4. Add content
 			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 			documento.setFont(font);
-			documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			if(notaCredito.getEmpresa().getLogo().equals(Constantes.vacio)){
+				documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
+			}
+			if(!notaCredito.getEmpresa().getLogo().equals(Constantes.vacio)){
+				Path path = Paths.get(Constantes.pathRecursos + Constantes.pathLogos + Constantes.slash + notaCredito.getEmpresa().getLogo());
+				ImageData imageData = ImageDataFactory.create(path.toAbsolutePath().toString());
+				Image image = new Image(imageData).scaleAbsolute(150, 100);
+				documento.add(image);
+			}
 			String regimen = Constantes.vacio;
 			if(notaCredito.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = notaCredito.getUsuario().getEstacion().getRegimen().getDescripcion();
@@ -480,12 +559,12 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("CÓDIGO"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("CANT"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("DESCRIPCION"));
-			tablaFacturaDetalle.addCell(getCellColumnaFactura("PRECIO U"));
+			tablaFacturaDetalle.addCell(getCellColumnaFactura("COSTO U"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("DSCTO"));
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
 			for (int i = 0; i < notaCredito.getNotaCreditoLineas().size(); i++)
 			{
-				String precioSinIva = String.format("%.2f", notaCredito.getNotaCreditoLineas().get(i).getPrecio().getPrecioSinIva());
+				String precioSinIva = String.format("%.2f", notaCredito.getNotaCreditoLineas().get(i).getCostoUnitario());
 				String valorDescuentoLinea = String.format("%.2f", notaCredito.getNotaCreditoLineas().get(i).getCostoUnitario());
 				String subtotalConDescuentoLinea = String.format("%.2f", notaCredito.getNotaCreditoLineas().get(i).getSubtotalLinea());
 
@@ -499,7 +578,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			documento.add(tablaFacturaDetalle);
 			documento.add( new Paragraph("\n"));
 			String subtotal = String.format("%.2f", notaCredito.getSubtotal());
-			String descuento = String.format("%.2f", notaCredito.getDescuento());
+			String descuento = String.format("%.2f", notaCredito.getTotalDescuento());
 			String subtotalGravado = String.format("%.2f", notaCredito.getSubtotalGravado());
 			String subtotalNoGravado = String.format("%.2f", notaCredito.getSubtotalNoGravado());
 			String iva = String.format("%.2f", notaCredito.getImporteIva());

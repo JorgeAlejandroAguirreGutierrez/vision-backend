@@ -92,7 +92,7 @@ public class NotaDebitoService implements INotaDebitoService {
     private Optional<String> crearClaveAcceso(NotaDebito notaDebito) {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         String fechaEmision = dateFormat.format(notaDebito.getFecha());
-        String tipoComprobante = Constantes.factura_sri;
+        String tipoComprobante = Constantes.nota_debito_sri;
         String numeroRuc = notaDebito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
         String tipoAmbiente = Constantes.pruebas_sri;
         String serie = notaDebito.getEstablecimiento() + notaDebito.getPuntoVenta();
@@ -128,9 +128,9 @@ public class NotaDebitoService implements INotaDebitoService {
     @Override
     public NotaDebito crear(NotaDebito notaDebito) {
         validar(notaDebito);
-        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
+        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito);
         notaDebito.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo = Util.generarCodigoPorEmpresa(notaDebito.getFecha(), Constantes.tabla_factura,notaDebito.getEmpresa().getId());
+        Optional<String>codigo = Util.generarCodigoPorEmpresa(notaDebito.getFecha(), Constantes.tabla_nota_debito, notaDebito.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }

@@ -5,6 +5,7 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.exception.SesionInvalidaException;
+import com.proyecto.vision.modelos.usuario.Empresa;
 import com.proyecto.vision.modelos.usuario.Sesion;
 import com.proyecto.vision.modelos.usuario.Usuario;
 import com.proyecto.vision.repositorios.usuario.ISesionRepository;
@@ -34,9 +35,13 @@ public class SesionService implements ISesionService {
     		throw new CodigoNoExistenteException();
     	}
     	sesion.setCodigo(codigo.get());
-    	Optional<Usuario> usuario=rep_usuario.obtenerPorApodoYContrasenaYEstado(sesion.getUsuario().getApodo(), sesion.getUsuario().getContrasena(), Constantes.estadoActivo);
+    	Optional<Usuario> usuario = rep_usuario.obtenerPorApodoYContrasenaYEstado(sesion.getUsuario().getApodo(), sesion.getUsuario().getContrasena(), Constantes.estadoActivo);
     	if(usuario.isPresent()) {
+    	    Empresa empresa = sesion.getUsuario().getEstacion().getEstablecimiento().getEmpresa();
     		sesion.setUsuario(usuario.get());
+    		if(sesion.getUsuario().getPerfil().getMultiempresa().equals(Constantes.si)){
+    		    sesion.getUsuario().getEstacion().getEstablecimiento().setEmpresa(empresa);
+            }
             sesion.setFechaApertura(new Date());
             sesion.setEstado(Constantes.estadoActivo);
             return rep.save(sesion);

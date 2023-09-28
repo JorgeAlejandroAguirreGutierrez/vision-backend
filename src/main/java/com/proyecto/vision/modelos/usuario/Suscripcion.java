@@ -1,6 +1,8 @@
 package com.proyecto.vision.modelos.usuario;
 
+import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
+import com.proyecto.vision.modelos.cajaBanco.Banco;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +25,8 @@ public class Suscripcion extends Entidad {
     private Date fechaInicial;
     @Column(name = "fecha_final", nullable = true)
     private Date fechaFinal;
+    @Column(name = "conteo_comprobantes", nullable = true)
+    private long conteoComprobantes;
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
@@ -31,6 +35,27 @@ public class Suscripcion extends Entidad {
     @ManyToOne
     @JoinColumn(name = "empresa_id", nullable = true)
     private Empresa empresa;
+
+    //PAGO DE LA SUSCRIPCION
+    @Column(name = "numero_transaccion", nullable = true)
+    private String numeroTransaccion;
+    @Column(name = "fecha_transaccion", nullable = true)
+    private Date fechaTransaccion;
+    @ManyToOne
+    @JoinColumn(name = "banco_id", nullable = true)
+    private Banco banco;
+
+    public Suscripcion(long id){
+        super(id);
+    }
+    public Suscripcion(){
+        super();
+        this.codigo = Constantes.vacio;
+        this.fechaInicial = new Date();
+        this.fechaFinal = new Date();
+        this.conteoComprobantes = Constantes.ceroId;
+        this.estado = Constantes.estadoActivo;
+    }
 
     public void normalizar(){
 
