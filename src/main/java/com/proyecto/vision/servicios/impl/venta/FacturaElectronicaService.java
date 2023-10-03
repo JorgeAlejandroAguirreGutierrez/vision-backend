@@ -94,6 +94,12 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	@Value("${facturacion.produccion}")
 	private String facturacionProduccion;
 
+	@Value("${url.facturacion}")
+	private String urlFacturacion;
+
+	@Value("${url.facebook}")
+	private String urlFacebook;
+
 	private FacturaElectronica crear(Factura factura) {
 		//MAPEO A FACTURA ELECTRONICA
 		FacturaElectronica facturaElectronica = new FacturaElectronica();
@@ -1181,5 +1187,23 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		ByteArrayInputStream pdf = crearTicket(factura);
 		return pdf;
 	}
+
+	/*private void crearMensaje(){
+		String body = Util.soapConsultaFacturacionEletronica(facturaElectronica.getInfoTributaria().getClaveAcceso());
+		HttpClient httpClient = HttpClient.newBuilder()
+				.version(HttpClient.Version.HTTP_1_1)
+				.connectTimeout(Duration.ofSeconds(10))
+				.build();
+		HttpRequest request = HttpRequest.newBuilder()
+				.POST(BodyPublishers.ofString(body))
+				.uri(URI.create(url))
+				.setHeader(Constantes.contentType, Constantes.contenTypeValor)
+				.build();
+		HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+		// print status code
+		System.out.println(response.statusCode());
+		// print response body
+		System.out.println(response.body());
+	}*/
 
 }

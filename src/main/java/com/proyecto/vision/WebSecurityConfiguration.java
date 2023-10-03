@@ -14,6 +14,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/vision/facturaElectronica/**").permitAll()
+                .antMatchers("/storage/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic().and().cors();
