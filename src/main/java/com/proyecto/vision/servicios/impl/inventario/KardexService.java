@@ -180,7 +180,17 @@ public class KardexService implements IKardexService {
                 kardex.setHaber(ultimoKardex.getCostoPromedio());
             }
             if (kardex.getTipoComprobante().getId() == 4){ // Nota de Crédito Venta
-
+                if (kardex.getTipoOperacion().getId() == 7) {
+                    saldo = ultimoKardex.getSaldo() + kardex.getEntrada();
+                }
+                if (kardex.getTipoOperacion().getId() == 9) {
+                    saldo = ultimoKardex.getSaldo();
+                }
+                saldo = Math.round(saldo * 10000.0) / 10000.0;
+                costoTotal = ultimoKardex.getCostoTotal() + (kardex.getEntrada() * kardex.getDebe());
+                costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
             if (kardex.getTipoComprobante().getId() == 5){ // Nota de Débito Venta
 

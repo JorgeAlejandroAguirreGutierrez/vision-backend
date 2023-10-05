@@ -182,6 +182,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                     saldo = penultimoKardex.getSaldo();
                 }
                 costoTotal = penultimoKardex.getCostoTotal() + notaCreditoCompraLinea.getSubtotalLinea();
+                costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
                 costoUnitario = notaCreditoCompraLinea.getSubtotalLinea() / notaCreditoCompraLinea.getCantidad();
                 costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
                 costoPromedio = costoTotal / saldo;
