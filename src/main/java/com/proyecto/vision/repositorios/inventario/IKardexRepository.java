@@ -25,11 +25,11 @@ public interface IKardexRepository extends JpaRepository<Kardex, Long>, JpaSpeci
     List<Kardex> consultarPorProductoYBodegaYFechaMayor(long productoId, long bodegaId, Date fecha);
     @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and k.tipo_comprobante_id = :tipoComprobanteId and k.referencia = :comprobante and k.id_linea = :idLinea order by k.fecha desc limit 1", nativeQuery = true)
     Optional<Kardex> obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYIdLinea(long productoId, long bodegaId, long tipoComprobanteId, String comprobante, long idLinea);
-    @Query(value = "select * from kardex k where k.tipo_comprobante_id = :tipoComprobanteId and k.producto_id = :productoId and k.bodega_id = :bodegaId order by k.fecha desc limit 1", nativeQuery = true)
+    @Query(value = "select * from kardex k where k.tipo_comprobante_id = :tipoComprobanteId and k.producto_id = :productoId and k.bodega_id = :bodegaId order by date(k.fecha) desc, k.id  limit 1", nativeQuery = true)
     Optional<Kardex> obtenerSaldoInicialPorProductoYBodega(long tipoComprobanteId, long productoId, long bodegaId);
     @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId order by k.fecha_creacion desc limit 1", nativeQuery = true)
     Optional<Kardex> obtenerUltimoPorProductoYBodega(long productoId, long bodegaId);
-    @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and date(k.fecha) <= :fecha order by k.fecha_creacion desc limit 1", nativeQuery = true)
+    @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and date(k.fecha) <= :fecha order by date(k.fecha) desc, k.id desc limit 1", nativeQuery = true)
     Optional<Kardex> obtenerUltimoPorProductoYBodegaYFecha(long productoId, long bodegaId, Date fecha);
     @Query(value = "select * from kardex k where k.producto_id = :productoId and k.bodega_id = :bodegaId and k.tipo_comprobante_id = :tipoComprobanteId order by date(k.fecha) desc, k.id desc limit 1", nativeQuery = true)
     Optional<Kardex> obtenerUltimoPorProductoYBodegaYTablaTipoComprobante(long productoId, long bodegaId, long tipoComprobanteId);

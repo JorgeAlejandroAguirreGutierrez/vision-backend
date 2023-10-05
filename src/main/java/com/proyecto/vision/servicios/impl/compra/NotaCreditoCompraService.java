@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,10 +61,10 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     @Override
     public NotaCreditoCompra crear(NotaCreditoCompra notaCreditoCompra) {
         validar(notaCreditoCompra);
-        List<NotaCreditoCompra> notaCreditoExistente = rep.consultarPorFacturaCompraYEmpresaYEstadoDiferente(notaCreditoCompra.getFacturaCompra().getId(), notaCreditoCompra.getEmpresa().getId(), Constantes.estadoAnulada);
-        if(!notaCreditoExistente.isEmpty()){
-            throw new EntidadExistenteException(Constantes.nota_credito_compra);
-        }
+        //List<NotaCreditoCompra> notaCreditoExistente = rep.consultarPorFacturaCompraYEmpresaYEstadoDiferente(notaCreditoCompra.getFacturaCompra().getId(), notaCreditoCompra.getEmpresa().getId(), Constantes.estadoAnulada);
+        //if(!notaCreditoExistente.isEmpty()){
+        //    throw new EntidadExistenteException(Constantes.nota_credito_compra);
+        //}
         TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito_compra);
         notaCreditoCompra.setTipoComprobante(tipoComprobante);
         Optional<String> codigo = Util.generarCodigoPorEmpresa(notaCreditoCompra.getFecha(), Constantes.tabla_nota_credito_compra, notaCreditoCompra.getEmpresa().getId());
@@ -71,12 +72,11 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
             throw new CodigoNoExistenteException();
         }
         notaCreditoCompra.setCodigo(codigo.get());
-        notaCreditoCompra.setNumeroComprobante(notaCreditoCompra.getEstablecimiento() + Constantes.guion + notaCreditoCompra.getPuntoVenta() + Constantes.guion + notaCreditoCompra.getSecuencial());
         notaCreditoCompra.setEstado(Constantes.estadoPorPagar);
-        calcular(notaCreditoCompra);
+        //calcular(notaCreditoCompra);
+        NotaCreditoCompra res = rep.save(notaCreditoCompra);
         crearKardex(notaCreditoCompra);
         actualizarPrecios(notaCreditoCompra);
-        NotaCreditoCompra res = rep.save(notaCreditoCompra);
         res.normalizar();
         return res;
     }
@@ -85,12 +85,9 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
         if(notaCreditoCompra.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
 
         for (NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId());
-            double entrada = Constantes.cero;
-            double saldo = Constantes.cero;
-            double costoTotal = Constantes.cero;
-            double costoUnitario = Constantes.cero;
-            double costoPromedio = Constantes.cero;
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodegaYFecha(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId(), notaCreditoCompra.getFecha());
+            double entrada = Constantes.cero, saldo = Constantes.cero, costoTotal = Constantes.cero;
+            double costoUnitario = Constantes.cero, costoPromedio = Constantes.cero;
             long tipoOperacionId = Constantes.ceroId;
             if (ultimoKardex != null) {
                 entrada = notaCreditoCompraLinea.getCantidad()*(-1);
@@ -103,10 +100,10 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                     tipoOperacionId = 8;
                 }
                 costoUnitario = notaCreditoCompraLinea.getCostoUnitario();
-                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
+                costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
 
                 costoTotal = ultimoKardex.getCostoTotal() - notaCreditoCompraLinea.getSubtotalLinea();
-                costoTotal = Math.round(costoTotal * 100.0) / 100.0;
+                costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
 
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
@@ -118,13 +115,13 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                     new TipoOperacion(tipoOperacionId), notaCreditoCompraLinea.getBodega(), notaCreditoCompraLinea.getProducto());
 
             kardexService.crear(kardex);
+            kardexService.recalcularPorProductoYBodegaYFecha(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId(),notaCreditoCompra.getFecha());
         }
     }
 
     @Override
     public NotaCreditoCompra actualizar(NotaCreditoCompra notaCreditoCompra) {
         validar(notaCreditoCompra);
-        notaCreditoCompra.setNumeroComprobante(notaCreditoCompra.getEstablecimiento() + Constantes.guion + notaCreditoCompra.getPuntoVenta() + Constantes.guion + notaCreditoCompra.getSecuencial());
         calcular(notaCreditoCompra);
         NotaCreditoCompra res = rep.save(notaCreditoCompra);
         actualizarKardex(notaCreditoCompra);
@@ -135,37 +132,74 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
 
     private void actualizarKardex(NotaCreditoCompra notaCreditoCompra) {
         for (NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
-            int ultimoIndiceKardex = notaCreditoCompraLinea.getProducto().getKardexs().size() - 1;
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId());
-            double entrada = Constantes.cero;
-            double saldo = Constantes.cero;
-            double costoTotal = Constantes.cero;
-            double costoUnitario = Constantes.cero;
-            double costoPromedio = Constantes.cero;
-            if (ultimoIndiceKardex > Constantes.cero) {
-                entrada = notaCreditoCompraLinea.getCantidad()*(-1);
-                if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_devolucion)) {
-                    saldo = notaCreditoCompraLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getSaldo() + entrada;
+            TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito_compra);
+            Kardex ultimoKardex = kardexService.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYIdLinea(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId(), tipoComprobante.getId(), notaCreditoCompra.getNumeroComprobante(), notaCreditoCompraLinea.getId());
+            if (ultimoKardex == null) {
+                ultimoKardex = kardexService.obtenerUltimoPorProductoYBodegaYFecha(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId(), notaCreditoCompra.getFecha());
+                double entrada, saldo = Constantes.cero, costoTotal;
+                double costoUnitario, costoPromedio;
+                long tipoOperacionId = Constantes.ceroId;
+                if (ultimoKardex != null) {
+                    entrada = notaCreditoCompraLinea.getCantidad()*(-1);
+                    if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_devolucion)) {
+                        saldo = ultimoKardex.getSaldo() + entrada;
+                        tipoOperacionId = 6;
+                    }
+                    if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_descuento)) {
+                        saldo = ultimoKardex.getSaldo();
+                        tipoOperacionId = 8;
+                    }
+                    costoUnitario = notaCreditoCompraLinea.getCostoUnitario();
+                    costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
+
+                    costoTotal = ultimoKardex.getCostoTotal() - notaCreditoCompraLinea.getSubtotalLinea();
+                    costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
+
+                    costoPromedio = costoTotal / saldo;
+                    costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+                } else{
+                    throw new DatoInvalidoException(Constantes.kardex);
                 }
-                if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_descuento)) {
-                    saldo = notaCreditoCompraLinea.getProducto().getKardexs().get(ultimoIndiceKardex - 1).getSaldo();
+                Kardex kardex = new Kardex(null, notaCreditoCompra.getFecha(), notaCreditoCompra.getNumeroComprobante(),
+                        notaCreditoCompraLinea.getId(), entrada, Constantes.cero, saldo,
+                        costoUnitario, Constantes.cero, costoPromedio, costoTotal, tipoComprobante,
+                        new TipoOperacion(tipoOperacionId), notaCreditoCompraLinea.getBodega(), notaCreditoCompraLinea.getProducto());
+
+                kardexService.crear(kardex);
+
+            } else {
+                Kardex penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMismaFechaYId(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId(), notaCreditoCompra.getFecha(), ultimoKardex.getId());
+                if (penultimoKardex == null) {
+                    penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMenorFecha(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId(), notaCreditoCompra.getFecha());
                 }
+                double entrada, saldo = Constantes.cero, costoTotal, costoUnitario, costoPromedio;
+
+                entrada = notaCreditoCompraLinea.getCantidad() * (-1);
+                if (notaCreditoCompra.getOperacion().equals(Constantes.operacion_devolucion)) {
+                    saldo = penultimoKardex.getSaldo() + entrada;
+                }
+                if (notaCreditoCompra.getOperacion().equals(Constantes.operacion_descuento)) {
+                    saldo = penultimoKardex.getSaldo();
+                }
+                costoTotal = penultimoKardex.getCostoTotal() + notaCreditoCompraLinea.getSubtotalLinea();
                 costoUnitario = notaCreditoCompraLinea.getSubtotalLinea() / notaCreditoCompraLinea.getCantidad();
-                costoUnitario = Math.round(costoUnitario * 100.0) / 100.0;
-
-                costoTotal = ultimoKardex.getCostoTotal() - notaCreditoCompraLinea.getSubtotalLinea();
-                costoTotal = Math.round(costoTotal * 100.0) / 100.0;
-
+                costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+
+                ultimoKardex.setFecha(notaCreditoCompra.getFecha());
+                ultimoKardex.setEntrada(entrada);
+                ultimoKardex.setSaldo(saldo);
+                ultimoKardex.setDebe(costoUnitario);
+                ultimoKardex.setCostoPromedio(costoPromedio);
+                ultimoKardex.setCostoTotal(costoTotal);
+
+                kardexService.actualizar(ultimoKardex);
             }
-            ultimoKardex.setFecha(notaCreditoCompra.getFecha());
-            ultimoKardex.setEntrada(entrada);
-            ultimoKardex.setSaldo(saldo);
-            ultimoKardex.setDebe(costoUnitario);
-            ultimoKardex.setCostoPromedio(costoPromedio);
-            ultimoKardex.setCostoTotal(costoTotal);
-            kardexService.actualizar(ultimoKardex);
+            Calendar c = Calendar.getInstance();
+            c.setTime(notaCreditoCompra.getFecha());
+            c.add(c.DAY_OF_YEAR, -1);
+            kardexService.recalcularPorProductoYBodegaYFecha(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId(), c.getTime());
         }
     }
 
@@ -285,10 +319,8 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     @Override
     public NotaCreditoCompra calcular(NotaCreditoCompra notaCreditoCompra) {
         if(notaCreditoCompra.getOperacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.operacion_devolucion);
-        double subtotal = Constantes.cero;
-        double subtotalGravado = Constantes.cero;
-        double subtotalNoGravado = Constantes.cero;
-        double importeIva = Constantes.cero;
+        double subtotal = Constantes.cero, subtotalGravado = Constantes.cero;
+        double subtotalNoGravado = Constantes.cero, importeIva = Constantes.cero;
         for(NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
             validarLinea(notaCreditoCompraLinea);
             double subtotalLinea = Constantes.cero;
@@ -296,7 +328,6 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 subtotalLinea = notaCreditoCompraLinea.getCantidad() * notaCreditoCompraLinea.getCostoUnitario();
                 subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
                 notaCreditoCompraLinea.setSubtotalLinea(subtotalLinea);
-
             }
             if(notaCreditoCompra.getOperacion().equals(Constantes.operacion_descuento) && notaCreditoCompra.getDescuento() > Constantes.cero) {
                 if(notaCreditoCompra.getDescuento() <= Constantes.cero) throw new DatoInvalidoException(Constantes.operacion_descuento);
@@ -307,7 +338,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 }
 
                 double ponderacion = (notaCreditoCompraLinea.getCantidadCompra() * notaCreditoCompraLinea.getCostoUnitarioCompra()) / costoTotal;
-                subtotalLinea = (notaCreditoCompra.getDescuento() * ponderacion) * 100 / (100 + notaCreditoCompraLinea.getImpuesto().getPorcentaje());
+                subtotalLinea = notaCreditoCompra.getDescuento() * ponderacion;
                 subtotalLinea = Math.round(subtotalLinea * 100.0) / 100.0;
                 notaCreditoCompraLinea.setSubtotalLinea(subtotalLinea);
 
