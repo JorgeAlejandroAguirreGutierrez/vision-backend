@@ -35,6 +35,12 @@ import com.proyecto.vision.servicios.interf.venta.IFacturaElectronicaService;
 import ayungan.com.signature.ConvertFile;
 import ayungan.com.signature.SignatureXAdESBES;
 import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -99,6 +105,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 	@Value("${url.facebook}")
 	private String urlFacebook;
+
+	//@Autowired
+	//private ChromeDriver chromeDriver;
 
 	private FacturaElectronica crear(Factura factura) {
 		//MAPEO A FACTURA ELECTRONICA
@@ -1204,6 +1213,41 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		System.out.println(response.statusCode());
 		// print response body
 		System.out.println(response.body());
+	}*/
+
+	/*@Override
+	public void scrapSRI(){
+		try {
+		chromeDriver.get(Constantes.urlSri);
+		Thread.sleep(10000);
+		chromeDriver.findElement(By.id("usuario")).sendKeys("0603467226001");
+		Thread.sleep(9000);
+		chromeDriver.findElement(By.id("password")).sendKeys("DDMR2013");
+		Thread.sleep(8000);
+		chromeDriver.findElement(By.id("kc-login")).click();
+		Thread.sleep(10000);
+		chromeDriver.navigate().to("https://srienlinea.sri.gob.ec/tuportal-internet/accederAplicacion.jspa?redireccion=57&idGrupo=55");
+		Thread.sleep(9000);
+		Select mes = new Select(chromeDriver.findElement(By.id("frmPrincipal:mes")));
+		mes.selectByValue("8");
+		Thread.sleep(8000);
+		Select dia = new Select(chromeDriver.findElement(By.id("frmPrincipal:dia")));
+		dia.selectByValue("0");
+		Thread.sleep(10000);
+		chromeDriver.findElement(By.id("btnRecaptcha")).click();
+		Thread.sleep(9000);
+		List<WebElement> list = chromeDriver.findElements(By.className("ui-dt-c"));
+		Iterator<WebElement> iterator = list.iterator();
+		List<String> values = new ArrayList<String>();
+		while (iterator.hasNext()){
+			WebElement element = iterator.next();
+			values.add(element.getText());
+		}
+		System.out.println(values.toString());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 	}*/
 
 }
