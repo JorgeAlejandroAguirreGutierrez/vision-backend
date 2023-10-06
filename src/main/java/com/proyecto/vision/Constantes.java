@@ -13,6 +13,7 @@ public class Constantes {
     public static final String pathAvatares = "avatares";
     public static final String pathLogos = "logos";
     public static final String pathCertificados = "certificados";
+    public static final String pathDrivers = "drivers";
     public static final String slash = "/";
 
     public static final String cedula_abreviatura="C";
@@ -549,6 +550,7 @@ public class Constantes {
     public static final String urlPruebasConsultaFacturacionEletronicaSri = "https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline";
     public static final String urlProduccionFacturacionEletronicaSri = "https://cel.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantesOffline";
     public static final String urlProduccionConsultaFacturacionEletronicaSri = "https://cel.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline";
+    public static final String urlSri="https://srienlinea.sri.gob.ec/sri-en-linea/contribuyente/perfil";
     public static final String utf8 = "utf-8";
     public static final String contentType = "Content-Type";
     public static final String moneda = "USD";
