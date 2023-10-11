@@ -85,7 +85,22 @@ public class ImpuestoService implements IImpuestoService {
     }
 
     @Override
-    public Optional<Impuesto> obtenerImpuestoPorcentaje(double porcentaje) {
-        return rep.findByPorcentaje(porcentaje, Constantes.estadoActivo);
+    public Impuesto obtenerPorPorcentajeYEstado(double porcentaje, String estado) {
+        Optional<Impuesto> res = rep.obtenerPorPorcentajeYEstado(porcentaje, estado);
+        if(res.isPresent()) {
+            return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.impuesto);
+
+    }
+
+    @Override
+    public Impuesto obtenerPorCodigoSRIYEstado(String codigoSRI, String estado) {
+        Optional<Impuesto> res = rep.obtenerPorCodigoSRIYEstado(codigoSRI, estado);
+        if(res.isPresent()) {
+            return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.impuesto);
+
     }
 }

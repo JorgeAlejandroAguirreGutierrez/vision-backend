@@ -1,6 +1,5 @@
 package com.proyecto.vision.repositorios.compra;
 
-
 import com.proyecto.vision.modelos.compra.Proveedor;
 
 import java.util.List;
@@ -21,8 +20,10 @@ public interface IProveedorRepository extends JpaRepository<Proveedor, Long>, Jp
     List<Proveedor> consultarPorEmpresa(long empresaId);
     @Query(value = "select p from Proveedor p where p.empresa.id=:empresaId and p.estado = :estado order by p.codigo asc")
     List<Proveedor> consultarPorEmpresaYEstado(long empresaId, String estado);
-    @Query(value = "select p from Proveedor p where p.empresa.id=:empresaId and p.identificacion=:identificacion and p.estado=:estado order by p.codigo desc")
-    Optional<Proveedor> obtenerPorEmpresaYIdentificacion(long empresaId, String identificacion, String estado);
-    @Query(value = "select p from Proveedor p where p.razonSocial like '%'||:razonSocial||'%' and p.estado=:estado order by p.codigo desc")
+    @Query(value = "select p from Proveedor p where p.identificacion = :identificacion and p.empresa.id = :empresaId order by p.codigo desc")
+    Optional<Proveedor> obtenerPorIdentificacionYEmpresa(String identificacion, long empresaId);
+    @Query(value = "select p from Proveedor p where p.identificacion = :identificacion and p.empresa.id = :empresaId and p.estado = :estado order by p.codigo desc")
+    Optional<Proveedor> obtenerPorIdentificacionYEmpresaYEstado(String identificacion, long empresaId, String estado);
+    @Query(value = "select p from Proveedor p where p.razonSocial like '%' || :razonSocial || '%' and p.estado = :estado order by p.codigo desc")
     List<Proveedor> consultarPorRazonSocial(String razonSocial, String estado);
 }

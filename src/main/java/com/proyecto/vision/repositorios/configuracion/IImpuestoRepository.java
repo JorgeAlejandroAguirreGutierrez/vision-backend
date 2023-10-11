@@ -15,5 +15,7 @@ public interface IImpuestoRepository extends JpaRepository<Impuesto, Long>, JpaS
     @Query(value = "select i from Impuesto i where i.estado=:estado order by i.id asc")
     List<Impuesto> consultarPorEstado(String estado);
 	@Query(value = "select i from Impuesto i where i.porcentaje = :porcentaje and i.estado = :estado order by i.codigo desc")
-    Optional<Impuesto> findByPorcentaje(double porcentaje, String estado);
+    Optional<Impuesto> obtenerPorPorcentajeYEstado(double porcentaje, String estado);
+    @Query(value = "select i from Impuesto i where i.codigoSRI = :codigoSRI and i.estado = :estado order by i.codigo desc")
+    Optional<Impuesto> obtenerPorCodigoSRIYEstado(String codigoSRI, String estado);
 }

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(contexto+pathImpuesto)
@@ -37,7 +36,7 @@ public class ImpuestoController implements GenericoController<Impuesto> {
     @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado) {
 	    List<Impuesto> impuestos = servicio.consultarPorEstado(estado);
-	    Respuesta respuesta=new Respuesta(true, Constantes.mensaje_consultar_exitoso, impuestos);
+	    Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, impuestos);
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -50,43 +49,50 @@ public class ImpuestoController implements GenericoController<Impuesto> {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
-        Impuesto impuesto=servicio.obtener(id);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, impuesto);
+        Impuesto impuesto = servicio.obtener(id);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, impuesto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid Impuesto _impuesto) {
-        Impuesto impuesto=servicio.crear(_impuesto);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, impuesto);
+        Impuesto impuesto = servicio.crear(_impuesto);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_crear_exitoso, impuesto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody Impuesto _impuesto) {
-        Impuesto impuesto=servicio.actualizar(_impuesto);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, impuesto);
+        Impuesto impuesto = servicio.actualizar(_impuesto);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_actualizar_exitoso, impuesto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
     
     @PatchMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> activar(@RequestBody Impuesto _impuesto) {
     	Impuesto impuesto = servicio.activar(_impuesto);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_activar_exitoso, impuesto);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_activar_exitoso, impuesto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
    
     @PatchMapping(value = "/inactivar", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> inactivar(@RequestBody Impuesto _impuesto) {
     	Impuesto impuesto = servicio.inactivar(_impuesto);
-        Respuesta respuesta= new Respuesta(true, Constantes.mensaje_inactivar_exitoso, impuesto);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_inactivar_exitoso, impuesto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/porcentaje/{porcentaje}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtenerPorcentaje(@PathVariable("porcentaje") double porcentaje) {
-        Optional<Impuesto> impuesto=servicio.obtenerImpuestoPorcentaje(porcentaje);
-        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, impuesto);
+    @GetMapping(value = "/obtenerPorPorcentajeYEstado/{porcentaje}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerPorPorcentajeYEstado(@PathVariable("porcentaje") double porcentaje, @PathVariable("estado") String estado) {
+        Impuesto impuesto = servicio.obtenerPorPorcentajeYEstado(porcentaje, estado);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, impuesto);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/obtenerPorCodigoSRIYEstado/{codigoSRI}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerPorPorcentajeYEstado(@PathVariable("codigoSRI") String codigoSRI, @PathVariable("estado") String estado) {
+        Impuesto impuesto = servicio.obtenerPorCodigoSRIYEstado(codigoSRI, estado);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, impuesto);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

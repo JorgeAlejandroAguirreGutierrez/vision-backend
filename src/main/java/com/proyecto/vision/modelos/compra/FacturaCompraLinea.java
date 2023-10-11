@@ -25,6 +25,8 @@ public class FacturaCompraLinea extends Entidad {
     private String codigo;
     @Column(name = "posicion", nullable = true)
     private long posicion;
+    @Column(name = "nombre_producto", nullable = true)
+    private String nombreProducto;
     @Column(name = "cantidad", nullable = true)
     private long cantidad;
     @Column(name = "costo_unitario", nullable = true)
@@ -72,6 +74,7 @@ public class FacturaCompraLinea extends Entidad {
         super();
         this.codigo = Constantes.vacio;
         this.posicion = Constantes.ceroId;
+        this.nombreProducto = Constantes.vacio;
         this.cantidad = Constantes.ceroId;
         this.costoUnitario = Constantes.cero;
         this.costoDistribuido = Constantes.cero;
@@ -85,5 +88,11 @@ public class FacturaCompraLinea extends Entidad {
         this.subtotalLinea = Constantes.cero;
         this.importeIvaLinea = Constantes.cero;
         this.totalLinea = Constantes.cero;
+    }
+
+    public void normalizar(){
+        if(this.producto == null) this.producto = new Producto();
+        if(this.impuesto == null) this.impuesto = new Impuesto();
+        if(this.bodega == null) this.bodega = new Bodega();
     }
 }

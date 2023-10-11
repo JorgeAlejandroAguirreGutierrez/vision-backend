@@ -1,7 +1,5 @@
 package com.proyecto.vision.servicios.interf.compra;
 
-import com.proyecto.vision.modelos.cliente.Cliente;
-import com.proyecto.vision.modelos.cliente.Segmento;
 import com.proyecto.vision.modelos.compra.Proveedor;
 import com.proyecto.vision.servicios.interf.IGenericoService;
 
@@ -17,5 +15,6 @@ public interface IProveedorService extends IGenericoService<Proveedor> {
 	List<Proveedor> buscar(Proveedor proveedor);
 	Proveedor buscarClienteBase(Proveedor proveedor);
 	Proveedor buscarContribuyente(Proveedor proveedor);
-	Proveedor validarIdentificacionPorEmpresa(long empresaId, String identificacion);
+	Proveedor validarIdentificacionPorEmpresa(String identificacion, long empresaId);
+	Proveedor obtenerPorIdentificacionYEmpresaYEstado(String identificacion, long empresaId, String estado);
 }
