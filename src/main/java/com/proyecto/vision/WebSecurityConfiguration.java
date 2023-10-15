@@ -12,7 +12,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception
     {
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/api/vision/**").authenticated()
+                .authorizeRequests()
+                .antMatchers("/api/vision/facturaElectronica/**").permitAll()
+                .antMatchers("/storage/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .httpBasic().and().cors();
     }
