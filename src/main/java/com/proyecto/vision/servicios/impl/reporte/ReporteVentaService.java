@@ -282,8 +282,8 @@ public class ReporteVentaService {
             Table tablaFactura = new Table(columnasFactura);
             tablaFactura.addCell(getCellFactura("FACTURAS EMITIDAS"));
             tablaFactura.addCell(getCellFactura(reporteVenta.getFacturasEmitidas()));
-            tablaFactura.addCell(getCellFactura("FACTURAS EMITIDAS"));
-            tablaFactura.addCell(getCellFactura(reporteVenta.getFacturasEmitidas()));
+            tablaFactura.addCell(getCellFactura("FACTURAS ANULADAS"));
+            tablaFactura.addCell(getCellFactura(reporteVenta.getFacturasAnuladas()));
             tablaFactura.addCell(getCellFactura("TOTAL"));
             tablaFactura.addCell(getCellFactura(reporteVenta.getFacturasTotales()));
 

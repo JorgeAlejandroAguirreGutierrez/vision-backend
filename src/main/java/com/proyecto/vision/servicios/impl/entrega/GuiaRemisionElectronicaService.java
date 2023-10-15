@@ -79,9 +79,6 @@ public class GuiaRemisionElectronicaService implements IGuiaRemisionElectronicaS
 	@Autowired
 	private IEmpresaService empresaService;
 
-	@Value("${prefijo.url.imagenes}")
-	private String imagenes;
-
 	@Value("${correo.usuario}")
 	private String correoUsuario;
 

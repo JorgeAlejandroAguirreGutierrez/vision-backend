@@ -121,4 +121,11 @@ public class FacturaCompraController {
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_actualizar_exitoso, facturasCompra);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/crearRecibidas", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> crearRecibidas(@RequestBody List<FacturaCompra> facturasCompras) {
+        servicio.crearRecibidas(facturasCompras);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
 }

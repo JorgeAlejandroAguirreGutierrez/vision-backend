@@ -83,9 +83,4 @@ public class FormaPagoService implements IFormaPagoService {
     public Page<FormaPago> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public List<FormaPago> buscar(FormaPago formaPago) {
-        return  rep.buscar(formaPago.getCodigo(), formaPago.getDescripcion(), formaPago.getAbreviatura());
-    }
 }

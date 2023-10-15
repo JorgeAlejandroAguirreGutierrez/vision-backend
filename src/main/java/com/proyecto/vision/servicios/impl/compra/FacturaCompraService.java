@@ -348,6 +348,7 @@ public class FacturaCompraService implements IFacturaCompraService {
      */
     @Override
     public FacturaCompra calcular(FacturaCompra facturaCompra) {
+        this.validar(facturaCompra);
         this.calcularSubtotal(facturaCompra);
         if (facturaCompra.getValorDescuentoTotal() != Constantes.cero) {
             this.calcularValorDescuentoTotal(facturaCompra);
@@ -386,7 +387,6 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     private void calcularPorcentajeDescuentoTotal(FacturaCompra facturaCompra) {
-
         double valorTotalPorcentajeDescuentoTotal = (facturaCompra.getTotal() * (facturaCompra.getPorcentajeDescuentoTotal() / 100));
         valorTotalPorcentajeDescuentoTotal = Math.round(valorTotalPorcentajeDescuentoTotal * 100.0) / 100.0;
         facturaCompra.setValorPorcentajeDescuentoTotal(valorTotalPorcentajeDescuentoTotal);
@@ -399,11 +399,12 @@ public class FacturaCompraService implements IFacturaCompraService {
             facturaCompraLinea.setValorPorcentajeDescuentoTotalLinea(valorPorcentajeDescuentoTotalLinea);
         }
     }
+
     private void calcularTotales(FacturaCompra facturaCompra) {
         double subtotalGravadoConDescuento = Constantes.cero, subtotalNoGravadoConDescuento = Constantes.cero;
-        double importeIvaTotal = Constantes.cero, descuentoTotal = Constantes.cero;
+        double importeIvaTotal = Constantes.cero, descuento = Constantes.cero;
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
-            descuentoTotal += facturaCompraLinea.getValorDescuentoLinea() + facturaCompraLinea.getValorPorcentajeDescuentoLinea() +
+            descuento += facturaCompraLinea.getValorDescuentoLinea() + facturaCompraLinea.getValorPorcentajeDescuentoLinea() +
                     facturaCompraLinea.getValorDescuentoTotalLinea() + facturaCompraLinea.getValorPorcentajeDescuentoTotalLinea();
             if (facturaCompraLinea.getImpuesto().getPorcentaje() != Constantes.cero) {
                 subtotalGravadoConDescuento += facturaCompraLinea.getSubtotalLinea();
@@ -412,8 +413,8 @@ public class FacturaCompraService implements IFacturaCompraService {
             }
             importeIvaTotal += facturaCompraLinea.getImporteIvaLinea();
         }
-        descuentoTotal = Math.round(descuentoTotal * 100.0) / 100.0;
-        facturaCompra.setDescuento(descuentoTotal);
+        descuento = Math.round(descuento * 100.0) / 100.0;
+        facturaCompra.setDescuento(descuento);
 
         subtotalGravadoConDescuento = Math.round(subtotalGravadoConDescuento * 100.0) / 100.0;
         facturaCompra.setSubtotalGravadoConDescuento(subtotalGravadoConDescuento);
@@ -432,7 +433,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     /*
      * FIN CALCULOS TOTALES FACTURA COMPRA
      */
-
+    @Override
     public FacturaCompra pagar(long facturaCompraId){
         Optional<FacturaCompra> optional = rep.findById(facturaCompraId);
         if(optional.isEmpty()){
@@ -451,5 +452,22 @@ public class FacturaCompraService implements IFacturaCompraService {
             return facturada;
         }
         throw new ErrorInternoException(Constantes.vacio);
+    }
+
+    @Override
+    public void crearRecibidas(List<FacturaCompra> facturasCompras){
+        for(FacturaCompra facturaCompra : facturasCompras){
+            Optional<FacturaCompra> facturaCompraExistente = rep.obtenerPorNumeroComprobanteYEmpresa(facturaCompra.getNumeroComprobante(), facturaCompra.getEmpresa().getId());
+            if(facturaCompraExistente.isPresent()){
+                throw new EntidadExistenteException(Constantes.factura_compra);
+            }
+            Optional<String> codigo = Util.generarCodigoPorEmpresa(facturaCompra.getFecha(), Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
+            if (codigo.isEmpty()) {
+                throw new CodigoNoExistenteException();
+            }
+            facturaCompra.setCodigo(codigo.get());
+            facturaCompra.setEstado(Constantes.estadoRecibida);
+            rep.save(facturaCompra);
+        }
     }
 }

@@ -84,9 +84,4 @@ public class OrigenIngresoService implements IOrigenIngresoService {
     public Page<OrigenIngreso> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public List<OrigenIngreso> buscar(OrigenIngreso origenIngreso) {
-        return  rep.buscar(origenIngreso.getCodigo(), origenIngreso.getDescripcion(), origenIngreso.getAbreviatura());
-    }
 }

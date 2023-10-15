@@ -289,7 +289,7 @@ public class ReporteCajaService {
             tablaResumenVenta.addCell(getCellSinBorde("RESUMEN DE VENTAS"));
             tablaResumenVenta.addCell(getCellResumenVenta("VENTAS GRAVADAS CON 12%: " + reporteCaja.getTotal12()));
             tablaResumenVenta.addCell(getCellResumenVenta("VENTAS GRAVADAS CON 0%: " + reporteCaja.getTotal0()));
-            tablaResumenVenta.addCell(getCellResumenVenta("IVA TARIAFA 12%: " + reporteCaja.getTotalIva()));
+            tablaResumenVenta.addCell(getCellResumenVenta("IVA TARIFA 12%: " + reporteCaja.getTotalIva()));
             tablaResumenVenta.addCell(getCellResumenVenta("TOTAL: " + reporteCaja.getTotal()));
 
             tabla.addCell(getCell(tablaDatoGeneral));

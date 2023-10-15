@@ -86,9 +86,4 @@ public class AfectacionContableService implements IAfectacionContableService {
     public Page<AfectacionContable> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public List<AfectacionContable> buscar(AfectacionContable afectacionContable) {
-        return  rep.buscar(afectacionContable.getDescripcion(), Constantes.estadoActivo);
-    }
 }

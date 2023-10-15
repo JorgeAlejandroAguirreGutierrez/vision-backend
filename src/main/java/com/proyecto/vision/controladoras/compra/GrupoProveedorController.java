@@ -96,11 +96,4 @@ public class GrupoProveedorController implements GenericoController<GrupoProveed
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, grupoProveedor);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody GrupoProveedor _grupo_proveedor) {
-    	List<GrupoProveedor> grupos_proveedores=servicio.buscar(_grupo_proveedor);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, grupos_proveedores);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 }

@@ -102,9 +102,4 @@ public class GrupoProveedorService implements IGrupoProveedorService {
     public List<GrupoProveedor> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
-
-    @Override
-    public List<GrupoProveedor> buscar(GrupoProveedor grupoProveedor) {
-        return rep.buscar(grupoProveedor.getCodigo(), grupoProveedor.getDescripcion(), grupoProveedor.getDescripcion());
-    }
 }

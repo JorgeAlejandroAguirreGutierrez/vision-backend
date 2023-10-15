@@ -82,9 +82,4 @@ public class GeneroService implements IGeneroService {
     public Page<Genero> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public List<Genero> buscar(Genero genero) {
-        return  rep.buscar(genero.getCodigo(), genero.getDescripcion(), genero.getAbreviatura());
-    }
 }

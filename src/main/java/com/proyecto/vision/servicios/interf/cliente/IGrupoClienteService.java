@@ -12,5 +12,4 @@ public interface IGrupoClienteService extends IGenericoService<GrupoCliente> {
 	List<GrupoCliente> consultarPorEmpresaYEstado(long empresaId, String estado);
 	GrupoCliente activar(GrupoCliente grupoCliente);
 	GrupoCliente inactivar(GrupoCliente grupoCliente);
-	List<GrupoCliente> buscar(GrupoCliente grupoCliente);
 }

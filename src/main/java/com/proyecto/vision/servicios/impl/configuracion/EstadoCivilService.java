@@ -82,9 +82,4 @@ public class EstadoCivilService implements IEstadoCivilService {
         estadoCivil.setEstado(Constantes.estadoInactivo);
         return rep.save(estadoCivil);
     }
-    
-    @Override
-    public List<EstadoCivil> buscar(EstadoCivil estadoCivil) {
-        return rep.buscar(estadoCivil.getCodigo(), estadoCivil.getDescripcion(), estadoCivil.getAbreviatura());
-    }
 }

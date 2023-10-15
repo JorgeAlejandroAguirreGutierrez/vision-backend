@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 @Transactional
 public interface IPaqueteRepository extends JpaRepository<Paquete, Long>, JpaSpecificationExecutor<Paquete> {
-    @Query(value = "select p from Paquete p order by p.codigo desc")
+    @Query(value = "select p from Paquete p order by p.id desc")
     List<Paquete> consultar();
-    @Query(value = "select p from Paquete p where p.estado = :estado order by p.codigo desc")
+    @Query(value = "select p from Paquete p where p.estado = :estado order by p.id desc")
     List<Paquete> consultarPorEstado(String estado);
 }

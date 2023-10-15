@@ -58,6 +58,7 @@ public class Endpoints {
     public static final String pathSecuencial="secuencial";
     public static final String pathSuscripcion="suscripcion";
     public static final String pathPaquete="paquete";
+    public static final String pathSincronizacion="sincronizacion";
 
     //ENTREGA
     public static final String pathGuiaRemision="guiaRemision";

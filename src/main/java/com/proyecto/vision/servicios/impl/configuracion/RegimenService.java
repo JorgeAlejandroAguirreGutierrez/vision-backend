@@ -82,9 +82,4 @@ public class RegimenService implements IRegimenService {
     public Page<Regimen> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public List<Regimen> buscar(Regimen regimen) {
-        return  rep.buscar(regimen.getCodigo(), regimen.getDescripcion(), regimen.getAbreviatura());
-    }
 }

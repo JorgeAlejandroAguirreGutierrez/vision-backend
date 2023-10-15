@@ -88,9 +88,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	@Autowired
 	private ISuscripcionService suscripcionService;
 
-	@Value("${prefijo.url.imagenes}")
-	private String imagenes;
-
 	@Value("${correo.usuario}")
 	private String correoUsuario;
 

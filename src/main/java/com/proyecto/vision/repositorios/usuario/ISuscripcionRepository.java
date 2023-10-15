@@ -13,13 +13,13 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface ISuscripcionRepository extends JpaRepository<Suscripcion, Long>, JpaSpecificationExecutor<Suscripcion> {
-    @Query(value = "select s from Suscripcion s order by s.codigo desc")
+    @Query(value = "select s from Suscripcion s order by s.id desc")
     List<Suscripcion> consultar();
-    @Query(value = "select s from Suscripcion s where s.estado = :estado order by s.codigo desc")
+    @Query(value = "select s from Suscripcion s where s.estado = :estado order by s.id desc")
     List<Suscripcion> consultarPorEstado(String estado);
-    @Query(value = "select s from Suscripcion s where s.empresa.id = :empresaId order by s.codigo desc")
+    @Query(value = "select s from Suscripcion s where s.empresa.id = :empresaId order by s.id desc")
     List<Suscripcion> consultarPorEmpresa(long empresaId);
-    @Query(value = "select s from Suscripcion s where s.empresa.id = :empresaId and s.estado = :estado order by s.codigo desc")
+    @Query(value = "select s from Suscripcion s where s.empresa.id = :empresaId and s.estado = :estado order by s.id desc")
     List<Suscripcion> consultarPorEmpresaYEstado(long empresaId, String estado);
     @Query(value = "select s from Suscripcion s where s.empresa.id = :empresaId and s.estado = :estado")
     Optional<Suscripcion> obtenerPorEmpresaYEstado(long empresaId, String estado);

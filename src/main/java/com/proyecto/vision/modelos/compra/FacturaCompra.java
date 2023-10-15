@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.configuracion.TipoComprobante;
+import com.proyecto.vision.modelos.inventario.Medida;
+import com.proyecto.vision.modelos.inventario.Producto;
 import com.proyecto.vision.modelos.usuario.Empresa;
 import com.proyecto.vision.modelos.usuario.Usuario;
 import lombok.AllArgsConstructor;
@@ -109,5 +111,9 @@ public class FacturaCompra extends Entidad {
         if(this.usuario == null) this.usuario = new Usuario();
         if(this.tipoComprobante == null) this.tipoComprobante = new TipoComprobante();
         if(this.facturaCompraLineas.isEmpty()) this.facturaCompraLineas = Collections.emptyList();
+        for(FacturaCompraLinea facturaCompraLinea: this.facturaCompraLineas){
+            facturaCompraLinea.normalizar();
+            facturaCompraLinea.getProducto().normalizar();
+        }
     }
 }

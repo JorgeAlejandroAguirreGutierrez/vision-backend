@@ -12,11 +12,11 @@ import java.util.Optional;
 
 @Repository
 public interface ITipoOperacionRepository extends JpaRepository<TipoOperacion, Long>, JpaSpecificationExecutor<TipoOperacion> {
-    @Query(value = "select to from TipoOperacion to order by to.codigo desc")
+    @Query(value = "select to from TipoOperacion to order by to.id desc")
     List<TipoOperacion> consultar();
-    @Query(value = "select to from TipoOperacion to where to.estado = :estado order by to.codigo desc")
+    @Query(value = "select to from TipoOperacion to where to.estado = :estado order by to.id desc")
     List<TipoOperacion> consultarPorEstado(String estado);
-    @Query(value = "select to from TipoOperacion to where to.abreviatura = :abreviatura and to.estado = :estado order by to.codigo desc")
+    @Query(value = "select to from TipoOperacion to where to.abreviatura = :abreviatura and to.estado = :estado")
     Optional<TipoOperacion> obtenerPorAbreviaturaYEstado(String abreviatura, String estado);
 
 }

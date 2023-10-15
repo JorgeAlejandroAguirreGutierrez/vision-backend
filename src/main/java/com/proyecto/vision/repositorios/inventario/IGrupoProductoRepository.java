@@ -13,13 +13,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IGrupoProductoRepository extends JpaRepository<GrupoProducto, Long>, JpaSpecificationExecutor<GrupoProducto> {
 
-    @Query(value = "select gp from GrupoProducto gp order by gp.codigo desc")
+    @Query(value = "select gp from GrupoProducto gp order by gp.id desc")
     List<GrupoProducto> consultar();
-    @Query(value = "select gp from GrupoProducto gp where gp.estado=:estado order by gp.codigo desc")
+    @Query(value = "select gp from GrupoProducto gp where gp.estado=:estado order by gp.id desc")
     List<GrupoProducto> consultarPorEstado(String estado);
-    @Query(value = "select gp from GrupoProducto gp where gp.empresa.id = :empresaId order by gp.codigo desc")
+    @Query(value = "select gp from GrupoProducto gp where gp.empresa.id = :empresaId order by gp.id desc")
     List<GrupoProducto> consultarPorEmpresa(long empresaId);
-    @Query(value = "select gp from GrupoProducto gp where gp.empresa.id =:empresaId and gp.estado=:estado order by gp.codigo asc")
+    @Query(value = "select gp from GrupoProducto gp where gp.empresa.id =:empresaId and gp.estado=:estado order by gp.id asc")
     List<GrupoProducto> consultarPorEmpresaYEstado(long empresaId, String estado);
 	@Query(value = "select distinct gp.grupo from grupo_producto gp where gp.empresa_id=:empresaId and gp.estado=:estado", nativeQuery = true)
     List<String> findGrupos(long empresaId, String estado);

@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface IParametroRepository extends JpaRepository<Parametro, Long>, JpaSpecificationExecutor<Parametro> {
-    @Query(value = "select p from Parametro p order by p.codigo desc")
+    @Query(value = "select p from Parametro p order by p.id desc")
     List<Parametro> consultar();
-    @Query(value = "select p from Parametro p where p.estado=:estado order by p.codigo desc")
+    @Query(value = "select p from Parametro p where p.estado=:estado order by p.id desc")
     List<Parametro> consultarPorEstado(String estado);
-    @Query(value = "select p from Parametro p where p.tipo = :tipo and p.estado = :estado order by p.codigo desc")
+    @Query(value = "select p from Parametro p where p.tipo = :tipo and p.estado = :estado order by p.id desc")
     Optional<Parametro> findByTipo(String tipo, String estado);
-    @Query(value = "select p from Parametro p where p.tipo = :tipo and p.estado = :estado order by p.codigo desc")
+    @Query(value = "select p from Parametro p where p.tipo = :tipo and p.estado = :estado order by p.id desc")
     List<Parametro> AllByTipo(String tipo, String estado);
 }

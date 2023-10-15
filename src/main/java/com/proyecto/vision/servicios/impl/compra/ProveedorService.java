@@ -63,7 +63,7 @@ public class ProveedorService implements IProveedorService {
     @Override
     public Proveedor crear(Proveedor proveedor) {
         validar(proveedor);
-        Optional<Proveedor> buscarProveedor = rep.obtenerPorEmpresaYIdentificacion(proveedor.getEmpresa().getId(), proveedor.getIdentificacion(), Constantes.estadoActivo);
+        Optional<Proveedor> buscarProveedor = rep.obtenerPorIdentificacionYEmpresa(proveedor.getIdentificacion(), proveedor.getEmpresa().getId());
         if(buscarProveedor.isPresent()) {
             throw new EntidadExistenteException(Constantes.proveedor);
         }
@@ -125,9 +125,9 @@ public class ProveedorService implements IProveedorService {
         throw new EntidadNoExistenteException(Constantes.proveedor);
     }
     @Override
-    public Proveedor validarIdentificacionPorEmpresa(long empresaId, String identificacion) {
+    public Proveedor validarIdentificacionPorEmpresa(String identificacion, long empresaId) {
         if (identificacion!= null) {
-            Optional<Proveedor> res = rep.obtenerPorEmpresaYIdentificacion(empresaId, identificacion, Constantes.estadoActivo);
+            Optional<Proveedor> res = rep.obtenerPorIdentificacionYEmpresaYEstado(identificacion, empresaId, Constantes.estadoActivo);
             if(res.isPresent()) {
                 throw new EntidadExistenteException(Constantes.proveedor);
             }
@@ -309,5 +309,16 @@ public class ProveedorService implements IProveedorService {
     @Override
     public List<Proveedor> buscar(Proveedor proveedor) {
         return  rep.consultarPorRazonSocial(proveedor.getRazonSocial(), Constantes.estadoActivo);
+    }
+
+    @Override
+    public Proveedor obtenerPorIdentificacionYEmpresaYEstado(String identificacion, long empresaId, String estado) {
+        Optional<Proveedor> proveedor = rep.obtenerPorIdentificacionYEmpresaYEstado(identificacion, empresaId, estado);
+        if(proveedor.isPresent()) {
+            Proveedor res = proveedor.get();
+            res.normalizar();
+            return res;
+        }
+        throw new EntidadNoExistenteException(Constantes.proveedor);
     }
 }

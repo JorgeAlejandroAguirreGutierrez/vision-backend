@@ -42,8 +42,8 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
 
     @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<EstadoCivil> estadosciviles = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, estadosciviles);
+    	Page<EstadoCivil> estadosCiviles = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
+    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, estadosCiviles);
     	return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
@@ -55,15 +55,15 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> crear(@RequestBody @Valid EstadoCivil _EstadoCivil) {
-        EstadoCivil estadoCivil = servicio.crear(_EstadoCivil);
+    public ResponseEntity<?> crear(@RequestBody @Valid EstadoCivil _estadoCivil) {
+        EstadoCivil estadoCivil = servicio.crear(_estadoCivil);
         Respuesta respuesta = new Respuesta(true,Constantes.mensaje_crear_exitoso, estadoCivil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> actualizar(@RequestBody EstadoCivil _EstadoCivil) {
-        EstadoCivil estadoCivil = servicio.actualizar(_EstadoCivil);
+    public ResponseEntity<?> actualizar(@RequestBody EstadoCivil _estadoCivil) {
+        EstadoCivil estadoCivil = servicio.actualizar(_estadoCivil);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, estadoCivil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -80,12 +80,5 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
     	EstadoCivil estadoCivil=servicio.inactivar(_estadoCivil);
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, estadoCivil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-    
-    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody EstadoCivil estado_civil) {
-        	List<EstadoCivil> estados_civiles=servicio.buscar(estado_civil);
-            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, estados_civiles);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

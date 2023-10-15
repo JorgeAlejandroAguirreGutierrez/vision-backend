@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface IPerfilRepository extends JpaRepository<Perfil, Long>, JpaSpecificationExecutor<Perfil> {
-    @Query(value = "select p from Perfil p order by p.codigo desc")
+    @Query(value = "select p from Perfil p order by p.id desc")
     List<Perfil> consultar();
-    @Query(value = "select p from Perfil p where p.estado=:estado order by p.codigo desc")
+    @Query(value = "select p from Perfil p where p.estado = :estado order by p.id desc")
     List<Perfil> consultarPorEstado(String estado);
 }

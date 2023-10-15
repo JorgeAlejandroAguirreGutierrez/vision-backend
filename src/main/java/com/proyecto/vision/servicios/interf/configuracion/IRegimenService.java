@@ -10,5 +10,4 @@ public interface IRegimenService extends IGenericoService<Regimen> {
 	Regimen activar(Regimen regimen);
 	Regimen inactivar(Regimen regimen);
 	List<Regimen> consultarPorEstado(String estado);
-	List<Regimen> buscar(Regimen regimen);
 }

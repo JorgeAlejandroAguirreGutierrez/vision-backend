@@ -14,6 +14,7 @@ public class Constantes {
     public static final String pathLogos = "logos";
     public static final String pathCertificados = "certificados";
     public static final String pathDrivers = "drivers";
+    public static final String pathFacturas = "facturas";
     public static final String slash = "/";
 
     public static final String cedula_abreviatura="C";
@@ -70,6 +71,7 @@ public class Constantes {
     public static final String vacio="";
     public static final String espacio=" ";
     public static final String guion = "-";
+    public static final String guion_bajo = "_";
     public static final String salto = "\n";
     public static final String si = "SI";
     public static final String no = "NO";
@@ -170,6 +172,7 @@ public class Constantes {
     public static final String tabla_tipo_identificacion="tipo_identificacion";
     public static final String tabla_secuencial="secuencial";
     public static final String tabla_menu_opcion="menu_opcion";
+    public static final String tabla_sincronizacion="sincronizacion";
 
     //ENTREGA
     public static final String tabla_guia_remision="guia_remision";
@@ -266,6 +269,7 @@ public class Constantes {
     public static final String tipo_contribuyente="TIPO CONTRIBUYENTE";
     public static final String tipo_pago="TIPO PAGO";
     public static final String secuencial = "SECUENCIAL";
+    public static final String sincronizacion = "SINCRONIZACION";
 
     //COMPRA
     public static final String retencion_compra="RETENCION COMPRA";
@@ -464,6 +468,8 @@ public class Constantes {
     public static final String cantidadUsuarioAdministrador="CANTIDAD DE USUARIOS PARA ADMINISTRADOR";
     public static final String mensual="MENSUAL";
     public static final String anual="ANUAL";
+    public static final String mes="MES";
+    public static final String anio="AÑO";
 
     //CONSTANTE PARA REGISTRO DE TABLA EN PAGINACIÓN
     public static final int size=20;
@@ -472,7 +478,7 @@ public class Constantes {
     //CONSTANTES FACTURACION ELECTRONICA
 
     public static final String serie_sri="001001";
-    public static final double cero=0;
+    public static final double cero = 0;
     public static final long ceroId = 0;
     public static final double iva0 = 0;
     public static final double iva12 = 12;
@@ -569,6 +575,9 @@ public class Constantes {
     //ESTADOS DEL SISTEMA
     public static final String estadoActivo="ACTIVO";
     public static final String estadoInactivo="INACTIVO";
+    public static final String estadoPendiente="PENDIENTE";
+    public static final String estadoProcesado="PROCESADO";
+    public static final String estadoRecibida="RECIBIDA";
 
     //ESTADOS VENTAS
     public static final String estadoEmitida = "EMITIDA";
@@ -604,6 +613,7 @@ public class Constantes {
     public static final String smtpGmailCom = "smtp.gmail.com";
     public static final String extensionPdf =".pdf";
     public static final String extensionXml =".xml";
+    public static final String extensionTxt =".txt";
     public static final String applicationPdf="application/pdf";
     public static final String textXml="text/xml";
     public static final float fontSize6 = 6;

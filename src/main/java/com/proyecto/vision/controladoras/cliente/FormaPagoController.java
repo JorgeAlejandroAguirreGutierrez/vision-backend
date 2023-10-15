@@ -82,11 +82,4 @@ public class FormaPagoController implements GenericoController<FormaPago> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, formaPago);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody FormaPago forma_pago) {
-    	List<FormaPago> formas_pagos=servicio.buscar(forma_pago);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, formas_pagos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 }
