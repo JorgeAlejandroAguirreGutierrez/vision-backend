@@ -154,6 +154,22 @@ public class KardexService implements IKardexService {
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
+            if (kardex.getTipoComprobante().getId() == 9){ // Nota de Crédito de Compra
+                if (kardex.getTipoOperacion().getId() == 6) {
+                    saldo = ultimoKardex.getSaldo() + kardex.getEntrada();
+                }
+                if (kardex.getTipoOperacion().getId() == 8) {
+                    saldo = ultimoKardex.getSaldo();
+                }
+                saldo = Math.round(saldo * 10000.0) / 10000.0;
+                costoTotal = ultimoKardex.getCostoTotal() + (kardex.getEntrada() * kardex.getDebe());
+                costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+            }
+            if (kardex.getTipoComprobante().getId() == 10){ // Nota de Débito de Compra
+
+            }
             if (kardex.getTipoComprobante().getId() == 2){ // Factura de Venta
                 saldo = ultimoKardex.getSaldo() - kardex.getSalida();
                 saldo = Math.round(saldo * 10000.0) / 10000.0;
@@ -162,6 +178,22 @@ public class KardexService implements IKardexService {
                 costoPromedio = costoTotal / saldo;
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
                 kardex.setHaber(ultimoKardex.getCostoPromedio());
+            }
+            if (kardex.getTipoComprobante().getId() == 4){ // Nota de Crédito Venta
+                if (kardex.getTipoOperacion().getId() == 7) {
+                    saldo = ultimoKardex.getSaldo() + kardex.getEntrada();
+                }
+                if (kardex.getTipoOperacion().getId() == 9) {
+                    saldo = ultimoKardex.getSaldo();
+                }
+                saldo = Math.round(saldo * 10000.0) / 10000.0;
+                costoTotal = ultimoKardex.getCostoTotal() + (kardex.getEntrada() * kardex.getDebe());
+                costoTotal = Math.round(costoTotal * 10000.0) / 10000.0;
+                costoPromedio = costoTotal / saldo;
+                costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
+            }
+            if (kardex.getTipoComprobante().getId() == 5){ // Nota de Débito Venta
+
             }
 
             if (kardex.getTipoComprobante().getId() != 1) {
