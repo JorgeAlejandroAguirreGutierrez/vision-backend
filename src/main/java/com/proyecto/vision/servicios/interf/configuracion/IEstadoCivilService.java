@@ -10,5 +10,4 @@ public interface IEstadoCivilService extends IGenericoService<EstadoCivil> {
 	List<EstadoCivil> consultarPorEstado(String estado);
 	EstadoCivil activar(EstadoCivil estadoCivil);
 	EstadoCivil inactivar(EstadoCivil estadoCivil);
-	List<EstadoCivil> buscar(EstadoCivil estado_civil);
 }

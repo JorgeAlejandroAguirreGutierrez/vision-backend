@@ -10,5 +10,4 @@ public interface IFormaPagoService extends IGenericoService<FormaPago> {
 	List<FormaPago> consultarPorEstado(String estado);
 	FormaPago activar(FormaPago formaPago);
 	FormaPago inactivar(FormaPago formaPago);
-	List<FormaPago> buscar(FormaPago forma_pago);
 }

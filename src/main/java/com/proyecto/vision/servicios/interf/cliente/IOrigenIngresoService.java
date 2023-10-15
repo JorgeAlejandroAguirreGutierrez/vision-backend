@@ -10,5 +10,4 @@ public interface IOrigenIngresoService extends IGenericoService<OrigenIngreso> {
 	List<OrigenIngreso> consultarPorEstado(String estado);
 	OrigenIngreso activar(OrigenIngreso origenIngreso);
 	OrigenIngreso inactivar(OrigenIngreso origenIngreso);
-	List<OrigenIngreso> buscar(OrigenIngreso origenIngreso);
 }

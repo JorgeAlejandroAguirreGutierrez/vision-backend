@@ -13,5 +13,4 @@ public interface ICalificacionClienteService extends IGenericoService<Calificaci
 	List<CalificacionCliente> consultarPorEmpresaYEstado(long empresaId, String estado);
 	CalificacionCliente activar(CalificacionCliente calificacionCliente);
 	CalificacionCliente inactivar(CalificacionCliente calificacionCliente);
-	List<CalificacionCliente> buscar(CalificacionCliente calificacionCliente);
 }

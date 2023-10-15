@@ -11,10 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IAfectacionContableRepository extends JpaRepository<AfectacionContable, Long>, JpaSpecificationExecutor<AfectacionContable> {
-    @Query(value = "select ac from AfectacionContable ac order by ac.codigo desc")
+    @Query(value = "select ac from AfectacionContable ac order by ac.id desc")
     List<AfectacionContable> consultar();
-    @Query(value = "select ac from AfectacionContable ac where ac.estado=:estado order by ac.codigo desc")
+    @Query(value = "select ac from AfectacionContable ac where ac.estado=:estado order by ac.id desc")
     List<AfectacionContable> consultarPorEstado(String estado);
-	@Query(value = "select ac from AfectacionContable ac where ac.descripcion like '%'||:descripcion||'%' and ac.estado=:estado order by ac.codigo desc")
-    List<AfectacionContable> buscar(String descripcion, String estado);
 }

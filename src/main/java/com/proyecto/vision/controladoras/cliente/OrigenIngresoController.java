@@ -81,11 +81,4 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, origenIngreso);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody OrigenIngreso origenIngreso) {
-    	List<OrigenIngreso> origenesIngresos=servicio.buscar(origenIngreso);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, origenesIngresos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 }

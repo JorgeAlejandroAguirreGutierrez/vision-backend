@@ -5,6 +5,7 @@ import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.compra.FacturaCompra;
 import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.compra.Proveedor;
@@ -19,6 +20,7 @@ import com.proyecto.vision.servicios.interf.compra.IProveedorService;
 import com.proyecto.vision.servicios.interf.configuracion.IImpuestoService;
 import com.proyecto.vision.servicios.interf.configuracion.ISincronizacionService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
+import org.apache.commons.math3.analysis.function.Sinc;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -76,7 +78,6 @@ public class SincronizacionService implements ISincronizacionService {
     	}
         sincronizacion.setCodigo(codigo.get());
         sincronizacion.setEstado(Constantes.estadoPendiente);
-        procesar(sincronizacion);
     	return rep.save(sincronizacion);
     }
 
@@ -110,8 +111,17 @@ public class SincronizacionService implements ISincronizacionService {
     	return rep.findAll(pageable);
     }
 
-    private void procesar(Sincronizacion sincronizacion){
-        ArrayList<FacturaCompra> facturasCompras = new ArrayList<>();
+    @Override
+    public List<FacturaCompra> procesar(long sincronizacionId){
+        Optional<Sincronizacion> res = rep.findById(sincronizacionId);
+        if(res.isEmpty()){
+            throw new EntidadNoExistenteException(Constantes.sincronizacion);
+        }
+        Sincronizacion sincronizacion = res.get();
+        if(sincronizacion.getEstado().equals(Constantes.estadoProcesado)){
+            throw new DatoInvalidoException(Constantes.estado);
+        }
+        List<FacturaCompra> facturasCompras = new ArrayList<>();
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
@@ -136,26 +146,19 @@ public class SincronizacionService implements ISincronizacionService {
                     facturasCompras.add(facturaCompra);
                 }
             }
-            for(FacturaCompra facturaCompra : facturasCompras){
-                Optional<FacturaCompra> facturaCompraExistente = facturaCompraRepository.obtenerPorNumeroComprobanteYEmpresa(facturaCompra.getNumeroComprobante(), facturaCompra.getEmpresa().getId());
-                if(facturaCompraExistente.isEmpty()){
-                    Optional<String> codigo = Util.generarCodigoPorEmpresa(facturaCompra.getFecha(), Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
-                    if (codigo.isEmpty()) {
-                        throw new CodigoNoExistenteException();
-                    }
-                    facturaCompra.setCodigo(codigo.get());
-                    facturaCompraRepository.save(facturaCompra);
-                }
-            }
+            sincronizacion.setEstado(Constantes.estadoProcesado);
+            rep.save(sincronizacion);
+            return facturasCompras;
         }
         catch(Exception e){
             e.printStackTrace();
-        }finally{
-            try{
-                if( null != fr ){
+            return null;
+        }finally {
+            try {
+                if (null != fr) {
                     fr.close();
                 }
-            }catch (Exception e2){
+            } catch (Exception e2) {
                 e2.printStackTrace();
             }
         }
@@ -224,13 +227,6 @@ public class SincronizacionService implements ISincronizacionService {
         facturaCompra.setValorPorcentajeDescuentoTotal(Constantes.cero);
         facturaCompra.setSubtotal(Double.parseDouble(raiz.getChild("infoFactura").getChildText("totalSinImpuestos")));
         facturaCompra.setDescuento(Double.parseDouble(raiz.getChild("infoFactura").getChildText("totalDescuento")));
-        String codigoPorcentaje = raiz.getChild("infoFactura").getChild("totalConImpuestos").getChild("totalImpuesto").getChildText("codigoPorcentaje");
-        if(codigoPorcentaje.equals(Constantes.iva_8_sri) || codigoPorcentaje.equals(Constantes.iva_12_sri) || codigoPorcentaje.equals(Constantes.iva_14_sri)){
-            facturaCompra.setSubtotalGravadoConDescuento(Double.parseDouble(raiz.getChild("infoFactura").getChild("totalConImpuestos").getChild("totalImpuesto").getChildText("baseImponible")));
-        }
-        if(codigoPorcentaje.equals(Constantes.iva_0_sri)){
-            facturaCompra.setSubtotalNoGravadoConDescuento(Double.parseDouble(raiz.getChild("infoFactura").getChild("totalConImpuestos").getChild("totalImpuesto").getChildText("baseImponible")));
-        }
         facturaCompra.setImporteIvaTotal(Double.parseDouble(raiz.getChild("infoFactura").getChild("totalConImpuestos").getChild("totalImpuesto").getChildText("valor")));
         facturaCompra.setTotal(Double.parseDouble(raiz.getChild("infoFactura").getChildText("importeTotal")));
         facturaCompra.setComentario(Constantes.vacio);
@@ -258,6 +254,7 @@ public class SincronizacionService implements ISincronizacionService {
             Impuesto impuesto = impuestoService.obtenerPorCodigoSRIYEstado(elemento.getChild("impuestos").getChild("impuesto").getChildText("codigoPorcentaje"), Constantes.estadoActivo);
             facturaCompraLinea.setImpuesto(impuesto);
             facturaCompra.getFacturaCompraLineas().add(facturaCompraLinea);
+            i++;
         }
         calcular(facturaCompra);
         return facturaCompra;

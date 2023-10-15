@@ -80,9 +80,6 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 	@Autowired
 	private ISuscripcionService suscripcionService;
 
-	@Value("${prefijo.url.imagenes}")
-	private String imagenes;
-
 	@Value("${correo.usuario}")
 	private String correoUsuario;
 

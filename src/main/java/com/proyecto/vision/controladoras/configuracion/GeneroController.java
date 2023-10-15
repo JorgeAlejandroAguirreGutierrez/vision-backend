@@ -80,11 +80,4 @@ public class GeneroController implements GenericoController<Genero> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, genero);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody Genero genero) {
-    	List<Genero> generos=servicio.buscar(genero);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, generos);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 }

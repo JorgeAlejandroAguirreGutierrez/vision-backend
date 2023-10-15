@@ -12,14 +12,14 @@ import java.util.Optional;
 
 @Repository
 public interface INotaCreditoRepository extends JpaRepository<NotaCredito, Long>, JpaSpecificationExecutor<NotaCredito> {
-    @Query(value = "select nc from NotaCredito nc order by nc.codigo desc")
+    @Query(value = "select nc from NotaCredito nc order by nc.id desc")
     List<NotaCredito> consultar();
-    @Query(value = "select nc from NotaCredito nc where nc.estado = :estado order by nc.codigo desc")
+    @Query(value = "select nc from NotaCredito nc where nc.estado = :estado order by nc.id desc")
     List<NotaCredito> consultarPorEstado(String estado);
-    @Query(value = "select nc from NotaCredito nc where nc.empresa.id = :empresaId order by nc.codigo desc")
+    @Query(value = "select nc from NotaCredito nc where nc.empresa.id = :empresaId order by nc.id desc")
     List<NotaCredito> consultarPorEmpresa(long empresaId);
-    @Query(value = "select nc from NotaCredito nc where nc.empresa.id = :empresaId and nc.estado = :estado order by nc.codigo asc")
+    @Query(value = "select nc from NotaCredito nc where nc.empresa.id = :empresaId and nc.estado = :estado order by nc.id asc")
     List<NotaCredito> consultarPorEmpresaYEstado(long empresaId, String estado);
-    @Query(value = "select nc from NotaCredito nc where nc.factura.id = :facturaId and nc.empresa.id = :empresaId and nc.estado != :estado order by nc.codigo asc")
+    @Query(value = "select nc from NotaCredito nc where nc.factura.id = :facturaId and nc.empresa.id = :empresaId and nc.estado != :estado order by nc.id asc")
     List<NotaCredito> consultarPorFacturaYEmpresaYEstadoDiferente(long facturaId, long empresaId, String estado);
 }

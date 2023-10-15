@@ -12,5 +12,4 @@ public interface IGrupoProveedorService extends IGenericoService<GrupoProveedor>
 	List<GrupoProveedor> consultarPorEstado(String estado);
 	List<GrupoProveedor> consultarPorEmpresa(long empresaId);
 	List<GrupoProveedor> consultarPorEmpresaYEstado(long empresaId, String estado);
-	List<GrupoProveedor> buscar(GrupoProveedor grupoProveedor);
 }

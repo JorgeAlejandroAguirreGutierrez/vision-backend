@@ -83,11 +83,4 @@ public class AfectacionContableController implements GenericoController<Afectaci
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, afectacionContable);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody AfectacionContable afectacionContable) {
-    	List<AfectacionContable> afectacionesContables=servicio.buscar(afectacionContable);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, afectacionesContables);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 }

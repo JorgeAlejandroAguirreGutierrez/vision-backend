@@ -96,9 +96,4 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     public Page<CalificacionCliente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public List<CalificacionCliente> buscar(CalificacionCliente calificacionCliente) {
-        return rep.buscar(calificacionCliente.getCodigo(), calificacionCliente.getDescripcion(), calificacionCliente.getAbreviatura());
-    }
 }

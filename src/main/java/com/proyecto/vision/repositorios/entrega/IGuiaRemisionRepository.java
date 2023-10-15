@@ -11,19 +11,19 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IGuiaRemisionRepository extends JpaRepository<GuiaRemision, Long>, JpaSpecificationExecutor<GuiaRemision> {
-    @Query(value = "select gr from GuiaRemision gr order by gr.codigo desc")
+    @Query(value = "select gr from GuiaRemision gr order by gr.id desc")
     List<GuiaRemision> consultar();
-    @Query(value = "select gr from GuiaRemision gr where gr.estado = :estado order by gr.codigo desc")
+    @Query(value = "select gr from GuiaRemision gr where gr.estado = :estado order by gr.id desc")
     List<GuiaRemision> consultarPorEstado(String estado);
-    @Query(value = "select gr from GuiaRemision gr where gr.empresa.id = :empresaId order by gr.codigo desc")
+    @Query(value = "select gr from GuiaRemision gr where gr.empresa.id = :empresaId order by gr.id desc")
     List<GuiaRemision> consultarPorEmpresa(long empresaId);
-    @Query(value = "select gr from GuiaRemision gr where gr.empresa.id = :empresaId and gr.estado = :estado order by gr.codigo desc")
+    @Query(value = "select gr from GuiaRemision gr where gr.empresa.id = :empresaId and gr.estado = :estado order by gr.id desc")
     List<GuiaRemision> consultarPorEmpresaYEstado(long empresaId, String estado);
-    @Query(value = "select gr from GuiaRemision gr where gr.factura.id = :facturaId and gr.empresa.id = :empresaId and gr.estado = :estado order by gr.codigo desc")
+    @Query(value = "select gr from GuiaRemision gr where gr.factura.id = :facturaId and gr.empresa.id = :empresaId and gr.estado = :estado order by gr.id desc")
     List<GuiaRemision> consultarPorFacturaYEmpresaYEstado(long facturaId, long empresaId, String estado);
-    @Query(value = "select gr from GuiaRemision gr where gr.factura.id = :facturaId and gr.empresa.id = :empresaId and gr.estado != :estado order by gr.codigo desc")
+    @Query(value = "select gr from GuiaRemision gr where gr.factura.id = :facturaId and gr.empresa.id = :empresaId and gr.estado != :estado order by gr.id desc")
     List<GuiaRemision> consultarPorFacturaYEmpresaYEstadoDiferente(long facturaId, long empresaId, String estado);
-    @Query(value = "select gr from GuiaRemision gr where gr.factura.id = :facturaId order by gr.codigo desc")
+    @Query(value = "select gr from GuiaRemision gr where gr.factura.id = :facturaId")
     Optional<GuiaRemision> obtenerPorFactura(long facturaId);
 
 }

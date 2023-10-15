@@ -104,9 +104,4 @@ public class GrupoClienteService implements IGrupoClienteService {
     public Page<GrupoCliente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
     }
-
-    @Override
-    public List<GrupoCliente> buscar(GrupoCliente grupoCliente) {
-        return rep.buscar(grupoCliente.getCodigo(), grupoCliente.getDescripcion(), grupoCliente.getDescripcion());
-    }
 }

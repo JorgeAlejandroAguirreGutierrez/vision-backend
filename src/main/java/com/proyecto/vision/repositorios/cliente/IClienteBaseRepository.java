@@ -12,13 +12,10 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface IClienteBaseRepository extends IGenericoRepository<ClienteBase> {
-	
-	@Query(value = "select cb from ClienteBase cb where cb.identificacion=:identificacion and cb.estado=:estado")
+	@Query(value = "select cb from ClienteBase cb where cb.identificacion = :identificacion and cb.estado = :estado")
     Optional<ClienteBase> obtenerPorIdentificacion(String identificacion, String estado);
-	
-	@Query(value = "select cb from ClienteBase cb where cb.apellidos=:apellidos and cb.estado=:estado")
+	@Query(value = "select cb from ClienteBase cb where cb.apellidos = :apellidos and cb.estado = :estado")
     Optional<ClienteBase> obtenerPorApellido(String apellidos, String estado);
-	
-	@Query(value = "select cb from ClienteBase cb where cb.estado=:estado")
+	@Query(value = "select cb from ClienteBase cb where cb.estado = :estado")
     List<ClienteBase> consultarPorEstado(String estado);
 }

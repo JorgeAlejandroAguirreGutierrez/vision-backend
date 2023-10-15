@@ -433,7 +433,7 @@ public class FacturaCompraService implements IFacturaCompraService {
     /*
      * FIN CALCULOS TOTALES FACTURA COMPRA
      */
-
+    @Override
     public FacturaCompra pagar(long facturaCompraId){
         Optional<FacturaCompra> optional = rep.findById(facturaCompraId);
         if(optional.isEmpty()){
@@ -452,5 +452,22 @@ public class FacturaCompraService implements IFacturaCompraService {
             return facturada;
         }
         throw new ErrorInternoException(Constantes.vacio);
+    }
+
+    @Override
+    public void crearRecibidas(List<FacturaCompra> facturasCompras){
+        for(FacturaCompra facturaCompra : facturasCompras){
+            Optional<FacturaCompra> facturaCompraExistente = rep.obtenerPorNumeroComprobanteYEmpresa(facturaCompra.getNumeroComprobante(), facturaCompra.getEmpresa().getId());
+            if(facturaCompraExistente.isPresent()){
+                throw new EntidadExistenteException(Constantes.factura_compra);
+            }
+            Optional<String> codigo = Util.generarCodigoPorEmpresa(facturaCompra.getFecha(), Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
+            if (codigo.isEmpty()) {
+                throw new CodigoNoExistenteException();
+            }
+            facturaCompra.setCodigo(codigo.get());
+            facturaCompra.setEstado(Constantes.estadoRecibida);
+            rep.save(facturaCompra);
+        }
     }
 }

@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface ISincronizacionRepository extends JpaRepository<Sincronizacion, Long>, JpaSpecificationExecutor<Sincronizacion> {
-	@Query(value = "select s from Sincronizacion s order by s.codigo desc")
+	@Query(value = "select s from Sincronizacion s order by s.id desc")
 	List<Sincronizacion> consultar();
-	@Query(value = "select s from Sincronizacion s where s.estado = :estado order by s.codigo desc")
+	@Query(value = "select s from Sincronizacion s where s.estado = :estado order by s.id desc")
     List<Sincronizacion> consultarPorEstado(String estado);
 }

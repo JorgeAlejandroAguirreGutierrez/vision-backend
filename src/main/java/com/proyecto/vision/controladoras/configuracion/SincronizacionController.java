@@ -3,6 +3,7 @@ package com.proyecto.vision.controladoras.configuracion;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.controladoras.GenericoController;
 import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.compra.FacturaCompra;
 import com.proyecto.vision.modelos.configuracion.Sincronizacion;
 import com.proyecto.vision.servicios.interf.configuracion.ISincronizacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,13 @@ public class SincronizacionController implements GenericoController<Sincronizaci
     public ResponseEntity<?> actualizar(@RequestBody Sincronizacion _sincronizacion) {
         Sincronizacion sincronizacion = servicio.actualizar(_sincronizacion);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_actualizar_exitoso, sincronizacion);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/procesar/{sincronizacionId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> procesar(@PathVariable("sincronizacionId") long sincronizacionId) {
+        List<FacturaCompra> facturasCompras = servicio.procesar(sincronizacionId);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, facturasCompras);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

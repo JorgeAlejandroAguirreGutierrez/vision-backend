@@ -81,11 +81,4 @@ public class RegimenController implements GenericoController<Regimen> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, regimen);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody Regimen regimen) {
-    	List<Regimen> regimenes=servicio.buscar(regimen);
-        Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, regimenes);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 }

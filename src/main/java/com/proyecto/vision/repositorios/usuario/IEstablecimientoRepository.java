@@ -14,13 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface IEstablecimientoRepository extends JpaRepository<Establecimiento, Long>, JpaSpecificationExecutor<Establecimiento> {
-    @Query(value = "select e from Establecimiento e order by e.codigo")
+    @Query(value = "select e from Establecimiento e order by e.id desc")
     List<Establecimiento> consultar();
-    @Query(value = "select e from Establecimiento e where e.estado=:estado order by e.codigo")
+    @Query(value = "select e from Establecimiento e where e.estado=:estado order by e.id desc")
     List<Establecimiento> consultarPorEstado(String estado);
-	@Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId order by e.codigo")
+	@Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId order by e.id desc")
     List<Establecimiento> consultarPorEmpresa(long empresaId);
-    @Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId and e.estado=:estado order by e.codigo")
+    @Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId and e.estado=:estado order by e.id desc")
     List<Establecimiento> consultarPorEmpresaYEstado(long empresaId, String estado);
     @Query(value = "select e from Establecimiento e where e.empresa.id = :empresaId and e.codigoSRI = :codigoSRI")
     Optional<Establecimiento> ObtenerPorEmpresaYCodigoSRI(long empresaId, String codigoSRI);

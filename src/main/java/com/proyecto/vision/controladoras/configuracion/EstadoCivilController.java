@@ -81,11 +81,4 @@ public class EstadoCivilController implements GenericoController<EstadoCivil> {
         Respuesta respuesta= new Respuesta(true,Constantes.mensaje_inactivar_exitoso, estadoCivil);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-    
-    @PostMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> buscar(@RequestBody EstadoCivil estadoCivil) {
-        	List<EstadoCivil> estadosCiviles = servicio.buscar(estadoCivil);
-            Respuesta respuesta= new Respuesta(true,Constantes.mensaje_consultar_exitoso, estadosCiviles);
-            return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 }
