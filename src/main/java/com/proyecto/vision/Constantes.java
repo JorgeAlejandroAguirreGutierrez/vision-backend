@@ -26,6 +26,7 @@ public class Constantes {
     public static final String dev_venta = "DEV. VENTA";
     public static final String dev_compra = "DEV. COMPRA";
     public static final String compra = "COMPRA";
+    public static final String factura_recibida_sri = "Factura";
 
     public static final String pendiente="PENDIENTE";
     public static final String entregado="ENTREGADO";

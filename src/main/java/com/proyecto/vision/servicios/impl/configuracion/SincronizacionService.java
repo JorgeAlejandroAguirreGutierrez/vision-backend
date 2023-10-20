@@ -65,8 +65,8 @@ public class SincronizacionService implements ISincronizacionService {
     @Autowired
     private IGastoPersonalRepository gastoPersonalRepository;
 
-    @Value("${facturacion.produccion}")
-    private String facturacionProduccion;
+    @Value("${sri.produccion}")
+    private String sriProduccion;
 
     @Override
     public void validar(Sincronizacion sincronizacion) {
@@ -146,9 +146,10 @@ public class SincronizacionService implements ISincronizacionService {
             ArrayList<String> clavesAccesos = new ArrayList<>();
             while((linea = br.readLine())!=null){
                 String[] sub = linea.split("\t");
-                clavesAccesos.add(sub[sub.length - 2]);
+                if(sub[0].equals(Constantes.factura_recibida_sri)){
+                    clavesAccesos.add(sub[sub.length - 2]);
+                }
             }
-            clavesAccesos.remove(0);
             for(String claveAcceso: clavesAccesos){
                 Document documento = consultarFactura(claveAcceso);
                 if(documento != null){
@@ -176,10 +177,10 @@ public class SincronizacionService implements ISincronizacionService {
     private Document consultarFactura(String claveAcceso){
         try {
             String url = Constantes.vacio;
-            if(facturacionProduccion.equals(Constantes.si)){
+            if(sriProduccion.equals(Constantes.si)){
                 url = Constantes.urlProduccionConsultaFacturacionEletronicaSri;
             }
-            if(facturacionProduccion.equals(Constantes.no)){
+            if(sriProduccion.equals(Constantes.no)){
                 url = Constantes.urlPruebasConsultaFacturacionEletronicaSri;
             }
             String body = Util.soapConsultaFacturacionEletronica(claveAcceso);
@@ -382,17 +383,37 @@ public class SincronizacionService implements ISincronizacionService {
 
 
     public void crearModelos(List<Modelo> modelos){
+        List<FacturaCompra> facturasCompras = new ArrayList<>();
+        List<GastoPersonal> gastosPersonales = new ArrayList<>();
         for(Modelo modelo: modelos){
             if(modelo.getTipo().equals(Constantes.tabla_factura_compra)){
-                crearFacturaCompra(modelo);
+                FacturaCompra facturaCompra = crearFacturaCompra(modelo);
+                facturasCompras.add(facturaCompra);
             }
             if(modelo.getTipo().equals(Constantes.tabla_gasto_personal)){
-                crearGastoPersonal(modelo);
+                GastoPersonal gastoPersonal = crearGastoPersonal(modelo);
+                gastosPersonales.add(gastoPersonal);
             }
+        }
+        for(FacturaCompra facturaCompra: facturasCompras){
+            Optional<String> codigo = Util.generarCodigoPorEmpresa(facturaCompra.getFecha(), Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
+            if (codigo.isEmpty()) {
+                throw new CodigoNoExistenteException();
+            }
+            facturaCompra.setCodigo(codigo.get());
+            facturaCompraRepository.save(facturaCompra);
+        }
+        for(GastoPersonal gastoPersonal: gastosPersonales){
+            Optional<String> codigo = Util.generarCodigoPorEmpresa(gastoPersonal.getFecha(), Constantes.tabla_gasto_personal, gastoPersonal.getEmpresa().getId());
+            if (codigo.isEmpty()) {
+                throw new CodigoNoExistenteException();
+            }
+            gastoPersonal.setCodigo(codigo.get());
+            gastoPersonalRepository.save(gastoPersonal);
         }
     }
 
-    private void crearFacturaCompra(Modelo modelo){
+    private FacturaCompra crearFacturaCompra(Modelo modelo){
         Optional<FacturaCompra> facturaCompraExistente = facturaCompraRepository.obtenerPorNumeroComprobanteYEmpresa(modelo.getNumeroComprobante(), modelo.getEmpresa().getId());
         if(facturaCompraExistente.isPresent()){
             throw new EntidadExistenteException(Constantes.factura_compra);
@@ -472,8 +493,8 @@ public class SincronizacionService implements ISincronizacionService {
             }
             facturaCompraLinea.setImpuesto(impuesto.get());
             Optional<Producto> producto = productoRepository.obtenerPorCodigoPrincipalYEmpresa(modeloDetalle.getCodigoPrincipal(), modelo.getEmpresa().getId());
-            if(producto.isPresent()){
-                facturaCompraLinea.setProducto(producto.get());
+            if(producto.isEmpty()){
+                throw new EntidadNoExistenteException(Constantes.producto);
             }
             facturaCompraLinea.setBodega(null);
             facturaCompra.getFacturaCompraLineas().add(facturaCompraLinea);
@@ -482,15 +503,10 @@ public class SincronizacionService implements ISincronizacionService {
         calcular(facturaCompra);
         Optional<TipoComprobante> tipoComprobante = tipoComprobanteRepository.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
         facturaCompra.setTipoComprobante(tipoComprobante.get());
-        Optional<String> codigo = Util.generarCodigoPorEmpresa(facturaCompra.getFecha(), Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
-        if (codigo.isEmpty()) {
-            throw new CodigoNoExistenteException();
-        }
-        facturaCompra.setCodigo(codigo.get());
-        facturaCompraRepository.save(facturaCompra);
+        return facturaCompra;
     }
 
-    private void crearGastoPersonal(Modelo modelo){
+    private GastoPersonal crearGastoPersonal(Modelo modelo){
         Optional<GastoPersonal> gastoPersonalExistente = gastoPersonalRepository.obtenerPorNumeroComprobanteYEmpresa(modelo.getNumeroComprobante(), modelo.getEmpresa().getId());
         if(gastoPersonalExistente.isPresent()){
             throw new EntidadExistenteException(Constantes.gasto_personal);
@@ -548,7 +564,7 @@ public class SincronizacionService implements ISincronizacionService {
             GastoPersonalLinea gastoPersonalLinea = new GastoPersonalLinea();
             gastoPersonalLinea.setPosicion(i + 1);
             gastoPersonalLinea.setNombreProducto(modeloDetalle.getDescripcion());
-            gastoPersonalLinea.setCantidad(Long.parseLong(modeloDetalle.getCantidad()));
+            gastoPersonalLinea.setCantidad((long)(Double.parseDouble(modeloDetalle.getCantidad())));
             gastoPersonalLinea.setCostoUnitario(Double.parseDouble(modeloDetalle.getPrecioUnitario()));
             gastoPersonalLinea.setValorDescuentoLinea(Double.parseDouble(modeloDetalle.getDescuento()));
             gastoPersonalLinea.setSubtotalLineaSinDescuento(Double.parseDouble(modeloDetalle.getBaseImponible()));
@@ -563,11 +579,6 @@ public class SincronizacionService implements ISincronizacionService {
             gastoPersonal.getGastoPersonalLineas().add(gastoPersonalLinea);
             i++;
         }
-        Optional<String> codigo = Util.generarCodigoPorEmpresa(gastoPersonal.getFecha(), Constantes.tabla_gasto_personal, gastoPersonal.getEmpresa().getId());
-        if (codigo.isEmpty()) {
-            throw new CodigoNoExistenteException();
-        }
-        gastoPersonal.setCodigo(codigo.get());
-        gastoPersonalRepository.save(gastoPersonal);
+        return gastoPersonal;
     }
 }
