@@ -124,7 +124,7 @@ public class EmpresaService implements IEmpresaService {
                 String cedula = identificacion.substring(0,10);
                 boolean bandera = Util.verificarCedula(cedula);
                 if (bandera) {
-                    tipoIdentificacion = repTipoIdentificacion.findByCodigoSri("04").get();
+                    tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri("04").get();
                     Empresa empresa = new Empresa();
                     empresa.setIdentificacion(identificacion);
                     empresa.setTipoIdentificacion(tipoIdentificacion);

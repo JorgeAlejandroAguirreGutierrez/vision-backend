@@ -4,23 +4,20 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.DatoInvalidoException;
+import com.proyecto.vision.exception.EntidadExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
-import com.proyecto.vision.modelos.Entidad;
-import com.proyecto.vision.modelos.compra.FacturaCompra;
-import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
-import com.proyecto.vision.modelos.compra.Proveedor;
-import com.proyecto.vision.modelos.configuracion.Impuesto;
-import com.proyecto.vision.modelos.configuracion.Sincronizacion;
-import com.proyecto.vision.modelos.configuracion.TipoComprobante;
+import com.proyecto.vision.modelos.compra.*;
+import com.proyecto.vision.modelos.configuracion.*;
+import com.proyecto.vision.modelos.inventario.Producto;
 import com.proyecto.vision.repositorios.compra.IFacturaCompraRepository;
+import com.proyecto.vision.repositorios.compra.IGastoPersonalRepository;
 import com.proyecto.vision.repositorios.compra.IProveedorRepository;
+import com.proyecto.vision.repositorios.configuracion.IImpuestoRepository;
 import com.proyecto.vision.repositorios.configuracion.ISincronizacionRepository;
-import com.proyecto.vision.servicios.interf.compra.IFacturaCompraService;
-import com.proyecto.vision.servicios.interf.compra.IProveedorService;
-import com.proyecto.vision.servicios.interf.configuracion.IImpuestoService;
+import com.proyecto.vision.repositorios.configuracion.ITipoComprobanteRepository;
+import com.proyecto.vision.repositorios.configuracion.ITipoIdentificacionRepository;
+import com.proyecto.vision.repositorios.inventario.IProductoRepository;
 import com.proyecto.vision.servicios.interf.configuracion.ISincronizacionService;
-import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
-import org.apache.commons.math3.analysis.function.Sinc;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -51,13 +48,22 @@ public class SincronizacionService implements ISincronizacionService {
     private IProveedorRepository proveedorRepository;
 
     @Autowired
-    private ITipoComprobanteService tipoComprobanteService;
+    private ITipoComprobanteRepository tipoComprobanteRepository;
 
     @Autowired
-    private IImpuestoService impuestoService;
+    private ITipoIdentificacionRepository tipoIdentificacionRepository;
+
+    @Autowired
+    private IImpuestoRepository impuestoRepository;
 
     @Autowired
     private IFacturaCompraRepository facturaCompraRepository;
+
+    @Autowired
+    private IProductoRepository productoRepository;
+
+    @Autowired
+    private IGastoPersonalRepository gastoPersonalRepository;
 
     @Value("${facturacion.produccion}")
     private String facturacionProduccion;
@@ -72,12 +78,16 @@ public class SincronizacionService implements ISincronizacionService {
     @Override
     public Sincronizacion crear(Sincronizacion sincronizacion) {
         validar(sincronizacion);
-    	Optional<String>codigo = Util.generarCodigo(Constantes.tabla_estado_civil);
+        Optional<Sincronizacion> sincronizacionExistente = rep.obtenerPorTipoYMesYAnioYEmpresa(sincronizacion.getTipo(), sincronizacion.getMes(), sincronizacion.getAnio(), sincronizacion.getEmpresa().getId());
+    	if(sincronizacionExistente.isPresent()){
+    	    throw new EntidadExistenteException(Constantes.sincronizacion);
+        }
+        Optional<String>codigo = Util.generarCodigo(Constantes.tabla_sincronizacion);
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
         sincronizacion.setCodigo(codigo.get());
-        sincronizacion.setEstado(Constantes.estadoPendiente);
+        sincronizacion.setEstado(Constantes.estadoActivo);
     	return rep.save(sincronizacion);
     }
 
@@ -112,16 +122,16 @@ public class SincronizacionService implements ISincronizacionService {
     }
 
     @Override
-    public List<FacturaCompra> procesar(long sincronizacionId){
+    public List<Modelo> procesar(long sincronizacionId){
         Optional<Sincronizacion> res = rep.findById(sincronizacionId);
         if(res.isEmpty()){
             throw new EntidadNoExistenteException(Constantes.sincronizacion);
         }
         Sincronizacion sincronizacion = res.get();
-        if(sincronizacion.getEstado().equals(Constantes.estadoProcesado)){
+        if(sincronizacion.getEstado().equals(Constantes.estadoInactivo)){
             throw new DatoInvalidoException(Constantes.estado);
         }
-        List<FacturaCompra> facturasCompras = new ArrayList<>();
+        List<Modelo> modelos = new ArrayList<>();
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
@@ -142,13 +152,12 @@ public class SincronizacionService implements ISincronizacionService {
             for(String claveAcceso: clavesAccesos){
                 Document documento = consultarFactura(claveAcceso);
                 if(documento != null){
-                    FacturaCompra facturaCompra = construirFacturaCompra(documento, sincronizacion);
-                    facturasCompras.add(facturaCompra);
+                    Modelo modelo = construir(documento, sincronizacion);
+                    modelos.add(modelo);
                 }
             }
-            sincronizacion.setEstado(Constantes.estadoProcesado);
             rep.save(sincronizacion);
-            return facturasCompras;
+            return modelos;
         }
         catch(Exception e){
             e.printStackTrace();
@@ -212,52 +221,53 @@ public class SincronizacionService implements ISincronizacionService {
         return null;
     }
 
-    private FacturaCompra construirFacturaCompra(Document documento, Sincronizacion sincronizacion){
-        FacturaCompra facturaCompra = new FacturaCompra();
+    private Modelo construir(Document documento, Sincronizacion sincronizacion){
         Element raiz = documento.getRootElement();
-        facturaCompra.setEstablecimiento(raiz.getChild("infoTributaria").getChildText("estab"));
-        facturaCompra.setPuntoVenta(raiz.getChild("infoTributaria").getChildText("ptoEmi"));
-        facturaCompra.setSecuencial(raiz.getChild("infoTributaria").getChildText("secuencial"));
-        facturaCompra.setNumeroComprobante(facturaCompra.getEstablecimiento() + Constantes.guion + facturaCompra.getPuntoVenta() + Constantes.guion + facturaCompra.getSecuencial());
-        facturaCompra.setFecha(new Date(raiz.getChild("infoFactura").getChildText("fechaEmision")));
-        facturaCompra.setEstado(Constantes.estadoRecibida);
-        facturaCompra.setValorDistribuidoTotal(Constantes.cero);
-        facturaCompra.setValorDescuentoTotal(Constantes.cero);
-        facturaCompra.setPorcentajeDescuentoTotal(Constantes.cero);
-        facturaCompra.setValorPorcentajeDescuentoTotal(Constantes.cero);
-        facturaCompra.setSubtotal(Double.parseDouble(raiz.getChild("infoFactura").getChildText("totalSinImpuestos")));
-        facturaCompra.setDescuento(Double.parseDouble(raiz.getChild("infoFactura").getChildText("totalDescuento")));
-        facturaCompra.setImporteIvaTotal(Double.parseDouble(raiz.getChild("infoFactura").getChild("totalConImpuestos").getChild("totalImpuesto").getChildText("valor")));
-        facturaCompra.setTotal(Double.parseDouble(raiz.getChild("infoFactura").getChildText("importeTotal")));
-        facturaCompra.setComentario(Constantes.vacio);
-        Optional<Proveedor> proveedor = proveedorRepository.obtenerPorIdentificacionYEmpresaYEstado(raiz.getChild("infoTributaria").getChildText("ruc"), sincronizacion.getEmpresa().getId(), Constantes.estadoActivo);
-        if(!proveedor.isEmpty()){
-            facturaCompra.setProveedor(proveedor.get());
+        Modelo modelo = new Modelo();
+        modelo.setRazonSocial(raiz.getChild("infoTributaria").getChildText("razonSocial"));
+        modelo.setNombreComercial(raiz.getChild("infoTributaria").getChildText("nombreComercial"));
+        modelo.setRuc(raiz.getChild("infoTributaria").getChildText("ruc"));
+        modelo.setCodDoc(raiz.getChild("infoTributaria").getChildText("codDoc"));
+        modelo.setClaveAcceso(raiz.getChild("infoTributaria").getChildText("claveAcceso"));
+        modelo.setEstablecimiento(raiz.getChild("infoTributaria").getChildText("estab"));
+        modelo.setPuntoVenta(raiz.getChild("infoTributaria").getChildText("ptoEmi"));
+        modelo.setSecuencial(raiz.getChild("infoTributaria").getChildText("secuencial"));
+        modelo.setNumeroComprobante(modelo.getEstablecimiento() + Constantes.guion + modelo.getPuntoVenta() + Constantes.guion + modelo.getSecuencial());
+        modelo.setDireccion(raiz.getChild("infoTributaria").getChildText("dirMatriz"));
+        modelo.setFecha(raiz.getChild("infoFactura").getChildText("fechaEmision"));
+        modelo.setTotalSinImpuestos(raiz.getChild("infoFactura").getChildText("totalSinImpuestos"));
+        modelo.setTotalDescuento(raiz.getChild("infoFactura").getChildText("totalDescuento"));
+        modelo.setImporteTotal(raiz.getChild("infoFactura").getChildText("importeTotal"));
+        modelo.setModeloImpuestos(new ArrayList<>());
+        List<Element> totalConImpuestos = raiz.getChild("infoFactura").getChild("totalConImpuestos").getChildren();
+        for(Element elemento : totalConImpuestos){
+            ModeloImpuesto modeloImpuesto = new ModeloImpuesto();
+            modeloImpuesto.setCodigo(elemento.getChildText("codigo"));
+            modeloImpuesto.setCodigoPorcentaje(elemento.getChildText("codigoPorcentaje"));
+            modeloImpuesto.setBaseImponible(elemento.getChildText("baseImponible"));
+            modeloImpuesto.setValor(elemento.getChildText("valor"));
+            modelo.getModeloImpuestos().add(modeloImpuesto);
         }
-        if(proveedor.isEmpty()){
-            facturaCompra.setProveedor(null);
-        }
-        facturaCompra.setUsuario(sincronizacion.getUsuario());
-        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
-        facturaCompra.setTipoComprobante(tipoComprobante);
-        facturaCompra.setEmpresa(sincronizacion.getEmpresa());
-        facturaCompra.setFacturaCompraLineas(new ArrayList<>());
+        modelo.setModeloDetalles(new ArrayList<>());
         List<Element> lista = raiz.getChild("detalles").getChildren();
-        int i = 0;
         for(Element elemento : lista){
-            FacturaCompraLinea facturaCompraLinea = new FacturaCompraLinea();
-            facturaCompraLinea.setPosicion(i + 1);
-            facturaCompraLinea.setNombreProducto(elemento.getChildText("descripcion"));
-            facturaCompraLinea.setCantidad(Long.parseLong(elemento.getChildText("cantidad")));
-            facturaCompraLinea.setCostoUnitario(Double.parseDouble(elemento.getChildText("precioUnitario")));
-            facturaCompraLinea.setValorDescuentoLinea(Double.parseDouble(elemento.getChildText("descuento")));
-            Impuesto impuesto = impuestoService.obtenerPorCodigoSRIYEstado(elemento.getChild("impuestos").getChild("impuesto").getChildText("codigoPorcentaje"), Constantes.estadoActivo);
-            facturaCompraLinea.setImpuesto(impuesto);
-            facturaCompra.getFacturaCompraLineas().add(facturaCompraLinea);
-            i++;
+            ModeloDetalle modeloDetalle = new ModeloDetalle();
+            modeloDetalle.setCodigoPrincipal(elemento.getChildText("codigoPrincipal"));
+            modeloDetalle.setDescripcion(elemento.getChildText("descripcion"));
+            modeloDetalle.setCantidad(elemento.getChildText("cantidad"));
+            modeloDetalle.setPrecioUnitario(elemento.getChildText("precioUnitario"));
+            modeloDetalle.setDescuento(elemento.getChildText("descuento"));
+            modeloDetalle.setPrecioTotalSinImpuesto(elemento.getChildText("precioTotalSinImpuesto"));
+            modeloDetalle.setCodigoImpuesto(elemento.getChild("impuestos").getChild("impuesto").getChildText("codigo"));
+            modeloDetalle.setCodigoPorcentaje(elemento.getChild("impuestos").getChild("impuesto").getChildText("codigoPorcentaje"));
+            modeloDetalle.setTarifa(elemento.getChild("impuestos").getChild("impuesto").getChildText("tarifa"));
+            modeloDetalle.setBaseImponible(elemento.getChild("impuestos").getChild("impuesto").getChildText("baseImponible"));
+            modeloDetalle.setValor(elemento.getChild("impuestos").getChild("impuesto").getChildText("valor"));
+            modelo.getModeloDetalles().add(modeloDetalle);
         }
-        calcular(facturaCompra);
-        return facturaCompra;
+        modelo.setUsuario(sincronizacion.getUsuario());
+        modelo.setEmpresa(sincronizacion.getEmpresa());
+        return modelo;
     }
 
     private void calcularLinea(FacturaCompraLinea facturaCompraLinea){
@@ -370,4 +380,194 @@ public class SincronizacionService implements ISincronizacionService {
         facturaCompra.setTotal(total);
     }
 
+
+    public void crearModelos(List<Modelo> modelos){
+        for(Modelo modelo: modelos){
+            if(modelo.getTipo().equals(Constantes.tabla_factura_compra)){
+                crearFacturaCompra(modelo);
+            }
+            if(modelo.getTipo().equals(Constantes.tabla_gasto_personal)){
+                crearGastoPersonal(modelo);
+            }
+        }
+    }
+
+    private void crearFacturaCompra(Modelo modelo){
+        Optional<FacturaCompra> facturaCompraExistente = facturaCompraRepository.obtenerPorNumeroComprobanteYEmpresa(modelo.getNumeroComprobante(), modelo.getEmpresa().getId());
+        if(facturaCompraExistente.isPresent()){
+            throw new EntidadExistenteException(Constantes.factura_compra);
+        }
+        FacturaCompra facturaCompra = new FacturaCompra();
+        facturaCompra.setEstablecimiento(modelo.getEstablecimiento());
+        facturaCompra.setPuntoVenta(modelo.getPuntoVenta());
+        facturaCompra.setSecuencial(modelo.getSecuencial());
+        facturaCompra.setNumeroComprobante(modelo.getNumeroComprobante());
+        facturaCompra.setFecha(new Date(modelo.getFecha()));
+        facturaCompra.setEstado(Constantes.estadoRecibida);
+        facturaCompra.setValorDistribuidoTotal(Constantes.cero);
+        facturaCompra.setValorDescuentoTotal(Constantes.cero);
+        facturaCompra.setPorcentajeDescuentoTotal(Constantes.cero);
+        facturaCompra.setValorPorcentajeDescuentoTotal(Constantes.cero);
+        facturaCompra.setSubtotal(Double.parseDouble(modelo.getTotalSinImpuestos()));
+        facturaCompra.setDescuento(Double.parseDouble(modelo.getTotalDescuento()));
+        double subtotalGravadoConDescuento =  Constantes.cero;
+        double subtotalNoGravadoConDescuento =  Constantes.cero;
+        double importeIvaTotal = Constantes.cero;
+        for(ModeloImpuesto modeloImpuesto: modelo.getModeloImpuestos()){
+            if(modeloImpuesto.getCodigoPorcentaje().equals(Constantes.iva_8_sri) || modeloImpuesto.getCodigoPorcentaje().equals(Constantes.iva_12_sri) || modeloImpuesto.getCodigoPorcentaje().equals(Constantes.iva_14_sri)){
+                subtotalGravadoConDescuento = subtotalGravadoConDescuento + Double.parseDouble(modeloImpuesto.getBaseImponible());
+                importeIvaTotal = importeIvaTotal + Double.parseDouble(modeloImpuesto.getValor());
+            }
+            if(modeloImpuesto.getCodigoPorcentaje().equals(Constantes.iva_0_sri)){
+                subtotalNoGravadoConDescuento = subtotalNoGravadoConDescuento + Double.parseDouble(modeloImpuesto.getBaseImponible());
+                importeIvaTotal = importeIvaTotal + Double.parseDouble(modeloImpuesto.getValor());
+            }
+        }
+        facturaCompra.setSubtotalGravadoConDescuento(subtotalGravadoConDescuento);
+        facturaCompra.setSubtotalNoGravadoConDescuento(subtotalNoGravadoConDescuento);
+        facturaCompra.setImporteIvaTotal(importeIvaTotal);
+        facturaCompra.setTotal(Double.parseDouble(modelo.getImporteTotal()));
+        facturaCompra.setComentario(Constantes.vacio);
+        Optional<Proveedor> proveedorExistente = proveedorRepository.obtenerPorIdentificacionYEmpresa(modelo.getRuc(), modelo.getEmpresa().getId());
+        if(proveedorExistente.isPresent()){
+            facturaCompra.setProveedor(proveedorExistente.get());
+        }
+        if(proveedorExistente.isEmpty()){
+            Proveedor proveedor = new Proveedor();
+            proveedor.setRazonSocial(modelo.getRazonSocial());
+            proveedor.setNombreComercial(modelo.getNombreComercial());
+            proveedor.setIdentificacion(modelo.getRuc());
+            proveedor.setDireccion(modelo.getDireccion());
+            proveedor.setEstado(Constantes.estadoRecibida);
+            proveedor.setEmpresa(modelo.getEmpresa());
+            Optional<TipoIdentificacion> tipoIdentificacion = tipoIdentificacionRepository.obtenerPorAbreviatura(Constantes.ruc_abreviatura);
+            proveedor.setTipoIdentificacion(tipoIdentificacion.get());
+            proveedor = proveedorRepository.save(proveedor);
+            facturaCompra.setProveedor(proveedor);
+        }
+        facturaCompra.setUsuario(modelo.getUsuario());
+        facturaCompra.setEmpresa(modelo.getEmpresa());
+        facturaCompra.setFacturaCompraLineas(new ArrayList<>());
+        int i = 0;
+        for(ModeloDetalle modeloDetalle: modelo.getModeloDetalles()){
+            FacturaCompraLinea facturaCompraLinea = new FacturaCompraLinea();
+            facturaCompraLinea.setPosicion(i + 1);
+            facturaCompraLinea.setNombreProducto(modeloDetalle.getDescripcion());
+            facturaCompraLinea.setCantidad(Long.parseLong(modeloDetalle.getCantidad()));
+            facturaCompraLinea.setCostoUnitario(Double.parseDouble(modeloDetalle.getPrecioUnitario()));
+            facturaCompraLinea.setCostoDistribuido(Constantes.cero);
+            facturaCompraLinea.setCostoPromedio(Double.parseDouble(modeloDetalle.getPrecioUnitario()));
+            facturaCompraLinea.setValorDescuentoLinea(Constantes.cero);
+            facturaCompraLinea.setPorcentajeDescuentoLinea(Constantes.cero);
+            facturaCompraLinea.setValorPorcentajeDescuentoLinea(Constantes.cero);
+            facturaCompraLinea.setValorPorcentajeDescuentoTotalLinea(Constantes.cero);
+            facturaCompraLinea.setValorDescuentoTotalLinea(Double.parseDouble(modeloDetalle.getDescuento()));
+            facturaCompraLinea.setSubtotalLineaSinDescuento(Double.parseDouble(modeloDetalle.getBaseImponible()));
+            facturaCompraLinea.setSubtotalLinea(Double.parseDouble(modeloDetalle.getBaseImponible()));
+            facturaCompraLinea.setImporteIvaLinea(Double.parseDouble(modeloDetalle.getValor()));
+            facturaCompraLinea.setTotalLinea(Double.parseDouble(modeloDetalle.getBaseImponible()) + Double.parseDouble(modeloDetalle.getValor()));
+            Optional<Impuesto> impuesto = impuestoRepository.obtenerPorCodigoSRIYEstado(modeloDetalle.getCodigoPorcentaje(), Constantes.estadoActivo);
+            if(impuesto.isEmpty()){
+                throw new EntidadNoExistenteException(Constantes.impuesto);
+            }
+            facturaCompraLinea.setImpuesto(impuesto.get());
+            Optional<Producto> producto = productoRepository.obtenerPorCodigoPrincipalYEmpresa(modeloDetalle.getCodigoPrincipal(), modelo.getEmpresa().getId());
+            if(producto.isPresent()){
+                facturaCompraLinea.setProducto(producto.get());
+            }
+            facturaCompraLinea.setBodega(null);
+            facturaCompra.getFacturaCompraLineas().add(facturaCompraLinea);
+            i++;
+        }
+        calcular(facturaCompra);
+        Optional<TipoComprobante> tipoComprobante = tipoComprobanteRepository.obtenerPorNombreTabla(Constantes.tabla_factura_compra);
+        facturaCompra.setTipoComprobante(tipoComprobante.get());
+        Optional<String> codigo = Util.generarCodigoPorEmpresa(facturaCompra.getFecha(), Constantes.tabla_factura_compra, facturaCompra.getEmpresa().getId());
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
+        facturaCompra.setCodigo(codigo.get());
+        facturaCompraRepository.save(facturaCompra);
+    }
+
+    private void crearGastoPersonal(Modelo modelo){
+        Optional<GastoPersonal> gastoPersonalExistente = gastoPersonalRepository.obtenerPorNumeroComprobanteYEmpresa(modelo.getNumeroComprobante(), modelo.getEmpresa().getId());
+        if(gastoPersonalExistente.isPresent()){
+            throw new EntidadExistenteException(Constantes.gasto_personal);
+        }
+        GastoPersonal gastoPersonal = new GastoPersonal();
+        gastoPersonal.setEstablecimiento(modelo.getEstablecimiento());
+        gastoPersonal.setPuntoVenta(modelo.getPuntoVenta());
+        gastoPersonal.setSecuencial(modelo.getSecuencial());
+        gastoPersonal.setNumeroComprobante(modelo.getNumeroComprobante());
+        gastoPersonal.setFecha(new Date(modelo.getFecha()));
+        gastoPersonal.setEstado(Constantes.estadoRecibida);
+        gastoPersonal.setDescuento(Double.parseDouble(modelo.getTotalDescuento()));
+        gastoPersonal.setSubtotal(Double.parseDouble(modelo.getTotalSinImpuestos()));
+        double subtotalGravado = Constantes.cero;
+        double subtotalNoGravado = Constantes.cero;
+        double importeIvaTotal = Constantes.cero;
+        for(ModeloImpuesto modeloImpuesto: modelo.getModeloImpuestos()){
+            if(modeloImpuesto.getCodigoPorcentaje().equals(Constantes.iva_8_sri) || modeloImpuesto.getCodigoPorcentaje().equals(Constantes.iva_12_sri) || modeloImpuesto.getCodigoPorcentaje().equals(Constantes.iva_14_sri)){
+                subtotalGravado = subtotalGravado + Double.parseDouble(modeloImpuesto.getBaseImponible());
+                importeIvaTotal = importeIvaTotal + Double.parseDouble(modeloImpuesto.getValor());
+            }
+            if(modeloImpuesto.getCodigoPorcentaje().equals(Constantes.iva_0_sri)){
+                subtotalNoGravado = subtotalNoGravado + Double.parseDouble(modeloImpuesto.getBaseImponible());
+                importeIvaTotal = importeIvaTotal + Double.parseDouble(modeloImpuesto.getValor());
+            }
+        }
+        gastoPersonal.setSubtotalGravado(subtotalGravado);
+        gastoPersonal.setSubtotalNoGravado(subtotalNoGravado);
+        gastoPersonal.setImporteIvaTotal(importeIvaTotal);
+        gastoPersonal.setTotal(Double.parseDouble(modelo.getImporteTotal()));
+        gastoPersonal.setComentario(Constantes.vacio);
+        gastoPersonal.setTipoGasto(modelo.getTipoGasto());
+        Optional<Proveedor> proveedorExistente = proveedorRepository.obtenerPorIdentificacionYEmpresa(modelo.getRuc(), modelo.getEmpresa().getId());
+        if(proveedorExistente.isPresent()){
+            gastoPersonal.setProveedor(proveedorExistente.get());
+        }
+        if(proveedorExistente.isEmpty()){
+            Proveedor proveedor = new Proveedor();
+            proveedor.setRazonSocial(modelo.getRazonSocial());
+            proveedor.setNombreComercial(modelo.getNombreComercial());
+            proveedor.setIdentificacion(modelo.getRuc());
+            proveedor.setDireccion(modelo.getDireccion());
+            proveedor.setEstado(Constantes.estadoActivo);
+            proveedor.setEmpresa(modelo.getEmpresa());
+            Optional<TipoIdentificacion> tipoIdentificacion = tipoIdentificacionRepository.obtenerPorAbreviatura(Constantes.ruc_abreviatura);
+            proveedor.setTipoIdentificacion(tipoIdentificacion.get());
+            proveedor = proveedorRepository.save(proveedor);
+            gastoPersonal.setProveedor(proveedor);
+        }
+        gastoPersonal.setUsuario(modelo.getUsuario());
+        gastoPersonal.setEmpresa(modelo.getEmpresa());
+        gastoPersonal.setGastoPersonalLineas(new ArrayList<>());
+        int i = 0;
+        for(ModeloDetalle modeloDetalle: modelo.getModeloDetalles()){
+            GastoPersonalLinea gastoPersonalLinea = new GastoPersonalLinea();
+            gastoPersonalLinea.setPosicion(i + 1);
+            gastoPersonalLinea.setNombreProducto(modeloDetalle.getDescripcion());
+            gastoPersonalLinea.setCantidad(Long.parseLong(modeloDetalle.getCantidad()));
+            gastoPersonalLinea.setCostoUnitario(Double.parseDouble(modeloDetalle.getPrecioUnitario()));
+            gastoPersonalLinea.setValorDescuentoLinea(Double.parseDouble(modeloDetalle.getDescuento()));
+            gastoPersonalLinea.setSubtotalLineaSinDescuento(Double.parseDouble(modeloDetalle.getBaseImponible()));
+            gastoPersonalLinea.setSubtotalLinea(Double.parseDouble(modeloDetalle.getBaseImponible()));
+            gastoPersonalLinea.setImporteIvaLinea(Double.parseDouble(modeloDetalle.getValor()));
+            gastoPersonalLinea.setTotalLinea(Double.parseDouble(modeloDetalle.getBaseImponible()) + Double.parseDouble(modeloDetalle.getValor()));
+            Optional<Impuesto> impuesto = impuestoRepository.obtenerPorCodigoSRIYEstado(modeloDetalle.getCodigoPorcentaje(), Constantes.estadoActivo);
+            if(impuesto.isEmpty()){
+                throw new EntidadNoExistenteException(Constantes.impuesto);
+            }
+            gastoPersonalLinea.setImpuesto(impuesto.get());
+            gastoPersonal.getGastoPersonalLineas().add(gastoPersonalLinea);
+            i++;
+        }
+        Optional<String> codigo = Util.generarCodigoPorEmpresa(gastoPersonal.getFecha(), Constantes.tabla_gasto_personal, gastoPersonal.getEmpresa().getId());
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
+        gastoPersonal.setCodigo(codigo.get());
+        gastoPersonalRepository.save(gastoPersonal);
+    }
 }
