@@ -24,6 +24,8 @@ import static com.proyecto.vision.Constantes.tabla_producto;
 public class Producto extends Entidad {
     @Column(name = "codigo", nullable = true)
     private String codigo;
+    @Column(name = "codigo_principal", nullable = true)
+    private String codigoPrincipal;
     @Column(name = "nombre", nullable = true)
     private String nombre;
     @Column(name = "consignacion", nullable = true)

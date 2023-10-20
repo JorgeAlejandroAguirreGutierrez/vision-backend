@@ -31,6 +31,7 @@ public class Endpoints {
     public static final String pathNotaCreditoCompra="notaCreditoCompra";
     public static final String pathNotaDebitoCompra="notaDebitoCompra";
     public static final String pathGrupoProveedor="grupoProveedor";
+    public static final String pathGastoPersonal="gastoPersonal";
     
     //VENTAS
     public static final String pathEgreso="egreso";

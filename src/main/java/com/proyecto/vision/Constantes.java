@@ -26,6 +26,7 @@ public class Constantes {
     public static final String dev_venta = "DEV. VENTA";
     public static final String dev_compra = "DEV. COMPRA";
     public static final String compra = "COMPRA";
+    public static final String factura_recibida_sri = "Factura";
 
     public static final String pendiente="PENDIENTE";
     public static final String entregado="ENTREGADO";
@@ -149,6 +150,8 @@ public class Constantes {
     public static final String tabla_nota_credito_compra_linea="nota_credito_compra_linea";
     public static final String tabla_nota_debito_compra="nota_debito_compra";
     public static final String tabla_nota_debito_compra_linea="nota_debito_compra_linea";
+    public static final String tabla_gasto_personal="gasto_personal";
+    public static final String tabla_gasto_personal_linea="gasto_personal_linea";
 
     //VENTAS
     public static final String operacion = "OPERACION";
@@ -274,6 +277,7 @@ public class Constantes {
     //COMPRA
     public static final String retencion_compra="RETENCION COMPRA";
     public static final String grupo_proveedor="GRUPO PROVEEDOR";
+    public static final String gasto_personal="GASTO PERSONAL";
     public static final String fantasma="EMPRESA FANTASMA";
 
     //COMPROBANTE
@@ -575,8 +579,6 @@ public class Constantes {
     //ESTADOS DEL SISTEMA
     public static final String estadoActivo="ACTIVO";
     public static final String estadoInactivo="INACTIVO";
-    public static final String estadoPendiente="PENDIENTE";
-    public static final String estadoProcesado="PROCESADO";
     public static final String estadoRecibida="RECIBIDA";
 
     //ESTADOS VENTAS

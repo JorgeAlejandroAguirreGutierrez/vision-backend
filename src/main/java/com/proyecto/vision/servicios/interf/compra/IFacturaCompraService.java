@@ -18,5 +18,4 @@ public interface IFacturaCompraService extends IGenericoService<FacturaCompra> {
 	void validarLinea(FacturaCompraLinea facturaCompraLinea);
 	FacturaCompraLinea calcularLinea(FacturaCompraLinea facturaCompraLinea);
 	FacturaCompra pagar(long facturaCompraId);
-	void crearRecibidas(List<FacturaCompra> facturasCompras);
 }
