@@ -446,6 +446,7 @@ public class Constantes {
     public static final String valorDescuentoLinea = "VALOR DESCUENTO POR LINEA";
     public static final String porcentajeDescuentoLinea = "PORCENTAJE DESCUENTO POR LINEA";
     public static final String nombre="NOMBRE";
+    public static final String contrasenaSRI="CONTRASEÑA SRI";
     public static final String contrasena="CONTRASEÑA";
     public static final String confirmarContrasena="CONFIRMAR CONTRASEÑA";
     public static final String cambiarContrasena="CAMBIAR CONTRASEÑA";

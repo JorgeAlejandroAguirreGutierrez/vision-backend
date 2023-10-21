@@ -134,7 +134,7 @@
    <soapenv:Body>\r
       <ec:autorizacionComprobante>\r
          <!--Optional:-->\r
-         <claveAccesoComprobante>0109202301179128754100120010110394752525423062016</claveAccesoComprobante>\r
+         <claveAccesoComprobante>1309202301179259319000120020040000238166468125510</claveAccesoComprobante>\r
       </ec:autorizacionComprobante>\r
    </soapenv:Body>\r
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.autorizacion/AutorizacionComprobantesOffline/autorizacionComprobante"/><con:wsrmConfig version="1.2"/></con:call><con:call id="2dd6d970-83d9-4656-8eac-40dc20016e78" name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.autorizacion">\r
