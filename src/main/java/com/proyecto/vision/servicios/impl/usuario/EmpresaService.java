@@ -47,23 +47,25 @@ public class EmpresaService implements IEmpresaService {
         if(empresa.getNombreComercial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombreComercial);
         if(empresa.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.obligadoContabilidad);
         if(empresa.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
+        if(empresa.getContrasena().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.contrasena);
+        if(empresa.getContrasenaSRI().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.contrasenaSRI);
         if(empresa.getTipoIdentificacion().getId() ==  Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_identificacion);
     }
 
     @Override
     public Empresa crear(Empresa empresa) {
         validar(empresa);
-      Optional<Empresa> buscarEmpresa = rep.obtenerPorIdentificacion(empresa.getIdentificacion(), Constantes.estadoActivo);
-      if(buscarEmpresa.isPresent()) {
+        Optional<Empresa> buscarEmpresa = rep.obtenerPorIdentificacion(empresa.getIdentificacion(), Constantes.estadoActivo);
+        if(buscarEmpresa.isPresent()) {
           throw new EntidadExistenteException(Constantes.empresa);
-      }
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_empresa);
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
-    	empresa.setCodigo(codigo.get());
-    	empresa.setEstado(Constantes.estadoActivo);
-    	Empresa res = rep.save(empresa);
+        }
+        Optional<String>codigo=Util.generarCodigo(Constantes.tabla_empresa);
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
+        empresa.setCodigo(codigo.get());
+        empresa.setEstado(Constantes.estadoActivo);
+        Empresa res = rep.save(empresa);
         res.normalizar();
         return res;
     }
