@@ -19,4 +19,6 @@ public interface ITipoComprobanteRepository extends JpaRepository<TipoComprobant
     List<TipoComprobante> consultarPorElectronica(String electronica, String estado);
     @Query(value = "select tc from TipoComprobante tc where tc.nombreTabla=:nombreTabla")
     Optional<TipoComprobante> obtenerPorNombreTabla(String nombreTabla);
+    @Query(value = "select tc from TipoComprobante tc where tc.abreviatura = :abreviatura and tc.estado = :estado")
+    Optional<TipoComprobante> obtenerPorAbreviaturaYEstado(String abreviatura, String estado);
 }

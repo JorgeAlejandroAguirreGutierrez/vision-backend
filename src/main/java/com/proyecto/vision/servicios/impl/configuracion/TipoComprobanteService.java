@@ -37,7 +37,7 @@ public class TipoComprobanteService implements ITipoComprobanteService {
 
     @Override
     public TipoComprobante obtener(long id) {
-        Optional<TipoComprobante> res= rep.findById(id);
+        Optional<TipoComprobante> res = rep.findById(id);
         if(res.isPresent()) {
         	return res.get();
         }
@@ -47,6 +47,15 @@ public class TipoComprobanteService implements ITipoComprobanteService {
     @Override
     public TipoComprobante obtenerPorNombreTabla(String nombreTabla) {
         Optional<TipoComprobante> res = rep.obtenerPorNombreTabla(nombreTabla);
+        if(res.isPresent()) {
+            return res.get();
+        }
+        throw new EntidadNoExistenteException(Constantes.tipo_comprobante);
+    }
+
+    @Override
+    public TipoComprobante obtenerPorAbreviaturaYEstado(String abreviatura, String estado) {
+        Optional<TipoComprobante> res = rep.obtenerPorAbreviaturaYEstado(abreviatura, estado);
         if(res.isPresent()) {
             return res.get();
         }

@@ -6,20 +6,17 @@ import com.proyecto.vision.modelos.cliente.CalificacionCliente;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
-import com.proyecto.vision.modelos.cliente.Segmento;
 import com.proyecto.vision.repositorios.cliente.ICalificacionClienteRepository;
 import com.proyecto.vision.servicios.interf.cliente.ICalificacionClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
 public class CalificacionClienteService implements ICalificacionClienteService {
+
 	@Autowired
     private ICalificacionClienteRepository rep;
 
