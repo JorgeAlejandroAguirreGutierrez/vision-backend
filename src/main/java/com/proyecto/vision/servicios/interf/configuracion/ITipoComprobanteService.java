@@ -8,4 +8,5 @@ import java.util.List;
 public interface ITipoComprobanteService extends IGenericoService<TipoComprobante> {
     List<TipoComprobante> consultarPorElectronica();
     TipoComprobante obtenerPorNombreTabla(String nombreTabla);
+    TipoComprobante obtenerPorAbreviaturaYEstado(String abreviatura, String estado);
 }

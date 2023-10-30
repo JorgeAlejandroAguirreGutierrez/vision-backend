@@ -54,6 +54,13 @@ public class TipoComprobanteController implements GenericoController<TipoComprob
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/obtenerPorAbreviaturaYEstado/{abreviatura}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtenerPorAbreviaturaYEstado(@PathVariable("abreviatura") String abreviatura, @PathVariable("estado") String estado) {
+        TipoComprobante tipoComprobante = servicio.obtenerPorAbreviaturaYEstado(abreviatura, estado);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, tipoComprobante);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> crear(@RequestBody @Valid TipoComprobante _tipo_comprobante) {
         TipoComprobante tipoComprobante=servicio.crear(_tipo_comprobante);

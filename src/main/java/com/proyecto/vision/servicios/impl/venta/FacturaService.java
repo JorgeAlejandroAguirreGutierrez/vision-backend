@@ -64,6 +64,7 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public void validar(Factura factura) {
+        if(factura.getTipoComprobante().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipo_comprobante);
         if(factura.getEstado().equals(Constantes.estadoAnulada)) throw new EstadoInvalidoException(Constantes.estadoAnulada);
         if(factura.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)) throw new EstadoInvalidoException(Constantes.procesoSRIAutorizada);
         if(factura.getProcesoSRI().equals(Constantes.procesoSRIAnulada)) throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
@@ -79,7 +80,6 @@ public class FacturaService implements IFacturaService {
             valorTotal += facturaLinea.getTotalLinea();
             if(factura.getCliente().getId() == consumidorFinal.getId() && valorTotal > Constantes.ciencuenta) throw new DatoInvalidoException(Constantes.consumidor_final);
         }
-
         for(Cheque cheque : factura.getCheques()){
             if(cheque.getNumero().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.numero);
             if(cheque.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.dato_tipo);
@@ -122,9 +122,7 @@ public class FacturaService implements IFacturaService {
     @Override
     public Factura crear(Factura factura) {
         validar(factura);
-        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
-        factura.setTipoComprobante(tipoComprobante);
-        Optional<String>codigo=Util.generarCodigoPorEmpresa(factura.getFecha(), Constantes.tabla_factura,factura.getEmpresa().getId());
+        Optional<String>codigo = Util.generarCodigoPorEmpresa(factura.getFecha(), Constantes.tabla_factura,factura.getEmpresa().getId());
         if (codigo.isEmpty()) {
             throw new CodigoNoExistenteException();
         }
@@ -439,7 +437,9 @@ public class FacturaService implements IFacturaService {
     @Override
     public void validarLinea(FacturaLinea facturaLinea) {
         if(facturaLinea.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
-        if(facturaLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
+        if(facturaLinea.getProducto().getCategoriaProducto().getAbreviatura().equals(Constantes.abreviatura_bien)){
+            if(facturaLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
+        }
         if(facturaLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
         if(facturaLinea.getPrecio().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.precio);
         if(facturaLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);

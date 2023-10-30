@@ -365,6 +365,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			throw new EntidadNoExistenteException(Constantes.factura);
 		}
 		Factura factura = opcional.get();
+		if(factura.getTipoComprobante().getAbreviatura().equals(Constantes.factura_interna)){
+			throw new EstadoInvalidoException(Constantes.factura_interna);
+		}
 		boolean banderaSuscripcion = suscripcionService.verificar(factura.getEmpresa().getId());
 		if(!banderaSuscripcion){
 			throw new SuscripcionInvalidaException();
