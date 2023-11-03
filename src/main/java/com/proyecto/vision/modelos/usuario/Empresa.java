@@ -50,6 +50,8 @@ public class Empresa extends Entidad {
     private String contrasena;
     @Column(name = "contrasena_sri", nullable = true)
     private String contrasenaSRI;
+    @Column(name = "facturacion_interna", nullable = true)
+    private String facturacionInterna;
     @ManyToOne
     @JoinColumn(name = "tipo_identificacion_id", nullable = true)
     private TipoIdentificacion tipoIdentificacion;
@@ -76,6 +78,7 @@ public class Empresa extends Entidad {
         this.certificado = Constantes.vacio;
         this.contrasena = Constantes.vacio;
         this.contrasenaSRI = Constantes.vacio;
+        this.facturacionInterna = Constantes.vacio;
     }
 
     public void normalizar(){
