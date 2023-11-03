@@ -289,7 +289,7 @@ public class Util {
                 calendar.setTime(fecha);
                 String año = calendar.get(Calendar.YEAR)+"";
                 año = año.substring(2,4);
-                int mesC=calendar.get(Calendar.MONTH)+1;
+                int mesC = calendar.get(Calendar.MONTH)+1;
                 String mes = String.format("%02d" , mesC);
                 return Optional.of(menuOpcion.get().getAbreviatura() + empresa + año + mes + rellenoConteo);
             }
