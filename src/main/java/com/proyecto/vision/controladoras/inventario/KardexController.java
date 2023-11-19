@@ -50,7 +50,7 @@ public class KardexController implements GenericoController<Kardex> {
 
     @GetMapping(value = "/obtenerUltimoPorProductoYBodega/{productoId}/{bodegaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtenerUltimoPorProductoYBodega(@PathVariable("productoId") long productoId, @PathVariable("bodegaId") long bodegaId) {
-        Kardex kardex = servicio.obtenerUltimoPorProductoYBodega(productoId, bodegaId);
+        Kardex kardex = servicio.obtenerUltimoPorProductoYBodegaYEstado(productoId, bodegaId, Constantes.estadoActivo);
         Respuesta respuesta = new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
@@ -72,6 +72,13 @@ public class KardexController implements GenericoController<Kardex> {
     @GetMapping(value = "/consultarPorProducto/{productoId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorProducto(@PathVariable("productoId") long productoId) {
         List<Kardex> kardex=servicio.consultarPorProducto(productoId);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/consultarPorProductoYEstado/{productoId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorProductoYEstado(@PathVariable("productoId") long productoId, @PathVariable("estado") String estado) {
+        List<Kardex> kardex=servicio.consultarPorProductoYEstado(productoId, estado);
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

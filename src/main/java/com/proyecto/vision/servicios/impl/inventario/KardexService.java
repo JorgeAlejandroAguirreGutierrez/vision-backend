@@ -58,6 +58,10 @@ public class KardexService implements IKardexService {
         return rep.consultarPorProducto(productoId);
     }
     @Override
+    public List<Kardex> consultarPorProductoYEstado(long productoId, String estado) {
+        return rep.consultarPorProductoYEstado(productoId, estado);
+    }
+    @Override
     public List<Kardex> consultarPorTipoComprobanteYReferencia(long tipoComprobanteId, String referencia) {
         return rep.consultarPorTipoComprobanteYReferencia(tipoComprobanteId, referencia);
     }
@@ -79,8 +83,8 @@ public class KardexService implements IKardexService {
         return res.get();
     }
     @Override
-    public Kardex obtenerUltimoPorProductoYBodega(long productoId, long bodegaId) {
-        Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodega(productoId, bodegaId);
+    public Kardex obtenerUltimoPorProductoYBodegaYEstado(long productoId, long bodegaId, String estado) {
+        Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodegaYEstado(productoId, bodegaId, estado);
         if(res.isEmpty()){
             return null;
         }
@@ -98,7 +102,7 @@ public class KardexService implements IKardexService {
 
     @Override
     public Kardex obtenerUltimoPorProductoYBodegaYFecha(long productoId, long bodegaId, Date fecha) {
-        Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodegaYFecha(productoId, bodegaId, fecha);
+        Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodegaYFechaYEstado(productoId, bodegaId, fecha, Constantes.estadoActivo);
         if(res.isEmpty()){
             return null;
         }
@@ -135,12 +139,12 @@ public class KardexService implements IKardexService {
     }
 
     public void recalcularPorProductoYBodegaYFecha(long productoId, long bodegaId, Date fecha) {
-        Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodegaYFecha(productoId, bodegaId, fecha);
+        Optional<Kardex> res = rep.obtenerUltimoPorProductoYBodegaYFechaYEstado(productoId, bodegaId, fecha, Constantes.estadoActivo);
         if (res.isEmpty()) {
             return;
         }
         Kardex ultimoKardex = res.get();
-        List<Kardex> kardexs = rep.consultarPorProductoYBodegaYFechaMayor(productoId, bodegaId, fecha);
+        List<Kardex> kardexs = rep.consultarPorProductoYBodegaYFechaMayorYEstado(productoId, bodegaId, fecha, Constantes.estadoActivo);
         if (kardexs.isEmpty()) {
             return;
         }

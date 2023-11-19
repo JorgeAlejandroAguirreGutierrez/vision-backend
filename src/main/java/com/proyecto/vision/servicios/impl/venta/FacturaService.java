@@ -4,6 +4,8 @@ import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.cliente.*;
+import com.proyecto.vision.modelos.compra.FacturaCompra;
+import com.proyecto.vision.modelos.compra.FacturaCompraLinea;
 import com.proyecto.vision.modelos.configuracion.Secuencial;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.modelos.inventario.TipoOperacion;
@@ -210,8 +212,8 @@ public class FacturaService implements IFacturaService {
                 TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
                 TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.venta, Constantes.estadoActivo);
                 Kardex kardex = new Kardex(null, factura.getFecha(), factura.getNumeroComprobante(),
-                        facturaLinea.getId(), Constantes.cero, facturaLinea.getCantidad(), saldo,
-                        Constantes.cero, costoUnitario, costoPromedio, costoTotal, tipoComprobante, tipoOperacion,
+                        facturaLinea.getId(), Constantes.cero, facturaLinea.getCantidad(), saldo, Constantes.cero,
+                        costoUnitario, costoPromedio, costoTotal, Constantes.estadoActivo, tipoComprobante, tipoOperacion,
                         facturaLinea.getBodega(), facturaLinea.getProducto());
 
                 kardexService.crear(kardex);
@@ -268,8 +270,8 @@ public class FacturaService implements IFacturaService {
                 }
                 TipoOperacion tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.venta, Constantes.estadoActivo);
                 Kardex kardex = new Kardex(null, factura.getFecha(), factura.getNumeroComprobante(),
-                        facturaLinea.getId(), Constantes.cero, facturaLinea.getCantidad(), saldo,
-                        Constantes.cero, costoUnitario, costoPromedio, costoTotal, tipoComprobante, tipoOperacion,
+                        facturaLinea.getId(), Constantes.cero, facturaLinea.getCantidad(), saldo, Constantes.cero,
+                        costoUnitario, costoPromedio, costoTotal, Constantes.estadoActivo, tipoComprobante, tipoOperacion,
                         facturaLinea.getBodega(), facturaLinea.getProducto());
                 kardexService.crear(kardex);
             } else {
@@ -345,12 +347,25 @@ public class FacturaService implements IFacturaService {
         if(!guiasRemisiones.isEmpty()){
             throw new ErrorInternoException(Constantes.mensaje_error_guia_remision_existente);
         }
-        eliminarKardex(factura);
         factura.setEstado(Constantes.estadoAnulada);
         factura.setProcesoSRI(Constantes.procesoSRIAnulada);
         Factura res = rep.save(factura);
+        anularKardex(factura);
         res.normalizar();
         return res;
+    }
+
+    private void anularKardex(Factura factura) {
+        TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_factura);
+        Calendar c = Calendar.getInstance();
+        c.setTime(factura.getFecha());
+        c.add(c.DAY_OF_YEAR, -1);
+        for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
+            Kardex kardex = kardexService.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYIdLinea(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), tipoComprobante.getId(), factura.getNumeroComprobante(), facturaLinea.getId());
+            kardex.setEstado(Constantes.estadoAnulada);
+            kardexService.actualizar(kardex);
+            kardexService.recalcularPorProductoYBodegaYFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), c.getTime());
+        }
     }
 
     @Override

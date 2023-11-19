@@ -6,7 +6,6 @@ import static com.proyecto.vision.controladoras.Endpoints.pathMedida;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.controladoras.GenericoController;
 import com.proyecto.vision.modelos.Respuesta;
-import com.proyecto.vision.modelos.inventario.Bodega;
 import com.proyecto.vision.modelos.inventario.Medida;
 import com.proyecto.vision.servicios.interf.inventario.IMedidaService;
 import org.springframework.beans.factory.annotation.Autowired;

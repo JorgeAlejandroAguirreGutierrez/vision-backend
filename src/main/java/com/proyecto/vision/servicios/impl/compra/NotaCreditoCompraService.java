@@ -111,7 +111,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
             TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_credito_compra);
             Kardex kardex = new Kardex(null, notaCreditoCompra.getFecha(), notaCreditoCompra.getNumeroComprobante(),
                     notaCreditoCompraLinea.getId(), entrada, Constantes.cero, saldo,
-                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, tipoComprobante,
+                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, Constantes.estadoActivo, tipoComprobante,
                     new TipoOperacion(tipoOperacionId), notaCreditoCompraLinea.getBodega(), notaCreditoCompraLinea.getProducto());
 
             kardexService.crear(kardex);
@@ -162,7 +162,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
                 }
                 Kardex kardex = new Kardex(null, notaCreditoCompra.getFecha(), notaCreditoCompra.getNumeroComprobante(),
                         notaCreditoCompraLinea.getId(), entrada, Constantes.cero, saldo,
-                        costoUnitario, Constantes.cero, costoPromedio, costoTotal, tipoComprobante,
+                        costoUnitario, Constantes.cero, costoPromedio, costoTotal, Constantes.estadoActivo, tipoComprobante,
                         new TipoOperacion(tipoOperacionId), notaCreditoCompraLinea.getBodega(), notaCreditoCompraLinea.getProducto());
 
                 kardexService.crear(kardex);
@@ -206,7 +206,7 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
 
     private void actualizarPrecios(NotaCreditoCompra notaCreditoCompra) {
         for (NotaCreditoCompraLinea notaCreditoCompraLinea : notaCreditoCompra.getNotaCreditoCompraLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodegaYEstado(notaCreditoCompraLinea.getProducto().getId(), notaCreditoCompraLinea.getBodega().getId(), Constantes.estadoActivo);
             for (Precio precio : notaCreditoCompraLinea.getProducto().getPrecios()) {
                 precio.setCosto(ultimoKardex.getCostoPromedio());
 
