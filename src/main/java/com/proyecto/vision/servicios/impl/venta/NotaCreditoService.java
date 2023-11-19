@@ -152,7 +152,7 @@ public class NotaCreditoService implements INotaCreditoService {
                     saldo = ultimoKardex.getSaldo();
                     tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.descuentoVenta, Constantes.estadoActivo);
                 }
-                costoUnitario = ultimoKardex.getCostoPromedio();
+                costoUnitario = notaCreditoLinea.getCostoUnitario();
                 costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
 
                 costoTotal = ultimoKardex.getCostoTotal() + (notaCreditoLinea.getCantidad() * costoUnitario);
@@ -162,8 +162,8 @@ public class NotaCreditoService implements INotaCreditoService {
                 costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
             }
             Kardex kardex = new Kardex(null, notaCredito.getFecha(), notaCredito.getNumeroComprobante(),
-                    notaCreditoLinea.getId(), entrada, Constantes.cero, saldo,
-                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, new TipoComprobante(4),
+                    notaCreditoLinea.getId(), entrada, Constantes.cero, saldo, costoUnitario, Constantes.cero,
+                    costoPromedio, costoTotal, Constantes.estadoActivo, new TipoComprobante(4),
                     tipoOperacion, notaCreditoLinea.getBodega(), notaCreditoLinea.getProducto());
 
             kardexService.crear(kardex);
@@ -201,7 +201,7 @@ public class NotaCreditoService implements INotaCreditoService {
                         saldo = ultimoKardex.getSaldo();
                         tipoOperacion = tipoOperacionService.obtenerPorAbreviaturaYEstado(Constantes.descuentoVenta, Constantes.estadoActivo);
                     }
-                    costoUnitario = ultimoKardex.getCostoPromedio();
+                    costoUnitario = notaCreditoLinea.getCostoUnitario();
                     costoUnitario = Math.round(costoUnitario * 10000.0) / 10000.0;
 
                     costoTotal = ultimoKardex.getCostoTotal() + (notaCreditoLinea.getCantidad() * costoUnitario);
@@ -211,8 +211,8 @@ public class NotaCreditoService implements INotaCreditoService {
                     costoPromedio = Math.round(costoPromedio * 10000.0) / 10000.0;
                 }
                 Kardex kardex = new Kardex(null, notaCredito.getFecha(), notaCredito.getNumeroComprobante(),
-                        notaCreditoLinea.getId(), entrada, Constantes.cero, saldo,
-                        costoUnitario, Constantes.cero, costoPromedio, costoTotal, new TipoComprobante(4),
+                        notaCreditoLinea.getId(), entrada, Constantes.cero, saldo, costoUnitario, Constantes.cero,
+                        costoPromedio, costoTotal, Constantes.estadoActivo, new TipoComprobante(4),
                         tipoOperacion, notaCreditoLinea.getBodega(), notaCreditoLinea.getProducto());
 
                 kardexService.crear(kardex);
@@ -254,7 +254,7 @@ public class NotaCreditoService implements INotaCreditoService {
 
     private void actualizarPrecios(NotaCredito notaCredito) {
         for (NotaCreditoLinea notaCreditoLinea : notaCredito.getNotaCreditoLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaCreditoLinea.getProducto().getId(), notaCreditoLinea.getBodega().getId());
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodegaYEstado(notaCreditoLinea.getProducto().getId(), notaCreditoLinea.getBodega().getId(), Constantes.estadoActivo);
             for (Precio precio : notaCreditoLinea.getProducto().getPrecios()) {
                 precio.setCosto(ultimoKardex.getCostoPromedio());
 

@@ -110,7 +110,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
             TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_nota_debito_compra);
             Kardex kardex = new Kardex(null, notaDebitoCompra.getFecha(), notaDebitoCompra.getNumeroComprobante(),
                     notaDebitoCompraLinea.getId(), entrada, Constantes.cero, saldo,
-                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, tipoComprobante,
+                    costoUnitario, Constantes.cero, costoPromedio, costoTotal, Constantes.estadoActivo, tipoComprobante,
                     new TipoOperacion(tipoOperacionId), new Bodega(1), notaDebitoCompraLinea.getProducto());
 
             kardexService.crear(kardex);
@@ -130,7 +130,7 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
 
     private void actualizarPrecios(NotaDebitoCompra notaDebitoCompra) {
         for (NotaDebitoCompraLinea notaDebitoCompraLinea : notaDebitoCompra.getNotaDebitoCompraLineas()) {
-            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodega(notaDebitoCompraLinea.getProducto().getId(), 1);
+            Kardex ultimoKardex = kardexService.obtenerUltimoPorProductoYBodegaYEstado(notaDebitoCompraLinea.getProducto().getId(), 1, Constantes.estadoActivo);
             for (Precio precio : notaDebitoCompraLinea.getProducto().getPrecios()) {
                 precio.setCosto(ultimoKardex.getCostoPromedio());
 

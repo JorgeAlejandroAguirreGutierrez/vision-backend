@@ -41,6 +41,8 @@ public class Kardex extends Entidad {
     private double costoPromedio;
     @Column(name = "costo_total", nullable = true)
     private double costoTotal;
+    @Column(name = "estado", nullable = true)
+    private String estado;
     @ManyToOne
     @JoinColumn(name = "tipo_comprobante_id", nullable = true)
     private TipoComprobante tipoComprobante;
@@ -71,5 +73,6 @@ public class Kardex extends Entidad {
         this.haber = Constantes.cero;
         this.costoPromedio = Constantes.cero;
         this.costoTotal = Constantes.cero;
+        this.estado = Constantes.estadoActivo;
     }
 }
