@@ -179,12 +179,12 @@ public class Constantes {
     public static final String tabla_presentacion_producto="presentacion_producto";
     public static final String tabla_producto="producto";
     public static final String tabla_proveedor="proveedor";
+    public static final String tabla_producto_proveedor="producto_proveedor";
     public static final String tabla_segmento="segmento";
     public static final String tabla_sub_grupo_producto="sub_grupo_producto";
     public static final String tabla_sub_linea_producto="sub_linea_producto";
     public static final String tabla_equivalencia_medida="equivalencia_medida";
     public static final String tabla_tipo_gasto="tipo_gasto";
-
     public static final String tabla_tipo_operacion="tipo_operacion";
 
     //CAJA BANCOS
@@ -304,6 +304,7 @@ public class Constantes {
     public static final String impuesto="IMPUESTO";
     public static final String kardex="KARDEX";
     public static final String medida="MEDIDA";
+    public static final String equivalencia_medida="EQUIVALENCIA MEDIDA";
     public static final String precio="PRECIO";
     public static final String producto="PRODUCTO";
     public static final String proveedor="PROVEEDOR";
