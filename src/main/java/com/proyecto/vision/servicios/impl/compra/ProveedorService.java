@@ -45,7 +45,6 @@ public class ProveedorService implements IProveedorService {
     public void validar(Proveedor proveedor) {
         if(proveedor.getIdentificacion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
         if(proveedor.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.razonSocial);
-        if(proveedor.getNombreComercial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombreComercial);
         if(proveedor.getDireccion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.direccion);
         if(proveedor.getEspecial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.especial);
         if(proveedor.getObligadoContabilidad().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.obligadoContabilidad);
