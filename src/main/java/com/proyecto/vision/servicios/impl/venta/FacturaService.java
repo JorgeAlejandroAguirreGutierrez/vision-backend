@@ -331,7 +331,6 @@ public class FacturaService implements IFacturaService {
 
     @Override
     public Factura anular(Factura factura) {
-        validar(factura);
         if(factura.getEstado().equals(Constantes.estadoCerrada)){
             throw new ErrorInternoException(Constantes.mensaje_error_factura_cerrada);
         }
