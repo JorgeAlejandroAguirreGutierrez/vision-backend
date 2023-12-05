@@ -321,21 +321,21 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 	private InfoAdicional crearInfoAdicional(Factura factura) {
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
-		if(!factura.getCliente().getTelefonos().isEmpty()) {
+		if(!factura.getCliente().getTelefonos().isEmpty() && !factura.getCliente().getTelefonos().get(0).getNumero().equals(Constantes.vacio)) {
 			String telefono = factura.getCliente().getTelefonos().get(0).getNumero();
 			CampoAdicional campoAdicional = new CampoAdicional();
 			campoAdicional.setNombre(Constantes.telefono);
 			campoAdicional.setValor(telefono);
 			camposAdicionales.add(campoAdicional);
 		}
-		if(!factura.getCliente().getCelulares().isEmpty()){
+		if(!factura.getCliente().getCelulares().isEmpty() && !factura.getCliente().getCelulares().get(0).getNumero().equals(Constantes.vacio)){
 			String celular = factura.getCliente().getCelulares().get(0).getNumero();
 			CampoAdicional campoAdicional = new CampoAdicional();
 			campoAdicional.setNombre(Constantes.celular);
 			campoAdicional.setValor(celular);
 			camposAdicionales.add(campoAdicional);
 		}
-		if(!factura.getCliente().getCorreos().isEmpty()) {
+		if(!factura.getCliente().getCorreos().isEmpty() && !factura.getCliente().getCorreos().get(0).getEmail().equals(Constantes.vacio)) {
 			String correo = factura.getCliente().getCorreos().get(0).getEmail();
 			CampoAdicional campoAdicional = new CampoAdicional();
 			campoAdicional.setNombre(Constantes.correo);
