@@ -245,9 +245,33 @@ public class ClienteService implements IClienteService {
                 boolean bandera = Util.verificarPlaca(identificacion);
                 if (bandera) {
                     tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("07").get();
+                    String razonSocial = Constantes.vacio;
+                    try {
+                        HttpPost request = new HttpPost("https://apiston.consultasecuador.com/api/v1/find-car-owner?placa="+identificacion);
+                        request.setHeader("Origin", "https://consultasecuador.com");
+                        HttpClient httpClient = HttpClients.custom()
+                                .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
+                                                .loadTrustMaterial(null, new TrustAllStrategy())
+                                                .build()
+                                        )
+                                ).build();
+                        HttpResponse response = httpClient.execute(request);
+                        String json = EntityUtils.toString(response.getEntity());
+                        JSONObject objeto = new JSONObject(json);
+                        razonSocial = objeto.getJSONObject("data").getString("names");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    } catch (KeyStoreException e) {
+                        e.printStackTrace();
+                    } catch (KeyManagementException e) {
+                        e.printStackTrace();
+                    }
                     Cliente cliente=new Cliente();
-                    cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
+                    cliente.setIdentificacion(identificacion);
+                    cliente.setRazonSocial(razonSocial);
                     cliente.setTipoContribuyente(null);
                     return cliente;
                 }
