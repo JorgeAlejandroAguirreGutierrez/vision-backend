@@ -1,5 +1,7 @@
 package com.proyecto.vision.servicios.impl.cliente;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
@@ -13,6 +15,18 @@ import com.proyecto.vision.repositorios.cliente.ITipoContribuyenteRepository;
 import com.proyecto.vision.repositorios.configuracion.ITipoIdentificacionRepository;
 import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.vision.servicios.interf.cliente.IClienteService;
+import org.apache.commons.httpclient.URI;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustAllStrategy;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +36,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Predicate;
 
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -115,21 +133,45 @@ public class ClienteService implements IClienteService {
 
     @Override
     public Cliente validarIdentificacionPorEmpresa(long empresaId, String identificacion) {
-    	if (identificacion!= null) {
+    	if (identificacion != null) {
 	    	Optional<Cliente> res = rep.obtenerPorEmpresaYIdentificacion(empresaId, identificacion, Constantes.estadoActivo);
 	    	if(res.isPresent()) {
 	    		throw new EntidadExistenteException(Constantes.cliente);
 	    	}
-	    	TipoIdentificacion tipoIdentificacion=null;
-	    	TipoContribuyente tipoContribuyente=null;
+	    	TipoIdentificacion tipoIdentificacion = null;
+	    	TipoContribuyente tipoContribuyente = null;
             if (identificacion.length() == 10 && Integer.parseInt((identificacion.substring(2,3))) != 6 && Integer.parseInt((identificacion.substring(2,3))) != 9) {
                 boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
                 	tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri("05").get();
                 	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
-                    Cliente cliente=new Cliente();
-                    cliente.setIdentificacion(identificacion);
+                    String razonSocial = Constantes.vacio;
+                	try {
+                        HttpPost request = new HttpPost("https://apiston.consultasecuador.com/api/v1/pers/find-names?id="+identificacion);
+                        request.setHeader("Origin", "https://consultasecuador.com");
+                        HttpClient httpClient = HttpClients.custom()
+                                .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
+                                                .loadTrustMaterial(null, new TrustAllStrategy())
+                                                .build()
+                                        )
+                                ).build();
+                        HttpResponse response = httpClient.execute(request);
+                        String json = EntityUtils.toString(response.getEntity());
+                        JSONObject objeto = new JSONObject(json);
+                        razonSocial = objeto.getJSONObject("data").getString("nombres");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    } catch (KeyStoreException e) {
+                        e.printStackTrace();
+                    } catch (KeyManagementException e) {
+                        e.printStackTrace();
+                    }
+                    Cliente cliente = new Cliente();
                     cliente.setTipoIdentificacion(tipoIdentificacion);
+                	cliente.setIdentificacion(identificacion);
+                    cliente.setRazonSocial(razonSocial);
                     cliente.setTipoContribuyente(tipoContribuyente);
                     cliente = buscarClienteBase(cliente);
                     return cliente;
