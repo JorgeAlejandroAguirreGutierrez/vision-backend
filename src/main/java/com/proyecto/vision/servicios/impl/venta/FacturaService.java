@@ -367,10 +367,12 @@ public class FacturaService implements IFacturaService {
         c.setTime(factura.getFecha());
         c.add(c.DAY_OF_YEAR, -1);
         for (FacturaLinea facturaLinea : factura.getFacturaLineas()) {
-            Kardex kardex = kardexService.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYIdLinea(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), tipoComprobante.getId(), factura.getNumeroComprobante(), facturaLinea.getId());
-            kardex.setEstado(Constantes.estadoAnulada);
-            kardexService.actualizar(kardex);
-            kardexService.recalcularPorProductoYBodegaYFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), c.getTime());
+            if(facturaLinea.getBodega() != null){
+                Kardex kardex = kardexService.obtenerPorProductoYBodegaYTipoComprobanteYComprobanteYIdLinea(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), tipoComprobante.getId(), factura.getNumeroComprobante(), facturaLinea.getId());
+                kardex.setEstado(Constantes.estadoAnulada);
+                kardexService.actualizar(kardex);
+                kardexService.recalcularPorProductoYBodegaYFecha(facturaLinea.getProducto().getId(), facturaLinea.getBodega().getId(), c.getTime());
+            }
         }
     }
 
