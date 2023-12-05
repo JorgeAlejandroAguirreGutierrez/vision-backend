@@ -67,6 +67,7 @@ public class FacturaLinea extends Entidad {
     @JoinColumn(name = "bodega_id", nullable = true)
     private Bodega bodega;
     @ManyToOne
+    @JoinColumn(name = "precio_id", nullable = true)
     private Precio precio;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
