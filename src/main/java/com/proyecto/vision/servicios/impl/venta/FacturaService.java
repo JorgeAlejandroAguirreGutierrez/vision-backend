@@ -143,6 +143,11 @@ public class FacturaService implements IFacturaService {
         factura.setProcesoSRI(Constantes.procesoSRIPendiente);
         calcular(factura);
         calcularRecaudacion(factura);
+        for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
+            if(facturaLinea.getPrecio() != null && facturaLinea.getPrecio().getId() == Constantes.ceroId){
+                facturaLinea.setPrecio(null);
+            }
+        }
         Factura res = rep.save(factura);
         crearKardex(factura);
         res.normalizar();
