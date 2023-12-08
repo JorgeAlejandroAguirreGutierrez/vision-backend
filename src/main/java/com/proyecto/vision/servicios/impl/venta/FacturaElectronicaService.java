@@ -551,10 +551,19 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			PdfDocument pdf = new PdfDocument(writer);
 			// Initialize document
 			Document documento = new Document(pdf, PageSize.A4);
-			documento.setMargins(0,0,0,0);
+			documento.setMargins(30,25,20,30);
 			// 4. Add content
 			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 			documento.setFont(font);
+			float [] columnas = {320F, 280F};
+			Table tablaEncabezado = new Table(columnas);
+			tablaEncabezado.setVerticalAlignment(VerticalAlignment.BOTTOM);
+			tablaEncabezado.setBorder(Border.NO_BORDER);
+			Table tablaEncabezadoIzq = new Table(1);
+			tablaEncabezadoIzq.useAllAvailableWidth();
+			tablaEncabezadoIzq.setBorder(Border.NO_BORDER);
+			Table tablaEncabezadoDer = new Table(1);
+			tablaEncabezadoDer.setBorder(Border.NO_BORDER);
 			if(factura.getEmpresa().getLogo().equals(Constantes.vacio)){
 				documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
 			}
@@ -562,8 +571,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				Path path = Paths.get(Constantes.pathRecursos + Constantes.pathLogos + Constantes.slash + factura.getEmpresa().getLogo());
 				ImageData imageData = ImageDataFactory.create(path.toAbsolutePath().toString());
 				Image image = new Image(imageData).scaleAbsolute(150, 100);
-				documento.add(image);
+				image.setHorizontalAlignment(HorizontalAlignment.CENTER);
+				image.setBorder(Border.NO_BORDER);
+				Cell celda1 = new Cell();
+				celda1.setBorder(Border.NO_BORDER);
+				celda1.add(image);
+				tablaEncabezadoIzq.addCell(celda1);
 			}
+			String [] cabecera1 = new String[7];
 			String regimen = Constantes.vacio;
 			if(factura.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = factura.getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
@@ -585,15 +600,13 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			if(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getAgenteRetencion().equals(Constantes.no)){
 				agenteRetencion = Constantes.no;
 			}
-			float [] columnas = {320F, 280F};
-			Table tabla = new Table(columnas);
-			tabla.addCell(getCellEmpresa(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
-					"DIRECCIÓN MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
-					"DIRECCIÓN SUCURSAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
-					regimen + "\n" + "\n" +
-					"CONTRIBUYENTE ESPECIAL: " + contribuyenteEspecial + "\n" + "\n" +
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
-					"AGENTE RETENCION RESOLUCIÓN: " + agenteRetencion, TextAlignment.LEFT));
+			cabecera1[0] = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n";
+			cabecera1[1] = "DIRECCIÓN MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion();
+			tablaEncabezadoIzq.addCell(getCellEmpresa(cabecera1,"DIRECCIÓN SUCURSAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
+					regimen + "\n" +
+					"CONTRIBUYENTE ESPECIAL: " + contribuyenteEspecial + "\n"+
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" +"\n" +
+					"AGENTE RETENCION RESOL: " + agenteRetencion, TextAlignment.LEFT));
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
@@ -613,17 +626,25 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			if(facturacionProduccion.equals(Constantes.no)){
 				ambiente = Constantes.facturaFisicaAmbientePruebasValor;
 			}
-			tabla.addCell(getCellFactura("RUC: "+factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+			tablaEncabezadoDer.addCell(getCellFactura("RUC: "+factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+"\n"+
 					"FACTURA"+"\n"+
-					"No. " + factura.getNumeroComprobante() + "\n" +
-					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
+					"No. " + factura.getNumeroComprobante() + "\n" +"\n"+
+					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +"\n"+
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
 					"AMBIENTE: " + ambiente + "\n" +
 					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
 					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
-			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
-			tabla.setHorizontalBorderSpacing(3);
-			documento.add(tabla);
+			Cell celda2 = new Cell();
+			celda2.setBorder(Border.NO_BORDER);
+			celda2.add(tablaEncabezadoIzq);
+			tablaEncabezado.addCell(celda2);
+			Cell celda3 = new Cell();
+			celda3.setBorder(Border.NO_BORDER);
+			celda3.add(tablaEncabezadoDer);
+			tablaEncabezado.addCell(celda3);
+//			tablaEncabezado.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
+//			tablaEncabezado.setHorizontalBorderSpacing(1);
+			documento.add(tablaEncabezado);
 			documento.add(new Paragraph("\n"));
 			float [] columnasCliente = {300F, 300F};
 			Table tablaCliente = new Table(columnasCliente);
@@ -758,8 +779,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		}
 	}
 
-	private Cell getCellEmpresa(String text, TextAlignment alignment) {
-		Cell cell = new Cell().add(new Paragraph(text));
+	private Cell getCellEmpresa(String [] cabecera1, String text, TextAlignment alignment) {
+		Paragraph linea1 = new Paragraph(cabecera1[0]);
+		linea1.setBold();
+		Paragraph linea2 = new Paragraph(cabecera1[1]);
+		linea2.setFontSize(9);
+		Cell cell = new Cell().add(linea1);
+		cell.add(linea2);
+		cell.add(new Paragraph(text).setFontSize(9));
 		cell.setTextAlignment(alignment);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
 		cell.setBorderTopLeftRadius(new BorderRadius(5));
