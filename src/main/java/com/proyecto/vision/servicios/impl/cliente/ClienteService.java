@@ -1,7 +1,5 @@
 package com.proyecto.vision.servicios.impl.cliente;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
@@ -15,17 +13,16 @@ import com.proyecto.vision.repositorios.cliente.ITipoContribuyenteRepository;
 import com.proyecto.vision.repositorios.configuracion.ITipoIdentificacionRepository;
 import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.vision.servicios.interf.cliente.IClienteService;
-import org.apache.commons.httpclient.URI;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -143,12 +140,12 @@ public class ClienteService implements IClienteService {
             if (identificacion.length() == 10 && Integer.parseInt((identificacion.substring(2,3))) != 6 && Integer.parseInt((identificacion.substring(2,3))) != 9) {
                 boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
-                	tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri("05").get();
-                	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
+                	tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_cedula_sri).get();
+                	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
                     String razonSocial = Constantes.vacio;
                 	try {
-                        HttpPost request = new HttpPost("https://apiston.consultasecuador.com/api/v1/pers/find-names?id="+identificacion);
-                        request.setHeader("Origin", "https://consultasecuador.com");
+                        HttpPost request = new HttpPost(Constantes.url_cedula_consultas_ecuador+identificacion);
+                        request.setHeader(Constantes.origin, Constantes.consultas_ecuador);
                         HttpClient httpClient = HttpClients.custom()
                                 .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
                                                 .loadTrustMaterial(null, new TrustAllStrategy())
@@ -159,13 +156,7 @@ public class ClienteService implements IClienteService {
                         String json = EntityUtils.toString(response.getEntity());
                         JSONObject objeto = new JSONObject(json);
                         razonSocial = objeto.getJSONObject("data").getString("nombres");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    } catch (KeyStoreException e) {
-                        e.printStackTrace();
-                    } catch (KeyManagementException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     Cliente cliente = new Cliente();
@@ -178,7 +169,7 @@ public class ClienteService implements IClienteService {
                 }
                 throw new IdentificacionInvalidaException();
             } else if (identificacion.equals(Constantes.identificacion_consumidor_final)) {
-            	tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri("07").get();
+            	tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_consumidor_final_sri).get();
             	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
                 Cliente cliente=new Cliente();
                 cliente.setIdentificacion(identificacion);
@@ -188,7 +179,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
                 boolean bandera = Util.verificarSociedadesPublicas(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("04").get();
+                	tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_sociedades_publicas_sri).get();
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
@@ -202,8 +193,8 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 9) {
                 boolean bandera = Util.verificarSociedadesPrivadas(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("04").get();
-                	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PRIVADA");
+                	tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_sociedades_privadas_sri).get();
+                	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica,Constantes.tipo_contribuyente_privada);
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
@@ -216,8 +207,8 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 13 && (Integer.parseInt(identificacion.substring(2,3)) != 6 || Integer.parseInt(identificacion.substring(2,3)) != 9)) {
                 boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("04").get();
-                	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
+                	tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_ruc_sri).get();
+                	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
@@ -230,8 +221,8 @@ public class ClienteService implements IClienteService {
             }else if (identificacion.length() == 13) {
                 boolean bandera = Util.verificarPersonaNatural(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("04").get();
-                	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PUBLICA");
+                	tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_ruc_sri).get();
+                	tipoContribuyente = repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica,Constantes.tipo_contribuyente_publica);
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
@@ -244,11 +235,11 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 7) {
                 boolean bandera = Util.verificarPlaca(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("07").get();
+                    tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_placa_sri).get();
                     String razonSocial = Constantes.vacio;
                     try {
-                        HttpPost request = new HttpPost("https://apiston.consultasecuador.com/api/v1/find-car-owner?placa="+identificacion);
-                        request.setHeader("Origin", "https://consultasecuador.com");
+                        HttpPost request = new HttpPost(Constantes.url_placa_consultas_ecuador+identificacion);
+                        request.setHeader(Constantes.origin, Constantes.consultas_ecuador);
                         HttpClient httpClient = HttpClients.custom()
                                 .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
                                                 .loadTrustMaterial(null, new TrustAllStrategy())
@@ -280,7 +271,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 6) {
                 boolean bandera = Util.verificarPlacaMoto(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("07").get();
+                    tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_placa_sri).get();
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
@@ -292,7 +283,7 @@ public class ClienteService implements IClienteService {
             else if (identificacion.length() >=8) {
                 boolean bandera = Util.verificarPasaporte(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("06").get();
+                    tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_pasaporte_sri).get();
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
