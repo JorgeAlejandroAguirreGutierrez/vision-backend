@@ -7,6 +7,7 @@ public class Constantes {
     public static final String tipo_contribuyente_natural="NATURAL";
     public static final String tipo_contribuyente_juridica="JURIDICA";
     public static final String tipo_contribuyente_publica="PUBLICA";
+    public static final String tipo_contribuyente_privada="PRIVADA";
     public static final String correoPorDefecto="gerencia.evoluciontic@gmail.com";
 
     public static final String pathRecursos = "src/main/resources/";
@@ -24,6 +25,18 @@ public class Constantes {
     public static final String pasaporte_abreviatura="E";
     public static final String compra = "COMPRA";
     public static final String factura_recibida_sri = "Factura";
+    public static final String codigo_cedula_sri = "05";
+    public static final String codigo_consumidor_final_sri = "07";
+    public static final String codigo_sociedades_publicas_sri = "04";
+    public static final String codigo_sociedades_privadas_sri = "04";
+    public static final String codigo_ruc_sri = "04";
+    public static final String codigo_placa_sri = "07";
+    public static final String codigo_pasaporte_sri = "06";
+
+    public static final String origin = "Origin";
+    public static final String url_cedula_consultas_ecuador = "https://apiston.consultasecuador.com/api/v1/pers/find-names?id=";
+    public static final String url_placa_consultas_ecuador = "https://apiston.consultasecuador.com/api/v1/find-car-owner?placa=";
+    public static final String consultas_ecuador = "https://consultasecuador.com";
 
     public static final String pendiente="PENDIENTE";
     public static final String entregado="ENTREGADO";
