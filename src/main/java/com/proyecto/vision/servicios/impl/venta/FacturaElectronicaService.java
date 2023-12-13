@@ -483,17 +483,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				resultado.add(informacionAdicional);
 			}
 			return resultado;
-		} catch (JAXBException ex) {
-			System.err.println(ex.getMessage());
-		} catch (IOException ex) {
-			// TODO Auto-generated catch block
-			System.err.println(ex.getMessage());
-		} catch (InterruptedException ex) {
-			// TODO Auto-generated catch block
-			System.err.println(ex.getMessage());
-		} catch (CertificateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 		throw new EntidadNoExistenteException(Constantes.factura_electronica);
 	}
@@ -547,8 +538,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				resultado.add(informacionAdicional);
 			}
 			return resultado;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 			resultado.add(Constantes.noAutorizadoSri);
 			return resultado;
 		}
