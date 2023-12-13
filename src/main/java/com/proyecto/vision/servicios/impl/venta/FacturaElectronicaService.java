@@ -499,6 +499,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	}
 
 	private List<String> autorizacion(FacturaElectronica facturaElectronica){
+		List<String> resultado = new ArrayList<>();
 		try {
 			String url = Constantes.vacio;
 			if(facturacionProduccion.equals(Constantes.si)){
@@ -522,8 +523,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			System.out.println(response.statusCode());
 			// print response body
 			System.out.println(response.body());
-			JSONObject json=Util.convertirXmlJson(response.body());
-			List<String> resultado = new ArrayList<>();
+			JSONObject json = Util.convertirXmlJson(response.body());
 			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
 					.getJSONObject("autorizaciones").getJSONObject("autorizacion").getString("estado");
 			resultado.add(estado);
@@ -547,10 +547,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				resultado.add(informacionAdicional);
 			}
 			return resultado;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.add(Constantes.noAutorizadoSri);
+			return resultado;
 		}
 	}
 
