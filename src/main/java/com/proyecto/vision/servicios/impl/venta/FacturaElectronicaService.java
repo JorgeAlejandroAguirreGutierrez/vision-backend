@@ -388,23 +388,34 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		if(factura.getProcesoSRI().equals(Constantes.procesoSRIAnulada)){
 			throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
 		}
+
 		FacturaElectronica facturaElectronica = crear(factura);
-		List<String> estadoRecepcion = recepcion(facturaElectronica, factura.getEmpresa().getCertificado(), factura.getEmpresa().getContrasena());
-		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
-			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
-		}
-		List<String> estadoAutorizacion = autorizacion(facturaElectronica);
-		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
-			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
-		}
-		if(estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
-			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
-		}
-		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
-			suscripcionService.aumentarConteo(factura.getEmpresa().getId());
+		boolean bandera = false;
+		List<String> autorizacion = autorizacion(facturaElectronica);
+		if(autorizacion.get(0).equals(Constantes.autorizadoSri)){
 			factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
 			factura.setFechaAutorizacion(new Date());
 			enviarCorreo(factura, facturaElectronica);
+			bandera = true;
+		}
+		if(!bandera){
+			List<String> estadoRecepcion = recepcion(facturaElectronica, factura.getEmpresa().getCertificado(), factura.getEmpresa().getContrasena());
+			if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
+				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+			}
+			List<String> estadoAutorizacion = autorizacion(facturaElectronica);
+			if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
+				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+			}
+			if(estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
+				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
+			}
+			if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+				suscripcionService.aumentarConteo(factura.getEmpresa().getId());
+				factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
+				factura.setFechaAutorizacion(new Date());
+				enviarCorreo(factura, facturaElectronica);
+			}
 		}
 		Factura facturada = rep.save(factura);
 		facturada.normalizar();
