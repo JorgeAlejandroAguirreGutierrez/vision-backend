@@ -27,11 +27,20 @@ public class RetencionClienteService implements IRetencionClienteService {
     @Autowired
     private IClienteRepository rep_cliente;
 
+    /**
+     * Metodo que permite la validacion de las propiedades del objeto
+     * @param retencionCliente
+     */
     @Override
     public void validar(RetencionCliente retencionCliente) {
         if(retencionCliente.getTipoRetencion().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.tipoRetencion);
     }
-    
+
+    /**
+     * Metodo que permite la creacion del objeto
+     * @param retencionCliente
+     * @return el objeto creado
+     */
     @Override
     public RetencionCliente crear(RetencionCliente retencionCliente) {
         validar(retencionCliente);
@@ -45,6 +54,11 @@ public class RetencionClienteService implements IRetencionClienteService {
         return res;
     }
 
+    /**
+     * Metodo que permite la actualizacion del objeto
+     * @param retencionCliente
+     * @return el objeto actualizado
+     */
     @Override
     public RetencionCliente actualizar(RetencionCliente retencionCliente) {
         validar(retencionCliente);
@@ -53,6 +67,11 @@ public class RetencionClienteService implements IRetencionClienteService {
         return res;
     }
 
+    /**
+     * Metodo que permite obtener un objeto a traves del id
+     * @param id
+     * @return el objeto
+     */
     @Override
     public RetencionCliente obtener(long id) {
         Optional<RetencionCliente> retencionCliente= rep.findById(id);
@@ -64,11 +83,20 @@ public class RetencionClienteService implements IRetencionClienteService {
         throw new EntidadNoExistenteException(Constantes.retencion_cliente);
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos
+     * @return lista de todos los objetos
+     */
     @Override
     public List<RetencionCliente> consultar() {
         return rep.findAll();
     }
 
+    /**
+     * Metodo que permite consultar los objetos por pagina
+     * @param pageable
+     * @return lista de tipo Page con los objetos
+     */
     @Override
     public Page<RetencionCliente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);

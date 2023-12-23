@@ -24,12 +24,21 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     @Autowired
     private IPlazoCreditoRepository rep;
 
+    /**
+     * Metodo que permite la validacion de las propiedades del objeto
+     * @param plazoCredito
+     */
     @Override
     public void validar(PlazoCredito plazoCredito) {
         if(plazoCredito.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
         if(plazoCredito.getPlazo() == Constantes.cero) throw new DatoInvalidoException(Constantes.plazo);
     }
-    
+
+    /**
+     * Metodo que permite la creacion del objeto
+     * @param plazoCredito
+     * @return el objeto creado
+     */
     @Override
     public PlazoCredito crear(PlazoCredito plazoCredito) {
         validar(plazoCredito);
@@ -42,12 +51,22 @@ public class PlazoCreditoService implements IPlazoCreditoService {
     	return rep.save(plazoCredito);
     }
 
+    /**
+     * Metodo que permite la actualizacion del objeto
+     * @param plazoCredito
+     * @return el objeto actualizado
+     */
     @Override
     public PlazoCredito actualizar(PlazoCredito plazoCredito) {
         validar(plazoCredito);
         return rep.save(plazoCredito);
     }
 
+    /**
+     * Metodo que permite poner la propiedad estado en activo
+     * @param plazoCredito
+     * @return el objeto con la propiedad estado en activo
+     */
     @Override
     public PlazoCredito activar(PlazoCredito plazoCredito) {
         validar(plazoCredito);
@@ -55,6 +74,11 @@ public class PlazoCreditoService implements IPlazoCreditoService {
         return rep.save(plazoCredito);
     }
 
+    /**
+     * Metodo que permite poner la propiedad estado en inactivo
+     * @param plazoCredito
+     * @return el objeto con la propiedad estado en inactivo
+     */
     @Override
     public PlazoCredito inactivar(PlazoCredito plazoCredito) {
         validar(plazoCredito);
@@ -62,6 +86,11 @@ public class PlazoCreditoService implements IPlazoCreditoService {
         return rep.save(plazoCredito);
     }
 
+    /**
+     * Metodo que permite obtener un objeto a traves del id
+     * @param id
+     * @return el objeto
+     */
     @Override
     public PlazoCredito obtener(long id) {
         Optional<PlazoCredito> res= rep.findById(id);
@@ -71,26 +100,51 @@ public class PlazoCreditoService implements IPlazoCreditoService {
         throw new EntidadNoExistenteException(Constantes.plazo_credito);
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos
+     * @return lista de todos los objetos
+     */
     @Override
     public List<PlazoCredito> consultar() {
         return rep.consultar();
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos filtrando por la empresa
+     * @param empresaId
+     * @return lista de los objetos filtrados por la empresa
+     */
     @Override
     public List<PlazoCredito> consultarPorEmpresa(long empresaId){
         return rep.consultarPorEmpresa(empresaId);
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos filtrando por el estado
+     * @param estado
+     * @return lista de los objetos filtrados por el estado
+     */
     @Override
     public List<PlazoCredito> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos filtrando por la empresa y el estado
+     * @param empresaId
+     * @param estado
+     * @return lista de los objetos filtrados por la empresa y el estado
+     */
     @Override
     public List<PlazoCredito> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
+    /**
+     * Metodo que permite consultar los objetos por pagina
+     * @param pageable
+     * @return lista de tipo Page con los objetos
+     */
     @Override
     public Page<PlazoCredito> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
