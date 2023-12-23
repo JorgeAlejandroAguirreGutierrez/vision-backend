@@ -392,7 +392,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		FacturaElectronica facturaElectronica = crear(factura);
 		boolean bandera = false;
 		List<String> autorizacion = autorizacion(facturaElectronica);
-		if(autorizacion.get(0).equals(Constantes.autorizadoSri)){
+		if(!autorizacion.isEmpty() && autorizacion.get(0).equals(Constantes.autorizadoSri)){
 			factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
 			factura.setFechaAutorizacion(new Date());
 			enviarCorreo(factura, facturaElectronica);
@@ -400,17 +400,17 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		}
 		if(!bandera){
 			List<String> estadoRecepcion = recepcion(facturaElectronica, factura.getEmpresa().getCertificado(), factura.getEmpresa().getContrasena());
-			if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
+			if(!estadoRecepcion.isEmpty() && estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
 				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 			}
 			List<String> estadoAutorizacion = autorizacion(facturaElectronica);
-			if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
+			if(!estadoAutorizacion.isEmpty() && estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
 				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
 			}
-			if(estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
+			if(!estadoAutorizacion.isEmpty() && estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
 				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
 			}
-			if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+			if(!estadoAutorizacion.isEmpty() && estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
 				suscripcionService.aumentarConteo(factura.getEmpresa().getId());
 				factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
 				factura.setFechaAutorizacion(new Date());
@@ -423,6 +423,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	}
 
 	private List<String> recepcion(FacturaElectronica facturaElectronica, String certificado, String contrasena) {
+		List<String> resultado = new ArrayList<>();
 		try {
 			String url = Constantes.vacio;
 			if(facturacionProduccion.equals(Constantes.si)){
@@ -465,7 +466,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			// print response body
 			System.out.println(response.body());
 			JSONObject json=Util.convertirXmlJson(response.body());
-			List<String> resultado = new ArrayList<>();
 			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
 			resultado.add(estado);
 			if(estado.equals(Constantes.devueltaSri)){
@@ -485,8 +485,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			return resultado;
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			return resultado;
 		}
-		throw new EntidadNoExistenteException(Constantes.factura_electronica);
 	}
 
 	private List<String> autorizacion(FacturaElectronica facturaElectronica){
@@ -645,7 +645,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
 			for (int i = 0; i <factura.getFacturaLineas().size(); i++)
 			{
-				String precioUnitario = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecioUnitario());
+				String precioUnitario = String.format("%.4f", factura.getFacturaLineas().get(i).getPrecioUnitario());
 				String descuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getValorDescuentoLinea());
 				String porcentajeDescuentoLinea = factura.getFacturaLineas().get(i).getPorcentajeDescuentoLinea() + Constantes.vacio;
 				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalLinea());
