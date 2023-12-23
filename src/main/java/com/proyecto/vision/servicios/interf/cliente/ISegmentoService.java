@@ -10,7 +10,6 @@ public interface ISegmentoService extends IGenericoService<Segmento> {
 	List<Segmento> consultarPorEmpresa(long empresaId);
 	List<Segmento> consultarPorEstado(String estado);
 	List<Segmento> consultarPorEmpresaYEstado(long empresaId, String estado);
-	List<Segmento> buscar(Segmento segmento);
 	Segmento activar(Segmento segmento);
 	Segmento inactivar(Segmento segmento);
 

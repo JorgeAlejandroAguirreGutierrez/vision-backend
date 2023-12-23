@@ -1,6 +1,5 @@
 package com.proyecto.vision.servicios.interf.cliente;
 
-import com.proyecto.vision.modelos.cliente.CalificacionCliente;
 import com.proyecto.vision.modelos.cliente.Cliente;
 import com.proyecto.vision.servicios.interf.IGenericoService;
 
@@ -16,8 +15,7 @@ public interface IClienteService extends IGenericoService<Cliente> {
     Cliente activar(Cliente cliente);
 	Cliente inactivar(Cliente cliente);
     String existe(Cliente cliente);
-    List<Cliente> buscar(Cliente cliente);
-    Cliente validarIdentificacionPorEmpresa(long empresaId, String identificacion);
+    Cliente validarIdentificacionPorEmpresa(String identificacion, long empresaId);
     Cliente buscarClienteBase(Cliente cliente);
     Cliente buscarContribuyente(Cliente cliente);
 }

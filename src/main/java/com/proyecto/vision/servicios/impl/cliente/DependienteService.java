@@ -19,7 +19,12 @@ import java.util.Optional;
 public class DependienteService implements IDependienteService {
     @Autowired
     private IDependienteRepository rep;
-    
+
+    /**
+     * Metodo que permite la creacion del objeto
+     * @param dependiente
+     * @return el objeto creado
+     */
     @Override
     public Dependiente crear(Dependiente dependiente) {
     	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_dependiente);
@@ -30,11 +35,21 @@ public class DependienteService implements IDependienteService {
     	return rep.save(dependiente);
     }
 
+    /**
+     * Metodo que permite la actualizacion del objeto
+     * @param dependiente
+     * @return el objeto actualizado
+     */
     @Override
     public Dependiente actualizar(Dependiente dependiente) {
         return rep.save(dependiente);
     }
 
+    /**
+     * Metodo que permite obtener un objeto a traves del id
+     * @param id
+     * @return el objeto
+     */
     @Override
     public Dependiente obtener(long id) {
         Optional<Dependiente> resp= rep.findById(id);
@@ -44,23 +59,42 @@ public class DependienteService implements IDependienteService {
         throw new EntidadNoExistenteException(Constantes.dependiente);
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos
+     * @return lista de todos los objetos
+     */
     @Override
     public List<Dependiente> consultar() {
         return rep.findAll();
     }
-    
-    @Override
-    public Page<Dependiente> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 
+    /**
+     * Metodo que permite consultar todos los objetos filtrando por la razon social
+     * @param razonSocial
+     * @return lista de los objetos filtrados por razon social
+     */
     @Override
     public List<Dependiente> consultarPorRazonSocial(String razonSocial) {
         return  rep.consultarPorRazonSocial(razonSocial);
-
     }
+
+    /**
+     * Metodo que permite consultar todos los objetos filtrando por el cliente
+     * @param clienteId
+     * @return lista de los objetos filtrados por el cliente
+     */
     @Override
     public List<Dependiente> consultarPorCliente(long clienteId) {
         return  rep.consultarPorCliente(clienteId);
+    }
+
+    /**
+     * Metodo que permite consultar los objetos por pagina
+     * @param pageable
+     * @return lista de tipo Page con los objetos
+     */
+    @Override
+    public Page<Dependiente> consultarPagina(Pageable pageable){
+        return rep.findAll(pageable);
     }
 }

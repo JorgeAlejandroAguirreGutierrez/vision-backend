@@ -19,13 +19,22 @@ public class BancoService implements IBancoService {
     @Autowired
     private IBancoRepository rep;
 
+    /**
+     * Metodo que permite la validacion de las propiedades del objeto
+     * @param banco
+     */
     @Override
     public void validar(Banco banco) {
         if(banco.getRuc().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.identificacion);
         if(banco.getRazonSocial().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.nombre);
         if(banco.getSubsistema().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
     }
-    
+
+    /**
+     * Metodo que permite la creacion del objeto
+     * @param banco
+     * @return el objeto creado
+     */
     @Override
     public Banco crear(Banco banco) {
         validar(banco);
@@ -38,16 +47,22 @@ public class BancoService implements IBancoService {
     	return rep.save(banco);
     }
 
-    //EXCEPCIONES DE DIFERENTES TIPO
-    //EXCEPCION DE TIPO MERAMENTE TECNICO -> TRY {}CATCH{}
-    //EXCEPCIONES DE NEGOCIO -> TRY CATCH -> EXCEPCION CUSTOMIZADAS -> HANDLER EXCEPTION
-
+    /**
+     * Metodo que permite la actualizacion del objeto
+     * @param banco
+     * @return el objeto actualizado
+     */
     @Override
     public Banco actualizar(Banco banco) {
         validar(banco);
         return rep.save(banco);
     }
 
+    /**
+     * Metodo que permite poner la propiedad estado en activo
+     * @param banco
+     * @return el objeto con la propiedad estado en activo
+     */
     @Override
     public Banco activar(Banco banco) {
         validar(banco);
@@ -55,6 +70,11 @@ public class BancoService implements IBancoService {
         return rep.save(banco);
     }
 
+    /**
+     * Metodo que permite poner la propiedad estado en inactivo
+     * @param banco
+     * @return el objeto con la propiedad estado en inactivo
+     */
     @Override
     public Banco inactivar(Banco banco) {
         validar(banco);
@@ -62,22 +82,41 @@ public class BancoService implements IBancoService {
         return rep.save(banco);
     }
 
+    /**
+     * Metodo que permite obtener un objeto a traves del id
+     * @param id
+     * @return el objeto
+     */
     @Override
     public Banco obtener(long id) {
         Optional<Banco> res=rep.findById(id);
         return res.get();
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos
+     * @return lista de todos los objetos
+     */
     @Override
     public List<Banco> consultar() {
         return rep.consultar();
     }
-    
+
+    /**
+     * Metodo que permite consultar los objetos filtrando por el estado
+     * @param estado
+     * @return lista de los objetos consultados filtrando por el estado
+     */
     @Override
     public List<Banco> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
     }
 
+    /**
+     * Metodo que permite consultar los objetos por pagina
+     * @param pageable
+     * @return lista de tipo Page con los objetos
+     */
     @Override
     public Page<Banco> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);

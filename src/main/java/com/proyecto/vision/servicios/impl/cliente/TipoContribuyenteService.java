@@ -20,35 +20,63 @@ import java.util.Optional;
 public class TipoContribuyenteService implements ITipoContribuyenteService {
     @Autowired
     private ITipoContribuyenteRepository rep;
+
+    /**
+     * Metodo que permite la creacion del objeto
+     *
+     * @param tipoContribuyente
+     * @return el objeto creado
+     */
     @Override
     public TipoContribuyente crear(TipoContribuyente tipoContribuyente) {
-    	Optional<String>codigo=Util.generarCodigo(Constantes.tabla_tipo_contribuyente);
-    	if (codigo.isEmpty()) {
-    		throw new CodigoNoExistenteException();
-    	}
-    	tipoContribuyente.setCodigo(codigo.get());
-    	return rep.save(tipoContribuyente);
+        Optional<String> codigo = Util.generarCodigo(Constantes.tabla_tipo_contribuyente);
+        if (codigo.isEmpty()) {
+            throw new CodigoNoExistenteException();
+        }
+        tipoContribuyente.setCodigo(codigo.get());
+        return rep.save(tipoContribuyente);
     }
 
+    /**
+     * Metodo que permite la actualizacion del objeto
+     *
+     * @param tipoContribuyente
+     * @return el objeto actualizado
+     */
     @Override
     public TipoContribuyente actualizar(TipoContribuyente tipoContribuyente) {
         return rep.save(tipoContribuyente);
     }
 
+    /**
+     * Metodo que permite obtener un objeto a traves del id
+     *
+     * @param id
+     * @return el objeto
+     */
     @Override
     public TipoContribuyente obtener(long id) {
-        Optional<TipoContribuyente> res= rep.findById(id);
-        if(res.isPresent()) {
-        	return res.get();
+        Optional<TipoContribuyente> res = rep.findById(id);
+        if (res.isPresent()) {
+            return res.get();
         }
         throw new EntidadNoExistenteException(Constantes.tipo_contribuyente);
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos
+     * @return lista de todos los objetos
+     */
     @Override
     public List<TipoContribuyente> consultar() {
         return rep.findAll();
     }
 
+    /**
+     * Metodo que permite consultar los objetos por pagina
+     * @param pageable
+     * @return lista de tipo Page con los objetos
+     */
     @Override
     public Page<TipoContribuyente> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);
