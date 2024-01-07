@@ -588,6 +588,7 @@ public class Constantes {
     public static final String extensionTxt =".txt";
     public static final String applicationPdf="application/pdf";
     public static final String textXml="text/xml";
+    public static final float fontSize5 = 5;
     public static final float fontSize6 = 6;
     public static final float fontSize7 = 7;
     public static final float fontSize10 = 10;
