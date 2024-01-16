@@ -21,13 +21,22 @@ public class FormaPagoService implements IFormaPagoService {
     @Autowired
     private IFormaPagoRepository rep;
 
+    /**
+     * Metodo que permite la validacion de las propiedades del objeto
+     * @param formaPago
+     */
     @Override
     public void validar(FormaPago formaPago) {
         if(formaPago.getCodigoSRI().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.codigoSRI);
         if(formaPago.getDescripcion().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.descripcion);
         if(formaPago.getAbreviatura().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.abreviatura);
     }
-    
+
+    /**
+     * Metodo que permite la creacion del objeto
+     * @param formaPago
+     * @return el objeto creado
+     */
     @Override
     public FormaPago crear(FormaPago formaPago) {
         validar(formaPago);
@@ -40,12 +49,22 @@ public class FormaPagoService implements IFormaPagoService {
     	return rep.save(formaPago);
     }
 
+    /**
+     * Metodo que permite la actualizacion del objeto
+     * @param formaPago
+     * @return el objeto actualizado
+     */
     @Override
     public FormaPago actualizar(FormaPago formaPago) {
         validar(formaPago);
         return rep.save(formaPago);
     }
 
+    /**
+     * Metodo que permite poner la propiedad estado en activo
+     * @param formaPago
+     * @return el objeto con la propiedad estado en activo
+     */
     @Override
     public FormaPago activar(FormaPago formaPago) {
         validar(formaPago);
@@ -53,6 +72,11 @@ public class FormaPagoService implements IFormaPagoService {
         return rep.save(formaPago);
     }
 
+    /**
+     * Metodo que permite poner la propiedad estado en inactivo
+     * @param formaPago
+     * @return el objeto con la propiedad estado en inactivo
+     */
     @Override
     public FormaPago inactivar(FormaPago formaPago) {
         validar(formaPago);
@@ -60,6 +84,11 @@ public class FormaPagoService implements IFormaPagoService {
         return rep.save(formaPago);
     }
 
+    /**
+     * Metodo que permite obtener un objeto a traves del id
+     * @param id
+     * @return el objeto
+     */
     @Override
     public FormaPago obtener(long id) {
         Optional<FormaPago> resp= rep.findById(id);
@@ -69,16 +98,30 @@ public class FormaPagoService implements IFormaPagoService {
         throw new EntidadNoExistenteException(Constantes.forma_pago);
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos
+     * @return lista de todos los objetos
+     */
     @Override
     public List<FormaPago> consultar() {
         return rep.consultar();
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos filtrando por el estado
+     * @param estado
+     * @return lista de los objetos filtrados por el estado
+     */
     @Override
     public List<FormaPago> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
     }
 
+    /**
+     * Metodo que permite consultar los objetos por pagina
+     * @param pageable
+     * @return lista de tipo Page con los objetos
+     */
     @Override
     public Page<FormaPago> consultarPagina(Pageable pageable){
     	return rep.findAll(pageable);

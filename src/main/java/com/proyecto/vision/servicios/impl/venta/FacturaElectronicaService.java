@@ -321,21 +321,21 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 	private InfoAdicional crearInfoAdicional(Factura factura) {
 		List<CampoAdicional> camposAdicionales = new ArrayList<>();
-		if(!factura.getCliente().getTelefonos().isEmpty()) {
+		if(!factura.getCliente().getTelefonos().isEmpty() && !factura.getCliente().getTelefonos().get(0).getNumero().equals(Constantes.vacio)) {
 			String telefono = factura.getCliente().getTelefonos().get(0).getNumero();
 			CampoAdicional campoAdicional = new CampoAdicional();
 			campoAdicional.setNombre(Constantes.telefono);
 			campoAdicional.setValor(telefono);
 			camposAdicionales.add(campoAdicional);
 		}
-		if(!factura.getCliente().getCelulares().isEmpty()){
+		if(!factura.getCliente().getCelulares().isEmpty() && !factura.getCliente().getCelulares().get(0).getNumero().equals(Constantes.vacio)){
 			String celular = factura.getCliente().getCelulares().get(0).getNumero();
 			CampoAdicional campoAdicional = new CampoAdicional();
 			campoAdicional.setNombre(Constantes.celular);
 			campoAdicional.setValor(celular);
 			camposAdicionales.add(campoAdicional);
 		}
-		if(!factura.getCliente().getCorreos().isEmpty()) {
+		if(!factura.getCliente().getCorreos().isEmpty() && !factura.getCliente().getCorreos().get(0).getEmail().equals(Constantes.vacio)) {
 			String correo = factura.getCliente().getCorreos().get(0).getEmail();
 			CampoAdicional campoAdicional = new CampoAdicional();
 			campoAdicional.setNombre(Constantes.correo);
@@ -388,23 +388,34 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		if(factura.getProcesoSRI().equals(Constantes.procesoSRIAnulada)){
 			throw new EstadoInvalidoException(Constantes.procesoSRIAnulada);
 		}
+
 		FacturaElectronica facturaElectronica = crear(factura);
-		List<String> estadoRecepcion = recepcion(facturaElectronica, factura.getEmpresa().getCertificado(), factura.getEmpresa().getContrasena());
-		if(estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
-			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
-		}
-		List<String> estadoAutorizacion = autorizacion(facturaElectronica);
-		if(estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
-			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
-		}
-		if(estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
-			throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
-		}
-		if(estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
-			suscripcionService.aumentarConteo(factura.getEmpresa().getId());
+		boolean bandera = false;
+		List<String> autorizacion = autorizacion(facturaElectronica);
+		if(!autorizacion.isEmpty() && autorizacion.get(0).equals(Constantes.autorizadoSri)){
 			factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
 			factura.setFechaAutorizacion(new Date());
 			enviarCorreo(factura, facturaElectronica);
+			bandera = true;
+		}
+		if(!bandera){
+			List<String> estadoRecepcion = recepcion(facturaElectronica, factura.getEmpresa().getCertificado(), factura.getEmpresa().getContrasena());
+			if(!estadoRecepcion.isEmpty() && estadoRecepcion.get(0).equals(Constantes.devueltaSri)) {
+				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+			}
+			List<String> estadoAutorizacion = autorizacion(facturaElectronica);
+			if(!estadoAutorizacion.isEmpty() && estadoAutorizacion.get(0).equals(Constantes.devueltaSri)) {
+				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoRecepcion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoRecepcion.get(1));
+			}
+			if(!estadoAutorizacion.isEmpty() && estadoAutorizacion.get(0).equals(Constantes.noAutorizadoSri)){
+				throw new FacturaElectronicaInvalidaException("ESTADO DEL SRI:" + Constantes.espacio + estadoAutorizacion.get(0) + Constantes.espacio + Constantes.guion + Constantes.espacio + "INFORMACION ADICIONAL: " + estadoAutorizacion.get(1));
+			}
+			if(!estadoAutorizacion.isEmpty() && estadoAutorizacion.get(0).equals(Constantes.autorizadoSri)){
+				suscripcionService.aumentarConteo(factura.getEmpresa().getId());
+				factura.setProcesoSRI(Constantes.procesoSRIAutorizada);
+				factura.setFechaAutorizacion(new Date());
+				enviarCorreo(factura, facturaElectronica);
+			}
 		}
 		Factura facturada = rep.save(factura);
 		facturada.normalizar();
@@ -412,6 +423,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	}
 
 	private List<String> recepcion(FacturaElectronica facturaElectronica, String certificado, String contrasena) {
+		List<String> resultado = new ArrayList<>();
 		try {
 			String url = Constantes.vacio;
 			if(facturacionProduccion.equals(Constantes.si)){
@@ -454,7 +466,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			// print response body
 			System.out.println(response.body());
 			JSONObject json=Util.convertirXmlJson(response.body());
-			List<String> resultado = new ArrayList<>();
 			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:validarComprobanteResponse").getJSONObject("RespuestaRecepcionComprobante").getString("estado");
 			resultado.add(estado);
 			if(estado.equals(Constantes.devueltaSri)){
@@ -472,22 +483,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				resultado.add(informacionAdicional);
 			}
 			return resultado;
-		} catch (JAXBException ex) {
-			System.err.println(ex.getMessage());
-		} catch (IOException ex) {
-			// TODO Auto-generated catch block
-			System.err.println(ex.getMessage());
-		} catch (InterruptedException ex) {
-			// TODO Auto-generated catch block
-			System.err.println(ex.getMessage());
-		} catch (CertificateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return resultado;
 		}
-		throw new EntidadNoExistenteException(Constantes.factura_electronica);
 	}
 
 	private List<String> autorizacion(FacturaElectronica facturaElectronica){
+		List<String> resultado = new ArrayList<>();
 		try {
 			String url = Constantes.vacio;
 			if(facturacionProduccion.equals(Constantes.si)){
@@ -511,8 +514,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			System.out.println(response.statusCode());
 			// print response body
 			System.out.println(response.body());
-			JSONObject json=Util.convertirXmlJson(response.body());
-			List<String> resultado = new ArrayList<>();
+			JSONObject json = Util.convertirXmlJson(response.body());
 			String estado = json.getJSONObject("soap:Envelope").getJSONObject("soap:Body").getJSONObject("ns2:autorizacionComprobanteResponse").getJSONObject("RespuestaAutorizacionComprobante")
 					.getJSONObject("autorizaciones").getJSONObject("autorizacion").getString("estado");
 			resultado.add(estado);
@@ -536,10 +538,10 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				resultado.add(informacionAdicional);
 			}
 			return resultado;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			resultado.add(Constantes.noAutorizadoSri);
+			return resultado;
 		}
 	}
 
@@ -551,10 +553,19 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			PdfDocument pdf = new PdfDocument(writer);
 			// Initialize document
 			Document documento = new Document(pdf, PageSize.A4);
-			documento.setMargins(0,0,0,0);
+			documento.setMargins(30,25,20,30);
 			// 4. Add content
 			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 			documento.setFont(font);
+			float [] columnas = {320F, 280F};
+			Table tablaEncabezado = new Table(columnas);
+			tablaEncabezado.setVerticalAlignment(VerticalAlignment.BOTTOM);
+			tablaEncabezado.setBorder(Border.NO_BORDER);
+			Table tablaEncabezadoIzq = new Table(1);
+			tablaEncabezadoIzq.useAllAvailableWidth();
+			tablaEncabezadoIzq.setBorder(Border.NO_BORDER);
+			Table tablaEncabezadoDer = new Table(1);
+			tablaEncabezadoDer.setBorder(Border.NO_BORDER);
 			if(factura.getEmpresa().getLogo().equals(Constantes.vacio)){
 				documento.add(new Paragraph("LOGO").setFontSize(50).setTextAlignment(TextAlignment.CENTER));
 			}
@@ -562,8 +573,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				Path path = Paths.get(Constantes.pathRecursos + Constantes.pathLogos + Constantes.slash + factura.getEmpresa().getLogo());
 				ImageData imageData = ImageDataFactory.create(path.toAbsolutePath().toString());
 				Image image = new Image(imageData).scaleAbsolute(150, 100);
-				documento.add(image);
+				image.setHorizontalAlignment(HorizontalAlignment.CENTER);
+				image.setBorder(Border.NO_BORDER);
+				Cell celda1 = new Cell();
+				celda1.setBorder(Border.NO_BORDER);
+				celda1.add(image);
+				tablaEncabezadoIzq.addCell(celda1);
 			}
+			String [] cabecera1 = new String[7];
 			String regimen = Constantes.vacio;
 			if(factura.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = factura.getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
@@ -585,15 +602,13 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			if(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getAgenteRetencion().equals(Constantes.no)){
 				agenteRetencion = Constantes.no;
 			}
-			float [] columnas = {320F, 280F};
-			Table tabla = new Table(columnas);
-			tabla.addCell(getCellEmpresa(factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n" +
-					"DIRECCIÓN MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" + "\n" +
-					"DIRECCIÓN SUCURSAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" + "\n" +
-					regimen + "\n" + "\n" +
-					"CONTRIBUYENTE ESPECIAL: " + contribuyenteEspecial + "\n" + "\n" +
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" + "\n" +
-					"AGENTE RETENCION RESOLUCIÓN: " + agenteRetencion, TextAlignment.LEFT));
+			cabecera1[0] = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n";
+			cabecera1[1] = "DIRECCIÓN MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion();
+			tablaEncabezadoIzq.addCell(getCellEmpresa(cabecera1,"DIRECCIÓN SUCURSAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
+					regimen + "\n" +
+					"CONTRIBUYENTE ESPECIAL: " + contribuyenteEspecial + "\n"+
+					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" +"\n" +
+					"AGENTE RETENCION RESOL: " + agenteRetencion, TextAlignment.LEFT));
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
@@ -613,17 +628,25 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			if(facturacionProduccion.equals(Constantes.no)){
 				ambiente = Constantes.facturaFisicaAmbientePruebasValor;
 			}
-			tabla.addCell(getCellFactura("RUC: "+factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+
+			tablaEncabezadoDer.addCell(getCellFactura("RUC: "+factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+"\n"+
 					"FACTURA"+"\n"+
-					"No. " + factura.getNumeroComprobante() + "\n" +
-					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
+					"No. " + factura.getNumeroComprobante() + "\n" +"\n"+
+					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +"\n"+
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
 					"AMBIENTE: " + ambiente + "\n" +
 					"EMISIÓN: " + Constantes.facturaFisicaEmisionValor + "\n" + "\n" +
 					"CLAVE DE ACCESO:", TextAlignment.LEFT, imagenCodigoBarras));
-			tabla.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
-			tabla.setHorizontalBorderSpacing(3);
-			documento.add(tabla);
+			Cell celda2 = new Cell();
+			celda2.setBorder(Border.NO_BORDER);
+			celda2.add(tablaEncabezadoIzq);
+			tablaEncabezado.addCell(celda2);
+			Cell celda3 = new Cell();
+			celda3.setBorder(Border.NO_BORDER);
+			celda3.add(tablaEncabezadoDer);
+			tablaEncabezado.addCell(celda3);
+//			tablaEncabezado.setBorderCollapse(BorderCollapsePropertyValue.SEPARATE);
+//			tablaEncabezado.setHorizontalBorderSpacing(1);
+			documento.add(tablaEncabezado);
 			documento.add(new Paragraph("\n"));
 			float [] columnasCliente = {300F, 300F};
 			Table tablaCliente = new Table(columnasCliente);
@@ -643,7 +666,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaFacturaDetalle.addCell(getCellColumnaFactura("SUBTOTAL"));
 			for (int i = 0; i <factura.getFacturaLineas().size(); i++)
 			{
-				String precioUnitario = String.format("%.2f", factura.getFacturaLineas().get(i).getPrecioUnitario());
+				String precioUnitario = String.format("%.4f", factura.getFacturaLineas().get(i).getPrecioUnitario());
 				String descuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getValorDescuentoLinea());
 				String porcentajeDescuentoLinea = factura.getFacturaLineas().get(i).getPorcentajeDescuentoLinea() + Constantes.vacio;
 				String subtotalConDescuentoLinea = String.format("%.2f", factura.getFacturaLineas().get(i).getSubtotalLinea());
@@ -758,8 +781,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		}
 	}
 
-	private Cell getCellEmpresa(String text, TextAlignment alignment) {
-		Cell cell = new Cell().add(new Paragraph(text));
+	private Cell getCellEmpresa(String [] cabecera1, String text, TextAlignment alignment) {
+		Paragraph linea1 = new Paragraph(cabecera1[0]);
+		linea1.setBold();
+		Paragraph linea2 = new Paragraph(cabecera1[1]);
+		linea2.setFontSize(9);
+		Cell cell = new Cell().add(linea1);
+		cell.add(linea2);
+		cell.add(new Paragraph(text).setFontSize(9));
 		cell.setTextAlignment(alignment);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
 		cell.setBorderTopLeftRadius(new BorderRadius(5));
@@ -909,31 +938,34 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			PdfDocument pdf = new PdfDocument(writer);
 			// Initialize document
 			Document documento = new Document(pdf, PageSize.A7);
-			documento.setMargins(0,0,0,0);
+			documento.setMargins(13,13,13,13);
 			// 4. Add content
 			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 			documento.setFont(font);
-			documento.add(new Paragraph("LOGO").setFontSize(10).setTextAlignment(TextAlignment.CENTER));
+
 			float[] columnas = {600F};
 			Table tabla = new Table(columnas);
+			if(factura.getEmpresa().getLogo().equals(Constantes.vacio)) {
+				Cell celda1 = new Cell();
+				celda1.setBorder(Border.NO_BORDER);
+				celda1.add(new Paragraph("LOGO").setFontSize(10).setTextAlignment(TextAlignment.CENTER));
+				tabla.addCell(celda1);
+			}
+			if(!factura.getEmpresa().getLogo().equals(Constantes.vacio)){
+				Path path = Paths.get(Constantes.pathRecursos + Constantes.pathLogos + Constantes.slash + factura.getEmpresa().getLogo());
+				ImageData imageData = ImageDataFactory.create(path.toAbsolutePath().toString());
+				Image image = new Image(imageData).scaleAbsolute(60, 25);
+				image.setHorizontalAlignment(HorizontalAlignment.CENTER);
+				image.setBorder(Border.NO_BORDER);
+				Cell celda1 = new Cell();
+				celda1.setBorder(Border.NO_BORDER);
+				celda1.add(image);
+				tabla.addCell(celda1);
+			}
 			tabla.addCell(getCellEmpresaTicket(factura.getEmpresa().getRazonSocial() + "\n" +
 					factura.getEmpresa().getNombreComercial() + "\n" +
-					"RUC: " + factura.getEmpresa().getIdentificacion() + "\n", TextAlignment.CENTER));
+					"RUC: " + factura.getEmpresa().getIdentificacion(), TextAlignment.CENTER).setBorder(Border.NO_BORDER));
 			documento.add(tabla);
-			String numeroAutorizacion = Constantes.vacio;
-			String fechaAutorizacion = Constantes.vacio;
-			if(factura.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
-				numeroAutorizacion = factura.getClaveAcceso();
-				fechaAutorizacion = formatoFecha.format(factura.getFechaAutorizacion());
-			}
-			float [] columnasFactura = {600F};
-			Table tablaFactura = new Table(columnasFactura);
-			tablaFactura.addCell(getCellFacturaTicket(
-					"FACTURA" + "\n" +
-					"No. " + factura.getNumeroComprobante() + "\n" +
-					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +
-					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" , TextAlignment.LEFT));
-			documento.add(tablaFactura);
 			String regimen = Constantes.vacio;
 			if(factura.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = factura.getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
@@ -958,13 +990,27 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			float [] columnasEmpresa = {600F};
 			Table tablaEmpresa = new Table(columnasEmpresa);
 			tablaEmpresa.addCell(getCellEmpresaTicket(
-					"DIRECCIÓN MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" +
-					"DIRECCIÓN SUCURSAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
-					regimen + "\n" +
-					"CONTRIBUYENTE ESPECIAL: " + contribuyenteEspecial + "\n" +
-					"OBLIGADO A LLEVAR CONTABILIDAD: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" +
-					"AGENTE RETENCION RESOLUCIÓN: " + agenteRetencion, TextAlignment.LEFT));
+					"MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion() +"\n" +
+							"SUCURSAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
+							regimen + "\n" +
+							"Contribuyente Especial: " + contribuyenteEspecial + "\t" +
+							"Obligado Contabilidad: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getObligadoContabilidad() + "\n" +
+							"Agente Ret Resol: " + agenteRetencion, TextAlignment.LEFT).setBorder(Border.NO_BORDER));
 			documento.add(tablaEmpresa);
+
+			String numeroAutorizacion = Constantes.vacio;
+			String fechaAutorizacion = Constantes.vacio;
+			if(factura.getProcesoSRI().equals(Constantes.procesoSRIAutorizada)){
+				numeroAutorizacion = factura.getClaveAcceso();
+				fechaAutorizacion = formatoFecha.format(factura.getFechaAutorizacion());
+			}
+			float [] columnasFactura = {600F};
+			Table tablaFactura = new Table(columnasFactura);
+			tablaFactura.addCell(getCellFacturaTicket(
+					"FACT " +
+					"No. " + factura.getNumeroComprobante() +  "\n" +
+					"No. AUTORIZACIÓN: " + "\t" + "\t" + "FECHA: " + fechaAutorizacion + " " + numeroAutorizacion + "\n" , TextAlignment.LEFT));
+			documento.add(tablaFactura);
 			float [] columnasCliente = {600F};
 			Table tablaCliente = new Table(columnasCliente);
 			tablaCliente.addCell(getCellClienteTicket("CLIENTE: "+factura.getCliente().getRazonSocial()+"\n" +
@@ -972,7 +1018,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 					"DIRECCION: " + factura.getCliente().getDireccion() + "\n" +
 					"IDENTIFICACIÓN: " + factura.getCliente().getIdentificacion(), TextAlignment.LEFT));
 			documento.add(tablaCliente);
-			float [] columnasTablaFacturaDetalle = {150F, 150F, 150F, 150F};
+			float [] columnasTablaFacturaDetalle = {70F, 320F, 130F, 80F};
 			Table tablaFacturaDetalle = new Table(columnasTablaFacturaDetalle);
 			tablaFacturaDetalle.addCell(getCellColumnaFacturaTicket("CANT"));
 			tablaFacturaDetalle.addCell(getCellColumnaFacturaTicket("DESCRIPCION"));
@@ -995,11 +1041,11 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			String totalConDescuento = String.format("%.2f", factura.getTotal());
 			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
 			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
-			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("SUBTOTAL 12%"));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("Subtotal 12%"));
 			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$" + subtotalGravadoConDescuento));
 			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
 			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
-			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("SUBTOTAL 0%"));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("Subtotal 0%"));
 			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$" + subtotalNoGravadoConDescuento));
 			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
 			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
@@ -1076,7 +1122,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			tablaAdicional.addCell(getCellAdicionalTicket(celularCliente));
 			tablaAdicional.addCell(getCellAdicionalTicket("CORREO"));
 			tablaAdicional.addCell(getCellAdicionalTicket(correoCliente));
-			documento.add(tablaAdicional);
+			//documento.add(tablaAdicional); Mario pide retirar estos campos
 			// 5. Close document
 			documento.close();
 			return new ByteArrayInputStream(salida.toByteArray());
@@ -1096,13 +1142,14 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 
 	private Cell getCellEmpresaTicket(String text, TextAlignment alignment) {
 		Cell cell = new Cell().add(new Paragraph(text));
+
 		cell.setTextAlignment(alignment);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
 		cell.setBorderTopLeftRadius(new BorderRadius(5));
 		cell.setBorderTopRightRadius(new BorderRadius(5));
 		cell.setBorderBottomLeftRadius(new BorderRadius(5));
 		cell.setBorderBottomRightRadius(new BorderRadius(5));
-		cell.setFontSize(Constantes.fontSize6);
+		cell.setFontSize(Constantes.fontSize5);
 		return cell;
 	}
 	private Cell getCellFacturaTicket(String text, TextAlignment alignment) {
@@ -1110,7 +1157,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		Cell cell = new Cell();
 		cell.add(parrafo);
 		cell.setTextAlignment(alignment);
-		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 1));
 		cell.setBorderTopLeftRadius(new BorderRadius(5));
 		cell.setBorderTopRightRadius(new BorderRadius(5));
 		cell.setBorderBottomLeftRadius(new BorderRadius(5));
@@ -1121,7 +1168,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 	private Cell getCellClienteTicket(String text, TextAlignment alignment) {
 		Cell cell = new Cell().add(new Paragraph(text));
 		cell.setTextAlignment(alignment);
-		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));
+		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 1));
 		cell.setBorderTopLeftRadius(new BorderRadius(5));
 		cell.setBorderTopRightRadius(new BorderRadius(5));
 		cell.setBorderBottomLeftRadius(new BorderRadius(5));
@@ -1142,7 +1189,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.setFontSize(Constantes.fontSize6);
+		cell.setFontSize(Constantes.fontSize5);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
 	}
@@ -1159,7 +1206,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		Paragraph parrafo = new Paragraph(text);
 		Cell cell = new Cell();
 		cell.add(parrafo);
-		cell.setFontSize(Constantes.fontSize6);
+		cell.setFontSize(Constantes.fontSize5);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE,1));
 		return cell;
 	}
