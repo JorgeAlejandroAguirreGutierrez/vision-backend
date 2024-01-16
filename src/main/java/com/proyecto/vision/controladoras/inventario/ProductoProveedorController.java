@@ -74,6 +74,13 @@ public class ProductoProveedorController implements GenericoController<ProductoP
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/crearProductoProveedores", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> crearProductoProveedores(@RequestBody List<ProductoProveedor> _productoProveedores) {
+        List<ProductoProveedor> productoProveedores=servicio.crearProductoProveedores(_productoProveedores);
+        Respuesta respuesta=new Respuesta(true,Constantes.mensaje_crear_exitoso, productoProveedores);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> actualizar(@RequestBody ProductoProveedor _productoProveedor) {
         ProductoProveedor productoProveedor=servicio.actualizar(_productoProveedor);

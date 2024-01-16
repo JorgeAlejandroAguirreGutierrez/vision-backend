@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IProductoProveedorService extends IGenericoService<ProductoProveedor> {
 	void validar(ProductoProveedor productoProveedor);
+    List<ProductoProveedor> crearProductoProveedores(List<ProductoProveedor> productoProveedores);
     ProductoProveedor activar(ProductoProveedor productoProveedor);
 	ProductoProveedor inactivar(ProductoProveedor productoProveedor);
 	List<ProductoProveedor> consultarPorEstado(String estado);

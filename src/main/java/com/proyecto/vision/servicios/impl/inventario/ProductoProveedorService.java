@@ -51,12 +51,19 @@ public class ProductoProveedorService implements IProductoProveedorService {
     }
 
     @Override
+    public List<ProductoProveedor> crearProductoProveedores(List<ProductoProveedor> productoProveedores) {
+        List<ProductoProveedor> res = rep.saveAll(productoProveedores);
+        return res;
+    }
+
+    @Override
     public ProductoProveedor actualizar(ProductoProveedor productoProveedor) {
     	validar(productoProveedor);
         ProductoProveedor res = rep.save(productoProveedor);
         res.normalizar();
         return res;
     }
+
 
     @Override
     public ProductoProveedor activar(ProductoProveedor productoProveedor) {
