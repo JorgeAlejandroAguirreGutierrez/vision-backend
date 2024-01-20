@@ -52,6 +52,10 @@ public class Empresa extends Entidad {
     private String contrasenaSRI;
     @Column(name = "facturacion_interna", nullable = true)
     private String facturacionInterna;
+    @Column(name = "gran_contribuyente", nullable = true)
+    private String granContribuyente;
+    @Column(name = "artesado_calificado", nullable = true)
+    private String artesadoCalificado;
     @ManyToOne
     @JoinColumn(name = "tipo_identificacion_id", nullable = true)
     private TipoIdentificacion tipoIdentificacion;
