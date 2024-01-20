@@ -580,7 +580,6 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				celda1.add(image);
 				tablaEncabezadoIzq.addCell(celda1);
 			}
-			String [] cabecera1 = new String[7];
 			String regimen = Constantes.vacio;
 			if(factura.getUsuario().getEstacion().getEstablecimiento().getRegimen() != null) {
 				regimen = factura.getUsuario().getEstacion().getEstablecimiento().getRegimen().getDescripcion();
@@ -604,8 +603,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			}
 			String granContribuyente = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getGranContribuyente();
 			String artesadoCalificado = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getArtesadoCalificado();
-			cabecera1[0] = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n";
-			cabecera1[1] = "DIRECCIÓN MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion();
+			String linea1 = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n";
+			String linea2 = "DIRECCIÓN MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion();
 			String texto = "DIRECCIÓN SUCURSAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
 					regimen + "\n" +
 					"CONTRIBUYENTE ESPECIAL: " + contribuyenteEspecial + "\n"+
@@ -617,7 +616,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			if(artesadoCalificado.equals(Constantes.si)){
 				texto = texto + "\n" + "ARTESADO CALIFICADO: " + artesadoCalificado;
 			}
-			tablaEncabezadoIzq.addCell(getCellEmpresa(cabecera1, texto, TextAlignment.LEFT));
+			tablaEncabezadoIzq.addCell(getCellEmpresa(linea1, linea2, texto, TextAlignment.LEFT));
 			String numeroAutorizacion = Constantes.vacio;
 			String fechaAutorizacion = Constantes.vacio;
 			Image imagenCodigoBarras = null;
@@ -788,13 +787,13 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		}
 	}
 
-	private Cell getCellEmpresa(String [] cabecera1, String texto, TextAlignment alignment) {
-		Paragraph linea1 = new Paragraph(cabecera1[0]);
-		linea1.setBold();
-		Paragraph linea2 = new Paragraph(cabecera1[1]);
-		linea2.setFontSize(9);
-		Cell cell = new Cell().add(linea1);
-		cell.add(linea2);
+	private Cell getCellEmpresa(String linea1, String linea2, String texto, TextAlignment alignment) {
+		Paragraph parrafo1 = new Paragraph(linea1);
+		parrafo1.setBold();
+		Paragraph parrafo2 = new Paragraph(linea2);
+		parrafo2.setFontSize(9);
+		Cell cell = new Cell().add(parrafo1);
+		cell.add(parrafo2);
 		cell.add(new Paragraph(texto).setFontSize(9));
 		cell.setTextAlignment(alignment);
 		cell.setBorder(new SolidBorder(ColorConstants.BLUE, 2));

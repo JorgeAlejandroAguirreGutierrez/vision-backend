@@ -152,7 +152,7 @@ public class ClienteService implements IClienteService {
                 	tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
                     String razonSocial = Constantes.vacio;
                 	try {
-                        HttpPost request = new HttpPost(Constantes.url_cedula_consultas_ecuador+identificacion);
+                        HttpPost request = new HttpPost(Constantes.url_cedula_consultas_ecuador + identificacion);
                         request.setHeader(Constantes.origin, Constantes.consultas_ecuador);
                         HttpClient httpClient = HttpClients.custom()
                                 .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
@@ -315,34 +315,34 @@ public class ClienteService implements IClienteService {
         Optional<ClienteBase> clienteBase = repClienteBase.obtenerPorIdentificacion(cliente.getIdentificacion(), Constantes.estadoActivo);
         if(clienteBase.isPresent()) {
             cliente.setRazonSocial(clienteBase.get().getApellidos()+Constantes.espacio+clienteBase.get().getNombres());
-            if (clienteBase.get().getDireccion()!=null) {
+            if (clienteBase.get().getDireccion() != null) {
                 cliente.setDireccion(clienteBase.get().getDireccion());
             }
-            if (clienteBase.get().getReferencia()!=null) {
+            if (clienteBase.get().getReferencia() != null) {
                 cliente.setReferencia(clienteBase.get().getReferencia());
             }
-            if (clienteBase.get().getUbicacion()!=null) {
+            if (clienteBase.get().getUbicacion() != null) {
                 cliente.setUbicacion(clienteBase.get().getUbicacion());
             }
-            if (clienteBase.get().getGenero()!=null) {
+            if (clienteBase.get().getGenero() != null) {
                 cliente.setGenero(clienteBase.get().getGenero());
             }
-            if (clienteBase.get().getEstadoCivil()!=null) {
+            if (clienteBase.get().getEstadoCivil() != null) {
                 cliente.setEstadoCivil(clienteBase.get().getEstadoCivil());
             }
-            if (clienteBase.get().getTelefono()!=null) {
+            if (clienteBase.get().getTelefono() != null && !clienteBase.get().getTelefono().equals(Constantes.vacio)) {
                 List<Telefono> telefonos = new ArrayList<>();
-                telefonos.add(new Telefono("", clienteBase.get().getTelefono(), new Cliente()));
+                telefonos.add(new Telefono(Constantes.vacio, clienteBase.get().getTelefono(), new Cliente()));
                 cliente.setTelefonos(telefonos);
             }
-            if (clienteBase.get().getCelular()!=null) {
+            if (clienteBase.get().getCelular() != null && !clienteBase.get().getCelular().equals(Constantes.vacio)) {
                 List<Celular> celulares = new ArrayList<>();
-                celulares.add(new Celular("", clienteBase.get().getCelular(), new Cliente()));
+                celulares.add(new Celular(Constantes.vacio, clienteBase.get().getCelular(), new Cliente()));
                 cliente.setCelulares(celulares);
             }
-            if (clienteBase.get().getCorreo()!=null) {
+            if (clienteBase.get().getCorreo() != null && !clienteBase.get().getCorreo().equals(Constantes.vacio)) {
                 List<Correo> correos = new ArrayList<>();
-                correos.add(new Correo("", clienteBase.get().getCorreo(), new Cliente()));
+                correos.add(new Correo(Constantes.vacio, clienteBase.get().getCorreo(), new Cliente()));
                 cliente.setCorreos(correos);
             }
 
