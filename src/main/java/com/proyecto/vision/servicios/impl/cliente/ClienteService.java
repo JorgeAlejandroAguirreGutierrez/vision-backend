@@ -15,6 +15,7 @@ import com.proyecto.vision.repositorios.configuracion.IUbicacionRepository;
 import com.proyecto.vision.servicios.interf.cliente.IClienteService;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
@@ -179,7 +180,7 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.equals(Constantes.identificacion_consumidor_final)) {
             	tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_consumidor_final_sri).get();
             	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
-                Cliente cliente=new Cliente();
+                Cliente cliente = new Cliente();
                 cliente.setIdentificacion(identificacion);
                 cliente.setTipoIdentificacion(tipoIdentificacion);
                 cliente.setTipoContribuyente(tipoContribuyente);
@@ -187,13 +188,28 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
                 boolean bandera = Util.verificarSociedadesPublicas(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_sociedades_publicas_sri).get();
-                	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
+                	tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_sociedades_publicas_sri).get();
+                	tipoContribuyente = repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
                     Cliente cliente=new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setTipoContribuyente(tipoContribuyente);
                     cliente = buscarContribuyente(cliente);
+                    /*try {
+                        HttpGet request = new HttpGet(Constantes.url_ruc_consultas_ecuador + identificacion);
+                        HttpClient httpClient = HttpClients.custom()
+                                .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
+                                                .loadTrustMaterial(null, new TrustAllStrategy())
+                                                .build()
+                                        )
+                                ).build();
+                        HttpResponse response = httpClient.execute(request);
+                        String json = EntityUtils.toString(response.getEntity());
+                        JSONObject objeto = new JSONObject(json);
+                        System.out.println(objeto);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }*/
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -208,6 +224,21 @@ public class ClienteService implements IClienteService {
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setTipoContribuyente(tipoContribuyente);
                     cliente = buscarContribuyente(cliente);
+                    /*try {
+                        HttpGet request = new HttpGet(Constantes.url_ruc_consultas_ecuador + identificacion);
+                        HttpClient httpClient = HttpClients.custom()
+                                .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
+                                                .loadTrustMaterial(null, new TrustAllStrategy())
+                                                .build()
+                                        )
+                                ).build();
+                        HttpResponse response = httpClient.execute(request);
+                        String json = EntityUtils.toString(response.getEntity());
+                        JSONObject objeto = new JSONObject(json);
+                        System.out.println(objeto);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }*/
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -258,16 +289,10 @@ public class ClienteService implements IClienteService {
                         String json = EntityUtils.toString(response.getEntity());
                         JSONObject objeto = new JSONObject(json);
                         razonSocial = objeto.getJSONObject("data").getString("names");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    } catch (KeyStoreException e) {
-                        e.printStackTrace();
-                    } catch (KeyManagementException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    Cliente cliente=new Cliente();
+                    Cliente cliente = new Cliente();
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setIdentificacion(identificacion);
                     cliente.setRazonSocial(razonSocial);
@@ -280,7 +305,7 @@ public class ClienteService implements IClienteService {
                 boolean bandera = Util.verificarPlacaMoto(identificacion);
                 if (bandera) {
                     tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_placa_sri).get();
-                    Cliente cliente=new Cliente();
+                    Cliente cliente = new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setTipoContribuyente(null);

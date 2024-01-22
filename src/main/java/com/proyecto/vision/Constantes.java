@@ -37,6 +37,7 @@ public class Constantes {
     public static final String url_cedula_consultas_ecuador = "https://apiston.consultasecuador.com/api/v1/pers/find-names?id=";
     public static final String url_placa_consultas_ecuador = "https://apiston.consultasecuador.com/api/v1/find-car-owner?placa=";
     public static final String consultas_ecuador = "https://consultasecuador.com";
+    public static final String url_ruc_consultas_ecuador = "https://srienlinea.sri.gob.ec/facturacion-internet/consultas/publico/ruc-datos2.jspa?ruc=";
 
     public static final String pendiente="PENDIENTE";
     public static final String entregado="ENTREGADO";
