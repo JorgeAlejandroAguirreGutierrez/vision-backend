@@ -108,6 +108,12 @@ public class Cliente extends Entidad {
         super(id);
     }
 
+    public Cliente(long id, String identificacion, String razonSocial){
+        super(id);
+        this.identificacion = identificacion;
+        this.razonSocial = razonSocial;
+    }
+
     public Cliente(){
         super();
         this.codigo = Constantes.vacio;

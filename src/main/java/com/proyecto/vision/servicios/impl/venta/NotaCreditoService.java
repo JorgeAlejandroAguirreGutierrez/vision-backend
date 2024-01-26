@@ -356,7 +356,7 @@ public class NotaCreditoService implements INotaCreditoService {
         if(notaCreditoLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.devolucion);
         if(notaCreditoLinea.getCostoUnitario() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);
         if(notaCreditoLinea.getImpuesto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.impuesto);
-        if(notaCreditoLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
+        //if(notaCreditoLinea.getBodega().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.bodega);
         if(notaCreditoLinea.getProducto().getId() == Constantes.ceroId) throw new DatoInvalidoException(Constantes.producto);
         if(notaCreditoLinea.getCantidad() > notaCreditoLinea.getCantidadVenta()) throw new DatoInvalidoException(Constantes.devolucion);
     }
