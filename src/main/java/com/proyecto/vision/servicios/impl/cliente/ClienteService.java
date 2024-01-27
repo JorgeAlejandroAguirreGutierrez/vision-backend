@@ -191,8 +191,8 @@ public class ClienteService implements IClienteService {
                 cliente.setTipoContribuyente(tipoContribuyente);
                 return cliente;
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
-                boolean bandera = Util.verificarSociedadesPublicas(identificacion);
-                if (bandera) {
+                //boolean bandera = Util.verificarSociedadesPublicas(identificacion);
+                //if (bandera) {
                 	tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_sociedades_publicas_sri).get();
                 	tipoContribuyente = repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
                     Cliente cliente=new Cliente();
@@ -225,12 +225,12 @@ public class ClienteService implements IClienteService {
                         e.printStackTrace();
                     }
                     return cliente;
-                } 
-            	throw new IdentificacionInvalidaException();
+                //}
+            	//throw new IdentificacionInvalidaException();
             	
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 9) {
-                boolean bandera = Util.verificarSociedadesPrivadas(identificacion);
-                if (bandera) {
+                //boolean bandera = Util.verificarSociedadesPrivadas(identificacion);
+                //if (bandera) {
                 	tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_sociedades_privadas_sri).get();
                 	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica,Constantes.tipo_contribuyente_privada);
                     Cliente cliente=new Cliente();
@@ -263,8 +263,8 @@ public class ClienteService implements IClienteService {
                         e.printStackTrace();
                     }
                     return cliente;
-                } 
-            	throw new IdentificacionInvalidaException();
+                //}
+            	//throw new IdentificacionInvalidaException();
             	
             } else if (identificacion.length() == 13 && (Integer.parseInt(identificacion.substring(2,3)) != 6 || Integer.parseInt(identificacion.substring(2,3)) != 9)) {
                 boolean bandera = Util.verificarCedula(identificacion);
