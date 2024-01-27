@@ -214,9 +214,13 @@ public class ClienteService implements IClienteService {
                         Elements table = documento.getElementsByClass("formulario");
                         JSONObject objeto = XML.toJSONObject(table.html());
                         String razonSocial = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(0).getString("td");
+                        String claseContribuyente = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(9).getString("td");
                         String obligadoContabilidad = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(13).getString("td");
                         cliente.setRazonSocial(razonSocial);
                         cliente.setObligadoContabilidad(obligadoContabilidad);
+                        if(claseContribuyente.toUpperCase().equals(Constantes.especial)){
+                            cliente.setEspecial(Constantes.si);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -248,9 +252,13 @@ public class ClienteService implements IClienteService {
                         Elements table = documento.getElementsByClass("formulario");
                         JSONObject objeto = XML.toJSONObject(table.html());
                         String razonSocial = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(0).getString("td");
+                        String claseContribuyente = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(9).getString("td");
                         String obligadoContabilidad = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(13).getString("td");
                         cliente.setRazonSocial(razonSocial);
                         cliente.setObligadoContabilidad(obligadoContabilidad);
+                        if(claseContribuyente.toUpperCase().equals(Constantes.especial)){
+                            cliente.setEspecial(Constantes.si);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -282,9 +290,13 @@ public class ClienteService implements IClienteService {
                         Elements table = documento.getElementsByClass("formulario");
                         JSONObject objeto = XML.toJSONObject(table.html());
                         String razonSocial = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(0).getString("td");
+                        String claseContribuyente = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(9).getString("td");
                         String obligadoContabilidad = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(13).getString("td");
                         cliente.setRazonSocial(razonSocial);
                         cliente.setObligadoContabilidad(obligadoContabilidad);
+                        if(claseContribuyente.toUpperCase().equals(Constantes.especial)){
+                            cliente.setEspecial(Constantes.si);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
