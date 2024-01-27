@@ -23,6 +23,11 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import org.json.XML;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -195,7 +200,7 @@ public class ClienteService implements IClienteService {
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setTipoContribuyente(tipoContribuyente);
                     cliente = buscarContribuyente(cliente);
-                    /*try {
+                    try {
                         HttpGet request = new HttpGet(Constantes.url_ruc_consultas_ecuador + identificacion);
                         HttpClient httpClient = HttpClients.custom()
                                 .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
@@ -204,12 +209,21 @@ public class ClienteService implements IClienteService {
                                         )
                                 ).build();
                         HttpResponse response = httpClient.execute(request);
-                        String json = EntityUtils.toString(response.getEntity());
-                        JSONObject objeto = new JSONObject(json);
-                        System.out.println(objeto);
+                        String html = EntityUtils.toString(response.getEntity());
+                        Document documento = Jsoup.parse(html);
+                        Elements table = documento.getElementsByClass("formulario");
+                        JSONObject objeto = XML.toJSONObject(table.html());
+                        String razonSocial = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(0).getString("td");
+                        String claseContribuyente = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(9).getString("td");
+                        String obligadoContabilidad = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(13).getString("td");
+                        cliente.setRazonSocial(razonSocial);
+                        cliente.setObligadoContabilidad(obligadoContabilidad);
+                        if(claseContribuyente.toUpperCase().equals(Constantes.especial)){
+                            cliente.setEspecial(Constantes.si);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }*/
+                    }
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -224,7 +238,7 @@ public class ClienteService implements IClienteService {
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setTipoContribuyente(tipoContribuyente);
                     cliente = buscarContribuyente(cliente);
-                    /*try {
+                    try {
                         HttpGet request = new HttpGet(Constantes.url_ruc_consultas_ecuador + identificacion);
                         HttpClient httpClient = HttpClients.custom()
                                 .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
@@ -233,12 +247,21 @@ public class ClienteService implements IClienteService {
                                         )
                                 ).build();
                         HttpResponse response = httpClient.execute(request);
-                        String json = EntityUtils.toString(response.getEntity());
-                        JSONObject objeto = new JSONObject(json);
-                        System.out.println(objeto);
+                        String html = EntityUtils.toString(response.getEntity());
+                        Document documento = Jsoup.parse(html);
+                        Elements table = documento.getElementsByClass("formulario");
+                        JSONObject objeto = XML.toJSONObject(table.html());
+                        String razonSocial = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(0).getString("td");
+                        String claseContribuyente = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(9).getString("td");
+                        String obligadoContabilidad = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(13).getString("td");
+                        cliente.setRazonSocial(razonSocial);
+                        cliente.setObligadoContabilidad(obligadoContabilidad);
+                        if(claseContribuyente.toUpperCase().equals(Constantes.especial)){
+                            cliente.setEspecial(Constantes.si);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }*/
+                    }
                     return cliente;
                 } 
             	throw new IdentificacionInvalidaException();
@@ -246,13 +269,37 @@ public class ClienteService implements IClienteService {
             } else if (identificacion.length() == 13 && (Integer.parseInt(identificacion.substring(2,3)) != 6 || Integer.parseInt(identificacion.substring(2,3)) != 9)) {
                 boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
-                	tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_ruc_sri).get();
-                	tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
-                    Cliente cliente=new Cliente();
+                	tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri(Constantes.codigo_ruc_sri).get();
+                	tipoContribuyente = repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
+                    Cliente cliente = new Cliente();
                     cliente.setIdentificacion(identificacion);
                     cliente.setTipoIdentificacion(tipoIdentificacion);
                     cliente.setTipoContribuyente(tipoContribuyente);
                     cliente = buscarContribuyente(cliente);
+                    try {
+                        HttpGet request = new HttpGet(Constantes.url_ruc_consultas_ecuador + identificacion);
+                        HttpClient httpClient = HttpClients.custom()
+                                .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
+                                                .loadTrustMaterial(null, new TrustAllStrategy())
+                                                .build()
+                                        )
+                                ).build();
+                        HttpResponse response = httpClient.execute(request);
+                        String html = EntityUtils.toString(response.getEntity());
+                        Document documento = Jsoup.parse(html);
+                        Elements table = documento.getElementsByClass("formulario");
+                        JSONObject objeto = XML.toJSONObject(table.html());
+                        String razonSocial = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(0).getString("td");
+                        String claseContribuyente = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(9).getString("td");
+                        String obligadoContabilidad = objeto.getJSONObject("tbody").getJSONArray("tr").getJSONObject(13).getString("td");
+                        cliente.setRazonSocial(razonSocial);
+                        cliente.setObligadoContabilidad(obligadoContabilidad);
+                        if(claseContribuyente.toUpperCase().equals(Constantes.especial)){
+                            cliente.setEspecial(Constantes.si);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     return cliente;
                 }
             	throw new IdentificacionInvalidaException();
