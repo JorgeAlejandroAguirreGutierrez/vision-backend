@@ -20,6 +20,7 @@ import com.proyecto.vision.servicios.interf.venta.INotaCreditoService;
 import com.proyecto.vision.servicios.interf.configuracion.ITipoComprobanteService;
 import com.proyecto.vision.servicios.interf.inventario.IKardexService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,8 @@ public class NotaCreditoService implements INotaCreditoService {
     private IFacturaService facturaService;
     @Autowired
     private ISecuencialService secuencialService;
+    @Value("${facturacion.produccion}")
+    private String facturacionProduccion;
 
     @Override
     public void validar(NotaCredito notaCredito) {
@@ -102,7 +105,13 @@ public class NotaCreditoService implements INotaCreditoService {
         String fechaEmision = dateFormat.format(notaCredito.getFecha());
         String tipoComprobante = Constantes.nota_credito_sri;
         String numeroRuc = notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion();
-        String tipoAmbiente = Constantes.pruebas_sri;
+        String tipoAmbiente = Constantes.vacio;
+        if(facturacionProduccion.equals(Constantes.si)){
+            tipoAmbiente = Constantes.produccion_sri;
+        }
+        if(facturacionProduccion.equals(Constantes.no)){
+            tipoAmbiente = Constantes.pruebas_sri;
+        }
         String serie = notaCredito.getUsuario().getEstacion().getEstablecimiento().getCodigoSRI() + notaCredito.getUsuario().getEstacion().getCodigoSRI();
         String numeroComprobante = notaCredito.getSecuencial();
         String codigoNumerico = notaCredito.getCodigoNumerico();
