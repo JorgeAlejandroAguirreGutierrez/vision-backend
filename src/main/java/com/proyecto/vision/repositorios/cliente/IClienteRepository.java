@@ -19,8 +19,8 @@ public interface IClienteRepository extends IGenericoRepository<Cliente> {
     List<Cliente> consultarPorEmpresa(long empresaId);
     @Query(value = "select c from Cliente c where c.estado = :estado order by c.id desc")
     List<Cliente> consultarPorEstado(String estado);
-    @Query(value = "select new Cliente(c.id, c.identificacion, c.razonSocial) from Cliente c where c.empresa.id = :empresaId and c.estado = :estado order by c.id desc")
-    //@Query(value = "select c from Cliente c where c.empresa.id = :empresaId and c.estado = :estado order by c.id desc")
+    //@Query(value = "select new Cliente(c.id, c.identificacion, c.razonSocial) from Cliente c where c.empresa.id = :empresaId and c.estado = :estado order by c.id desc")
+    @Query(value = "select c from Cliente c where c.empresa.id = :empresaId and c.estado = :estado order by c.id desc")
     List<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado);
 	@Query(value = "select c from Cliente c where c.empresa.id = :empresaId and c.identificacion=:identificacion and c.estado=:estado")
     Optional<Cliente> obtenerPorEmpresaYIdentificacion(long empresaId, String identificacion, String estado);
