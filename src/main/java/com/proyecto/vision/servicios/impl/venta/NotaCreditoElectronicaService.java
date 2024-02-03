@@ -576,7 +576,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			Table tablaCliente = new Table(columnasCliente);
 			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+notaCredito.getFactura().getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + formatoFecha.format(notaCredito.getFecha()) + "\n" +
 					"DIRECCION: " + notaCredito.getFactura().getCliente().getDireccion() + "\n" +
-					"COMPROBANTE QUE SE MODIFICA: FACTURA " + notaCredito.getFactura().getNumeroComprobante() + "\n" +
+					"COMPROBANTE QUE SE MODIFICA: FACTURA" + "\n" + notaCredito.getFactura().getNumeroComprobante() + "\n" +
 					"RAZON DE MODIFICACION: " + notaCredito.getOperacion(), TextAlignment.LEFT));
 			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + notaCredito.getFactura().getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
 			documento.add(tablaCliente);
