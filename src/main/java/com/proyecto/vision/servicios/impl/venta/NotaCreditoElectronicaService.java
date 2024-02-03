@@ -555,7 +555,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 				ambiente = Constantes.facturaFisicaAmbientePruebasValor;
 			}
 			tablaEncabezadoDer.addCell(getCellFactura("RUC: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getIdentificacion()+"\n"+"\n"+
-					"FACTURA"+"\n"+
+					"NOTA DE CREDITO"+"\n"+
 					"No. " + notaCredito.getNumeroComprobante() + "\n" +"\n"+
 					"NÚMERO DE AUTORIZACIÓN: " + numeroAutorizacion + "\n" +"\n"+
 					"FECHA DE AUTORIZACIÓN: " + fechaAutorizacion + "\n" +
@@ -577,6 +577,8 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			tablaCliente.addCell(getCellCliente("RAZÓN SOCIAL: "+notaCredito.getFactura().getCliente().getRazonSocial()+"\n" + "FECHA EMISIÓN: " + formatoFecha.format(notaCredito.getFecha()) + "\n" +
 					"DIRECCION: " + notaCredito.getFactura().getCliente().getDireccion() + "\n", TextAlignment.LEFT));
 			tablaCliente.addCell(getCellCliente("IDENTIFICACIÓN: " + notaCredito.getFactura().getCliente().getIdentificacion() + "\n"+ "GUIA: " + "\t" + "\t"+ "\t" + "\t"+ "\t"+ "\t"+ "\t"+ "\t", TextAlignment.RIGHT));
+			tablaCliente.addCell(getCellCliente("COMPROBANTE QUE SE MODIFICA: FACTURA " + notaCredito.getFactura().getNumeroComprobante() + "\n" +
+					"RAZON DE MODIFICACION: " + notaCredito.getOperacion(), TextAlignment.LEFT));
 			documento.add(tablaCliente);
 			documento.add( new Paragraph("\n"));
 			float [] columnasTablaFacturaDetalle = {100F, 40F, 160F, 100F, 100F, 100F};
