@@ -38,6 +38,8 @@ public class NotaCreditoLinea extends Entidad {
     private double subtotalLinea;
     @Column(name = "importe_iva_linea", nullable = true)
     private double importeIvaLinea;
+    @Column(name = "descuento_linea", nullable = true)
+    private double descuentoLinea;
     @Column(name = "total_linea", nullable = true)
     private double totalLinea;
     @ManyToOne
