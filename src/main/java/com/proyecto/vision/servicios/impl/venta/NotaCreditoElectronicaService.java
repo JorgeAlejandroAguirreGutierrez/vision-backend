@@ -127,7 +127,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		infoNotaCredito.setNumDocModificado(numero);
 		String fechaEmisionFactura = dateFormat.format(notaCredito.getFactura().getFecha());
 		infoNotaCredito.setFechaEmisionDocSustento(fechaEmisionFactura);
-		infoNotaCredito.setTotalSinImpuestos(notaCredito.getSubtotal());
+		infoNotaCredito.setTotalSinImpuestos(Math.round(notaCredito.getSubtotal() * 100.0)/100.0);
 		infoNotaCredito.setValorModificacion(notaCredito.getTotal());
 		infoNotaCredito.setMoneda(Constantes.moneda);
 		infoNotaCredito.setTotalConImpuestos(crearTotalConImpuestos(notaCredito));
@@ -159,22 +159,22 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		for(NotaCreditoLinea notaCreditoLinea: notaCredito.getNotaCreditoLineas()){
 			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_0_sri)){
 				banderaIva0 = true;
-				baseImponible0 = baseImponible0 + notaCreditoLinea.getSubtotalLinea();
+				baseImponible0 = baseImponible0 + notaCreditoLinea.getCostoUnitario();
 				iva0 = iva0 + notaCreditoLinea.getImporteIvaLinea();
 			}
 			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_8_sri)){
 				banderaIva8 = true;
-				baseImponible8 = baseImponible8 + notaCreditoLinea.getSubtotalLinea();
+				baseImponible8 = baseImponible8 + notaCreditoLinea.getCostoUnitario();
 				iva8 = iva8 + notaCreditoLinea.getImporteIvaLinea();
 			}
 			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_12_sri)){
 				banderaIva12 = true;
-				baseImponible12 = baseImponible12 + notaCreditoLinea.getSubtotalLinea();
+				baseImponible12 = baseImponible12 + notaCreditoLinea.getCostoUnitario();
 				iva12 = iva12 + notaCreditoLinea.getImporteIvaLinea();
 			}
 			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_14_sri)){
 				banderaIva14 = true;
-				baseImponible14 = baseImponible14 + notaCreditoLinea.getSubtotalLinea();
+				baseImponible14 = baseImponible14 + notaCreditoLinea.getCostoUnitario();
 				iva14 = iva14 + notaCreditoLinea.getImporteIvaLinea();
 			}
 		}
@@ -221,9 +221,9 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			Detalle detalle = new Detalle();
 			detalle.setCodigoInterno(notaCreditoLinea.getProducto().getCodigo());
 			detalle.setDescripcion(notaCreditoLinea.getNombreProducto());
-			detalle.setCantidad(notaCreditoLinea.getCantidad());
+			detalle.setCantidad(notaCreditoLinea.getCantidadVenta());
 			detalle.setPrecioUnitario(Math.round(notaCreditoLinea.getCostoUnitario()*100.0)/100.0);
-			detalle.setDescuento(notaCredito.getTotalDescuento());
+			detalle.setDescuento(notaCreditoLinea.getDescuentoLinea());
 			detalle.setPrecioTotalSinImpuesto(Math.round(notaCreditoLinea.getSubtotalLinea() * 100.0) / 100.0);
 			detalle.setImpuestos(crearImpuestos(notaCreditoLinea));
 			detalleLista.add(detalle);
