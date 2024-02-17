@@ -174,7 +174,6 @@ public class NotaDebitoService implements INotaDebitoService {
 
     @Override
     public NotaDebito anular(NotaDebito notaDebito) {
-        validar(notaDebito);
         notaDebito.setEstado(Constantes.estadoAnulada);
         notaDebito.setProcesoSRI(Constantes.procesoSRIAnulada);
         NotaDebito res = rep.save(notaDebito);

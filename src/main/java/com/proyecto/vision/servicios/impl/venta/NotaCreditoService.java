@@ -292,7 +292,6 @@ public class NotaCreditoService implements INotaCreditoService {
 
     @Override
     public NotaCredito anular(NotaCredito notaCredito) {
-        validar(notaCredito);
         notaCredito.setEstado(Constantes.estadoAnulada);
         notaCredito.setProcesoSRI(Constantes.procesoSRIAnulada);
         NotaCredito res = rep.save(notaCredito);
