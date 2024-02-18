@@ -208,7 +208,7 @@ public class Util {
                         System.out.print("[Column " + columna + ": " + valor_celda + "] ");
                         datos.add(valor_celda);
                     }
-                    if(validar_datosImportacion(datos)){
+                    if(validarDatosImportacion(datos)){
                         info.add(datos);
                     }
 
@@ -229,7 +229,7 @@ public class Util {
         }
     }
 
-    private static boolean validar_datosImportacion(List<String>datos){
+    private static boolean validarDatosImportacion(List<String>datos){
         for (int i=0; i<datos.size(); i++){
             if (datos.get(i)!= null){
                 return true;
