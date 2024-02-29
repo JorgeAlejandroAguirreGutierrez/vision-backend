@@ -56,28 +56,36 @@ public class ReporteExistenciaService {
         }
         //DATOS GENERALES
         ReporteExistencia reporteExistencia = new ReporteExistencia();
-        List<ReporteExistenciaLinea> reporteExistenciaLineas= new ArrayList<>();
+        reporteExistencia.setRazonSocial(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial());
+        reporteExistencia.setNombreComercial(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getNombreComercial());
+        reporteExistencia.setNombreReporte(Constantes.nombreReporteExistencia);
+        DateFormat formatoFechaYHora = new SimpleDateFormat(Constantes.fechaYHora);
+        reporteExistencia.setFecha(formatoFechaYHora.format(new Date()));
+        reporteExistencia.setUsuario(usuario.get().getApodo());
+        reporteExistencia.setPerfil(usuario.get().getPerfil().getDescripcion());
+        reporteExistencia.setReporteExistenciaLineas(new ArrayList<>());
         double totalExistencia = Constantes.cero;
         double totalCosto = Constantes.cero;
         for(Producto producto: productos){
-            ReporteExistenciaLinea reporteExistenciaLinea = new ReporteExistenciaLinea();
-            reporteExistenciaLinea.setCodigo(producto.getCodigoPrincipal());
-            reporteExistenciaLinea.setNombre(producto.getNombre());
-            reporteExistenciaLinea.setIva(producto.getImpuesto().getCodigoSRI());
-            if(producto.getKardexs().isEmpty()){
-                reporteExistenciaLinea.setExistencia(Constantes.cero + Constantes.vacio);
-                reporteExistenciaLinea.setCostoTotal(Constantes.cero + Constantes.vacio);
-                totalExistencia = totalExistencia + Constantes.cero;
-                totalCosto = totalCosto + Constantes.cero;
-            } else {
-                reporteExistenciaLinea.setExistencia(producto.getKardexs().get(producto.getKardexs().size() - 1).getSaldo() + Constantes.vacio);
-                reporteExistenciaLinea.setCostoTotal(producto.getKardexs().get(producto.getKardexs().size() - 1).getCostoTotal() + Constantes.vacio);
-                totalExistencia = totalExistencia + producto.getKardexs().get(producto.getKardexs().size() - 1).getSaldo();
-                totalCosto = totalCosto + producto.getKardexs().get(producto.getKardexs().size() - 1).getCostoTotal();
+            if(producto.getCategoriaProducto().getAbreviatura().equals(Constantes.abreviatura_bien)){
+                ReporteExistenciaLinea reporteExistenciaLinea = new ReporteExistenciaLinea();
+                reporteExistenciaLinea.setCodigo(producto.getCodigo());
+                reporteExistenciaLinea.setNombre(producto.getNombre());
+                reporteExistenciaLinea.setIva(producto.getImpuesto().getCodigoSRI());
+                if(producto.getKardexs().isEmpty()){
+                    reporteExistenciaLinea.setExistencia(Constantes.cero + Constantes.vacio);
+                    reporteExistenciaLinea.setCostoTotal(Constantes.cero + Constantes.vacio);
+                    totalExistencia = totalExistencia + Constantes.cero;
+                    totalCosto = totalCosto + Constantes.cero;
+                } else {
+                    reporteExistenciaLinea.setExistencia(producto.getKardexs().get(producto.getKardexs().size() - 1).getSaldo() + Constantes.vacio);
+                    reporteExistenciaLinea.setCostoTotal(producto.getKardexs().get(producto.getKardexs().size() - 1).getCostoTotal() + Constantes.vacio);
+                    totalExistencia = totalExistencia + producto.getKardexs().get(producto.getKardexs().size() - 1).getSaldo();
+                    totalCosto = totalCosto + producto.getKardexs().get(producto.getKardexs().size() - 1).getCostoTotal();
+                }
+                reporteExistencia.getReporteExistenciaLineas().add(reporteExistenciaLinea);
             }
-            reporteExistencia.getReporteExistenciaLineas().add(reporteExistenciaLinea);
         }
-        reporteExistencia.setReporteExistenciaLineas(reporteExistenciaLineas);
         //TOTALES
         reporteExistencia.setTotalExistencia(String.format("%.2f", totalExistencia));
         reporteExistencia.setTotalCosto(String.format("%.2f", totalCosto));
@@ -109,7 +117,7 @@ public class ReporteExistenciaService {
             tabla.addCell(getCellEmpresa(reporteExistencia.getRazonSocial() + "\n" +
                     reporteExistencia.getNombreComercial() + "\n" +
                     reporteExistencia.getNombreReporte() + "\n" +
-                    "EXISTENCIAS: " + reporteExistencia.getFecha() + "\n", TextAlignment.CENTER));
+                    "FECHA: " + reporteExistencia.getFecha() + "\n", TextAlignment.CENTER));
             documento.add(tabla);
             documento.add(new Paragraph("\n"));
             documento.add(new Paragraph("DATOS GENERALES"));
@@ -121,7 +129,7 @@ public class ReporteExistenciaService {
             documento.add(tablaDatoGeneral);
             documento.add(new Paragraph("\n"));
             documento.add(new Paragraph("EXISTENCIAS EN EL PERIODO"));
-            float[] columnasTablaDocumento = {42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F, 42F};
+            float[] columnasTablaDocumento = { 120F, 120F, 120F, 120F, 120F };
             Table tablaDocumento = new Table(columnasTablaDocumento);
             tablaDocumento.addCell(getCellColumnaDocumento("CODIGO"));
             tablaDocumento.addCell(getCellColumnaDocumento("NOMBRE"));
@@ -138,9 +146,8 @@ public class ReporteExistenciaService {
             }
             tablaDocumento.addCell(getCellVacio(Constantes.vacio));
             tablaDocumento.addCell(getCellVacio(Constantes.vacio));
-            tablaDocumento.addCell(getCellVacio(Constantes.vacio));
             tablaDocumento.addCell(getCellFilaDocumento("TOTALES"));
-            tablaDocumento.addCell(getCellFilaDocumento("$" + reporteExistencia.getTotalExistencia()));
+            tablaDocumento.addCell(getCellFilaDocumento(reporteExistencia.getTotalExistencia()));
             tablaDocumento.addCell(getCellFilaDocumento("$" + reporteExistencia.getTotalCosto()));
             documento.add(tablaDocumento);
 
