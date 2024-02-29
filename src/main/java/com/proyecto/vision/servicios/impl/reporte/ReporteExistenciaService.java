@@ -127,13 +127,14 @@ public class ReporteExistenciaService {
             tabla.addCell(getCellEmpresa(reporteExistencia.getRazonSocial() + "\n" +
                     reporteExistencia.getNombreComercial() + "\n" +
                     reporteExistencia.getNombreReporte() + "\n" +
-                    "FECHA: " + reporteExistencia.getFecha() + "\n", TextAlignment.CENTER));
+                    "FECHA: " + reporteExistencia.getFecha() + "\n" +
+                    "FECHA DE CORTE: " + reporteExistencia.getFechaCorte(), TextAlignment.CENTER));
             documento.add(tabla);
             documento.add(new Paragraph("\n"));
             documento.add(new Paragraph("DATOS GENERALES"));
             float[] columnasDatoGeneral = {600F};
             Table tablaDatoGeneral = new Table(columnasDatoGeneral);
-            tablaDatoGeneral.addCell(getCellDatoGeneral("FECHA DE REPORTE: " + reporteExistencia.getFecha() + "\n" +
+            tablaDatoGeneral.addCell(getCellDatoGeneral(
                     "USUARIO: " + reporteExistencia.getUsuario() + "\n" +
                     "CARGO: " + reporteExistencia.getPerfil(), TextAlignment.LEFT));
             documento.add(tablaDatoGeneral);
