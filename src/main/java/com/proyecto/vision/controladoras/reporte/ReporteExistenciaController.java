@@ -29,19 +29,19 @@ public class ReporteExistenciaController {
     @Autowired
     private ReporteExistenciaService servicio;
 
-    @GetMapping(value = "/pdf/{apodo}/{empresaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> pdf(@PathVariable("apodo") String apodo, @PathVariable("empresaId") long empresaId) throws ParseException {
-        ByteArrayInputStream pdf = servicio.pdf(apodo, empresaId);
+    @GetMapping(value = "/pdf/{apodo}/{fechaCorte}/{empresaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> pdf(@PathVariable("apodo") String apodo, @PathVariable("fechaCorte") String fechaCorte, @PathVariable("empresaId") long empresaId) throws ParseException {
+        ByteArrayInputStream pdf = servicio.pdf(apodo, fechaCorte, empresaId);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=ReporteExistencia.pdf");
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(pdf));
     }
 
-    @GetMapping(value = "/obtener/{apodo}/{empresaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo, @PathVariable("empresaId") long empresaId) throws ParseException {
-        ReporteExistencia reporteExistencia = servicio.obtener(apodo, empresaId);
-        Respuesta respuesta=new Respuesta(true, Constantes.mensaje_obtener_exitoso, reporteExistencia);
+    @GetMapping(value = "/obtener/{apodo}/{fechaCorte}/{empresaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo, @PathVariable("fechaCorte") String fechaCorte, @PathVariable("empresaId") long empresaId) throws ParseException {
+        ReporteExistencia reporteExistencia = servicio.obtener(apodo, fechaCorte, empresaId);
+        Respuesta respuesta = new Respuesta(true, Constantes.mensaje_obtener_exitoso, reporteExistencia);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

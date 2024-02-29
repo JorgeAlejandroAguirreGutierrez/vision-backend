@@ -13,6 +13,7 @@ public class ReporteExistencia {
     private String nombreComercial;
     private String nombreReporte;
     private String fecha;
+    private String fechaCorte;
     private String usuario;
     private String perfil;
     private String empresa;

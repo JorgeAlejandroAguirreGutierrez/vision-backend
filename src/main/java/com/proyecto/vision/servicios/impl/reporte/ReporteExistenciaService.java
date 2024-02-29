@@ -16,6 +16,7 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.modelos.inventario.Producto;
 import com.proyecto.vision.modelos.reporte.ReporteExistencia;
 import com.proyecto.vision.modelos.reporte.ReporteExistenciaLinea;
@@ -48,7 +49,8 @@ public class ReporteExistenciaService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
-    public ReporteExistencia obtener(String apodo, long empresaId) throws ParseException {
+    public ReporteExistencia obtener(String apodo, String fechaCorta, long empresaId) throws ParseException {
+        Date fechaCorteC = new SimpleDateFormat(Constantes.fechaCorta).parse(fechaCorta);
         List<Producto> productos = productoRepository.consultarPorEmpresaYEstado(empresaId, Constantes.estadoActivo);
         Optional<Usuario> usuario = usuarioRepository.obtenerPorApodoYEstado(apodo, Constantes.estadoActivo);
         if(usuario.isEmpty()) {
@@ -72,16 +74,24 @@ public class ReporteExistenciaService {
                 reporteExistenciaLinea.setCodigo(producto.getCodigo());
                 reporteExistenciaLinea.setNombre(producto.getNombre());
                 reporteExistenciaLinea.setIva(producto.getImpuesto().getCodigoSRI());
-                if(producto.getKardexs().isEmpty()){
+                if(producto.getKardexs().size() > Constantes.ceroId){
+                    Optional<Kardex> kardex = kardexRepository.obtenerUltimoPorProductoYFechaYEstado(producto.getId(), fechaCorteC, Constantes.estadoActivo);
+                    if(kardex.isPresent()){
+                        reporteExistenciaLinea.setExistencia(kardex.get().getSaldo() + Constantes.vacio);
+                        reporteExistenciaLinea.setCostoTotal(kardex.get().getCostoTotal() + Constantes.vacio);
+                        totalExistencia = totalExistencia + kardex.get().getSaldo();
+                        totalCosto = totalCosto + kardex.get().getCostoTotal();
+                    } else{
+                        reporteExistenciaLinea.setExistencia(Constantes.cero + Constantes.vacio);
+                        reporteExistenciaLinea.setCostoTotal(Constantes.cero + Constantes.vacio);
+                        totalExistencia = totalExistencia + Constantes.cero;
+                        totalCosto = totalCosto + Constantes.cero;
+                    }
+                } else {
                     reporteExistenciaLinea.setExistencia(Constantes.cero + Constantes.vacio);
                     reporteExistenciaLinea.setCostoTotal(Constantes.cero + Constantes.vacio);
                     totalExistencia = totalExistencia + Constantes.cero;
                     totalCosto = totalCosto + Constantes.cero;
-                } else {
-                    reporteExistenciaLinea.setExistencia(producto.getKardexs().get(producto.getKardexs().size() - 1).getSaldo() + Constantes.vacio);
-                    reporteExistenciaLinea.setCostoTotal(producto.getKardexs().get(producto.getKardexs().size() - 1).getCostoTotal() + Constantes.vacio);
-                    totalExistencia = totalExistencia + producto.getKardexs().get(producto.getKardexs().size() - 1).getSaldo();
-                    totalCosto = totalCosto + producto.getKardexs().get(producto.getKardexs().size() - 1).getCostoTotal();
                 }
                 reporteExistencia.getReporteExistenciaLineas().add(reporteExistenciaLinea);
             }
@@ -99,8 +109,8 @@ public class ReporteExistenciaService {
         return reporteExistencia;
     }
 
-    public ByteArrayInputStream pdf(String apodo, long empresaId) throws ParseException {
-        ReporteExistencia reporteExistencia = obtener(apodo, empresaId);
+    public ByteArrayInputStream pdf(String apodo, String fechaCorte, long empresaId) throws ParseException {
+        ReporteExistencia reporteExistencia = obtener(apodo, fechaCorte, empresaId);
         //GENERACION DEL PDF
         try {
             ByteArrayOutputStream salida = new ByteArrayOutputStream();
