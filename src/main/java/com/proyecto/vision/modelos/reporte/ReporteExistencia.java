@@ -12,10 +12,7 @@ public class ReporteExistencia {
     private String razonSocial;
     private String nombreComercial;
     private String nombreReporte;
-    private String fechaInicio;
-    private String fechaFinal;
     private String fecha;
-    private String periodoReporte;
     private String usuario;
     private String perfil;
     private String empresa;
