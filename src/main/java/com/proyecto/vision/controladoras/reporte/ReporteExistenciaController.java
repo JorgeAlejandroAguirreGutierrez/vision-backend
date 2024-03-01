@@ -38,6 +38,15 @@ public class ReporteExistenciaController {
                 .body(new InputStreamResource(pdf));
     }
 
+    @GetMapping(value = "/excel/{apodo}/{fechaCorte}/{empresaId}")
+    public ResponseEntity<?> excel(@PathVariable("apodo") String apodo, @PathVariable("fechaCorte") String fechaCorte, @PathVariable("empresaId") long empresaId) throws ParseException {
+        ByteArrayInputStream pdf = servicio.excel(apodo, fechaCorte, empresaId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=reporteExistencia.xlsx");
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(pdf));
+    }
+
     @GetMapping(value = "/obtener/{apodo}/{fechaCorte}/{empresaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo, @PathVariable("fechaCorte") String fechaCorte, @PathVariable("empresaId") long empresaId) throws ParseException {
         ReporteExistencia reporteExistencia = servicio.obtener(apodo, fechaCorte, empresaId);

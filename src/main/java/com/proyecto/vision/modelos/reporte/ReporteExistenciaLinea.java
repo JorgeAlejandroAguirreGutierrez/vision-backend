@@ -11,5 +11,6 @@ public class ReporteExistenciaLinea {
     private String nombre;
     private String iva;
     private String existencia;
+    private String costoUnitario;
     private String costoTotal;
 }
