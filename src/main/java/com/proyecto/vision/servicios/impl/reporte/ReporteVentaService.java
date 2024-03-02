@@ -17,17 +17,24 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
 import com.proyecto.vision.modelos.recaudacion.*;
+import com.proyecto.vision.modelos.reporte.ReporteExistencia;
+import com.proyecto.vision.modelos.reporte.ReporteExistenciaLinea;
 import com.proyecto.vision.modelos.reporte.ReporteVenta;
 import com.proyecto.vision.modelos.reporte.ReporteVentaLinea;
 import com.proyecto.vision.modelos.usuario.Usuario;
 import com.proyecto.vision.modelos.venta.Factura;
 import com.proyecto.vision.repositorios.usuario.IUsuarioRepository;
 import com.proyecto.vision.repositorios.venta.IFacturaRepository;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -454,5 +461,155 @@ public class ReporteVentaService {
         cell.setFontSize(Constantes.fontSize10);
         cell.setTextAlignment(TextAlignment.CENTER);
         return cell;
+    }
+
+    public ByteArrayInputStream excel(String apodo, String fechaInicio, String fechaFinal, long empresaId) {
+        try {
+            ReporteVenta reporteVenta = obtener(apodo, fechaInicio, fechaFinal, empresaId);
+            // Blank workbook
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            // Creating a blank Excel sheet
+            XSSFSheet sheet = workbook.createSheet("REPORTE VENTA");
+            sheet.setColumnWidth(0, 25 * 256);
+            sheet.setColumnWidth(1, 50 * 256);
+            sheet.setColumnWidth(2, 25 * 256);
+            sheet.setColumnWidth(3, 25 * 256);
+            sheet.setColumnWidth(4, 25 * 256);
+            sheet.setColumnWidth(5, 25 * 256);
+            int i = 0;
+            Row row = sheet.createRow(i);
+            row.createCell(6).setCellValue(reporteVenta.getRazonSocial());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(6).setCellValue(reporteVenta.getNombreComercial());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(6).setCellValue(reporteVenta.getNombreReporte());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(6).setCellValue("FECHA: " + reporteVenta.getFecha());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(6).setCellValue("FECHA INICIO: " + reporteVenta.getFechaInicio());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(6).setCellValue("FECHA FINAL: " + reporteVenta.getFechaFinal());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("DOCUMENTOS EN EL PERIODO");
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("FECHA");
+            row.createCell(1).setCellValue("HORA");
+            row.createCell(2).setCellValue("DOC");
+            row.createCell(3).setCellValue("ESTAB");
+            row.createCell(4).setCellValue("SECUENCIA");
+            row.createCell(5).setCellValue("CLIENTE");
+            row.createCell(6).setCellValue("IDENT");
+            row.createCell(7).setCellValue("VEND");
+            row.createCell(8).setCellValue("TIPO VENTA");
+            row.createCell(9).setCellValue("SUBTOTAL 0");
+            row.createCell(10).setCellValue("SUBTOTAL 12");
+            row.createCell(11).setCellValue("IVA");
+            row.createCell(12).setCellValue("TOTAL");
+            i++;
+            for(ReporteVentaLinea linea: reporteVenta.getReporteVentaLineas()){
+                row = sheet.createRow(i);
+                row.createCell(0).setCellValue(linea.getFecha());
+                row.createCell(1).setCellValue(linea.getHora());
+                row.createCell(2).setCellValue(linea.getDocumento());
+                row.createCell(3).setCellValue(linea.getEstablecimiento());
+                row.createCell(4).setCellValue(linea.getSecuencia());
+                row.createCell(5).setCellValue(linea.getCliente());
+                row.createCell(6).setCellValue(linea.getIdentificacion());
+                row.createCell(7).setCellValue(linea.getVendedor());
+                row.createCell(8).setCellValue(linea.getTipoVenta());
+                row.createCell(9).setCellValue(Double.parseDouble(linea.getSubtotal0()));
+                row.createCell(10).setCellValue(Double.parseDouble(linea.getSubtotal12()));
+                row.createCell(11).setCellValue(Double.parseDouble(linea.getIva()));
+                row.createCell(12).setCellValue(Double.parseDouble(linea.getTotal()));
+                i++;
+            }
+            row = sheet.createRow(i);
+            row.createCell(8).setCellValue("TOTALES");
+            row.createCell(9).setCellValue(Double.parseDouble(reporteVenta.getTotal0()));
+            row.createCell(10).setCellValue(Double.parseDouble(reporteVenta.getTotal12()));
+            row.createCell(11).setCellValue(Double.parseDouble(reporteVenta.getTotalIva()));
+            row.createCell(12).setCellValue(Double.parseDouble(reporteVenta.getTotal()));
+            i++;
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("INFORMACION RESUMEN");
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("FACTURAS EMITIDAS");
+            row.createCell(1).setCellValue(reporteVenta.getFacturasEmitidas());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("FACTURAS ANULADAS");
+            row.createCell(1).setCellValue(reporteVenta.getFacturasEmitidas());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("TOTAL");
+            row.createCell(1).setCellValue(reporteVenta.getFacturasTotales());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("VENTAS GRAVADAS CON 12%");
+            row.createCell(1).setCellValue(reporteVenta.getTotal12());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("VENTAS GRAVADAS CON 0%");
+            row.createCell(1).setCellValue(reporteVenta.getTotal0());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("IVA TARIFA 12%");
+            row.createCell(1).setCellValue(reporteVenta.getTotalIva());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("TOTAL");
+            row.createCell(1).setCellValue(reporteVenta.getTotal());
+            i++;
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("REPORTE COBROS");
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("EFECTIVO");
+            row.createCell(1).setCellValue(reporteVenta.getEfectivo());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("CHEQUE");
+            row.createCell(1).setCellValue(reporteVenta.getCheque());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("TARJETA DE CREDITO");
+            row.createCell(1).setCellValue(reporteVenta.getTarjetaCredito());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("TARJETA DE DEBITO");
+            row.createCell(1).setCellValue(reporteVenta.getTarjetaDebito());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("TRANSFERENCIA");
+            row.createCell(1).setCellValue(reporteVenta.getTransferencia());
+            i++;
+            row = sheet.createRow(i);
+            row.createCell(0).setCellValue("CREDITO");
+            row.createCell(1).setCellValue(reporteVenta.getCredito());
+
+            // Writing the workbook
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            workbook.write(out);
+            // Closing file output connections
+            out.close();
+            return new ByteArrayInputStream(out.toByteArray());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
