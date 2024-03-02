@@ -10,7 +10,7 @@ public class ReporteExistenciaLinea {
     private String codigo;
     private String nombre;
     private String iva;
-    private String existencia;
-    private String costoUnitario;
-    private String costoTotal;
+    private double existencia;
+    private double costoUnitario;
+    private double costoTotal;
 }

@@ -18,8 +18,8 @@ public class ReporteVentaLinea {
     private String identificacion;
     private String vendedor;
     private String tipoVenta;
-    private String subtotal0;
-    private String subtotal12;
-    private String iva;
-    private String total;
+    private double subtotal0;
+    private double subtotal12;
+    private double iva;
+    private double total;
 }
