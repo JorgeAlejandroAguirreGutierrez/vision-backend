@@ -324,8 +324,10 @@ public class ReporteExistenciaService {
             sheet.setColumnWidth(5, 25 * 256);
             int i = 0;
             Row row = sheet.createRow(i);
-            row.createCell(2).setCellValue(reporteExistencia.getNombreComercial());
+            row.createCell(2).setCellValue(reporteExistencia.getRazonSocial());
             i++;
+            row = sheet.createRow(i);
+            row.createCell(2).setCellValue(reporteExistencia.getNombreComercial());
             i++;
             row = sheet.createRow(i);
             row.createCell(2).setCellValue(reporteExistencia.getNombreReporte());
