@@ -126,14 +126,10 @@ public class ReporteVentaService {
             }
             reporteVentaLinea.setTipoVenta(tipoVenta);
 
-            String subtotal0 = String.format("%.2f", factura.getSubtotalNoGravado());
-            reporteVentaLinea.setSubtotal0(subtotal0);
-            String subtotal12 = String.format("%.2f", factura.getSubtotalGravado());
-            reporteVentaLinea.setSubtotal12(subtotal12);
-            String iva = String.format("%.2f", factura.getImporteIva());
-            reporteVentaLinea.setIva(iva);
-            String total = String.format("%.2f", factura.getTotal());
-            reporteVentaLinea.setTotal(total);
+            reporteVentaLinea.setSubtotal0(factura.getSubtotalNoGravado());
+            reporteVentaLinea.setSubtotal12(factura.getSubtotalGravado());
+            reporteVentaLinea.setIva(factura.getImporteIva());
+            reporteVentaLinea.setTotal(factura.getTotal());
             reporteVentaLineas.add(reporteVentaLinea);
 
             total0 = total0 + factura.getSubtotalNoGravado();
@@ -170,26 +166,26 @@ public class ReporteVentaService {
         }
         reporteVenta.setReporteVentaLineas(reporteVentaLineas);
         //TOTALES
-        reporteVenta.setTotal0(String.format("%.2f", total0));
-        reporteVenta.setTotal12(String.format("%.2f", total12));
-        reporteVenta.setTotalIva(String.format("%.2f", totalIva));
-        reporteVenta.setTotal(String.format("%.2f", reporteTotal));
+        reporteVenta.setTotal0(total0);
+        reporteVenta.setTotal12(total12);
+        reporteVenta.setTotalIva(totalIva);
+        reporteVenta.setTotal(reporteTotal);
 
         //INFOMACION DE RESUMEN
-        reporteVenta.setFacturasEmitidas(String.valueOf(facturasEmitidas));
-        reporteVenta.setFacturasAnuladas(String.valueOf(facturasAnuladas));
-        reporteVenta.setFacturasTotales(String.valueOf(facturasEmitidas + facturasAnuladas));
+        reporteVenta.setFacturasEmitidas(facturasEmitidas);
+        reporteVenta.setFacturasAnuladas(facturasAnuladas);
+        long facturasTotales = facturasEmitidas + facturasAnuladas;
+        reporteVenta.setFacturasTotales(facturasTotales);
 
         //REPORTE DE COBROS
-        reporteVenta.setEfectivo(String.format("%.2f", totalEfectivo));
-        reporteVenta.setCheque(String.format("%.2f", totalCheque));
-        reporteVenta.setTarjetaCredito(String.format("%.2f", totalTarjetaCredito));
-        reporteVenta.setTarjetaDebito(String.format("%.2f", totalTarjetaDebito));
-        reporteVenta.setTransferencia(String.format("%.2f", totalTransferencia));
-        reporteVenta.setDeposito(String.format("%.2f", totalDeposito));
-        reporteVenta.setCredito(String.format("%.2f", totalCredito));
-        String totalRecaudacion = String.format("%.2f", totalEfectivo + totalCheque + totalTarjetaCredito + totalTarjetaDebito + totalTransferencia + totalDeposito + totalCredito);
-        reporteVenta.setTotalRecaudacion(totalRecaudacion);
+        reporteVenta.setEfectivo(totalEfectivo);
+        reporteVenta.setCheque(totalCheque);
+        reporteVenta.setTarjetaCredito(totalTarjetaCredito);
+        reporteVenta.setTarjetaDebito(totalTarjetaDebito);
+        reporteVenta.setTransferencia(totalTransferencia);
+        reporteVenta.setDeposito(totalDeposito);
+        reporteVenta.setCredito(totalCredito);
+        reporteVenta.setTotalRecaudacion(totalEfectivo + totalCheque + totalTarjetaCredito + totalTarjetaDebito + totalTransferencia + totalDeposito + totalCredito);
 
         //FIRMAS DE RESPONSABILIDAD
         reporteVenta.setNombreRepresentanteLegal(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getRepresentanteLegal());
@@ -260,10 +256,10 @@ public class ReporteVentaService {
                 tablaDocumento.addCell(getCellFilaDocumento(reporteVentaLinea.getIdentificacion()));
                 tablaDocumento.addCell(getCellFilaDocumento(reporteVentaLinea.getVendedor()));
                 tablaDocumento.addCell(getCellFilaDocumento(reporteVentaLinea.getTipoVenta()));
-                tablaDocumento.addCell(getCellFilaDocumento(reporteVentaLinea.getSubtotal0()));
-                tablaDocumento.addCell(getCellFilaDocumento(reporteVentaLinea.getSubtotal12()));
-                tablaDocumento.addCell(getCellFilaDocumento(reporteVentaLinea.getIva()));
-                tablaDocumento.addCell(getCellFilaDocumento(reporteVentaLinea.getTotal()));
+                tablaDocumento.addCell(getCellFilaDocumento("$" + String.format("%.2f", reporteVentaLinea.getSubtotal0())));
+                tablaDocumento.addCell(getCellFilaDocumento("$" + String.format("%.2f", reporteVentaLinea.getSubtotal12())));
+                tablaDocumento.addCell(getCellFilaDocumento("$" + String.format("%.2f", reporteVentaLinea.getIva())));
+                tablaDocumento.addCell(getCellFilaDocumento("$" + String.format("%.2f", reporteVentaLinea.getTotal())));
             }
             tablaDocumento.addCell(getCellVacio(Constantes.vacio));
             tablaDocumento.addCell(getCellVacio(Constantes.vacio));
@@ -275,10 +271,10 @@ public class ReporteVentaService {
             tablaDocumento.addCell(getCellVacio(Constantes.vacio));
             tablaDocumento.addCell(getCellVacio(Constantes.vacio));
             tablaDocumento.addCell(getCellFilaDocumento("TOTALES"));
-            tablaDocumento.addCell(getCellFilaDocumento("$" + reporteVenta.getTotal0()));
-            tablaDocumento.addCell(getCellFilaDocumento("$" + reporteVenta.getTotal12()));
-            tablaDocumento.addCell(getCellFilaDocumento("$" + reporteVenta.getTotalIva()));
-            tablaDocumento.addCell(getCellFilaDocumento("$" + reporteVenta.getTotal()));
+            tablaDocumento.addCell(getCellFilaDocumento("$" + String.format("%.2f", reporteVenta.getTotal0())));
+            tablaDocumento.addCell(getCellFilaDocumento("$" + String.format("%.2f", reporteVenta.getTotal12())));
+            tablaDocumento.addCell(getCellFilaDocumento("$" + String.format("%.2f", reporteVenta.getTotalIva())));
+            tablaDocumento.addCell(getCellFilaDocumento("$" + String.format("%.2f", reporteVenta.getTotal())));
             documento.add(tablaDocumento);
 
             documento.add(new Paragraph("\n"));
@@ -288,22 +284,22 @@ public class ReporteVentaService {
             float [] columnasFactura = {450F, 150F};
             Table tablaFactura = new Table(columnasFactura);
             tablaFactura.addCell(getCellFactura("FACTURAS EMITIDAS"));
-            tablaFactura.addCell(getCellFactura(reporteVenta.getFacturasEmitidas()));
+            tablaFactura.addCell(getCellFactura(reporteVenta.getFacturasEmitidas()+ Constantes.vacio));
             tablaFactura.addCell(getCellFactura("FACTURAS ANULADAS"));
-            tablaFactura.addCell(getCellFactura(reporteVenta.getFacturasAnuladas()));
+            tablaFactura.addCell(getCellFactura(reporteVenta.getFacturasAnuladas() + Constantes.vacio));
             tablaFactura.addCell(getCellFactura("TOTAL"));
-            tablaFactura.addCell(getCellFactura(reporteVenta.getFacturasTotales()));
+            tablaFactura.addCell(getCellFactura(reporteVenta.getFacturasTotales() + Constantes.vacio));
 
             float [] columnasResumen = {450F, 150F};
             Table tablaResumen = new Table(columnasResumen);
             tablaResumen.addCell(getCellResumen("VENTAS GRAVADAS CON 12%"));
-            tablaResumen.addCell(getCellResumen(reporteVenta.getTotal12()));
+            tablaResumen.addCell(getCellResumen("$" + String.format("%.2f", reporteVenta.getTotal12())));
             tablaResumen.addCell(getCellResumen("VENTAS GRAVADAS CON 0%"));
-            tablaResumen.addCell(getCellResumen(reporteVenta.getTotal0()));
+            tablaResumen.addCell(getCellResumen("$" + String.format("%.2f", reporteVenta.getTotal0())));
             tablaResumen.addCell(getCellResumen("IVA TARIFA 12%"));
-            tablaResumen.addCell(getCellResumen(reporteVenta.getTotalIva()));
+            tablaResumen.addCell(getCellResumen("$" + String.format("%.2f", reporteVenta.getTotalIva())));
             tablaResumen.addCell(getCellResumen("TOTAL"));
-            tablaResumen.addCell(getCellResumen(reporteVenta.getTotal()));
+            tablaResumen.addCell(getCellResumen("$" + String.format("%.2f", reporteVenta.getTotal())));
 
             tablaFacturaYResumen.addCell(getCellFacturaYResumen(tablaFactura));
             tablaFacturaYResumen.addCell(getCellFacturaYResumen(tablaResumen));
@@ -314,17 +310,17 @@ public class ReporteVentaService {
             float [] columnasRecaudacion = {300F, 300F};
             Table tablaRecaudacion = new Table(columnasRecaudacion);
             tablaRecaudacion.addCell(getCellRecaudacion("EFECTIVO"));
-            tablaRecaudacion.addCell(getCellRecaudacion(reporteVenta.getEfectivo()));
+            tablaRecaudacion.addCell(getCellRecaudacion("$" + String.format("%.2f", reporteVenta.getEfectivo())));
             tablaRecaudacion.addCell(getCellRecaudacion("CHEQUE"));
-            tablaRecaudacion.addCell(getCellRecaudacion(reporteVenta.getCheque()));
+            tablaRecaudacion.addCell(getCellRecaudacion("$" + String.format("%.2f", reporteVenta.getCheque())));
             tablaRecaudacion.addCell(getCellRecaudacion("TARJETA DE CREDITO"));
-            tablaRecaudacion.addCell(getCellRecaudacion(reporteVenta.getTarjetaCredito()));
+            tablaRecaudacion.addCell(getCellRecaudacion("$" + String.format("%.2f", reporteVenta.getTarjetaCredito())));
             tablaRecaudacion.addCell(getCellRecaudacion("TARJETA DE DEBITO"));
-            tablaRecaudacion.addCell(getCellRecaudacion(reporteVenta.getTarjetaDebito()));
+            tablaRecaudacion.addCell(getCellRecaudacion("$" + String.format("%.2f", reporteVenta.getTarjetaDebito())));
             tablaRecaudacion.addCell(getCellRecaudacion("TRANSFERENCIA"));
-            tablaRecaudacion.addCell(getCellRecaudacion(reporteVenta.getTransferencia()));
+            tablaRecaudacion.addCell(getCellRecaudacion("$" + String.format("%.2f", reporteVenta.getTransferencia())));
             tablaRecaudacion.addCell(getCellRecaudacion("CREDITO"));
-            tablaRecaudacion.addCell(getCellRecaudacion(reporteVenta.getCredito()));
+            tablaRecaudacion.addCell(getCellRecaudacion("$" + String.format("%.2f", reporteVenta.getCredito())));
             documento.add(tablaRecaudacion);
 
             documento.add(new Paragraph("\n"));
@@ -471,11 +467,18 @@ public class ReporteVentaService {
             // Creating a blank Excel sheet
             XSSFSheet sheet = workbook.createSheet("REPORTE VENTA");
             sheet.setColumnWidth(0, 25 * 256);
-            sheet.setColumnWidth(1, 50 * 256);
+            sheet.setColumnWidth(1, 25 * 256);
             sheet.setColumnWidth(2, 25 * 256);
             sheet.setColumnWidth(3, 25 * 256);
             sheet.setColumnWidth(4, 25 * 256);
-            sheet.setColumnWidth(5, 25 * 256);
+            sheet.setColumnWidth(5, 50 * 256);
+            sheet.setColumnWidth(6, 25 * 256);
+            sheet.setColumnWidth(7, 25 * 256);
+            sheet.setColumnWidth(8, 25 * 256);
+            sheet.setColumnWidth(9, 25 * 256);
+            sheet.setColumnWidth(10, 25 * 256);
+            sheet.setColumnWidth(11, 25 * 256);
+            sheet.setColumnWidth(12, 25 * 256);
             int i = 0;
             Row row = sheet.createRow(i);
             row.createCell(6).setCellValue(reporteVenta.getRazonSocial());
@@ -524,18 +527,18 @@ public class ReporteVentaService {
                 row.createCell(6).setCellValue(linea.getIdentificacion());
                 row.createCell(7).setCellValue(linea.getVendedor());
                 row.createCell(8).setCellValue(linea.getTipoVenta());
-                row.createCell(9).setCellValue(Double.parseDouble(linea.getSubtotal0()));
-                row.createCell(10).setCellValue(Double.parseDouble(linea.getSubtotal12()));
-                row.createCell(11).setCellValue(Double.parseDouble(linea.getIva()));
-                row.createCell(12).setCellValue(Double.parseDouble(linea.getTotal()));
+                row.createCell(9).setCellValue(linea.getSubtotal0());
+                row.createCell(10).setCellValue(linea.getSubtotal12());
+                row.createCell(11).setCellValue(linea.getIva());
+                row.createCell(12).setCellValue(linea.getTotal());
                 i++;
             }
             row = sheet.createRow(i);
             row.createCell(8).setCellValue("TOTALES");
-            row.createCell(9).setCellValue(Double.parseDouble(reporteVenta.getTotal0()));
-            row.createCell(10).setCellValue(Double.parseDouble(reporteVenta.getTotal12()));
-            row.createCell(11).setCellValue(Double.parseDouble(reporteVenta.getTotalIva()));
-            row.createCell(12).setCellValue(Double.parseDouble(reporteVenta.getTotal()));
+            row.createCell(9).setCellValue(reporteVenta.getTotal0());
+            row.createCell(10).setCellValue(reporteVenta.getTotal12());
+            row.createCell(11).setCellValue(reporteVenta.getTotalIva());
+            row.createCell(12).setCellValue(reporteVenta.getTotal());
             i++;
             i++;
             row = sheet.createRow(i);

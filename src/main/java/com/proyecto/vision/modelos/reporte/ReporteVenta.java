@@ -22,23 +22,23 @@ public class ReporteVenta {
     //DOCUMENTOS EN EL PERIODO
     private List<ReporteVentaLinea> reporteVentaLineas;
     //TOTALES
-    private String total0;
-    private String total12;
-    private String totalIva;
-    private String total;
+    private double total0;
+    private double total12;
+    private double totalIva;
+    private double total;
     //INFORMACION RESUMEN
-    private String facturasEmitidas;
-    private String facturasAnuladas;
-    private String facturasTotales;
+    private long facturasEmitidas;
+    private long facturasAnuladas;
+    private long facturasTotales;
     //REPORTE DE COBROS
-    private String efectivo;
-    private String cheque;
-    private String tarjetaCredito;
-    private String tarjetaDebito;
-    private String transferencia;
-    private String deposito;
-    private String credito;
-    private String totalRecaudacion;
+    private double efectivo;
+    private double cheque;
+    private double tarjetaCredito;
+    private double tarjetaDebito;
+    private double transferencia;
+    private double deposito;
+    private double credito;
+    private double totalRecaudacion;
     //FIRMAS DE RESPONSABILIDAD
     private String nombreRepresentanteLegal;
     private String cargoRepresentanteLegal;

@@ -81,24 +81,24 @@ public class ReporteExistenciaService {
                 if(producto.getKardexs().size() > Constantes.ceroId){
                     Optional<Kardex> kardex = kardexRepository.obtenerUltimoPorProductoYFechaYEstado(producto.getId(), fechaCorteC, Constantes.estadoActivo);
                     if(kardex.isPresent()){
-                        reporteExistenciaLinea.setExistencia(kardex.get().getSaldo() + Constantes.vacio);
-                        reporteExistenciaLinea.setCostoUnitario(kardex.get().getCostoPromedio() + Constantes.vacio);
-                        reporteExistenciaLinea.setCostoTotal(kardex.get().getCostoTotal() + Constantes.vacio);
+                        reporteExistenciaLinea.setExistencia(kardex.get().getSaldo());
+                        reporteExistenciaLinea.setCostoUnitario(kardex.get().getCostoPromedio());
+                        reporteExistenciaLinea.setCostoTotal(kardex.get().getCostoTotal());
                         totalExistencia = totalExistencia + kardex.get().getSaldo();
                         totalCostoUnitario = totalCostoUnitario + kardex.get().getCostoPromedio();
                         totalCosto = totalCosto + kardex.get().getCostoTotal();
                     } else{
-                        reporteExistenciaLinea.setExistencia(Constantes.cero + Constantes.vacio);
-                        reporteExistenciaLinea.setCostoUnitario(Constantes.cero + Constantes.vacio);
-                        reporteExistenciaLinea.setCostoTotal(Constantes.cero + Constantes.vacio);
+                        reporteExistenciaLinea.setExistencia(Constantes.cero);
+                        reporteExistenciaLinea.setCostoUnitario(Constantes.cero);
+                        reporteExistenciaLinea.setCostoTotal(Constantes.cero);
                         totalExistencia = totalExistencia + Constantes.cero;
                         totalCostoUnitario = totalCostoUnitario + Constantes.cero;
                         totalCosto = totalCosto + Constantes.cero;
                     }
                 } else {
-                    reporteExistenciaLinea.setExistencia(Constantes.cero + Constantes.vacio);
-                    reporteExistenciaLinea.setCostoUnitario(Constantes.cero + Constantes.vacio);
-                    reporteExistenciaLinea.setCostoTotal(Constantes.cero + Constantes.vacio);
+                    reporteExistenciaLinea.setExistencia(Constantes.cero);
+                    reporteExistenciaLinea.setCostoUnitario(Constantes.cero);
+                    reporteExistenciaLinea.setCostoTotal(Constantes.cero);
                     totalExistencia = totalExistencia + Constantes.cero;
                     totalCostoUnitario = totalCostoUnitario + Constantes.cero;
                     totalCosto = totalCosto + Constantes.cero;
@@ -107,9 +107,9 @@ public class ReporteExistenciaService {
             }
         }
         //TOTALES
-        reporteExistencia.setTotalExistencia(totalExistencia + Constantes.vacio);
-        reporteExistencia.setTotalCostoUnitario(totalCostoUnitario + Constantes.vacio);
-        reporteExistencia.setTotalCosto(totalCosto + Constantes.vacio);
+        reporteExistencia.setTotalExistencia(totalExistencia);
+        reporteExistencia.setTotalCostoUnitario(totalCostoUnitario);
+        reporteExistencia.setTotalCosto(totalCosto);
         //FIRMAS DE RESPONSABILIDAD
         reporteExistencia.setNombreRepresentanteLegal(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getRepresentanteLegal());
         reporteExistencia.setCargoRepresentanteLegal(usuario.get().getEstacion().getEstablecimiento().getEmpresa().getCargoRepresentanteLegal());
@@ -151,25 +151,27 @@ public class ReporteExistenciaService {
             documento.add(tablaDatoGeneral);
             documento.add(new Paragraph("\n"));
             documento.add(new Paragraph("EXISTENCIAS EN EL PERIODO"));
-            float[] columnasTablaDocumento = { 120F, 120F, 120F, 120F, 120F };
+            float[] columnasTablaDocumento = { 100F, 100F, 100F, 100F, 100F, 100F };
             Table tablaDocumento = new Table(columnasTablaDocumento);
             tablaDocumento.addCell(getCellColumnaDocumento("CODIGO"));
             tablaDocumento.addCell(getCellColumnaDocumento("NOMBRE"));
             tablaDocumento.addCell(getCellColumnaDocumento("IVA"));
             tablaDocumento.addCell(getCellColumnaDocumento("EXISTENCIA"));
+            tablaDocumento.addCell(getCellColumnaDocumento("COSTO UNITARIO"));
             tablaDocumento.addCell(getCellColumnaDocumento("COSTO TOTAL"));
             for (ReporteExistenciaLinea reporteExistenciaLinea : reporteExistencia.getReporteExistenciaLineas())
             {
                 tablaDocumento.addCell(getCellFilaDocumento(reporteExistenciaLinea.getCodigo()));
                 tablaDocumento.addCell(getCellFilaDocumento(reporteExistenciaLinea.getNombre()));
                 tablaDocumento.addCell(getCellFilaDocumento(reporteExistenciaLinea.getIva()));
-                tablaDocumento.addCell(getCellFilaDocumento(reporteExistenciaLinea.getExistencia()));
-                tablaDocumento.addCell(getCellFilaDocumento(reporteExistenciaLinea.getCostoTotal()));
+                tablaDocumento.addCell(getCellFilaDocumento(reporteExistenciaLinea.getExistencia() + Constantes.vacio));
+                tablaDocumento.addCell(getCellFilaDocumento("$" + reporteExistenciaLinea.getCostoUnitario()));
+                tablaDocumento.addCell(getCellFilaDocumento("$" + reporteExistenciaLinea.getCostoTotal()));
             }
             tablaDocumento.addCell(getCellVacio(Constantes.vacio));
             tablaDocumento.addCell(getCellFilaDocumento("TOTALES"));
-            tablaDocumento.addCell(getCellFilaDocumento(reporteExistencia.getTotalExistencia()));
-            tablaDocumento.addCell(getCellFilaDocumento(reporteExistencia.getTotalCostoUnitario()));
+            tablaDocumento.addCell(getCellFilaDocumento(reporteExistencia.getTotalExistencia() + Constantes.vacio));
+            tablaDocumento.addCell(getCellFilaDocumento("$" + reporteExistencia.getTotalCostoUnitario()));
             tablaDocumento.addCell(getCellFilaDocumento("$" + reporteExistencia.getTotalCosto()));
             documento.add(tablaDocumento);
 
@@ -351,16 +353,16 @@ public class ReporteExistenciaService {
                 row.createCell(0).setCellValue(linea.getCodigo());
                 row.createCell(1).setCellValue(linea.getNombre());
                 row.createCell(2).setCellValue(Integer.parseInt(linea.getIva()));
-                row.createCell(3).setCellValue(Double.parseDouble(linea.getExistencia()));
-                row.createCell(4).setCellValue(Double.parseDouble(linea.getCostoUnitario()));
-                row.createCell(5).setCellValue(Double.parseDouble(linea.getCostoTotal()));
+                row.createCell(3).setCellValue(linea.getExistencia());
+                row.createCell(4).setCellValue(linea.getCostoUnitario());
+                row.createCell(5).setCellValue(linea.getCostoTotal());
                 i++;
             }
             row = sheet.createRow(i);
             row.createCell(2).setCellValue("TOTALES");
-            row.createCell(3).setCellValue(Double.parseDouble(reporteExistencia.getTotalExistencia()));
-            row.createCell(4).setCellValue(Double.parseDouble(reporteExistencia.getTotalCostoUnitario()));
-            row.createCell(5).setCellValue(Double.parseDouble(reporteExistencia.getTotalCosto()));
+            row.createCell(3).setCellValue(reporteExistencia.getTotalExistencia());
+            row.createCell(4).setCellValue(reporteExistencia.getTotalCostoUnitario());
+            row.createCell(5).setCellValue(reporteExistencia.getTotalCosto());
             // Writing the workbook
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             workbook.write(out);

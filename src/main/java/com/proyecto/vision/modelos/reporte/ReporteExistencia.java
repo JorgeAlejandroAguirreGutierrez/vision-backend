@@ -16,9 +16,9 @@ public class ReporteExistencia {
     private String fechaCorte;
     private String usuario;
     private String perfil;
-    private String totalExistencia;
-    private String totalCostoUnitario;
-    private String totalCosto;
+    private double totalExistencia;
+    private double totalCostoUnitario;
+    private double totalCosto;
     private List<ReporteExistenciaLinea> reporteExistenciaLineas;
     //FIRMAS DE RESPONSABILIDAD
     private String nombreRepresentanteLegal;
