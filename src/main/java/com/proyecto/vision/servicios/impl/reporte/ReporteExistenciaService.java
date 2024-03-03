@@ -24,10 +24,7 @@ import com.proyecto.vision.modelos.usuario.Usuario;
 import com.proyecto.vision.repositorios.inventario.IKardexRepository;
 import com.proyecto.vision.repositorios.inventario.IProductoRepository;
 import com.proyecto.vision.repositorios.usuario.IUsuarioRepository;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -249,37 +246,6 @@ public class ReporteExistenciaService {
         cell.add(parrafo);
         cell.setFontSize(Constantes.fontSize7);
         cell.setBorder(Border.NO_BORDER);
-        return cell;
-    }
-
-    private Cell getCellFactura(String text) {
-        Paragraph parrafo = new Paragraph(text);
-        Cell cell = new Cell();
-        cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize10);
-        return cell;
-    }
-
-    private Cell getCellResumen(String text) {
-        Paragraph parrafo = new Paragraph(text);
-        Cell cell = new Cell();
-        cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize10);
-        return cell;
-    }
-
-    private Cell getCellFacturaYResumen(Table tabla){
-        Cell cell = new Cell();
-        cell.add(tabla);
-        cell.setBorder(Border.NO_BORDER);
-        return cell;
-    }
-
-    private Cell getCellRecaudacion(String text) {
-        Paragraph parrafo = new Paragraph(text);
-        Cell cell = new Cell();
-        cell.add(parrafo);
-        cell.setFontSize(Constantes.fontSize10);
         return cell;
     }
 
