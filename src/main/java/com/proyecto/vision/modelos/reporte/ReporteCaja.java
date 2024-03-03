@@ -17,72 +17,74 @@ public class ReporteCaja {
     private String usuario;
     private String perfil;
     //COMPROBANTES EMITIDOS
-    private String facturasEmitidas;
-    private String facturasAnuladas;
-    private String facturasTotales;
+    private long facturasEmitidas;
+    private long facturasAnuladas;
+    private long facturasTotales;
     //RESUMEN DE VENTAS
-    private String total0;
-    private String total12;
-    private String totalIva;
-    private String total;
+    private double total0;
+    private double total12;
+    private double totalIva;
+    private double total;
     //CIERRE DE CAJA VENTAS AL CONTADO
-    private String efectivo;
-    private String cheque;
-    private String tarjetaCredito;
-    private String tarjetaDebito;
-    private String transferencia;
-    private String deposito;
-    private String credito;
-    private String totalRecaudacion;
+    private double efectivo;
+    private double cheque;
+    private double tarjetaCredito;
+    private double tarjetaDebito;
+    private double transferencia;
+    private double deposito;
+    private double credito;
+    private double totalRecaudacion;
     //DINERO RECAUDADO
-    private String cantidadBillete100;
+    private double cantidadBillete100;
     private String denominacionBillete100;
-    private String totalBillete100;
-    private String cantidadBillete50;
+    private double totalBillete100;
+    private double cantidadBillete50;
     private String denominacionBillete50;
-    private String totalBillete50;
-    private String cantidadBillete20;
+    private double totalBillete50;
+    private double cantidadBillete20;
     private String denominacionBillete20;
-    private String totalBillete20;
-    private String cantidadBillete10;
+    private double totalBillete20;
+    private double cantidadBillete10;
     private String denominacionBillete10;
-    private String totalBillete10;
-    private String cantidadBillete5;
+    private double totalBillete10;
+    private double cantidadBillete5;
     private String denominacionBillete5;
-    private String totalBillete5;
-    private String cantidadBillete2;
+    private double totalBillete5;
+    private double cantidadBillete2;
     private String denominacionBillete2;
-    private String totalBillete2;
-    private String cantidadBillete1;
+    private double totalBillete2;
+    private double cantidadBillete1;
     private String denominacionBillete1;
-    private String totalBillete1;
-    private String totalBilletes;
+    private double totalBillete1;
 
-    private String cantidadMoneda100;
+    private double totalBilletes;
+
+    private double cantidadMoneda100;
     private String denominacionMoneda100;
-    private String totalMoneda100;
-    private String cantidadMoneda50;
+    private double totalMoneda100;
+    private double cantidadMoneda50;
     private String denominacionMoneda50;
-    private String totalMoneda50;
-    private String cantidadMoneda25;
+    private double totalMoneda50;
+    private double cantidadMoneda25;
     private String denominacionMoneda25;
-    private String totalMoneda25;
-    private String cantidadMoneda10;
+    private double totalMoneda25;
+    private double cantidadMoneda10;
     private String denominacionMoneda10;
-    private String totalMoneda10;
-    private String cantidadMoneda5;
+    private double totalMoneda10;
+    private double cantidadMoneda5;
     private String denominacionMoneda5;
-    private String totalMoneda5;
-    private String cantidadMoneda1;
+    private double totalMoneda5;
+    private double cantidadMoneda1;
     private String denominacionMoneda1;
-    private String totalMoneda1;
-    private String totalMonedas;
+    private double totalMoneda1;
 
-    private String totalCaja;
+    private double totalMonedas;
+
+    private double totalCaja;
 
     //DIFERENCIAS
-    private String faltante;
-    private String sobrante;
+    private double faltante;
+    private double sobrante;
 
     //FIRMAS DE RESPONSABILIDAD
     private String nombreRepresentanteLegal;
