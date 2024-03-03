@@ -737,6 +737,7 @@ public class ReporteCajaService {
             row.createCell(0).setCellValue(reporteCaja.getCantidadBillete1());
             row.createCell(1).setCellValue(reporteCaja.getDenominacionBillete1());
             row.createCell(2).setCellValue(reporteCaja.getTotalBillete1());
+            i++;
             row = sheet.createRow(i);
             row.createCell(1).setCellValue("TOTAL BILLETES");
             row.createCell(2).setCellValue(reporteCaja.getTotalBilletes());
@@ -780,6 +781,7 @@ public class ReporteCajaService {
             row.createCell(0).setCellValue(reporteCaja.getCantidadMoneda1());
             row.createCell(1).setCellValue(reporteCaja.getDenominacionMoneda1());
             row.createCell(2).setCellValue(reporteCaja.getTotalMoneda1());
+            i++;
             row = sheet.createRow(i);
             row.createCell(1).setCellValue("TOTAL MONEDAS");
             row.createCell(2).setCellValue(reporteCaja.getTotalMonedas());
