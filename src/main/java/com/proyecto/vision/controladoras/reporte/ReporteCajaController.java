@@ -36,6 +36,15 @@ public class ReporteCajaController {
                 .body(new InputStreamResource(pdf));
     }
 
+    @GetMapping(value = "/excel/{apodo}/{fechaInicio}/{fechaFin}/{empresaId}")
+    public ResponseEntity<?> excel(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFin") String fechaFin, @PathVariable("empresaId") long empresaId) throws ParseException {
+        ByteArrayInputStream pdf = servicio.excel(apodo, fechaInicio, fechaFin, empresaId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=reporteVenta.xlsx");
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(pdf));
+    }
+
     @GetMapping(value = "/obtener/{apodo}/{fechaInicio}/{fechaFinal}/{empresaId}" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("apodo") String apodo, @PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFinal") String fechaFinal, @PathVariable("empresaId") long empresaId) throws ParseException {
         ReporteCaja reporteCaja = servicio.obtener(apodo, fechaInicio, fechaFinal, empresaId);
