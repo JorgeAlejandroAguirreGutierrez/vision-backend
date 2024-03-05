@@ -278,7 +278,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		}
 		CampoAdicional campoAdicional = new CampoAdicional();
 		campoAdicional.setNombre(Constantes.valor);
-		campoAdicional.setValor(notaCredito.getFactura().getTotal() + Constantes.vacio);
+		campoAdicional.setValor(notaCredito.getTotal() + Constantes.vacio);
 		camposAdicionales.add(campoAdicional);
 		InfoAdicional infoAdicional = new InfoAdicional();
 		infoAdicional.setCampoAdicional(camposAdicionales);
