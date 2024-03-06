@@ -239,7 +239,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		impuesto.setCodigo(Constantes.iva_sri);
 		impuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
 		impuesto.setTarifa(notaCreditoLinea.getImpuesto().getPorcentaje());
-		impuesto.setBaseImponible(Math.round(notaCreditoLinea.getSubtotalLinea()*100.0)/100.0);
+		impuesto.setBaseImponible(Math.round(notaCreditoLinea.getImporteIvaLinea()* 100.0)/100.0);
 		impuesto.setValor(Math.round(notaCreditoLinea.getImporteIvaLinea()*100.0)/100.0);
 		impuestoLista.add(impuesto);
 		impuestos.setImpuesto(impuestoLista);
