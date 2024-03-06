@@ -159,22 +159,22 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		for(NotaCreditoLinea notaCreditoLinea: notaCredito.getNotaCreditoLineas()){
 			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_0_sri)){
 				banderaIva0 = true;
-				baseImponible0 = baseImponible0 + notaCreditoLinea.getCostoUnitario();
+				baseImponible0 = baseImponible0 + notaCreditoLinea.getSubtotalLinea();
 				iva0 = iva0 + notaCreditoLinea.getImporteIvaLinea();
 			}
 			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_8_sri)){
 				banderaIva8 = true;
-				baseImponible8 = baseImponible8 + notaCreditoLinea.getCostoUnitario();
+				baseImponible8 = baseImponible8 + notaCreditoLinea.getSubtotalLinea();
 				iva8 = iva8 + notaCreditoLinea.getImporteIvaLinea();
 			}
 			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_12_sri)){
 				banderaIva12 = true;
-				baseImponible12 = baseImponible12 + notaCreditoLinea.getCostoUnitario();
+				baseImponible12 = baseImponible12 + notaCreditoLinea.getSubtotalLinea();
 				iva12 = iva12 + notaCreditoLinea.getImporteIvaLinea();
 			}
 			if(notaCreditoLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_14_sri)){
 				banderaIva14 = true;
-				baseImponible14 = baseImponible14 + notaCreditoLinea.getCostoUnitario();
+				baseImponible14 = baseImponible14 + notaCreditoLinea.getSubtotalLinea();
 				iva14 = iva14 + notaCreditoLinea.getImporteIvaLinea();
 			}
 		}
@@ -239,7 +239,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 		impuesto.setCodigo(Constantes.iva_sri);
 		impuesto.setCodigoPorcentaje(notaCreditoLinea.getImpuesto().getCodigoSRI());
 		impuesto.setTarifa(notaCreditoLinea.getImpuesto().getPorcentaje());
-		impuesto.setBaseImponible(Math.round(notaCreditoLinea.getImporteIvaLinea()* 100.0)/100.0);
+		impuesto.setBaseImponible(Math.round(notaCreditoLinea.getSubtotalLinea()* 100.0)/100.0);
 		impuesto.setValor(Math.round(notaCreditoLinea.getImporteIvaLinea()*100.0)/100.0);
 		impuestoLista.add(impuesto);
 		impuestos.setImpuesto(impuestoLista);
