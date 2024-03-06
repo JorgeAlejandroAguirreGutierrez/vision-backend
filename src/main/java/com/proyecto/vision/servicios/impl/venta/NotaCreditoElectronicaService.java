@@ -276,10 +276,6 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			campoAdicional.setValor(direccion);
 			camposAdicionales.add(campoAdicional);
 		}
-		CampoAdicional campoAdicional = new CampoAdicional();
-		campoAdicional.setNombre(Constantes.valor);
-		campoAdicional.setValor(notaCredito.getTotal() + Constantes.vacio);
-		camposAdicionales.add(campoAdicional);
 		InfoAdicional infoAdicional = new InfoAdicional();
 		infoAdicional.setCampoAdicional(camposAdicionales);
 		return infoAdicional;
@@ -348,7 +344,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			jaxbMarshaller.marshal(notaCreditoElectronica, System.out);
 			StringWriter sw = new StringWriter();
 			jaxbMarshaller.marshal(notaCreditoElectronica, sw);
-			String xml=sw.toString();
+			String xml = sw.toString();
 			Path path = Paths.get(Constantes.pathRecursos + Constantes.pathCertificados + Constantes.slash + certificado);
 			String ruta = path.toAbsolutePath().toString();
 			byte[] cert = ConvertFile.readBytesFromFile(ruta);
