@@ -602,7 +602,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				agenteRetencion = Constantes.no;
 			}
 			String granContribuyente = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getGranContribuyente();
-			String artesadoCalificado = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getArtesadoCalificado();
+			String artesadoCalificado = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getArtesanoCalificado();
 			String linea1 = factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n";
 			String linea2 = "DIRECCIÓN MATRIZ: " + factura.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion();
 			String texto = "DIRECCIÓN SUCURSAL: " + factura.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
