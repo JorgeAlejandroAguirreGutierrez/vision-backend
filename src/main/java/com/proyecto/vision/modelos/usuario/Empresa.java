@@ -54,8 +54,8 @@ public class Empresa extends Entidad {
     private String facturacionInterna;
     @Column(name = "gran_contribuyente", nullable = true)
     private String granContribuyente;
-    @Column(name = "artesado_calificado", nullable = true)
-    private String artesadoCalificado;
+    @Column(name = "artesano_calificado", nullable = true)
+    private String artesanoCalificado;
     @ManyToOne
     @JoinColumn(name = "tipo_identificacion_id", nullable = true)
     private TipoIdentificacion tipoIdentificacion;

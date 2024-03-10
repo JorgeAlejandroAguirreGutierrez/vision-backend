@@ -517,7 +517,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 				agenteRetencion = Constantes.no;
 			}
 			String granContribuyente = notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getGranContribuyente();
-			String artesadoCalificado = notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getArtesadoCalificado();
+			String artesadoCalificado = notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getArtesanoCalificado();
 			String linea1 = notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getRazonSocial() +"\n" + "\n";
 			String linea2 = "DIRECCIÓN MATRIZ: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getEmpresa().getDireccion();
 			String texto = "DIRECCIÓN SUCURSAL: " + notaCredito.getUsuario().getEstacion().getEstablecimiento().getDireccion() +"\n" +
