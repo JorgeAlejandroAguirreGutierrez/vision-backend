@@ -165,14 +165,23 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 		double baseImponible8 = Constantes.cero;
 		double baseImponible12 = Constantes.cero;
 		double baseImponible14 = Constantes.cero;
+		double baseImponible15 = Constantes.cero;
+		double baseImponible5 = Constantes.cero;
+		double baseImponible13 = Constantes.cero;
 		double iva0 = Constantes.cero;
 		double iva8 = Constantes.cero;
 		double iva12 = Constantes.cero;
 		double iva14 = Constantes.cero;
+		double iva15 = Constantes.cero;
+		double iva5 = Constantes.cero;
+		double iva13 = Constantes.cero;
 		boolean banderaIva0 = false;
 		boolean banderaIva8 = false;
 		boolean banderaIva12 = false;
 		boolean banderaIva14 = false;
+		boolean banderaIva15 = false;
+		boolean banderaIva5 = false;
+		boolean banderaIva13 = false;
 		for(FacturaLinea facturaLinea: factura.getFacturaLineas()){
 			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_0_sri)){
 				banderaIva0 = true;
@@ -193,6 +202,21 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 				banderaIva14 = true;
 				baseImponible14 = baseImponible14 + facturaLinea.getSubtotalLinea();
 				iva14 = iva14 + facturaLinea.getImporteIvaLinea();
+			}
+			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_15_sri)){
+				banderaIva15 = true;
+				baseImponible15 = baseImponible15 + facturaLinea.getSubtotalLinea();
+				iva15 = iva15 + facturaLinea.getImporteIvaLinea();
+			}
+			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_5_sri)){
+				banderaIva5 = true;
+				baseImponible5 = baseImponible5 + facturaLinea.getSubtotalLinea();
+				iva5 = iva5 + facturaLinea.getImporteIvaLinea();
+			}
+			if(facturaLinea.getImpuesto().getCodigoSRI().equals(Constantes.iva_13_sri)){
+				banderaIva13 = true;
+				baseImponible13 = baseImponible13 + facturaLinea.getSubtotalLinea();
+				iva13 = iva13 + facturaLinea.getImporteIvaLinea();
 			}
 		}
 		if(banderaIva0){
@@ -224,7 +248,31 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			totalImpuesto.setCodigo(Constantes.iva_sri);
 			totalImpuesto.setCodigoPorcentaje(Constantes.iva_14_sri);
 			totalImpuesto.setBaseImponible(Math.round(baseImponible14 * 100.0)/100.0);
-			totalImpuesto.setValor(Math.round(iva12 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva14 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva15){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_15_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible15 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva15 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva5){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_5_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible5 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva5 * 100.0)/100.0);
+			totalImpuestos.add(totalImpuesto);
+		}
+		if(banderaIva13){
+			TotalImpuesto totalImpuesto = new TotalImpuesto();
+			totalImpuesto.setCodigo(Constantes.iva_sri);
+			totalImpuesto.setCodigoPorcentaje(Constantes.iva_13_sri);
+			totalImpuesto.setBaseImponible(Math.round(baseImponible13 * 100.0)/100.0);
+			totalImpuesto.setValor(Math.round(iva13 * 100.0)/100.0);
 			totalImpuestos.add(totalImpuesto);
 		}
 		totalConImpuestos.setTotalImpuesto(totalImpuestos);
