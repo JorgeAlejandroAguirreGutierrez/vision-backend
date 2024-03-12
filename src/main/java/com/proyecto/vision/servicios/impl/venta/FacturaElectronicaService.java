@@ -15,7 +15,7 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.*;
-import com.itextpdf.layout.property.*;
+import com.itextpdf.layout.properties.*;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.*;
@@ -943,7 +943,9 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			PdfWriter writer = new PdfWriter(salida);
 			PdfDocument pdf = new PdfDocument(writer);
 			// Initialize document
-			Document documento = new Document(pdf, PageSize.A7.rotate());
+			PageSize tamaño = new PageSize(PageSize.A7.getWidth(), PageSize.DEFAULT.getHeight());
+			pdf.setDefaultPageSize(tamaño);
+			Document documento = new Document(pdf);
 			documento.setMargins(13,13,13,13);
 			// 4. Add content
 			PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
