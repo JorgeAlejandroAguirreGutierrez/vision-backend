@@ -486,6 +486,9 @@ public class Constantes {
     public static final String iva_8_sri="8";
     public static final String iva_12_sri="2";
     public static final String iva_14_sri="3";
+    public static final String iva_15_sri="4";
+    public static final String iva_5_sri="5";
+    public static final String iva_13_sri="10";
 
     //TABLA 24
     public static final String sin_utilizacion_del_sistema_financiero="01";
