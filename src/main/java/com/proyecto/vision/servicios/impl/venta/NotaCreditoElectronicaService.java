@@ -269,7 +269,7 @@ public class NotaCreditoElectronicaService implements INotaCreditoElectronicaSer
 			Detalle detalle = new Detalle();
 			detalle.setCodigoInterno(notaCreditoLinea.getProducto().getCodigo());
 			detalle.setDescripcion(notaCreditoLinea.getNombreProducto());
-			detalle.setCantidad(notaCreditoLinea.getCantidadVenta());
+			detalle.setCantidad(notaCreditoLinea.getCantidad());
 			detalle.setPrecioUnitario(Math.round(notaCreditoLinea.getCostoUnitario()*100.0)/100.0);
 			detalle.setDescuento(notaCreditoLinea.getDescuentoLinea());
 			detalle.setPrecioTotalSinImpuesto(Math.round(notaCreditoLinea.getSubtotalLinea() * 100.0) / 100.0);
