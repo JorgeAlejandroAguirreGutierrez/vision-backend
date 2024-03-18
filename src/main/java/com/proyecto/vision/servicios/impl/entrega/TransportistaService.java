@@ -3,7 +3,9 @@ package com.proyecto.vision.servicios.impl.entrega;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
 import com.proyecto.vision.exception.CodigoNoExistenteException;
+import com.proyecto.vision.exception.DatoInvalidoException;
 import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.modelos.cliente.Cliente;
 import com.proyecto.vision.modelos.entrega.Transportista;
 import com.proyecto.vision.repositorios.entrega.ITransportistaRepository;
 import com.proyecto.vision.servicios.interf.entrega.ITransportistaService;
@@ -18,9 +20,18 @@ import java.util.Optional;
 public class TransportistaService implements ITransportistaService {
     @Autowired
     private ITransportistaRepository rep;
+
+    @Override
+    public void validar(Transportista transportista) {
+        if (transportista.getTipoIdentificacion() == null)
+            throw new DatoInvalidoException(Constantes.tipo_identificacion);
+        if (transportista.getIdentificacion().equals(Constantes.vacio))
+            throw new DatoInvalidoException(Constantes.identificacion);
+    }
     
     @Override
     public Transportista crear(Transportista transportista) {
+        validar(transportista);
     	Optional<String>codigo=Util.generarCodigoPorEmpresa(null, Constantes.tabla_transportista, transportista.getEmpresa().getId());
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();

@@ -94,6 +94,10 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	@Override
 	public GuiaRemision crear(GuiaRemision guiaRemision) {
 		validar(guiaRemision);
+		Optional<GuiaRemision> guiaRemisionExiste = rep.obtenerPorFactura(guiaRemision.getFactura().getId());
+		if(guiaRemisionExiste.isPresent()){
+			throw new EntidadExistenteException(Constantes.guia_remision);
+		}
 		TipoComprobante tipoComprobante = tipoComprobanteService.obtenerPorNombreTabla(Constantes.tabla_guia_remision);
 		guiaRemision.setTipoComprobante(tipoComprobante);
 		Optional<String>codigo = Util.generarCodigoPorEmpresa(guiaRemision.getFecha(), Constantes.tabla_guia_remision, guiaRemision.getEmpresa().getId());
