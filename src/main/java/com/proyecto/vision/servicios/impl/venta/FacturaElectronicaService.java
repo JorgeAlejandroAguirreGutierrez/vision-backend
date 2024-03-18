@@ -1154,31 +1154,8 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			}
 			tablaFormaPago.setHorizontalAlignment(HorizontalAlignment.LEFT);
 			documento.add(tablaFormaPago);
-
-			String telefonoCliente = Constantes.vacio;
-			String celularCliente = Constantes.vacio;
-			String correoCliente = Constantes.vacio;
-			if (!factura.getCliente().getTelefonos().isEmpty()){
-				telefonoCliente = factura.getCliente().getTelefonos().get(0).getNumero();
-			}
-			if (!factura.getCliente().getCelulares().isEmpty()){
-				celularCliente = factura.getCliente().getCelulares().get(0).getNumero();
-			}
-			if (!factura.getCliente().getCorreos().isEmpty()){
-				correoCliente = factura.getCliente().getCorreos().get(0).getEmail();
-			}
-			String comentario = factura.getComentario();
-			float [] columnasAdicional = {150F, 450F};
-			Table tablaAdicional = new Table(columnasAdicional);
-			tablaAdicional.addCell(getCellAdicionalTicket("COMENTARIO"));
-			tablaAdicional.addCell(getCellAdicionalTicket(comentario));
-			tablaAdicional.addCell(getCellAdicionalTicket("TELEFONO"));
-			tablaAdicional.addCell(getCellAdicionalTicket(telefonoCliente));
-			tablaAdicional.addCell(getCellAdicionalTicket("CELULAR"));
-			tablaAdicional.addCell(getCellAdicionalTicket(celularCliente));
-			tablaAdicional.addCell(getCellAdicionalTicket("CORREO"));
-			tablaAdicional.addCell(getCellAdicionalTicket(correoCliente));
-			//documento.add(tablaAdicional); Mario pide retirar estos campos
+			documento.add( new Paragraph("\n----------------------------------------------"));
+			documento.add( new Paragraph("\n----------------------------------------------"));
 			// 5. Close document
 			documento.close();
 			return new ByteArrayInputStream(salida.toByteArray());

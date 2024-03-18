@@ -2,10 +2,12 @@ package com.proyecto.vision.servicios.interf.entrega;
 
 import java.util.List;
 
+import com.proyecto.vision.modelos.cliente.Cliente;
 import com.proyecto.vision.modelos.entrega.Transportista;
 import com.proyecto.vision.servicios.interf.IGenericoService;
 
 public interface ITransportistaService extends IGenericoService<Transportista> {
+	void validar(Transportista transportista);
 	Transportista activar(Transportista transportista);
 	Transportista inactivar(Transportista transportista);
 	List<Transportista> consultarPorEstado(String estado);
