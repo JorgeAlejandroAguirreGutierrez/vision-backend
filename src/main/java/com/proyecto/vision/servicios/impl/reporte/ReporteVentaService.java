@@ -510,7 +510,7 @@ public class ReporteVentaService {
             row.createCell(7).setCellValue("VEND");
             row.createCell(8).setCellValue("TIPO VENTA");
             row.createCell(9).setCellValue("SUBTOTAL 0");
-            row.createCell(10).setCellValue("SUBTOTAL 12");
+            row.createCell(10).setCellValue("SUBTOTAL IVA");
             row.createCell(11).setCellValue("IVA");
             row.createCell(12).setCellValue("TOTAL");
             i++;
