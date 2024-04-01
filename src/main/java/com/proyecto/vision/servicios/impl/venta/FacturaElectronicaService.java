@@ -1097,7 +1097,7 @@ public class FacturaElectronicaService implements IFacturaElectronicaService{
 			String totalConDescuento = String.format("%.2f", factura.getTotal());
 			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
 			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
-			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("Subtotal 12%"));
+			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("Subtotal IVA"));
 			tablaFacturaDetalle.addCell(getCellFilaFacturaTicket("$" + subtotalGravadoConDescuento));
 			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
 			tablaFacturaDetalle.addCell(getCellVacio(Constantes.vacio));
