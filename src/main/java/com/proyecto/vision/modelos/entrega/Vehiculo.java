@@ -2,7 +2,7 @@ package com.proyecto.vision.modelos.entrega;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.modelos.Entidad;
-import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.modelos.acceso.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

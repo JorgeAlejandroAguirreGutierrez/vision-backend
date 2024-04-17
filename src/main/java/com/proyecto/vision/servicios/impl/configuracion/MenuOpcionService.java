@@ -91,7 +91,7 @@ public class MenuOpcionService implements IMenuOpcionService {
     }
     @Override
     public MenuOpcion obtenerPorOperacion(String operacion) {
-        Optional<MenuOpcion> res= rep.findByOperacion(operacion, Constantes.estadoActivo);
+        Optional<MenuOpcion> res= rep.obtenerPorOperacionYEstado(operacion, Constantes.estadoActivo);
         if(res.isPresent()) {
         	return res.get();
         }
@@ -100,7 +100,7 @@ public class MenuOpcionService implements IMenuOpcionService {
 
     @Override
     public MenuOpcion obtenerPorOperacionTabla(MenuOpcion menuOpcion) {
-        Optional<MenuOpcion> res= rep.findByTablaAndOperacion(menuOpcion.getTabla(), menuOpcion.getOperacion(), Constantes.estadoActivo);
+        Optional<MenuOpcion> res= rep.obtenerPorTablaYOperacionYEstado(menuOpcion.getTabla(), menuOpcion.getOperacion(), Constantes.estadoActivo);
         if(res.isPresent()) {
         	return res.get();
         }

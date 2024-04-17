@@ -6,9 +6,8 @@ import com.proyecto.vision.modelos.Entidad;
 import com.proyecto.vision.modelos.cliente.*;
 import com.proyecto.vision.modelos.configuracion.Ubicacion;
 import com.proyecto.vision.modelos.configuracion.TipoIdentificacion;
-import com.proyecto.vision.modelos.usuario.Empresa;
+import com.proyecto.vision.modelos.acceso.Empresa;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

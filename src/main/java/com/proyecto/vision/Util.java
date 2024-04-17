@@ -254,18 +254,18 @@ public class Util {
 
     public static Optional<String> generarCodigo(String tabla){
     	try {
-    		Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacionCrear, Constantes.estadoActivo);
+    		Optional<MenuOpcion> menuOpcion = menuOpcionRep.obtenerPorTablaYOperacionYEstado(tabla, Constantes.operacionCrear, Constantes.estadoActivo);
         	Optional<String> conteo = conteo(tabla);
         	if (menuOpcion.isPresent() && conteo.isPresent()) {
             	String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);
                 Date fecha = new Date();
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(fecha);
-                String año = calendar.get(Calendar.YEAR)+"";
-                int mesC=calendar.get(Calendar.MONTH)+1;
-                String mes="";
-                if(mesC<10) {
-                	mes= "0"+mesC;
+                String año = calendar.get(Calendar.YEAR) + Constantes.vacio;
+                int mesC = calendar.get(Calendar.MONTH) + 1;
+                String mes = Constantes.vacio;
+                if(mesC < 10) {
+                	mes= "0" + mesC;
                 }
                 return Optional.of(menuOpcion.get().getAbreviatura() + año + mes + rellenoConteo);
             }
@@ -277,7 +277,7 @@ public class Util {
 
     public static Optional<String> generarCodigoPorEmpresa(Date fecha, String tabla, long empresaId){
         try {
-            Optional<MenuOpcion> menuOpcion = menuOpcionRep.findByTablaAndOperacion(tabla, Constantes.operacionCrear, Constantes.estadoActivo);
+            Optional<MenuOpcion> menuOpcion = menuOpcionRep.obtenerPorTablaYOperacionYEstado(tabla, Constantes.operacionCrear, Constantes.estadoActivo);
             Optional<String> conteo= conteoPorEmpresa(tabla, empresaId);
             if (menuOpcion.isPresent() && conteo.isPresent()) {
                 String rellenoConteo = String.format("%06d" , Long.parseLong(conteo.get())+1);

@@ -70,7 +70,7 @@ public class ProveedorService implements IProveedorService {
     	if (codigo.isEmpty()) {
     		throw new CodigoNoExistenteException();
     	}
-        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(proveedor.getUbicacion().getProvincia(),proveedor.getUbicacion().getCanton(), proveedor.getUbicacion().getParroquia(), Constantes.estadoActivo);
+        Optional<Ubicacion> ubicacion = repUbicacion.obtenerPorProvinciaYCantonYParroquia(proveedor.getUbicacion().getProvincia(),proveedor.getUbicacion().getCanton(), proveedor.getUbicacion().getParroquia(), Constantes.estadoActivo);
         if(ubicacion.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.ubicacion);
         }
@@ -85,7 +85,7 @@ public class ProveedorService implements IProveedorService {
     @Override
     public Proveedor actualizar(Proveedor proveedor) {
     	validar(proveedor);
-        Optional<Ubicacion> ubicacion = repUbicacion.findByProvinciaAndCantonAndParroquia(proveedor.getUbicacion().getProvincia(),proveedor.getUbicacion().getCanton(), proveedor.getUbicacion().getParroquia(), Constantes.estadoActivo);
+        Optional<Ubicacion> ubicacion = repUbicacion.obtenerPorProvinciaYCantonYParroquia(proveedor.getUbicacion().getProvincia(),proveedor.getUbicacion().getCanton(), proveedor.getUbicacion().getParroquia(), Constantes.estadoActivo);
         if(ubicacion.isEmpty()) {
             throw new EntidadNoExistenteException(Constantes.ubicacion);
         }
@@ -130,38 +130,38 @@ public class ProveedorService implements IProveedorService {
             if(res.isPresent()) {
                 throw new EntidadExistenteException(Constantes.proveedor);
             }
-            TipoIdentificacion tipoIdentificacion=null;
-            TipoContribuyente tipoContribuyente=null;
+            Optional<TipoIdentificacion> tipoIdentificacion = null;
+            Optional<TipoContribuyente> tipoContribuyente = null;
             if (identificacion.length() == 10 && Integer.parseInt((identificacion.substring(2,3))) != 6 && Integer.parseInt((identificacion.substring(2,3))) != 9) {
                 boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("05").get();
-                    tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
+                    tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri("05");
+                    tipoContribuyente = repTipoContribuyente.obtenerPorTipoYSubtipo("NATURAL", "NATURAL");
                     Proveedor proveedor=new Proveedor();
                     proveedor.setIdentificacion(identificacion);
-                    proveedor.setTipoIdentificacion(tipoIdentificacion);
-                    proveedor.setTipoContribuyente(tipoContribuyente);
+                    proveedor.setTipoIdentificacion(tipoIdentificacion.get());
+                    proveedor.setTipoContribuyente(tipoContribuyente.get());
                     proveedor = buscarClienteBase(proveedor);
                     return proveedor;
                 }
                 throw new IdentificacionInvalidaException();
             } else if (identificacion.equals(Constantes.identificacion_consumidor_final)) {
-                tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("07").get(); //Consumidor Final
-                tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
-                Proveedor proveedor=new Proveedor();
+                tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri("07");
+                tipoContribuyente = repTipoContribuyente.obtenerPorTipoYSubtipo(Constantes.tipo_contribuyente_natural, Constantes.tipo_contribuyente_natural);
+                Proveedor proveedor = new Proveedor();
                 proveedor.setIdentificacion(identificacion);
-                proveedor.setTipoIdentificacion(tipoIdentificacion);
-                proveedor.setTipoContribuyente(tipoContribuyente);
+                proveedor.setTipoIdentificacion(tipoIdentificacion.get());
+                proveedor.setTipoContribuyente(tipoContribuyente.get());
                 return proveedor;
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 6) {
                 boolean bandera = Util.verificarSociedadesPublicas(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("04").get();
-                    tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
+                    tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri("04");
+                    tipoContribuyente=repTipoContribuyente.obtenerPorTipoYSubtipo(Constantes.tipo_contribuyente_juridica, Constantes.tipo_contribuyente_publica);
                     Proveedor proveedor=new Proveedor();
                     proveedor.setIdentificacion(identificacion);
-                    proveedor.setTipoIdentificacion(tipoIdentificacion);
-                    proveedor.setTipoContribuyente(tipoContribuyente);
+                    proveedor.setTipoIdentificacion(tipoIdentificacion.get());
+                    proveedor.setTipoContribuyente(tipoContribuyente.get());
                     proveedor = buscarContribuyente(proveedor);
                     return proveedor;
                 }
@@ -170,12 +170,12 @@ public class ProveedorService implements IProveedorService {
             } else if (identificacion.length() == 13 && Integer.parseInt((identificacion.substring(2,3))) == 9) {
                 boolean bandera = Util.verificarSociedadesPrivadas(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("04").get();
-                    tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PRIVADA");
+                    tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("04");
+                    tipoContribuyente=repTipoContribuyente.obtenerPorTipoYSubtipo("JURIDICA","PRIVADA");
                     Proveedor proveedor=new Proveedor();
                     proveedor.setIdentificacion(identificacion);
-                    proveedor.setTipoIdentificacion(tipoIdentificacion);
-                    proveedor.setTipoContribuyente(tipoContribuyente);
+                    proveedor.setTipoIdentificacion(tipoIdentificacion.get());
+                    proveedor.setTipoContribuyente(tipoContribuyente.get());
                     proveedor = buscarContribuyente(proveedor);
                     return proveedor;
                 }
@@ -184,12 +184,12 @@ public class ProveedorService implements IProveedorService {
             } else if (identificacion.length() == 13 && (Integer.parseInt(identificacion.substring(2,3)) != 6 || Integer.parseInt(identificacion.substring(2,3)) != 9)) {
                 boolean bandera = Util.verificarCedula(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("04").get();
-                    tipoContribuyente=repTipoContribuyente.findByTipoAndSubtipo("NATURAL", "NATURAL");
+                    tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri("04");
+                    tipoContribuyente = repTipoContribuyente.obtenerPorTipoYSubtipo("NATURAL", "NATURAL");
                     Proveedor proveedor=new Proveedor();
                     proveedor.setIdentificacion(identificacion);
-                    proveedor.setTipoIdentificacion(tipoIdentificacion);
-                    proveedor.setTipoContribuyente(tipoContribuyente);
+                    proveedor.setTipoIdentificacion(tipoIdentificacion.get());
+                    proveedor.setTipoContribuyente(tipoContribuyente.get());
                     proveedor = buscarContribuyente(proveedor);
                     return proveedor;
                 }
@@ -198,12 +198,12 @@ public class ProveedorService implements IProveedorService {
             }else if (identificacion.length() == 13) {
                 boolean bandera = Util.verificarPersonaNatural(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("04").get();
-                    tipoContribuyente= repTipoContribuyente.findByTipoAndSubtipo("JURIDICA","PUBLICA");
-                    Proveedor proveedor=new Proveedor();
+                    tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri("04");
+                    tipoContribuyente = repTipoContribuyente.obtenerPorTipoYSubtipo("JURIDICA","PUBLICA");
+                    Proveedor proveedor = new Proveedor();
                     proveedor.setIdentificacion(identificacion);
-                    proveedor.setTipoIdentificacion(tipoIdentificacion);
-                    proveedor.setTipoContribuyente(tipoContribuyente);
+                    proveedor.setTipoIdentificacion(tipoIdentificacion.get());
+                    proveedor.setTipoContribuyente(tipoContribuyente.get());
                     proveedor = buscarContribuyente(proveedor);
                     return proveedor;
                 }
@@ -211,11 +211,11 @@ public class ProveedorService implements IProveedorService {
             } else if (identificacion.length() >=8) {
                 boolean bandera = Util.verificarPasaporte(identificacion);
                 if (bandera) {
-                    tipoIdentificacion= repTipoIdentificacion.obtenerPorCodigoSri("06").get();
+                    tipoIdentificacion = repTipoIdentificacion.obtenerPorCodigoSri("06");
                     Proveedor proveedor=new Proveedor();
                     proveedor.setIdentificacion(identificacion);
-                    proveedor.setTipoIdentificacion(tipoIdentificacion);
-                    proveedor.setTipoContribuyente(tipoContribuyente);
+                    proveedor.setTipoIdentificacion(tipoIdentificacion.get());
+                    proveedor.setTipoContribuyente(tipoContribuyente.get());
                     return proveedor;
                 }
                 throw new IdentificacionInvalidaException();

@@ -1,8 +1,8 @@
 package com.proyecto.vision.modelos.configuracion;
 
 import com.proyecto.vision.modelos.inventario.TipoGasto;
-import com.proyecto.vision.modelos.usuario.Empresa;
-import com.proyecto.vision.modelos.usuario.Usuario;
+import com.proyecto.vision.modelos.acceso.Empresa;
+import com.proyecto.vision.modelos.acceso.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 
