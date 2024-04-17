@@ -33,7 +33,7 @@ import com.proyecto.vision.modelos.venta.FacturaLinea;
 import com.proyecto.vision.modelos.venta.electronico.guiaremision.*;
 import com.proyecto.vision.modelos.entrega.GuiaRemision;
 import com.proyecto.vision.repositorios.entrega.IGuiaRemisionRepository;
-import com.proyecto.vision.servicios.interf.usuario.IEmpresaService;
+import com.proyecto.vision.servicios.interf.acceso.IEmpresaService;
 import com.proyecto.vision.servicios.interf.venta.IGuiaRemisionElectronicaService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

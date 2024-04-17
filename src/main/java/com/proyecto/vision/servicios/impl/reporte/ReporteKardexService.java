@@ -20,10 +20,10 @@ import com.proyecto.vision.modelos.inventario.Kardex;
 import com.proyecto.vision.modelos.inventario.Producto;
 import com.proyecto.vision.modelos.reporte.ReporteKardex;
 import com.proyecto.vision.modelos.reporte.ReporteKardexLinea;
-import com.proyecto.vision.modelos.usuario.Usuario;
+import com.proyecto.vision.modelos.acceso.Usuario;
 import com.proyecto.vision.repositorios.inventario.IKardexRepository;
 import com.proyecto.vision.repositorios.inventario.IProductoRepository;
-import com.proyecto.vision.repositorios.usuario.IUsuarioRepository;
+import com.proyecto.vision.repositorios.acceso.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

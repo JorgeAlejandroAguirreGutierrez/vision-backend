@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IRegimenRepository extends JpaRepository<Regimen, Long>, JpaSpecificationExecutor<Regimen> {
@@ -14,4 +15,8 @@ public interface IRegimenRepository extends JpaRepository<Regimen, Long>, JpaSpe
 	List<Regimen> consultar();
 	@Query(value = "select rg from Regimen rg where rg.estado=:estado order by rg.id desc")
     List<Regimen> consultarPorEstado(String estado);
+	@Query(value = "select rg from Regimen rg where rg.descripcion = :descripcion")
+	Optional<Regimen> obtenerPorDescripcion(String descripcion);
+	@Query(value = "select rg from Regimen rg where rg.abreviatura = :abreviatura")
+	Optional<Regimen> obtenerPorAbreviatura(String abreviatura);
 }

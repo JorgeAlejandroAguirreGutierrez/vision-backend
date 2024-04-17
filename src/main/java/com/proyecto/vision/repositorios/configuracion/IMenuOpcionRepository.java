@@ -24,7 +24,7 @@ public interface IMenuOpcionRepository extends JpaRepository<MenuOpcion, Long>, 
     @Query(value = "select m from MenuOpcion m where m.modulo = :modulo and m.menu = :menu and m.estado = :estado order by m.opcion desc")
     List<MenuOpcion> consultarOpciones(String modulo,String estado);
     @Query(value = "select m from MenuOpcion m where m.operacion = :operacion and m.estado = :estado")
-    Optional<MenuOpcion> findByOperacion(String operacion, String estado);
+    Optional<MenuOpcion> obtenerPorOperacionYEstado(String operacion, String estado);
     @Query(value = "select m from MenuOpcion m where m.tabla = :tabla and m.operacion = :operacion and m.estado = :estado")
-    Optional<MenuOpcion> findByTablaAndOperacion(String tabla, String operacion, String estado);
+    Optional<MenuOpcion> obtenerPorTablaYOperacionYEstado(String tabla, String operacion, String estado);
 }

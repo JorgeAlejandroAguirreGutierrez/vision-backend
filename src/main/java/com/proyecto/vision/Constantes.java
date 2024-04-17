@@ -163,6 +163,7 @@ public class Constantes {
     public static final String tabla_nota_debito="nota_debito";
     public static final String tabla_nota_debito_linea="nota_debito_linea";
     public static final String tabla_cierre_caja="cierre_caja";
+    public static final String tabla_retencion="retencion";
 
     //CONFIGURACION
     public static final String tabla_empresa="empresa";
@@ -195,8 +196,6 @@ public class Constantes {
     public static final String tabla_proveedor="proveedor";
     public static final String tabla_producto_proveedor="producto_proveedor";
     public static final String tabla_segmento="segmento";
-    public static final String tabla_sub_grupo_producto="sub_grupo_producto";
-    public static final String tabla_sub_linea_producto="sub_linea_producto";
     public static final String tabla_equivalencia_medida="equivalencia_medida";
     public static final String tabla_tipo_gasto="tipo_gasto";
     public static final String tabla_tipo_operacion="tipo_operacion";
@@ -224,13 +223,12 @@ public class Constantes {
     public static final String tabla_nd_transferencia="nd_transferencia";
     public static final String tabla_nd_credito="nd_credito";
 
-    //USUARIO
+    //ACCESO
     public static final String tabla_telefono_establecimiento="telefono_establecimiento";
     public static final String tabla_celular_establecimiento="celular_establecimiento";
     public static final String tabla_correo_establecimiento="correo_establecimiento";
     public static final String tabla_establecimiento="establecimiento";
     public static final String tabla_estacion="estacion";
-    public static final String tabla_estacion_usuario="estacion_usuario";
     public static final String tabla_perfil="perfil";
     public static final String tabla_permiso="permiso";
     public static final String tabla_sesion="sesion";
@@ -238,6 +236,7 @@ public class Constantes {
     public static final String tabla_regimen="regimen";
     public static final String tabla_suscripcion="suscripcion";
     public static final String tabla_paquete="paquete";
+    public static final String tabla_nuevo="nuevo";
 
     //CONTABILIDAD
     public static final String tabla_afectacion_contable="afectacion_contable";
@@ -325,6 +324,62 @@ public class Constantes {
     public static final String segmento="SEGMENTO";
     public static final String tipo_gasto="TIPO GASTO";
     public static final String tipo_operacion="TIPO OPERACION";
+    public static final String bodegaNombreDefecto = "BODEGA MATRIZ";
+    public static final String bodegaAbreviaturaDefecto = "BM001";
+    public static final String calificacionCliente1DescripcionDefecto = "EXCELENTE";
+    public static final String calificacionCliente1AbreviaturaDefecto = "EX";
+    public static final String calificacionCliente2DescripcionDefecto = "MUY BUENO";
+    public static final String calificacionCliente2AbreviaturaDefecto = "MB";
+    public static final String calificacionCliente3DescripcionDefecto = "BUENO";
+    public static final String calificacionCliente3AbreviaturaDefecto = "BU";
+    public static final String calificacionCliente4DescripcionDefecto = "REGULAR";
+    public static final String calificacionCliente4AbreviaturaDefecto = "RE";
+    public static final String calificacionCliente5DescripcionDefecto = "MALO";
+    public static final String calificacionCliente5AbreviaturaDefecto = "MA";
+    public static final String clienteEtiquetaDefecto = "CASA";
+    public static final String grupoClienteDescripcionDefecto="CLIENTE GENERAL";
+    public static final String grupoClienteAbreviaturaDefecto="CLG";
+    public static final String grupoProveedorDescripcionDefecto = "PROVEEDOR GENERAL";
+    public static final String grupoProveedorAbreviaturaDefecto = "PRG";
+    public static final String medidaTipoUnidad="UNIDAD";
+    public static final String medidaDescripcionUnidad="UNIDAD";
+    public static final String medidaAbreviaturaUnidad="UNI";
+    public static final String medidaDescripcionMitad="MITAD";
+    public static final String medidaAbreviaturaMitad="MIT";
+    public static final String medidaDescripcionCuarto="CUARTO";
+    public static final String medidaAbreviaturaCuarto="CUA";
+    public static final String medidaTipoPeso="PESO";
+    public static final String medidaDescripcionGramo="GRAMO";
+    public static final String medidaAbreviaturaGramo="G";
+    public static final String medidaDescripcionKilogramo="KILOGRAMO";
+    public static final String medidaAbreviaturaKilogramo="KG";
+    public static final String medidaDescripcionLibra="LIBRA";
+    public static final String medidaAbreviaturaLibra="LB";
+    public static final String medidaTipoVolumen="VOLUMEN";
+    public static final String medidaDescripcionCentimetroCubico="CENTÍMETRO CÚBICO";
+    public static final String medidaAbreviaturaCentimetroCubico="CM^3";
+    public static final String medidaDescripcionGalon="GALÓN";
+    public static final String medidaAbreviaturaGalon="GAL";
+    public static final String medidaDescripcionLitro="LITRO";
+    public static final String medidaAbreviaturaLitro="L";
+    public static final String plazoCreditoDescripcionDefecto="SIN CREDITO";
+    public static final String plazoCreditoAbreviaturaDefecto="SCR";
+    public static final String segmentoDescripcionDefecto="CLIENTE FINAL";
+    public static final String segmentoAbreviaturaDefecto="CLF";
+    public static final long segmentoMargenGananciaDefecto=10;
+    public static final String estacionDescripcionDefecto="VENTAS";
+    public static final String estacionDispositivoDefecto="PC";
+    public static final String estacionIpDefecto="192.168.1.1";
+    public static final String usuarioContrasenaDefecto="827ccb0eea8a706c4c34a16891f84e7b";
+    public static final String masculino="MASCULINO";
+    public static final String femenino="FEMENINO";
+    public static final String avatarMasculino="gerente.png";
+    public static final String avatarFemenino="gerentef.png";
+    public static final String usuarioPreguntaDefecto="¿CUAL ES TU MARCA DE VEHICULO PREFERIDO?";
+    public static final String usuarioRespuestaDefecto="MAZDA";
+    public static final String perfilGerencial="GERENCIAL";
+    public static final String soltero="SOLTERO";
+    public static final String salario="SALARIO";
 
     //RECAUDACION
     public static final String amortizacion="AMORTIZACION";
@@ -343,7 +398,7 @@ public class Constantes {
     public static final String efectivo="EFECTIVO";
     public static final String cierre_caja="CIERRE CAJA";
 
-    //USUARIO
+    //ACCESO
     public static final String establecimiento="ESTABLECIMIENTO";
     public static final String perfil="PERFIL";
     public static final String permiso="PERMISO";
@@ -354,6 +409,20 @@ public class Constantes {
     public static final String regimen="REGIMEN";
     public static final String suscripcion="SUSCRIPCION";
     public static final String paquete="PAQUETE";
+    public static final String granContribuyente="GRAN CONTRIBUYENTE";
+    public static final String artesanoCalificado="ARTESANO CALIFICADO";
+    public static final String facturacionInterna="FACTURACION INTERNA";
+    public static final String secuenciaFacturaVenta="SECUENCIA FACTURA DE VENTA";
+    public static final String secuenciaFacturaInterna="SECUENCIA FACTURA INTERNA";
+    public static final String secuenciaRetencion="SECUENCIA RETENCION";
+    public static final String secuenciaGuiaRemision="SECUENCIA GUIA REMISION";
+    public static final String secuenciaNotaDebito="SECUENCIA DE NOTA DEBITO";
+    public static final String secuenciaNotaCredito="SECUENCIA DE NOTA DE CREDITO";
+    public static final String ruc_codigo_sri="04";
+    public static final String propietario="PROPIETARIO";
+    public static final String jpg=".jpg";
+    public static final String p12=".p12";
+
 
     //CONTABILIDAD
     public static final String afectacion_contable="AFECTACION CONTABLE";
@@ -384,6 +453,7 @@ public class Constantes {
     public static final String identificacion="IDENTIFICACION";
     public static final String razonSocial="RAZON SOCIAL";
     public static final String especial="ESPECIAL";
+    public static final String agenteRetencion="AGENTE RETENCION";
 
     public static final String estado="ESTADO";
     public static final String obligadoContabilidad="OBLIGADO A CONTABILIDAD";
@@ -539,16 +609,12 @@ public class Constantes {
     public static final String contentType = "Content-Type";
     public static final String moneda = "USD";
     public static final String contenTypeValor = "text/xml;charset=UTF-8";
-    public static final String certificadoSri1 = "certificadoMario.p12";
-    public static final String certificadoSri2 = "certificadoMayra.p12";
-    public static final String certificadoSri3 = "CertificadoEmpresa3.p12";
-    public static final String contrasenaCertificadoSri1 = "mPrimero1981";
-    public static final String contrasenaCertificadoSri2 = "locuras2022";
-    public static final String contrasenaCertificadoSri3 = "dmolina1984";
     public static final String recibidaSri = "RECIBIDA";
     public static final String autorizadoSri = "AUTORIZADO";
     public static final String noAutorizadoSri = "NO AUTORIZADO";
     public static final String devueltaSri = "DEVUELTA";
+    public static final String contrasenaCertificado="CONTRASEÑA CERTIFICADO";
+    public static final String contrasenaSri="CONTRASEÑA DEL SRI";
 
     //ESTADOS DEL SISTEMA
     public static final String estadoActivo="ACTIVO";

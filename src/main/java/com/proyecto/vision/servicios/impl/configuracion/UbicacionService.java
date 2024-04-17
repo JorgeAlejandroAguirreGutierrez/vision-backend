@@ -87,10 +87,10 @@ public class UbicacionService implements IUbicacionService {
 
     @Override
     public List<Ubicacion> consultarProvincias() {
-        List<String> provincias=rep.findProvincias(Constantes.estadoActivo);
-        List<Ubicacion> ubicaciones=new ArrayList<>();
+        List<String> provincias = rep.consultarProvincias(Constantes.estadoActivo);
+        List<Ubicacion> ubicaciones = new ArrayList<>();
         for (String provincia: provincias) {
-            Ubicacion ubicacion=new Ubicacion();
+            Ubicacion ubicacion = new Ubicacion();
             ubicacion.setProvincia(provincia);
             ubicaciones.add(ubicacion);
         }
@@ -99,7 +99,7 @@ public class UbicacionService implements IUbicacionService {
 
     @Override
     public List<Ubicacion> consultarCantones(Ubicacion ubicacion) {
-        List<String> cantones=rep.findCantones(ubicacion.getProvincia(), Constantes.estadoActivo);
+        List<String> cantones = rep.consultarCantones(ubicacion.getProvincia(), Constantes.estadoActivo);
         List<Ubicacion> ubicaciones=new ArrayList<>();
         for (String canton: cantones) {
             Ubicacion _ubicacion=new Ubicacion();
@@ -111,11 +111,11 @@ public class UbicacionService implements IUbicacionService {
 
     @Override
     public List<Ubicacion> consultarParroquias(String canton) {
-        return rep.findParroquias(canton, Constantes.estadoActivo);
+        return rep.consultarParroquias(canton, Constantes.estadoActivo);
     }
     @Override
     public Ubicacion obtenerUbicacionId(String provincia, String canton, String parroquia) {
-        Optional<Ubicacion> resp=rep.findByProvinciaAndCantonAndParroquia(provincia, provincia, parroquia, Constantes.estadoActivo);
+        Optional<Ubicacion> resp=rep.obtenerPorProvinciaYCantonYParroquia(provincia, provincia, parroquia, Constantes.estadoActivo);
         if(resp.isEmpty()) {
         	throw new EntidadNoExistenteException(Constantes.ubicacion);
         }
