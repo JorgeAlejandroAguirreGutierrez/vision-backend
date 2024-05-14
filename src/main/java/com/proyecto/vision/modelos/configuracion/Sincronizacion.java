@@ -25,6 +25,8 @@ public class Sincronizacion extends Entidad {
     private String mes;
     @Column(name = "anio", nullable = true)
     private String anio;
+    @Column(name = "claves_accesos", nullable = true)
+    private String clavesAccesos;
     @Column(name = "estado", nullable = true)
     private String estado;
     @ManyToOne
@@ -43,6 +45,7 @@ public class Sincronizacion extends Entidad {
         this.tipo = Constantes.vacio;
         this.mes = Constantes.vacio;
         this.anio = Constantes.vacio;
+        this.clavesAccesos = Constantes.vacio;
         this.estado = Constantes.estadoActivo;
     }
 }

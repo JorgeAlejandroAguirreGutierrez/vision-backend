@@ -134,7 +134,7 @@
    <soapenv:Body>\r
       <ec:autorizacionComprobante>\r
          <!--Optional:-->\r
-         <claveAccesoComprobante>3101202404069177438400110010020000000110000001117</claveAccesoComprobante>\r
+         <claveAccesoComprobante>1404202401179199789100120410040001432591414060715</claveAccesoComprobante>\r
       </ec:autorizacionComprobante>\r
    </soapenv:Body>\r
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.autorizacion/AutorizacionComprobantesOffline/autorizacionComprobante"/><con:wsrmConfig version="1.2"/></con:call><con:call id="2dd6d970-83d9-4656-8eac-40dc20016e78" name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.autorizacion">\r
@@ -145,12 +145,12 @@
          <claveAccesoComprobante>2409202301060346722600110010010000002200000022017</claveAccesoComprobante>\r
       </ec:autorizacionComprobante>\r
    </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.autorizacion/AutorizacionComprobantesOffline/autorizacionComprobante"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="87f7d852-7990-4b55-9d38-2a3c0f46176c" isOneWay="false" action="" name="autorizacionComprobanteLote" bindingOperationName="autorizacionComprobanteLote" type="Request-Response" outputName="autorizacionComprobanteLoteResponse" inputName="autorizacionComprobanteLote" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8bd83dd3-0a06-4b04-a141-105297a7c502" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.autorizacion">\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.autorizacion/AutorizacionComprobantesOffline/autorizacionComprobante"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="87f7d852-7990-4b55-9d38-2a3c0f46176c" isOneWay="false" action="" name="autorizacionComprobanteLote" bindingOperationName="autorizacionComprobanteLote" type="Request-Response" outputName="autorizacionComprobanteLoteResponse" inputName="autorizacionComprobanteLote" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8bd83dd3-0a06-4b04-a141-105297a7c502" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://celcer.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantesOffline</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ec="http://ec.gob.sri.ws.autorizacion">\r
    <soapenv:Header/>\r
    <soapenv:Body>\r
       <ec:autorizacionComprobanteLote>\r
          <!--Optional:-->\r
-         <claveAccesoLote>?</claveAccesoLote>\r
+         <claveAccesoLote>0101202401069170630300120010020003048390003048317</claveAccesoLote>\r
       </ec:autorizacionComprobanteLote>\r
    </soapenv:Body>\r
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ec.gob.sri.ws.autorizacion/AutorizacionComprobantesOffline/autorizacionComprobanteLote"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

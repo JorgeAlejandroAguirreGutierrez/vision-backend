@@ -3,6 +3,7 @@ package com.proyecto.vision.controladoras.configuracion;
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.controladoras.GenericoController;
 import com.proyecto.vision.modelos.Respuesta;
+import com.proyecto.vision.modelos.acceso.Empresa;
 import com.proyecto.vision.modelos.configuracion.Modelo;
 import com.proyecto.vision.modelos.configuracion.Sincronizacion;
 import com.proyecto.vision.servicios.interf.configuracion.ISincronizacionService;
@@ -14,8 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 import static com.proyecto.vision.controladoras.Endpoints.contexto;
@@ -82,6 +85,13 @@ public class SincronizacionController implements GenericoController<Sincronizaci
     public ResponseEntity<?> crearModelos(@RequestBody List<Modelo> _modelos) {
         servicio.crearModelos(_modelos);
         Respuesta respuesta = new Respuesta(true,Constantes.mensaje_crear_exitoso, null);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/cargarArchivo/{sincronizacionId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> cargarArchivo(@PathVariable("sincronizacionId") long sincronizacionId, @RequestParam("file") MultipartFile multipartFile) throws IOException {
+        Sincronizacion sincronizacion = servicio.cargarArchivo(sincronizacionId, multipartFile);
+        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_crear_exitoso, sincronizacion);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }

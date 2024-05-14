@@ -2,10 +2,7 @@ package com.proyecto.vision.servicios.impl.configuracion;
 
 import com.proyecto.vision.Constantes;
 import com.proyecto.vision.Util;
-import com.proyecto.vision.exception.CodigoNoExistenteException;
-import com.proyecto.vision.exception.DatoInvalidoException;
-import com.proyecto.vision.exception.EntidadExistenteException;
-import com.proyecto.vision.exception.EntidadNoExistenteException;
+import com.proyecto.vision.exception.*;
 import com.proyecto.vision.modelos.compra.*;
 import com.proyecto.vision.modelos.configuracion.*;
 import com.proyecto.vision.modelos.inventario.Producto;
@@ -28,13 +25,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
 
@@ -73,6 +71,39 @@ public class SincronizacionService implements ISincronizacionService {
         if(sincronizacion.getTipo().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.tipo);
         if(sincronizacion.getMes().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.mes);
         if(sincronizacion.getAnio().equals(Constantes.vacio)) throw new DatoInvalidoException(Constantes.anio);
+    }
+
+    @Override
+    public Sincronizacion cargarArchivo(long sincronizacionId, MultipartFile multipartFile) {
+        if (multipartFile != null) {
+            Optional<Sincronizacion> optional = rep.findById(sincronizacionId);
+            if (optional.isEmpty()) {
+                throw new EntidadNoExistenteException(Constantes.sincronizacion);
+            }
+            Sincronizacion sincronizacion = optional.get();
+            try {
+                InputStream inputStream = multipartFile.getInputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+                String linea;
+                ArrayList<String> clavesAccesos = new ArrayList<>();
+                 while((linea = br.readLine()) != null){
+                    String[] sub = linea.split("\t");
+                    if(sub[2].equals(Constantes.factura_recibida_sri)){
+                        clavesAccesos.add(sub[4]);
+                    }
+                }
+                String lista = Constantes.vacio;
+                for(String claveAcceso: clavesAccesos){
+                    lista = lista + claveAcceso + Constantes.espacio;
+                }
+                sincronizacion.setClavesAccesos(lista);
+                return rep.save(sincronizacion);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        throw new EntidadNoExistenteException(Constantes.sincronizacion);
     }
     
     @Override
@@ -132,46 +163,15 @@ public class SincronizacionService implements ISincronizacionService {
             throw new DatoInvalidoException(Constantes.estado);
         }
         List<Modelo> modelos = new ArrayList<>();
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-        try {
-            Path path = Paths.get(Constantes.pathRecursos + Constantes.pathFacturas + Constantes.slash + sincronizacion.getEmpresa().getIdentificacion()
-            + Constantes.slash + sincronizacion.getMes() + Constantes.guion_bajo + sincronizacion.getAnio() + Constantes.guion_bajo + Constantes.compra + Constantes.extensionTxt);
-            String ruta = path.toAbsolutePath().toString();
-            archivo = new File (ruta);
-            fr = new FileReader (archivo);
-            br = new BufferedReader(fr);
-            String linea;
-            ArrayList<String> clavesAccesos = new ArrayList<>();
-            while((linea = br.readLine())!=null){
-                String[] sub = linea.split("\t");
-                if(sub[0].equals(Constantes.factura_recibida_sri)){
-                    clavesAccesos.add(sub[sub.length - 2]);
-                }
-            }
-            for(String claveAcceso: clavesAccesos){
-                Document documento = consultarFactura(claveAcceso);
-                if(documento != null){
-                    Modelo modelo = construir(documento, sincronizacion);
-                    modelos.add(modelo);
-                }
-            }
-            rep.save(sincronizacion);
-            return modelos;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }finally {
-            try {
-                if (null != fr) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
+        List<String> clavesAccesos = Arrays.asList(sincronizacion.getClavesAccesos().split(Constantes.espacio));
+        for(String claveAcceso: clavesAccesos){
+            Document documento = consultarFactura(claveAcceso);
+            if(documento != null){
+                Modelo modelo = construir(documento, sincronizacion);
+                modelos.add(modelo);
             }
         }
+        return modelos;
     }
 
     private Document consultarFactura(String claveAcceso){

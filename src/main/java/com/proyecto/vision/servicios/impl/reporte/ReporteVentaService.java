@@ -124,42 +124,59 @@ public class ReporteVentaService {
             }
             reporteVentaLinea.setTipoVenta(tipoVenta);
 
-            reporteVentaLinea.setSubtotal0(factura.getSubtotalNoGravado());
-            reporteVentaLinea.setSubtotal12(factura.getSubtotalGravado());
-            reporteVentaLinea.setIva(factura.getImporteIva());
-            reporteVentaLinea.setTotal(factura.getTotal());
-            reporteVentaLineas.add(reporteVentaLinea);
-
-            total0 = total0 + factura.getSubtotalNoGravado();
-            total12 = total12 + factura.getSubtotalGravado();
-            totalIva = totalIva + factura.getImporteIva();
-            reporteTotal = reporteTotal + factura.getTotal();
-
             if(factura.getEstado().equals(Constantes.estadoAnulada) || factura.getProcesoSRI().equals(Constantes.procesoSRIAnulada)){
                 facturasAnuladas++;
+                reporteVentaLinea.setSubtotal0(Constantes.cero);
+                reporteVentaLinea.setSubtotal12(Constantes.cero);
+                reporteVentaLinea.setIva(Constantes.cero);
+                reporteVentaLinea.setTotal(Constantes.cero);
+
+                total0 = total0 + Constantes.cero;
+                total12 = total12 + Constantes.cero;
+                totalIva = totalIva + Constantes.cero;
+                reporteTotal = reporteTotal + Constantes.cero;
+
+                totalEfectivo = totalEfectivo + Constantes.cero;
+                totalCheque = totalCheque + Constantes.cero;
+                totalTarjetaCredito = totalTarjetaCredito + Constantes.cero;
+                totalTarjetaDebito = totalTarjetaDebito + Constantes.cero;
+                totalTransferencia = totalTransferencia + Constantes.cero;
+                totalDeposito = totalDeposito + Constantes.cero;
+                totalCredito = totalCredito + Constantes.cero;
             }
             if(factura.getEstado().equals(Constantes.estadoEmitida) || factura.getEstado().equals(Constantes.estadoRecaudada)) {
                 facturasEmitidas++;
+                reporteVentaLinea.setSubtotal0(factura.getSubtotalNoGravado());
+                reporteVentaLinea.setSubtotal12(factura.getSubtotalGravado());
+                reporteVentaLinea.setIva(factura.getImporteIva());
+                reporteVentaLinea.setTotal(factura.getTotal());
+
+                total0 = total0 + factura.getSubtotalNoGravado();
+                total12 = total12 + factura.getSubtotalGravado();
+                totalIva = totalIva + factura.getImporteIva();
+                reporteTotal = reporteTotal + factura.getTotal();
+
+                totalEfectivo = totalEfectivo + factura.getEfectivo();
+                for(Cheque cheque: factura.getCheques()){
+                    totalCheque = totalCheque + cheque.getValor();
+                }
+                for(TarjetaCredito tarjetaCredito: factura.getTarjetasCreditos()){
+                    totalTarjetaCredito = totalTarjetaCredito + tarjetaCredito.getValor();
+                }
+                for(TarjetaDebito tarjetaDebito: factura.getTarjetasDebitos()){
+                    totalTarjetaDebito = totalTarjetaDebito + tarjetaDebito.getValor();
+                }
+                for(Transferencia transferencia: factura.getTransferencias()){
+                    totalTransferencia = totalTransferencia + transferencia.getValor();
+                }
+                for(Deposito deposito: factura.getDepositos()){
+                    totalDeposito = totalDeposito + deposito.getValor();
+                }
+                if(factura.getCredito()  != null){
+                    totalCredito = totalCredito + factura.getCredito().getSaldo();
+                }
             }
-            totalEfectivo = totalEfectivo + factura.getEfectivo();
-            for(Cheque cheque: factura.getCheques()){
-                totalCheque = totalCheque + cheque.getValor();
-            }
-            for(TarjetaCredito tarjetaCredito: factura.getTarjetasCreditos()){
-                totalTarjetaCredito = totalTarjetaCredito + tarjetaCredito.getValor();
-            }
-            for(TarjetaDebito tarjetaDebito: factura.getTarjetasDebitos()){
-                totalTarjetaDebito = totalTarjetaDebito + tarjetaDebito.getValor();
-            }
-            for(Transferencia transferencia: factura.getTransferencias()){
-                totalTransferencia = totalTransferencia + transferencia.getValor();
-            }
-            for(Deposito deposito: factura.getDepositos()){
-                totalDeposito = totalDeposito + deposito.getValor();
-            }
-            if(factura.getCredito()  != null){
-                totalCredito = totalCredito + factura.getCredito().getSaldo();
-            }
+            reporteVentaLineas.add(reporteVentaLinea);
 
         }
         reporteVenta.setReporteVentaLineas(reporteVentaLineas);
@@ -548,7 +565,7 @@ public class ReporteVentaService {
             i++;
             row = sheet.createRow(i);
             row.createCell(0).setCellValue("FACTURAS ANULADAS");
-            row.createCell(1).setCellValue(reporteVenta.getFacturasEmitidas());
+            row.createCell(1).setCellValue(reporteVenta.getFacturasAnuladas());
             i++;
             row = sheet.createRow(i);
             row.createCell(0).setCellValue("TOTAL");
