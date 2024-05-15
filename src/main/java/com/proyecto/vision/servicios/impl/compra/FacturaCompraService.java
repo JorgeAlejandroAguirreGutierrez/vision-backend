@@ -123,10 +123,12 @@ public class FacturaCompraService implements IFacturaCompraService {
         for (FacturaCompraLinea facturaCompraLinea : facturaCompra.getFacturaCompraLineas()) {
             validarLinea(facturaCompraLinea);
             Kardex registroInicial = kardexService.obtenerSaldoInicialPorProductoYBodega(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId());
-            Date fechaCompra = DateUtils.truncate(facturaCompra.getFecha(), Calendar.DAY_OF_MONTH);
-            Date fechaInicio = DateUtils.truncate(registroInicial.getFecha(), Calendar.DAY_OF_MONTH);
-            if (fechaCompra.before(fechaInicio)) {
-                throw new DatoInvalidoException(Constantes.fecha);
+            if(registroInicial != null ){
+                Date fechaCompra = DateUtils.truncate(facturaCompra.getFecha(), Calendar.DAY_OF_MONTH);
+                Date fechaInicio = DateUtils.truncate(registroInicial.getFecha(), Calendar.DAY_OF_MONTH);
+                if (fechaCompra.before(fechaInicio)) {
+                    throw new DatoInvalidoException(Constantes.fecha);
+                }
             }
             calcularLinea(facturaCompraLinea);
         }
@@ -167,6 +169,9 @@ public class FacturaCompraService implements IFacturaCompraService {
                 Kardex penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMismaFechaYId(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), facturaCompra.getFecha(), ultimoKardex.getId());
                 if (penultimoKardex == null) {
                     penultimoKardex = kardexService.obtenerPenultimoPorProductoYBodegaYMenorFecha(facturaCompraLinea.getProducto().getId(), facturaCompraLinea.getBodega().getId(), facturaCompra.getFecha());
+                }
+                if(penultimoKardex == null){
+                    penultimoKardex = new Kardex();
                 }
                 double saldo, costoTotal, costoUnitario, costoPromedio;
 
