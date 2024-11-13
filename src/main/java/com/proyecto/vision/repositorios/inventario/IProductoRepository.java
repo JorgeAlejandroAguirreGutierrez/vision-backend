@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface IProductoRepository extends JpaRepository<Producto, Long>, JpaSpecificationExecutor<Producto> {
     @Query(value = "select p from Producto p order by p.id desc")
     List<Producto> consultar();
-    @Query(value = "select p from Producto p where p.nombre=:nombre order by p.id desc")
-    Optional<Producto> obtenerPorNombre(String nombre);
+    @Query(value = "select p from Producto p where p.nombre=:nombre and p.empresa.id = :empresaId order by p.id desc")
+    Optional<Producto> obtenerPorNombreYEmpresa(String nombre, long empresaId);
     @Query(value = "select p from Producto p where p.estado=:estado order by p.id desc")
     List<Producto> consultarPorEstado(String estado);
     @Query(value = "select p from Producto p where p.empresa.id=:empresaId order by p.id desc")
