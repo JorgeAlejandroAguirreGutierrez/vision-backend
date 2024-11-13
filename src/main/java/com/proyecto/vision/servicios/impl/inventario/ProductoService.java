@@ -52,7 +52,7 @@ public class ProductoService implements IProductoService {
         if(producto.getCategoriaProducto().getAbreviatura().equals(Constantes.abreviatura_servicio)){
             producto.setProveedor(null);
         }
-        Optional<Producto> productoExistentePorNombre = rep.obtenerPorNombre(producto.getNombre());
+        Optional<Producto> productoExistentePorNombre = rep.obtenerPorNombreYEmpresa(producto.getNombre(), producto.getEmpresa().getId());
         if(productoExistentePorNombre.isPresent()) {
             throw new EntidadExistenteException(Constantes.producto);
         }
