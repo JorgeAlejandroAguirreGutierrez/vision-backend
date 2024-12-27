@@ -45,22 +45,22 @@ public class ClienteController implements GenericoController<Cliente> {
     }
 
     @GetMapping(value = "/consultarFiltroPorEmpresa/{filtro}/{empresaId}/{pag}/{cant}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresa(@PathVariable("filtro") String filtro, @PathVariable("empresaId") long empresaId, @PathVariable("pag") int pag, @PathVariable("cant") int cant) {
+    public ResponseEntity<?> consultarFiltroPorEmpresa(@PathVariable("filtro") String filtro, @PathVariable("empresaId") long empresaId, @PathVariable("pag") int pag, @PathVariable("cant") int cant) {
         Page<Cliente> clientes = servicio.consultarFiltroPorEmpresa(filtro, empresaId, pag, cant);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEstado/{estado}/{pag}/{cant}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado, @PathVariable("pag") int pag, @PathVariable("cant") int cant) {
-	    Page<Cliente> clientes=servicio.consultarPorEstado(estado, pag, cant);
+	    Page<Cliente> clientes=servicio.consultarPorEstado(estado);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}/{cantidad}/{pagina}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado, @PathVariable("pag") int pag, @PathVariable("cant") int cant) {
-        Page<Cliente> clientes = servicio.consultarPorEmpresaYEstado(empresaId, estado, pag, cant);
+    @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
+        Page<Cliente> clientes = servicio.consultarPorEmpresaYEstado(empresaId, estado);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
