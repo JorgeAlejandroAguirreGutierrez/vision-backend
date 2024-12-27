@@ -40,13 +40,6 @@ public class OrigenIngresoController implements GenericoController<OrigenIngreso
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<OrigenIngreso> origeningresos = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, origeningresos);
-    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         OrigenIngreso origenIngreso=servicio.obtener(id);

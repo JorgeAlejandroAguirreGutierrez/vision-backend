@@ -42,13 +42,6 @@ public class OperadorTarjetaController implements GenericoController<OperadorTar
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<OperadorTarjeta> operadoresTarjetas = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, operadoresTarjetas);
-    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
     @GetMapping(value = "/consultarPorTipo/{tipo}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultar(@PathVariable("tipo") String tipo) {
         List<OperadorTarjeta> operadoresTarjetas=servicio.consultarPorTipo(tipo);

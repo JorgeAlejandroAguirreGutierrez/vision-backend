@@ -81,11 +81,6 @@ public class MenuOpcionService implements IMenuOpcionService {
     }
 
     @Override
-    public Page<MenuOpcion> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public List<String> consultarModulos(){
         return rep.consultarModulos(Constantes.estadoActivo);
     }

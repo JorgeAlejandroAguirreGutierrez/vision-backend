@@ -129,11 +129,6 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public Page<Producto> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public List<Producto> consultarPorProveedor(long proveedorId) {
         return  rep.consultarPorProveedor(proveedorId, Constantes.estadoActivo);
     }

@@ -146,14 +146,4 @@ public class GrupoClienteService implements IGrupoClienteService {
     public List<GrupoCliente> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
-
-    /**
-     * Metodo que permite consultar los objetos por pagina
-     * @param pageable
-     * @return lista de tipo Page con los objetos
-     */
-    @Override
-    public Page<GrupoCliente> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

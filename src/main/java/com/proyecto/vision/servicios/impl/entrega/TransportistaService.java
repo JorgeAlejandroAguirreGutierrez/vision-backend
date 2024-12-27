@@ -87,9 +87,4 @@ public class TransportistaService implements ITransportistaService {
     public List<Transportista> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
-
-    @Override
-    public Page<Transportista> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

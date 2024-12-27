@@ -153,10 +153,6 @@ public class EmpresaService implements IEmpresaService {
     	return rep.consultarPorEstado(estado);
     }
 
-    @Override
-    public Page<Empresa> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 
     @Override
     public Empresa subirCertificado(long empresaId, MultipartFile file) throws IOException {

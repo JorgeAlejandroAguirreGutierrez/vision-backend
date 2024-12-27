@@ -99,12 +99,6 @@ public class CuentaContableService implements ICuentaContableService {
     }
 
     @Override
-    public Page<CuentaContable> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-
-    @Override
     public List<CuentaContable> buscar(CuentaContable cuentaContable) {
         return  rep.findAll((root, criteriaQuery, criteriaBuilder) -> {
 		    List<Predicate> predicates = new ArrayList<>();

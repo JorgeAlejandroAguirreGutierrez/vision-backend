@@ -88,9 +88,4 @@ public class MedidaService implements IMedidaService {
     public List<Medida> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
-
-    @Override
-    public Page<Medida> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

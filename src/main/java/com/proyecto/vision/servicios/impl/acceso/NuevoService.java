@@ -716,9 +716,4 @@ public class NuevoService implements INuevoService {
         }
         throw new IdentificacionInvalidaException();
     }
-
-    @Override
-    public Page<Nuevo> consultarPagina(Pageable pageable){
-        return rep.findAll(pageable);
-    }
 }

@@ -89,9 +89,4 @@ public class SecuencialService implements ISecuencialService {
     public List<Secuencial> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
     }
-
-    @Override
-    public Page<Secuencial> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

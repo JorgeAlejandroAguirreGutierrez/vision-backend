@@ -301,11 +301,6 @@ public class ProveedorService implements IProveedorService {
     }
 
     @Override
-    public Page<Proveedor> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public List<Proveedor> buscar(Proveedor proveedor) {
         return  rep.consultarPorRazonSocial(proveedor.getRazonSocial(), Constantes.estadoActivo);
     }

@@ -166,15 +166,4 @@ public class CuentaPropiaService implements ICuentaPropiaService {
     public List<CuentaPropia> consultarPorBancoYEmpresa(String banco, long empresaId) {
         return rep.consultarPorBancoYEmpresa(banco, empresaId, Constantes.estadoActivo);
     }
-
-    /**
-     * Metodo que permite consultar los objetos por pagina
-     * @param pageable
-     * @return lista de tipo Page con los objetos
-     */
-    @Override
-    public Page<CuentaPropia> consultarPagina(Pageable pageable) {
-        return rep.findAll(pageable);
-    }
-
 }

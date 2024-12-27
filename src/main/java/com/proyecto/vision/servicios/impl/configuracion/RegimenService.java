@@ -77,9 +77,4 @@ public class RegimenService implements IRegimenService {
     public List<Regimen> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
     }
-    
-    @Override
-    public Page<Regimen> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

@@ -71,9 +71,4 @@ public class PermisoService implements IPermisoService {
     public List<Permiso> consultarPorPerfil(long perfilId){
         return rep.consultarPorPerfil(perfilId);
     }
-
-    @Override
-    public Page<Permiso> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

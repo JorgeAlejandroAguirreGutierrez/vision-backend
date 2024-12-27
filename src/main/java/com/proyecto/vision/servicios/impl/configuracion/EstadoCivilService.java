@@ -65,11 +65,6 @@ public class EstadoCivilService implements IEstadoCivilService {
     }
     
     @Override
-    public Page<EstadoCivil> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-    
-    @Override
     public EstadoCivil activar(EstadoCivil estadoCivil) {
         validar(estadoCivil);
         estadoCivil.setEstado(Constantes.estadoActivo);

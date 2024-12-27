@@ -78,11 +78,6 @@ public class OperadorTarjetaService implements IOperadorTarjetaService {
     public List<OperadorTarjeta> consultarPorEstado(String estado) {
         return rep.consultarPorEstado(estado);
     }
-    
-    @Override
-    public Page<OperadorTarjeta> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 
     @Override
     public List<OperadorTarjeta> consultarPorTipo(String tipo) {

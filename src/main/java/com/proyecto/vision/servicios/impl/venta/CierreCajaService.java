@@ -104,10 +104,4 @@ public class CierreCajaService implements ICierreCajaService {
     public List<CierreCaja> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
-
-    @Override
-    public Page<CierreCaja> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
 }

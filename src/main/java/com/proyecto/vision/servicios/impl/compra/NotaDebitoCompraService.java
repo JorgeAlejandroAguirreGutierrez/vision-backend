@@ -184,11 +184,6 @@ public class NotaDebitoCompraService implements INotaDebitoCompraService {
     }
 
     @Override
-    public Page<NotaDebitoCompra> consultarPagina(Pageable pageable){
-        return rep.findAll(pageable);
-    }
-
-    @Override
     public void validarLinea(NotaDebitoCompraLinea notaDebitoCompraLinea) {
         if(notaDebitoCompraLinea.getCantidad() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
         if(notaDebitoCompraLinea.getCostoUnitario() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);

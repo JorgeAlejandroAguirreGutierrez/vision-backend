@@ -116,11 +116,6 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public Page<Usuario> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public Usuario obtenerPorApodoYEstado(String apodo, String estado) {
     	Optional<Usuario> usuario = rep.obtenerPorApodoYEstado(apodo, estado);
     	if(usuario.isEmpty()){

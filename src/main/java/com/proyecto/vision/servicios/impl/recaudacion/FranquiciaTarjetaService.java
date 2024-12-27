@@ -77,9 +77,4 @@ public class FranquiciaTarjetaService implements IFranquiciaTarjetaService {
     public List<FranquiciaTarjeta> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
     }
-
-    @Override
-    public Page<FranquiciaTarjeta> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

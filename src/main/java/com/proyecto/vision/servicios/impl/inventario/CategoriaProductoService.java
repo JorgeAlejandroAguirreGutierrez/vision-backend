@@ -94,9 +94,4 @@ public class CategoriaProductoService implements ICategoriaProductoService {
     public List<CategoriaProducto> consultarPorEmpresaYEstado(long empresaId, String estado){
         return consultarPorEmpresaYEstado(empresaId, estado);
     }
-
-    @Override
-    public Page<CategoriaProducto> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

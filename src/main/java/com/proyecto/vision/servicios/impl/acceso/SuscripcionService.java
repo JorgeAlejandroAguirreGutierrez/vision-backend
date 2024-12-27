@@ -121,11 +121,6 @@ public class SuscripcionService implements ISuscripcionService {
     }
 
     @Override
-    public Page<Suscripcion> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public Suscripcion obtenerUltimoPorEmpresa(long empresaId){
         Optional<Suscripcion> suscripcion = rep.obtenerUltimoPorEmpresa(empresaId);
         if(suscripcion.isEmpty()){

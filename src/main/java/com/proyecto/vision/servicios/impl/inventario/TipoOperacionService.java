@@ -79,11 +79,6 @@ public class TipoOperacionService implements ITipoOperacionService {
     }
 
     @Override
-    public Page<TipoOperacion> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public TipoOperacion obtenerPorAbreviaturaYEstado(String abreviatura, String estado){
         Optional<TipoOperacion> res = rep.obtenerPorAbreviaturaYEstado(abreviatura, estado);
         if(res.isPresent()) {

@@ -116,14 +116,4 @@ public class FormaPagoService implements IFormaPagoService {
     public List<FormaPago> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
     }
-
-    /**
-     * Metodo que permite consultar los objetos por pagina
-     * @param pageable
-     * @return lista de tipo Page con los objetos
-     */
-    @Override
-    public Page<FormaPago> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

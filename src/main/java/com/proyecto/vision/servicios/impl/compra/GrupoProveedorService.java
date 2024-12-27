@@ -89,11 +89,6 @@ public class GrupoProveedorService implements IGrupoProveedorService {
     }
 
     @Override
-    public Page<GrupoProveedor> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public List<GrupoProveedor> consultarPorEmpresa(long empresaId){
         return rep.consultarPorEmpresa(empresaId);
     }

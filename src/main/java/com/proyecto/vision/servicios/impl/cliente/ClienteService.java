@@ -26,10 +26,10 @@ import org.json.JSONObject;
 import org.json.XML;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -555,13 +555,35 @@ public class ClienteService implements IClienteService {
     }
 
     /**
+     * Metodo que permite consultar todos los objetos por paginacion
+     * @return lista de todos los objetos
+     */
+    @Override
+    public Page<Cliente> consultarPagina(int pag, int cant) {
+        Pageable pageable = PageRequest.of(pag, cant);
+        return rep.consultarPagina(pageable);
+    }
+
+    /**
      * Metodo que permite consultar los objetos filtrando por la empresa
      * @param empresaId
      * @return lista de los objetos consultados filtrando por la empresa
      */
     @Override
-    public List<Cliente> consultarPorEmpresa(long empresaId){
-        return rep.consultarPorEmpresa(empresaId);
+    public Page<Cliente> consultarPorEmpresa(long empresaId, int pag, int cant){
+        Pageable pageable = PageRequest.of(pag, cant);
+        return rep.consultarPorEmpresa(empresaId, pageable);
+    }
+
+    /**
+     * Metodo que permite consultar los objetos con un filtr y una empresa
+     * @param empresaId
+     * @return lista de los objetos consultados filtrando por la empresa
+     */
+    @Override
+    public Page<Cliente> consultarFiltroPorEmpresa(String filtro, long empresaId, int pag, int cant){
+        Pageable pageable = PageRequest.of(pag, cant);
+        return rep.consultarFiltroPorEmpresa(filtro, empresaId, pageable);
     }
 
     /**
@@ -570,8 +592,9 @@ public class ClienteService implements IClienteService {
      * @return lista de los objetos consultados filtrando por el estado
      */
     @Override
-    public List<Cliente> consultarPorEstado(String estado){
-    	return rep.consultarPorEstado(estado);
+    public Page<Cliente> consultarPorEstado(String estado, int pag, int cant){
+        Pageable pageable = PageRequest.of(pag, cant);
+        return rep.consultarPorEstado(estado, pageable);
     }
 
     /**
@@ -581,17 +604,8 @@ public class ClienteService implements IClienteService {
      * @return
      */
     @Override
-    public List<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado){
-        return rep.consultarPorEmpresaYEstado(empresaId, estado);
-    }
-
-    /**
-     * Metodo que permite consultar los objetos por pagina
-     * @param pageable
-     * @return lista de tipo Page con los objetos
-     */
-    @Override
-    public Page<Cliente> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
+    public Page<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado, int pag, int cant){
+        Pageable pageable = PageRequest.of(pag, cant);
+        return rep.consultarPorEmpresaYEstado(empresaId, estado, pageable);
     }
 }
