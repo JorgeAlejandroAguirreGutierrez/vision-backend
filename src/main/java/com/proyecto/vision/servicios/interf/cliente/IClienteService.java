@@ -4,13 +4,15 @@ import com.proyecto.vision.modelos.cliente.Cliente;
 import com.proyecto.vision.servicios.interf.IGenericoService;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface IClienteService extends IGenericoService<Cliente> {
     void validar(Cliente cliente);
     Page<Cliente> consultarPagina(int pag, int cant);
     Page<Cliente> consultarPorEmpresa(long empresaId, int pag, int cant);
     Page<Cliente> consultarFiltroPorEmpresa(String filtro, long empresaId, int pag, int cant);
-    Page<Cliente> consultarPorEstado(String estado);
-    Page<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado);
+    List<Cliente> consultarPorEstado(String estado);
+    List<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado);
     Cliente obtenerPorIdentificacionYEmpresaYEstado(String identificacion, long empresaId, String estado);
     Cliente obtenerPorRazonSocialYEmpresaYEstado(String razonSocial, long empresaId, String estado);
     Cliente activar(Cliente cliente);
