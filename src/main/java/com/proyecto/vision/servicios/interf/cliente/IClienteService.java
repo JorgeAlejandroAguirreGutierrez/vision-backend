@@ -9,8 +9,8 @@ public interface IClienteService extends IGenericoService<Cliente> {
     Page<Cliente> consultarPagina(int pag, int cant);
     Page<Cliente> consultarPorEmpresa(long empresaId, int pag, int cant);
     Page<Cliente> consultarFiltroPorEmpresa(String filtro, long empresaId, int pag, int cant);
-    Page<Cliente> consultarPorEstado(String estado, int pag, int cant);
-    Page<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado, int pag, int cant);
+    Page<Cliente> consultarPorEstado(String estado);
+    Page<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado);
     Cliente obtenerPorIdentificacionYEmpresaYEstado(String identificacion, long empresaId, String estado);
     Cliente obtenerPorRazonSocialYEmpresaYEstado(String razonSocial, long empresaId, String estado);
     Cliente activar(Cliente cliente);

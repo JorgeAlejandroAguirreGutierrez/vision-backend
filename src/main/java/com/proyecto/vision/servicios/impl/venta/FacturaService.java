@@ -30,6 +30,7 @@ import com.proyecto.vision.servicios.interf.venta.INotaDebitoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.text.DateFormat;
@@ -408,6 +409,38 @@ public class FacturaService implements IFacturaService {
         return rep.consultar();
     }
 
+    /**
+     * Metodo que permite consultar todos los objetos por paginacion
+     * @return lista de todos los objetos
+     */
+    @Override
+    public Page<Factura> consultarPagina(int pag, int cant) {
+        Pageable pageable = PageRequest.of(pag, cant);
+        return rep.consultarPagina(pageable);
+    }
+
+    /**
+     * Metodo que permite consultar los objetos filtrando por la empresa
+     * @param empresaId
+     * @return lista de los objetos consultados filtrando por la empresa
+     */
+    @Override
+    public Page<Factura> consultarPorEmpresa(long empresaId, int pag, int cant){
+        Pageable pageable = PageRequest.of(pag, cant);
+        return rep.consultarPorEmpresa(empresaId, pageable);
+    }
+
+    /**
+     * Metodo que permite consultar los objetos con un filtro y una empresa
+     * @param empresaId
+     * @return lista de los objetos consultados filtrando por la empresa
+     */
+    @Override
+    public Page<Factura> consultarFiltroPorEmpresa(String filtro, long empresaId, int pag, int cant){
+        Pageable pageable = PageRequest.of(pag, cant);
+        return rep.consultarFiltroPorEmpresa(filtro, empresaId, pageable);
+    }
+
     @Override
     public List<Factura> consultarPorEstado(String estado){
         return rep.consultarPorEstado(estado);
@@ -416,11 +449,6 @@ public class FacturaService implements IFacturaService {
     @Override
     public List<Factura> consultarPorProcesoSRI(String procesoSRI){
         return rep.consultarPorProcesoSRI(procesoSRI);
-    }
-
-    @Override
-    public List<Factura> consultarPorEmpresa(long empresaId){
-        return rep.consultarPorEmpresa(empresaId);
     }
 
     @Override

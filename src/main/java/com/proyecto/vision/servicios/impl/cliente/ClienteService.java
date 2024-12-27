@@ -592,9 +592,8 @@ public class ClienteService implements IClienteService {
      * @return lista de los objetos consultados filtrando por el estado
      */
     @Override
-    public Page<Cliente> consultarPorEstado(String estado, int pag, int cant){
-        Pageable pageable = PageRequest.of(pag, cant);
-        return rep.consultarPorEstado(estado, pageable);
+    public Page<Cliente> consultarPorEstado(String estado){
+        return rep.consultarPorEstado(estado);
     }
 
     /**
@@ -604,8 +603,7 @@ public class ClienteService implements IClienteService {
      * @return
      */
     @Override
-    public Page<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado, int pag, int cant){
-        Pageable pageable = PageRequest.of(pag, cant);
-        return rep.consultarPorEmpresaYEstado(empresaId, estado, pageable);
+    public Page<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado){
+        return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 }
