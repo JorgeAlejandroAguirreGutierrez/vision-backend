@@ -91,14 +91,4 @@ public class RetencionClienteService implements IRetencionClienteService {
     public List<RetencionCliente> consultar() {
         return rep.findAll();
     }
-
-    /**
-     * Metodo que permite consultar los objetos por pagina
-     * @param pageable
-     * @return lista de tipo Page con los objetos
-     */
-    @Override
-    public Page<RetencionCliente> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

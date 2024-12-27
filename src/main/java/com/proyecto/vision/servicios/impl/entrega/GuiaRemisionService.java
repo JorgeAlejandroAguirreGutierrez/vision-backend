@@ -160,11 +160,6 @@ public class GuiaRemisionService implements IGuiaRemisionService {
 	}
 
 	@Override
-	public Page<GuiaRemision> consultarPagina(Pageable pageable){
-		return rep.findAll(pageable);
-	}
-
-	@Override
 	public List<GuiaRemision> consultarPorEmpresa(long empresaId){
 		return rep.consultarPorEmpresa(empresaId);
 	}

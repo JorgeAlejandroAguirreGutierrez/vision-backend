@@ -233,11 +233,6 @@ public class NotaDebitoService implements INotaDebitoService {
         return rep.consultarPorFacturaYEmpresaYEstadoDiferente(facturaId, empresaId, estado);
     }
 
-    @Override
-    public Page<NotaDebito> consultarPagina(Pageable pageable){
-        return rep.findAll(pageable);
-    }
-
     /*
      * CALCULOS CON FACTURA VENTA LINEAS
      */

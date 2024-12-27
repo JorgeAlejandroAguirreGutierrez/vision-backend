@@ -359,11 +359,6 @@ public class NotaCreditoService implements INotaCreditoService {
     }
 
     @Override
-    public Page<NotaCredito> consultarPagina(Pageable pageable){
-        return rep.findAll(pageable);
-    }
-
-    @Override
     public void validarLinea(NotaCreditoLinea notaCreditoLinea) {
         if(notaCreditoLinea.getCantidadVenta() < Constantes.cero) throw new DatoInvalidoException(Constantes.cantidad);
         if(notaCreditoLinea.getCostoUnitarioVenta() < Constantes.cero) throw new DatoInvalidoException(Constantes.costoUnitario);

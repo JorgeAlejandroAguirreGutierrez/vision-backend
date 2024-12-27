@@ -57,13 +57,6 @@ public class MovimientoContableController implements GenericoController<Movimien
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<MovimientoContable> movimientos_contables = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, movimientos_contables);
-    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         MovimientoContable movimientosContable=servicio.obtener(id);

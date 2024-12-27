@@ -135,14 +135,4 @@ public class CalificacionClienteService implements ICalificacionClienteService {
     public List<CalificacionCliente> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
-
-    /**
-     * Metodo que permite consultar los objetos por pagina
-     * @param pageable
-     * @return
-     */
-    @Override
-    public Page<CalificacionCliente> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

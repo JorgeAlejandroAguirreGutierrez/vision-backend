@@ -80,11 +80,6 @@ public class ImpuestoService implements IImpuestoService {
     }
 
     @Override
-    public Page<Impuesto> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public Impuesto obtenerPorPorcentajeYEstado(double porcentaje, String estado) {
         Optional<Impuesto> res = rep.obtenerPorPorcentajeYEstado(porcentaje, estado);
         if(res.isPresent()) {

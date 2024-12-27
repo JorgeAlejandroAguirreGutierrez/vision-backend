@@ -133,8 +133,4 @@ public class EstablecimientoService implements IEstablecimientoService {
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 
-    @Override
-    public Page<Establecimiento> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

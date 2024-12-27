@@ -84,9 +84,4 @@ public class BodegaService implements IBodegaService {
     public List<Bodega> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
-
-    @Override
-    public Page<Bodega> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

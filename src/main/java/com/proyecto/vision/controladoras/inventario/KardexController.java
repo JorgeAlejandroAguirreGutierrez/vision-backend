@@ -82,11 +82,4 @@ public class KardexController implements GenericoController<Kardex> {
         Respuesta respuesta=new Respuesta(true,Constantes.mensaje_obtener_exitoso, kardex);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
-
-    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-        Page<Kardex> kardexs = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-        Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, kardexs);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
 }

@@ -288,11 +288,6 @@ public class NotaCreditoCompraService implements INotaCreditoCompraService {
     }
 
     @Override
-    public Page<NotaCreditoCompra> consultarPagina(Pageable pageable){
-        return rep.findAll(pageable);
-    }
-
-    @Override
     public List<NotaCreditoCompra> consultarPorEmpresa(long empresaId){
         return rep.consultarPorEmpresa(empresaId);
     }

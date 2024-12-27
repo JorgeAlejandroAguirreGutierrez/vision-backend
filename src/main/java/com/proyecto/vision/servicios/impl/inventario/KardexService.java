@@ -50,13 +50,10 @@ public class KardexService implements IKardexService {
     }
 
     @Override
-    public Page<Kardex> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-    @Override
     public List<Kardex> consultarPorProducto(long productoId) {
         return rep.consultarPorProducto(productoId);
     }
+
     @Override
     public List<Kardex> consultarPorProductoYEstado(long productoId, String estado) {
         return rep.consultarPorProductoYEstado(productoId, estado);

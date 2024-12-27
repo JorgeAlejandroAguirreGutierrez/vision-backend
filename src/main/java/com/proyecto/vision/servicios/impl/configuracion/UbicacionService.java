@@ -81,11 +81,6 @@ public class UbicacionService implements IUbicacionService {
     }
 
     @Override
-    public Page<Ubicacion> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public List<Ubicacion> consultarProvincias() {
         List<String> provincias = rep.consultarProvincias(Constantes.estadoActivo);
         List<Ubicacion> ubicaciones = new ArrayList<>();

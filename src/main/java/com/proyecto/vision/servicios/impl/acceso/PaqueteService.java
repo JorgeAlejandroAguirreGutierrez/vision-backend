@@ -99,11 +99,6 @@ public class PaqueteService implements IPaqueteService {
     }
 
     @Override
-    public Page<Paquete> consultarPagina(Pageable pageable){
-        return rep.findAll(pageable);
-    }
-
-    @Override
     public List<Paquete> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
     }

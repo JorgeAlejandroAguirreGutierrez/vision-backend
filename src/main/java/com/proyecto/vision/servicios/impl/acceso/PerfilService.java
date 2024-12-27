@@ -87,8 +87,4 @@ public class PerfilService implements IPerfilService {
     	return rep.consultarPorEstado(estado);
     }
 
-    @Override
-    public Page<Perfil> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

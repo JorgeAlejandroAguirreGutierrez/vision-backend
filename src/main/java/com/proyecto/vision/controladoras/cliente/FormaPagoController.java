@@ -41,13 +41,6 @@ public class FormaPagoController implements GenericoController<FormaPago> {
 	    return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/paginas/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> consultarPagina(@PathVariable("page") int page){
-    	Page<FormaPago> formaspago = servicio.consultarPagina(PageRequest.of(page, Constantes.size, Sort.by(Constantes.order)));
-    	Respuesta respuesta = new Respuesta(true,Constantes.mensaje_consultar_exitoso, formaspago);
-    	return new ResponseEntity<>(respuesta, HttpStatus.OK);
-    }
-
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> obtener(@PathVariable("id") long id) {
         FormaPago forma_pago=servicio.obtener(id);

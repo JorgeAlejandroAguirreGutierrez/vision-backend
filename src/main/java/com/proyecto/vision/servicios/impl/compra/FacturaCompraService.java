@@ -288,11 +288,6 @@ public class FacturaCompraService implements IFacturaCompraService {
     }
 
     @Override
-    public Page<FacturaCompra> consultarPagina(Pageable pageable) {
-        return rep.findAll(pageable);
-    }
-
-    @Override
     public List<FacturaCompra> consultarPorEmpresa(long empresaId) {
         return rep.consultarPorEmpresa(empresaId);
     }

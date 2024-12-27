@@ -48,9 +48,4 @@ public class PrecioService implements IPrecioService {
     public List<Precio> consultar() {
         return rep.findAll();
     }
-
-    @Override
-    public Page<Precio> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

@@ -86,11 +86,6 @@ public class EquivalenciaMedidaService implements IEquivalenciaMedidaService {
 		return rep.consultarPorEstado(estado);
 	}
 
-    @Override
-    public Page<EquivalenciaMedida> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
 	@Override
 	public EquivalenciaMedida obtenerPorMedidaIniYMedidaFin(long medidaIni_id, long medidaFin_id){
 		Optional<EquivalenciaMedida> res = rep.obtenerPorMedidaIniYMedidaFin(medidaIni_id, medidaFin_id);

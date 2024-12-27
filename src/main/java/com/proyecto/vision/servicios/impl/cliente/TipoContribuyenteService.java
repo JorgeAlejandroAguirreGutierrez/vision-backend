@@ -71,14 +71,4 @@ public class TipoContribuyenteService implements ITipoContribuyenteService {
     public List<TipoContribuyente> consultar() {
         return rep.findAll();
     }
-
-    /**
-     * Metodo que permite consultar los objetos por pagina
-     * @param pageable
-     * @return lista de tipo Page con los objetos
-     */
-    @Override
-    public Page<TipoContribuyente> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

@@ -81,11 +81,6 @@ public class TipoRetencionService implements ITipoRetencionService {
     }
 
     @Override
-    public Page<TipoRetencion> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public List<TipoRetencion> consultarIvaBien() {
         return rep.findByImpuestoAndTipo(Constantes.iva, Constantes.bien, Constantes.estadoActivo);
     }

@@ -448,11 +448,6 @@ public class FacturaService implements IFacturaService {
         return rep.consultarPorFechaYEmpresaYEstadoEmitidaYEstadoRecaudada(fecha, facturaId, estadoEmitida, estadoRecaudada);
     }
 
-    @Override
-    public Page<Factura> consultarPagina(Pageable pageable){
-        return rep.findAll(pageable);
-    }
-
     /*
      * CALCULOS CON FACTURA VENTA LINEAS
      */

@@ -68,11 +68,6 @@ public class SesionService implements ISesionService {
     }
 
     @Override
-    public Page<Sesion> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public Optional<Sesion> validar(Sesion _sesion) {
         final Optional<Sesion> sesion= rep.findById(_sesion.getId());
         if (sesion.isPresent()) {

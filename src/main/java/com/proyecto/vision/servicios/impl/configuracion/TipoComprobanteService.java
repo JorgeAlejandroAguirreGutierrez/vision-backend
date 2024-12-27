@@ -72,9 +72,4 @@ public class TipoComprobanteService implements ITipoComprobanteService {
         return rep.consultarPorElectronica(Constantes.si, Constantes.estadoActivo);
     }
 
-    @Override
-    public Page<TipoComprobante> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
 }

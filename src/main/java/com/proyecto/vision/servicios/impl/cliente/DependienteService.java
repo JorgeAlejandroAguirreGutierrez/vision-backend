@@ -87,14 +87,4 @@ public class DependienteService implements IDependienteService {
     public List<Dependiente> consultarPorCliente(long clienteId) {
         return  rep.consultarPorCliente(clienteId);
     }
-
-    /**
-     * Metodo que permite consultar los objetos por pagina
-     * @param pageable
-     * @return lista de tipo Page con los objetos
-     */
-    @Override
-    public Page<Dependiente> consultarPagina(Pageable pageable){
-        return rep.findAll(pageable);
-    }
 }

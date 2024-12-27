@@ -113,9 +113,4 @@ public class EstacionService implements IEstacionService {
     public List<Estacion> consultarPuntosVentaPorEstablecimiento(long establecimientoId) {
         return rep.consultarPuntosVentaPorEstablecimiento(establecimientoId, Constantes.si, Constantes.estadoActivo);
     }
-
-    @Override
-    public Page<Estacion> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

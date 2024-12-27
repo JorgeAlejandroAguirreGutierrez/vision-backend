@@ -80,11 +80,6 @@ public class ParametroService implements IParametroService {
     }
 
     @Override
-    public Page<Parametro> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
-
-    @Override
     public Parametro obtenerPorTipo(String tipo) {
         Optional<Parametro> res= rep.findByTipo(tipo, Constantes.estadoActivo);
         if(res.isPresent()) {

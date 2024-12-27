@@ -51,9 +51,4 @@ public class TipoIdentificacionService implements ITipoIdentificacionService {
     public List<TipoIdentificacion> consultar() {
         return rep.findAll();
     }
-
-    @Override
-    public Page<TipoIdentificacion> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

@@ -57,9 +57,4 @@ public class TipoGastoService implements ITipoGastoService {
     public List<TipoGasto> consultar() {
         return rep.consultar();
     }
-
-    @Override
-    public Page<TipoGasto> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

@@ -77,9 +77,4 @@ public class GeneroService implements IGeneroService {
     public List<Genero> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
     }
-
-    @Override
-    public Page<Genero> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

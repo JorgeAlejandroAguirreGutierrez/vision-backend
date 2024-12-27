@@ -111,14 +111,4 @@ public class BancoService implements IBancoService {
     public List<Banco> consultarPorEstado(String estado){
     	return rep.consultarPorEstado(estado);
     }
-
-    /**
-     * Metodo que permite consultar los objetos por pagina
-     * @param pageable
-     * @return lista de tipo Page con los objetos
-     */
-    @Override
-    public Page<Banco> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 }

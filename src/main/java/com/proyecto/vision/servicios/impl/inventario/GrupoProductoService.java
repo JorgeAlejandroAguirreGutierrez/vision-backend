@@ -117,11 +117,6 @@ public class GrupoProductoService implements IGrupoProductoService {
     public List<GrupoProducto> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
-    
-    @Override
-    public Page<GrupoProducto> consultarPagina(Pageable pageable){
-    	return rep.findAll(pageable);
-    }
 
     @Override
     public List<GrupoProducto> buscar(GrupoProducto grupo_producto) {

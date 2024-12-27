@@ -103,11 +103,6 @@ public class GastoPersonalService implements IGastoPersonalService {
     }
 
     @Override
-    public Page<GastoPersonal> consultarPagina(Pageable pageable) {
-        return rep.findAll(pageable);
-    }
-
-    @Override
     public List<GastoPersonal> consultarPorEmpresa(long empresaId) {
         return rep.consultarPorEmpresa(empresaId);
     }
