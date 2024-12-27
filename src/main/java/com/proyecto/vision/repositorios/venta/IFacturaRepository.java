@@ -21,7 +21,7 @@ public interface IFacturaRepository extends JpaRepository<Factura, Long>, JpaSpe
     Page<Factura> consultarPagina(Pageable pageable);
     @Query(value = "select f from Factura f where f.empresa.id = :empresaId order by f.id desc")
     Page<Factura> consultarPorEmpresa(long empresaId, Pageable pageable);
-    @Query(value = "select f from Factura f where (f.cliente.razonSocial like %:filtro% or f.cliente.identificacion like %:filtro% or f.cliente.direccion like %:filtro%) and f.empresa.id = :empresaId order by c.id desc")
+    @Query(value = "select f from Factura f where (f.cliente.razonSocial like %:filtro% or f.cliente.identificacion like %:filtro% or f.cliente.direccion like %:filtro%) and f.empresa.id = :empresaId order by f.id desc")
     Page<Factura> consultarFiltroPorEmpresa(String filtro, long empresaId, Pageable pageable);
     @Query(value = "select f from Factura f where f.estado = :estado order by f.id desc")
     List<Factura> consultarPorEstado(String estado);

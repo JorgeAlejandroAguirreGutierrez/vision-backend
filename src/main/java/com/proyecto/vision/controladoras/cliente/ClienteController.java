@@ -53,14 +53,14 @@ public class ClienteController implements GenericoController<Cliente> {
 
     @GetMapping(value = "/consultarPorEstado/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEstado(@PathVariable("estado") String estado, @PathVariable("pag") int pag, @PathVariable("cant") int cant) {
-	    Page<Cliente> clientes=servicio.consultarPorEstado(estado);
+	    List<Cliente> clientes=servicio.consultarPorEstado(estado);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
     @GetMapping(value = "/consultarPorEmpresaYEstado/{empresaId}/{estado}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> consultarPorEmpresaYEstado(@PathVariable("empresaId") long empresaId, @PathVariable("estado") String estado) {
-        Page<Cliente> clientes = servicio.consultarPorEmpresaYEstado(empresaId, estado);
+        List<Cliente> clientes = servicio.consultarPorEmpresaYEstado(empresaId, estado);
         Respuesta respuesta = new Respuesta(true, Constantes.mensaje_consultar_exitoso, clientes);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }

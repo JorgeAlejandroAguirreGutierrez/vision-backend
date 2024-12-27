@@ -592,7 +592,7 @@ public class ClienteService implements IClienteService {
      * @return lista de los objetos consultados filtrando por el estado
      */
     @Override
-    public Page<Cliente> consultarPorEstado(String estado){
+    public List<Cliente> consultarPorEstado(String estado){
         return rep.consultarPorEstado(estado);
     }
 
@@ -603,7 +603,7 @@ public class ClienteService implements IClienteService {
      * @return
      */
     @Override
-    public Page<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado){
+    public List<Cliente> consultarPorEmpresaYEstado(long empresaId, String estado){
         return rep.consultarPorEmpresaYEstado(empresaId, estado);
     }
 }
